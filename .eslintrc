@@ -1,0 +1,9 @@
+{
+    "plugins": ["@vue"],
+    "rules": {
+        "no-console": "off"
+    },
+    "parserOptions": {
+        "sourceType": "module"
+    }
+}
