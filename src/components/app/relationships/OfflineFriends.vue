@@ -1,7 +1,7 @@
 <template>
   <div class="friends" >
     <div class="tab" @click="expanded = !expanded">
-      <Tab :expanded="expanded" tabname="Friends" />
+      <Tab :expanded="expanded" tabname="Offline" />
     </div>
     <transition name="list" appear>
       <div class="list" v-if="expanded">
@@ -30,7 +30,7 @@ export default {
       const result = Object.keys(allFriend).map(function(key) {
         return allFriend[key];
       });
-      return result.filter(friend => friend.status == 2);
+      return result.filter(friend => friend.status == 2 && friend.recipient.status === undefined || friend.recipient.status == 0 );
     }
   }
 }

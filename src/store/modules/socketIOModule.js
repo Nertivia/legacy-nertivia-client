@@ -61,7 +61,7 @@ const actions = {
   },
   socket_userAvatarChange(context, data) {
     context.commit('userAvatarChange', data)
-  }
+  } 
 }
 
 export default {

@@ -8,7 +8,8 @@
       </div>
       <div class="current-channel"><span v-if="!selectedChannelID">Welcome back!</span><span v-else>{{channelName}}</span></div>
     </div>
-     <div class="loading" v-if="selectedChannelID && !messages[selectedChannelID]">
+    <typing-status v-if="typing" :username="whosTyping"/>
+    <div class="loading" v-if="selectedChannelID && !messages[selectedChannelID]">
       <spinner />
     </div>
     <div v-else-if="selectedChannelID" class="message-logs">
@@ -29,23 +30,30 @@
 
 <script>
 import messagesService from '@/services/messagesService'
+import typingService from '@/services/TypingService'
 import {bus} from '../../main'
 import JQuery from 'jquery'
 let $ = JQuery
 import News from '../../components/app/News.vue'
 import Message from '../../components/app/MessageTemplate.vue'
 import Spinner from '@/components/Spinner.vue'
+import TypingStatus from '@/components/app/TypingStatus.vue'
 
 export default {
   components: {
     Message,
     Spinner, 
-    News
+    News,
+    TypingStatus
   },
   data() {
     return {
       message: "",
-      messageLength: 0
+      messageLength: 0,
+      postTimerID: null,
+      getTimerID: null,
+      typing: false,
+      whosTyping: "",
     }
   },
   methods:{
@@ -104,8 +112,23 @@ export default {
         console.log(error)
       }
     },
-    messageKeyUp(event){
+    async postTimer() {
+      this.postTimerID = setInterval(async () => {
+        if (this.$refs['input-box'].value.trim() == "") {
+          clearInterval(this.postTimerID);
+          return this.postTimerID = null;
+        }
+        await typingService.post(this.selectedChannelID);
+      }, 2000);
+    },
+    async messageKeyUp(event){
       this.messageLength = this.message.length;
+      const value = event.target.value.trim();
+      if (value && this.postTimerID == null) {
+        // Post typing status
+        this.postTimer()
+        await typingService.post(this.selectedChannelID);
+      }
     },
     chatInput(event) {
       if (event.keyCode == 13) {
@@ -113,20 +136,36 @@ export default {
         this.sendMessage();
       }
     },
-    scrollDown(){
+    scrollDown(speed){
       //Scroll to bottom
       $(".message-logs").stop(true).animate({
         scrollTop: $(".message-logs")[0].scrollHeight
-      }, 300);
+      }, speed);
     }
   },
   mounted() {
     bus.$on('scrollDown', this.scrollDown);
+    this.$options.sockets.typingStatus = (data) => {
+      const {channelID, userID} = data;
+      if (channelID !== this.selectedChannelID) return;
+      this.typing = true; 
+      this.whosTyping = this.channel.recipients.find(function(recipient) {
+        return recipient.uniqueID == userID;
+      }).username
+      clearTimeout(this.getTimerID);
+      this.getTimerID = setTimeout(() => {
+        this.typing = false; 
+      }, 2500);
+    }
   },
   beforeDestroy() {
-    bus.$off('status-scrollDown', this.scrollDown)
+    delete this.$options.sockets.typingStatus;
+    bus.$off('scrollDown', this.scrollDown)
   },
   computed: {
+    channel() {
+      return this.$store.getters.channels[this.selectedChannelID];
+    },
     messages() {
       return this.$store.getters.messages;
     },
@@ -193,10 +232,10 @@ export default {
   flex: 1;
 }
 .chat-input-area{
-    height: 60px;
     display: flex;
     flex-direction: column;
     padding-top: 10px;
+    margin-bottom: 5px;
 }
 .chat-input-area .info{
   color: white;

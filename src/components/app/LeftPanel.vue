@@ -3,7 +3,8 @@
     <MyMiniInformation />
     <div class="list">
       <PendingFriends />
-      <Friends />
+      <online-friends />
+      <offline-friends />
     </div>
     <AddFriendPanel/>
   </div>
@@ -14,13 +15,15 @@
 import MyMiniInformation from '../../components/app/MyMiniInformation.vue'
 import PendingFriends from './relationships/PendingFriends.vue'
 import AddFriendPanel from './relationships/AddFriendPanel.vue'
-import Friends from './relationships/Friends.vue'
+import OnlineFriends from './relationships/OnlineFriends.vue'
+import OfflineFriends from './relationships/OfflineFriends.vue'
 export default {
   components: {
     MyMiniInformation,
     PendingFriends,
     AddFriendPanel,
-    Friends
+    OnlineFriends,
+    OfflineFriends
   }
 }
 </script>

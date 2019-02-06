@@ -35,7 +35,7 @@ export default {
   data(){
     return {
       alert: {
-        content: 'Image size must be less than 10mb!',
+        content: '',
         show: false 
       },
     }
@@ -47,21 +47,22 @@ export default {
     },
     async avatarBrowse(event) {
       const file = event.target.files[0];
+      event.target.value = "";
       const allowedFormats = ['.png', '.jpeg', '.gif', '.jpg' ];
       
       if (!allowedFormats.includes(path.extname(file.name).toLowerCase())){
-        this.alert.content = 'Unsupported image file.';
+        this.alert.content = 'Upload failed - Unsupported image file.';
         return this.alert.show = true;
       } else if (file.size >= 10490000){
         // 10490000 = 10mb
-        this.alert.content = 'Image size must be less than 10 megabytes.';
+        this.alert.content = 'Upload failed - Image size must be less than 10 megabytes.';
         return this.alert.show = true;
       }
       const formData = new FormData();
       formData.append('avatar', file);
       const {ok, error, result} = await UploadService.uploadAvatar(formData, this.onProgress);
       if (!ok) { 
-        this.alert.content = 'Something went wrong. Try again later.';
+        this.alert.content = 'Upload failed - Something went wrong. Try again later.';
         return this.alert.show = true;
       }
 

@@ -1,42 +1,40 @@
 <template>
-    <div class="message">
-        <div class="profile-picture" :style="`background-image: url(${userAvatar})`"></div>
-        <div class="triangle">
-            <div class="triangle-inner"></div>
-        </div>
-        <div class="content">
-            <div class="username">{{this.$props.username}}</div>
-            <div class="content-message">{{this.$props.message}}</div>
-        </div>
-        <div class="sending-status">{{statusMessage}}</div>
-    </div>
+	<div class="message">
+		<div class="profile-picture" :style="`background-image: url(${userAvatar})`"></div>
+		<div class="triangle">
+			<div class="triangle-inner"></div>
+		</div>
+		<div class="content">
+			<div class="username">{{this.$props.username}}</div>
+			<div class="content-message">{{this.$props.message}}</div>
+		</div>
+		<div class="sending-status">{{statusMessage}}</div>
+	</div>
 </template>
 
 
 <script>
 import config from '@/config.js'
 export default {
-    props: ['message', 'status', 'username', 'avatar'],
-    data() {
-        return{
-            userAvatar: config.domain + "/avatars/" + this.$props.avatar
-        }
-    },
-    computed: {
-        statusMessage(){
-            let status = this.$props.status;
+	props: ['message', 'status', 'username', 'avatar'],
+	computed: {
+		userAvatar() {
+			return config.domain + "/avatars/" + this.$props.avatar
+		},
+		statusMessage(){
+			let status = this.$props.status;
 
-            if (status == 0) {
-                return "Sending"
-            } else if (status == 1) {
-                return "Sent"
-            } else if (status == 2) {
-                return "Failed"
-            } else {
-                return ""
-            }
-        }
-    }
+			if (status == 0) {
+				return "Sending"
+			} else if (status == 1) {
+				return "Sent"
+			} else if (status == 2) {
+				return "Failed"
+			} else {
+				return ""
+			}
+		}
+	}
 }
 </script>
 

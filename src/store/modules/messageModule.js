@@ -33,11 +33,11 @@ const mutations = {
   messages(state, data) {
     Vue.set(state.messages, data.channelID, data.messages.reverse())
     setTimeout(() => {
-      bus.$emit('scrollDown');
+      bus.$emit('scrollDown', 0);
     }, 300);
   },
   addMessage(state, data) {
-    bus.$emit('scrollDown');
+    bus.$emit('scrollDown', 300);
     Vue.set(
       state.messages[data.channelID],
       state.messages[data.channelID].length,
