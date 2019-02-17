@@ -53,6 +53,9 @@ export default {
     bus.$on('toggleLeftMenu', () => {
       this.showLeftPanel = !this.showLeftPanel;
     })
+    bus.$on('closeLeftMenu', () => {
+      this.showLeftPanel = false;
+    })
     bus.$on('openSettings', () => {
       this.showSettings = true;
     })
@@ -98,6 +101,7 @@ export default {
     position: absolute;
     top: 47px;
     height: calc(100% - 47px);
+    background-color: rgba(39, 39, 39, 0.97);
   }
 }
 </style>

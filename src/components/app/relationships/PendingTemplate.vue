@@ -70,7 +70,7 @@ export default {
   margin-left: 2px;
   margin-right: 5px;
   background-position: center;
-  background-size: 100%;
+  background-size: cover;
   background-repeat: no-repeat;
 }
 .information{

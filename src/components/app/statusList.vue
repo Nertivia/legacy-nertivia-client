@@ -33,6 +33,7 @@ export default {
     border-radius: 10px;
     padding: 5px;
     width: 180px;
+    z-index: 1;
 }
 .status-list {
     padding: 5px;

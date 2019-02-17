@@ -111,7 +111,7 @@ export default {
   margin-left: 10px;
   margin-right: 10px;
   background-position: center;
-  background-size: 100%;
+  background-size: cover;
   background-repeat: no-repeat;
 }
 

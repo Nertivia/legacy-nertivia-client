@@ -90,7 +90,7 @@ export default {
   transition: .3s;
 }
 .slide-enter, .slide-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  margin-bottom: -270px;
+  margin-bottom: -250px;
   opacity: 0;
 }
 
@@ -104,7 +104,7 @@ export default {
 .add-friend{
   background: rgba(0, 0, 0, 0.13);
   flex: 1;
-  height: 250px;
+  height: 230px;
   display: flex;
   flex-direction: column;
   color: white;
@@ -150,8 +150,8 @@ form {
   background: rgba(0, 0, 0, 0.274);
   width: 100%;
   text-align: center;
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   color: white;
   cursor: pointer;
   user-select: none;

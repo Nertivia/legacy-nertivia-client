@@ -104,7 +104,7 @@ export default {
   margin-left: 20px;
   flex-shrink: 0;
   background-position: center;
-  background-size: 100%;
+  background-size: cover;
   background-repeat: no-repeat;
 }
 .information {

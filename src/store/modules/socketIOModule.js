@@ -14,13 +14,17 @@ const actions = {
     }
   },
   socket_success(context, data) {
-    const friendsArray = data.user.friends;
+
+    const {message, user, dms, notifications, currentFriendStatus} = data;
+    const friendsArray = user.friends;
     const friendObject = {};
+
+    // convert array into object and add online status.
     if(friendsArray !== undefined && friendsArray.length >=1) {
       for (let index = 0; index < friendsArray.length; index++) {
         const element = friendsArray[index];
         friendObject[element.recipient.uniqueID] = element;
-        for (let currentFriendStatus of data.currentFriendStatus){
+        for (let currentFriendStatus of currentFriendStatus){
           if(currentFriendStatus[0] == element.recipient.uniqueID){
             friendObject[element.recipient.uniqueID].recipient.status = currentFriendStatus[1]
           }
@@ -29,6 +33,17 @@ const actions = {
       data.user.friends = friendObject;
     }
     context.commit('user', data.user)
+
+    // convert dms array to object
+    const channelsObject = {}
+    if (dms && dms.length >=1) {
+      for (let channel of dms) {
+        channelsObject[channel.channelID] = channel;
+      }
+    }
+    context.commit('addAllChannels', channelsObject)
+    context.dispatch('addAllNotifications', notifications)
+    
 
   },
   socket_relationshipAdd(context, friend) {
@@ -41,11 +56,22 @@ const actions = {
     context.commit('removeFriend', uniqueID)
   },
   socket_receiveMessage(context, data) {
-    context.dispatch('addMessage', {
-      message: data.message,
+    if (context.getters.messages[data.message.channelID]) {
+      context.dispatch('updateChannelLastMessage', data.message.channelID);
+      context.dispatch('addMessage', {
+        message: data.message,
+        channelID: data.message.channelID,
+        tempID: data.tempID
+      })
+    }
+    // send notification if other users message the recipient
+    if (data.message.creator.uniqueID === context.getters.user.uniqueID) return;
+    const notification  = {
       channelID: data.message.channelID,
-      tempID: data.tempID
-    })
+      lastMessageID: data.message.messageID,
+      sender: data.message.creator
+    }
+    context.dispatch('messageCreatedNotification', notification);
   },
   socket_userStatusChange(context, data) {
     context.commit('userStatusChange', data)
@@ -61,7 +87,12 @@ const actions = {
   },
   socket_userAvatarChange(context, data) {
     context.commit('userAvatarChange', data)
-  } 
+  },
+  ['socket_channel:created'](context, data){
+    const {channel} = data;
+    // rename to 'channel' to setchannel
+    context.dispatch('channel', channel);
+  }
 }
 
 export default {

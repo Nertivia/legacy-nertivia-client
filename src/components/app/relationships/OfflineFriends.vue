@@ -30,7 +30,7 @@ export default {
       const result = Object.keys(allFriend).map(function(key) {
         return allFriend[key];
       });
-      return result.filter(friend => friend.status == 2 && friend.recipient.status === undefined || friend.recipient.status == 0 );
+      return result.filter(friend => friend.status == 2 && (friend.recipient.status === undefined || friend.recipient.status == 0 ));
     }
   }
 }

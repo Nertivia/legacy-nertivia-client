@@ -85,7 +85,9 @@ export default {
   color: #383838;
   height: 100%;
 }
-
+button {
+  font-family: 'Roboto', sans-serif;
+}
 .spinner{
     margin: auto;
     padding: 30px;
@@ -163,6 +165,7 @@ export default {
   margin-top: 20px;
   color: white;
   margin-bottom: 50px;
+  flex-shrink: 0;
 }
 
 .change-title {

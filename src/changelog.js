@@ -1,5 +1,22 @@
 const config = [
   {
+    title: 'Typing Indicator',
+    shortTitle: 'Typing Indicator',
+    date: '08/02/2019',
+    new: [
+      'See who\'s typing with the new typing indicator!',
+      'Online and offline friends now have their own category.',
+      'Timestamps for each message.'
+    ],
+    fix: [
+      'Some bugs with the message list scrolling.',
+      'Added some margin and padding to some places.'
+    ],
+    next: [
+      'Message notifications.',
+    ]
+  },
+  {
     title: 'Avatar',
     shortTitle: 'Avatar',
     date: '29/01/2019',

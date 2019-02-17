@@ -21,6 +21,9 @@ export default {
     display: flex;
     color: white;
   }
+  .tab-name {
+    padding-top: 3px;
+  }
   .material-icons{
     transition: 0.3s;
   }

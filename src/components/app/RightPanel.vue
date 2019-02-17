@@ -8,12 +8,13 @@
       </div>
       <div class="current-channel"><span v-if="!selectedChannelID">Welcome back!</span><span v-else>{{channelName}}</span></div>
     </div>
-    <typing-status v-if="typing" :username="whosTyping"/>
     <div class="loading" v-if="selectedChannelID && !messages[selectedChannelID]">
       <spinner />
     </div>
-    <div v-else-if="selectedChannelID" class="message-logs">
-      <message v-for="(msg, index) in messages[selectedChannelID]" :key="index" :username="msg.creator.username" :avatar="msg.creator.avatar" :message="msg.message" :status="msg.status" />
+    <div v-else-if="selectedChannelID" class="message-logs" @wheel="invertScroll">
+      <div class="scroll">
+        <message v-for="(msg, index) in messages[selectedChannelID]" :key="index" :date="msg.created" :username="msg.creator.username" :uniqueID="msg.creator.uniqueID" :avatar="msg.creator.avatar" :message="msg.message" :status="msg.status" />
+      </div>
     </div>
     <news v-else />
     <div class="chat-input-area" v-if="selectedChannelID">
@@ -22,6 +23,11 @@
         <button :class="{'send-button': true, 'error-send-button': messageLength > 5000}" @click="sendMessage">Send</button>
       </div>
       <div class="info">
+        <div class="typing-outer">
+          <transition name="typing-animate">
+            <typing-status v-if="typing" :username="whosTyping"/>
+          </transition>
+        </div>
         <div :class="{'message-count': true, 'error-info': messageLength > 5000 }">{{messageLength}}/5000</div>
       </div>
     </div>
@@ -79,6 +85,8 @@ export default {
 
       if(this.message == "")return;
       if (this.message.length > 5000) return;
+      clearInterval(this.postTimerID);
+      this.postTimerID = null;
 
       const msg = this.message;
       const tempID = this.generateNum(25);
@@ -89,12 +97,13 @@ export default {
         message: {
           tempID,
           message: this.message,
-          channelID: this.selectedChannelID
+          channelID: this.selectedChannelID,
+          created: new Date()
         }
       })
 
       this.message = ""
-
+      this.$store.dispatch('updateChannelLastMessage', this.selectedChannelID);
       const { ok, error, result } = await messagesService.post(this.selectedChannelID, {
         message: msg,
         socketID: this.$socket.id,
@@ -136,15 +145,18 @@ export default {
         this.sendMessage();
       }
     },
-    scrollDown(speed){
-      //Scroll to bottom
-      $(".message-logs").stop(true).animate({
-        scrollTop: $(".message-logs")[0].scrollHeight
-      }, speed);
+    invertScroll(event) {
+      if(event.deltaY) {
+        event.preventDefault();
+        event.currentTarget.scrollTop -= parseFloat(getComputedStyle(event.currentTarget).getPropertyValue('font-size')) * (event.deltaY < 0 ? -1 : 1) * 2;
+      }
+    },
+    hideTypingStatus(data) {
+      if(this.user.uniqueID === data.message.creator.uniqueID) return;
+      this.typing = false;
     }
   },
   mounted() {
-    bus.$on('scrollDown', this.scrollDown);
     this.$options.sockets.typingStatus = (data) => {
       const {channelID, userID} = data;
       if (channelID !== this.selectedChannelID) return;
@@ -157,12 +169,16 @@ export default {
         this.typing = false; 
       }, 2500);
     }
+    bus.$on('newMessage', this.hideTypingStatus)
   },
   beforeDestroy() {
+    bus.$off('newMessage', this.hideTypingStatus);
     delete this.$options.sockets.typingStatus;
-    bus.$off('scrollDown', this.scrollDown)
   },
   computed: {
+    user() {
+      return this.$store.getters.user;
+    },
     channel() {
       return this.$store.getters.channels[this.selectedChannelID];
     },
@@ -183,6 +199,18 @@ export default {
 
 <style scoped>
 
+
+.typing-animate-enter-active {
+  transition: .10s;
+}
+.typing-animate-enter /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(3px)
+}
+.typing-animate-leave-to {
+  opacity: 0;
+  transform: translateY(-3px)
+}
 .error-info {
   color: red;
 }
@@ -227,6 +255,8 @@ export default {
     overflow: auto;
     flex: 1;
 }
+.message-logs, .message-logs .scroll {transform: scale(1,-1);}
+
 .loading{
   overflow: auto;
   flex: 1;
@@ -241,11 +271,21 @@ export default {
   color: white;
   font-size: 12px;
   margin-left: 25px;
-
+  margin-top: 5px;
+  display: flex;
+}
+.typing-outer{
+  flex: 1;
+  height: 20px;
+}
+.message-count {
+  float: right;
+  margin-right: 30px;
+  margin-top: 3px;
 }
 .message-area{
-    display: flex;
-    width: 100%;
+  display: flex;
+  width: 100%;
 }
 .chat-input{
     font-family: 'Roboto', sans-serif;

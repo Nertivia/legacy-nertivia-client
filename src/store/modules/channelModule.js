@@ -1,5 +1,6 @@
 import {bus} from '../../main'
 import {router} from './../../router'
+import Vue from 'vue';
 
 const state = {
   selectedChannelID: null,
@@ -26,19 +27,28 @@ const actions = {
   selectedChannelID(context, channelID) {
     context.commit('selectedChannelID', channelID)
   },
-  setName(context, name) {
-    context.commit('setName', name)
+  setChannelName(context, name) {
+    context.commit('setChannelName', name)
+  },
+  updateChannelLastMessage(context, channelID) {
+    context.commit('updateChannelLastMessage', channelID)
   }
 }
 
 const mutations = {
+  updateChannelLastMessage(state, channelID){
+    Vue.set(state.channels[channelID], 'lastMessaged', Date.now());
+  },
+  addAllChannels(state, channels){
+    Vue.set(state, 'channels', channels);
+  },
   channel(state, channel) {
-    state.channels[channel.channelID] = channel;
+    Vue.set(state.channels, channel.channelID, channel);
   },
   selectedChannelID(state, channelID) {
     state.selectedChannelID = channelID;
   },
-  setName(state, name) {
+  setChannelName(state, name) {
     state.channelName = name;
   }
 }

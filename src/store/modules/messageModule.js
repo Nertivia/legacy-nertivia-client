@@ -18,10 +18,13 @@ const actions = {
     context.commit('messages', data)
   },
   addMessage(context, data) {
+    // if the message is sent by this client, add additional information.
     if (data.sender) {
       data.message.creator = context.getters.user
       data.message.status = 0;
     }
+
+    // send notification if message is not ours
     context.commit('addMessage', data);
   },
   replaceMessage(context, data) {
@@ -32,17 +35,14 @@ const actions = {
 const mutations = {
   messages(state, data) {
     Vue.set(state.messages, data.channelID, data.messages.reverse())
-    setTimeout(() => {
-      bus.$emit('scrollDown', 0);
-    }, 300);
   },
   addMessage(state, data) {
-    bus.$emit('scrollDown', 300);
+    bus.$emit('newMessage', data);
     Vue.set(
       state.messages[data.channelID],
       state.messages[data.channelID].length,
       data.message
-    );
+    );    
   },
 
   replaceMessage (state, data) {
