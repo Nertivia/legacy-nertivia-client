@@ -140,9 +140,13 @@ export default {
       }
     },
     chatInput(event) {
+      // when enter is press
       if (event.keyCode == 13) {
-        event.preventDefault();
-        this.sendMessage();
+        // and the shift key is not held
+        if (!event.shiftKey) {
+          event.preventDefault();
+          this.sendMessage();
+        }
       }
     },
     invertScroll(event) {
