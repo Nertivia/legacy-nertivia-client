@@ -170,6 +170,15 @@ export default {
       }, 2500);
     }
     bus.$on('newMessage', this.hideTypingStatus)
+    //dismiss notification on focus
+    window.onfocus = () => {
+      bus.$emit('title:change', "Nertivia");
+      if (!this.$store.getters.selectedChannelID) return;
+      const find = this.$store.getters.notifications.find(notification => {return notification.channelID === this.$store.getters.selectedChannelID});
+      if (find && find.count >= 1) {
+        this.$socket.emit('notification:dismiss', {channelID: this.$store.getters.selectedChannelID});
+      }   
+    }
   },
   beforeDestroy() {
     bus.$off('newMessage', this.hideTypingStatus);
@@ -190,7 +199,7 @@ export default {
     },
     channelName() {
       return this.$store.getters.channelName;
-    },
+    }
   }
 }
 </script>

@@ -2,6 +2,7 @@ import axios from 'axios'
 import Vue from 'vue'
 import {bus} from '../../main'
 import VueRouter from 'vue-router';
+import NotificationSounds from '@/notificationSound';
 
 const state = {
   token: localStorage.getItem('hauthid') || null,
@@ -77,6 +78,10 @@ const mutations = {
     friends[friend.recipient.uniqueID] = friend;
 
     state.user.friends = Object.assign({}, friends)
+
+    if (friend.status == 1) {
+      NotificationSounds.newFriend();
+    }
   },
   removeFriend(state, uniqueID) {
     const friends = state.user.friends;

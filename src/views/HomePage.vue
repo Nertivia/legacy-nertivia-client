@@ -1,6 +1,6 @@
 <template>
 <div id="app">
-  <vue-headful title="Nertivia" />
+  <vue-headful title="Nertivia" description="Nertivia Chat Client"/>
   <div class="background-image"></div>
   <div class="layout">
     <div class="small-view-nav-bar">

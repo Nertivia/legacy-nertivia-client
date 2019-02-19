@@ -1,5 +1,5 @@
 <template>
-  <div :class="{friend: true, notifyAnimation: (notificationss && notificationss > 0) }" :style="`background: ${status.bgColor};`" @click="openChat">
+  <div :class="{friend: true, notifyAnimation: (notifications && notifications > 0) }" :style="`background: ${status.bgColor};`" @click="openChat">
     <div class="profile-picture" :style="`border-color: ${status.statusColor}; background-image: url(${userAvatar})`">
       <div class="status" :style="`background-image: url(${status.statusURL})`" ></div>
     </div>
@@ -7,9 +7,9 @@
       <div class="username">{{$props.username}}</div>
       <div class="status-name" :style="`color: ${status.statusColor}`">{{status.statusName}}</div>
     </div>
-    <div class="notification" v-if="notificationss && notificationss >0">
+    <div class="notification" v-if="notifications && notifications >0">
       <div class="notification-inner">
-        {{notificationss}}
+        {{notifications}}
       </div>
     </div>
   </div>
@@ -36,6 +36,10 @@ export default {
     },
     async openChat() {
       bus.$emit('closeLeftMenu');
+      // dismiss notification if exists
+      if (this.notifications && this.notifications >= 1 && document.hasFocus()) {
+        this.$socket.emit('notification:dismiss', {channelID: this.channelID});
+      }
       this.$store.dispatch('selectedChannelID', this.$props.channelID);
       this.$store.dispatch('setChannelName', this.$props.username);
       if (this.$store.getters.channels[this.$props.channelID] && !this.$store.getters.messages[this.$props.channelID]) return this.getMessages();
@@ -50,12 +54,12 @@ export default {
     }
   },
   computed: {
-    notificationss () {
+    notifications () {
       const channelID = this.$props.channelID;
       const notifications = this.$store.getters.notifications.find(function(e) {
         return e.channelID == channelID
       })
-      if (!notifications) return;
+      if (!notifications || (this.$props.channelID === this.$store.getters.selectedChannelID && document.hasFocus())) return;
       return notifications.count;
     },
     user() {

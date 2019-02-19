@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <vue-headful title="Nertivia"/>
+    <vue-headful :title="title" description="Nertivia Chat Client"/>
     <div class="background-image"></div>
     <transition name="fade-between-two" appear >
       <ConnectingScreen v-if="!loggedIn" />
@@ -37,7 +37,8 @@ export default {
   data() {
     return {
       showLeftPanel: false,
-      showSettings: false
+      showSettings: false,
+      title: "Nertivia"
     }
   },
   methods: {
@@ -61,6 +62,9 @@ export default {
     })
     bus.$on('closeSettings', () => {
       this.showSettings = false;
+    })
+    bus.$on('title:change', (title) => {
+      this.title = title;
     })
   },
   computed: {

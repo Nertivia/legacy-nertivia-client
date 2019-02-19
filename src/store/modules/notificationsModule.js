@@ -1,6 +1,7 @@
 import {bus} from '../../main'
 import {router} from './../../router'
 import Vue from 'vue';
+import NotificationSounds from '@/notificationSound';
 
 const state = {
   notifications: []
@@ -18,8 +19,13 @@ const actions = {
   },
   messageCreatedNotification(context, notification) {
     const {guildID, channelID, lastMessageID, sender} = notification;
-
-
+    if (!document.hasFocus()) 
+      bus.$emit('title:change', "Someone sent a message.");
+    
+    // dont display a notification if the channel is selected.
+    if (context.rootState.channelModule.selectedChannelID !== channelID || !document.hasFocus()) {
+      NotificationSounds.notification();
+    }
     let find = context.state.notifications.find(item => {
       return item.channelID === channelID
     })
@@ -28,10 +34,22 @@ const actions = {
     } 
     context.commit('messageCreatedNotification', {exists: false, notification: {channelID, lastMessageID, sender, count: 1}});
     
+  },
+  dismissNotification(context, channelID) {
+    const notifications = context.state.notifications
+    for (let index = 0; index < notifications.length; index++) {
+      if (notifications[index].channelID === channelID){
+        context.commit('dismissNotification', index)
+        break;
+      }
+    }
   }
 }
 
 const mutations = {
+  dismissNotification(state, index) {
+    Vue.delete(state.notifications, index)
+  },
   addAllNotifications(state, notifications){
     Vue.set(state, 'notifications', notifications);
   },

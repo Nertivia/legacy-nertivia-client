@@ -1,5 +1,6 @@
 import {bus} from '../../main'
 import {router} from './../../router'
+import Vue from 'vue';
 
 const state = {
 
@@ -64,6 +65,9 @@ const actions = {
         tempID: data.tempID
       })
     }
+    if (context.rootState.channelModule.selectedChannelID == data.message.channelID && document.hasFocus()) {
+      this._vm.$socket.emit('notification:dismiss', {channelID: data.message.channelID});
+    }
     // send notification if other users message the recipient
     if (data.message.creator.uniqueID === context.getters.user.uniqueID) return;
     const notification  = {
@@ -92,6 +96,10 @@ const actions = {
     const {channel} = data;
     // rename to 'channel' to setchannel
     context.dispatch('channel', channel);
+  },
+  ['socket_notification:dismiss'](context, data){
+    const {channelID} = data;
+    context.dispatch('dismissNotification', channelID);
   }
 }
 

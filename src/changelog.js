@@ -1,5 +1,24 @@
 const config = [
   {
+    title: 'Notifications are finally here!',
+    shortTitle: 'Notifications',
+    date: '18/02/2019',
+    new: [
+      'When you get a notification, you will now be notified by the red flashing Indicator.',
+      'When you get a new friend request, you will notified by a sound.',
+      'Added a new Recents tab to easily see who messaged you last.',
+      'Adjusted the padding and size in some places such as the friends list.',
+      'Messages can now be formated (e.g. **Hello**)'
+    ],
+    fix: [
+      'Performance improvements were made in some places.',
+      'Yesterday is now spelt with a capital "Y" in the timestamp.'
+    ],
+    next: [
+      'Uploading images or any files.',
+    ]
+  },
+  {
     title: 'Typing Indicator',
     shortTitle: 'Typing Indicator',
     date: '08/02/2019',

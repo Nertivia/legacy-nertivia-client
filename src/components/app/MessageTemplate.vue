@@ -9,7 +9,7 @@
                 <div class="username">{{this.$props.username}}</div>
                 <div class="date">{{getDate}}</div>
             </div>
-			<div class="content-message">{{this.$props.message}}</div>
+			<div class="content-message" v-html="formatMessage"></div>
 		</div>
 		<div class="sending-status">{{statusMessage}}</div>
 	</div>
@@ -17,11 +17,15 @@
 
 
 <script>
+import messageFormatter from '@/messageFormatter.js'
 import config from '@/config.js'
 import friendlyDate from '@/date'
 export default {
 	props: ['message', 'status', 'username', 'avatar', 'date', 'uniqueID'],
 	computed: {
+        formatMessage() {
+            return messageFormatter(this.$props.message)
+        },
         getDate() {
             return friendlyDate(this.$props.date);
         },
@@ -67,6 +71,7 @@ export default {
     background: rgba(184, 184, 184, 0.219);
 
 }
+
 @keyframes showMessage {
     from {
         transform: translate(0px, 9px);
@@ -161,4 +166,12 @@ export default {
 }
 
 
+</style>
+
+<style>
+.codeblock{
+    background-color: rgba(0, 0, 0, 0.397);
+    padding: 5px;
+    border-radius: 5px;
+}
 </style>

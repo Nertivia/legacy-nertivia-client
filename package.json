@@ -10,6 +10,7 @@
   "dependencies": {
     "@vue/eslint-plugin": "^4.2.0",
     "axios": "^0.18.0",
+    "futoji": "^0.2.0",
     "jquery": "^3.3.1",
     "socket.io": "^2.2.0",
     "socket.io-client": "^2.2.0",
