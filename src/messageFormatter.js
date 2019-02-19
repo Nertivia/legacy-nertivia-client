@@ -35,13 +35,15 @@ export default  (message) => {
     futoji.addTransformer({
         name: 'code-block', 
         symbol: '``\`',
-        transformer: text => `<div class="codeblock"><code>${text.trim()}</code></div>`
+        recursive: false,
+        transformer: text => `<div class="codeblock"><code>${text.trim()}</code></div>`,
     })
     
     futoji.addTransformer({
         name: 'code', 
         symbol: '`',
-        transformer: text => `<code>${text}</code>`
+        recursive: false,
+        transformer: text => `<code>${text}</code>`,
     })
     return futoji.format(message);
 }
