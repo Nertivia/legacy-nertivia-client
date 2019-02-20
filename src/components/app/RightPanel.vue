@@ -87,6 +87,7 @@ export default {
       if (this.message.length > 5000) return;
       clearInterval(this.postTimerID);
       this.postTimerID = null;
+      this.messageLength = 0;
 
       const msg = this.message;
       const tempID = this.generateNum(25);
