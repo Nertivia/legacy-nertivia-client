@@ -19,7 +19,7 @@
     <news v-else />
     <div class="chat-input-area" v-if="selectedChannelID">
       <div class="message-area">
-        <textarea class="chat-input" ref="input-box" placeholder="Message" @keydown="chatInput" @input="messageKeyUp" v-model="message"></textarea>
+        <textarea class="chat-input" ref="input-box" placeholder="Message" @keydown="chatInput" @input="onInput" v-model="message"></textarea>
         <button :class="{'send-button': true, 'error-send-button': messageLength > 5000}" @click="sendMessage">Send</button>
       </div>
       <div class="info">
@@ -130,7 +130,7 @@ export default {
         await typingService.post(this.selectedChannelID);
       }, 2000);
     },
-    async messageKeyUp(event){
+    async onInput(event){
       this.messageLength = this.message.length;
       const value = event.target.value.trim();
       if (value && this.postTimerID == null) {
