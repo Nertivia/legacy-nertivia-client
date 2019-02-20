@@ -151,6 +151,7 @@ export default {
     overflow: hidden;
     max-width: 100%;
     color: white;
+    overflow-wrap: anywhere;
 }
 
 .message .sending-status {
