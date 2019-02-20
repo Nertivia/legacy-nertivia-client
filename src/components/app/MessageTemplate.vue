@@ -149,7 +149,7 @@ export default {
     white-space: pre-wrap;
     font-size: 14px;
     overflow: hidden;
-    max-width: calc(100vw - 500px);
+    max-width: 100%;
     color: white;
 }
 
