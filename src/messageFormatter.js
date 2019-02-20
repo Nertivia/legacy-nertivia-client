@@ -20,6 +20,11 @@ export default  (message) => {
         symbol: '*',
         transformer: text => `<em>${text}</em>`
     })
+    futoji.addTransformer({
+        name: 'italic', 
+        symbol: '_',
+        transformer: text => `<em>${text}</em>`
+    })
 
     futoji.addTransformer({
         name: 'underline', 
