@@ -23,7 +23,7 @@
 <script>
 import {bus} from '../main'
 import Settings from '@/components/app/Settings.vue'
-import GDriveLinkMenu from '@/components/app/GDriveLinkMenu.vue'
+// import GDriveLinkMenu from '@/components/app/GDriveLinkMenu.vue'
 import LeftPanel from './../components/app/LeftPanel.vue'
 import RightPanel from './../components/app/RightPanel.vue'
 import ConnectingScreen from './../components/app/ConnectingScreen.vue'
@@ -35,7 +35,6 @@ export default {
     RightPanel,
     ConnectingScreen,
     Settings,
-    GDriveLinkMenu
   },
   data() {
     return {

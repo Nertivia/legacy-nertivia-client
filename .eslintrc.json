@@ -7,7 +7,14 @@
   "extends": ["plugin:vue/essential", "eslint:recommended"],
   "plugins": ["@vue"],
   "rules": {
-    "no-console": "off"
+    "no-console": "off",
+    "no-unused-vars": [
+      "off",
+      {
+        "args": "after-used",
+        "ignoreRestSiblings": true
+      }
+    ]
   },
   "parserOptions": {
     "parser": "babel-eslint",

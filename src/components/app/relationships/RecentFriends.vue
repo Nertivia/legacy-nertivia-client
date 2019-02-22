@@ -14,7 +14,6 @@ import Tab from './Tab.vue'
 import FriendsTemplate from './FriendsTemplate.vue'
 export default {
   components: {
-    Tab,
     FriendsTemplate
   },
   computed: {
