@@ -16,7 +16,7 @@ const actions = {
   },
   socket_success(context, data) {
 
-    const {message, user, dms, notifications, currentFriendStatus} = data;
+    const {message, user, dms, notifications, currentFriendStatus, settings} = data;
     const friendsArray = user.friends;
     const friendObject = {};
 
@@ -44,6 +44,7 @@ const actions = {
     }
     context.commit('addAllChannels', channelsObject)
     context.dispatch('addAllNotifications', notifications)
+    context.dispatch('setSettings', settings)
     
 
   },

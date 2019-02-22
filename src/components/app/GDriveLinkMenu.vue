@@ -2,7 +2,7 @@
 	<div class="dark-background">
 		<div class="inner">
 			<div class="text">
-				To upload files and images, You must link your Google Drive account with your Nertivia account.
+				To upload files, images or set avatars, You must link your Google Drive account with your Nertivia account.
 			</div>
 			<div class="images">
 					<div class="image GDrive-img"></div>
@@ -22,7 +22,7 @@
     left: 0;
     right: 0;
     background: rgba(0, 0, 0, 0.781);
-    z-index: 1;
+    z-index: 111111;
     display: flex;
 }
 .inner {
@@ -30,16 +30,18 @@
     height: 400px;
     width: 400px;
     background: rgb(32, 32, 32);
-		display: flex;
-		flex-direction: column;
-		color: white;
-		border-radius: 3px;
+	display: flex;
+	flex-direction: column;
+	color: white;
+	border-radius: 3px;
 }
 .text{
 	color: white;
 	text-align: center;
 	margin-top: 30px;
 	font-size: 17px;
+	padding-left: 10px;
+	padding-right: 10px;
 }
 .images{
 	display: flex;

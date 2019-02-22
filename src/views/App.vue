@@ -15,8 +15,8 @@
     </transition>
     <transition name="fade">
       <settings v-if="showSettings  && loggedIn" />
-      <!--<GDriveLinkMenu v-if="loggedIn" /> -->
     </transition>
+    <GDriveLinkMenu v-if="loggedIn && showGDLinkMenu" />
   </div>
 </template>
 
@@ -41,6 +41,7 @@ export default {
     return {
       showLeftPanel: false,
       showSettings: false,
+      showGDLinkMenu: false,
       title: "Nertivia"
     }
   },
@@ -68,6 +69,9 @@ export default {
     })
     bus.$on('title:change', (title) => {
       this.title = title;
+    })
+    bus.$on('GDriveLink:show', () => {
+      this.showGDLinkMenu = true;
     })
   },
   computed: {
