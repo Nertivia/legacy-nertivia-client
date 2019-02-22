@@ -41,7 +41,7 @@ export default  (message) => {
         name: 'code-block', 
         symbol: '``\`',
         recursive: false,
-        transformer: text => `<div class="codeblock"><code>${text.trim()}</code></div>`,
+        transformer: text => `<div class="codeblock"><code>${formatCode(text.trim())}</code></div>`,
     })
     
     futoji.addTransformer({
@@ -51,6 +51,26 @@ export default  (message) => {
         transformer: text => `<code>${text}</code>`,
     })
     return futoji.format(message);
+}
+
+/**
+ * format code to add syntax highlighting
+ */
+function formatCode(text) {
+    // matches if word until newline
+    // if spaces then it won't match
+    let nameRegex = new RegExp('^(\\w+)\\n')
+
+    if(nameRegex.test(text)) {
+        let language = nameRegex.exec(text)[1]
+        let newText = text.replace(nameRegex, '')
+
+        // TODO: format newText with language
+
+        return newText
+    }
+
+    return text
 }
 
 function escapeHtml(unsafe) {
