@@ -19,7 +19,17 @@
     <news v-else />
     <div class="chat-input-area" v-if="selectedChannelID">
       <div class="message-area">
-        <textarea class="chat-input" ref="input-box" placeholder="Message" @keydown="chatInput" @input="onInput" v-model="message"></textarea>
+        <textarea
+          rows="1"
+          class="chat-input"
+          ref="input-box"
+          placeholder="Message"
+          @keydown="chatInput"
+          @keyup="delayedResize"
+          @change="resize"
+          @input="onInput"
+          v-model="message"
+        ></textarea>
         <button :class="{'send-button': true, 'error-send-button': messageLength > 5000}" @click="sendMessage">Send</button>
       </div>
       <div class="info">
@@ -131,16 +141,32 @@ export default {
         await typingService.post(this.selectedChannelID);
       }, 2000);
     },
+    resize(event) {
+      let input = this.$refs["input-box"]
+
+      if(input.scrollHeight < 50) {
+        input.style.height = '1em'
+      } else {
+        input.style.height = 'auto';
+        input.style.height = `calc(${input.scrollHeight}px - 1em)`;
+      }
+    },
+    delayedResize(event) {
+      this.resize(event)
+    },
     async onInput(event){
+      this.delayedResize(event)
+
       this.messageLength = this.message.length;
       const value = event.target.value.trim();
       if (value && this.postTimerID == null) {
-        // Post typing status
         this.postTimer()
         await typingService.post(this.selectedChannelID);
       }
     },
     chatInput(event) {
+      this.delayedResize(event)
+
       // when enter is press
       if (event.keyCode == 13) {
         // and the shift key is not held
@@ -316,6 +342,9 @@ export default {
     outline: none;
     padding-left: 10px;
     transition: 0.3s;
+    height: 1em;
+    overflow: hidden;
+    max-height: 30vh;
 }
 
 .chat-input:hover{
