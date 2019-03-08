@@ -31,7 +31,6 @@
     <news v-else/>
     <div class="chat-input-area" v-if="selectedChannelID">
       <div class="message-area">
-
         <input type="file" ref="sendFileBrowse" @change="attachmentChange" class="hidden">
         <div class="attachment-button" @click="attachmentButton">
           <i class="material-icons">attach_file</i>
@@ -42,16 +41,11 @@
           ref="input-box"
           placeholder="Message"
           @keydown="chatInput"
-
           @keyup="delayedResize"
           @change="resize"
           @input="onInput"
           v-model="message"
-        ></textarea>
-        <button :class="{'send-button': true, 'error-send-button': messageLength > 5000}" @click="sendMessage">Send</button>
-          @input="onInput"
           @paste="onPaste"
-          v-model="message"
         ></textarea>
         <button
           :class="{'send-button': true, 'error-send-button': messageLength > 5000}"
@@ -179,37 +173,29 @@ export default {
     },
 
     resize(event) {
-      let input = this.$refs["input-box"]
+      let input = this.$refs["input-box"];
 
-      if(input.scrollHeight < 50) {
-        input.style.height = '1em'
+      if (input.scrollHeight < 50) {
+        input.style.height = "1em";
       } else {
-        input.style.height = 'auto';
+        input.style.height = "auto";
         input.style.height = `calc(${input.scrollHeight}px - 1em)`;
       }
     },
     delayedResize(event) {
-      this.resize(event)
+      this.resize(event);
     },
-    async onInput(event){
-      this.delayedResize(event)
-
-      this.messageLength = this.message.length;
-      const value = event.target.value.trim();
-      if (value && this.postTimerID == null) {
-        this.postTimer()
-
     async onInput(event) {
+      this.delayedResize(event);
       this.messageLength = this.message.length;
       const value = event.target.value.trim();
       if (value && this.postTimerID == null) {
-        // Post typing status
         this.postTimer();
         await typingService.post(this.selectedChannelID);
       }
     },
     chatInput(event) {
-      this.delayedResize(event)
+      this.delayedResize(event);
 
       // when enter is press
       if (event.keyCode == 13) {
@@ -245,8 +231,11 @@ export default {
         //show a warning.
         return;
       }
-      this.$store.dispatch('setFile', file)
-      this.$store.dispatch('setPopoutVisibility', {name: 'uploadDialog', visibility: true})
+      this.$store.dispatch("setFile", file);
+      this.$store.dispatch("setPopoutVisibility", {
+        name: "uploadDialog",
+        visibility: true
+      });
     },
     attachmentChange(event) {
       const file = event.target.files[0];
@@ -254,13 +243,17 @@ export default {
       this.uploadFile(file);
     },
     onPaste(event) {
-      var items = (event.clipboardData || event.originalEvent.clipboardData).items;
+      var items = (event.clipboardData || event.originalEvent.clipboardData)
+        .items;
       for (let index in items) {
         var item = items[index];
         if (item.kind === "file") {
           var blob = item.getAsFile();
-          this.$store.dispatch('setFile', blob)
-          this.$store.dispatch('setPopoutVisibility', {name: 'uploadDialog', visibility: true})
+          this.$store.dispatch("setFile", blob);
+          this.$store.dispatch("setPopoutVisibility", {
+            name: "uploadDialog",
+            visibility: true
+          });
           break;
         }
       }
@@ -453,7 +446,7 @@ export default {
   background: rgba(0, 0, 0, 0.158);
   color: white;
   width: 100%;
-  height: 20px;
+  min-height: 20px;
   padding: 10px;
   margin: auto;
   font-size: 15px;
@@ -481,14 +474,15 @@ export default {
   background: rgba(0, 0, 0, 0.274);
   border: none;
   outline: none;
-  margin: auto;
   margin-left: 2px;
   margin-right: 20px;
-  height: 40px;
+  min-height: 40px;
   width: 50px;
   transition: 0.3s;
   display: flex;
   flex-shrink: 0;
+
+
 }
 .send-button .material-icons {
   margin: auto;
