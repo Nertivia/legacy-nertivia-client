@@ -287,5 +287,35 @@ export default {
   outline: none;
   transition: 0.3s;
 }
+@media (max-width: 400px) {
+  .inner {
+    align-content: center;
+    align-items: center;
+    align-self: center;
+  }
+  .info {
+    flex-direction:column;
+    margin-bottom: 20px;
+    align-content: center;
+    align-items: center;
+    align-self: center;
+  }
+  .data{
+    display: flex;
+    flex-direction:column;
+    align-content: center;
+    align-items: center;
+    align-self: center;
+    text-align: center;
+  }
+  .bottom-panel {
+    align-content: center;
+    align-items: center;
+    align-self: center;
+  }
+  .message-area {
+    width: calc(100% - 20px);
+  }
+}
 </style>
 

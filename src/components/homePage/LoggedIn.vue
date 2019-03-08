@@ -2,7 +2,7 @@
   <div class="logged-in">
     <div class="card">
       <div class="avatar-outer">
-        <div class="avatar" :style="`background-image: url(${avatar})`"></div>
+        <profile-picture :url="avatar" height="90px" width="90px" />
       </div>
       <div class="info">
           <div class="username">{{user.username}}<span class="tag">@{{user.tag}}</span></div>
@@ -16,8 +16,12 @@
 </template>
 
 <script>
+import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
 import config from '@/config.js'
 export default {
+  components: {
+    ProfilePicture
+  },
   methods: {
     logout() {
       this.$store.commit('logout')
@@ -69,14 +73,8 @@ export default {
   text-align: center;
 }
 
-.avatar {
-  width: 80px;
-  height: 80px;
-  background-color: rgba(0, 0, 0, 0.459);
-  border-radius: 50%;
-  background-position: center;
-  background-size: 100%;
-  background-repeat: no-repeat;
+.profile-picture {
+  margin-right: 0;
 }
 
 .info {

@@ -1,6 +1,6 @@
 <template>
   <div :class="{message: true, ownMessage: user.uniqueID === $props.uniqueID}">
-    <div class="profile-picture" :style="`background-image: url(${userAvatar})`"></div>
+    <profile-picture :url="userAvatar" height="50px" width="50px"/>
     <div class="triangle">
       <div class="triangle-inner"></div>
     </div>
@@ -33,12 +33,16 @@
 
 
 <script>
+import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
 import messageFormatter from "@/messageFormatter.js";
 import config from "@/config.js";
 import friendlyDate from "@/date";
 import path from "path";
 
 export default {
+  components: {
+    ProfilePicture
+  },
   props: [
     "message",
     "status",
@@ -72,7 +76,7 @@ export default {
       const filetypes = /jpeg|jpg|gif|png/;
       const extname = filetypes.test(path.extname(file.fileName).toLowerCase());
       if (extname) return undefined;
-      file.url = config.domain + '/files/' + file.fileID;
+      file.url = config.domain + "/files/" + file.fileID;
       return file;
     },
     formatMessage() {
@@ -170,18 +174,7 @@ export default {
 }
 
 .profile-picture {
-  height: 50px;
-  width: 50px;
-  background-color: rgba(0, 0, 0, 0.281);
-  margin: auto;
   margin-bottom: 0;
-  border-radius: 50%;
-  margin-right: 5px;
-  margin-left: 0;
-  flex-shrink: 0;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
 }
 
 .triangle {

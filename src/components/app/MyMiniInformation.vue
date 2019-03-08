@@ -1,6 +1,6 @@
 <template>
   <div class="my-mini-information">
-    <div class="profile-picture" :style="`background-image: url(${avatar})`"></div>
+    <profile-picture :url="avatar" height="50px" width="50px"/>
     <div class="information">
       <div class="name">{{user.username}}</div>
       <div class="tag">@{{user.tag}}</div>
@@ -24,10 +24,12 @@ import {bus} from '../../main';
 import config from '@/config.js'
 import statusList from '../../components/app/statusList.vue'
 import settingsService from '@/services/settingsService'
+import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
 
 export default {
   components: {
-    statusList
+    statusList,
+    ProfilePicture
   },
   data() {
     return {
@@ -104,15 +106,8 @@ export default {
 }
 
 .profile-picture{
-  height: 50px;
-  width: 50px;
-  border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0.377);
   margin-left: 10px;
   margin-right: 10px;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
 }
 
 .information{
