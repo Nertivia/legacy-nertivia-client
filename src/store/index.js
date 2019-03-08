@@ -5,12 +5,26 @@ import socketModule from './modules/socketIOModule';
 import channelModule from './modules/channelModule';
 import messageModule from './modules/messageModule';
 import notificationsModule from './modules/notificationsModule';
-import {router} from './../router'
+import settingsModule from './modules/settingsModule';
+import uploadFilesModule from './modules/uploadFilesModule';
+import popoutsModule from './modules/popoutsModule';
+import {
+  router
+} from './../router'
 
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
-  modules: { user, channelModule, messageModule, notificationsModule, socketModule },
+  modules: {
+    user,
+    channelModule,
+    messageModule,
+    notificationsModule,
+    socketModule,
+    settingsModule,
+    uploadFilesModule,
+    popoutsModule
+  },
   state: {
 
   },

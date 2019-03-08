@@ -7,7 +7,7 @@
     </div>
     <div class="options">
       <input type="file"  accept="image/*" ref="avatarBrowser" @change="avatarBrowse" class="hidden">
-      <div class="option"  @click="$refs.avatarBrowser.click()">Edit Avatar</div>
+      <div class="option"  @click="editAvatarBtn">Edit Avatar</div>
       <div class="option" @click="changePassword">Change Password</div>
       <div class="option red" @click="logout">Logout</div>
     </div>
@@ -26,8 +26,9 @@
 </template>
 
 <script>
-import UploadService from '@/services/UploadService.js'
+import AvatarUpload from '@/services/AvatarUpload.js'
 import config from '@/config.js'
+import {bus} from '@/main'
 import path from 'path'
 
 export default {
@@ -60,7 +61,7 @@ export default {
       }
       const formData = new FormData();
       formData.append('avatar', file);
-      const {ok, error, result} = await UploadService.uploadAvatar(formData, this.onProgress);
+      const {ok, error, result} = await AvatarUpload.uploadAvatar(formData, this.onProgress);
       if (!ok) { 
         this.alert.content = 'Upload failed - Something went wrong. Try again later.';
         return this.alert.show = true;
@@ -74,6 +75,12 @@ export default {
     changePassword() {
       this.alert.content = 'Not implemented yet.';
       return this.alert.show = true;
+    },
+    editAvatarBtn() {
+      if(!this.$store.getters.settings.GDriveLinked) {
+        return this.$store.dispatch('setPopoutVisibility', {name: 'GDLinkMenu', visibility: true})
+      }
+      this.$refs.avatarBrowser.click()
     }
   },
   computed: {

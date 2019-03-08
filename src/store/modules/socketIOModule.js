@@ -2,6 +2,7 @@ import {bus} from '../../main'
 import {router} from './../../router'
 import Vue from 'vue';
 
+
 const state = {
 
 }
@@ -16,7 +17,7 @@ const actions = {
   },
   socket_success(context, data) {
 
-    const {message, user, dms, notifications, currentFriendStatus} = data;
+    const {message, user, dms, notifications, currentFriendStatus, settings} = data;
     const friendsArray = user.friends;
     const friendObject = {};
 
@@ -44,6 +45,7 @@ const actions = {
     }
     context.commit('addAllChannels', channelsObject)
     context.dispatch('addAllNotifications', notifications)
+    context.dispatch('setSettings', settings)
     
 
   },
@@ -100,6 +102,10 @@ const actions = {
   ['socket_notification:dismiss'](context, data){
     const {channelID} = data;
     context.dispatch('dismissNotification', channelID);
+  },
+  ['socket_googleDrive:linked'](context) {
+    context.dispatch('setPopoutVisibility', {name: 'GDLinkMenu', visibility: false})
+    context.dispatch('setGDriveLinked', true)
   }
 }
 

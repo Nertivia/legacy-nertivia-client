@@ -1,6 +1,6 @@
 const config = {
   devMode:true,
-  breeMode: true,
+  breeMode: false,
   recaptcha: "",
   IP: [
     {

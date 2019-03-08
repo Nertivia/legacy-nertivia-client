@@ -312,7 +312,7 @@ button {
     margin-right: 0;
     margin-top: 0;
     height:calc(100% - 50px);
-    background-color: rgba(34, 34, 34, 0.877);
+    background-color: rgb(34, 34, 34);
     width: 0;
     overflow-x: hidden;
     transition: 0.5s ease;

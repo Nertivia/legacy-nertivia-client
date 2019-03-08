@@ -1,6 +1,5 @@
 <template>
   <div class="logged-in">
-    <div class="title">Welcome!</div>
     <div class="card">
       <div class="avatar-outer">
         <div class="avatar" :style="`background-image: url(${avatar})`"></div>
@@ -41,22 +40,33 @@ export default {
 
 <style scoped>
 .logged-in {
-  margin-top: 50px;
   color: white;
+
+  margin-top: 10px;
 }
 
 .card{
-  background-color: rgba(0, 0, 0, 0.26);
-  padding: 10px;
-  margin: 20px;
+  background-color: rgba(0, 0, 0, 0.041);
+  padding: 20px;
+
   margin-bottom: 30px;
   display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  align-content: center;
+  align-items: center;
+  align-self: center;
+  justify-content: center;
+  justify-items: center;
+  text-align: center;
 }
 
 .title {
   display: table;
   margin: auto;
-  font-size: 30px;
+  margin-top: 10px;
+  font-size: 25px;
+  text-align: center;
 }
 
 .avatar {
@@ -73,7 +83,7 @@ export default {
   display: flex;
   flex-direction: column;
   margin-left: 10px;
-  margin-top: 5px;
+  margin-top: 20px;
 }
 
 .username {
@@ -96,18 +106,20 @@ export default {
   padding: 10px;
   border: none;
   outline: none;
-  margin-right: 5px;
-  margin-top: 10px;
+  margin-right: 10px;
+  margin-left: 10px;
+  margin-top: 30px;
   transition: 0.3s;
+  font-size: 17px;
 }
 .button:hover {
   background: rgba(0, 0, 0, 0.582);
 }
 
 .button.logout{
-  background: rgba(149, 0, 0, 0.404);
+  background: rgba(219, 36, 36, 0.438);
 }
 .button.logout:hover {
-  background: rgba(255, 0, 0, 0.582);
+  background: rgba(255, 18, 18, 0.582);
 }
 </style>
