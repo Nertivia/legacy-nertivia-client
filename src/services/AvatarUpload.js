@@ -1,7 +1,10 @@
-import {instance, wrapper} from './Api';
+import {
+  instance,
+  wrapper
+} from './Api';
 
 export default {
-  uploadAvatar(data, onProgress){
+  uploadAvatar(data, onProgress) {
     const url = `/settings/avatar`;
     let config = {
       onUploadProgress(progressEvent) {

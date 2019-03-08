@@ -3,7 +3,8 @@ import config from '@/config';
 
 export const instance = () => {
   return axios.create({
-    baseURL: config.domain
+    baseURL: config.domain,
+    withCredentials: true
   })
 }
 
