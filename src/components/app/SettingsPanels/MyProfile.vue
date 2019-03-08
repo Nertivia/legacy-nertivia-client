@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import UploadService from '@/services/UploadService.js'
+import AvatarUpload from '@/services/AvatarUpload.js'
 import config from '@/config.js'
 import {bus} from '@/main'
 import path from 'path'
@@ -61,7 +61,7 @@ export default {
       }
       const formData = new FormData();
       formData.append('avatar', file);
-      const {ok, error, result} = await UploadService.uploadAvatar(formData, this.onProgress);
+      const {ok, error, result} = await AvatarUpload.uploadAvatar(formData, this.onProgress);
       if (!ok) { 
         this.alert.content = 'Upload failed - Something went wrong. Try again later.';
         return this.alert.show = true;
@@ -78,7 +78,7 @@ export default {
     },
     editAvatarBtn() {
       if(!this.$store.getters.settings.GDriveLinked) {
-        return bus.$emit('GDriveLink:show');
+        return this.$store.dispatch('setPopoutVisibility', {name: 'GDLinkMenu', visibility: true})
       }
       this.$refs.avatarBrowser.click()
     }

@@ -1,0 +1,107 @@
+<template>
+  <div class="popouts">
+    <transition-group name="show" mode="out-in">
+      <settings key="settings" v-if="popouts.settings"/>
+      <upload-dialog key="upload-dialog" v-if="popouts.uploadDialog"/>
+      <GDriveLinkMenu key="GDriveLinkMenu" v-if="popouts.GDLinkMenu"/>
+      <image-large-preview key="ilp" v-if="popouts.ImagePreviewURL"/>
+      <drag-drop-file-upload-dialog key="ddfud" v-if="showUploadDrapDrop"/>
+    </transition-group>
+  </div>
+</template>
+
+<script>
+import { bus } from "@/main";
+//popouts
+import Settings from "@/components/app/Settings.vue";
+import uploadDialog from "@/components/app/uploadDialog.vue";
+import GDriveLinkMenu from "@/components/app/GDriveLinkMenu.vue";
+import imageLargePreview from "@/components/app/imageLargePreview.vue";
+import DragDropFileUploadDialog from "@/components/app/DragDropFileUploadDialog.vue";
+
+export default {
+  components: {
+    Settings,
+    uploadDialog,
+    GDriveLinkMenu,
+    DragDropFileUploadDialog,
+    imageLargePreview
+  },
+  data() {
+    return {
+      showUploadDrapDrop: false,
+      uploadDialogLastTarget: null
+    };
+  },
+  methods: {
+    isFile(evt) {
+      var dt = evt.dataTransfer;
+      for (var i = 0; i < dt.types.length; i++) {
+        if (dt.types[i] === "Files") {
+          return true;
+        }
+      }
+      return false;
+    },
+    dragenter(event) {
+      if (!this.isFile(event) || !this.selectedChannelID) return;
+
+      this.lastTarget = event.target; // cache the last target here
+      this.showUploadDrapDrop = true;
+      event.preventDefault();
+    },
+    dragleave(event) {
+      if (event.target === this.lastTarget || event.target === document) {
+        this.showUploadDrapDrop = false;
+      }
+    },
+    dragover(event) {
+      event.preventDefault();
+    },
+    drop(event) {
+      this.showUploadDrapDrop = false;
+      event.preventDefault();
+      if (!event.dataTransfer.files.length || !this.selectedChannelID) return;
+      this.$store.dispatch("setFile", event.dataTransfer.files[0]);
+      this.$store.dispatch("setPopoutVisibility", {
+        name: "uploadDialog",
+        visibility: true
+      });
+    },
+    uploadDrapDropEvent() {
+      window.addEventListener("dragenter", this.dragenter);
+      window.addEventListener("dragleave", this.dragleave);
+      window.addEventListener("dragover", this.dragover);
+      window.addEventListener("drop", this.drop);
+    }
+  },
+  mounted() {
+    this.uploadDrapDropEvent();
+  },
+  destroyed() {
+    window.removeEventListener("dragenter", this.dragenter);
+    window.removeEventListener("dragleave", this.dragleave);
+    window.removeEventListener("dragover", this.dragover);
+    window.removeEventListener("drop", this.drop);
+  },
+  computed: {
+    popouts() {
+      return this.$store.getters.popouts;
+    },
+    selectedChannelID() {
+      return this.$store.getters.selectedChannelID;
+    }
+  }
+};
+</script>
+
+<style scoped>
+.show-enter-active,
+.show-leave-active {
+  transition: opacity 0.3s;
+}
+.show-enter, .show-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+
+}
+</style>

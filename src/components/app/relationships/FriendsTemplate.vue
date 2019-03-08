@@ -42,6 +42,7 @@ export default {
       }
       this.$store.dispatch('selectedChannelID', this.$props.channelID);
       this.$store.dispatch('setChannelName', this.$props.username);
+      if (this.$store.getters.messages[this.$props.channelID]) return;
       if (this.$store.getters.channels[this.$props.channelID] && !this.$store.getters.messages[this.$props.channelID]) return this.getMessages();
       const {ok, error, result} = await channelService.post(this.$props.channelID);
       if ( ok ) {

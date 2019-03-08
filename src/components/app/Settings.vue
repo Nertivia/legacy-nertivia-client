@@ -60,7 +60,7 @@ export default {
       this.title = title;
     },
     close() {
-      bus.$emit('closeSettings');
+      this.$store.dispatch('setPopoutVisibility', {name: 'settings', visibility: false})
     }
   }
 }

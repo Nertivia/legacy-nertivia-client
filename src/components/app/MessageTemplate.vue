@@ -1,179 +1,284 @@
 <template>
-	<div :class="{message: true, ownMessage: user.uniqueID === $props.uniqueID}">
-		<div class="profile-picture" :style="`background-image: url(${userAvatar})`"></div>
-		<div class="triangle">
-			<div class="triangle-inner"></div>
-		</div>
-		<div class="content">
-			<div class="user-info">
-                <div class="username">{{this.$props.username}}</div>
-                <div class="date">{{getDate}}</div>
-            </div>
-			<div class="content-message" v-html="formatMessage"></div>
-		</div>
-		<div class="sending-status">{{statusMessage}}</div>
-	</div>
+  <div :class="{message: true, ownMessage: user.uniqueID === $props.uniqueID}">
+    <div class="profile-picture" :style="`background-image: url(${userAvatar})`"></div>
+    <div class="triangle">
+      <div class="triangle-inner"></div>
+    </div>
+    <div class="content">
+      <div class="user-info">
+        <div class="username">{{this.$props.username}}</div>
+        <div class="date">{{getDate}}</div>
+      </div>
+      <div class="content-message" v-html="formatMessage"></div>
+
+      <div class="file-content" v-if="getFile">
+        <div class="icon">
+          <i class="material-icons">insert_drive_file</i>
+        </div>
+        <div class="information">
+          <div class="info">{{getFile.fileName}}</div>
+          <a :href="getFile.url" target="_blank">
+            <div class="download-button">Download</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="image-content" v-if="getImage">
+        <img :src="getImage" @click="imageClicked">
+      </div>
+    </div>
+    <div class="sending-status">{{statusMessage}}</div>
+  </div>
 </template>
 
 
 <script>
-import messageFormatter from '@/messageFormatter.js'
-import config from '@/config.js'
-import friendlyDate from '@/date'
-export default {
-	props: ['message', 'status', 'username', 'avatar', 'date', 'uniqueID'],
-	computed: {
-        formatMessage() {
-            return messageFormatter(this.$props.message)
-        },
-        getDate() {
-            return friendlyDate(this.$props.date);
-        },
-		userAvatar() {
-			return config.domain + "/avatars/" + this.$props.avatar
-		},
-		statusMessage(){
-			let status = this.$props.status;
+import messageFormatter from "@/messageFormatter.js";
+import config from "@/config.js";
+import friendlyDate from "@/date";
+import path from "path";
 
-			if (status == 0) {
-				return "Sending"
-			} else if (status == 1) {
-				return "Sent"
-			} else if (status == 2) {
-				return "Failed"
-			} else {
-				return ""
-			}
-        },
-        user() {
-            return this.$store.getters.user
-        }
-	}
-}
+export default {
+  props: [
+    "message",
+    "status",
+    "username",
+    "avatar",
+    "date",
+    "uniqueID",
+    "files"
+  ],
+  methods: {
+    imageClicked(event) {
+      this.$store.dispatch("setImagePreviewURL", event.target.src);
+    }
+  },
+  computed: {
+    getImage() {
+      if (!this.$props.files || this.$props.files.length === 0)
+        return undefined;
+      const file = this.$props.files[0];
+      if (!file.fileID) return undefined;
+      const filetypes = /jpeg|jpg|gif|png/;
+      const extname = filetypes.test(path.extname(file.fileName).toLowerCase());
+      if (!extname) return undefined;
+      return config.domain + "/files/" + file.fileID;
+    },
+    getFile() {
+      if (!this.$props.files || this.$props.files.length === 0)
+        return undefined;
+      let file = this.$props.files[0];
+      if (!file.fileID) return undefined;
+      const filetypes = /jpeg|jpg|gif|png/;
+      const extname = filetypes.test(path.extname(file.fileName).toLowerCase());
+      if (extname) return undefined;
+      file.url = config.domain + '/files/' + file.fileID;
+      return file;
+    },
+    formatMessage() {
+      return messageFormatter(this.$props.message);
+    },
+    getDate() {
+      return friendlyDate(this.$props.date);
+    },
+    userAvatar() {
+      return config.domain + "/avatars/" + this.$props.avatar;
+    },
+    statusMessage() {
+      let status = this.$props.status;
+
+      if (status == 0) {
+        return "Sending";
+      } else if (status == 1) {
+        return "Sent";
+      } else if (status == 2) {
+        return "Failed";
+      } else {
+        return "";
+      }
+    },
+    user() {
+      return this.$store.getters.user;
+    }
+  }
+};
 </script>
 
 
 <style scoped>
+.message {
+  margin: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
 
-.message{
-    margin: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    display: flex;
-
-    animation: showMessage .3s ease-in-out;
+  animation: showMessage 0.3s ease-in-out;
 }
 
-.ownMessage .triangle-inner{
-    border-right: 7px solid rgba(184, 184, 184, 0.219);
+.ownMessage .triangle-inner {
+  border-right: 7px solid rgba(184, 184, 184, 0.219);
 }
-.ownMessage .content{
-    background: rgba(184, 184, 184, 0.219);
+.ownMessage .content {
+  background: rgba(184, 184, 184, 0.219);
+}
+.ownMessage .date {
+  color: rgb(209, 209, 209);
+}
 
+.file-content {
+  display: flex;
+  background: rgba(0, 0, 0, 0.089);
+  padding: 10px;
+  margin-top: 5px;
+}
+.file-content .material-icons {
+  font-size: 40px;
+}
+.file-content .download-button {
+  font-size: 14px;
+  background: rgba(0, 0, 0, 0.158);
+  border-radius: 3px;
+  padding: 3px;
+  text-align: center;
+  display: inline-block;
+  margin-top: 3px;
+  transition: 0.3s;
+  user-select: none;
+  cursor: default;
+  color: white;
+}
+.file-content .download-button:hover {
+  background: rgba(0, 0, 0, 0.329);
+}
+.file-content .info {
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: pre-wrap;
+  font-size: 14px;
+  overflow: hidden;
+  max-width: 100%;
+  color: white;
+  overflow-wrap: anywhere;
+  margin-top: 3px;
 }
 
 @keyframes showMessage {
-    from {
-        transform: translate(0px, 9px);
-        opacity: 0;
-    }
+  from {
+    transform: translate(0px, 9px);
+    opacity: 0;
+  }
 }
 
-.profile-picture{
-    height: 50px;
-    width: 50px;
-    background-color: rgba(0, 0, 0, 0.281);
-    margin: auto;
-    margin-bottom: 0;
-    border-radius: 50%;
-    margin-right: 5px;
-    margin-left: 0;
-    flex-shrink: 0;
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
+.profile-picture {
+  height: 50px;
+  width: 50px;
+  background-color: rgba(0, 0, 0, 0.281);
+  margin: auto;
+  margin-bottom: 0;
+  border-radius: 50%;
+  margin-right: 5px;
+  margin-left: 0;
+  flex-shrink: 0;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
-.triangle{
-    display: flex;
-    justify-content: bottom;
-    flex-direction: column;
-    margin: auto;
-    margin-left: 0;
-    margin-right: 0px;
-    margin-bottom: 8.7px;
+.triangle {
+  display: flex;
+  justify-content: bottom;
+  flex-direction: column;
+  margin: auto;
+  margin-left: 0;
+  margin-right: 0px;
+  margin-bottom: 8.7px;
 }
-.triangle-inner{
-    width: 0;
-    height: 0;
+.triangle-inner {
+  width: 0;
+  height: 0;
 
-    border-top: 1px solid transparent;
-    border-bottom: 7px solid transparent;
-    border-right: 7px solid rgba(0, 0, 0, 0.301);
+  border-top: 1px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-right: 7px solid rgba(0, 0, 0, 0.301);
 }
 
-.content{
-    background: rgba(0, 0, 0, 0.301);
-    padding: 10px;
+.content {
+  background: rgba(0, 0, 0, 0.301);
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 10px;
+  color: rgb(231, 231, 231);
+  margin: auto;
+  margin-left: 0;
+  margin-right: 0;
+  transition: 1s;
+}
 
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    border-radius: 10px;
-    color: rgb(231, 231, 231);
-    margin: auto;
-    margin-left: 0;
-    margin-right: 0;
-    transition: 1s;
+.image-content {
+  margin-top: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.493);
+  display: -ms-flexbox;
+  display: flex;
+  flex-direction: column;
+}
+.image-content img {
+  width: 170px;
+  height: auto;
+  transition: 0.2s;
+}
+.image-content:hover img {
+  filter: brightness(70%);
 }
 .user-info {
-    display: flex;
+  display: flex;
 }
 .username {
-    color: rgb(219, 219, 219);
-    font-size: 14px;
-    margin: auto;
-    margin-left: 0;
-    margin-right: 0;
+  color: rgb(219, 219, 219);
+  font-size: 14px;
+  margin: auto;
+  margin-left: 0;
+  margin-right: 0;
 }
-.date{
-    color: rgb(161, 161, 161);
-    font-size: 10px;
-    margin: auto;
-    margin-left: 5px;
-
+.date {
+  color: rgb(161, 161, 161);
+  font-size: 10px;
+  margin: auto;
+  margin-left: 5px;
 }
 .content-message {
-    word-wrap: break-word;
-    word-break: break-word;
-    white-space: pre-wrap;
-    font-size: 14px;
-    overflow: hidden;
-    max-width: 100%;
-    color: white;
-    overflow-wrap: anywhere;
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: pre-wrap;
+  font-size: 14px;
+  overflow: hidden;
+  max-width: 100%;
+  color: white;
+  overflow-wrap: anywhere;
+  margin-top: 3px;
 }
 
 .message .sending-status {
-    display: flex;
-    justify-content: flex-end;
-    flex-direction: column;
-    padding-bottom: 5px;
-    margin-left: 10px;
-    font-size: 15px;
-    color: white;
-    align-self: normal;
-    user-select: none;
-    transition: 0.5;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  padding-bottom: 5px;
+  margin-left: 10px;
+  font-size: 15px;
+  color: white;
+  align-self: normal;
+  user-select: none;
+  transition: 0.5;
 }
-
-
 </style>
 
 <style>
-.codeblock{
-    background-color: rgba(0, 0, 0, 0.397);
-    padding: 5px;
-    border-radius: 5px;
+.codeblock {
+  background-color: rgba(0, 0, 0, 0.397);
+  padding: 5px;
+  border-radius: 5px;
 }
 </style>

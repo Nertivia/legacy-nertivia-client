@@ -18,12 +18,18 @@ const getters = {
 const actions = {
     setSettings(context, settings) {
         context.commit('setSettings', settings)
+    },
+    setGDriveLinked(context, status) {
+        context.commit('GoogleDriveLinked', status)
     }
 }
 
 const mutations = {
     setSettings(state, settings) {
         state.settings = settings;
+    },
+    GoogleDriveLinked(state, status) {
+        Vue.set(state.settings, 'GDriveLinked', status)
     }
 }
 

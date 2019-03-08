@@ -50,7 +50,7 @@ export default {
       }
     },
     openSettings() {
-      bus.$emit('openSettings');
+      this.$store.dispatch('setPopoutVisibility', {name: 'settings', visibility: true})
     }
   },
    created() {

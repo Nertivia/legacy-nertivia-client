@@ -2,6 +2,7 @@ import {bus} from '../../main'
 import {router} from './../../router'
 import Vue from 'vue';
 
+
 const state = {
 
 }
@@ -101,6 +102,10 @@ const actions = {
   ['socket_notification:dismiss'](context, data){
     const {channelID} = data;
     context.dispatch('dismissNotification', channelID);
+  },
+  ['socket_googleDrive:linked'](context) {
+    context.dispatch('setPopoutVisibility', {name: 'GDLinkMenu', visibility: false})
+    context.dispatch('setGDriveLinked', true)
   }
 }
 
