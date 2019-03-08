@@ -144,6 +144,10 @@ export default {
         name: "uploadDialog",
         visibility: false
       });
+      this.$store.dispatch("setPopoutVisibility", {
+        name: "GDLinkMenu",
+        visibility: true
+      });
     }
   },
   mounted() {
