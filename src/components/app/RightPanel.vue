@@ -31,15 +31,24 @@
     <news v-else/>
     <div class="chat-input-area" v-if="selectedChannelID">
       <div class="message-area">
+
         <input type="file" ref="sendFileBrowse" @change="attachmentChange" class="hidden">
         <div class="attachment-button" @click="attachmentButton">
           <i class="material-icons">attach_file</i>
         </div>
         <textarea
           class="chat-input"
+          rows="1"
           ref="input-box"
           placeholder="Message"
           @keydown="chatInput"
+
+          @keyup="delayedResize"
+          @change="resize"
+          @input="onInput"
+          v-model="message"
+        ></textarea>
+        <button :class="{'send-button': true, 'error-send-button': messageLength > 5000}" @click="sendMessage">Send</button>
           @input="onInput"
           @paste="onPaste"
           v-model="message"
@@ -168,6 +177,28 @@ export default {
         await typingService.post(this.selectedChannelID);
       }, 2000);
     },
+
+    resize(event) {
+      let input = this.$refs["input-box"]
+
+      if(input.scrollHeight < 50) {
+        input.style.height = '1em'
+      } else {
+        input.style.height = 'auto';
+        input.style.height = `calc(${input.scrollHeight}px - 1em)`;
+      }
+    },
+    delayedResize(event) {
+      this.resize(event)
+    },
+    async onInput(event){
+      this.delayedResize(event)
+
+      this.messageLength = this.message.length;
+      const value = event.target.value.trim();
+      if (value && this.postTimerID == null) {
+        this.postTimer()
+
     async onInput(event) {
       this.messageLength = this.message.length;
       const value = event.target.value.trim();
@@ -178,6 +209,8 @@ export default {
       }
     },
     chatInput(event) {
+      this.delayedResize(event)
+
       // when enter is press
       if (event.keyCode == 13) {
         // and the shift key is not held
@@ -414,6 +447,7 @@ export default {
   display: flex;
   width: 100%;
 }
+
 .chat-input {
   font-family: "Roboto", sans-serif;
   background: rgba(0, 0, 0, 0.158);
@@ -428,6 +462,9 @@ export default {
   outline: none;
   padding-left: 10px;
   transition: 0.3s;
+  height: 1em;
+  overflow: hidden;
+  max-height: 30vh;
 }
 
 .chat-input:hover {
