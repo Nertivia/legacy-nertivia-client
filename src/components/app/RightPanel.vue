@@ -458,6 +458,7 @@ export default {
   height: 1em;
   overflow: hidden;
   max-height: 30vh;
+  overflow-y: auto;
 }
 
 .chat-input:hover {
