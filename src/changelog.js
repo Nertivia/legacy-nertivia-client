@@ -1,5 +1,22 @@
 const config = [
   {
+    title: 'Upload anything!',
+    shortTitle: 'Upload anything!',
+    date: '08/03/2019',
+    new: [
+      'You can now upload any kind of files to friends. (Google drive required)',
+      'Shift + enter should expand the text area.',
+      'Made some design changes to the home page panel.'
+    ],
+    fix: [
+      'Improved performance by using Redis in more places.',
+      'Small bugs fixed around some places.'
+    ],
+    next: [
+      'Servers or emojis.',
+    ]
+  },
+  {
     title: 'Notifications are finally here!',
     shortTitle: 'Notifications',
     date: '18/02/2019',
