@@ -28,13 +28,13 @@ import LeftPanel from "./../components/app/LeftPanel.vue";
 import RightPanel from "./../components/app/RightPanel.vue";
 import ConnectingScreen from "./../components/app/ConnectingScreen.vue";
 
+
 export default {
   name: "app",
   components: {
     LeftPanel,
     RightPanel,
     ConnectingScreen,
-    Popouts
   },
   data() {
     return {

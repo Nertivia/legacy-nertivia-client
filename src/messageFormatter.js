@@ -39,7 +39,7 @@ export default  (message) => {
 
     futoji.addTransformer({
         name: 'code-block', 
-        symbol: '``\`',
+        symbol: '```',
         recursive: false,
         transformer: text => `<div class="codeblock"><code>${formatCode(text.trim())}</code></div>`,
     })

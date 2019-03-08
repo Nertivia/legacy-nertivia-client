@@ -55,10 +55,7 @@ import Spinner from '@/components/Spinner.vue'
 import ChangeLog from '@/components/ChangeLog.vue'
 import changelog from '@/changelog.js'
 export default {
-  components: {
-    Spinner,
-    ChangeLog
-  },
+  components: {},
   data() {
     return {
       changelog: changelog[0]
