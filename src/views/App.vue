@@ -35,6 +35,7 @@ export default {
     LeftPanel,
     RightPanel,
     ConnectingScreen,
+    Popouts
   },
   data() {
     return {
