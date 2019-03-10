@@ -45,14 +45,13 @@ export default {
 <style scoped>
 .logged-in {
   color: white;
-
   margin-top: 10px;
+  z-index: -1;
 }
 
 .card{
   background-color: rgba(0, 0, 0, 0.041);
   padding: 20px;
-
   margin-bottom: 30px;
   display: flex;
   flex-direction: column;
@@ -63,6 +62,7 @@ export default {
   justify-content: center;
   justify-items: center;
   text-align: center;
+
 }
 
 .title {

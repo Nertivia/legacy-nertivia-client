@@ -87,7 +87,9 @@ export default {
 
   animation: Anime 4s ease infinite;
 }
-
+.cute .emote {
+  z-index: 999;
+}
 @keyframes Anime {
   0% {
     background-position: 0% 50%;

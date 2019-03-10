@@ -118,6 +118,7 @@ export default {
     display: flex;
     flex-direction: column;
     height: 100%;
+    z-index: 0;
 }
 .new-member{
   display: flex;
