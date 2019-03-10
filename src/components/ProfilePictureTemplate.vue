@@ -56,13 +56,13 @@ export default {
   margin: auto;
   background: linear-gradient(
     45deg,
-    #288cff 1%,
-    #288cff 40%,
-    #63acff 50%,
-    #288cff 60%,
-    #288cff 99%,
-    #288cff 100%,
-    #288cff 100%
+    #ffd828 1%,
+    #ffd828 40%,
+    #ffd828 50%,
+    #ffe87f 60%,
+    #ffd828 99%,
+    #ffd828 100%,
+    #ffd828 100%
   );
   background-size: 400% 400%;
 
@@ -89,6 +89,8 @@ export default {
 }
 .cute .emote {
   z-index: 999;
+  top: -3px;
+  left: -3px;
 }
 @keyframes Anime {
   0% {
