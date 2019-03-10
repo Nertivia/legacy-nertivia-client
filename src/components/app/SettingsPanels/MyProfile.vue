@@ -1,6 +1,6 @@
 <template>
   <div class="my-profile-panel">
-    <profile-picture :url="avatar" height="100px" width="100px" />
+    <profile-picture :url="avatar" :admin="user.admin" height="100px" width="100px" />
     <div class="information">
       <div class="username">
         <strong>Username:</strong>

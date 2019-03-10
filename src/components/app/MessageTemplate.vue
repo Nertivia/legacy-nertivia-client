@@ -1,6 +1,6 @@
 <template>
   <div :class="{message: true, ownMessage: user.uniqueID === $props.uniqueID}">
-    <profile-picture :url="userAvatar" height="50px" width="50px"/>
+    <profile-picture :admin="$props.admin" :url="userAvatar" height="50px" width="50px"/>
     <div class="triangle">
       <div class="triangle-inner"></div>
     </div>
@@ -39,6 +39,7 @@ import config from "@/config.js";
 import friendlyDate from "@/date";
 import path from "path";
 
+
 export default {
   components: {
     ProfilePicture
@@ -50,7 +51,8 @@ export default {
     "avatar",
     "date",
     "uniqueID",
-    "files"
+    "files",
+    "admin"
   ],
   methods: {
     imageClicked(event) {
@@ -174,6 +176,9 @@ export default {
 }
 
 .profile-picture {
+  margin: auto;
+  margin-left: 0;
+  margin-right: 5px;
   margin-bottom: 0;
 }
 
@@ -273,5 +278,13 @@ export default {
   background-color: rgba(0, 0, 0, 0.397);
   padding: 5px;
   border-radius: 5px;
+}
+</style>
+<style>
+img.emoji {
+   height: 1.5em;
+   width: 1.5em;
+   margin: 0 .05em 0 .1em;
+   vertical-align: -0.1em;
 }
 </style>

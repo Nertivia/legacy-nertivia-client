@@ -18,6 +18,7 @@
           v-for="(msg, index) in messages[selectedChannelID]"
           :key="index"
           :date="msg.created"
+          :admin="msg.creator.admin"
           :username="msg.creator.username"
           :uniqueID="msg.creator.uniqueID"
           :avatar="msg.creator.avatar"

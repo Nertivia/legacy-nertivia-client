@@ -1,6 +1,6 @@
 <template>
   <div class="my-mini-information">
-    <profile-picture :url="avatar" height="50px" width="50px"/>
+    <profile-picture :url="avatar" :admin="user.admin" height="50px" width="50px"/>
     <div class="information">
       <div class="name">{{user.username}}</div>
       <div class="tag">@{{user.tag}}</div>
