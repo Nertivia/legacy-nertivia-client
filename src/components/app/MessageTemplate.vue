@@ -212,6 +212,7 @@ export default {
   margin-left: 0;
   margin-right: 0;
   transition: 1s;
+  overflow: hidden;
 }
 
 .image-content {

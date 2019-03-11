@@ -128,7 +128,7 @@ export default {
       this.postTimerID = null;
       this.messageLength = 0;
 
-      const msg = shortcodeToEmoji(this.message);;
+      const msg = shortcodeToEmoji(this.message);
       const tempID = this.generateNum(25);
 
 
@@ -380,10 +380,12 @@ export default {
 
 .right-panel {
   height: 100%;
+  width: 100%;
   background-color: rgba(0, 0, 0, 0.507);
   flex: 1;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 .message-logs {
   overflow: auto;
