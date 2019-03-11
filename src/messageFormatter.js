@@ -3,9 +3,10 @@ import twemoji from 'twemoji'
 
 
 export default (message) => {
+
+
 	message = twemoji.parse(escapeHtml(message),
 		function (icon, options, variant) {
-			console.log(icon)
 			return require("twemoji/2/svg/" + icon + ".svg")
 		})
 

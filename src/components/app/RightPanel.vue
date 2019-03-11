@@ -80,6 +80,7 @@ import Message from "../../components/app/MessageTemplate.vue";
 import Spinner from "@/components/Spinner.vue";
 import TypingStatus from "@/components/app/TypingStatus.vue";
 import uploadsQueue from "@/components/app/uploadsQueue.vue";
+import shortcodeToEmoji from "@/shortcodeToEmoji.js";
 
 export default {
   components: {
@@ -127,15 +128,16 @@ export default {
       this.postTimerID = null;
       this.messageLength = 0;
 
-      const msg = this.message;
+      const msg = shortcodeToEmoji(this.message);;
       const tempID = this.generateNum(25);
+
 
       this.$store.dispatch("addMessage", {
         sender: true,
         channelID: this.selectedChannelID,
         message: {
           tempID,
-          message: this.message,
+          message: msg,
           channelID: this.selectedChannelID,
           created: new Date()
         }
@@ -483,8 +485,6 @@ export default {
   transition: 0.3s;
   display: flex;
   flex-shrink: 0;
-
-
 }
 .send-button .material-icons {
   margin: auto;
