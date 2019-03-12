@@ -1,7 +1,7 @@
 import {bus} from '../../main'
 import {router} from './../../router'
 import Vue from 'vue';
-import NotificationSounds from '@/notificationSound';
+import NotificationSounds from '@/utils/notificationSound';
 
 const state = {
   notifications: []

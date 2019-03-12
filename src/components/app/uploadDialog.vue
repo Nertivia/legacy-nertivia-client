@@ -37,7 +37,7 @@
 
 <script>
 import filesize from "filesize";
-import emojiParser from "@/emojiParser.js";
+import emojiParser from "@/utils/emojiParser.js";
 import messagesService from "@/services/messagesService";
 import { bus } from "../../main";
 export default {

@@ -80,7 +80,7 @@ import Message from "../../components/app/MessageTemplate.vue";
 import Spinner from "@/components/Spinner.vue";
 import TypingStatus from "@/components/app/TypingStatus.vue";
 import uploadsQueue from "@/components/app/uploadsQueue.vue";
-import emojiParser from "@/emojiParser.js";
+import emojiParser from "@/utils/emojiParser.js";
 
 export default {
   components: {
@@ -97,7 +97,8 @@ export default {
       postTimerID: null,
       getTimerID: null,
       typing: false,
-      whosTyping: ""
+      whosTyping: "",
+      showEmojiSuggestions: false
     };
   },
   methods: {
@@ -188,6 +189,14 @@ export default {
     delayedResize(event) {
       this.resize(event);
     },
+    showEmojiPopout(shortcode) {
+      if (shortcode.length < 3) return this.showEmojiSuggestions = false;
+      const searchArr = emojiParser.searchEmoji(shortcode.slice(1, -1))
+      if (searchArr.length <=0) return this.showEmojiSuggestions = false;
+      return this.showEmojiSuggestions = true;
+      console.log(searchArr)
+      
+    },
     async onInput(event) {
       this.delayedResize(event);
       this.messageLength = this.message.length;
@@ -196,6 +205,9 @@ export default {
         this.postTimer();
         await typingService.post(this.selectedChannelID);
       }
+
+      const shortCode = this.message.split(" ").pop()
+      if (shortCode && shortCode.startsWith(":")) this.showEmojiPopout(shortCode);
     },
     chatInput(event) {
       this.delayedResize(event);

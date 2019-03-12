@@ -53,7 +53,7 @@
 <script>
 import Spinner from '@/components/Spinner.vue'
 import ChangeLog from '@/components/ChangeLog.vue'
-import changelog from '@/changelog.js'
+import changelog from '@/utils/changelog.js'
 export default {
   components: {},
   data() {

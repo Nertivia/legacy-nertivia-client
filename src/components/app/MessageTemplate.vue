@@ -34,9 +34,9 @@
 
 <script>
 import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
-import messageFormatter from "@/messageFormatter.js";
+import messageFormatter from "@/utils/messageFormatter.js";
 import config from "@/config.js";
-import friendlyDate from "@/date";
+import friendlyDate from "@/utils/date";
 import path from "path";
 
 

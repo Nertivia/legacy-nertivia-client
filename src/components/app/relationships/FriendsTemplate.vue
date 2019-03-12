@@ -19,7 +19,7 @@
 import channelService from '@/services/channelService';
 import messagesService from '@/services/messagesService';
 import config from '@/config.js'
-import statuses from '@/statuses';
+import statuses from '@/utils/statuses';
 import {bus} from '@/main'
 
 export default {

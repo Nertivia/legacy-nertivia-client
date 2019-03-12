@@ -4,7 +4,7 @@ import {
   bus
 } from '../../main'
 import VueRouter from 'vue-router';
-import NotificationSounds from '@/notificationSound';
+import NotificationSounds from '@/utils/notificationSound';
 
 const state = {
   fileToUpload: null,

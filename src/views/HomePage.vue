@@ -40,7 +40,7 @@
 import {bus} from '../main';
 import RightPanel from "./../components/homePage/RightPanel.vue"
 import ChangeLog from "./../components/ChangeLog.vue"
-import changelog from '@/changelog.js'
+import changelog from '@/utils/changelog.js'
 export default {
   components: {
     RightPanel,

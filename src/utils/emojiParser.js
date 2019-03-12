@@ -22,6 +22,7 @@ export default {
 			for (let i = 0; i < element.shortcodes.length; i++) {
 				const el2 = element.shortcodes[i];
 				if (el2.includes(shortCode)) array.push(element);
+				if (array.length >= 10) return array;
 			}
 		}
 		return array;

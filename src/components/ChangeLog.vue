@@ -44,7 +44,7 @@
 
 <script>
 import {bus} from './../main.js'
-import changelog from '@/changelog.js'
+import changelog from '@/utils/changelog.js'
 export default {
   data() {
     return {
