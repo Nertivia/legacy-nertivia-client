@@ -194,7 +194,8 @@ export default {
       const searchArr = emojiParser.searchEmoji(shortcode.slice(1, -1))
       if (searchArr.length <=0) return this.showEmojiSuggestions = false;
       return this.showEmojiSuggestions = true;
-      console.log(searchArr)
+      //console.log(searchArr)
+      //TODO make a component.
       
     },
     async onInput(event) {

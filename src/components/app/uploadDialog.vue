@@ -259,8 +259,6 @@ export default {
 .button .text {
   margin-left: 5px;
 }
-.send-button {
-}
 .close-button {
   padding-right: 10px;
 }
