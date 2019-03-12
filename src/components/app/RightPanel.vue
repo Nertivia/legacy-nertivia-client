@@ -80,7 +80,7 @@ import Message from "../../components/app/MessageTemplate.vue";
 import Spinner from "@/components/Spinner.vue";
 import TypingStatus from "@/components/app/TypingStatus.vue";
 import uploadsQueue from "@/components/app/uploadsQueue.vue";
-import shortcodeToEmoji from "@/shortcodeToEmoji.js";
+import emojiParser from "@/emojiParser.js";
 
 export default {
   components: {
@@ -128,7 +128,7 @@ export default {
       this.postTimerID = null;
       this.messageLength = 0;
 
-      const msg = shortcodeToEmoji(this.message);
+      const msg = emojiParser.replaceShortcode(this.message);
       const tempID = this.generateNum(25);
 
 

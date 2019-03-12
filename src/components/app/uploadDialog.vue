@@ -37,6 +37,7 @@
 
 <script>
 import filesize from "filesize";
+import emojiParser from "@/emojiParser.js";
 import messagesService from "@/services/messagesService";
 import { bus } from "../../main";
 export default {
@@ -85,7 +86,7 @@ export default {
     async send() {
       const tempID = this.generateNum(25);
       const formData = new FormData();
-      formData.append("message", this.message);
+      formData.append("message", emojiParser.replaceShortcode(this.message));
       formData.append("avatar", this.popouts.fileToUpload);
       this.$store.dispatch("setPopoutVisibility", {
         name: "uploadDialog",
@@ -287,7 +288,7 @@ export default {
   outline: none;
   transition: 0.3s;
 }
-@media (max-width: 400px) {
+@media (max-width: 518px) {
   .inner {
     align-content: center;
     align-items: center;

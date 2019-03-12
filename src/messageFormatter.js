@@ -7,6 +7,7 @@ export default (message) => {
 
 	message = twemoji.parse(escapeHtml(message),
 		function (icon, options, variant) {
+			if (!icon) return message;
 			return require("twemoji/2/svg/" + icon + ".svg")
 		})
 
