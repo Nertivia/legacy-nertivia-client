@@ -49,7 +49,7 @@ export default (message) => {
 		name: 'code-block',
 		symbol: '```',
 		recursive: false,
-		transformer: text => `<div class="codeblock"><code>${formatCode(text.trim())}</code></div>`,
+		transformer: text => `<div class="codeblock"><code>${formatCode(text).trim()}</code></div>`,
 	})
 
 	futoji.addTransformer({
@@ -67,7 +67,7 @@ export default (message) => {
 function formatCode(text) {
 	// matches if word until newline
 	// if spaces then it won't match
-	let nameRegex = new RegExp('^(\\w+)\\n')
+	let nameRegex = new RegExp('^(\\w+)\\s')
 
 	if (nameRegex.test(text)) {
 		let language = nameRegex.exec(text)[1]
