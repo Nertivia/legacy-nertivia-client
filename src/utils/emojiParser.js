@@ -1,4 +1,5 @@
 import emojis from "emojibase-data/en/compact.json";
+import matchSorter from "match-sorter";
 import {
 	groups
 } from "emojibase-data/meta/groups.json";
@@ -22,10 +23,10 @@ export default {
 			for (let i = 0; i < element.shortcodes.length; i++) {
 				const el2 = element.shortcodes[i];
 				if (el2.includes(shortCode)) array.push(element);
-				if (array.length >= 10) return array;
+
 			}
 		}
-		return array;
+		return matchSorter(emojis, shortCode, {keys: ['shortcodes']});
 	}
 }
 

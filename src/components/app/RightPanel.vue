@@ -29,8 +29,11 @@
         <uploadsQueue v-if="uploadQueue !== undefined" :queue="uploadQueue"/>
       </div>
     </div>
-    <news v-else/>
+    <news v-if="!selectedChannelID && !messages[selectedChannelID]"/>
     <div class="chat-input-area" v-if="selectedChannelID">
+      <div class="emoji-suggestion-outer" v-if="showEmojiSuggestions">
+        <emoji-suggestions :emojiArray="emojiSuggestionsArray"/>
+      </div>
       <div class="message-area">
         <input type="file" ref="sendFileBrowse" @change="attachmentChange" class="hidden">
         <div class="attachment-button" @click="attachmentButton">
@@ -80,6 +83,7 @@ import Message from "../../components/app/MessageTemplate.vue";
 import Spinner from "@/components/Spinner.vue";
 import TypingStatus from "@/components/app/TypingStatus.vue";
 import uploadsQueue from "@/components/app/uploadsQueue.vue";
+import emojiSuggestions from "@/components/app/emojiSuggestions.vue";
 import emojiParser from "@/utils/emojiParser.js";
 
 export default {
@@ -88,7 +92,8 @@ export default {
     Spinner,
     News,
     TypingStatus,
-    uploadsQueue
+    uploadsQueue,
+    emojiSuggestions
   },
   data() {
     return {
@@ -98,7 +103,8 @@ export default {
       getTimerID: null,
       typing: false,
       whosTyping: "",
-      showEmojiSuggestions: false
+      showEmojiSuggestions: false,
+      emojiSuggestionsArray: []
     };
   },
   methods: {
@@ -131,7 +137,6 @@ export default {
 
       const msg = emojiParser.replaceShortcode(this.message);
       const tempID = this.generateNum(25);
-
 
       this.$store.dispatch("addMessage", {
         sender: true,
@@ -168,7 +173,7 @@ export default {
     },
     async postTimer() {
       this.postTimerID = setInterval(async () => {
-        if (this.$refs["input-box"].value.trim() == "") {
+        if (this.message.trim() == "") {
           clearInterval(this.postTimerID);
           return (this.postTimerID = null);
         }
@@ -189,16 +194,17 @@ export default {
     delayedResize(event) {
       this.resize(event);
     },
-    showEmojiPopout(shortcode) {
-      if (shortcode.length < 3) return this.showEmojiSuggestions = false;
-      const searchArr = emojiParser.searchEmoji(shortcode.slice(1, -1))
-      if (searchArr.length <=0) return this.showEmojiSuggestions = false;
-      return this.showEmojiSuggestions = true;
-      //console.log(searchArr)
-      //TODO make a component.
-      
+    showEmojiPopout() {
+      const shortcode = this.message.split(" ").pop();
+      if (!shortcode || !shortcode.startsWith(":") || shortcode.endsWith(":") || shortcode.length < 3)
+        return (this.showEmojiSuggestions = false);
+      const searchArr = emojiParser.searchEmoji(shortcode.slice(1, -1));
+      if (searchArr.length <= 0) return (this.showEmojiSuggestions = false);
+      this.showEmojiSuggestions = true;
+      this.emojiSuggestionsArray = searchArr;
     },
     async onInput(event) {
+      this.showEmojiPopout();
       this.delayedResize(event);
       this.messageLength = this.message.length;
       const value = event.target.value.trim();
@@ -206,9 +212,6 @@ export default {
         this.postTimer();
         await typingService.post(this.selectedChannelID);
       }
-
-      const shortCode = this.message.split(" ").pop()
-      if (shortCode && shortCode.startsWith(":")) this.showEmojiPopout(shortCode);
     },
     chatInput(event) {
       this.delayedResize(event);
@@ -370,7 +373,9 @@ export default {
   display: flex;
   flex-shrink: 0;
 }
-
+.emoji-suggestion-outer {
+  position: relative;
+}
 .show-menu-button {
   display: inline-block;
   margin: auto;
@@ -399,6 +404,7 @@ export default {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  position: relative;
 }
 .message-logs {
   overflow: auto;
@@ -418,6 +424,7 @@ export default {
   flex-direction: column;
   padding-top: 10px;
   margin-bottom: 5px;
+  position: relative;
 }
 
 .attachment-button {
