@@ -1,3 +1,4 @@
+import twemoji from "twemoji";
 import emojis from "emojibase-data/en/compact.json";
 import matchSorter from "match-sorter";
 import {
@@ -15,17 +16,15 @@ export default {
 			return x
 		});
 	},
+	replaceEmojis: (string) => {
+		return twemoji.parse(string,
+			function (icon, options, variant) {
+				if (!icon) return string;
+				return require("twemoji/2/svg/" + icon + ".svg")
+			})
+	},
 
 	searchEmoji: (shortCode) => {
-		let array = []
-		for (let index = 0; index < emojis.length; index++) {
-			const element = emojis[index];
-			for (let i = 0; i < element.shortcodes.length; i++) {
-				const el2 = element.shortcodes[i];
-				if (el2.includes(shortCode)) array.push(element);
-
-			}
-		}
 		return matchSorter(emojis, shortCode, {keys: ['shortcodes']});
 	}
 }

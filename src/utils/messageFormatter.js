@@ -1,15 +1,11 @@
 import futoji from 'futoji'
 import twemoji from 'twemoji'
+import emojiParser from '@/utils/emojiParser';
 
 
 export default (message) => {
 
 
-	message = twemoji.parse(escapeHtml(message),
-		function (icon, options, variant) {
-			if (!icon) return message;
-			return require("twemoji/2/svg/" + icon + ".svg")
-		})
 
 	futoji.addTransformer({
 		name: 'bold-and-italic',
@@ -58,7 +54,13 @@ export default (message) => {
 		recursive: false,
 		transformer: text => `<code>${text}</code>`,
 	})
-	return futoji.format(message);
+
+
+	message = futoji.format(escapeHtml(message));
+
+	message = emojiParser.replaceEmojis(message);
+
+	return message;
 }
 
 /**

@@ -9,13 +9,13 @@
         <span v-else>{{channelName}}</span>
       </div>
     </div>
-    <div class="loading" v-if="selectedChannelID && !messages[selectedChannelID]">
+    <div class="loading" v-if="selectedChannelID && !selectedChannelMessages">
       <spinner/>
     </div>
     <div v-else-if="selectedChannelID" class="message-logs" @wheel="invertScroll">
       <div class="scroll">
         <message
-          v-for="(msg, index) in messages[selectedChannelID]"
+          v-for="(msg, index) in selectedChannelMessages"
           :key="index"
           :date="msg.created"
           :admin="msg.creator.admin"
@@ -29,11 +29,12 @@
         <uploadsQueue v-if="uploadQueue !== undefined" :queue="uploadQueue"/>
       </div>
     </div>
-    <news v-if="!selectedChannelID && !messages[selectedChannelID]"/>
+    <news v-if="!selectedChannelID "/>
     <div class="chat-input-area" v-if="selectedChannelID">
       <div class="emoji-suggestion-outer" v-if="showEmojiSuggestions">
         <emoji-suggestions :emojiArray="emojiSuggestionsArray"/>
       </div>
+
       <div class="message-area">
         <input type="file" ref="sendFileBrowse" @change="attachmentChange" class="hidden">
         <div class="attachment-button" @click="attachmentButton">
@@ -44,8 +45,8 @@
           rows="1"
           ref="input-box"
           placeholder="Message"
-          @keydown="chatInput"
-          @keyup="delayedResize"
+          @keydown="keyDown"
+          @keyup="keyUp"
           @change="resize"
           @input="onInput"
           v-model="message"
@@ -131,6 +132,7 @@ export default {
 
       if (this.message == "") return;
       if (this.message.length > 5000) return;
+      this.showEmojiSuggestions = false;
       clearInterval(this.postTimerID);
       this.postTimerID = null;
       this.messageLength = 0;
@@ -150,6 +152,10 @@ export default {
       });
 
       this.message = "";
+
+      let input = this.$refs["input-box"];
+      input.style.height = "1em";
+
       this.$store.dispatch("updateChannelLastMessage", this.selectedChannelID);
       const { ok, error, result } = await messagesService.post(
         this.selectedChannelID,
@@ -191,21 +197,52 @@ export default {
         input.style.height = `calc(${input.scrollHeight}px - 1em)`;
       }
     },
-    delayedResize(event) {
-      this.resize(event);
+    emojiSwitchKey(event) {
+      if (!this.showEmojiSuggestions) return;
+
+      const keyCode = event.keyCode;
+
+      if (keyCode == 38) {
+        //up
+        bus.$emit("emojiSuggestions:up");
+        event.preventDefault();
+        return;
+      }
+      if (keyCode == 40) {
+        //down
+        bus.$emit("emojiSuggestions:down");
+        event.preventDefault();
+        return;
+      }
     },
-    showEmojiPopout() {
-      const shortcode = this.message.split(" ").pop();
-      if (!shortcode || !shortcode.startsWith(":") || shortcode.endsWith(":") || shortcode.length < 3)
-        return (this.showEmojiSuggestions = false);
-      const searchArr = emojiParser.searchEmoji(shortcode.slice(1, -1));
-      if (searchArr.length <= 0) return (this.showEmojiSuggestions = false);
-      this.showEmojiSuggestions = true;
-      this.emojiSuggestionsArray = searchArr;
+    GetWordByPos(str, pos) {
+      let left = str.substr(0, pos);
+      let right = str.substr(pos);
+
+      left = left.replace(/^.+ /g, "");
+      right = right.replace(/ .+$/g, "");
+
+      return left + right;
+    },
+    showEmojiPopout(event) {
+      if (event.keyCode == 38 || event.keyCode == 40) return; // up/down
+
+      const cursorPosition = event.target.selectionStart;
+      const cursorWord = this.GetWordByPos(this.message, cursorPosition)
+      const cursorLetter = this.message.substring(cursorPosition - 1, cursorPosition)
+
+      if (cursorLetter.trim() == "" || cursorWord.endsWith(":")) 
+        return this.showEmojiSuggestions = false;
+      
+      if (cursorWord.startsWith(":") && cursorWord.length >= 3) {
+        const searchArr = emojiParser.searchEmoji(cursorWord.slice(1, -1));
+        if (searchArr.length <= 0) return (this.showEmojiSuggestions = false);
+        this.emojiSuggestionsArray = searchArr;
+        this.showEmojiSuggestions = true;
+      }
     },
     async onInput(event) {
-      this.showEmojiPopout();
-      this.delayedResize(event);
+      this.resize(event);
       this.messageLength = this.message.length;
       const value = event.target.value.trim();
       if (value && this.postTimerID == null) {
@@ -213,9 +250,13 @@ export default {
         await typingService.post(this.selectedChannelID);
       }
     },
-    chatInput(event) {
-      this.delayedResize(event);
-
+    keyUp(event) {
+      this.resize(event);
+      this.showEmojiPopout(event);
+    },
+    keyDown(event) {
+      this.resize(event);
+      this.emojiSwitchKey(event);
       // when enter is press
       if (event.keyCode == 13) {
         // and the shift key is not held
@@ -331,8 +372,9 @@ export default {
     channel() {
       return this.$store.getters.channels[this.selectedChannelID];
     },
-    messages() {
-      return this.$store.getters.messages;
+    selectedChannelMessages() {
+      const selectedChannel = this.$store.getters.selectedChannelID;
+      return this.$store.getters.messages[selectedChannel];
     },
     selectedChannelID() {
       return this.$store.getters.selectedChannelID;

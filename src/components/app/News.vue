@@ -3,74 +3,72 @@
     <div class="change-log">
       <span class="news-title">Changes in this release</span>
 
-        <div class="change">
-          <div class="date">{{changelog.date}}</div>
-          <div class="changes-title">{{changelog.title}}</div>
-          <div class="information">
-
-            <div v-if="changelog.new">
-              <strong>What's new?</strong><br>
-              <ul>
-                <li v-for="(wnew, index) in changelog.new" :key="index">{{wnew}}</li>
-              </ul>
-            </div> 
-            <div v-if="changelog.fix">
-              <strong>Issues fixed</strong><br>
-              <ul>
-                <li v-for="(wfix, index) in changelog.fix" :key="index">{{wfix}}</li>
-              </ul>
-            </div>
-            <div v-if="changelog.next">
-              <strong>Up next</strong><br>
-              <ul>
-                <li v-for="(wnext, index) in changelog.next" :key="index">{{wnext}}</li>
-              </ul>
-            </div>
-            <div v-if="changelog.msg">
-              {{changelog.msg}}
-            </div>
-
+      <div class="change" v-for="(change, index) in changelog" :key="change.title">
+        <div :class="`heading ${index === 0 ? 'latest': ''}`">
+          <div class="date">{{change.date}}</div>
+          <div class="changes-title">{{change.title}}</div>
+        </div>
+        <div class="information">
+          <div v-if="change.new">
+            <strong>What's new?</strong>
+            <br>
+            <ul>
+              <li v-for="(wnew, index) in change.new" :key="index">{{wnew}}</li>
+            </ul>
           </div>
-        </div>      
+          <div v-if="change.fix">
+            <strong>Issues fixed</strong>
+            <br>
+            <ul>
+              <li v-for="(wfix, index) in change.fix" :key="index">{{wfix}}</li>
+            </ul>
+          </div>
+          <div v-if="change.next">
+            <strong>Up next</strong>
+            <br>
+            <ul>
+              <li v-for="(wnext, index) in change.next" :key="index">{{wnext}}</li>
+            </ul>
+          </div>
+          <div v-if="change.msg">{{change.msg}}</div>
+        </div>
+      </div>
     </div>
 
     <div class="todo-list">
       <span class="news-title">Planned Features</span>
       <p>Features that are coming soon:</p>
       <ul class="plan-list">
-        <li>Online, Offline status (Done)</li>
-        <li>Profile picture</li>
-        <li>Typing indicator</li>
-        <li>Sending files</li>
+        <li>Online, Offline status(Done)</li>
+        <li>Profile picture (done)</li>
+        <li>Typing indicator (done)</li>
+        <li>Sending files (done)</li>
         <li>Custom emojis</li>
         <li>Guilds</li>
       </ul>
     </div>
-
   </div>
 </template>
 
 <script>
-import Spinner from '@/components/Spinner.vue'
-import ChangeLog from '@/components/ChangeLog.vue'
-import changelog from '@/utils/changelog.js'
+import Spinner from "@/components/Spinner.vue";
+import changelog from "@/utils/changelog.js";
 export default {
   components: {},
   data() {
     return {
-      changelog: changelog[0]
-    }
+      changelog: changelog
+    };
   }
-}
+};
 </script>
 
 
 <style scoped>
-
 .news {
   display: flex;
   flex: 1;
-  margin:20px;
+  margin: 20px;
   color: white;
   overflow: auto;
 }
@@ -83,21 +81,35 @@ export default {
   padding-bottom: 10px;
   border-bottom: solid 1px white;
 }
-.todo-list{
+.todo-list {
   flex: 1;
   margin-left: 10px;
   background: rgba(0, 0, 0, 0.137);
   padding: 20px;
 }
-.change-log{
+.change {
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: solid 1px white;
+}
+.heading{
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.555);
+  margin-bottom: 10px;
+}
+.heading.latest {
+  background: rgba(38, 139, 255, 0.87);
+}
+.change-log {
   background: rgba(0, 0, 0, 0.137);
   padding: 20px;
   flex: 1;
+  overflow-y: auto;
 }
-.plan-list{
+.plan-list {
   color: white;
 }
-.date{
+.date {
   text-align: left;
   margin-right: 50px;
   color: rgba(255, 255, 255, 0.692);
@@ -114,12 +126,11 @@ export default {
   .news {
     flex-direction: column;
   }
-  .todo-list{
+  .todo-list {
     margin-left: 0;
   }
   .change-log {
     margin-bottom: 20px;
   }
 }
-
 </style>
