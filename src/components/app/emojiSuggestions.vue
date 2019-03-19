@@ -2,8 +2,9 @@
   <div class="emoji-suggetions-list">
     <div
       v-for="(emoji, index) in $props.emojiArray.slice(0,10)"
-      :class="{emoji: true, selected: index === selectedIndex}"
+      :class="{emojiItem: true, selected: index === emojiIndex}"
       @mouseover="hoverEvent"
+      @click="clickEvent"
       :key="emoji.hexcode"
     >
       <div class="preview" v-html="emojiParser(emoji.unicode)"></div>
@@ -17,48 +18,51 @@ import { bus } from "@/main";
 import emojiParser from "@/utils/emojiParser.js";
 export default {
   props: ["emojiArray"],
-  data() {
-    return {
-      selectedIndex: 0
-    };
-  },
   methods: {
     emojiParser(emoji) {
       return emojiParser.replaceEmojis(emoji);
     },
     hoverEvent(event) {
-      const emoji = event.target.closest(".emoji");
+      const emoji = event.target.closest(".emojiItem");
       const parent = event.target.parentElement.children;
-      if (!emoji || !emoji) return;
+      if (!emoji) return;
       const index = [...parent].findIndex(el => el === emoji);
-      if (index >= 0) this.selectedIndex = index;
+      if (index >= 0) this.$store.dispatch("changeIndex", index);
     },
     KeySwitch(key) {
       if (key == "up") {
-        if (this.selectedIndex == 0)
-          return (this.selectedIndex =
-            this.$props.emojiArray.slice(0, 10).length - 1);
+        if (this.emojiIndex == 0)
+          return this.$store.dispatch(
+            "changeIndex",
+            this.$props.emojiArray.slice(0, 10).length - 1
+          );
 
-        this.selectedIndex--;
+        this.$store.dispatch("changeIndex", this.emojiIndex - 1);
       }
       if (key == "down") {
-        if (
-          this.selectedIndex ==
-          this.$props.emojiArray.slice(0, 10).length - 1
-        )
-          return (this.selectedIndex = 0);
-
-        this.selectedIndex++;
+        if (this.emojiIndex == this.$props.emojiArray.slice(0, 10).length - 1)
+          return this.$store.dispatch("changeIndex", 0);
+        this.$store.dispatch("changeIndex", this.emojiIndex + 1);
       }
     },
+    clickEvent() {
+      bus.$emit('emojiSuggestions:Selected')
+    }
   },
   mounted() {
-    bus.$on("emojiSuggestions:up", () => this.KeySwitch("up"));
-    bus.$on("emojiSuggestions:down", () => this.KeySwitch("down"));
+    bus.$on("emojiSuggestions:key", this.KeySwitch);
+  },
+  destroyed() {
+    bus.$off("emojiSuggestions:key", this.KeySwitch);
   },
   watch: {
     emojiArray() {
-      this.selectedIndex = 0;
+      this.$store.dispatch("changeIndex", 0);
+    }
+  },
+  computed: {
+    emojiIndex() {
+      return this.$store.getters.getEmojiIndex;
     }
   }
 };
@@ -96,7 +100,7 @@ export default {
 .short-code {
   margin-right: 10px;
 }
-.emoji {
+.emojiItem {
   display: flex;
   padding: 5px;
   align-content: center;

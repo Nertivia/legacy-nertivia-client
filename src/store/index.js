@@ -8,6 +8,7 @@ import notificationsModule from './modules/notificationsModule';
 import settingsModule from './modules/settingsModule';
 import uploadFilesModule from './modules/uploadFilesModule';
 import popoutsModule from './modules/popoutsModule';
+import emojiSuggestionModule from './modules/emojiSuggestionModule';
 import {
   router
 } from './../router'
@@ -23,7 +24,8 @@ export const store = new Vuex.Store({
     socketModule,
     settingsModule,
     uploadFilesModule,
-    popoutsModule
+    popoutsModule,
+    emojiSuggestionModule
   },
   state: {
 
