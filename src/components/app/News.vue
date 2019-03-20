@@ -4,7 +4,7 @@
       <span class="news-title">Changes in this release</span>
 
       <div class="change" v-for="(change, index) in changelog" :key="change.title">
-        <div :class="`heading ${index === 0 ? 'latest': ''}`">
+        <div class="heading" :style="change.headColor ? `background-color: ${change.headColor}` : ``">
           <div class="date">{{change.date}}</div>
           <div class="changes-title">{{change.title}}</div>
         </div>
@@ -33,19 +33,6 @@
           <div v-if="change.msg">{{change.msg}}</div>
         </div>
       </div>
-    </div>
-
-    <div class="todo-list">
-      <span class="news-title">Planned Features</span>
-      <p>Features that are coming soon:</p>
-      <ul class="plan-list">
-        <li>Online, Offline status(Done)</li>
-        <li>Profile picture (done)</li>
-        <li>Typing indicator (done)</li>
-        <li>Sending files (done)</li>
-        <li>Custom emojis</li>
-        <li>Guilds</li>
-      </ul>
     </div>
   </div>
 </template>
@@ -96,6 +83,7 @@ export default {
   padding: 10px;
   background: rgba(0, 0, 0, 0.555);
   margin-bottom: 10px;
+  border-radius: 5px;
 }
 .heading.latest {
   background: rgba(38, 139, 255, 0.87);

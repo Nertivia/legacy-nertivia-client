@@ -31,8 +31,10 @@
     </div>
     <news v-if="!selectedChannelID "/>
     <div class="chat-input-area" v-if="selectedChannelID">
-      <div class="emoji-suggestion-outer" v-if="emojiArray">
-        <emoji-suggestions :emojiArray="emojiArray"/>
+
+      <div style="position: relative;" >
+        <emoji-suggestions v-if="emojiArray" :emojiArray="emojiArray"/>
+        <emoji-panel v-if="showEmojiPanel"/>
       </div>
 
       <div class="message-area">
@@ -53,9 +55,13 @@
           @paste="onPaste"
         ></textarea>
         <button
+          class="emojis-button"
+          @click="showEmojiPanel =  !showEmojiPanel">
+          <i class="material-icons">face</i>
+        </button>
+        <button
           :class="{'send-button': true, 'error-send-button': messageLength > 5000}"
-          @click="sendMessage"
-        >
+          @click="sendMessage">
           <i class="material-icons">send</i>
         </button>
       </div>
@@ -85,6 +91,7 @@ import Spinner from "@/components/Spinner.vue";
 import TypingStatus from "@/components/app/TypingStatus.vue";
 import uploadsQueue from "@/components/app/uploadsQueue.vue";
 import emojiSuggestions from "@/components/app/emojiSuggestions.vue";
+import emojiPanel from "@/components/app/emojiPanel.vue";
 import emojiParser from "@/utils/emojiParser.js";
 
 export default {
@@ -94,7 +101,8 @@ export default {
     News,
     TypingStatus,
     uploadsQueue,
-    emojiSuggestions
+    emojiSuggestions,
+    emojiPanel
   },
   data() {
     return {
@@ -103,7 +111,8 @@ export default {
       postTimerID: null,
       getTimerID: null,
       typing: false,
-      whosTyping: ""
+      whosTyping: "",
+      showEmojiPanel: false
     };
   },
   methods: {
@@ -267,7 +276,12 @@ export default {
       const end = cursorPosition;
 
       this.message = this.message.substring(0, start) + emojiShortCode + this.message.substring(end);
-      return (this.$store.dispatch('setEmojiArray', null));
+      this.$store.dispatch('setEmojiArray', null);
+    },
+    enterEmojiPanel(shortcode){
+      const target = this.$refs["input-box"];
+      target.focus();
+      document.execCommand('insertText', false, `:${shortcode}:`);
     },
     keyDown(event) {
       this.resize(event);
@@ -353,6 +367,7 @@ export default {
     };
     bus.$on("newMessage", this.hideTypingStatus);
     bus.$on("emojiSuggestions:Selected", this.enterEmojiSuggestion)
+    bus.$on("emojiPanel:Selected", this.enterEmojiPanel)
     //dismiss notification on focus
     window.onfocus = () => {
       bus.$emit("title:change", "Nertivia");
@@ -370,6 +385,7 @@ export default {
   beforeDestroy() {
     bus.$off("newMessage", this.hideTypingStatus);
     bus.$off("emojiSuggestions:Selected", this.enterEmojiSuggestion)
+    bus.$on("emojiPanel:Selected", this.enterEmojiPanel)
     delete this.$options.sockets.typingStatus;
   },
   computed: {
@@ -442,9 +458,6 @@ export default {
   display: flex;
   flex-shrink: 0;
 }
-.emoji-suggestion-outer {
-  position: relative;
-}
 .show-menu-button {
   display: inline-block;
   margin: auto;
@@ -506,6 +519,7 @@ export default {
   cursor: default;
   user-select: none;
   transition: 0.3s;
+  border-radius: 5px;
 }
 .attachment-button:hover {
   background: rgba(0, 0, 0, 0.322);
@@ -553,6 +567,7 @@ export default {
   overflow: hidden;
   max-height: 30vh;
   overflow-y: auto;
+  border-radius: 5px;
 }
 
 .chat-input:hover {
@@ -576,6 +591,8 @@ export default {
   transition: 0.3s;
   display: flex;
   flex-shrink: 0;
+  border-radius: 5px;
+    user-select: none;
 }
 .send-button .material-icons {
   margin: auto;
@@ -589,6 +606,29 @@ export default {
 
 .error-send-button:hover {
   background-color: rgba(255, 0, 0, 0.294);
+}
+.emojis-button{
+  font-size: 20px;
+  color: white;
+  background: rgba(0, 0, 0, 0.274);
+  border: none;
+  outline: none;
+  margin-left: 2px;
+
+  min-height: 40px;
+  width: 50px;
+  transition: 0.3s;
+  display: flex;
+  flex-shrink: 0;
+  border-radius: 5px;
+  user-select: none;
+}
+
+.emojis-button .material-icons {
+  margin: auto;
+}
+.emojis-button:hover {
+  background: rgba(0, 0, 0, 0.514);
 }
 @media (max-width: 600px) {
   .show-menu-button {

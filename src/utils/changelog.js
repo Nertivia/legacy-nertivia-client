@@ -1,8 +1,24 @@
 const config = [
   {
+    title: 'Emojis :D',
+    shortTitle: 'Emojis',
+    date: '20/03/2019',
+    headColor: "rgba(17, 153, 69, 0.87)",
+    new: [
+      'Emoji suggestions in chat when typing in any emoji :ok_hand:',
+      'Emoji picker',
+      'Removed planned features from changelog'
+    ],
+    next: [
+      'make tabs in emoji panel',
+      'Custom emojis for freeeee!',
+    ]
+  },
+  {
     title: 'Upload anything!',
     shortTitle: 'Upload anything!',
     date: '08/03/2019',
+    headColor: "rgba(38, 139, 255, 0.87)",
     new: [
       'You can now upload any kind of files to friends. (Google drive required)',
       'Shift + enter should expand the text area.',

@@ -23,7 +23,15 @@ export default {
 				return require("twemoji/2/svg/" + icon + ".svg")
 			})
 	},
-
+	GetEmojiPath: (string) => {
+		let emojiPath;
+		twemoji.parse(string,
+			function (icon, options, variant) {
+				if (!icon) return string;
+				emojiPath =  require("twemoji/2/svg/" + icon + ".svg")
+			})
+		return emojiPath;
+	},
 	searchEmoji: (shortCode) => {
 		return matchSorter(emojis, shortCode, {keys: ['shortcodes']});
 	}
