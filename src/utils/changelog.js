@@ -11,6 +11,7 @@ const config = [
     ],
     next: [
       'make tabs in emoji panel',
+      'Make it so that emoji panel closes when clicking outside the panel.',
       'Custom emojis for freeeee!',
     ]
   },

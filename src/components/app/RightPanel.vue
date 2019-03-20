@@ -34,7 +34,7 @@
 
       <div style="position: relative;" >
         <emoji-suggestions v-if="emojiArray" :emojiArray="emojiArray"/>
-        <emoji-panel v-if="showEmojiPanel"/>
+        <emoji-panel v-if="showEmojiPanel" />
       </div>
 
       <div class="message-area">
