@@ -34,7 +34,7 @@
 
       <div style="position: relative;" >
         <emoji-suggestions v-if="emojiArray" :emojiArray="emojiArray"/>
-        <emoji-panel v-if="showEmojiPanel" />
+        <emoji-panel v-if="emojiPanelShow" />
       </div>
 
       <div class="message-area">
@@ -56,7 +56,7 @@
         ></textarea>
         <button
           class="emojis-button"
-          @click="showEmojiPanel =  !showEmojiPanel">
+          @click="$store.dispatch('setPopoutVisibility', {name: 'emojiPanel', visibility: true})">
           <i class="material-icons">face</i>
         </button>
         <button
@@ -112,7 +112,6 @@ export default {
       getTimerID: null,
       typing: false,
       whosTyping: "",
-      showEmojiPanel: false
     };
   },
   methods: {
@@ -421,6 +420,9 @@ export default {
     },
     emojiArray() {
       return this.$store.getters.emojiArray;
+    },
+    emojiPanelShow() {
+      return this.$store.getters.popouts.emojiPanel
     },
     emojiIndex() {
       return this.$store.getters.getEmojiIndex;

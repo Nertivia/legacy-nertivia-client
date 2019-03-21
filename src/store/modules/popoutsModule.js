@@ -14,6 +14,7 @@ const state = {
   dragDropFileUploadDialog: false,
   settings: false,
   GDLinkMenu: false,
+  emojiPanel: false,
 }
 
 const getters = {

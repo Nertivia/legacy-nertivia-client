@@ -3,7 +3,7 @@
     <div
       v-for="(emoji, index) in $props.emojiArray.slice(0,10)"
       :class="{emojiItem: true, selected: index === emojiIndex}"
-      @mouseover="hoverEvent"
+      @mouseenter="hoverEvent"
       @click="clickEvent"
       :key="emoji.hexcode"
     >
