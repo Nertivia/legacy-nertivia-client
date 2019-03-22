@@ -266,6 +266,7 @@ export default {
       this.showEmojiPopout(event);
     },
     enterEmojiSuggestion(){
+      this.$store.dispatch('setLastEmoji', this.emojiArray[this.emojiIndex].shortcodes[0])
       this.$refs["input-box"].focus();
       const emojiShortCode = `:${this.emojiArray[this.emojiIndex].shortcodes[0]}:`
       const cursorPosition = this.$refs['input-box'].selectionStart;
@@ -281,6 +282,7 @@ export default {
       const target = this.$refs["input-box"];
       target.focus();
       document.execCommand('insertText', false, `:${shortcode}:`);
+      this.$store.dispatch('setLastEmoji', shortcode)
     },
     keyDown(event) {
       this.resize(event);

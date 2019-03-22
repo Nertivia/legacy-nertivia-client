@@ -1,5 +1,19 @@
 const config = [
   {
+    title: 'Emoji tabs and recent emojis',
+    shortTitle: 'Emoji tabs and recent emojis',
+    date: '22/03/2019',
+    headColor: "rgba(244, 169, 65, 0.87)",
+    new: [
+      'Tabs in emoji panel',
+      'Recent Emojis now show in the emoji panel'
+    ],
+    fix: [
+      'Emoji panel closes when clicking outside the panel.',
+    ],
+    next: ['Custom emojis']
+  },
+  {
     title: 'Emojis :D',
     shortTitle: 'Emojis',
     date: '20/03/2019',

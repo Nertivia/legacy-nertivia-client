@@ -2,6 +2,19 @@
   <div class="emoji-panel" v-click-outside="closePanel">
     <div class="emoji-panel-inner">
       <div class="emojis-list">
+        <div class="category">
+          <div class="category-name">Recent</div>
+          <div class="list">
+            <div class="emoji-item" v-for="(recentEmoji, index) in recentEmojiList" :key="index" @click="clickEvent(recentEmoji)">
+              <img
+                class="panel emoji"
+                v-lazyload
+                :data-url="emojiShortcodeToPath(':' + recentEmoji + ':')"
+              >
+            </div>
+          </div>
+        </div>
+
         <div class="category" v-for="(group, index) in groups" :key="group">
           <div class="category-name">{{group.split('-')[0]}}</div>
           <div class="list">
@@ -17,8 +30,19 @@
         </div>
       </div>
       <div class="tabs">
-        <div class="tab" v-for="(emoji, index) in groupUnicodes" :key="index" @mouseenter="mouseHover(emoji, $event)" >
-          <img class="panel emoji" :src="selectRandom(emoji)" @click="scrollToCategory(index)">
+        <div class="tab" @click="scrollToCategory(0)">
+          <i class="material-icons">history</i>
+          <div class="tooltip">Recent</div>
+        </div>
+        <div
+          class="tab"
+          v-for="(emoji, index) in groupUnicodes"
+          :key="index"
+          @mouseenter="mouseHover(emoji, $event)"
+          @click="scrollToCategory(index + 1)"
+        >
+          <img class="panel-emoji" :src="selectRandom(emoji)">
+          <div class="tooltip">{{ groups[index].split('-')[0] }}</div>
         </div>
       </div>
     </div>
@@ -41,15 +65,256 @@ export default {
   data() {
     return {
       groupUnicodes: [
-        ["😀", "😅", "☺️", "😇", "😉", "😍", "🥰", "😚", "😝", "😏", "😣", "😭", "🥺", "😢", "🤔", "😳", "😡", "🤤", "🤠", "🥳", "😦", "👅", "👀", "🙏", "👍", "👌", "👠"],
-        ["🐱", "🐰", "🐷", "🐯", "🐸", "🐦", "🐧", "🐣", "🦋", "🐟", "🐿", "🌳", "🌴", "🌷", "🌹", "🌺", "🌻", "🌙", "🌍", "🌈", "🌦", "❄️", "💦", "☃️", "🔥", "💫", "☔️"],
-        ["🍎", "🍌", "🍉", "🍇", "🍑", "🍒", "🍆", "🍕", "🍟", "🥞", "🍰", "🍪", "🍿", "🍩", "🥤", "🧁", "🍨", "🍭", "🥂", "🍹", "🍝", "🌮"],
-        ["🏀", "🏈", "⚽️","🥏", "🎱", "🏓", "🏹", "🏆", "🥇", "🎨", "🎧", "🎹", "🎸", "🎮", "🎯", "🎳", "🏂"],
-        ["🚗", "🚕", "🚑", "🚒", "🛵", "🚔", "🚁", "✈️", "⛵️", "🚦", "🗺", "🏝", "🏜", "🏔", "🏕", "🏥", "🎢", "⛩", "🏞", "🌄", "🌃", "🌌", "🌉", "🌇", "🎆"],
-        ["⌚️", "📱", "💻", "🖥", "🖨", "💾", "📀", "💿", "📸", "⏰", "⌛️", "💸", "💵", "💴", "💶", "💷", "🔫", "🔪", "💎", "💳", "🧻", "🚽", "🛁", "🧼", "🛏", "🛋", "🧸", "🎉", "🎀", "🎁", "🛒", "✉️", "💌", "✏️", "📝", "🖌", "📚", "📊", "📆", "📁", "📋", "🔒", "📏", "📌", "✂️"],
-        ["❤️", "🧡", "💛", "💚", "💙", "💜", "🖤", "💕", "💖", "💘", "💔", "🔞", "📵", "🚭", "⚠️", "🔆", "✅", "♻️", "🚸", "⁉️", "💢", "💯", "🚾", "🏧", "🌐", "🔡", "🆒", "🆕", "🆓", "🆗", "🎵", "♾", "™️", "©️", "💬", "📢", "♉️", "♒️", "🆚", "🆘", "📛", "🚫", "🚯", "🕓"],
-        ["🏁", "🏴‍☠️", "🇦🇶", "🇧🇷", "🇨🇦", "🇯🇵", "🇵🇰", "🇵🇱", "🇹🇷", "🇺🇸", "🇬🇧", "🇰🇷", "🇫🇷", "🇩🇪", "🇯🇲", "🇳🇵", "🇬🇷", "🇷🇺", "🇪🇸", "🇩🇰", "🇨🇿", "🇮🇹", "🇮🇳", "🇨🇭"]
+        [
+          "😀",
+          "😅",
+          "☺️",
+          "😇",
+          "😉",
+          "😍",
+          "🥰",
+          "😚",
+          "😝",
+          "😏",
+          "😣",
+          "😭",
+          "🥺",
+          "😢",
+          "🤔",
+          "😳",
+          "😡",
+          "🤤",
+          "🤠",
+          "🥳",
+          "😦",
+          "👅",
+          "👀",
+          "🙏",
+          "👍",
+          "👌",
+          "👠"
+        ],
+        [
+          "🐱",
+          "🐰",
+          "🐷",
+          "🐯",
+          "🐸",
+          "🐦",
+          "🐧",
+          "🐣",
+          "🦋",
+          "🐟",
+          "🐿",
+          "🌳",
+          "🌴",
+          "🌷",
+          "🌹",
+          "🌺",
+          "🌻",
+          "🌙",
+          "🌍",
+          "🌈",
+          "🌦",
+          "❄️",
+          "💦",
+          "☃️",
+          "🔥",
+          "💫",
+          "☔️"
+        ],
+        [
+          "🍎",
+          "🍌",
+          "🍉",
+          "🍇",
+          "🍑",
+          "🍒",
+          "🍆",
+          "🍕",
+          "🍟",
+          "🥞",
+          "🍰",
+          "🍪",
+          "🍿",
+          "🍩",
+          "🥤",
+          "🧁",
+          "🍨",
+          "🍭",
+          "🥂",
+          "🍹",
+          "🍝",
+          "🌮"
+        ],
+        [
+          "🏀",
+          "🏈",
+          "⚽️",
+          "🥏",
+          "🎱",
+          "🏓",
+          "🏹",
+          "🏆",
+          "🥇",
+          "🎨",
+          "🎧",
+          "🎹",
+          "🎸",
+          "🎮",
+          "🎯",
+          "🎳",
+          "🏂"
+        ],
+        [
+          "🚗",
+          "🚕",
+          "🚑",
+          "🚒",
+          "🛵",
+          "🚔",
+          "🚁",
+          "✈️",
+          "⛵️",
+          "🚦",
+          "🗺",
+          "🏝",
+          "🏜",
+          "🏔",
+          "🏕",
+          "🏥",
+          "🎢",
+          "⛩",
+          "🏞",
+          "🌄",
+          "🌃",
+          "🌌",
+          "🌉",
+          "🌇",
+          "🎆"
+        ],
+        [
+          "⌚️",
+          "📱",
+          "💻",
+          "🖥",
+          "🖨",
+          "💾",
+          "📀",
+          "💿",
+          "📸",
+          "⏰",
+          "⌛️",
+          "💸",
+          "💵",
+          "💴",
+          "💶",
+          "💷",
+          "🔫",
+          "🔪",
+          "💎",
+          "💳",
+          "🧻",
+          "🚽",
+          "🛁",
+          "🧼",
+          "🛏",
+          "🛋",
+          "🧸",
+          "🎉",
+          "🎀",
+          "🎁",
+          "🛒",
+          "✉️",
+          "💌",
+          "✏️",
+          "📝",
+          "🖌",
+          "📚",
+          "📊",
+          "📆",
+          "📁",
+          "📋",
+          "🔒",
+          "📏",
+          "📌",
+          "✂️"
+        ],
+        [
+          "❤️",
+          "🧡",
+          "💛",
+          "💚",
+          "💙",
+          "💜",
+          "🖤",
+          "💕",
+          "💖",
+          "💘",
+          "💔",
+          "🔞",
+          "📵",
+          "🚭",
+          "⚠️",
+          "🔆",
+          "✅",
+          "♻️",
+          "🚸",
+          "⁉️",
+          "💢",
+          "💯",
+          "🚾",
+          "🏧",
+          "🌐",
+          "🔡",
+          "🆒",
+          "🆕",
+          "🆓",
+          "🆗",
+          "🎵",
+          "♾",
+          "™️",
+          "©️",
+          "💬",
+          "📢",
+          "♉️",
+          "♒️",
+          "🆚",
+          "🆘",
+          "📛",
+          "🚫",
+          "🚯",
+          "🕓"
+        ],
+        [
+          "🏁",
+          "🏴‍☠️",
+          "🇦🇶",
+          "🇧🇷",
+          "🇨🇦",
+          "🇯🇵",
+          "🇵🇰",
+          "🇵🇱",
+          "🇹🇷",
+          "🇺🇸",
+          "🇬🇧",
+          "🇰🇷",
+          "🇫🇷",
+          "🇩🇪",
+          "🇯🇲",
+          "🇳🇵",
+          "🇬🇷",
+          "🇷🇺",
+          "🇪🇸",
+          "🇩🇰",
+          "🇨🇿",
+          "🇮🇹",
+          "🇮🇳",
+          "🇨🇭"
         ]
+      ],
+      groups: groups,
+      recentEmojiList: this.$store.getters.recentEmojis
     };
   },
   methods: {
@@ -66,26 +331,27 @@ export default {
     parseEmojiPath(emoji) {
       return emojiParser.GetEmojiPath(emoji);
     },
-    selectRandom(array){
-      const randomNum = Math.floor((Math.random() * array.length));
-      return this.parseEmojiPath(array[randomNum])
+    emojiShortcodeToPath(shortcode) {
+      return this.parseEmojiPath(emojiParser.replaceShortcode(shortcode));
+    },
+    selectRandom(array) {
+      const randomNum = Math.floor(Math.random() * array.length);
+      return this.parseEmojiPath(array[randomNum]);
     },
     clickEvent(shortcode) {
       bus.$emit("emojiPanel:Selected", shortcode);
     },
-    mouseHover(emoji, event){
-      event.target.children[0].src = this.selectRandom(emoji)
+    mouseHover(emoji, event) {
+      event.target.children[0].src = this.selectRandom(emoji);
     },
     scrollToCategory(index) {
-      console.log("🏁 🏴‍☠️ 🇦🇶 🇧🇷 🇨🇦 🇯🇵 🇵🇰 🇵🇱  🇹🇷 🇺🇸 🇬🇧 🇰🇷 🇫🇷 🇩🇪 🇯🇲  🇳🇵 🇬🇷 🇷🇺 🇪🇸 🇩🇰 🇨🇿 🇮🇹 🇮🇳 🇨🇭".split(" "))
       const elements = document.querySelectorAll(".category-name");
       elements[index].scrollIntoView();
     }
   },
-  computed: {
-    groups() {
-      return groups;
-    }
+  mounted() {
+    console.log("mounted")
+    this.recentEmojiList = this.$store.getters.recentEmojis
   }
 };
 </script>
@@ -97,7 +363,6 @@ export default {
   bottom: 10px;
   right: 20px;
   width: 390px;
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
   z-index: 99999;
@@ -111,7 +376,7 @@ export default {
   z-index: 99999;
 }
 .emoji-panel-inner:hover {
-  background: rgba(255, 255, 255, 0.781)
+  background: rgba(255, 255, 255, 0.685);
 }
 .emojis-list {
   color: white;
@@ -129,8 +394,8 @@ export default {
 }
 .category-name {
   padding: 10px;
-  text-transform:capitalize;
-  color: rgb(143, 143, 143);
+  text-transform: capitalize;
+  color: rgb(93, 93, 93);
 }
 .list {
 }
@@ -167,41 +432,67 @@ export default {
   height: 20px;
   width: 20px;
   margin: auto;
-  padding-right: 3px;
   filter: grayscale(100%);
   transition: 0.1s;
+}
+.tabs .material-icons {
+  margin: auto;
+  color: rgb(185, 185, 185);
+  transition: 0.1s;
+  user-select: none;
 }
 .tab {
   background: rgba(59, 59, 59, 0.521);
   border-radius: 5px;
-  margin-left: 7px;
-  margin-right: 7px;
+  margin-left: 5px;
+  margin-right: 5px;
   display: flex;
   flex-direction: column;
-  transition: 0.3s;
+  transition: 0.1s;
   height: 35px;
   width: 325px;
   overflow: hidden;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
 }
+
 .tab:hover {
-  background: rgba(73, 73, 73, 0.733);
+  background: rgb(73, 73, 73);
+}
+.tab:hover .tooltip {
+  display: flex;
 }
 .tab:hover img {
-  height: 29px;
-  width: 29px;
-  margin: auto;
-  padding-left: 2px;
-  filter: grayscale(0)
+  transform: scale(1.3);
+  filter: grayscale(0);
 }
+
+.tab:hover .material-icons {
+  transform: scale(1.3);
+  color: white;
+}
+
 .triangle {
   width: 0;
   height: 0;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  border-top: 15px solid rgba(32, 32, 32, 0.87);
+  border-top: 15px solid rgba(255, 255, 255, 0.61);
 
   align-self: flex-end;
   margin-right: 70px;
+}
+.tooltip{
+  display: none;
+  position: absolute;
+  margin: auto;
+  background: rgba(29, 29, 29, 0.664);
+  padding: 10px;
+  border-radius: 5px;
+  bottom: -20px;
+  text-transform: capitalize;
+  user-select: none;
 }
 </style>
 <style>

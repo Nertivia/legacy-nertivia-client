@@ -3,7 +3,7 @@
     <div class="change-log">
       <span class="news-title">Changes in this release</span>
 
-      <div class="change" v-for="(change, index) in changelog" :key="change.title">
+      <div class="change" v-for="change in changelog" :key="change.title">
         <div class="heading" :style="change.headColor ? `background-color: ${change.headColor}` : ``">
           <div class="date">{{change.date}}</div>
           <div class="changes-title">{{change.title}}</div>
