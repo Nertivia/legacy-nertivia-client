@@ -7,8 +7,8 @@
       <div class="current-channel">
         <span v-if="!selectedChannelID">Welcome back, {{user.username}}!</span>
         <span class="channel-selected" v-else>
+          <div class="user-status" :style="`box-shadow: 0px 0px 14px 3px ${userStatusColor}; background-color: ${userStatusColor};`"></div>
           <div class="channel-name">{{channelName}}</div>
-          <div class="user-status" :style="`background-color: ${userStatusColor};`"></div>
         </span>
       </div>
     </div>
@@ -451,13 +451,13 @@ export default {
 
 .channel-selected{
   display: flex;
-align-items: center;
+  align-items: center;
 }
 .user-status{
-  border-radius: 50%;
+  border-radius: 4px;
   height: 10px;
   width: 10px;
-  margin-left: 5px;
+  margin-right: 10px;
 }
 .hidden {
   display: none;
