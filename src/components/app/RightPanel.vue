@@ -1,12 +1,15 @@
 <template>
   <div class="right-panel">
     <div class="heading">
-      <div class="show-menu-button" cli>
-        <i class="material-icons" @click="toggleLeftMenu">menu</i>
+      <div class="show-menu-button" @click="toggleLeftMenu">
+        <i class="material-icons" >menu</i>
       </div>
       <div class="current-channel">
         <span v-if="!selectedChannelID">Welcome back, {{user.username}}!</span>
-        <span v-else>{{channelName}}</span>
+        <span class="channel-selected" v-else>
+          <div class="channel-name">{{channelName}}</div>
+          <div class="user-status" :style="`background-color: ${userStatusColor};`"></div>
+        </span>
       </div>
     </div>
     <div class="loading" v-if="selectedChannelID && !selectedChannelMessages">
@@ -93,6 +96,7 @@ import uploadsQueue from "@/components/app/uploadsQueue.vue";
 import emojiSuggestions from "@/components/app/emojiSuggestions.vue";
 import emojiPanel from "@/components/app/emojiPanel.vue";
 import emojiParser from "@/utils/emojiParser.js";
+import statuses from '@/utils/statuses';
 
 export default {
   components: {
@@ -268,7 +272,7 @@ export default {
     enterEmojiSuggestion(){
       this.$store.dispatch('setLastEmoji', this.emojiArray[this.emojiIndex].shortcodes[0])
       this.$refs["input-box"].focus();
-      const emojiShortCode = `:${this.emojiArray[this.emojiIndex].shortcodes[0]}:`
+      const emojiShortCode = `:${this.emojiArray[this.emojiIndex].shortcodes[0]}: `
       const cursorPosition = this.$refs['input-box'].selectionStart;
       const cursorWord = this.ReturnWord(this.message, cursorPosition);
 
@@ -281,7 +285,7 @@ export default {
     enterEmojiPanel(shortcode){
       const target = this.$refs["input-box"];
       target.focus();
-      document.execCommand('insertText', false, `:${shortcode}:`);
+      document.execCommand('insertText', false, `:${shortcode}: `);
       this.$store.dispatch('setLastEmoji', shortcode)
     },
     keyDown(event) {
@@ -428,6 +432,14 @@ export default {
     },
     emojiIndex() {
       return this.$store.getters.getEmojiIndex;
+    },
+    userStatusColor() {
+      const allFriends = this.$store.getters.user.friends;
+      const selectedChannel = this.$store.getters.selectedChannelID;
+      const arr = Object.keys(allFriends).map(el => allFriends[el]);
+      const find = arr.find(el => el.channelID === selectedChannel);
+      if (!find) return statuses[0].color;
+      return statuses[find.recipient.status || 0].color
     }
   }
 };
@@ -436,6 +448,17 @@ export default {
 
 
 <style scoped>
+
+.channel-selected{
+  display: flex;
+align-items: center;
+}
+.user-status{
+  border-radius: 50%;
+  height: 10px;
+  width: 10px;
+  margin-left: 5px;
+}
 .hidden {
   display: none;
 }

@@ -1,5 +1,16 @@
 const config = [
   {
+    title: 'Custom emojis!',
+    shortTitle: 'Custom emojis!',
+    date: '23/03/2019',
+    headColor: "rgba(255, 48, 48, 0.87)",
+    new: [
+      'You can now add your own emojis for free.',
+      "User status in the top bar to easily view if someone is still online or, if you're talking to a wall on the phone."
+    ],
+    next: ['Servers']
+  },
+  {
     title: 'Emoji tabs and recent emojis',
     shortTitle: 'Emoji tabs and recent emojis',
     date: '22/03/2019',
