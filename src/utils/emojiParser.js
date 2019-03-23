@@ -1,9 +1,7 @@
 import twemoji from "twemoji";
-import emojis from "emojibase-data/en/compact.json";
 import matchSorter from "match-sorter";
-import {
-	groups
-} from "emojibase-data/meta/groups.json";
+import emojis from "@/utils/emojiData/emojis.json";
+import groups from "@/utils/emojiData/groups.json";
 
 
 export default {
@@ -34,7 +32,9 @@ export default {
 	},
 	searchEmoji: (shortCode) => {
 		return matchSorter(emojis, shortCode, {keys: ['shortcodes']});
-	}
+	},
+	getAllEmojis: _ => emojis,
+	getGroups: _ => groups
 }
 
 function emojiExists(shortCode) {

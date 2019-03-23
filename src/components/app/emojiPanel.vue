@@ -16,7 +16,7 @@
         </div>
 
         <div class="category" v-for="(group, index) in groups" :key="group">
-          <div class="category-name">{{group.split('-')[0]}}</div>
+          <div class="category-name">{{group}}</div>
           <div class="list">
             <div
               class="emoji-item"
@@ -42,7 +42,7 @@
           @click="scrollToCategory(index + 1)"
         >
           <img class="panel-emoji" :src="selectRandom(emoji)">
-          <div class="tooltip">{{ groups[index].split('-')[0] }}</div>
+          <div class="tooltip">{{ groups[index]}}</div>
         </div>
       </div>
     </div>
@@ -55,8 +55,7 @@ import { bus } from "@/main";
 import emojiParser from "@/utils/emojiParser.js";
 import lazyLoad from "@/directives/LazyLoad.js";
 
-import emojis from "emojibase-data/en/compact.json";
-import { groups } from "emojibase-data/meta/groups.json";
+
 
 export default {
   directives: {
@@ -313,7 +312,8 @@ export default {
           "🇨🇭"
         ]
       ],
-      groups: groups,
+      emojis: emojiParser.getAllEmojis(),
+      groups: emojiParser.getGroups(),
       recentEmojiList: this.$store.getters.recentEmojis
     };
   },
@@ -326,7 +326,7 @@ export default {
     },
     emojiByGroup(index) {
       index = parseInt(index);
-      return emojis.filter(_emoji => _emoji.group === index);
+      return this.emojis.filter(_emoji => _emoji.group === index);
     },
     parseEmojiPath(emoji) {
       return emojiParser.GetEmojiPath(emoji);
@@ -350,7 +350,6 @@ export default {
     }
   },
   mounted() {
-    console.log("mounted")
     this.recentEmojiList = this.$store.getters.recentEmojis
   }
 };

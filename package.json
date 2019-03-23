@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "emojibase-data": "^3.2.1",
     "filesize": "^4.1.2",
     "futoji": "^0.2.4",
     "jquery": "^3.3.1",
