@@ -148,6 +148,7 @@ export default {
       this.messageLength = 0;
 
       const msg = emojiParser.replaceShortcode(this.message);
+
       const tempID = this.generateNum(25);
 
       this.$store.dispatch("addMessage", {
@@ -270,9 +271,10 @@ export default {
       this.showEmojiPopout(event);
     },
     enterEmojiSuggestion(){
-      this.$store.dispatch('setLastEmoji', this.emojiArray[this.emojiIndex].shortcodes[0])
+      const emoji = this.emojiArray[this.emojiIndex];
+      this.$store.dispatch('settingsModule/addRecentEmoji', emoji.name || emoji.shortcodes[0])
       this.$refs["input-box"].focus();
-      const emojiShortCode = `:${this.emojiArray[this.emojiIndex].shortcodes[0]}: `
+      const emojiShortCode = `:${emoji.name || emoji.shortcodes[0]}: `
       const cursorPosition = this.$refs['input-box'].selectionStart;
       const cursorWord = this.ReturnWord(this.message, cursorPosition);
 
@@ -286,7 +288,7 @@ export default {
       const target = this.$refs["input-box"];
       target.focus();
       document.execCommand('insertText', false, `:${shortcode}: `);
-      this.$store.dispatch('setLastEmoji', shortcode)
+      this.$store.dispatch('settingsModule/addRecentEmoji', shortcode)
     },
     keyDown(event) {
       this.resize(event);

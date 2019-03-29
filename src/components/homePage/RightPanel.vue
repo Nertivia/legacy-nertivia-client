@@ -130,7 +130,7 @@ export default {
   height: 150px;
   width: 150px;
   background: url(./../../assets/logo.png);
-  background-size: 129%;
+  background-size: 105%;
   background-position: center;
   border-radius: 50%;
   box-shadow: 0px 0px 96px -4px rgba(69,212,255,1);

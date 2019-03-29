@@ -45,7 +45,7 @@ const actions = {
     }
     context.commit('addAllChannels', channelsObject)
     context.dispatch('addAllNotifications', notifications)
-    context.dispatch('setSettings', settings)
+    context.dispatch('settingsModule/setSettings', settings)
     
 
   },
@@ -105,7 +105,16 @@ const actions = {
   },
   ['socket_googleDrive:linked'](context) {
     context.dispatch('setPopoutVisibility', {name: 'GDLinkMenu', visibility: false})
-    context.dispatch('setGDriveLinked', true)
+    context.dispatch('settingsModule/setGDriveLinked', true)
+  },
+  ['socket_customEmoji:uploaded'](context, emoji) {
+    context.dispatch('settingsModule/addCustomEmoji', emoji)
+  },
+  ['socket_customEmoji:remove'](context, emoji) {
+    context.dispatch('settingsModule/removeCustomEmoji', emoji)
+  },
+  ['socket_customEmoji:rename'](context, emoji) {
+    context.dispatch('settingsModule/renameCustomEmoji', emoji)
   }
 }
 

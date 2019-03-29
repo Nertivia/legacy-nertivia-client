@@ -2,19 +2,32 @@ import twemoji from "twemoji";
 import matchSorter from "match-sorter";
 import emojis from "@/utils/emojiData/emojis.json";
 import groups from "@/utils/emojiData/groups.json";
-
+import config from "@/config.js";
+import {
+	store
+} from '@/store/index';
 
 export default {
+	getCustomEmojisByShortCode(shortcode) {
+		const customEmojis = store.state['settingsModule'].customEmojis;
+		return customEmojis.find(emoji => emoji.name === shortcode)
+	},
 	replaceShortcode: (message) => {
+		const customEmojis = store.state['settingsModule'].customEmojis;
+
 		const regex = /:([\w]+):/g;
 
 		return message.replace(regex, (x) => {
 			const emoji = emojiExists(x.replace(/[::]+/g, ''))
 			if (emoji) return emoji.unicode
+
+			const customEmoji = customEmojis.find(e => e.name === x.substr(1).slice(0, -1))
+			if (customEmoji) return `:${customEmoji.name}&${customEmoji.emojiID}:`
 			return x
 		});
 	},
 	replaceEmojis: (string) => {
+
 		return twemoji.parse(string,
 			function (icon, options, variant) {
 				if (!icon) return string;
@@ -26,15 +39,20 @@ export default {
 		twemoji.parse(string,
 			function (icon, options, variant) {
 				if (!icon) return string;
-				emojiPath =  require("twemoji/2/svg/" + icon + ".svg")
+				emojiPath = require("twemoji/2/svg/" + icon + ".svg")
 			})
 		return emojiPath;
 	},
 	searchEmoji: (shortCode) => {
-		return matchSorter(emojis, shortCode, {keys: ['shortcodes']});
+		const customEmojis = store.state['settingsModule'].customEmojis;
+		return [...matchSorter(customEmojis, shortCode, {
+			keys: ['name']
+		}), ...matchSorter(emojis, shortCode, {
+			keys: ['shortcodes']
+		})];
 	},
-	getAllEmojis: _ => emojis,
-	getGroups: _ => groups
+	allEmojis: emojis,
+	allGroups: groups
 }
 
 function emojiExists(shortCode) {

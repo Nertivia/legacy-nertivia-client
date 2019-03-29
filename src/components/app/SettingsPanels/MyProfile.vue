@@ -35,6 +35,7 @@ import AvatarUpload from "@/services/AvatarUpload.js";
 import config from "@/config.js";
 import { bus } from "@/main";
 import path from "path";
+import {mapState} from 'vuex'
 
 export default {
   components: {
@@ -88,7 +89,7 @@ export default {
       return (this.alert.show = true);
     },
     editAvatarBtn() {
-      if (!this.$store.getters.settings.GDriveLinked) {
+      if (!this.GDriveLinked) {
         return this.$store.dispatch("setPopoutVisibility", {
           name: "GDLinkMenu",
           visibility: true
@@ -98,6 +99,7 @@ export default {
     }
   },
   computed: {
+    ...mapState('settingsModule', ['GDriveLinked']),
     user() {
       return this.$store.getters.user;
     },

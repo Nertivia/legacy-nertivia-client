@@ -28,7 +28,7 @@ export const store = new Vuex.Store({
     emojiSuggestionModule
   },
   state: {
-
+    
   },
   getters: {
 

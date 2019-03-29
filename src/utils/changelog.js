@@ -2,11 +2,12 @@ const config = [
   {
     title: 'Custom emojis!',
     shortTitle: 'Custom emojis!',
-    date: '23/03/2019',
-    headColor: "rgba(255, 48, 48, 0.87)",
+    date: '29/03/2019',
+    headColor: "rgba(255, 48, 48, 0.77)",
     new: [
       'You can now add your own emojis for free.',
-      "User status in the top bar to easily view if someone is still online or, if you're talking to a wall on the phone."
+      "User status in the top bar to easily view if someone is still online or, if you're talking to a wall on the phone.",
+      'Switching dms should be faster now.'
     ],
     next: ['Servers']
   },
@@ -14,7 +15,7 @@ const config = [
     title: 'Emoji tabs and recent emojis',
     shortTitle: 'Emoji tabs and recent emojis',
     date: '22/03/2019',
-    headColor: "rgba(244, 169, 65, 0.87)",
+    headColor: "rgba(244, 169, 65, 0.77)",
     new: [
       'Tabs in emoji panel',
       'Recent Emojis now show in the emoji panel'
@@ -28,7 +29,7 @@ const config = [
     title: 'Emojis :D',
     shortTitle: 'Emojis',
     date: '20/03/2019',
-    headColor: "rgba(17, 153, 69, 0.87)",
+    headColor: "rgba(17, 153, 69, 0.77)",
     new: [
       'Emoji suggestions in chat when typing in any emoji :ok_hand:',
       'Emoji picker',
@@ -44,7 +45,7 @@ const config = [
     title: 'Upload anything!',
     shortTitle: 'Upload anything!',
     date: '08/03/2019',
-    headColor: "rgba(38, 139, 255, 0.87)",
+    headColor: "rgba(38, 139, 255, 0.77)",
     new: [
       'You can now upload any kind of files to friends. (Google drive required)',
       'Shift + enter should expand the text area.',

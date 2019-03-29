@@ -5,10 +5,15 @@
       :class="{emojiItem: true, selected: index === emojiIndex}"
       @mouseenter="hoverEvent"
       @click="clickEvent"
-      :key="emoji.hexcode"
+      :key="emoji.hexcode || emoji.emojiID"
     >
-      <div class="preview" v-html="emojiParser(emoji.unicode)"></div>
-      <div class="short-code">:{{emoji.shortcodes[0]}}:</div>
+      <div class="preview">
+        <span v-if="emoji.unicode" v-html="emojiParser(emoji.unicode)"></span>
+        <span v-else >
+          <img class="custom-emoji" :src="customEmojiPath + emoji.emojiID" >
+        </span>
+      </div>
+      <div class="short-code">:{{emoji.name || emoji.shortcodes[0]}}:</div>
     </div>
   </div>
 </template>
@@ -16,8 +21,14 @@
 <script>
 import { bus } from "@/main";
 import emojiParser from "@/utils/emojiParser.js";
+import config from "@/config.js";
 export default {
   props: ["emojiArray"],
+  data(){
+    return {
+      customEmojiPath: config.domain + "/files/"
+    }
+  },
   methods: {
     emojiParser(emoji) {
       return emojiParser.replaceEmojis(emoji);
@@ -70,6 +81,10 @@ export default {
 
 
 <style scoped>
+.custom-emoji {
+  height: 1.5em;
+  width: auto;
+}
 .selected {
   background: rgba(66, 66, 66, 0.89);
 }

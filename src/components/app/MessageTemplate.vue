@@ -283,8 +283,8 @@ export default {
 </style>
 <style>
 img.emoji {
-   height: 1.5em;
-   width: 1.5em;
+   height: 1.7em;
+   width: 1.7em;
    margin: 0 .05em 0 .1em;
    vertical-align: -0.1em;
 }

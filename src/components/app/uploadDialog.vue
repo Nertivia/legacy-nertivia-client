@@ -40,6 +40,7 @@ import filesize from "filesize";
 import emojiParser from "@/utils/emojiParser.js";
 import messagesService from "@/services/messagesService";
 import { bus } from "../../main";
+import {mapState} from 'vuex';
 export default {
   props: ["file"],
   data() {
@@ -140,7 +141,7 @@ export default {
         visibility: false
       });
     }
-    if (!this.$store.getters.settings.GDriveLinked) {
+    if (!this.GDriveLinked) {
       this.$store.dispatch("setPopoutVisibility", {
         name: "uploadDialog",
         visibility: false
@@ -161,6 +162,7 @@ export default {
     document.removeEventListener("keydown", this.keyDownEvent);
   },
   computed: {
+    ...mapState('settingsModule', ['GDriveLinked']),
     selectedChannelID() {
       return this.$store.getters.selectedChannelID;
     },

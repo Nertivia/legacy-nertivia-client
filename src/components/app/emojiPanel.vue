@@ -2,15 +2,36 @@
   <div class="emoji-panel" v-click-outside="closePanel">
     <div class="emoji-panel-inner">
       <div class="emojis-list">
+        <!-- Recent Emojis Category  -->
         <div class="category">
           <div class="category-name">Recent</div>
           <div class="list">
-            <div class="emoji-item" v-for="(recentEmoji, index) in recentEmojiList" :key="index" @click="clickEvent(recentEmoji)">
+            <div
+              class="emoji-item"
+              v-for="(recentEmoji, index) in this.recentEmojisList"
+              :key="index"
+              @click="emojiClickEvent(recentEmoji)"
+            >
               <img
                 class="panel emoji"
                 v-lazyload
-                :data-url="emojiShortcodeToPath(':' + recentEmoji + ':')"
+                :data-url=" getCustomEmoji(recentEmoji) || emojiShortcodeToPath(':' + recentEmoji + ':')"
               >
+            </div>
+          </div>
+        </div>
+
+        <!-- Custom Emojis Category  -->
+        <div class="category">
+          <div class="category-name">Custom Emojis</div>
+          <div class="list">
+            <div
+              class="emoji-item"
+              v-for="(customEmoji, index) in this.customEmojisList"
+              :key="index"
+              @click="customEmojiClickEvent(customEmoji)"
+            >
+              <img class="panel emoji" v-lazyload :data-url="customEmojiPath + customEmoji.emojiID">
             </div>
           </div>
         </div>
@@ -22,7 +43,7 @@
               class="emoji-item"
               v-for="emojiSorted in emojiByGroup(index)"
               :key="emojiSorted.shortcodes[0]"
-              @click="clickEvent(emojiSorted.shortcodes[0])"
+              @click="emojiClickEvent(emojiSorted.shortcodes[0])"
             >
               <img class="panel emoji" v-lazyload :data-url="parseEmojiPath(emojiSorted.unicode)">
             </div>
@@ -39,7 +60,7 @@
           v-for="(emoji, index) in groupUnicodes"
           :key="index"
           @mouseenter="mouseHover(emoji, $event)"
-          @click="scrollToCategory(index + 1)"
+          @click="scrollToCategory(index + 2)"
         >
           <img class="panel-emoji" :src="selectRandom(emoji)">
           <div class="tooltip">{{ groups[index]}}</div>
@@ -54,7 +75,8 @@
 import { bus } from "@/main";
 import emojiParser from "@/utils/emojiParser.js";
 import lazyLoad from "@/directives/LazyLoad.js";
-
+import {mapState} from 'vuex'
+import config from "@/config.js";
 
 
 export default {
@@ -312,12 +334,19 @@ export default {
           "🇨🇭"
         ]
       ],
-      emojis: emojiParser.getAllEmojis(),
-      groups: emojiParser.getGroups(),
-      recentEmojiList: this.$store.getters.recentEmojis
+      emojis: emojiParser.allEmojis,
+      groups: emojiParser.allGroups,
+      recentEmojisList: null,
+      customEmojisList : null,
+      customEmojiPath: config.domain + "/files/"
+
     };
   },
   methods: {
+    getCustomEmoji(shortCode){
+      const customEmoji = emojiParser.getCustomEmojisByShortCode(shortCode)
+      return (customEmoji ? this.customEmojiPath + customEmoji.emojiID : undefined)
+    },
     closePanel() {
       this.$store.dispatch("setPopoutVisibility", {
         name: "emojiPanel",
@@ -338,7 +367,10 @@ export default {
       const randomNum = Math.floor(Math.random() * array.length);
       return this.parseEmojiPath(array[randomNum]);
     },
-    clickEvent(shortcode) {
+    customEmojiClickEvent(emoji) {
+      bus.$emit("emojiPanel:Selected", emoji.name);
+    },
+    emojiClickEvent(shortcode) {
       bus.$emit("emojiPanel:Selected", shortcode);
     },
     mouseHover(emoji, event) {
@@ -349,8 +381,12 @@ export default {
       elements[index].scrollIntoView();
     }
   },
-  mounted() {
-    this.recentEmojiList = this.$store.getters.recentEmojis
+  beforeMount() {
+    this.recentEmojisList = this.recentEmojis
+    this.customEmojisList = this.customEmojis
+  }, 
+  computed: {
+    ...mapState('settingsModule', ['recentEmojis', 'customEmojis'])
   }
 };
 </script>
@@ -408,7 +444,7 @@ export default {
   padding: 2px;
   border-radius: 5px;
   height: 30px;
-  width: 30px;
+  min-width: 30px;
 }
 .emoji-item:hover {
   background: rgb(59, 59, 59);
@@ -429,7 +465,7 @@ export default {
 }
 .tabs img {
   height: 20px;
-  width: 20px;
+  width: auto;
   margin: auto;
   filter: grayscale(100%);
   transition: 0.1s;
@@ -482,7 +518,7 @@ export default {
   align-self: flex-end;
   margin-right: 70px;
 }
-.tooltip{
+.tooltip {
   display: none;
   position: absolute;
   margin: auto;
@@ -499,5 +535,6 @@ img.panel.emoji {
   margin-left: 3px;
   margin-top: 3px;
   margin: auto;
+  width: auto;
 }
 </style>

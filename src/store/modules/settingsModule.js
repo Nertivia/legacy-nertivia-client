@@ -6,17 +6,17 @@ import {
 
 
 const state = {
-	settings: {
-		recentEmojis: []
-	}
+	GDriveLinked: false,
+	customEmojis: [],
+	recentEmojis: JSON.parse(localStorage.getItem('recentEmojis')) || []
 }
 
 const getters = {
 	settings(state) {
-		return state.settings;
+		return state;
 	},
 	recentEmojis() {
-		return state.settings.recentEmojis || JSON.parse(localStorage.getItem('recentEmojis'))
+		return state.recentEmojis || JSON.parse(localStorage.getItem('recentEmojis'))
 	}
 }
 
@@ -27,7 +27,7 @@ const actions = {
 	setGDriveLinked(context, status) {
 		context.commit('GoogleDriveLinked', status)
 	},
-	setLastEmoji(context, shortcode) {
+	addRecentEmoji(context, shortcode) {
 		const recentEmojis = JSON.parse(localStorage.getItem('recentEmojis')) || [];
 
 		let filter = recentEmojis.filter(function (item) {
@@ -38,25 +38,66 @@ const actions = {
 		filter = filter.slice(0, 16)
 	
 		localStorage.setItem("recentEmojis", JSON.stringify(filter));
-		context.commit('setLastEmoji', filter)
-	}
+		context.commit('setRecentEmojis', filter)
+	},
+	
+	addCustomEmoji(context, customEmoji){
+		context.commit('addCustomEmoji', customEmoji)
+	},
+	removeCustomEmoji(context, customEmoji) {
+		const emojiID = customEmoji.emoji.emojiID;
+		const customEmojiList = context.state.customEmojis;
 
+		for (let index = 0; index < customEmojiList.length; index++) {
+			const element = customEmojiList[index];
+			if (element.emojiID === emojiID){
+				context.commit('removeCustomEmoji', index);
+				break;
+			}
+		}
+	},
+	renameCustomEmoji(context, renamedEmoji){
+		const customEmojiList = context.state.customEmojis;
+
+		for (let index = 0; index < customEmojiList.length; index++) {
+			const element = customEmojiList[index];
+			if (element.emojiID === renamedEmoji.emoji.emojiID){
+				context.commit('renameCustomEmoji', {emoji: renamedEmoji.emoji, index});
+				break;
+			}
+		}
+	},
+	setCustomEmojis({commit}, customEmojis) {
+		commit('setCustomEmojis', customEmojis)
+	},
 }
 
 const mutations = {
 	setSettings(state, settings) {
-		state.settings = settings;
+		state = Object.assign(state, settings)
 	},
 	GoogleDriveLinked(state, status) {
-		Vue.set(state.settings, 'GDriveLinked', status)
+		Vue.set(state, 'GDriveLinked', status)
 	},
-	setLastEmoji(state, newEmojiList) {
-		Vue.set(state.settings, 'recentEmojis', newEmojiList)
+	addCustomEmoji(state, customEmoji) {
+		const customEmojisList = state.customEmojis || [];
+		customEmojisList.push(customEmoji.emoji)
+
+		Vue.set(state, "customEmojis", customEmojisList)
+	},
+	removeCustomEmoji(state, index) {
+		Vue.delete(state.customEmojis, index)
+	},
+	renameCustomEmoji(state, {emoji, index}) {
+		Vue.set(state.customEmojis, index, emoji)
+	},
+	setRecentEmojis(state, newEmojiList) {
+		Vue.set(state, 'recentEmojis', newEmojiList)
 	},
 }
 
 export default {
-	namespace: true,
+	namespaced: true,
 	state,
 	getters,
 	actions,
