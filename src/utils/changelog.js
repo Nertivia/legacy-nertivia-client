@@ -9,7 +9,7 @@ const config = [
       "User status in the top bar to easily view if someone is still online or, if you're talking to a wall on the phone.",
       'Switching dms should be faster now.'
     ],
-    next: ['Servers']
+    next: ['Servers', 'View an users information page']
   },
   {
     title: 'Emoji tabs and recent emojis',
