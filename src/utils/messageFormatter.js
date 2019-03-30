@@ -4,7 +4,7 @@ import emojiParser from '@/utils/emojiParser';
 import config from "@/config.js";
 
 
-
+// not working well (: :pepe: :pepe: : doesnt work) (:pepe::pepe: doesnt work)
 futoji.addTransformer({
 	name: 'custom emoji',
 	symbol: ':',
