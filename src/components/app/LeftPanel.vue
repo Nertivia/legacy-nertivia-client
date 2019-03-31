@@ -63,7 +63,7 @@ export default {
   display: flex;
   color: white;
   flex-shrink: 0;
-  margin-top: 20px;
+  margin-top: 10px;
   position: relative;
 }
 .tab{
@@ -77,9 +77,14 @@ export default {
   background: rgba(0, 0, 0, 0.171);
   margin-left: 1px;
   margin-right: 1px;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+.tab:hover{
+  background: rgba(255, 255, 255, 0.096);
 }
 .selector {
-  background: rgba(255, 255, 255, 0.137);
+  background: rgba(255, 255, 255, 0.322);
   width: 148px;
   height: 39px;
   top: 0;
@@ -87,6 +92,7 @@ export default {
   position: absolute;
   z-index: -1;
   transition: 0.3s;
+  border-radius: 5px;
 }
 .right{
   left: 151px;

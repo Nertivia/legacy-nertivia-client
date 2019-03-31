@@ -1,19 +1,37 @@
-import futoji from 'futoji'
+import Formatter from 'futoji'
 import twemoji from 'twemoji'
 import emojiParser from '@/utils/emojiParser';
 import config from "@/config.js";
 
+const futoji = new Formatter();
+const emojiFormatter = new Formatter();
 
-// not working well (: :pepe: :pepe: : doesnt work) (:pepe::pepe: doesnt work)
+emojiFormatter.addTransformer({
+	name:'customEmoji2',
+	symbol: ':',
+	padding: false,
+	recursive: false,
+	validate: text => /.+?&(.+?)/.test(text),
+	transformer: owo
+})
+
+function owo (text) {
+	const split = text.split('&');
+	if (!split || split.length <= 1) return `:${text}:`;
+	const url = split[split.length - 1].slice(4);
+	return `<img class="emoji" draggable="false" alt=":${split[0]}:" src="${config.domain + "/files/" + url}">`
+}
+
 futoji.addTransformer({
 	name: 'custom emoji',
 	symbol: ':',
+	padding: false,
 	recursive: false,
+	validate: text => /.+?&(.+?)/.test(text),
 	transformer: text => {
-		const split = text.split('&');
-		if (!split || split.length <= 1) return `:${text}:`;
-		const url = split[split.length - 1].slice(4);
-		return `<img class="emoji" draggable="false" alt=":${split[0]}:" src="${config.domain + "/files/" + url}">`
+		const formattedInner = emojiFormatter.format(text);
+		return owo(formattedInner);
+
 	}
 })
 

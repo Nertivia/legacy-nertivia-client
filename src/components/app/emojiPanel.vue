@@ -55,6 +55,10 @@
           <i class="material-icons">history</i>
           <div class="tooltip">Recent</div>
         </div>
+        <div class="tab" @click="scrollToCategory(1)">
+          <i class="material-icons">face</i>
+          <div class="tooltip">Custom Emojis</div>
+        </div>
         <div
           class="tab"
           v-for="(emoji, index) in groupUnicodes"
@@ -479,8 +483,8 @@ export default {
 .tab {
   background: rgba(59, 59, 59, 0.521);
   border-radius: 5px;
-  margin-left: 5px;
-  margin-right: 5px;
+  margin-left: 3px;
+  margin-right: 3px;
   display: flex;
   flex-direction: column;
   transition: 0.1s;

@@ -1,7 +1,7 @@
 <template>
   <div class="right-panel-home">
     <div class="right-panel-inner">
-        <div class="logo"></div>
+        <img class="logo" src="./../../assets/logo.svg"></img>
         <div class="title">Nertivia</div>
         <spinner :msg="spinnerMessage" v-if="previouslyLoggedIn && user == null && tokenExists" />
         
@@ -129,9 +129,6 @@ export default {
 .logo {
   height: 150px;
   width: 150px;
-  background: url(./../../assets/logo.png);
-  background-size: 105%;
-  background-position: center;
   border-radius: 50%;
   box-shadow: 0px 0px 96px -4px rgba(69,212,255,1);
   margin: auto;

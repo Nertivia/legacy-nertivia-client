@@ -32,7 +32,10 @@
         <uploadsQueue v-if="uploadQueue !== undefined" :queue="uploadQueue"/>
       </div>
     </div>
-    <news v-if="!selectedChannelID "/>
+    <div class="no-channel-selected" v-if="!selectedChannelID ">
+      <div class="material-icons">chat</div>
+      <div class="message">Select a person to message!</div>
+    </div>
     <div class="chat-input-area" v-if="selectedChannelID">
 
       <div style="position: relative;" >
@@ -88,7 +91,6 @@ import typingService from "@/services/TypingService";
 import { bus } from "../../main";
 import JQuery from "jquery";
 let $ = JQuery;
-import News from "../../components/app/News.vue";
 import Message from "../../components/app/MessageTemplate.vue";
 import Spinner from "@/components/Spinner.vue";
 import TypingStatus from "@/components/app/TypingStatus.vue";
@@ -102,7 +104,6 @@ export default {
   components: {
     Message,
     Spinner,
-    News,
     TypingStatus,
     uploadsQueue,
     emojiSuggestions,
@@ -451,6 +452,25 @@ export default {
 
 <style scoped>
 
+
+.no-channel-selected{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 20px;
+
+}
+.no-channel-selected .message{
+  margin-top: 20px;
+}
+.no-channel-selected .material-icons{
+  font-size: 50px;
+}
 .channel-selected{
   display: flex;
   align-items: center;

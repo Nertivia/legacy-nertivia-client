@@ -15,7 +15,7 @@
     <div class="panels">
         <div class="left-panel">
 
-          <div class="title">The best chat client that won’t sell your data.</div>
+          <div class="title">The best chat client that wont restrict you from important and fun features.</div>
           <img src="../assets/graphics/HomeGraphics.png" class="graphic-app" />
           <div class="change-log-mini" @click="showChangeLog = true">
             <div class="change-title">Change log <span style="font-size: 15px; color: rgba(211, 211, 211, 0.774);">Click for details</span></div>

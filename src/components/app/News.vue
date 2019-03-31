@@ -54,10 +54,11 @@ export default {
 <style scoped>
 .news {
   display: flex;
-  flex: 1;
-  margin: 20px;
+  width: 100%;
+  height: 100%;
   color: white;
   overflow: auto;
+  background: rgba(0, 0, 0, 0.486);
 }
 .news-title {
   display: inline-block;

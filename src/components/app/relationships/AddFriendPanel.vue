@@ -99,10 +99,11 @@ export default {
   background: rgba(0, 0, 0, 0.123);
   display: flex;
   flex-direction: column;
+  border-radius: 5px;
 }
 
 .add-friend{
-  background: rgba(0, 0, 0, 0.13);
+  background: rgba(0, 0, 0, 0);
   flex: 1;
   height: 230px;
   display: flex;
@@ -157,6 +158,7 @@ form {
   user-select: none;
   display: flex;
   transition: 0.3s;
+  border-radius: 5px;
 }
 .panel-title:hover{
   background: rgba(0, 0, 0, 0.445);

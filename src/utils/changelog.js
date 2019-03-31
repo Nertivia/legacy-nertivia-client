@@ -1,5 +1,18 @@
 const config = [
   {
+    version: 1,
+    title: 'Make your own guild',
+    shortTitle: 'Make your guild',
+    date: '31/03/2019',
+    headColor: "rgba(39, 14, 204, 0.77)",
+    new: [
+      'You can now make your own guild.',
+      "Tabs have been added at the top of the screen.",
+    ],
+    fix: ["Some formatting issues with custom emojis have been fixed."],
+    next: ['link previews.']
+  },
+  {
     title: 'Custom emojis!',
     shortTitle: 'Custom emojis!',
     date: '29/03/2019',

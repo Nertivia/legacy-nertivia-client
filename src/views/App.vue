@@ -5,15 +5,39 @@
     <transition name="fade-between-two" appear>
       <ConnectingScreen v-if="!loggedIn"/>
       <div class="box" v-if="loggedIn">
+        <div class="tabs">
+
+          <div :class="`tab ${currentTab === 0 ? 'selected' : ''}`" @click="switchTab(0)">
+            <i class="material-icons">list_alt</i>
+            Changelog
+          </div>
+
+          <div :class="`tab ${currentTab === 1 ? 'selected' : ''}`" @click="switchTab(1)">
+            <i class="material-icons">chat</i>
+            Direct Message
+          </div>
+
+          <div :class="`tab ${currentTab === 2 ? 'selected' : ''}`" @click="switchTab(2)">
+            <i class="material-icons">forum</i>
+            Servers
+          </div>
+          <div :class="`tab ${currentTab === 3 ? 'selected' : ''}`" @click="switchTab(3)">
+            <i class="material-icons">rss_feed</i>
+            Server Browser
+          </div>
+        </div>
         <div class="panel-layout">
-          <transition name="slidein">
-            <LeftPanel
-              class="left-panel"
-              v-click-outside="hideLeftPanel"
-              v-show="$mq === 'mobile' && showLeftPanel || $mq === 'desktop'"
-            ></LeftPanel>
-          </transition>
-          <RightPanel/>
+          <news v-if="currentTab == 0" />
+          <span class="direct-message-tab" v-if="currentTab == 1">
+            <transition name="slidein">
+              <LeftPanel
+                class="left-panel"
+                v-click-outside="hideLeftPanel"
+                v-show="$mq === 'mobile' && showLeftPanel || $mq === 'desktop'"
+              ></LeftPanel>
+            </transition>
+            <RightPanel/>
+          </span>
         </div>
       </div>
     </transition>
@@ -26,8 +50,9 @@ import { bus } from "../main";
 import Popouts from "@/components/app/Popouts.vue";
 import LeftPanel from "./../components/app/LeftPanel.vue";
 import RightPanel from "./../components/app/RightPanel.vue";
+import News from "./../components/app/News.vue";
+import changelog from '@/utils/changelog.js';
 import ConnectingScreen from "./../components/app/ConnectingScreen.vue";
-
 
 export default {
   name: "app",
@@ -35,10 +60,12 @@ export default {
     LeftPanel,
     RightPanel,
     ConnectingScreen,
-    Popouts
+    Popouts,
+    News
   },
   data() {
     return {
+      currentTab: localStorage.getItem('currentTab') || 0,
       showLeftPanel: false,
       title: "Nertivia"
     };
@@ -50,9 +77,22 @@ export default {
           this.showLeftPanel = false;
         }
       }
+    },
+    switchTab(index) {
+      localStorage.setItem("currentTab", index);
+      this.currentTab = index;
     }
   },
   mounted() {
+
+    // check if changelog is updated
+    const seenVersion = localStorage.getItem('changelog-version-seen');
+    if (!seenVersion || seenVersion < changelog[0].version) {
+      this.currentTab = 0;
+      localStorage.setItem('currentTab', 0)
+    }
+    localStorage.setItem('changelog-version-seen', changelog[0].version)
+
     bus.$on("toggleLeftMenu", () => {
       this.showLeftPanel = !this.showLeftPanel;
     });
@@ -74,6 +114,45 @@ export default {
 
 
 <style scoped>
+
+.direct-message-tab{
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+
+.tabs {
+  display: flex;
+}
+
+.tab {
+  margin: auto;
+  margin-right: 1px;
+  margin-left: 1px;
+  margin-bottom: 0;
+  background: rgba(0, 0, 0, 0.63);
+  color: white;
+  padding: 5px;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  cursor: default;
+  user-select: none;
+  transition: 0.3s;
+}
+.tab.selected{
+  background: rgba(71, 71, 71, 0.637);
+}
+
+.tab:hover{
+  background: rgba(71, 71, 71, 0.637);
+}
+
+.tab .material-icons {
+  font-size: 15px;
+  vertical-align: -2px;
+}
+
 .slidein-enter-active,
 .slidein-leave-active {
   transition: 0.5s;
@@ -130,6 +209,8 @@ body {
   height: 100%;
 }
 .box {
+  display: flex;
+  flex-direction: column;
   height: 100%;
   width: 100%;
 }
@@ -168,13 +249,13 @@ body {
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: #f5f5f559;
-    border-radius: 10px;
+  border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #f5f5f59e;
-    border-radius: 10px;
+  border-radius: 10px;
 }
 </style>
 

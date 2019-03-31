@@ -27,7 +27,7 @@
         <img :src="getImage" @click="imageClicked">
       </div>
     </div>
-    <div class="sending-status">{{statusMessage}}</div>
+    <div class="sending-status" v-html="statusMessage"></div>
   </div>
 </template>
 
@@ -38,7 +38,6 @@ import messageFormatter from "@/utils/messageFormatter.js";
 import config from "@/config.js";
 import friendlyDate from "@/utils/date";
 import path from "path";
-
 
 export default {
   components: {
@@ -94,11 +93,11 @@ export default {
       let status = this.$props.status;
 
       if (status == 0) {
-        return "Sending";
+        return `<i class="material-icons">hourglass_full</i>`;
       } else if (status == 1) {
-        return "Sent";
+        return `<i class="material-icons">done</i>`;
       } else if (status == 2) {
-        return "Failed";
+        return `<i class="material-icons">close</i> Failed`;
       } else {
         return "";
       }
@@ -263,29 +262,33 @@ export default {
 .message .sending-status {
   display: flex;
   justify-content: flex-end;
-  flex-direction: column;
   padding-bottom: 5px;
-  margin-left: 10px;
   font-size: 15px;
   color: white;
-  align-self: normal;
+  margin: auto;
+  margin-left: 4px;
+  margin-bottom: 0;
   user-select: none;
   transition: 0.5;
+  align-content: center;
 }
 </style>
 
 <style>
+.message .sending-status .material-icons {
+  font-size: 15px;
+  color: rgb(306, 306, 306);
+  display: block;
+}
 .codeblock {
   background-color: rgba(0, 0, 0, 0.397);
   padding: 5px;
   border-radius: 5px;
 }
-</style>
-<style>
 img.emoji {
-   height: 1.7em;
-   width: auto;
-   margin: 0 .05em 0 .1em;
-   vertical-align: -0.1em;
+  height: 1.7em;
+  width: auto;
+  margin: 0 0.05em 0 0.1em;
+  vertical-align: -0.1em;
 }
 </style>

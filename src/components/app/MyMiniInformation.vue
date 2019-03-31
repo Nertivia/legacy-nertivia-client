@@ -139,6 +139,7 @@ export default {
   padding-top: 1px;
   padding-left: 5px;
   margin-left: 10px;
+  margin-top: -2px;
   transition: 0.3s;
   user-select: none;
   border-radius: 10px;

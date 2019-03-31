@@ -9,7 +9,9 @@
         <div class="arrow">></div>
         <div class="image nertivia-img"></div>
       </div>
+      <div class="text">If you would like to see Nertivia grow, and have its own storage CDN, donations would be appriciated.</div>
       <div class="buttons">
+        <div class="button donate" @click="donateButton">Donate</div>
         <div class="button deny" @click="closeMenu">No thanks</div>
         <div class="button" @click="link">Link me</div>
       </div>
@@ -54,6 +56,9 @@ export default {
           await settingsService.GDriveAuth(code);
         };
       }
+    },
+    donateButton() {
+      window.open('https://www.patreon.com/nertivia', '_blank');
     }
   }
 };
@@ -90,6 +95,7 @@ export default {
   padding-right: 10px;
   user-select: none;
 }
+
 .images {
   display: flex;
   margin: auto;
@@ -132,8 +138,15 @@ export default {
   margin-left: 10px;
   margin-right: 10px;
 }
+.donate {
+  background: rgb(218, 179, 6);
+}
+
 .button:hover {
   background: rgb(58, 134, 255);
+}
+.donate:hover {
+  background: rgb(199, 164, 6);
 }
 .button.deny {
   background: rgb(255, 32, 32);
