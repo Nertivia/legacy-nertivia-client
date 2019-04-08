@@ -11,6 +11,8 @@ const state = {
   uploadDialog: false,
   ImagePreviewURL: null,
 
+  userInformationPopoutID: null,
+
   dragDropFileUploadDialog: false,
   settings: false,
   GDLinkMenu: false,
@@ -24,6 +26,9 @@ const getters = {
 }
 
 const actions = {
+  setUserInformationPopout({commit}, id){
+    commit('setUserInformationPopout', id)
+  },
   setPopoutVisibility(context, data) {
     context.commit('setPopoutVisibility', data)
   },
@@ -36,6 +41,9 @@ const actions = {
 }
 
 const mutations = {
+  setUserInformationPopout(state, id) {
+    Vue.set(state, 'userInformationPopoutID', id)
+  },
   setPopoutVisibility(state, data) {
     Vue.set(state, data.name, data.visibility)
   },

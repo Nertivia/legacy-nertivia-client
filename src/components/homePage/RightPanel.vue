@@ -1,7 +1,7 @@
 <template>
   <div class="right-panel-home">
     <div class="right-panel-inner">
-        <img class="logo" src="./../../assets/logo.svg"></img>
+        <img class="logo" src="./../../assets/logo.svg" />
         <div class="title">Nertivia</div>
         <spinner :msg="spinnerMessage" v-if="previouslyLoggedIn && user == null && tokenExists" />
         

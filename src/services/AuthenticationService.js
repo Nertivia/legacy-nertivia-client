@@ -8,6 +8,6 @@ export default {
     return wrapper(instance().post('user/login', credentials));
   },
   user () {
-    return wrapper(instance().get('user/details'))
+    return wrapper(instance().get('user'))
   }
 }

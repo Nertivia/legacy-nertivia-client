@@ -1,6 +1,8 @@
 <template>
   <div class="my-profile-panel">
-    <profile-picture :url="avatar" :admin="user.admin" height="100px" width="100px" />
+    <div class="profile-picture-outer">
+      <profile-picture :url="avatar" :admin="user.admin" size="100px" emoteSize="30px" animationPadding="5px"/>
+    </div>
     <div class="information">
       <div class="username">
         <strong>Username:</strong>
@@ -35,7 +37,7 @@ import AvatarUpload from "@/services/AvatarUpload.js";
 import config from "@/config.js";
 import { bus } from "@/main";
 import path from "path";
-import {mapState} from 'vuex'
+import { mapState } from "vuex";
 
 export default {
   components: {
@@ -99,7 +101,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('settingsModule', ['GDriveLinked']),
+    ...mapState("settingsModule", ["GDriveLinked"]),
     user() {
       return this.$store.getters.user;
     },
@@ -118,6 +120,10 @@ export default {
   width: 100%;
   height: 100px;
   margin-top: 10px;
+}
+.profile-picture-outer{
+  display: flex;
+  z-index: 99999;
 }
 .profile-picture {
   margin-left: 20px;

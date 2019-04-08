@@ -2,7 +2,7 @@
   <div class="logged-in">
     <div class="card">
       <div class="avatar-outer">
-        <profile-picture :url="avatar" :admin="user.admin" height="90px" width="90px" />
+        <profile-picture :url="avatar" :admin="user.admin" size="90px" emoteSize="27px" />
       </div>
       <div class="info">
           <div class="username">{{user.username}}<span class="tag">@{{user.tag}}</span></div>

@@ -3,7 +3,7 @@
     <transition name="list" appear>
       <div class="list">
         
-        <FriendsTemplate v-for="(channel, key) of channels" :key="key" notifications="1" :channelID="channel.channelID" :uniqueID="channel.recipients[0].uniqueID" :username="channel.recipients[0].username" :tag="channel.recipients[0].tag"/>
+        <FriendsTemplate v-for="(channel, key) of channels" :key="key" notifications="1" :channelID="channel.channelID" :recipient="channel.recipients[0]"/>
       </div>
     </transition>
   </div>
@@ -21,9 +21,11 @@ export default {
       const json = this.$store.getters.channels;
       const notifications = this.$store.getters.notifications;
 
+
       const keys = Object.keys(json);
       let result = [];
       keys.forEach(function(key){
+        if (json[key].recipients.length > 0)
           result.push(json[key]);
       });
 

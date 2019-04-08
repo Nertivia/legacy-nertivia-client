@@ -1,10 +1,10 @@
 <template>
   <div :class="{friend: true, notifyAnimation: (notifications && notifications > 0) }" :style="`background: ${status.bgColor};`" @click="openChat">
-    <div class="profile-picture" :style="`border-color: ${status.statusColor}; background-image: url(${userAvatar})`">
+    <div class="profile-picture" @click="openUserInformation" :style="`border-color: ${status.statusColor}; background-image: url(${userAvatar})`">
       <div class="status" :style="`background-image: url(${status.statusURL})`" ></div>
     </div>
     <div class="information">
-      <div class="username">{{$props.username}}</div>
+      <div class="username">{{recipient.username}}</div>
       <div class="status-name" :style="`color: ${status.statusColor}`">{{status.statusName}}</div>
     </div>
     <div class="notification" v-if="notifications && notifications >0">
@@ -23,7 +23,7 @@ import statuses from '@/utils/statuses';
 import {bus} from '@/main'
 
 export default {
-  props: ['username', 'tag',  'channelID',  'uniqueID', ],
+  props: ['username', 'tag',  'channelID',  'uniqueID', 'recipient'],
   methods: {
     async getMessages() {
       const {ok, error, result} = await messagesService.get(this.$props.channelID);
@@ -34,14 +34,19 @@ export default {
         console.log (error.response)
       }
     },
-    async openChat() {
+    async openChat(event) {
+      if (event.target.classList[0] === "profile-picture") return;
       bus.$emit('closeLeftMenu');
       // dismiss notification if exists
       if (this.notifications && this.notifications >= 1 && document.hasFocus()) {
         this.$socket.emit('notification:dismiss', {channelID: this.channelID});
       }
+      // this.$store.dispatch('openChat', {
+      //   channelID: this.channelID,
+      //   channelName: this.channel
+      // })
       this.$store.dispatch('selectedChannelID', this.$props.channelID);
-      this.$store.dispatch('setChannelName', this.$props.username);
+      this.$store.dispatch('setChannelName', this.recipient.username);
       if (this.$store.getters.messages[this.$props.channelID]) return;
       if (this.$store.getters.channels[this.$props.channelID] && !this.$store.getters.messages[this.$props.channelID]) return this.getMessages();
       const {ok, error, result} = await channelService.post(this.$props.channelID);
@@ -52,6 +57,9 @@ export default {
         // TODO handle this
         console.log(error)
       }
+    },
+    openUserInformation() {
+      this.$store.dispatch('setUserInformationPopout', this.recipient.uniqueID)
     }
   },
   computed: {
@@ -63,14 +71,15 @@ export default {
       if (!notifications || (this.$props.channelID === this.$store.getters.selectedChannelID && document.hasFocus())) return;
       return notifications.count;
     },
-    user() {
-      return this.$store.getters.user.friends[this.$props.uniqueID].recipient;
-    },
     userAvatar() {
-      return config.domain + "/avatars/" + this.user.avatar
+      return config.domain + "/avatars/" + this.recipient.avatar
     },
     status() {
-      const status = this.$store.getters.user.friends[this.$props.uniqueID].recipient.status || 0
+      let status = 0;
+      if (this.$store.getters.user.friends[this.recipient.uniqueID]) {
+        status = this.$store.getters.user.friends[this.recipient.uniqueID].recipient.status || 0
+      }
+
       return {
         statusName: statuses[parseInt(status)].name,
         statusURL: statuses[parseInt(status)].url,

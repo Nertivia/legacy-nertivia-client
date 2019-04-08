@@ -6,6 +6,7 @@
       <GDriveLinkMenu key="GDriveLinkMenu" v-if="popouts.GDLinkMenu"/>
       <image-large-preview key="ilp" v-if="popouts.ImagePreviewURL"/>
       <drag-drop-file-upload-dialog key="ddfud" v-if="showUploadDrapDrop"/>
+      <user-information-popout key="uip" v-if="popouts.userInformationPopoutID"/>
     </transition-group>
   </div>
 </template>
@@ -13,6 +14,7 @@
 <script>
 import { bus } from "@/main";
 //popouts
+import userInformationPopout from "@/components/app/userInformationPopout.vue";
 import Settings from "@/components/app/Settings.vue";
 import uploadDialog from "@/components/app/uploadDialog.vue";
 import GDriveLinkMenu from "@/components/app/GDriveLinkMenu.vue";
@@ -24,6 +26,7 @@ export default {
     Settings,
     uploadDialog,
     GDriveLinkMenu,
+    userInformationPopout,
     DragDropFileUploadDialog,
     imageLargePreview
   },

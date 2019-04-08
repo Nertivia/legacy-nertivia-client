@@ -5,7 +5,7 @@
     </div>
     <transition name="list" appear>
       <div class="list" v-if="expanded">
-        <FriendsTemplate v-for="(friend, key) of friends" :key="key" :channelID="friend.channelID" :uniqueID="friends[key].recipient.uniqueID" :username="friend.recipient.username" :tag="friend.recipient.tag"/>
+        <FriendsTemplate v-for="(friend, key) of friends" :key="key" :channelID="friend.channelID" :recipient="friends[key].recipient"/>
       </div>
     </transition>
   </div>

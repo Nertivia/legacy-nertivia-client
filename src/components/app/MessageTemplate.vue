@@ -1,12 +1,12 @@
 <template>
   <div :class="{message: true, ownMessage: user.uniqueID === $props.uniqueID}">
-    <profile-picture :admin="$props.admin" :url="userAvatar" height="50px" width="50px"/>
+    <profile-picture :hover="true" :admin="$props.admin" :url="userAvatar" size="50px" @click.native="openUserInformation"/>
     <div class="triangle">
       <div class="triangle-inner"></div>
     </div>
     <div class="content">
       <div class="user-info">
-        <div class="username">{{this.$props.username}}</div>
+        <div class="username" @click="openUserInformation">{{this.$props.username}}</div>
         <div class="date">{{getDate}}</div>
       </div>
       <div class="content-message" v-html="formatMessage"></div>
@@ -54,6 +54,9 @@ export default {
     "admin"
   ],
   methods: {
+    openUserInformation() {
+      this.$store.dispatch('setUserInformationPopout', this.uniqueID)
+    },
     imageClicked(event) {
       this.$store.dispatch("setImagePreviewURL", event.target.src);
     }
@@ -121,6 +124,7 @@ export default {
 }
 
 .ownMessage .triangle-inner {
+  transition: 0.5s;
   border-right: 7px solid rgba(184, 184, 184, 0.219);
 }
 .ownMessage .content {
@@ -240,6 +244,11 @@ export default {
   margin: auto;
   margin-left: 0;
   margin-right: 0;
+  transition: 0.1s;
+  cursor: default;
+}
+.username:hover{
+  color: rgb(199, 199, 199);
 }
 .date {
   color: rgb(161, 161, 161);

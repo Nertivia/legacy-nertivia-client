@@ -25,15 +25,18 @@ const actions = {
     if(friendsArray !== undefined && friendsArray.length >=1) {
       for (let index = 0; index < friendsArray.length; index++) {
         const element = friendsArray[index];
-        friendObject[element.recipient.uniqueID] = element;
-        for (let currentFriendStatus of currentFriendStatus){
-          if(currentFriendStatus[0] == element.recipient.uniqueID){
-            friendObject[element.recipient.uniqueID].recipient.status = currentFriendStatus[1]
+        if (element.recipient) {
+          friendObject[element.recipient.uniqueID] = element;
+          for (let currentFriendStatus of currentFriendStatus){
+            if(currentFriendStatus[0] == element.recipient.uniqueID){
+              friendObject[element.recipient.uniqueID].recipient.status = currentFriendStatus[1]
+            }
           }
         }
       }
       data.user.friends = friendObject;
     }
+
     context.commit('user', data.user)
 
     // convert dms array to object

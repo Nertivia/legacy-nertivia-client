@@ -154,6 +154,7 @@ input {
   margin-top: 0;
   margin-bottom: 0;
   background: none;
+  width: calc(100% - 30px);
 }
 input:hover {
   background: rgba(26, 26, 26, 0.24);
@@ -172,6 +173,7 @@ input:focus {
   width: 50px;
   position: relative;
   overflow: hidden;
+  flex-shrink: 0;
 }
 .delete-button .material-icons {
   margin: auto;

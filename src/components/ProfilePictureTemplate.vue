@@ -1,16 +1,16 @@
 <template>
-  <div :class="`profile-picture ${adminType ? adminType.name : ''}`">
-    <img v-if="adminType" class="emote" :src="adminType.emotePath">
+  <div :class="`profile-picture ${adminType ? adminType.name : ''}`" :style="`padding: ${$props.animationPadding || '3px'}`">
+    <img v-if="adminType" class="emote" :src="adminType.emotePath" :style="`width: ${$props.emoteSize || '20px'}; height: ${$props.emoteSize ||'20px'}`">
     <div
-      class="inner-profile-picture"
-      :style="`height: ${$props.height}; width: ${$props.width}; background-image: url(${$props.url})`"
+      :class="`inner-profile-picture ${$props.hover ? 'hoverable' : ''}`"
+      :style="`height: ${$props.size}; width: ${$props.size}; background-image: url(${$props.url})`"
     ></div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["url", "height", "width", "admin"],
+  props: ["url", "size","emoteSize", "admin", "hover", 'animationPadding'],
   data() {
     return {
       crown: require("twemoji/2/svg/1f451.svg"),
@@ -38,7 +38,6 @@ export default {
 <style scoped>
 .profile-picture {
   position: relative;
-  padding: 3px;
   border-radius: 50%;
 }
 .inner-profile-picture {
@@ -48,6 +47,10 @@ export default {
   background-size: cover;
   background-repeat: no-repeat;
   display: flex;
+  transition: 0.2s;
+}
+.hoverable:hover{
+  filter: brightness(80%);
 }
 .creator {
   margin-right: 5px;
@@ -92,6 +95,7 @@ export default {
   top: -3px;
   left: -3px;
 }
+
 @keyframes Anime {
   0% {
     background-position: 0% 50%;

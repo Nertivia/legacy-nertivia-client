@@ -1,6 +1,6 @@
 <template>
   <div class="pending-friend">
-    <div class="profile-picture" :style="`background-image: url(${userAvatar})`"></div>
+    <div class="profile-picture" @click="openUserInformation" :style="`background-image: url(${userAvatar})`"></div>
     <div class="information">
       <div class="username">{{$props.username}}</div>
       <div class="tag">@{{$props.tag}}</div>
@@ -32,6 +32,9 @@ export default {
     },
     accept() {
       RelationshipService.put(this.$props.uniqueID)
+    },
+    openUserInformation() {
+      this.$store.dispatch('setUserInformationPopout', this.uniqueID)
     }
   },
   computed: {
