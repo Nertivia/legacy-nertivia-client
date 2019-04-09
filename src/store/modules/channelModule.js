@@ -1,12 +1,12 @@
-import {bus} from '../../main'
-import {router} from './../../router'
-import Vue from 'vue';
+import { bus } from "../../main";
+import { router } from "./../../router";
+import Vue from "vue";
 
 const state = {
   selectedChannelID: null,
   channelName: null,
   channels: {}
-}
+};
 
 const getters = {
   selectedChannelID(state) {
@@ -18,29 +18,29 @@ const getters = {
   channelName(state) {
     return state.channelName;
   }
-}
+};
 
 const actions = {
   channel(context, channel) {
-    context.commit('channel', channel)
+    context.commit("channel", channel);
   },
   selectedChannelID(context, channelID) {
-    context.commit('selectedChannelID', channelID)
+    context.commit("selectedChannelID", channelID);
   },
   setChannelName(context, name) {
-    context.commit('setChannelName', name)
+    context.commit("setChannelName", name);
   },
   updateChannelLastMessage(context, channelID) {
-    context.commit('updateChannelLastMessage', channelID)
+    context.commit("updateChannelLastMessage", channelID);
   }
-}
+};
 
 const mutations = {
-  updateChannelLastMessage(state, channelID){
-    Vue.set(state.channels[channelID], 'lastMessaged', Date.now());
+  updateChannelLastMessage(state, channelID) {
+    Vue.set(state.channels[channelID], "lastMessaged", Date.now());
   },
-  addAllChannels(state, channels){
-    Vue.set(state, 'channels', channels);
+  addAllChannels(state, channels) {
+    Vue.set(state, "channels", channels);
   },
   channel(state, channel) {
     Vue.set(state.channels, channel.channelID, channel);
@@ -51,7 +51,7 @@ const mutations = {
   setChannelName(state, name) {
     state.channelName = name;
   }
-}
+};
 
 export default {
   namespace: true,
@@ -59,4 +59,4 @@ export default {
   actions,
   mutations,
   getters
-}
+};

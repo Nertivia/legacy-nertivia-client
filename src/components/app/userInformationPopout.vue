@@ -19,7 +19,6 @@
           </div>
         </div>
         <div class="bottom" v-if="selfUniqueID !== user.uniqueID">
-
           <div class="button valid" v-if="this.relationshipStatus == null" @click="AddFriendButton">
             <div class="material-icons">person_add</div>Add friend
           </div>
@@ -36,7 +35,7 @@
             <div class="material-icons">person_add_disabled</div>End Friendship
           </div>
 
-          <div class="button">
+          <div class="button" @click="openChat">
             <div class="material-icons">chat</div>Send Message
           </div>
           <div class="button warn">
@@ -48,7 +47,6 @@
   </div>
 </template>
 <script>
-
 import config from "@/config.js";
 import Spinner from "@/components/Spinner.vue";
 import profilePicture from "@/components/ProfilePictureTemplate.vue";
@@ -69,13 +67,27 @@ export default {
       }
     },
     async AddFriendButton() {
-      const {ok, error, result} = await relationshipService.post({username: this.user.username, tag: this.user.tag});
+      const { ok, error, result } = await relationshipService.post({
+        username: this.user.username,
+        tag: this.user.tag
+      });
     },
     async AcceptFriendButton() {
-      const {ok, error, result} = await relationshipService.put(this.uniqueID);
+      const { ok, error, result } = await relationshipService.put(
+        this.uniqueID
+      );
     },
     async RemoveFriendButton() {
-      const {ok, error, result} = await relationshipService.delete(this.uniqueID);
+      const { ok, error, result } = await relationshipService.delete(
+        this.uniqueID
+      );
+    },
+    openChat() {
+      // todo: find from friends array and later, create new channels for people who are not friends.
+      this.$store.dispatch("openChat", {
+        channelID: this.channelID,
+        channelName: this.user.username
+      });
     }
   },
   async mounted() {
@@ -94,8 +106,8 @@ export default {
     relationshipStatus() {
       const userUniqueID = this.$store.getters.popouts.userInformationPopoutID;
       const allFriend = this.$store.getters.user.friends;
-      if (!allFriend[userUniqueID]) return null
-      return allFriend[userUniqueID].status
+      if (!allFriend[userUniqueID]) return null;
+      return allFriend[userUniqueID].status;
     }
   }
 };

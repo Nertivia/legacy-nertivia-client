@@ -25,38 +25,19 @@ import {bus} from '@/main'
 export default {
   props: ['username', 'tag',  'channelID',  'uniqueID', 'recipient'],
   methods: {
-    async getMessages() {
-      const {ok, error, result} = await messagesService.get(this.$props.channelID);
-      if ( ok ) {
-        this.$store.dispatch('messages', {channelID: result.data.channelID, messages: result.data.messages});
-      } else {
-        // TODO handle this
-        console.log (error.response)
-      }
-    },
+
     async openChat(event) {
       if (event.target.classList[0] === "profile-picture") return;
       bus.$emit('closeLeftMenu');
-      // dismiss notification if exists
+      // dismiss notification if exists 
+      // TODO move this into openchat or something :/
       if (this.notifications && this.notifications >= 1 && document.hasFocus()) {
         this.$socket.emit('notification:dismiss', {channelID: this.channelID});
       }
-      // this.$store.dispatch('openChat', {
-      //   channelID: this.channelID,
-      //   channelName: this.channel
-      // })
-      this.$store.dispatch('selectedChannelID', this.$props.channelID);
-      this.$store.dispatch('setChannelName', this.recipient.username);
-      if (this.$store.getters.messages[this.$props.channelID]) return;
-      if (this.$store.getters.channels[this.$props.channelID] && !this.$store.getters.messages[this.$props.channelID]) return this.getMessages();
-      const {ok, error, result} = await channelService.post(this.$props.channelID);
-      if ( ok ) {
-        this.$store.dispatch('channel', result.data.channel);
-        this.getMessages();
-      } else {
-        // TODO handle this
-        console.log(error)
-      }
+      this.$store.dispatch('openChat', {
+        channelID: this.channelID,
+        channelName: this.recipient.username
+      })
     },
     openUserInformation() {
       this.$store.dispatch('setUserInformationPopout', this.recipient.uniqueID)

@@ -92,23 +92,26 @@ export default {
 .change-log {
   background: rgba(0, 0, 0, 0.137);
   padding: 20px;
-  flex: 1;
   overflow-y: auto;
+  max-width: 700px;
+  margin: auto;
 }
 .plan-list {
   color: white;
 }
 .date {
-  text-align: left;
-  margin-right: 50px;
+  text-align: right;
+  font-size: 19px;
+  margin-right: 10px;
   color: rgba(255, 255, 255, 0.692);
 }
 .changes-title {
-  font-size: 20px;
+  font-size: 30px;
   color: rgba(255, 255, 255, 0.979);
-  margin-bottom: 10px;
-  margin-top: 10px;
+  text-align: center;
   font-weight: bold;
+  margin-top: -5px;
+  margin-bottom: 10px;
 }
 
 @media (max-width: 840px) {
