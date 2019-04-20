@@ -401,7 +401,8 @@ export default {
   position: absolute;
   bottom: 10px;
   right: 20px;
-  width: 390px;
+  max-width: 390px;
+  width: calc(100% - 50px);
   display: flex;
   flex-direction: column;
   z-index: 99999;
@@ -459,13 +460,13 @@ export default {
   align-content: center;
   align-items: center;
   align-self: center;
-  justify-content: center;
   padding-top: 5px;
   padding-bottom: 5px;
   margin-top: 10px;
   background: rgb(161, 161, 161);
   border-radius: 5px;
   transition: 0.3s;
+  overflow: auto;
 }
 .tabs img {
   height: 20px;
@@ -489,11 +490,12 @@ export default {
   flex-direction: column;
   transition: 0.1s;
   height: 35px;
-  width: 325px;
+  width: 32px;
   overflow: hidden;
   align-content: center;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .tab:hover {

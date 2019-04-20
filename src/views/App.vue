@@ -208,6 +208,9 @@ body {
   color: #383838;
   height: 100%;
 }
+textarea {
+  font-family: "Roboto", sans-serif;
+}
 .box {
   display: flex;
   flex-direction: column;

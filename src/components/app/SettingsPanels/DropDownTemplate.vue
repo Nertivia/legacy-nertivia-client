@@ -46,10 +46,14 @@ export default {
       this.opened = false;
     }
   },
+  watch: {
+    updateItems() {
+			this.selected = null;
+    }
+  },
   computed: {
     updateItems() {
 			this.$emit("change", null);
-			this.selected = null;
       let newArr = [];
       for (let index = 0; index < this.items.length; index++) {
 				let element = this.items[index];
@@ -91,6 +95,11 @@ export default {
   flex-direction: row;
   align-content: center;
   align-items: center;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+.box:hover {
+  background: rgba(73, 73, 73, 0.863);
 }
 
 .selected {
@@ -105,10 +114,11 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
-  background: rgba(24, 24, 24, 0.945);
+  background: rgba(49, 49, 49, 0.945);
   max-height: 200px;
   width: 220px;
   overflow: auto;
+  border-radius: 5px;
 }
 .item {
   width: 100%;
@@ -117,7 +127,7 @@ export default {
   transition: 0.3s;
 }
 .item:hover {
-  background: rgba(15, 15, 15, 0.726);
+  background: rgb(65, 65, 65);
 }
 .content {
   display: flex;
@@ -127,6 +137,7 @@ export default {
 }
 .emoji {
   margin-right: 5px;
+  margin-left: 1px;
 }
 </style>
 

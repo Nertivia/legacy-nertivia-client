@@ -33,57 +33,7 @@
         <div class="option red" @click="logout">Logout</div>
       </div>
     </div>
-    <div class="title">
-      <i class="material-icons">error</i>
-      Take Survey
-    </div>
-    <div class="notice">Note: Everyone will be able to see your survey in your profile.</div>
-
-    <div class="survey">
-      <!-- name -->
-      <div>
-        <div class="survey-title">What's your name?</div>
-        <input
-          class="survey-input"
-          v-model="surveySelectedItems.name"
-          type="text"
-          placeholder="Name"
-        >
-      </div>
-      <!-- Gender -->
-      <div class="survey-box">
-        <drop-down
-          name="What is your gender?"
-          v-model="surveySelectedItems.gender"
-          :items="surveyItems.gender"
-        />
-      </div>
-      <!-- Age -->
-      <div class="survey-box">
-        <drop-down
-          name="What is your age?"
-          v-model="surveySelectedItems.age"
-          :items="surveyItems.age"
-        />
-      </div>
-      <!-- Continent -->
-      <div class="survey-box">
-        <drop-down
-          name="Pick a continent"
-          v-model="surveySelectedItems.continent"
-          :items="surveyItems.continents"
-        />
-      </div>
-      <!-- Countries -->
-      <div class="survey-box">
-        <drop-down
-          name="Pick a country"
-          v-if="surveySelectedItems.continent != null"
-          v-model="surveySelectedItems.countries"
-          :items="filterCountry"
-        />
-      </div>
-    </div>
+    <survey />
     <div class="alert-outer" v-if="alert.show">
       <div class="alert">
         <div class="alert-title">Error</div>
@@ -97,9 +47,9 @@
 </template>
 
 <script>
-import surveyItems from "@/utils/surveyItems.js";
+
 import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
-import DropDown from "@/components/app/SettingsPanels/DropDownTemplate.vue";
+import Survey from "@/components/app/SettingsPanels/survey.vue";
 import AvatarUpload from "@/services/AvatarUpload.js";
 import config from "@/config.js";
 import { bus } from "@/main";
@@ -109,18 +59,10 @@ import { mapState } from "vuex";
 export default {
   components: {
     ProfilePicture,
-    DropDown
+    Survey
   },
   data() {
     return {
-      surveyItems,
-      surveySelectedItems: {
-        name: "",
-        gender: null,
-        age: null,
-        continent: null,
-        countries: null
-      },
       alert: {
         content: "",
         show: false
@@ -128,6 +70,7 @@ export default {
     };
   },
   methods: {
+
     onProgress(percent) {
       //update vue
       console.log("Avatar upload progress: ", percent);
@@ -178,16 +121,6 @@ export default {
   },
   computed: {
     ...mapState("settingsModule", ["GDriveLinked"]),
-    filterCountry() {
-      const selectedContinentIndex = this.surveySelectedItems.continent;
-      const selectedContinent = this.surveyItems.continents[
-        selectedContinentIndex
-      ];
-      const code = selectedContinent.code;
-      return this.surveyItems.countries.filter(element => {
-        return element.code == code;
-      });
-    },
     user() {
       return this.$store.getters.user;
     },
@@ -198,44 +131,7 @@ export default {
 };
 </script>
 <style scoped>
-.notice {
-  color: grey;
-  font-size: 15px;
-  margin-top: 20px;
-  margin-left: 30px;
-}
 
-.survey-title {
-  margin-top: 10px;
-}
-.survey {
-  display: flex;
-  margin: auto;
-  margin-top: 10px;
-  flex-flow: row wrap;
-  flex-direction: column;
-}
-
-.survey-input {
-  height: 24px;
-  padding: 10px;
-  background: rgba(61, 61, 61, 0.863);
-  margin-top: 5px;
-}
-
-.title {
-  margin-top: 30px;
-  display: flex;
-  align-content: center;
-  align-items: center;
-  margin-left: 25px;
-  font-size: 20px;
-}
-.title .material-icons {
-  color: cyan;
-  margin-right: 10px;
-  font-size: 30px;
-}
 .hidden {
   display: none;
 }
