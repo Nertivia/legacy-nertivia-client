@@ -8,7 +8,9 @@ const config = [
     new: [
       'You can now make your own guild.',
       "Tabs have been added at the top of the screen.",
-      "Added users information page which allows you to block, End friendship or message someone.",
+      "Added an option to display your messages on the right and other messages to the left.",
+      "Added users information page which allows you to block, End friendship, message someone and view their information.",
+      "Replaced 'Sending' and 'Sent' with icons."
     ],
     fix: ["Some formatting issues with custom emojis have been fixed."],
     next: ['link previews.']

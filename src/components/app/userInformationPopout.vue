@@ -43,6 +43,10 @@
           </div>
         </div>
       </div>
+      <div class="about-me-box">
+        <spinner v-if="!user"/>
+        <div class="title" v-else>About {{user.username}}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -85,7 +89,7 @@ export default {
     openChat() {
       // todo: find from friends array and later, create new channels for people who are not friends.
       this.$store.dispatch("openChat", {
-        channelID: this.channelID,
+        uniqueID: this.uniqueID,
         channelName: this.user.username
       });
     }
@@ -113,6 +117,23 @@ export default {
 };
 </script>
 <style scoped>
+
+.about-me-box{
+  display: flex;
+  flex-direction: column;
+  background: rgba(31, 31, 31, 0.704);
+  width: 300px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-left: 10px;
+}
+
+.title {
+  padding-top: 10px;
+  font-size: 20px;
+  text-align: center;
+}
+
 .drop-background {
   position: absolute;
   background: rgba(0, 0, 0, 0.521);
@@ -126,20 +147,21 @@ export default {
 .box {
   margin: auto;
   height: 330px;
-  width: 500px;
-  background: rgba(31, 31, 31, 0.904);
-  border-radius: 5px;
+  width: initial;
   color: white;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   user-select: none;
   overflow: hidden;
 }
 .inner {
+  background: rgba(31, 31, 31, 0.904);
   display: flex;
   height: 100%;
-  width: 100%;
+  width: 500px;
   flex-direction: column;
+  border-radius: 10px;
+  overflow: hidden;
 }
 .top {
   display: flex;

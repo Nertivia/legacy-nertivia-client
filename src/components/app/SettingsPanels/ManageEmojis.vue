@@ -210,6 +210,7 @@ input:focus {
   flex-direction: column;
   width: 100%;
   height: 100%;
+  margin-bottom: 20px;
 }
 
 .emojis-list {
@@ -218,7 +219,7 @@ input:focus {
   background: rgba(47, 47, 47, 0.767);
   overflow-y: auto;
   overflow-x: hidden;
-  height: calc(100% - 120px);
+  height: 100%;
   width: calc(100% - 30px);
   margin: auto;
   margin-top: 5px;

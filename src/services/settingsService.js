@@ -9,5 +9,10 @@ export default {
   },
   GDriveAuth (code) {
     return wrapper(instance().post('/settings/drive/auth', {code}));
+  },
+  setApperance (apperance, boolean) {
+    return wrapper(instance().put('/settings/apperance', {
+      [apperance]: boolean
+    }));
   }
 }

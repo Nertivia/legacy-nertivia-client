@@ -1,6 +1,8 @@
 <template>
-  <div :class="{message: true, ownMessage: user.uniqueID === $props.uniqueID}">
-    <profile-picture :hover="true" :admin="$props.admin" :url="userAvatar" size="50px" @click.native="openUserInformation"/>
+  <div :class="{message: true,  ownMessage: user.uniqueID === $props.uniqueID, ownMessageLeft: user.uniqueID === $props.uniqueID && (apperance && apperance.own_message_right === true)} ">
+    <div class="outer-profile-picture">
+      <profile-picture :hover="true" :admin="$props.admin" :url="userAvatar" size="50px" @click.native="openUserInformation"/>
+    </div>
     <div class="triangle">
       <div class="triangle-inner"></div>
     </div>
@@ -39,6 +41,8 @@ import config from "@/config.js";
 import friendlyDate from "@/utils/date";
 import path from "path";
 
+import { mapState } from "vuex";
+
 export default {
   components: {
     ProfilePicture
@@ -62,6 +66,7 @@ export default {
     }
   },
   computed: {
+    ...mapState('settingsModule', ['apperance']),
     getImage() {
       if (!this.$props.files || this.$props.files.length === 0)
         return undefined;
@@ -114,6 +119,30 @@ export default {
 
 
 <style scoped>
+
+.ownMessageLeft  {
+  flex-direction: row-reverse;
+}
+
+.ownMessageLeft .triangle-inner {
+  transition: 0.5s;
+  border-left: 7px solid rgba(184, 184, 184, 0.219);
+  border-right: none !important;
+}
+.ownMessageLeft .profile-picture { 
+    margin-right: 0px;
+    margin-left: 5px;
+}
+.ownMessageLeft .sending-status{
+  margin-left: auto !important;
+  margin-right: 4px !important;
+}
+
+
+
+.outer-profile-picture{
+  z-index:9999;
+}
 .message {
   margin: 10px;
   margin-top: 10px;

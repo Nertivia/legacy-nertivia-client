@@ -35,6 +35,7 @@ export default {
         this.$socket.emit('notification:dismiss', {channelID: this.channelID});
       }
       this.$store.dispatch('openChat', {
+        uniqueID: this.recipient.uniqueID,
         channelID: this.channelID,
         channelName: this.recipient.username
       })

@@ -2,13 +2,18 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 import {store} from './store/index';
-import MainApp from '../src/views/App.vue'
-import HomePage from '../src/views/HomePage.vue'
-import GDriveCallback from '../src/views/GDriveCallback.vue';
 import VueSocketio from 'vue-socket.io-extended';
 import io from 'socket.io-client';
 import config from './config'
 import VueMq from 'vue-mq'
+
+import MainApp from '../src/views/App.vue'
+import HomePage from '../src/views/HomePage.vue'
+import GDriveCallback from '../src/views/GDriveCallback.vue';
+
+// const MainApp = () => import('../src/views/App.vue');
+// const HomePage = () => import('../src/views/HomePage.vue');
+// const GDriveCallback = () => import( '../src/views/GDriveCallback.vue');
 
 export const router = new VueRouter({
   mode: 'history',

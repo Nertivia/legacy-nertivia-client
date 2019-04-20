@@ -8,7 +8,8 @@ import {
 const state = {
 	GDriveLinked: false,
 	customEmojis: [],
-	recentEmojis: JSON.parse(localStorage.getItem('recentEmojis')) || []
+	recentEmojis: JSON.parse(localStorage.getItem('recentEmojis')) || [],
+	apperance: {}
 }
 
 const getters = {
@@ -70,11 +71,19 @@ const actions = {
 	setCustomEmojis({commit}, customEmojis) {
 		commit('setCustomEmojis', customEmojis)
 	},
+	setApperance({commit}, data) {
+		commit('setApperance', data)
+	}
 }
 
 const mutations = {
+	setApperance(state, data) {
+		const apperance = state.apperance || {};
+		apperance[Object.keys(data)[0]] = data[Object.keys(data)[0]]
+		state['apperance']  = apperance
+	},
 	setSettings(state, settings) {
-		state = Object.assign(state, settings)
+		Vue.set(state, Object.assign(state, settings))
 	},
 	GoogleDriveLinked(state, status) {
 		Vue.set(state, 'GDriveLinked', status)

@@ -15,7 +15,53 @@ const getters = {
 };
 
 const actions = {
-  async openChat(context, { channelID, channelName }) {
+  async openChat(context, { uniqueID, channelID, channelName }) {
+
+    if (channelName) context.commit("setChannelName", channelName);
+
+    const channels = context.rootState.channelModule.channels;
+    channelID = Object.keys(channels).find(_channelID => {
+      return channels[_channelID].recipients[0].uniqueID === uniqueID
+    })
+    const messages = context.state.messages[channelID];
+    const channel = channels[channelID];
+    
+    if (channelID) {
+      context.commit("selectedChannelID", channelID); 
+    } else {
+      context.commit("selectedChannelID", "Loading");
+    }
+
+    if (messages) return;
+    if (channel && !messages) return getMessages(channelID);
+
+
+    const { ok, error, result } = await channelService.post(uniqueID);
+    if (ok) {
+      context.commit("channel", result.data.channel);
+      getMessages(result.data.channel.channelID);
+    } else {
+      // TODO handle this
+      console.log(error);
+    }
+
+    async function getMessages(channelID) {
+      const { ok, error, result } = await messagesService.get(channelID);
+      if (ok) {
+        context.commit("selectedChannelID", channelID);
+        context.commit("messages", {
+          channelID: result.data.channelID,
+          messages: result.data.messages.reverse()
+        });
+      } else {
+        // TODO handle this
+        console.log(error.response);
+      }
+    }
+  },
+
+  // OLD STUFF
+  async openddChat(context, { channelID, channelName }) {
     context.commit("selectedChannelID", channelID);
     if (channelName) context.commit("setChannelName", channelName);
 
@@ -66,7 +112,7 @@ const actions = {
 
 const mutations = {
   messages(state, data) {
-    Vue.set(state.messages, data.channelID, data.messages.reverse());
+    Vue.set(state.messages, data.channelID, data.messages);
   },
   addMessage(state, data) {
     bus.$emit("newMessage", data);

@@ -32,10 +32,12 @@
 import { bus } from "../../main";
 import MyProfile from "./SettingsPanels/MyProfile.vue";
 import ManageEmojis from "./SettingsPanels/ManageEmojis.vue";
+import MessageDesign from "./SettingsPanels/MessageDesign.vue";
 export default {
   components: {
     MyProfile,
-    ManageEmojis
+    ManageEmojis,
+    MessageDesign
   },
   data() {
     return {
@@ -48,10 +50,10 @@ export default {
           component: "my-profile"
         },
         {
-          name: "Message Themes",
-          tabName: "Coming soon!",
+          name: "Message Design",
+          tabName: "Message Design",
           icon: "palette",
-          component: "ddddsd"
+          component: "message-design"
         },
         {
           name: "Manage Emojis",
@@ -87,26 +89,31 @@ export default {
   color: white;
 }
 .settings-box {
+  height: 600px;
   display: flex;
   margin: auto;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.507);
 }
 .tabs {
   background: rgba(24, 24, 24, 0.938);
-  height: 600px;
+  height: 100%;
   width: 200px;
+  min-width: 150px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .panel {
   display: flex;
   flex-direction: column;
   background: rgba(31, 31, 31, 0.924);
-  height: 600px;
+  height: 100%;
   width: 600px;
 }
 .tab {
   display: flex;
   padding: 10px;
   background: rgba(26, 26, 26, 0.233);
+  border-radius: 5px;
   margin-top: 5px;
   margin-bottom: 5px;
   cursor: default;
@@ -160,6 +167,11 @@ export default {
 @media (max-width: 815px) {
   .settings-box {
     width: 100%;
+  }
+}
+@media (max-height: 609px) {
+  .settings-box {
+    height: 100%;
   }
 }
 </style>

@@ -13,6 +13,11 @@
         </transition>
       </div>
     </div>
+    <div class="setting-icon survay-button" @click="openSettings">
+      <div class="survay-inner">
+        <i class="material-icons">error</i>
+      </div>
+    </div>
     <div class="setting-icon" @click="openSettings">
       <i class="material-icons">settings</i>
     </div>
@@ -80,7 +85,25 @@ export default {
 
 
 <style scoped>
-
+.survay-button {
+  padding: 10px;
+    height: 24px;
+  width: 24px;
+}
+.survay-inner {
+  display: inline-block;
+  box-shadow: 0px 0px 20px 3px cyan;
+  border-radius: 50%;
+}
+.survay-button .material-icons {
+  display: block;
+  margin-left: -3px !important;
+  margin-top: -3px !important;
+  height: 24px;
+  width: 24px;
+  font-size: 30px;
+  color: cyan;  
+ }
 
 .show-status-list-enter-active, .show-status-list-leave-active {
   transition: .1s;

@@ -26,6 +26,13 @@
               </div>
             </div>
           </div>
+          <div class="twitter-outer">
+            <twitter class="twitter">
+              <div slot="loading">loading .....</div>
+              <a class="twitter-timeline" data-height="500" data-theme="dark" href="https://twitter.com/NertiviaApp?ref_src=twsrc%5Etfw">Tweets by NertiviaApp</a>
+            </twitter>
+          </div>
+
         </div>
         <RightPanel  :class="{'show-menu-content': showMobileMenu }" />
     </div>
@@ -37,6 +44,7 @@
 </template>
 
 <script>
+import { twitter } from 'vue-twitter'
 import {bus} from '../main';
 import RightPanel from "./../components/homePage/RightPanel.vue"
 import ChangeLog from "./../components/ChangeLog.vue"
@@ -44,7 +52,8 @@ import changelog from '@/utils/changelog.js'
 export default {
   components: {
     RightPanel,
-    ChangeLog
+    ChangeLog,
+    twitter
   },
   data() {
     return {
@@ -70,7 +79,15 @@ export default {
 
 
 <style scoped>
-
+.twitter-outer{
+  margin: auto;
+  width: 600px;
+  opacity: 0.8;
+  transition: 0.3s;
+}
+.twitter-outer:hover{
+  opacity: 1;
+}
 .fade-enter-active, .fade-leave-active {
   transition: opacity .2s;
 }
@@ -275,6 +292,11 @@ button {
   }
 }
 @media (max-width: 649px) {
+  .twitter-outer{
+    margin-top: 20px;
+    margin-bottom: 50px;
+    width: initial;
+  }
   .change-list{
     flex-direction: column;
   }
