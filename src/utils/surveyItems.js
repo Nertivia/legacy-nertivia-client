@@ -237,6 +237,7 @@ export default {
     { name: "Mayotte", emoji: "🇾🇹", code: "AF" },
     { name: "South Africa", emoji: "🇿🇦", code: "AF" },
     { name: "Zambia", emoji: "🇿🇲", code: "AF" },
-    { name: "Zimbabwe", emoji: "🇿🇼", code: "AF" }
+    { name: "Zimbabwe", emoji: "🇿🇼", code: "AF" },
+    { emoji: "😶", name: "Rather not say" }
   ]
 };

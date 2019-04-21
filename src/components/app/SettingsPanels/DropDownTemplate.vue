@@ -49,6 +49,9 @@ export default {
   watch: {
     updateItems() {
 			this.selected = null;
+    },
+    itemSelected(){
+      this.selected = this.itemSelected;
     }
   },
   computed: {

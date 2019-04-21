@@ -38,6 +38,10 @@
             </transition>
             <RightPanel/>
           </span>
+          <div class="coming-soon" v-if="currentTab > 1">
+            <div class="icon"><i class="material-icons">cached</i></div>
+            <div class="text">Coming soon!</div>
+          </div>
         </div>
       </div>
     </transition>
@@ -115,6 +119,23 @@ export default {
 
 <style scoped>
 
+.coming-soon{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.39);
+  color: white;
+}
+.coming-soon .icon{
+
+}
+.coming-soon .material-icons {
+  font-size: 100px;
+}
+
 .direct-message-tab{
   display: flex;
   width: 100%;
@@ -124,9 +145,16 @@ export default {
 
 .tabs {
   display: flex;
+  overflow-y: hidden;
+  overflow-x: auto;
+  margin-top: 5px;
+}
+.tabs::-webkit-scrollbar {
+  height: 5px;
 }
 
 .tab {
+  flex-shrink: 0;
   margin: auto;
   margin-right: 1px;
   margin-left: 1px;

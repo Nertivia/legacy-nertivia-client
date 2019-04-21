@@ -118,6 +118,9 @@ const actions = {
   },
   ['socket_customEmoji:rename'](context, emoji) {
     context.dispatch('settingsModule/renameCustomEmoji', emoji)
+  },
+  ['socket_survey:completed'](context) {
+    context.dispatch('surveyCompleted');
   }
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="survey">
+  <div class="survey" v-show="previousLoaded">
     <div class="title">
       <i class="material-icons">error</i>
       Take Survey
@@ -64,9 +64,10 @@ export default {
   components: { DropDown },
   data() {
     return {
-      surveyItems,
+      surveyItems: Object.assign({},surveyItems),
       surveyErrorMessage: null,
       surveyValidMessage: null,
+      previousLoaded: false,
       selected: {
         name: "",
         gender: null,
@@ -79,12 +80,11 @@ export default {
   },
   methods: {
     async surveySubmitButton() {
-
       this.surveyValidMessage = null;
       this.surveyErrorMessage = null;
       //checks if all drop boxes are not null.
       for (let item in this.selected) {
-        if (this.selected[item] === null) {
+        if (this.selected[item] === null && item !== "country") {
           this.surveyErrorMessage =
             "Make sure you select / fill in all fields!";
           return;
@@ -96,10 +96,12 @@ export default {
         return;
       }
       this.surveyValidMessage = "Saving..."
-			//gets the country index after unfiltering.
-      const selectedCountryName = this.filterCountry[this.selected.country].name;
-      const countryIndex = this.surveyItems.countries.findIndex(el => el.name == selectedCountryName);
-
+      //gets the country index after unfiltering.
+      let countryIndex = undefined;
+      if (this.filterCountry[this.selected.country]) {
+        const selectedCountryName = this.filterCountry[this.selected.country].name;
+        countryIndex = this.surveyItems.countries.findIndex(el => el.name == selectedCountryName);
+      }
 
       const { ok, error, result } = await userService.setSurvey({
         name: this.selected.name,
@@ -117,6 +119,26 @@ export default {
 			}
     }
   },
+  async mounted(){
+    const {ok, error, result} = await userService.getSurvey();
+    if (ok) {
+      this.selected.continent = result.data.result.continent
+        this.selected.age = result.data.result.age
+        this.selected.name = result.data.result.name
+        this.selected.about_me = result.data.result.about_me
+        this.selected.gender = result.data.result.gender
+        //filter the country
+        if(result.data.result.country) {
+          setTimeout(() => {
+            const continentCode = surveyItems.continents[this.selected.continent].code;
+            const filter = surveyItems.countries.filter(e => e.code === continentCode);
+            const countryName = surveyItems.countries[result.data.result.country].name;
+            this.selected.country = filter.findIndex(e => e.name === countryName);
+          }, 500);
+        }
+    }
+    this.previousLoaded = true;
+  },
   computed: {
     filterCountry() {
       const selectedContinentIndex = this.selected.continent;
@@ -124,8 +146,9 @@ export default {
         selectedContinentIndex
       ];
       const code = selectedContinent.code;
+      
       return this.surveyItems.countries.filter(element => {
-        return element.code == code;
+        return element.code == code || !element.code;
       });
     }
   }

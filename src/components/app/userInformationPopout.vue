@@ -42,10 +42,74 @@
             <div class="material-icons">block</div>Block
           </div>
         </div>
+        <div v-else class="cross"><i class="material-icons">close</i></div>
       </div>
-      <div class="about-me-box">
-        <spinner v-if="!user"/>
-        <div class="title" v-else>About {{user.username}}</div>
+      <div class="about-me-box" v-if="user && user.about_me">
+        <div class="title">About {{user.username}}</div>
+        <div class="about-me-inner">
+          <div class="about-me-detail" v-if="user.about_me.name">
+            <div class="about-me-title">
+              <div class="main-title-about-me">Name:</div>
+              <div class="emoji-about-me"></div>
+              {{user.about_me.name}}
+            </div>
+          </div>
+
+          <div class="about-me-detail" v-if="user.about_me.gender == 0 || user.about_me.gender">
+            <div class="about-me-title">
+              <div class="main-title-about-me">Gender:</div>
+              <div
+                class="emoji-about-me"
+                v-html="emojiParse(surveyItems.gender[user.about_me.gender].emoji)"
+              ></div>
+              {{surveyItems.gender[user.about_me.gender].name}}
+            </div>
+          </div>
+
+          <div class="about-me-detail" v-if="user.about_me.age == 0 || user.about_me.age">
+            <div class="about-me-title">
+              <div class="main-title-about-me">Age:</div>
+              <div
+                class="emoji-about-me"
+                v-html="emojiParse(surveyItems.age[user.about_me.age].emoji)"
+              ></div>
+              {{surveyItems.age[user.about_me.age].name}}
+            </div>
+          </div>
+
+          <div
+            class="about-me-detail"
+            v-if="user.about_me.continent == 0 || user.about_me.continent"
+          >
+            <div class="about-me-title">
+              <div class="main-title-about-me">Continent:</div>
+              <div
+                class="emoji-about-me"
+                v-html="emojiParse(surveyItems.continents[user.about_me.continent].emoji)"
+              ></div>
+              {{surveyItems.continents[user.about_me.continent].name}}
+            </div>
+          </div>
+
+          <div class="about-me-detail" v-if="user.about_me.country == 0 || user.about_me.country">
+            <div class="about-me-title">
+              <div class="main-title-about-me">Country:</div>
+              <div
+                class="emoji-about-me"
+                v-html="emojiParse(surveyItems.countries[user.about_me.country].emoji)"
+              ></div>
+              {{surveyItems.countries[user.about_me.country].name}}
+            </div>
+          </div>
+
+          <div class="about-me-detail" v-if="user.about_me.about_me">
+            <div class="about-me-title about_me">
+              <div class="main-title-about-me">About Me:</div>
+              <div class="emoji-about-me"></div>
+              <div class="about-me-format" v-html="formatAboutMe(user.about_me.about_me)"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -56,10 +120,14 @@ import Spinner from "@/components/Spinner.vue";
 import profilePicture from "@/components/ProfilePictureTemplate.vue";
 import userService from "@/services/userService.js";
 import relationshipService from "@/services/RelationshipService.js";
+import surveyItems from "@/utils/surveyItems.js";
+import emojiParser from "@/utils/emojiParser.js";
+import messageFormatter from "@/utils/messageFormatter.js";
 export default {
   components: { Spinner, profilePicture },
   data() {
     return {
+      surveyItems: Object.assign({}, surveyItems),
       user: null,
       avatarDomain: config.domain + "/avatars/"
     };
@@ -92,6 +160,13 @@ export default {
         uniqueID: this.uniqueID,
         channelName: this.user.username
       });
+    },
+    emojiParse(emoji) {
+      if (emoji.startsWith("<img")) return emoji;
+      return emojiParser.replaceEmojis(emoji);
+    },
+    formatAboutMe(string) {
+      return messageFormatter(string);
     }
   },
   async mounted() {
@@ -117,8 +192,19 @@ export default {
 };
 </script>
 <style scoped>
-
-.about-me-box{
+.cross {
+  margin: auto;
+  opacity: 0.1;
+}
+.cross .material-icons {
+  font-size: 150px;
+}
+.about_me {
+  flex-direction: column;
+  align-items: initial !important;
+  font-size: 15px;
+}
+.about-me-box {
   display: flex;
   flex-direction: column;
   background: rgba(31, 31, 31, 0.704);
@@ -126,6 +212,30 @@ export default {
   border-radius: 10px;
   overflow: hidden;
   margin-left: 10px;
+  overflow: auto;
+  padding-bottom: 10px;
+}
+.about-me-detail {
+  margin-top: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.about-me-title {
+  display: flex;
+  align-content: center;
+  align-items: center;
+}
+.about-me-format {
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+.emoji-about-me {
+  margin-left: 5px;
+  margin-right: 10px;
+}
+.main-title-about-me {
+  color: rgb(179, 179, 179);
 }
 
 .title {
@@ -228,5 +338,43 @@ export default {
 }
 .tag {
   color: grey;
+}
+@media (max-width: 815px) {
+  .box {
+    flex-direction: column;
+    max-width: 500px;
+    width: 100%;
+    overflow: auto;
+  }
+  .about-me-box {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 10px;
+    flex-shrink: 0;
+    overflow: initial;
+  }
+  .inner {
+    width: 100%;
+    flex-shrink: 0;
+    height: initial;
+  }
+  .bottom {
+    flex-shrink: 0;
+    height: initial;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  .bottom .button {
+    margin: 2px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 100px;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    -webkit-box-flex: 0;
+    -ms-flex: none;
+    flex: 1;
+    font-size: 10px;
+  }
 }
 </style>

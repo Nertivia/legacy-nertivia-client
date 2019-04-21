@@ -1,19 +1,19 @@
 const config = [
   {
     version: 1,
-    title: 'Make your own guild',
-    shortTitle: 'Make your guild',
-    date: '31/03/2019',
+    title: 'Profile Panel',
+    shortTitle: 'Profile Panel',
+    date: '21/04/2019',
     headColor: "rgba(39, 14, 204, 0.77)",
     new: [
-      'You can now make your own guild.',
       "Tabs have been added at the top of the screen.",
       "Added an option to display your messages on the right and other messages to the left.",
-      "Added users information page which allows you to block, End friendship, message someone and view their information.",
-      "Replaced 'Sending' and 'Sent' with icons."
+      "Added users information page which allows you to block (Block not implemented yet), End friendship, message someone and view their information.",
+      "Replaced 'Sending' and 'Sent' with icons.",
+      "Added a survey option to display your hobbies and age in your profile page."
     ],
     fix: ["Some formatting issues with custom emojis have been fixed."],
-    next: ['link previews.']
+    next: ['Make your own servers']
   },
   {
     title: 'Custom emojis!',

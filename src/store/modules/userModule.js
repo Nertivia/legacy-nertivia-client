@@ -34,10 +34,16 @@ const actions = {
   },
   changeStatus(context, status) {
     context.commit('changeStatus', status)
+  },
+  surveyCompleted(context) {
+    context.commit('surveyCompleted')
   }
 }
 
 const mutations = {
+  surveyCompleted(context) {
+    Vue.set(state.user, "survey_completed", true)
+  },
   changeAvatar(state, avatar) {
     //changes my avatar
     Vue.set(state.user, "avatar", avatar)

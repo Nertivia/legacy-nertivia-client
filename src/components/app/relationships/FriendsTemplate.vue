@@ -75,6 +75,11 @@ export default {
 
 
 <style scoped>
+.username{
+  width: 201px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .friend {
   color: white;
   background-color: rgba(0, 0, 0, 0.137);
@@ -135,6 +140,7 @@ export default {
   background-size: cover;
   background-repeat: no-repeat;
   transition: 0.3s;
+  flex-shrink: 0;
 }
 .information{
   margin: auto;

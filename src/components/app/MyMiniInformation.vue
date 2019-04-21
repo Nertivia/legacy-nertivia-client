@@ -13,7 +13,7 @@
         </transition>
       </div>
     </div>
-    <div class="setting-icon survay-button" @click="openSettings">
+    <div class="setting-icon survay-button" v-if="!user.survey_completed || user.survey_completed === false" @click="openSurvey">
       <div class="survay-inner">
         <i class="material-icons">error</i>
       </div>
@@ -44,9 +44,14 @@ export default {
     }
   },
   methods: {
-
     closeMenus() {
       this.status.isPoppedOut = false;
+    },
+    openSurvey(){
+      this.$store.dispatch("setPopoutVisibility", {
+        name: "surveyPopout",
+        visibility: true
+      });
     },
     async changeStatus (status){
       // emit to server to change their status.

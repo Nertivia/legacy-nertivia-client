@@ -13,6 +13,7 @@ const state = {
 
   userInformationPopoutID: null,
 
+  surveyPopout: false,
   dragDropFileUploadDialog: false,
   settings: false,
   GDLinkMenu: false,

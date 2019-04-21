@@ -50,6 +50,11 @@ export default {
 
 
 <style scoped>
+.username{
+  width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .pending-friend {
   color: white;
   background-color: rgba(0, 0, 0, 0.137);
@@ -75,6 +80,7 @@ export default {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+  flex-shrink: 0;
 }
 .information{
   margin: auto;
