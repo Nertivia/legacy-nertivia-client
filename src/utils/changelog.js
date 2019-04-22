@@ -1,8 +1,8 @@
 const config = [
   {
     version: 1.5,
-    title: 'New notification sound',
-    shortTitle: 'Profile Panel',
+    title: 'New Notification Sound',
+    shortTitle: 'Notification Sound',
     date: '22/04/2019',
     headColor: "rgba(16, 0, 154, 0.77)",
     new: [
@@ -11,7 +11,7 @@ const config = [
     ],
     fix: [
       "Clicking 'Send Message' should close the user panel.",
-      "Bug fixes with online status and notifications."
+      "Online status and notifications were not showing correctly."
     ]
   },
   {
