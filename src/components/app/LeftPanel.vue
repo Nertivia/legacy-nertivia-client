@@ -26,6 +26,8 @@ import AddFriendPanel from './relationships/AddFriendPanel.vue'
 import OnlineFriends from './relationships/OnlineFriends.vue'
 import OfflineFriends from './relationships/OfflineFriends.vue'
 import RecentFriends from './relationships/RecentFriends.vue'
+
+
 export default {
   components: {
     MyMiniInformation,

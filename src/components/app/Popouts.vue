@@ -15,13 +15,15 @@
 <script>
 
 //popouts
-import userInformationPopout from "@/components/app/userInformationPopout.vue";
-import Settings from "@/components/app/Settings.vue";
-import TakeSurveyPopout from "@/components/app/TakeSurveyPopout.vue";
-import uploadDialog from "@/components/app/uploadDialog.vue";
-import GDriveLinkMenu from "@/components/app/GDriveLinkMenu.vue";
-import imageLargePreview from "@/components/app/imageLargePreview.vue";
-import DragDropFileUploadDialog from "@/components/app/DragDropFileUploadDialog.vue";
+  const userInformationPopout = () => import('@/components/app/userInformationPopout.vue');
+  const Settings = () => import('@/components/app/Settings.vue');
+  const TakeSurveyPopout = () => import('@/components/app/TakeSurveyPopout.vue');
+  const uploadDialog = () => import('@/components/app/uploadDialog.vue');
+  const GDriveLinkMenu = () => import('@/components/app/GDriveLinkMenu.vue');
+  const imageLargePreview = () => import('@/components/app/imageLargePreview.vue');
+  const DragDropFileUploadDialog = () => import('@/components/app/DragDropFileUploadDialog.vue');
+
+
 
 export default {
   components: {

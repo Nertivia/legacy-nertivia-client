@@ -30,9 +30,13 @@
 
 <script>
 import { bus } from "../../main";
-import MyProfile from "./SettingsPanels/MyProfile.vue";
-import ManageEmojis from "./SettingsPanels/ManageEmojis.vue";
-import MessageDesign from "./SettingsPanels/MessageDesign.vue";
+
+
+const MyProfile = () => import( './SettingsPanels/MyProfile.vue' );
+const ManageEmojis = () => import( './SettingsPanels/ManageEmojis.vue' );
+const MessageDesign = () => import( './SettingsPanels/MessageDesign.vue' );
+  
+
 export default {
   components: {
     MyProfile,

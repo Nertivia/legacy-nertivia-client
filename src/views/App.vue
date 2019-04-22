@@ -52,11 +52,14 @@
 <script>
 import { bus } from "../main";
 import Popouts from "@/components/app/Popouts.vue";
-import LeftPanel from "./../components/app/LeftPanel.vue";
-import RightPanel from "./../components/app/RightPanel.vue";
-import News from "./../components/app/News.vue";
+
 import changelog from '@/utils/changelog.js';
 import ConnectingScreen from "./../components/app/ConnectingScreen.vue";
+
+const News = () => import('./../components/app/News.vue');
+const LeftPanel = () => import('./../components/app/LeftPanel.vue');
+const RightPanel = () => import('./../components/app/RightPanel.vue');
+
 
 export default {
   name: "app",
