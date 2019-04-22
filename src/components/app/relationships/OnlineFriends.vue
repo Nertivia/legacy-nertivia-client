@@ -24,11 +24,21 @@ export default {
       expanded: true
     } 
   },
+  methods: {
+
+  },
   computed: {
     friends() {
       const allFriend = this.$store.getters.user.friends;
+      const notifications = this.$store.getters.notifications;
       const result = Object.keys(allFriend).map(function(key) {
-        return allFriend[key];
+        const friend = allFriend[key];
+        const findNotification = notifications.find( e => e.sender.uniqueID === friend.recipient.uniqueID )
+        if ( findNotification ){
+          friend.channelID = findNotification.channelID;
+        }
+
+        return friend
       });
       return result.filter(friend => friend.status == 2 && (friend.recipient.status !== undefined && friend.recipient.status > 0 ));
     }

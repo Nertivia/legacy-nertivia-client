@@ -55,7 +55,6 @@ export default {
     },
     async changeStatus (status){
       // emit to server to change their status.
-      console.log(status)
       const {ok, error, result} = await settingsService.setStatus(status);
       if (ok && result.data.status == true) {
         this.$store.dispatch('changeStatus', result.data.set)

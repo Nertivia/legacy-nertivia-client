@@ -62,8 +62,10 @@ const actions = {
     context.commit('removeFriend', uniqueID)
   },
   socket_receiveMessage(context, data) {
-    if (context.getters.messages[data.message.channelID]) {
+    if (context.getters.channels[data.message.channelID]){
       context.dispatch('updateChannelLastMessage', data.message.channelID);
+    }
+    if (context.getters.messages[data.message.channelID]) {
       context.dispatch('addMessage', {
         message: data.message,
         channelID: data.message.channelID,

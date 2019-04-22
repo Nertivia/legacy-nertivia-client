@@ -147,7 +147,8 @@ export default {
   display: flex;
   overflow-y: hidden;
   overflow-x: auto;
-  margin-top: 5px;
+  height: 35px;
+  flex-shrink: 0;
 }
 .tabs::-webkit-scrollbar {
   height: 5px;
@@ -212,6 +213,11 @@ export default {
     top: 47px;
     height: calc(100% - 47px);
     background-color: rgba(39, 39, 39, 0.97);
+  }
+}
+@media (max-width: 470px) {
+  .tabs {
+    height: 40px;
   }
 }
 </style>

@@ -2,12 +2,15 @@
   <div class="right-panel">
     <div class="heading">
       <div class="show-menu-button" @click="toggleLeftMenu">
-        <i class="material-icons" >menu</i>
+        <i class="material-icons">menu</i>
       </div>
       <div class="current-channel">
-        <span v-if="!selectedChannelID">Welcome back, {{user.username}}!</span>
+        <span class="channel-name" v-if="!selectedChannelID">Welcome back, {{user.username}}!</span>
         <span class="channel-selected" v-else>
-          <div class="user-status" :style="`box-shadow: 0px 0px 14px 3px ${userStatusColor}; background-color: ${userStatusColor};`"></div>
+          <div
+            class="user-status"
+            :style="`box-shadow: 0px 0px 14px 3px ${userStatusColor}; background-color: ${userStatusColor};`"
+          ></div>
           <div class="channel-name">{{channelName}}</div>
         </span>
       </div>
@@ -37,10 +40,9 @@
       <div class="message">Select a person to message!</div>
     </div>
     <div class="chat-input-area" v-if="selectedChannelID">
-
-      <div style="position: relative;" >
+      <div style="position: relative;">
         <emoji-suggestions v-if="emojiArray" :emojiArray="emojiArray"/>
-        <emoji-panel v-if="emojiPanelShow" />
+        <emoji-panel v-if="emojiPanelShow"/>
       </div>
 
       <div class="message-area">
@@ -62,12 +64,14 @@
         ></textarea>
         <button
           class="emojis-button"
-          @click="$store.dispatch('setPopoutVisibility', {name: 'emojiPanel', visibility: true})">
+          @click="$store.dispatch('setPopoutVisibility', {name: 'emojiPanel', visibility: true})"
+        >
           <i class="material-icons">face</i>
         </button>
         <button
           :class="{'send-button': true, 'error-send-button': messageLength > 5000}"
-          @click="sendMessage">
+          @click="sendMessage"
+        >
           <i class="material-icons">send</i>
         </button>
       </div>
@@ -98,7 +102,7 @@ import uploadsQueue from "@/components/app/uploadsQueue.vue";
 import emojiSuggestions from "@/components/app/emojiSuggestions.vue";
 import emojiPanel from "@/components/app/emojiPanel.vue";
 import emojiParser from "@/utils/emojiParser.js";
-import statuses from '@/utils/statuses';
+import statuses from "@/utils/statuses";
 
 export default {
   components: {
@@ -116,7 +120,7 @@ export default {
       postTimerID: null,
       getTimerID: null,
       typing: false,
-      whosTyping: "",
+      whosTyping: ""
     };
   },
   methods: {
@@ -143,7 +147,7 @@ export default {
 
       if (this.message == "") return;
       if (this.message.length > 5000) return;
-      (this.$store.dispatch('setEmojiArray', null));
+      this.$store.dispatch("setEmojiArray", null);
       clearInterval(this.postTimerID);
       this.postTimerID = null;
       this.messageLength = 0;
@@ -248,15 +252,16 @@ export default {
       );
 
       if (cursorLetter.trim() == "" || cursorWord.endsWith(":"))
-        return (this.$store.dispatch('setEmojiArray', null));
+        return this.$store.dispatch("setEmojiArray", null);
 
       if (!cursorWord.startsWith(":") || cursorWord.length <= 2)
-        return (this.$store.dispatch('setEmojiArray', null));
+        return this.$store.dispatch("setEmojiArray", null);
 
       const searchArr = emojiParser.searchEmoji(cursorWord.slice(1, -1));
-      if (searchArr.length <= 0) return (this.$store.dispatch('setEmojiArray', null));
+      if (searchArr.length <= 0)
+        return this.$store.dispatch("setEmojiArray", null);
 
-      (this.$store.dispatch('setEmojiArray', searchArr));
+      this.$store.dispatch("setEmojiArray", searchArr);
     },
     async onInput(event) {
       this.resize(event);
@@ -271,25 +276,31 @@ export default {
       this.resize(event);
       this.showEmojiPopout(event);
     },
-    enterEmojiSuggestion(){
+    enterEmojiSuggestion() {
       const emoji = this.emojiArray[this.emojiIndex];
-      this.$store.dispatch('settingsModule/addRecentEmoji', emoji.name || emoji.shortcodes[0])
+      this.$store.dispatch(
+        "settingsModule/addRecentEmoji",
+        emoji.name || emoji.shortcodes[0]
+      );
       this.$refs["input-box"].focus();
-      const emojiShortCode = `:${emoji.name || emoji.shortcodes[0]}: `
-      const cursorPosition = this.$refs['input-box'].selectionStart;
+      const emojiShortCode = `:${emoji.name || emoji.shortcodes[0]}: `;
+      const cursorPosition = this.$refs["input-box"].selectionStart;
       const cursorWord = this.ReturnWord(this.message, cursorPosition);
 
       const start = cursorPosition - cursorWord.length;
       const end = cursorPosition;
 
-      this.message = this.message.substring(0, start) + emojiShortCode + this.message.substring(end);
-      this.$store.dispatch('setEmojiArray', null);
+      this.message =
+        this.message.substring(0, start) +
+        emojiShortCode +
+        this.message.substring(end);
+      this.$store.dispatch("setEmojiArray", null);
     },
-    enterEmojiPanel(shortcode){
+    enterEmojiPanel(shortcode) {
       const target = this.$refs["input-box"];
       target.focus();
-      document.execCommand('insertText', false, `:${shortcode}: `);
-      this.$store.dispatch('settingsModule/addRecentEmoji', shortcode)
+      document.execCommand("insertText", false, `:${shortcode}: `);
+      this.$store.dispatch("settingsModule/addRecentEmoji", shortcode);
     },
     keyDown(event) {
       this.resize(event);
@@ -299,7 +310,7 @@ export default {
         // and the shift key is not held
         if (!event.shiftKey) {
           event.preventDefault();
-          if (this.emojiArray){
+          if (this.emojiArray) {
             this.enterEmojiSuggestion();
             return;
           }
@@ -374,8 +385,8 @@ export default {
       }, 2500);
     };
     bus.$on("newMessage", this.hideTypingStatus);
-    bus.$on("emojiSuggestions:Selected", this.enterEmojiSuggestion)
-    bus.$on("emojiPanel:Selected", this.enterEmojiPanel)
+    bus.$on("emojiSuggestions:Selected", this.enterEmojiSuggestion);
+    bus.$on("emojiPanel:Selected", this.enterEmojiPanel);
     //dismiss notification on focus
     window.onfocus = () => {
       bus.$emit("title:change", "Nertivia");
@@ -392,8 +403,8 @@ export default {
   },
   beforeDestroy() {
     bus.$off("newMessage", this.hideTypingStatus);
-    bus.$off("emojiSuggestions:Selected", this.enterEmojiSuggestion)
-    bus.$on("emojiPanel:Selected", this.enterEmojiPanel)
+    bus.$off("emojiSuggestions:Selected", this.enterEmojiSuggestion);
+    bus.$on("emojiPanel:Selected", this.enterEmojiPanel);
     delete this.$options.sockets.typingStatus;
   },
   computed: {
@@ -431,18 +442,32 @@ export default {
       return this.$store.getters.emojiArray;
     },
     emojiPanelShow() {
-      return this.$store.getters.popouts.emojiPanel
+      return this.$store.getters.popouts.emojiPanel;
     },
     emojiIndex() {
       return this.$store.getters.getEmojiIndex;
     },
     userStatusColor() {
-      const allFriends = this.$store.getters.user.friends;
+
       const selectedChannel = this.$store.getters.selectedChannelID;
-      const arr = Object.keys(allFriends).map(el => allFriends[el]);
-      const find = arr.find(el => el.channelID === selectedChannel);
-      if (!find) return statuses[0].color;
-      return statuses[find.recipient.status || 0].color
+      const channel = this.$store.getters.channels[selectedChannel];
+
+      let status = 0;
+      if (!channel) {
+        status = 0;
+      }else if (this.$store.getters.user.friends[channel.recipients[0].uniqueID]) {
+        status =  this.$store.getters.user.friends[channel.recipients[0].uniqueID].recipient.status || 0
+      }
+      return statuses[status].color
+
+
+      // const allFriends = this.$store.getters.user.friends;
+      // const selectedChannel = this.$store.getters.selectedChannelID;
+      // const arr = Object.keys(allFriends).map(el => allFriends[el]);
+      // const find = arr.find(el => el.channelID === selectedChannel);
+      // console.log(find)
+      // if (!find) return statuses[0].color;
+      // return statuses[find.recipient.status || 0].color;
     }
   }
 };
@@ -451,9 +476,7 @@ export default {
 
 
 <style scoped>
-
-
-.no-channel-selected{
+.no-channel-selected {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -463,23 +486,24 @@ export default {
   justify-content: center;
   color: white;
   font-size: 20px;
-
 }
-.no-channel-selected .message{
+.no-channel-selected .message {
   margin-top: 20px;
+  text-align: center;
 }
-.no-channel-selected .material-icons{
+.no-channel-selected .material-icons {
   font-size: 50px;
 }
-.channel-selected{
+.channel-selected {
   display: flex;
   align-items: center;
 }
-.user-status{
+.user-status {
   border-radius: 4px;
   height: 10px;
   width: 10px;
   margin-right: 10px;
+  flex-shrink: 0;
 }
 .hidden {
   display: none;
@@ -525,6 +549,15 @@ export default {
   margin-left: 5px;
   flex: 1;
   padding: 5px;
+}
+.current-channel .channel-name {
+  display: block;
+  height: 26px;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: calc(100% - 17px);
 }
 
 .right-panel {
@@ -641,7 +674,7 @@ export default {
   display: flex;
   flex-shrink: 0;
   border-radius: 5px;
-    user-select: none;
+  user-select: none;
 }
 .send-button .material-icons {
   margin: auto;
@@ -656,7 +689,7 @@ export default {
 .error-send-button:hover {
   background-color: rgba(255, 0, 0, 0.294);
 }
-.emojis-button{
+.emojis-button {
   font-size: 20px;
   color: white;
   background: rgba(0, 0, 0, 0.274);

@@ -3,7 +3,7 @@
     <transition name="list" appear>
       <div class="list">
         
-        <FriendsTemplate v-for="(channel, key) of channels" :key="key" notifications="1" :channelID="channel.channelID" :recipient="channel.recipients[0]"/>
+        <FriendsTemplate v-for="(channel, key) of channels" :key="key" :channelID="channel.channelID" :recipient="channel.recipients[0]"/>
       </div>
     </transition>
   </div>
