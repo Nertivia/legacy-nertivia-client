@@ -39,6 +39,7 @@ export default {
 .profile-picture {
   position: relative;
   border-radius: 50%;
+  flex-shrink: 0;
 }
 .inner-profile-picture {
   background-color: rgba(0, 0, 0, 0.315);

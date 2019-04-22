@@ -102,6 +102,16 @@ export default {
         const selectedCountryName = this.filterCountry[this.selected.country].name;
         countryIndex = this.surveyItems.countries.findIndex(el => el.name == selectedCountryName);
       }
+      if (this.selected.name && this.selected.name.length >100) {
+        this.surveyErrorMessage = "Name must be less that 100 characters."
+        this.surveyValidMessage = null;
+        return;
+      }
+      if (this.selected.about_me && this.selected.about_me.length >500) {
+        this.surveyErrorMessage = "About me must be less that 500 characters."
+        this.surveyValidMessage = null
+        return;
+      }
 
       const { ok, error, result } = await userService.setSurvey({
         name: this.selected.name,

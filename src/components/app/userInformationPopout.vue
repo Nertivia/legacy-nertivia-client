@@ -155,11 +155,11 @@ export default {
       );
     },
     openChat() {
-      // todo: find from friends array and later, create new channels for people who are not friends.
       this.$store.dispatch("openChat", {
         uniqueID: this.uniqueID,
         channelName: this.user.username
       });
+      this.$store.dispatch("setUserInformationPopout", null);
     },
     emojiParse(emoji) {
       if (emoji.startsWith("<img")) return emoji;

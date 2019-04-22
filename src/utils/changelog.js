@@ -1,5 +1,20 @@
 const config = [
   {
+    version: 1.5,
+    title: 'New notification sound',
+    shortTitle: 'Profile Panel',
+    date: '22/04/2019',
+    headColor: "rgba(16, 0, 154, 0.77)",
+    new: [
+      "Do not disturb should now mute notification sounds.",
+      "New notification sound has been added."
+    ],
+    fix: [
+      "Clicking 'Send Message' should close the user panel.",
+      "Bug fixes with online status and notifications."
+    ]
+  },
+  {
     version: 1,
     title: 'Profile Panel',
     shortTitle: 'Profile Panel',

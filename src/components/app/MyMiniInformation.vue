@@ -5,15 +5,19 @@
       <div class="name">{{user.username}}</div>
       <div class="tag">@{{user.tag}}</div>
 
-      <div class="status" v-on:click="status.isPoppedOut = !status.isPoppedOut"> 
-        <img class="current-status" :src="getStatus"/>
+      <div class="status" v-on:click="status.isPoppedOut = !status.isPoppedOut">
+        <img class="current-status" :src="getStatus">
         <i class="material-icons expand-status-icon">expand_more</i>
         <transition name="show-status-list">
-          <statusList v-if="status.isPoppedOut" v-click-outside="closeMenus" class="status-popout" />
+          <statusList v-if="status.isPoppedOut" v-click-outside="closeMenus" class="status-popout"/>
         </transition>
       </div>
     </div>
-    <div class="setting-icon survay-button" v-if="!user.survey_completed || user.survey_completed === false" @click="openSurvey">
+    <div
+      class="setting-icon survay-button"
+      v-if="!user.survey_completed || user.survey_completed === false"
+      @click="openSurvey"
+    >
       <div class="survay-inner">
         <i class="material-icons">error</i>
       </div>
@@ -25,10 +29,10 @@
 </template>
 
 <script>
-import {bus} from '../../main';
-import config from '@/config.js'
-import statusList from '../../components/app/statusList.vue'
-import settingsService from '@/services/settingsService'
+import { bus } from "../../main";
+import config from "@/config.js";
+import statusList from "../../components/app/statusList.vue";
+import settingsService from "@/services/settingsService";
 import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
 
 export default {
@@ -39,51 +43,54 @@ export default {
   data() {
     return {
       status: {
-        isPoppedOut: false,
+        isPoppedOut: false
       }
-    }
+    };
   },
   methods: {
     closeMenus() {
       this.status.isPoppedOut = false;
     },
-    openSurvey(){
+    openSurvey() {
       this.$store.dispatch("setPopoutVisibility", {
         name: "surveyPopout",
         visibility: true
       });
     },
-    async changeStatus (status){
+    async changeStatus(status) {
       // emit to server to change their status.
-      const {ok, error, result} = await settingsService.setStatus(status);
+      const { ok, error, result } = await settingsService.setStatus(status);
       if (ok && result.data.status == true) {
-        this.$store.dispatch('changeStatus', result.data.set)
+        this.$store.dispatch("changeStatus", result.data.set);
       }
     },
     openSettings() {
-      this.$store.dispatch('setPopoutVisibility', {name: 'settings', visibility: true})
+      this.$store.dispatch("setPopoutVisibility", {
+        name: "settings",
+        visibility: true
+      });
     }
   },
-   created() {
+  created() {
     //When user changes their own status (statusList.vue)
-    bus.$on('status-change', this.changeStatus)
-
+    bus.$on("status-change", this.changeStatus);
   },
-  beforeDestroy(){
-    bus.$off('status-change', this.changeStatus)
+  beforeDestroy() {
+    bus.$off("status-change", this.changeStatus);
   },
   computed: {
     user() {
-      return this.$store.getters.user
+      return this.$store.getters.user;
     },
     avatar() {
-      return config.domain + "/avatars/" +this.$store.getters.user.avatar
+      return config.domain + "/avatars/" + this.$store.getters.user.avatar;
     },
     getStatus() {
-      return require(`./../../assets/status/${this.$store.getters.user.status || 0}.svg`) 
+      return require(`./../../assets/status/${this.$store.getters.user.status ||
+        0}.svg`);
     }
   }
-}
+};
 </script>
 
 
@@ -91,7 +98,7 @@ export default {
 <style scoped>
 .survay-button {
   padding: 10px;
-    height: 24px;
+  height: 24px;
   width: 24px;
 }
 .survay-inner {
@@ -106,19 +113,22 @@ export default {
   height: 24px;
   width: 24px;
   font-size: 30px;
-  color: cyan;  
- }
-
-.show-status-list-enter-active, .show-status-list-leave-active {
-  transition: .1s;
+  color: cyan;
 }
-.show-status-list-enter, .show-status-list-leave-to {
+
+.show-status-list-enter-active,
+.show-status-list-leave-active {
+  transition: 0.1s;
+}
+.show-status-list-enter,
+.show-status-list-leave-to {
   opacity: 0;
   transform: translateY(10px);
 }
 
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .2s;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
@@ -132,18 +142,20 @@ export default {
   align-items: center;
 }
 
-.profile-picture{
+.profile-picture {
   margin-left: 10px;
   margin-right: 10px;
 }
 
-.information{
+.information {
   color: white;
   margin-top: -7px;
   flex: 1;
+  width: 100%;
+  overflow: hidden;
 }
 
-.setting-icon{
+.setting-icon {
   color: white;
   margin: auto;
   margin-right: 15px;
@@ -152,12 +164,11 @@ export default {
   cursor: default;
   user-select: none;
   transition: 0.3s;
-
 }
 .setting-icon:hover {
   background: rgba(0, 0, 0, 0.294);
 }
-.setting-icon .material-icons{
+.setting-icon .material-icons {
   display: block;
   margin: auto;
 }
@@ -170,19 +181,18 @@ export default {
   transition: 0.3s;
   user-select: none;
   border-radius: 10px;
-
 }
 
 .status:hover {
   background: rgba(26, 25, 25, 0.349);
 }
 
-.expand-status-icon{
+.expand-status-icon {
   opacity: 0;
   transition: 0.3s;
 }
 
-.status:hover .expand-status-icon{
+.status:hover .expand-status-icon {
   opacity: 1;
 }
 
@@ -195,6 +205,9 @@ export default {
 
 .name {
   margin-top: 10px;
+  text-overflow: ellipsis;
+  width: 100%;
+  overflow: hidden;
 }
 
 .tag {
@@ -204,7 +217,4 @@ export default {
   vertical-align: top;
   margin-top: 5px;
 }
-
-
-
 </style>
