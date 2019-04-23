@@ -28,16 +28,7 @@
         </div>
         <div class="panel-layout">
           <news v-if="currentTab == 0" />
-          <span class="direct-message-tab" v-if="currentTab == 1">
-            <transition name="slidein">
-              <LeftPanel
-                class="left-panel"
-                v-click-outside="hideLeftPanel"
-                v-show="$mq === 'mobile' && showLeftPanel || $mq === 'desktop'"
-              ></LeftPanel>
-            </transition>
-            <RightPanel/>
-          </span>
+          <direct-message v-if="currentTab == 1" />
           <div class="coming-soon" v-if="currentTab > 1">
             <div class="icon"><i class="material-icons">cached</i></div>
             <div class="text">Coming soon!</div>
@@ -51,21 +42,20 @@
 
 <script>
 import { bus } from "../main";
-import Popouts from "@/components/app/Popouts.vue";
+import Popouts from "@/components/app/Popouts/Popouts.vue";
 
 import changelog from '@/utils/changelog.js';
 import ConnectingScreen from "./../components/app/ConnectingScreen.vue";
 
-const News = () => import('./../components/app/News.vue');
-const LeftPanel = () => import('./../components/app/LeftPanel.vue');
-const RightPanel = () => import('./../components/app/RightPanel.vue');
+const News = () => import('./../components/app/Tabs/News.vue');
+const DirectMessage = () => import('./../components/app/Tabs/DirectMessage.vue');
+
 
 
 export default {
   name: "app",
   components: {
-    LeftPanel,
-    RightPanel,
+    DirectMessage,
     ConnectingScreen,
     Popouts,
     News
@@ -73,18 +63,10 @@ export default {
   data() {
     return {
       currentTab: localStorage.getItem('currentTab') || 0,
-      showLeftPanel: false,
       title: "Nertivia"
     };
   },
   methods: {
-    hideLeftPanel(event) {
-      if (this.showLeftPanel) {
-        if (event.target.closest(".show-menu-button") == null) {
-          this.showLeftPanel = false;
-        }
-      }
-    },
     switchTab(index) {
       localStorage.setItem("currentTab", index);
       this.currentTab = index;
@@ -99,14 +81,6 @@ export default {
       localStorage.setItem('currentTab', 0)
     }
     localStorage.setItem('changelog-version-seen', changelog[0].version)
-
-    bus.$on("toggleLeftMenu", () => {
-      this.showLeftPanel = !this.showLeftPanel;
-    });
-    bus.$on("closeLeftMenu", () => {
-      this.showLeftPanel = false;
-    });
-
     bus.$on("title:change", title => {
       this.title = title;
     });
@@ -208,15 +182,6 @@ export default {
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
-}
-
-@media (max-width: 600px) {
-  .left-panel {
-    position: absolute;
-    top: 47px;
-    height: calc(100% - 47px);
-    background-color: rgba(39, 39, 39, 0.97);
-  }
 }
 @media (max-width: 470px) {
   .tabs {

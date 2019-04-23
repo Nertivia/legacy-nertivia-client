@@ -49,7 +49,7 @@
 <script>
 
 import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
-import Survey from "@/components/app/SettingsPanels/survey.vue";
+import Survey from "./survey.vue";
 import AvatarUpload from "@/services/AvatarUpload.js";
 import config from "@/config.js";
 import { bus } from "@/main";

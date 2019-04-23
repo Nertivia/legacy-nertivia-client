@@ -108,7 +108,7 @@ export default {
   background-size: 100%;
 	}
 .nertivia-img {
-  background-image: url(./../../assets/logo.png);
+  background-image: url(./../../../../assets/logo.png);
   border-radius: 50%;
   background-size: calc(100% + 34px);
   box-shadow: 0px 0px 66px -4px rgba(69, 212, 255, 1);
@@ -120,7 +120,7 @@ export default {
   user-select: none;
 }
 .GDrive-img {
-  background-image: url(./../../assets/Google_Drive_logo.png);
+  background-image: url(./../../../../assets/Google_Drive_logo.png);
 }
 .buttons {
   margin: auto;

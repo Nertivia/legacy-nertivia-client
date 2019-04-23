@@ -39,7 +39,7 @@
 import filesize from "filesize";
 import emojiParser from "@/utils/emojiParser.js";
 import messagesService from "@/services/messagesService";
-import { bus } from "../../main";
+import { bus } from "@/main";
 import {mapState} from 'vuex';
 export default {
   props: ["file"],

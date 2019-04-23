@@ -99,12 +99,11 @@ import Message from "../../components/app/MessageTemplate.vue";
 import Spinner from "@/components/Spinner.vue";
 import TypingStatus from "@/components/app/TypingStatus.vue";
 import uploadsQueue from "@/components/app/uploadsQueue.vue";
-import emojiSuggestions from "@/components/app/emojiSuggestions.vue";
-// import emojiPanel from "@/components/app/emojiPanel.vue";
+import emojiSuggestions from "@/components/app/EmojiPanels/emojiSuggestions.vue";
 import emojiParser from "@/utils/emojiParser.js";
 import statuses from "@/utils/statuses";
 
-  const emojiPanel = () => import( '@/components/app/emojiPanel.vue' );
+const emojiPanel = () => import( '@/components/app/EmojiPanels/emojiPanel.vue' );
 
 export default {
   components: {

@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { bus } from "../../main";
+import { bus } from "@/main";
 
 
 const MyProfile = () => import( './SettingsPanels/MyProfile.vue' );

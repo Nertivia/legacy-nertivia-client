@@ -58,7 +58,7 @@
 
 <script>
 import surveyItems from "@/utils/surveyItems.js";
-import DropDown from "@/components/app/SettingsPanels/DropDownTemplate.vue";
+import DropDown from "./DropDownTemplate.vue";
 import userService from "@/services/userService.js";
 export default {
   components: { DropDown },
