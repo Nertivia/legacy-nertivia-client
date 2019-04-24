@@ -84,7 +84,7 @@ export default {
   padding: 10px;
   background: rgba(0, 0, 0, 0.555);
   margin-bottom: 10px;
-  border-radius: 5px;
+  border-radius: 10px;
 }
 .heading.latest {
   background: rgba(38, 139, 255, 0.87);
@@ -120,9 +120,6 @@ export default {
   }
   .todo-list {
     margin-left: 0;
-  }
-  .change-log {
-    margin-bottom: 20px;
   }
 }
 </style>

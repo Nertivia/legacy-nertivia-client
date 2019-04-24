@@ -1,7 +1,7 @@
 <template>
   <div :class="{message: true,  ownMessage: user.uniqueID === $props.uniqueID, ownMessageLeft: user.uniqueID === $props.uniqueID && (apperance && apperance.own_message_right === true)} ">
     <div class="outer-profile-picture">
-      <profile-picture :hover="true" :admin="$props.admin" :url="userAvatar" size="50px" @click.native="openUserInformation"/>
+      <profile-picture :admin="$props.admin" :url="userAvatar" size="50px" :hover="true" @click.native="openUserInformation"/>
     </div>
     <div class="triangle">
       <div class="triangle-inner"></div>

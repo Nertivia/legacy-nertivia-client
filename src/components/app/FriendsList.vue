@@ -56,7 +56,9 @@ export default {
   z-index: 1;
 }
 .list{
-  margin: 10px;
+  margin: 2px;
+  margin-left: 5px;
+  margin-right: 5px;
   flex: 1;
   overflow: auto;
 }

@@ -86,7 +86,13 @@ export default {
 
 .username {
   font-size: 20px;
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: pre-wrap;
+  overflow: hidden;
   user-select: all;
+  max-width: 200px;
+  margin: auto;
 }
 
 .tag{
@@ -96,6 +102,7 @@ export default {
 
 .buttons{
   display: flex;
+  margin: auto;
 }
 
 .button {

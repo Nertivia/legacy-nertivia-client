@@ -527,6 +527,7 @@ export default {
 .heading {
   border-bottom: solid 2px white;
   margin: 5px;
+  margin-bottom: 0;
   height: 40px;
   padding-bottom: 2spx;
   display: flex;
@@ -578,6 +579,7 @@ export default {
 .message-logs,
 .message-logs .scroll {
   transform: scale(1, -1);
+  margin-right: 5px;
 }
 
 .loading {
@@ -587,7 +589,7 @@ export default {
 .chat-input-area {
   display: flex;
   flex-direction: column;
-  padding-top: 10px;
+  padding-top: 5px;
   margin-bottom: 5px;
   position: relative;
 }
@@ -596,7 +598,7 @@ export default {
   width: 50px;
   background: rgba(0, 0, 0, 0.219);
   margin-right: 2px;
-  margin-left: 20px;
+  margin-left: 10px;
   display: flex;
   flex-shrink: 0;
   cursor: default;
@@ -624,7 +626,7 @@ export default {
 }
 .message-count {
   float: right;
-  margin-right: 30px;
+  margin-right: 20px;
   margin-top: 3px;
 }
 .message-area {
@@ -668,7 +670,7 @@ export default {
   border: none;
   outline: none;
   margin-left: 2px;
-  margin-right: 20px;
+  margin-right: 10px;
   min-height: 40px;
   width: 50px;
   transition: 0.3s;

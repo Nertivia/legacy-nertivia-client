@@ -5,32 +5,38 @@
     <transition name="fade-between-two" appear>
       <ConnectingScreen v-if="!loggedIn"/>
       <div class="box" v-if="loggedIn">
-        <div class="tabs">
+        <div class="frame">
+          <div class="tabs">
+            <div :class="`tab ${currentTab === 0 ? 'selected' : ''}`" @click="switchTab(0)">
+              <i class="material-icons">list_alt</i>
+              Changelog
+            </div>
 
-          <div :class="`tab ${currentTab === 0 ? 'selected' : ''}`" @click="switchTab(0)">
-            <i class="material-icons">list_alt</i>
-            Changelog
-          </div>
+            <div :class="`tab ${currentTab === 1 ? 'selected' : ''}`" @click="switchTab(1)">
+              <i class="material-icons">chat</i>
+              Direct Message
+            </div>
 
-          <div :class="`tab ${currentTab === 1 ? 'selected' : ''}`" @click="switchTab(1)">
-            <i class="material-icons">chat</i>
-            Direct Message
+            <div :class="`tab ${currentTab === 2 ? 'selected' : ''}`" @click="switchTab(2)">
+              <i class="material-icons">forum</i>
+              Servers
+            </div>
+            <div :class="`tab ${currentTab === 3 ? 'selected' : ''}`" @click="switchTab(3)">
+              <i class="material-icons">rss_feed</i>
+              Server Browser
+            </div>
           </div>
-
-          <div :class="`tab ${currentTab === 2 ? 'selected' : ''}`" @click="switchTab(2)">
-            <i class="material-icons">forum</i>
-            Servers
-          </div>
-          <div :class="`tab ${currentTab === 3 ? 'selected' : ''}`" @click="switchTab(3)">
-            <i class="material-icons">rss_feed</i>
-            Server Browser
-          </div>
+          <div class="drag-area" v-if="isElectron"></div>
+          <electron-frame-buttons v-if="isElectron"/>
         </div>
         <div class="panel-layout">
-          <news v-if="currentTab == 0" />
-          <direct-message v-if="currentTab == 1" />
-          <div class="coming-soon" v-if="currentTab > 1">
-            <div class="icon"><i class="material-icons">cached</i></div>
+          <news v-if="currentTab == 0"/>
+          <direct-message v-if="currentTab == 1"/>
+          <servers v-if="currentTab == 2"/>
+          <div class="coming-soon" v-if="currentTab > 2">
+            <div class="icon">
+              <i class="material-icons">cached</i>
+            </div>
             <div class="text">Coming soon!</div>
           </div>
         </div>
@@ -44,26 +50,41 @@
 import { bus } from "../main";
 import Popouts from "@/components/app/Popouts/Popouts.vue";
 
-import changelog from '@/utils/changelog.js';
+import changelog from "@/utils/changelog.js";
 import ConnectingScreen from "./../components/app/ConnectingScreen.vue";
+import Spinner from "./../components/Spinner.vue";
 
-const News = () => import('./../components/app/Tabs/News.vue');
-const DirectMessage = () => import('./../components/app/Tabs/DirectMessage.vue');
-
-
+const ElectronFrameButtons = () =>
+  import("./../components/ElectronJS/FrameButtons.vue");
+  
+const News = () => import("./../components/app/Tabs/News.vue");
+//const DirectMessage = () => import('./../components/app/Tabs/DirectMessage.vue');
+const DirectMessage = () => ({
+  component: import("./../components/app/Tabs/DirectMessage.vue"),
+  loading: Spinner,
+  delay: 0
+});
+const Servers = () => ({
+  component: import("./../components/app/Tabs/Servers.vue"),
+  loading: Spinner,
+  delay: 0
+});
 
 export default {
   name: "app",
   components: {
+    ElectronFrameButtons,
     DirectMessage,
+    Servers,
     ConnectingScreen,
     Popouts,
     News
   },
   data() {
     return {
-      currentTab: localStorage.getItem('currentTab') || 0,
-      title: "Nertivia"
+      currentTab: localStorage.getItem("currentTab") || 0,
+      title: "Nertivia",
+      isElectron: window && window.process && window.process.type
     };
   },
   methods: {
@@ -73,14 +94,13 @@ export default {
     }
   },
   mounted() {
-
     // check if changelog is updated
-    const seenVersion = localStorage.getItem('changelog-version-seen');
+    const seenVersion = localStorage.getItem("changelog-version-seen");
     if (!seenVersion || seenVersion < changelog[0].version) {
       this.currentTab = 0;
-      localStorage.setItem('currentTab', 0)
+      localStorage.setItem("currentTab", 0);
     }
-    localStorage.setItem('changelog-version-seen', changelog[0].version)
+    localStorage.setItem("changelog-version-seen", changelog[0].version);
     bus.$on("title:change", title => {
       this.title = title;
     });
@@ -95,8 +115,7 @@ export default {
 
 
 <style scoped>
-
-.coming-soon{
+.coming-soon {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -106,27 +125,41 @@ export default {
   background: rgba(0, 0, 0, 0.39);
   color: white;
 }
-.coming-soon .icon{
 
-}
 .coming-soon .material-icons {
   font-size: 100px;
 }
 
-.direct-message-tab{
+.direct-message-tab {
   display: flex;
   width: 100%;
   height: 100%;
 }
 
+.frame {
+  display: flex;
+  -webkit-app-region: drag;
+  flex-shrink: 0;
+}
+
+.drag-area {
+  display: flex;
+  min-width: 20px;
+  flex: 1;
+  -webkit-app-region: drag;
+}
 
 .tabs {
   display: flex;
   overflow-y: hidden;
   overflow-x: auto;
   height: 35px;
-  flex-shrink: 0;
+  max-width: 473px;
+  flex-basis: auto; /* default value */
+  flex-grow: 1;
+  -webkit-app-region: no-drag;
 }
+
 .tabs::-webkit-scrollbar {
   height: 5px;
 }
@@ -145,12 +178,13 @@ export default {
   cursor: default;
   user-select: none;
   transition: 0.3s;
+  -webkit-app-region: no-drag;
 }
-.tab.selected{
+.tab.selected {
   background: rgba(71, 71, 71, 0.637);
 }
 
-.tab:hover{
+.tab:hover {
   background: rgba(71, 71, 71, 0.637);
 }
 
@@ -234,6 +268,7 @@ textarea {
 
 .panel-layout {
   display: flex;
+  overflow: auto;
   height: 100%;
 }
 </style>

@@ -1,6 +1,8 @@
 <template>
-  <div class="my-mini-information">
-    <profile-picture :url="avatar" :admin="user.admin" size="50px"/>
+  <div class="my-mini-information" :style="{backgroundColor: getStatusColor}">
+    <div class="profile-pic-outer">
+      <profile-picture :url="avatar" :admin="user.admin" size="50px" :hover="true" @click.native="openUserInformation"/>
+    </div>
     <div class="information">
       <div class="name">{{user.username}}</div>
       <div class="tag">@{{user.tag}}</div>
@@ -34,6 +36,7 @@ import config from "@/config.js";
 import statusList from "../../components/app/statusList.vue";
 import settingsService from "@/services/settingsService";
 import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
+import statuses from '@/utils/statuses';
 
 export default {
   components: {
@@ -48,6 +51,9 @@ export default {
     };
   },
   methods: {
+    openUserInformation() {
+      this.$store.dispatch('setUserInformationPopout', this.user.uniqueID)
+    },
     closeMenus() {
       this.status.isPoppedOut = false;
     },
@@ -88,6 +94,10 @@ export default {
     getStatus() {
       return require(`./../../assets/status/${this.$store.getters.user.status ||
         0}.svg`);
+    },
+    getStatusColor() {
+      const status = this.$store.getters.user.status || 0
+      return statuses[parseInt(status)].bgColor
     }
   }
 };
@@ -96,6 +106,10 @@ export default {
 
 
 <style scoped>
+.profile-pic-outer{
+  z-index:9999;
+  display: flex;
+}
 .survay-button {
   padding: 10px;
   height: 24px;
@@ -135,11 +149,13 @@ export default {
 }
 
 .my-mini-information {
-  border-bottom: solid 1px rgb(218, 218, 218);
-  width: 100%;
+  border-radius: 10px;
+  margin: 5px;
   height: 80px;
   display: flex;
   align-items: center;
+  margin-top: 10px;
+  transition: 0.3s;
 }
 
 .profile-picture {

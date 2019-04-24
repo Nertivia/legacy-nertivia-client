@@ -204,6 +204,9 @@ export default {
   align-items: initial !important;
   font-size: 15px;
 }
+.about_me .about-me-format {
+  user-select: text;
+}
 .about-me-box {
   display: flex;
   flex-direction: column;
@@ -243,7 +246,6 @@ export default {
   font-size: 20px;
   text-align: center;
 }
-
 .drop-background {
   position: absolute;
   background: rgba(0, 0, 0, 0.521);
@@ -279,6 +281,7 @@ export default {
   background: rgba(22, 22, 22, 0.918);
   width: 100%;
   height: 170px;
+  flex-shrink: 0;
 }
 .bottom {
   display: flex;
@@ -299,30 +302,28 @@ export default {
   margin-left: 20px;
   margin-right: 20px;
   transition: 0.3s;
+  height: 100px;
+  width: 100px;
 }
 .button .material-icons {
   margin-bottom: 10px;
   font-size: 40px;
 }
-
 .button:hover {
   background: rgb(61, 61, 61);
 }
-
 .button.valid {
   background: #09ff002d;
 }
 .button.valid:hover {
   background: #09ff00ab;
 }
-
 .button.warn {
   background: #ff00002d;
 }
 .button.warn:hover {
   background: #ff0000ab;
 }
-
 .profile-picture-outer {
   display: flex;
   z-index: 9999;

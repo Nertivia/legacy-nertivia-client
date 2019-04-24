@@ -16,7 +16,7 @@ export default {
 
 <style scoped>
 .loading-screen{
-  margin: 50px;
+  margin: auto;
 }
 .loading-animation{
   height: 100px;

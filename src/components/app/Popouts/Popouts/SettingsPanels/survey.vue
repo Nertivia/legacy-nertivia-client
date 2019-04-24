@@ -185,7 +185,6 @@ export default {
   margin-bottom: 50px;
   flex-direction: column;
   align-content: center;
-  justify-content: center;
   align-items: center;
 }
 
