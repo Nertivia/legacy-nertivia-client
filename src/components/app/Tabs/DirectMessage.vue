@@ -58,8 +58,6 @@ export default {
 @media (max-width: 600px) {
   .left-panel {
     position: absolute;
-    top: 47px;
-    height: calc(100% - 47px);
     background-color: rgba(39, 39, 39, 0.97);
   }
 }

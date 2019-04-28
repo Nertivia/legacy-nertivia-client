@@ -1,14 +1,33 @@
-const config = [
-  {
-    version: 2,
+
+ const prototype =  {
+    version: 3,
     title: "Make your own servers!",
     shortTitle: "Servers",
     date: "24/04/2019",
     headColor: "rgba(155, 244, 66, 0.77)",
     new: [
       "",
+      "",
     ],
     next: [""]
+  }
+
+const config = [
+  {
+    version: 3,
+    title: "Page Re-designs",
+    shortTitle: "Page Re-designs",
+    date: "28/04/2019",
+    headColor: "rgba(155, 244, 66, 0.77)",
+    new: [
+      "Home page has been re-designed and has some cool animations.",
+      "New login and register pages.",
+      "Padding and margin adjusted and small design changes throughout the app."
+    ],
+    fix: [
+      'Fixed bugs with appearance settings not correctly working.'
+    ],
+    next: ["Servers (If nothing else distracts me -_-)"]
   },
   {
     version: 1.5,

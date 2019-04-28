@@ -1,457 +1,409 @@
 <template>
-<div id="app">
-  <vue-headful title="Nertivia" description="Nertivia Chat Client"/>
-  <div class="background-image"></div>
-  <div class="layout">
-    <div class="small-view-nav-bar">
-      <div class="small-logo"></div>
-      <div class="small-title">Nertivia</div>
-      <div class="show-menu-button" @click="showMobileMenu = !showMobileMenu">
-          <i class="material-icons">
-              menu
-          </i>
-      </div>
-    </div>
-    <div class="panels">
-        <div class="left-panel">
-
-          <div class="title">The best chat client that wont restrict you from important and fun features.</div>
-          <img src="../assets/graphics/HomeGraphics.png" class="graphic-app" />
-          <div class="change-log-mini" @click="showChangeLog = true">
-            <div class="change-title">Change log <span style="font-size: 15px; color: rgba(211, 211, 211, 0.774);">Click for details</span></div>
-            <div class="change-list">
-              <div class="change" v-for="change in changelogFiltered" :key="change.title">
-                <div class="notable-changes">{{change.shortTitle}}</div>
-                <div class="change-date">{{change.date}}</div>
+  <div id="app">
+    <vue-headful title="Nertivia" description="Nertivia Chat Client"/>
+    <div class="background-image" ref="backgroundImage"></div>
+    <spinner v-if="!showPage"/>
+    <div class="content" v-if="showPage">
+      <transition name="fall-down" appear>
+        <div class="header">
+          <div class="logo"></div>
+          <div class="name">Nertivia</div>
+          <div class="links">
+            <div class="link" @click="signupPage" v-if="!loggedIn">Sign up</div>
+            <div class="link" @click="loginPage" v-if="!loggedIn">Login</div>
+            <spinner class="spinner-profile" :size="50" v-if="loggedIn && !user" />
+            <div class="outer-profile-picture" v-if="loggedIn && user">
+              <profile-picture @click.native="showPopout = !showPopout" :hover='true' :url="avatarDomain + user.avatar" :admin="user.admin" size="40px" emoteSize="17px"/>
+            </div>
+            <transition name="fall-down-fast">
+              <Popout v-if="user && loggedIn && showPopout" @logout="logOut" :user="user"/>
+            </transition>
+          </div>
+        </div>
+      </transition>
+      <transition name="side-in" appear>
+        <div class="inner-content">
+          <div
+            class="title"
+          >The best chat client that won't restrict you from important and fun features.</div>
+          <img class="graphic" src="@/assets/graphics/HomeGraphics2.png">
+          <div class="buttons">
+            <div class="button" @click="openApp">Open In Browser</div>
+            <!-- <div class="button" >Download App</div> -->
+          </div>
+          <div class="features-list">
+            <div class="title">Things you can do in Nertivia</div>
+            <div class="list">
+              <div class="feature">
+                <i class="material-icons">insert_drive_file</i>
+                <div class="description">1GB per file limit, upload huge files!</div>
+              </div>
+              <div class="feature">
+                <i class="material-icons">face</i>
+                <div class="description">Free custom gif emojis and profile picture.</div>
+              </div>
+              <div class="feature">
+                <i class="material-icons">storage</i>
+                <div class="description">Make your own servers with channels.</div>
               </div>
             </div>
           </div>
-          <div class="twitter-outer">
-            <twitter class="twitter">
-              <div slot="loading">loading .....</div>
-              <a class="twitter-timeline" data-height="500" data-theme="dark" href="https://twitter.com/NertiviaApp?ref_src=twsrc%5Etfw">Tweets by NertiviaApp</a>
-            </twitter>
-          </div>
-
         </div>
-        <RightPanel  :class="{'show-menu-content': showMobileMenu }" />
+      </transition>
     </div>
   </div>
-  <transition name="fade">
-    <ChangeLog v-if="showChangeLog"/>
-  </transition>
-</div>
 </template>
 
 <script>
-import { twitter } from 'vue-twitter'
-import {bus} from '../main';
-import RightPanel from "./../components/homePage/RightPanel.vue"
-import ChangeLog from "./../components/ChangeLog.vue"
-import changelog from '@/utils/changelog.js'
+import Spinner from "@/components/Spinner.vue";
+import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
+import Popout from "@/components/homePage/Popout.vue";
+import AuthenticationService from "@/services/AuthenticationService.js";
+import config from '@/config.js'
+ 
 export default {
-  components: {
-    RightPanel,
-    ChangeLog,
-    twitter
-  },
+  components: { Spinner, ProfilePicture, Popout },
   data() {
     return {
-      loginSelected: true,
-      showMobileMenu: false,
-      showChangeLog: false,
-      changelog
+      showPopout: false,
+      showPage: false,
+      loggedIn: localStorage.getItem("hauthid") || null,
+      user: null,
+      avatarDomain: config.domain + '/avatars/'
+    };
+  },
+  methods: {
+    logOut() {
+      localStorage.removeItem("hauthid");
+      this.loggedIn = null;
+    },
+    loginPage() {
+      window.location.href = "/login";
+    },
+    signupPage() {
+      window.location.href = "/register";
+    },
+    openApp() {
+      window.location.href = "/app";
+    },
+    async imagePreloader(srcArray) {
+      srcArray.forEach(async element => {
+        await wrapper(element);
+      });
+      function wrapper(src) {
+        return new Promise(resolve => {
+          const image = new Image();
+          image.src = src;
+          image.onload = () => resolve("done");
+        });
+      }
+    },
+    async preloadImages() {
+      await this.imagePreloader([
+        require("@/assets/logo.png"),
+        require("@/assets/graphics/HomeGraphics2.png")
+      ]);
+      const src = require("@/assets/background.jpg");
+      const background = new Image();
+      setTimeout(() => {
+        background.src = src;
+        background.onload = () => {
+          this.$refs.backgroundImage.style.backgroundImage = `url(${
+            background.src
+          })`;
+          this.$refs.backgroundImage.style.opacity = 0.7;
+          setTimeout(() => (this.showPage = true), 500);
+        };
+      }, 500);
+    },
+    async getUser() {
+      const { ok, error, result } = await AuthenticationService.user();
+      if (!ok) {
+        // connection error
+        if (error.response === undefined) {
+          setTimeout(() => {
+            this.getUser();
+          }, 5000);
+          return;
+        } else {
+          localStorage.removeItem('hauthid');
+          this.loggedIn = null
+        }
+      } else {
+        this.user = result.data.user;
+      }
     }
   },
-  mounted() {
-    bus.$on('closeChangeLog', () => {
-      this.showChangeLog = false;
-    })
-  },
-  computed: {
-    changelogFiltered() {
-      return this.changelog.slice(0, 3)
-    }
-  }
+  async mounted() {
+    if (this.loggedIn) this.getUser();
+    this.preloadImages();
 
-}
+  }
+};
 </script>
 
 
 <style scoped>
-.twitter-outer{
-  margin: auto;
-  width: 600px;
-  opacity: 0.8;
-  transition: 0.3s;
-}
-.twitter-outer:hover{
-  opacity: 1;
-}
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .2s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+.fall-down-enter-active {
   opacity: 0;
+  animation: fall-down 0.5s;
+  animation-delay: 0.3s;
 }
 
-#app {
-  font-family: 'Roboto', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #383838;
+.fall-down-fast-enter-active {
+  opacity: 0;
+  animation: bounce-in 0.2s;
+}
+.fall-down-fast-leave-active {
+  opacity: 0;
+  animation: bounce-in 0.2s reverse;
+}
+
+@keyframes fall-down {
+  0% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(10px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(10px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+
+
+.side-in-enter-active {
+  opacity: 0;
+  animation: side-in 0.5s;
+  animation-delay: 0.5s;
+}
+
+@keyframes side-in {
+  0% {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(10px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+
+
+
+
+html,
+body {
   height: 100%;
 }
-button {
-  font-family: 'Roboto', sans-serif;
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
-.spinner{
-    margin: auto;
-    padding: 30px;
+.header {
+  background: rgba(0, 0, 0, 0.52);
+  display: flex;
+  height: 70px;
+  margin: 5px;
+  border-radius: 10px;
+  flex-shrink: 0;
+  border: 10px;
+  position: relative;
+}
+.logo {
+  background-image: url("../assets/logo.png");
+  background-size: 100%;
+  height: 50px;
+  width: 50px;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 10px;
+}
+.name {
+  margin-top: auto;
+  margin-bottom: auto;
+  font-size: 20px;
+  margin-left: 10px;
+  color: white;
+}
+.outer-profile-picture{
+  user-select: none;
+  z-index: 9999999;
 }
 
 .background-image {
-  background: url(./../assets/background.jpg);
-  position: absolute;
+  position: fixed;
   z-index: -1;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  width: 100%;
+  height: 100%;
   background-repeat: no-repeat;
   background-position: bottom;
   background-size: cover;
-
+  opacity: 0;
+  transition: 0.5s;
 }
-
-.layout{
-    display: flex;
-    height: 100%;
-    width:100%;
-    flex-direction: column;
-}
-.panels{
-    display: flex;
-    height: 100%;
-    width: 100%;
-}
-.left-panel {
-    flex: 1;
-    background: rgba(0, 0, 0, 0.253);
-    overflow: auto;
-    display: flex;
-    flex-direction: column;
-}
-
-.loader{
+.content {
+  height: 100%;
   display: flex;
   flex-direction: column;
-  
-}
-.title-panel{
-    width: 100%;
-    height: 150px;
+  overflow: auto;
+  overflow-x: hidden;
 }
 
-.graphics-panel{
-    flex: 1;
-
+.inner-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  margin-top: 40px;
 }
-
-.graphic-app{
-    display: table;
-    margin: auto;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    width: 900px;
-    height: auto;
-    user-select: none;
-}
-.title{
-  color: white;
-  font-size: 35px;
-  text-align: center;
-  margin-top: 120px;
-}
-
-.change-log-mini{
-  background: rgba(0, 0, 0, 0.322);
-  height: 150px;
-  width: 640px;
+.graphic {
+  width: 700px;
+  height: auto;
   margin: auto;
-  margin-top: 20px;
-  color: white;
-  margin-bottom: 50px;
-  flex-shrink: 0;
-}
-
-.change-title {
-  font-size: 18px;
   margin-top: 10px;
-  margin-bottom: 10px;
-  margin-left: 10px;
+  margin-bottom: 0;
   user-select: none;
 }
-
-.change-list{
+.title {
+  font-size: 25px;
+  color: white;
+  text-align: center;
+  padding: 10px;
+}
+.buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+.button {
+  padding: 15px;
+  background: rgba(24, 132, 255, 0.733);
+  border-radius: 5px;
+  color: white;
+  box-shadow: 3px 3px rgb(5, 86, 179);
+  user-select: none;
+  transition: 0.3s;
+}
+.button:hover {
+  background: rgb(24, 132, 255);
+}
+.button:active {
+  transform: translate(3px, 3px);
+  box-shadow: 0 0 rgb(5, 86, 179);
+}
+.features-list {
+  margin-top: 20px;
+}
+.features-list .list {
+  display: flex;
+  justify-content: center;
+}
+.feature {
+  background: rgba(0, 0, 0, 0.541);
+  color: white;
+  margin: 10px;
+  padding: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  height: 200px;
+  width: 200px;
+  border-radius: 10px;
+  flex-shrink: 0;
+  transition: 0.3s;
+}
+.feature .description {
+  width: 150px;
+  margin-top: 15px;
+}
+.feature .material-icons {
+  font-size: 60px;
+}
+.links {
+  color: white;
+  margin: auto;
+  margin-right: 20px;
   display: flex;
 }
-
-.change {
-  background: rgba(0, 0, 0, 0.335);
-  width: 200px;
-  height: 90px;
-  margin-left: 10px;
+.link {
+  padding: 5px;
+  background: rgba(0, 0, 0, 0.219);
   border-radius: 5px;
+  user-select: none;
+  margin-left: 5px;
   transition: 0.3s;
-  position: relative
 }
-.change:hover {
-  background: rgba(0, 0, 0, 0.466);
+.link:hover {
+  background: rgba(255, 255, 255, 0.26);
 }
-.notable-changes{
-  margin: 10px;
-  cursor: default;
-  user-select: none;
+.warn {
+  color: red;
 }
 
-.change-date{
-  position: absolute; 
-  bottom: 10px;
-  right: 10px;
-  color: rgba(255, 255, 255, 0.753);
-  cursor: default;
-  user-select: none;
-}
-
-.small-view-nav-bar{
-  width: 100%;
-  height: 50px;
-  background: rgba(0, 0, 0, 0.411);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-
-}
-
-.small-logo {
-  height: 30px;
-  width: 30px;
-  background: url(./../assets/logo.png);
-  background-size: 105%;
-  background-position: center;
-  border-radius: 50%;
-  box-shadow: 0px 0px 96px -4px rgba(69,212,255,1);
-  margin: auto;
-  margin-left: 10px;
-  flex-shrink: 0;
-}
-
-.small-title{
-    color: white;
-    font-size: 20px;
-    flex: 1;
-    margin-left: 10px;
-}
-
-.show-menu-button{
-    color: rgba(255, 255, 255, 0.698);
-    margin-right: 20px;
-    margin-top: 7px;
-    user-select: none;
-    transition: 0.3s
-}
-
-.show-menu-button:hover {
-    color: rgb(255, 255, 255);
-}
-
-.show-menu-content {
-    display: flex !important;
-    width: 400px !important;
-    opacity: 1 !important;
-    transform: scale(1) !important;
-}
-
-@media (max-width: 1051px) {
-  .change:nth-child(3){
-    display: none;
-  }
-  .change-log-mini{
-    width: 430px;
+@media (max-width: 1000px) {
+  .graphic {
+    width: calc(100% - 30px);
   }
 }
-@media (max-width: 906px) {
 
-  .change:nth-child(3){
-    display: block;
-  }
-  .change-log-mini{
-    width: 640px;
+@media (max-width: 662px) {
+  .feature {
+    margin: 5px;
+    padding: 0px;
+    height: 150px;
+    width: 150px;
   }
 }
-@media (max-width: 649px) {
-  .twitter-outer{
-    margin-top: 20px;
-    margin-bottom: 50px;
-    width: initial;
-  }
-  .change-list{
+
+@media (max-width: 465px) {
+  .features-list .list {
     flex-direction: column;
   }
-  .change-log-mini{
-    height: initial;
-    width: calc(100% - 20px);
-    padding-bottom: 10px;
-    margin: auto;
+  .feature {
+    margin: 5px;
+    padding: 0px;
+    height: 150px;
+    width: auto;
+    font-size: 15px;
   }
-  .change{
-    margin-bottom: 5px;
-    margin-left: 5px;
-    margin-right: 0;
-    width: calc(100% - 10px);
-  }
-}
-@media (max-width: 1380px) {
-  .graphic-app{
-    width: calc(100% - 80px);
-  }
-  .title{
-    font-size: 30px;
-    margin-left: 20px;
-    margin-right: 20px;
-
-  }
-}  
-@media (max-width: 906px) {
-  .right-panel-home {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    top: 50px;
-    display: flex;
-    margin-right: 0;
-    margin-top: 0;
-    height:calc(100% - 50px);
-    background-color: rgb(34, 34, 34);
-    width: 0;
-    overflow-x: hidden;
-    transition: 0.5s ease;
-    transform: scale(0.97);
-    opacity: 0;
-
-  }
-  .right-panel-inner{
-    width: 400px;
-  }
-  .small-view-nav-bar{
-    display: flex;
-  }
-
-}
-@media (max-width: 401px) {
-  .show-menu-content {
-    width: 100% !important;
-  }
-  .right-panel-inner{
+  .feature .description {
+    margin-top: 15px;
     width: 100%;
   }
 }
 </style>
 
-
-<!-- Used for forms !-->
 <style>
-@media (max-width: 1380px) {
-  .graphic-app{
-    width: calc(100% - 80px);
-  }
-}  
-
-@media (max-width: 906px) {
-
-
-
-  .right-panel-home {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    top: 50px;
-    display: flex;
-    margin-right: 0;
-    margin-top: 0;
-    height:calc(100% - 50px);
-    background-color: rgba(34, 34, 34, 0.877);
-    width: 0;
-    overflow-x: hidden;
-    transition: 0.5s ease;
-    transform: scale(0.97);
-    opacity: 0;
-  }
-
-  .right-panel-inner{
-    width: 400px;
-  }
-  .small-view-nav-bar{
-    display: flex;
-  }
-
-}
-@media (max-width: 401px) {
-  .show-menu-content {
-    width: 100% !important;
-  }
-  .right-panel-inner{
-    width: 100%;
-  }
-}
-
-.form {
-  color: white;
-  margin: auto;
-  padding: 10px;
-}
-
-input{
-  padding: 10px;
-  background: rgba(0, 0, 0, 0.301);
-  outline: none;
-  border: none;
-  color: white;
-  margin-top: 5px;
-  margin-bottom: 10px;
-  width: 200px;
-  transition: 0.3s;
-}
-
-input:hover{
-  background: rgba(0, 0, 0, 0.452);
-}
-
-input:focus {
-  background: rgba(0, 0, 0, 0.603);
-}
-.input-title{
-  margin-top: 10px;
-}
-.form-button{
-  padding: 10px;
-  background: rgba(0, 0, 0, 0.226);
-  display: table;
-  transition: 0.5s;
-  margin: auto;
-  color: white;
-  border: none;
-  outline: none;
-}
-
-.form-button:hover{
-  background: rgba(0, 0, 0, 0.534)
-}
-.alert{
-  color: red;
-  font-size: 15px;
-  width: 220px;
+body {
+  background: rgb(46, 37, 49);
 }
 </style>

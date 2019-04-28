@@ -78,9 +78,7 @@ const actions = {
 
 const mutations = {
 	setApperance(state, data) {
-		const apperance = state.apperance || {};
-		apperance[Object.keys(data)[0]] = data[Object.keys(data)[0]]
-		state['apperance']  = apperance
+		Vue.set(state.apperance, Object.keys(data)[0], data[Object.keys(data)[0]])
 	},
 	setSettings(state, settings) {
 		Vue.set(state, Object.assign(state, settings))

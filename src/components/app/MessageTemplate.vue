@@ -278,6 +278,7 @@ export default {
 }
 .username:hover{
   color: rgb(199, 199, 199);
+  text-decoration: underline;
 }
 .date {
   color: rgb(161, 161, 161);

@@ -13,6 +13,17 @@ export default {
 
     }
   },
+  beforeMount(){
+    const existing = document.getElementById('reCaptchaScript');
+    if (existing) 
+      existing.remove();
+
+    const $script = document.createElement('script')
+    $script.async = true
+    $script.id = "reCaptchaScript"
+    $script.src = 'https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit'
+    document.head.appendChild($script)
+  },
   methods: {
     submit(response) {
       this.$emit('verify', response)

@@ -24,8 +24,6 @@ import config from "@/config.js";
 import MessageTemplate from '@/components/app/MessageTemplate.vue';
 import SettingsService from '@/services/settingsService.js';
 
-import { mapState } from "vuex";
-
 export default {
   components: {
     MessageTemplate
@@ -47,7 +45,9 @@ export default {
     }
   },
   computed: {
-    ...mapState('settingsModule', ['apperance']),
+    apperance() {
+      return this.$store.getters['settingsModule/settings'].apperance;
+    },
     user() {
       return this.$store.getters.user
     }

@@ -525,8 +525,8 @@ export default {
 }
 
 .heading {
-  border-bottom: solid 2px white;
-  margin: 5px;
+  padding: 5px;
+  background: rgba(0, 0, 0, 0.185);
   margin-bottom: 0;
   height: 40px;
   padding-bottom: 2spx;

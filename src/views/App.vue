@@ -57,7 +57,7 @@ import Spinner from "./../components/Spinner.vue";
 const ElectronFrameButtons = () =>
   import("./../components/ElectronJS/FrameButtons.vue");
   
-const News = () => import("./../components/app/Tabs/News.vue");
+const News = () => import(/* webpackChunkName: "News" */"./../components/app/Tabs/News.vue");
 //const DirectMessage = () => import('./../components/app/Tabs/DirectMessage.vue');
 const DirectMessage = () => ({
   component: import("./../components/app/Tabs/DirectMessage.vue"),
@@ -154,7 +154,7 @@ export default {
   overflow-y: hidden;
   overflow-x: auto;
   height: 35px;
-  max-width: 473px;
+  max-width: 479px;
   flex-basis: auto; /* default value */
   flex-grow: 1;
   -webkit-app-region: no-drag;
@@ -168,7 +168,7 @@ export default {
   flex-shrink: 0;
   margin: auto;
   margin-right: 1px;
-  margin-left: 1px;
+  margin-left: 3px;
   margin-bottom: 0;
   background: rgba(0, 0, 0, 0.63);
   color: white;
@@ -227,23 +227,7 @@ export default {
 
 
 <style>
-html {
-  height: 100%;
-}
 
-body {
-  margin: 0;
-  height: 100%;
-  overflow: hidden;
-}
-
-#app {
-  font-family: "Roboto", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #383838;
-  height: 100%;
-}
 textarea {
   font-family: "Roboto", sans-serif;
 }
@@ -270,32 +254,30 @@ textarea {
   display: flex;
   overflow: auto;
   height: 100%;
-}
-</style>
-
-<style>
-/* ------- SCROLL BAR -------*/
-/* width */
-::-webkit-scrollbar {
-  width: 10px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 
-/* Track */
-::-webkit-scrollbar-track {
-  background: #8080806b;
-  border-radius: 10px;
+
+input{
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.301);
+  outline: none;
+  border: none;
+  color: white;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  width: 200px;
+  transition: 0.3s;
 }
 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #f5f5f559;
-  border-radius: 10px;
+input:hover{
+  background: rgba(0, 0, 0, 0.452);
 }
 
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #f5f5f59e;
-  border-radius: 10px;
+input:focus {
+  background: rgba(0, 0, 0, 0.603);
 }
+
 </style>
 

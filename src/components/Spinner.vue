@@ -1,15 +1,18 @@
 <template>
   <div class="loading-screen">
-    <div class="loading-animation"></div>
-    <div class="title">{{$props.msg}}</div>
+    <div class="loading-animation" :style="`height: ${size}px ; width: ${size}px ;`"></div>
+    <div class="title" v-if="msg">{{$props.msg}}</div>
   </div>
 </template>
 
 <script>
 export default {
-  props: [
-    "msg"
-  ]
+  props: {
+    msg: String,
+    size: {
+      default: 100
+    }
+  }
 }
 </script>
 
@@ -19,8 +22,6 @@ export default {
   margin: auto;
 }
 .loading-animation{
-  height: 100px;
-  width: 100px;
   background-size: 100%;
   background-image: url(../assets/spinner.svg);
   display: table;
