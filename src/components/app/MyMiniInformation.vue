@@ -109,6 +109,8 @@ export default {
 .profile-pic-outer{
   z-index:9999;
   display: flex;
+    margin-left: 10px;
+  margin-right: 10px;
 }
 .survay-button {
   padding: 10px;
@@ -158,10 +160,6 @@ export default {
   transition: 0.3s;
 }
 
-.profile-picture {
-  margin-left: 10px;
-  margin-right: 10px;
-}
 
 .information {
   color: white;
