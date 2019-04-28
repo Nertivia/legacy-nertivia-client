@@ -22,7 +22,8 @@ const config = [
     new: [
       "Home page has been re-designed and has some cool animations.",
       "New login and register pages.",
-      "Padding and margin adjusted and small design changes throughout the app."
+      "Padding and margin adjusted and small design changes throughout the app.",
+      "Added Oceania to the survey list."
     ],
     fix: [
       'Fixed bugs with appearance settings not correctly working.'

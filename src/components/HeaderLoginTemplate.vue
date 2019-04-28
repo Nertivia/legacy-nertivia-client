@@ -71,6 +71,7 @@ export default {
   margin-bottom: 0;
   margin-top: 50px;
   z-index: 99999;
+  flex-shrink: 0;
 }
 .animation {
   height: 200px;
