@@ -32,8 +32,8 @@
         <div class="panel-layout">
           <news v-if="currentTab == 0"/>
           <direct-message v-if="currentTab == 1"/>
-          <servers v-if="currentTab == 2"/>
-          <div class="coming-soon" v-if="currentTab > 2">
+          <!-- <servers v-if="currentTab == 2"/> -->
+          <div class="coming-soon" v-if="currentTab > 1">
             <div class="icon">
               <i class="material-icons">cached</i>
             </div>
@@ -115,6 +115,11 @@ export default {
 
 
 <style scoped>
+#app {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
 .coming-soon {
   display: flex;
   align-items: center;
@@ -131,6 +136,7 @@ export default {
 }
 
 .direct-message-tab {
+  position: relative;
   display: flex;
   width: 100%;
   height: 100%;
@@ -239,12 +245,10 @@ textarea {
 }
 .background-image {
   background: url(./../assets/background.jpg);
-  position: absolute;
+  position: fixed;
   z-index: -1;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  width: 100%;
+  height: 100%;
   background-repeat: no-repeat;
   background-position: bottom;
   background-size: cover;

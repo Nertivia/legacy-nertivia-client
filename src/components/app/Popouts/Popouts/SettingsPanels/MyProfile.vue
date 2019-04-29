@@ -1,15 +1,14 @@
 <template>
   <div class="my-profile-panel">
     <div class="general-information">
-      <div class="profile-picture-outer">
-        <profile-picture
-          :url="avatar"
-          :admin="user.admin"
-          size="100px"
-          emoteSize="30px"
-          animationPadding="5px"
-        />
-      </div>
+      <profile-picture
+        class="avatar"
+        :url="avatar"
+        :admin="user.admin"
+        size="100px"
+        emoteSize="30px"
+        animationPadding="5px"
+      />
       <div class="information">
         <div class="username">
           <strong>Username:</strong>
@@ -147,13 +146,11 @@ export default {
   width: 100%;
   margin-top: 20px;
 }
-.profile-picture-outer {
+.avatar {
   display: flex;
-  z-index: 99999;
-}
-.profile-picture {
   margin-left: 20px;
 }
+
 .information {
   margin: auto;
   margin-left: 20px;
@@ -239,7 +236,7 @@ export default {
     display: block;
     flex-direction: column;
   }
-  .profile-picture {
+  .avatar{
     margin: auto;
     margin-bottom: 10px;
   }

@@ -42,7 +42,7 @@
     <div class="chat-input-area" v-if="selectedChannelID">
       <div style="position: relative;">
         <emoji-suggestions v-if="emojiArray" :emojiArray="emojiArray"/>
-        <emoji-panel v-if="emojiPanelShow"/>
+        <emoji-panel v-if="showEmojiPanel" @close="showEmojiPanel = false"/>
       </div>
 
       <div class="message-area">
@@ -62,10 +62,7 @@
           v-model="message"
           @paste="onPaste"
         ></textarea>
-        <button
-          class="emojis-button"
-          @click="$store.dispatch('setPopoutVisibility', {name: 'emojiPanel', visibility: true})"
-        >
+        <button class="emojis-button" @click="showEmojiPanel = !showEmojiPanel">
           <i class="material-icons">face</i>
         </button>
         <button
@@ -103,7 +100,7 @@ import emojiSuggestions from "@/components/app/EmojiPanels/emojiSuggestions.vue"
 import emojiParser from "@/utils/emojiParser.js";
 import statuses from "@/utils/statuses";
 
-const emojiPanel = () => import( '@/components/app/EmojiPanels/emojiPanel.vue' );
+const emojiPanel = () => import("@/components/app/EmojiPanels/emojiPanel.vue");
 
 export default {
   components: {
@@ -121,7 +118,8 @@ export default {
       postTimerID: null,
       getTimerID: null,
       typing: false,
-      whosTyping: ""
+      whosTyping: "",
+      showEmojiPanel: false
     };
   },
   methods: {
@@ -300,7 +298,13 @@ export default {
     enterEmojiPanel(shortcode) {
       const target = this.$refs["input-box"];
       target.focus();
-      document.execCommand("insertText", false, `:${shortcode}: `);
+
+      if (document.queryCommandSupported("insertText")) {
+        document.execCommand("insertText", false, `:${shortcode}: `);
+      } else {
+        document.execCommand("paste", false, `:${shortcode}: `);
+      }
+      target.blur();
       this.$store.dispatch("settingsModule/addRecentEmoji", shortcode);
     },
     keyDown(event) {
@@ -442,25 +446,24 @@ export default {
     emojiArray() {
       return this.$store.getters.emojiArray;
     },
-    emojiPanelShow() {
-      return this.$store.getters.popouts.emojiPanel;
-    },
     emojiIndex() {
       return this.$store.getters.getEmojiIndex;
     },
     userStatusColor() {
-
       const selectedChannel = this.$store.getters.selectedChannelID;
       const channel = this.$store.getters.channels[selectedChannel];
 
       let status = 0;
       if (!channel) {
         status = 0;
-      }else if (this.$store.getters.user.friends[channel.recipients[0].uniqueID]) {
-        status =  this.$store.getters.user.friends[channel.recipients[0].uniqueID].recipient.status || 0
+      } else if (
+        this.$store.getters.user.friends[channel.recipients[0].uniqueID]
+      ) {
+        status =
+          this.$store.getters.user.friends[channel.recipients[0].uniqueID]
+            .recipient.status || 0;
       }
-      return statuses[status].color
-
+      return statuses[status].color;
 
       // const allFriends = this.$store.getters.user.friends;
       // const selectedChannel = this.$store.getters.selectedChannelID;

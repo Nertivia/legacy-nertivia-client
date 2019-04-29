@@ -27,7 +27,7 @@ export default {
   methods: {
 
     async openChat(event) {
-      if (event.target.classList[0] === "profile-picture") return;
+      if (event.target.closest(".profile-picture")) return;
       bus.$emit('closeLeftMenu');
       // dismiss notification if exists 
       // TODO move this into openchat or something :/

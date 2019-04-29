@@ -53,15 +53,16 @@ export default {
   margin: 5px;
   transition: 0.3s;
 }
-.add-server{
-  background: rgba(0, 255, 21, 0.277);
-}
+
 
 .server:hover {
   background: rgba(0, 0, 0, 0.288);
 }
-.add-server:hover{
-  background: rgba(0, 255, 21, 0.377);
+.material-icons {
+  transition: 0.3s;
+}
+.add-server:hover .material-icons{
+  color: rgba(20, 255, 39, 0.726);
 }
 
 .small-view {
@@ -89,7 +90,7 @@ export default {
   height: 56px;
   display: flex;
   align-items: center;
-  margin-right: 10px;
+  margin-right: 5px;
   margin-left: 5px;
 }
 

@@ -158,6 +158,11 @@ export default {
 };
 </script>
 
+<style>
+html, body {
+  height: 100%;
+}
+</style>
 
 <style scoped>
 .fade-up-enter-active {
@@ -205,16 +210,13 @@ export default {
   width: 100%;
   overflow: auto;
   z-index: 9999;
-  padding-bottom: 50px;
+  padding-bottom: 100px;
 }
 .background {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  position: fixed;
+  height: 100%;
+  width: 100%;
   transition: background 10s;
-
 }
 
 .night-background {
@@ -240,6 +242,7 @@ export default {
   display: flex;
   height: 100%;
   margin: 10px;
+  flex-shrink: 0;
 }
 .box {
   width: 100%;
@@ -352,7 +355,7 @@ input {
 }
 
 .register-button {
-  background: #2ecc70ab;
+  background: rgba(46, 204, 112, 0.67);
   box-shadow: 3px 3px #0f7e3d;
 }
 .register-button.button:hover {

@@ -1,15 +1,15 @@
 export default {
   gender: [
-    { emoji: "👦🏻", name: "Male" },
-    { emoji: "👧🏼", name: "Female" },
-    { emoji: "😶", name: "Rather not say" }
+    { emoji: "👦🏻", name: "Male", code:"M" },
+    { emoji: "👧🏼", name: "Female", code:"F"},
+    { emoji: "😶", name: "Rather not say", code:"no"}
   ],
   age: [
-    { emoji: "", name: "13 or under" },
-    { emoji: "", name: "14-16" },
-    { emoji: "", name: "17-19" },
-    { emoji: "", name: "20 or above" },
-    { emoji: "😶", name: "Rather not say" }
+    { emoji: "", name: "13 or under", code: "-13"},
+    { emoji: "", name: "14-16", code:"1416"},
+    { emoji: "", name: "17-19", code:"1719"},
+    { emoji: "", name: "20 or above", code:"20+" },
+    { emoji: "😶", name: "Rather not say", code: "no" }
   ],
   continents: [
     { name: "Europe", emoji: "🍃", code: "EU" },

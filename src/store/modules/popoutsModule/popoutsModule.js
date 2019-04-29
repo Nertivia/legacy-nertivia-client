@@ -2,7 +2,7 @@ import axios from 'axios'
 import Vue from 'vue'
 import {
   bus
-} from '../../main'
+} from '@/main'
 import VueRouter from 'vue-router';
 import NotificationSounds from '@/utils/notificationSound';
 
@@ -17,7 +17,6 @@ const state = {
   dragDropFileUploadDialog: false,
   settings: false,
   GDLinkMenu: false,
-  emojiPanel: false,
 }
 
 const getters = {

@@ -54,7 +54,8 @@ export default {
     openUserInformation() {
       this.$store.dispatch('setUserInformationPopout', this.user.uniqueID)
     },
-    closeMenus() {
+    closeMenus(event) {
+      if (event.target.closest('.status')) return;
       this.status.isPoppedOut = false;
     },
     openSurvey() {

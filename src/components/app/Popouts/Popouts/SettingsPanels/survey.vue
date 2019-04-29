@@ -64,7 +64,7 @@ export default {
   components: { DropDown },
   data() {
     return {
-      surveyItems: Object.assign({},surveyItems),
+      surveyItems: Object.assign({}, surveyItems),
       surveyErrorMessage: null,
       surveyValidMessage: null,
       previousLoaded: false,
@@ -91,25 +91,31 @@ export default {
         }
       }
       //checks if all values are not null
-      if ( this.selected.name.trim() === "" || this.selected.about_me.trim() === "") {
+      if (
+        this.selected.name.trim() === "" ||
+        this.selected.about_me.trim() === ""
+      ) {
         this.surveyErrorMessage = "Make sure you select / fill in all fields!";
         return;
       }
-      this.surveyValidMessage = "Saving..."
+      this.surveyValidMessage = "Saving...";
       //gets the country index after unfiltering.
       let countryIndex = undefined;
       if (this.filterCountry[this.selected.country]) {
-        const selectedCountryName = this.filterCountry[this.selected.country].name;
-        countryIndex = this.surveyItems.countries.findIndex(el => el.name == selectedCountryName);
+        const selectedCountryName = this.filterCountry[this.selected.country]
+          .name;
+        countryIndex = this.surveyItems.countries.findIndex(
+          el => el.name == selectedCountryName
+        );
       }
-      if (this.selected.name && this.selected.name.length >100) {
-        this.surveyErrorMessage = "Name must be less that 100 characters."
+      if (this.selected.name && this.selected.name.length > 100) {
+        this.surveyErrorMessage = "Name must be less that 100 characters.";
         this.surveyValidMessage = null;
         return;
       }
-      if (this.selected.about_me && this.selected.about_me.length >500) {
-        this.surveyErrorMessage = "About me must be less that 500 characters."
-        this.surveyValidMessage = null
+      if (this.selected.about_me && this.selected.about_me.length > 500) {
+        this.surveyErrorMessage = "About me must be less that 500 characters.";
+        this.surveyValidMessage = null;
         return;
       }
 
@@ -118,34 +124,38 @@ export default {
         gender: this.selected.gender,
         age: this.selected.age,
         continent: this.selected.continent,
-				country: countryIndex,
-				about_me: this.selected.about_me
-			});
-			if (ok) {
-        this.surveyValidMessage = "Saved!"
-			} else {
+        country: countryIndex,
+        about_me: this.selected.about_me
+      });
+      if (ok) {
+        this.surveyValidMessage = "Saved!";
+      } else {
         this.surveyValidMessage = null;
-				this.surveyErrorMessage = error.response.data.message
-			}
+        this.surveyErrorMessage = error.response.data.message;
+      }
     }
   },
-  async mounted(){
-    const {ok, error, result} = await userService.getSurvey();
+  async mounted() {
+    const { ok, error, result } = await userService.getSurvey();
     if (ok) {
-      this.selected.continent = result.data.result.continent
-        this.selected.age = result.data.result.age
-        this.selected.name = result.data.result.name
-        this.selected.about_me = result.data.result.about_me
-        this.selected.gender = result.data.result.gender
-        //filter the country
-        if(result.data.result.country) {
-          setTimeout(() => {
-            const continentCode = surveyItems.continents[this.selected.continent].code;
-            const filter = surveyItems.countries.filter(e => e.code === continentCode);
-            const countryName = surveyItems.countries[result.data.result.country].name;
-            this.selected.country = filter.findIndex(e => e.name === countryName);
-          }, 500);
-        }
+      this.selected.continent = result.data.result.continent;
+      this.selected.age = result.data.result.age;
+      this.selected.name = result.data.result.name;
+      this.selected.about_me = result.data.result.about_me;
+      this.selected.gender = result.data.result.gender;
+      //filter the country
+      if (result.data.result.country) {
+        setTimeout(() => {
+          const continentCode =
+            surveyItems.continents[this.selected.continent].code;
+          const filter = surveyItems.countries.filter(
+            e => e.code === continentCode
+          );
+          const countryName =
+            surveyItems.countries[result.data.result.country].name;
+          this.selected.country = filter.findIndex(e => e.name === countryName);
+        }, 500);
+      }
     }
     this.previousLoaded = true;
   },
@@ -156,7 +166,7 @@ export default {
         selectedContinentIndex
       ];
       const code = selectedContinent.code;
-      
+
       return this.surveyItems.countries.filter(element => {
         return element.code == code || !element.code;
       });
@@ -178,7 +188,8 @@ export default {
   margin-top: 10px;
   user-select: none;
 }
-.survey, .survey-inner {
+.survey,
+.survey-inner {
   display: flex;
   margin: auto;
   margin-top: 10px;
@@ -192,9 +203,9 @@ export default {
   color: red;
   margin-bottom: 10px;
 }
-.survey-valid{
+.survey-valid {
   color: green;
-  margin-bottom: 10px; 
+  margin-bottom: 10px;
 }
 .survey .button {
   color: white;
@@ -217,7 +228,7 @@ export default {
   background: rgba(61, 61, 61, 0.863);
   margin-top: 5px;
   border-radius: 5px;
-	transition: 0.3s;
+  transition: 0.3s;
 }
 .survey-input:hover {
   background: rgba(73, 73, 73, 0.863);
@@ -229,9 +240,8 @@ export default {
   border: none;
   width: 200px;
   height: 100px;
-	transition: 0.3s;
+  transition: 0.3s;
 }
-
 
 .title {
   margin-top: 30px;

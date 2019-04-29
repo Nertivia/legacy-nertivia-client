@@ -2,8 +2,12 @@
   <div class="drop-down">
     <div class="main-name">{{name}}</div>
     <div class="box" @click="opened = !opened">
-      <div class="selected" >
-        <div class="emoji" v-if="selected !== null && updateItems[selected]" v-html="updateItems[selected].emoji || ''"></div>
+      <div class="selected">
+        <div
+          class="emoji"
+          v-if="selected !== null && updateItems[selected]"
+          v-html="updateItems[selected].emoji || ''"
+        ></div>
         {{selected === null ? 'Select One' : updateItems[selected].name}}
       </div>
       <i class="material-icons">expand_more</i>
@@ -26,7 +30,7 @@
 
 <script>
 import emojiParser from "@/utils/emojiParser.js";
-import { constants } from 'crypto';
+import { constants } from "crypto";
 export default {
   model: {
     prop: "itemSelected",
@@ -48,26 +52,26 @@ export default {
   },
   watch: {
     updateItems() {
-			this.selected = null;
+      this.selected = null;
     },
-    itemSelected(){
+    itemSelected() {
       this.selected = this.itemSelected;
     }
   },
   computed: {
     updateItems() {
-			this.$emit("change", null);
+      this.$emit("change", null);
       let newArr = [];
       for (let index = 0; index < this.items.length; index++) {
-				let element = this.items[index];
-				if (element.emoji) {
-					if (element.emoji.startsWith("<img")) return this.items
-					element.emoji = emojiParser.replaceEmojis(element.emoji);
-					newArr.push(element);
-				} else {
-					element.emoji = ""
-					newArr.push(element);
-				}
+        let element = this.items[index];
+        if (element.emoji) {
+          if (element.emoji.startsWith("<img")) return this.items;
+          element.emoji = emojiParser.replaceEmojis(element.emoji);
+          newArr.push(element);
+        } else {
+          element.emoji = "";
+          newArr.push(element);
+        }
       }
       return newArr;
     }

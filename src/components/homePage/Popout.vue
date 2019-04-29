@@ -2,14 +2,7 @@
   <div class="profile-popout">
     <div class="triangle"></div>
     <div class="inner">
-      <div class="outer-profile-picture" v-if="user">
-        <profile-picture
-          :url="avatarDomain + user.avatar"
-          :admin="user.admin"
-          size="40px"
-          emoteSize="17px"
-        />
-      </div>
+      <profile-picture v-if="user" class="avatar" :url="avatarDomain + user.avatar" :admin="user.admin" size="40px" emoteSize="17px" />
       <div class="information">
         <div
           class="username"
@@ -76,8 +69,7 @@ export default {
   padding: 10px;
   align-items: center;
 }
-.outer-profile-picture {
-  z-index: 999999;
+.avatar {
   margin-left: 10px;
 }
 .information {
@@ -107,6 +99,7 @@ export default {
   transition: 0.3s;
   cursor: default;
   font-size: 27px;
+  user-select: none;
 }
 .buttons .material-icons:hover {
   color: white;

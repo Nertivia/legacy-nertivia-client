@@ -4,15 +4,16 @@
       <spinner v-if="!user"/>
       <div class="inner" v-else>
         <div class="top">
-          <div class="profile-picture-outer">
+
             <profile-picture
+              class="avatar"
               size="90px"
               emoteSize="28px"
               animationPadding="5px"
               :admin="user.admin"
               :url="`${avatarDomain}${user.avatar}`"
             />
-          </div>
+
           <div class="info">
             <div class="username">{{user.username}}</div>
             <div class="tag">@{{user.tag}}</div>
@@ -324,7 +325,7 @@ export default {
 .button.warn:hover {
   background: #ff0000ab;
 }
-.profile-picture-outer {
+.avatar{
   display: flex;
   z-index: 9999;
   margin: auto;

@@ -8,6 +8,7 @@
       <drag-drop-file-upload-dialog key="ddfud" v-if="showUploadDrapDrop"/>
       <user-information-popout key="uip" v-if="popouts.userInformationPopoutID"/>
       <take-survey-popout key="tsp" v-if="popouts.surveyPopout"/>
+      <AddServer key="as" v-if="false"/>
     </transition-group>
   </div>
 </template>
@@ -16,6 +17,7 @@
 
 //popouts
   const userInformationPopout = () => import('./Popouts/userInformationPopout.vue');
+  const AddServer = () => import('./Popouts/AddServer.vue');
   const Settings = () => import('./Popouts/Settings.vue');
   const TakeSurveyPopout = () => import('./Popouts/TakeSurveyPopout.vue');
   const uploadDialog = () => import('./Popouts/uploadDialog.vue');
@@ -33,7 +35,8 @@ export default {
     userInformationPopout,
     DragDropFileUploadDialog,
     imageLargePreview,
-    TakeSurveyPopout
+    TakeSurveyPopout,
+    AddServer
   },
   data() {
     return {

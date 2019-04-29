@@ -1,20 +1,30 @@
 <template>
-  <div :class="`profile-picture ${adminType ? adminType.name : ''}`" :style="`padding: ${$props.animationPadding || '3px'}`">
-    <img v-if="adminType" class="emote" :src="adminType.emotePath" :style="`width: ${$props.emoteSize || '20px'}; height: ${$props.emoteSize ||'20px'}`">
+  <div class="outer-profile-picture">
     <div
-      :class="`inner-profile-picture ${$props.hover ? 'hoverable' : ''}`"
-      :style="`height: ${$props.size}; width: ${$props.size}; background-image: url(${$props.url})`"
-    ></div>
+      :class="`profile-picture ${adminType ? adminType.name : ''}`"
+      :style="`padding: ${$props.animationPadding || '3px'}`"
+    >
+      <img
+        v-if="adminType"
+        class="emote"
+        :src="adminType.emotePath"
+        :style="`width: ${$props.emoteSize || '20px'}; height: ${$props.emoteSize ||'20px'}`"
+      >
+      <div
+        :class="`inner-profile-picture ${$props.hover ? 'hoverable' : ''}`"
+        :style="`height: ${$props.size}; width: ${$props.size}; background-image: url(${$props.url})`"
+      ></div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["url", "size","emoteSize", "admin", "hover", 'animationPadding'],
+  props: ["url", "size", "emoteSize", "admin", "hover", "animationPadding"],
   data() {
     return {
       crown: require("twemoji/2/svg/1f451.svg"),
-      flower: require("twemoji/2/svg/1f33a.svg"),
+      flower: require("twemoji/2/svg/1f33a.svg")
     };
   },
   computed: {
@@ -36,6 +46,10 @@ export default {
 
 
 <style scoped>
+.outer-profile-picture{
+  z-index: 9999;
+  user-select: none;
+}
 .profile-picture {
   position: relative;
   border-radius: 50%;
@@ -49,8 +63,11 @@ export default {
   background-repeat: no-repeat;
   display: flex;
   transition: 0.2s;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translateZ(0) scale(1, 1);
+  transform: translateZ(0);
 }
-.hoverable:hover{
+.hoverable:hover {
   filter: brightness(80%);
 }
 .creator {

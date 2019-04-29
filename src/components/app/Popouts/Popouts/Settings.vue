@@ -2,7 +2,6 @@
   <div class="settings-darken-background">
     <div class="settings-box">
       <div class="tabs">
-
         <div
           v-for="(tab, index) in tabs"
           :key="index"
@@ -12,7 +11,6 @@
           <div class="material-icons">{{tab.icon}}</div>
           <div class="tab-name">{{tab.name}}</div>
         </div>
-
       </div>
       <div class="panel">
         <div class="title">
@@ -31,11 +29,9 @@
 <script>
 import { bus } from "@/main";
 
-
-const MyProfile = () => import( './SettingsPanels/MyProfile.vue' );
-const ManageEmojis = () => import( './SettingsPanels/ManageEmojis.vue' );
-const MessageDesign = () => import( './SettingsPanels/MessageDesign.vue' );
-  
+const MyProfile = () => import("./SettingsPanels/MyProfile.vue");
+const ManageEmojis = () => import("./SettingsPanels/ManageEmojis.vue");
+const MessageDesign = () => import("./SettingsPanels/MessageDesign.vue");
 
 export default {
   components: {
@@ -95,8 +91,10 @@ export default {
 .settings-box {
   height: 600px;
   display: flex;
+
   margin: auto;
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.507);
+  border-radius: 10px;
+  overflow: hidden;
 }
 .tabs {
   background: rgba(24, 24, 24, 0.938);
@@ -105,6 +103,7 @@ export default {
   min-width: 150px;
   overflow-y: auto;
   overflow-x: hidden;
+  flex-shrink: 0;
 }
 .panel {
   display: flex;
@@ -168,6 +167,27 @@ export default {
   font-size: 30px;
 }
 
+/* ------- SCROLL BAR -------*/
+/* width */
+.tabs::-webkit-scrollbar {
+  height: 3px;
+}
+
+/* Track */
+.tabs::-webkit-scrollbar-track {
+  background: #8080806b;
+}
+
+/* Handle */
+.tabs::-webkit-scrollbar-thumb {
+  background: #f5f5f559;
+}
+
+/* Handle on hover */
+.tabs::-webkit-scrollbar-thumb:hover {
+  background: #f5f5f59e;
+}
+
 @media (max-width: 815px) {
   .settings-box {
     width: 100%;
@@ -176,6 +196,25 @@ export default {
 @media (max-height: 609px) {
   .settings-box {
     height: 100%;
+  }
+}
+@media (max-width: 550px) {
+  .settings-box {
+    flex-direction: column;
+  }
+  .tabs {
+    height: 50px;
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+    overflow-x: auto;
+    flex-shrink: 0;
+  }
+  .tab {
+    flex-shrink: 0;
+  }
+  .panel {
+    width: 100%;
   }
 }
 </style>

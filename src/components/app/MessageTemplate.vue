@@ -1,8 +1,6 @@
 <template>
   <div :class="{message: true,  ownMessage: user.uniqueID === $props.uniqueID, ownMessageLeft: user.uniqueID === $props.uniqueID && (apperance && apperance.own_message_right === true)} ">
-    <div class="outer-profile-picture">
-      <profile-picture :admin="$props.admin" :url="userAvatar" size="50px" :hover="true" @click.native="openUserInformation"/>
-    </div>
+    <profile-picture class="avatar" :admin="$props.admin" :url="userAvatar" size="50px" :hover="true" @click.native="openUserInformation"/>
     <div class="triangle">
       <div class="triangle-inner"></div>
     </div>
@@ -129,7 +127,7 @@ export default {
   border-left: 7px solid rgba(184, 184, 184, 0.219);
   border-right: none !important;
 }
-.ownMessageLeft .profile-picture { 
+.ownMessageLeft .avatar { 
     margin-right: 0px;
     margin-left: 5px;
 }
@@ -140,9 +138,6 @@ export default {
 
 
 
-.outer-profile-picture{
-  z-index:9999;
-}
 .message {
   margin: 10px;
   margin-top: 10px;
@@ -207,7 +202,7 @@ export default {
   }
 }
 
-.profile-picture {
+.avatar {
   margin: auto;
   margin-left: 0;
   margin-right: 5px;

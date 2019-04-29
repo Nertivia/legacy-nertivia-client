@@ -351,11 +351,9 @@ export default {
       const customEmoji = emojiParser.getCustomEmojisByShortCode(shortCode)
       return (customEmoji ? this.customEmojiPath + customEmoji.emojiID : undefined)
     },
-    closePanel() {
-      this.$store.dispatch("setPopoutVisibility", {
-        name: "emojiPanel",
-        visibility: false
-      });
+    closePanel(event) {
+      if (!event.target.closest('.emojis-button'))
+        this.$emit('close')
     },
     emojiByGroup(index) {
       index = parseInt(index);

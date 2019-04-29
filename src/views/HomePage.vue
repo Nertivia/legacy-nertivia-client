@@ -12,11 +12,9 @@
             <div class="link" @click="signupPage" v-if="!loggedIn">Sign up</div>
             <div class="link" @click="loginPage" v-if="!loggedIn">Login</div>
             <spinner class="spinner-profile" :size="50" v-if="loggedIn && !user" />
-            <div class="outer-profile-picture" v-if="loggedIn && user">
-              <profile-picture @click.native="showPopout = !showPopout" :hover='true' :url="avatarDomain + user.avatar" :admin="user.admin" size="40px" emoteSize="17px"/>
-            </div>
+            <profile-picture class="avatar" v-if="loggedIn && user" @click.native="showPopout = !showPopout" :hover='true' :url="avatarDomain + user.avatar" :admin="user.admin" size="40px" emoteSize="17px"/>
             <transition name="fall-down-fast">
-              <Popout v-if="user && loggedIn && showPopout" @logout="logOut" :user="user"/>
+              <Popout v-if="user && loggedIn && showPopout" @logout="logOut" :user="user" v-click-outside="closePopout"/>
             </transition>
           </div>
         </div>
@@ -73,6 +71,10 @@ export default {
     };
   },
   methods: {
+    closePopout(event) {
+      if (!event.target.closest('.avatar'))
+      this.showPopout = false;
+    },
     logOut() {
       localStorage.removeItem("hauthid");
       this.loggedIn = null;
@@ -251,14 +253,11 @@ body {
   margin-left: 10px;
   color: white;
 }
-.outer-profile-picture{
-  user-select: none;
-  z-index: 9999999;
-}
+
 
 .background-image {
-  position: fixed;
   z-index: -1;
+  position: fixed;
   width: 100%;
   height: 100%;
   background-repeat: no-repeat;
@@ -268,6 +267,9 @@ body {
   transition: 0.5s;
 }
 .content {
+  position: fixed;
+  width: 100%;
+  height: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -290,17 +292,20 @@ body {
   margin-top: 10px;
   margin-bottom: 0;
   user-select: none;
+  flex-shrink: 0;
 }
 .title {
   font-size: 25px;
   color: white;
   text-align: center;
   padding: 10px;
+  flex-shrink: 0;
 }
 .buttons {
   display: flex;
   justify-content: center;
   margin-top: 30px;
+  flex-shrink: 0;
 }
 .button {
   padding: 15px;

@@ -7,7 +7,7 @@ import messageModule from './modules/messageModule';
 import notificationsModule from './modules/notificationsModule';
 import settingsModule from './modules/settingsModule';
 import uploadFilesModule from './modules/uploadFilesModule';
-import popoutsModule from './modules/popoutsModule';
+import popoutsModule from './modules/popoutsModule/popoutsModule.js';
 import emojiSuggestionModule from './modules/emojiSuggestionModule';
 import {
   router
