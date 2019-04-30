@@ -205,6 +205,7 @@ html, body {
 }
 .app-content {
   display: flex;
+  position: relative;
   flex-direction: column;
   height: 100%;
   width: 100%;
