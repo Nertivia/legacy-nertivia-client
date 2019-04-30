@@ -99,7 +99,7 @@ export default {
   border-radius: 5px;
 }
 .right{
-  left: 151px;
+  transform: translateX(150px);
 }
 
 /* ------- SCROLL BAR -------*/

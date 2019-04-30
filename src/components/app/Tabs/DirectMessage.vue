@@ -48,12 +48,18 @@ export default {
 </script>
 
 <style scoped>
+.direct-message-tab {
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
 .slidein-enter-active,
 .slidein-leave-active {
   transition: 0.5s;
 }
 .slidein-enter, .slidein-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  margin-left: -300px;
+  /* margin-left: -300px; */
+  transform: translateX(-300px)
 }
 @media (max-width: 600px) {
   .left-panel {
