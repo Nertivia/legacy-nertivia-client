@@ -1,10 +1,9 @@
 <template>
   <div class="left-panel">
     <MyMiniInformation/>
-
     <div class="list">
-      <server v-for="(data, index) in serverData" :key="index" :server-data="data" @click.native="toggleChannel(index, $event)" :open-channel="openedServer && openedServer === index"/>
-      <server mode="ADD_SERVER"/>
+      <server v-for="(data, index) in servers" :key="index.server_id" :server-data="data" @click.native="toggleChannel(data.server_id, $event)" :open-channel="openedServer !== null && openedServer === data.server_id"/>
+      <server mode="ADD_SERVER" @click.native="openAddServer"/>
     </div>
   </div>
 </template>
@@ -20,54 +19,30 @@ export default {
   },
   data() {
     return {
-      openedServer: null,
-      serverData: {
-        "67574563576897": {
-          name: "DevHelp",
-          channels: [
-            { name: "General", channelID: 3563567574767467 },
-            { name: "NodeJS", channelID: 758546746747378 },
-            { name: "Java", channelID: 57355675747875 },
-            { name: "C#", channelID: 45656764765676 }
-          ]
-        },
-        "24325587980787": {
-          name: "Musica",
-          channels: [
-            { name: "General", channelID: 3563567574767467 },
-            { name: "NodeJS", channelID: 758546746747378 },
-            { name: "Java", channelID: 57355675747875 },
-            { name: "C#", channelID: 45656764765676 }
-          ]
-        },
-        "3468636435": {
-          name: "IDK",
-          channels: [
-            { name: "General", channelID: 3563567574767467 },
-            { name: "NodeJS", channelID: 758546746747378 },
-            { name: "Java", channelID: 57355675747875 },
-            { name: "C#", channelID: 45656764765676 }
-          ]
-        },
-        "63575764574645": {
-          name: "OWO",
-          channels: [
-            { name: "General", channelID: 3563567574767467 },
-            { name: "NodeJS", channelID: 758546746747378 },
-            { name: "Java", channelID: 57355675747875 },
-            { name: "C#", channelID: 45656764765676 }
-          ]
-        }
-      }
+      openedServer: null
     };
   },
   methods: {
-    toggleChannel(index, event) {
-      if (!event.target.closest('.small-view')) return;
-      if (this.openedServer === index) 
+    openAddServer() {
+      this.$store.dispatch("setPopoutVisibility", {
+        name: "addServer",
+        visibility: true
+      });
+    },
+    toggleChannel(serverID, event) {
+      if (!event.target.closest('.small-view') || event.target.closest('.options-context-button') || event.target.closest('.options-context-menu')) return;
+      if (this.openedServer === serverID) 
         this.openedServer = null;
       else
-        this.openedServer = index;
+        this.openedServer = serverID;
+    }
+  },
+  computed: {
+    servers() {
+      const data = this.$store.getters['servers/servers'];
+      return Object.keys(data).map(key => {
+        return data[key];
+      }).slice().reverse()
     }
   }
 };

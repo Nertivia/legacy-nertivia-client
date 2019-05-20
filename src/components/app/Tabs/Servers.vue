@@ -8,6 +8,7 @@
       />
     </transition>
     <message-panel/>
+    <members-list/>
   </div>
 </template>
 
@@ -16,11 +17,13 @@ import { bus } from "@/main";
 
 import ServerList from "@/components/app/ServerList.vue";
 import MessagePanel from "@/components/app/MessagePanel.vue";
+import MembersList from "@/components/app/MembersList.vue";
 
 export default {
   components: {
     ServerList,
-    MessagePanel
+    MessagePanel,
+    MembersList
   },
   data() {
     return {

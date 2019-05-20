@@ -11,12 +11,16 @@ const state = {
   uploadDialog: false,
   ImagePreviewURL: null,
 
+  serverIDContextMenu: null,
+  showServerInviteMenu: false,
+
   userInformationPopoutID: null,
 
   surveyPopout: false,
   dragDropFileUploadDialog: false,
   settings: false,
   GDLinkMenu: false,
+  addServer: false,
 }
 
 const getters = {
@@ -37,6 +41,9 @@ const actions = {
   },
   setImagePreviewURL(context, url) {
     context.commit('setImagePreviewURL', url);
+  },
+  setServerIDContextMenu(context, serverID) {
+    context.commit('setServerIDContextMenu', serverID);
   }
 }
 
@@ -52,6 +59,9 @@ const mutations = {
   },
   setImagePreviewURL(state, url) {
     Vue.set(state, 'ImagePreviewURL', url);
+  },
+  setServerIDContextMenu(state, serverID) {
+    Vue.set(state, 'serverIDContextMenu', serverID);
   }
 }
 

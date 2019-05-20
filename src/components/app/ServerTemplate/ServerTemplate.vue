@@ -1,44 +1,89 @@
 <template>
   <div :class="{server: true, 'add-server': mode === 'ADD_SERVER'}">
-    <div class="small-view" @click="showChannels = !showChannels">
+    <div class="small-view">
       <profile-picture size="50px" v-if="!mode" :url="tempImage"/>
       <div class="add-icon" v-if="mode === 'ADD_SERVER'">
         <i class="material-icons">add</i>
       </div>
-      <div class="server-name">{{mode === 'ADD_SERVER'? 'Add Server' : ServerData.name}}</div>
+      <div class="server-name">{{mode === 'ADD_SERVER'? 'Add Server' : ServerData.name }}</div>
+      <div
+        ref="contextMenuButton"
+        class="options-context-button"
+        v-if="mode !== 'ADD_SERVER'"
+        @click="showContextMenu = !showContextMenu"
+      >
+        <i class="material-icons">more_vert</i>
+      </div>
+      <div class="options-context-menu" v-if="showContextMenu" v-click-outside="closeContextMenu">
+        <div class="menu-button" @click="createInvite(ServerData.server_id)">Create Invite</div>
+        <div
+          class="menu-button warn"
+          @click="leaveServer(ServerData.server_id)"
+          v-if="ServerData.creator.uniqueID !== user.uniqueID"
+        >Leave Server</div>
+        <div
+          class="menu-button warn"
+          @click="leaveServer(ServerData.server_id)"
+          v-if="ServerData.creator.uniqueID === user.uniqueID"
+        >Delete Server</div>
+      </div>
     </div>
     <div ref="container">
-      <div class="channel-list" v-if="openChannel">
-        <ChannelTemplate
-          v-for="channel in ServerData.channels"
-          :key="channel.name"
-          :channel-data="channel"
-        />
-      </div>
+      <channels-list v-if="openChannel" :serverID="ServerData.server_id"/>
     </div>
   </div>
 </template>
 
 <script>
 import config from "@/config.js";
-import ChannelTemplate from "@/components/app/ServerTemplate/ChannelTemplate.vue";
+import ChannelsList from "@/components/app/ServerTemplate/ChannelsList.vue";
 import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
+import ServerService from "@/services/ServerService";
 import smoothReflow from "vue-smooth-reflow";
 
 export default {
   mixins: [smoothReflow],
   props: ["ServerData", "openChannel", "mode"],
-  components: { ProfilePicture, ChannelTemplate },
+  components: { ProfilePicture, ChannelsList },
   data() {
     return {
+      showContextMenu: false,
       showChannels: false,
       tempImage: config.domain + "/avatars/noob"
     };
+  },
+  methods: {
+    createInvite(serverID) {
+      this.showContextMenu = false;
+      this.$store.dispatch("setServerIDContextMenu", serverID);
+      this.$store.dispatch("setPopoutVisibility", {
+        name: "showServerInviteMenu",
+        visibility: true
+      });
+    },
+    closeContextMenu(event) {
+      if (
+        event.target.closest(".options-context-button") ===
+        this.$refs.contextMenuButton
+      )
+        return;
+      this.showContextMenu = false;
+    },
+    async leaveServer(serverID) {
+      this.showContextMenu = false;
+      const {ok, error, result} = await ServerService.leaveServer(serverID);
+      console.log({ok, error, result})
+    }
   },
   mounted() {
     this.$smoothReflow({
       el: this.$refs.container
     });
+  },
+  computed: {
+    user() {
+      return this.$store.getters.user;
+    }
   }
 };
 </script>
@@ -54,14 +99,13 @@ export default {
   transition: 0.3s;
 }
 
-
 .server:hover {
   background: rgba(0, 0, 0, 0.288);
 }
 .material-icons {
   transition: 0.3s;
 }
-.add-server:hover .material-icons{
+.add-server:hover .material-icons {
   color: rgba(20, 255, 39, 0.726);
 }
 
@@ -70,23 +114,18 @@ export default {
   display: flex;
   transition: 0.3s;
   position: relative;
-  overflow: hidden;
   align-items: center;
   padding: 5px;
-}
-
-.channel-list {
-  background: rgba(0, 0, 0, 0.288);
-  display: flex;
-  flex-direction: column;
 }
 
 .server-name {
   overflow: hidden;
   text-overflow: ellipsis;
   margin-left: 5px;
+  flex: 1;
+  white-space: nowrap;
 }
-.add-icon{
+.add-icon {
   height: 56px;
   display: flex;
   align-items: center;
@@ -96,5 +135,39 @@ export default {
 
 .add-icon .material-icons {
   font-size: 40px;
+}
+.options-context-button {
+  display: flex;
+  align-items: center;
+  margin-right: 5px;
+  color: rgba(255, 255, 255, 0.623);
+  border-radius: 50%;
+  transition: 0.3s;
+}
+.options-context-button .material-icons:hover {
+  color: white;
+}
+
+.options-context-menu {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.692);
+  border-radius: 10px;
+  z-index: 9999;
+  padding: 5px;
+  right: 40px;
+  top: 20px;
+}
+.menu-button {
+  padding: 5px;
+  margin: 2px;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+.menu-button:hover {
+  background: rgb(47, 47, 47);
+}
+
+.warn {
+  color: red;
 }
 </style>

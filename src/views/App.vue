@@ -32,8 +32,8 @@
         <div class="panel-layout">
           <news v-if="currentTab == 0"/>
           <direct-message v-if="currentTab == 1"/>
-          <!-- <servers v-if="currentTab == 2"/> -->
-          <div class="coming-soon" v-if="currentTab > 1">
+          <servers v-if="currentTab == 2"/>
+          <div class="coming-soon" v-if="currentTab > 2">
             <div class="icon">
               <i class="material-icons">cached</i>
             </div>
@@ -56,8 +56,9 @@ import Spinner from "./../components/Spinner.vue";
 
 const ElectronFrameButtons = () =>
   import("./../components/ElectronJS/FrameButtons.vue");
-  
-const News = () => import(/* webpackChunkName: "News" */"./../components/app/Tabs/News.vue");
+
+const News = () =>
+  import(/* webpackChunkName: "News" */ "./../components/app/Tabs/News.vue");
 //const DirectMessage = () => import('./../components/app/Tabs/DirectMessage.vue');
 const DirectMessage = () => ({
   component: import("./../components/app/Tabs/DirectMessage.vue"),
@@ -233,7 +234,6 @@ export default {
 
 
 <style>
-
 textarea {
   font-family: "Roboto", sans-serif;
 }
@@ -252,6 +252,8 @@ textarea {
   background-repeat: no-repeat;
   background-position: bottom;
   background-size: cover;
+  filter: blur(15px);
+  transform: scale(1.1);
 }
 
 .panel-layout {
@@ -262,8 +264,7 @@ textarea {
   border-top-right-radius: 5px;
 }
 
-
-input{
+input {
   padding: 10px;
   background: rgba(0, 0, 0, 0.301);
   outline: none;
@@ -275,13 +276,12 @@ input{
   transition: 0.3s;
 }
 
-input:hover{
+input:hover {
   background: rgba(0, 0, 0, 0.452);
 }
 
 input:focus {
   background: rgba(0, 0, 0, 0.603);
 }
-
 </style>
 

@@ -15,6 +15,14 @@ const getters = {
 };
 
 const actions = {
+  async openChannel(context, channel) {
+    context.commit("setChannelName", channel.name);
+    const messages = context.state.messages[channel.channelID];
+    if (messages) return context.commit("selectedChannelID", channel.channelID);
+    context.commit("selectedChannelID", "loading")
+    getMessages(context, channel.channelID);
+
+  },
   async openChat(context, { uniqueID, channelID, channelName }) {
 
     if (channelName) context.commit("setChannelName", channelName);
@@ -33,65 +41,21 @@ const actions = {
     }
 
     if (messages) return;
-    if (channel && !messages) return getMessages(channelID);
+    if (channel && !messages) return getMessages(context, channelID);
 
 
     const { ok, error, result } = await channelService.post(uniqueID);
     if (ok) {
       context.commit("channel", result.data.channel);
-      getMessages(result.data.channel.channelID);
+      getMessages(context, result.data.channel.channelID);
     } else {
       // TODO handle this
       console.log(error);
     }
 
-    async function getMessages(channelID) {
-      const { ok, error, result } = await messagesService.get(channelID);
-      if (ok) {
-        context.commit("selectedChannelID", channelID);
-        context.commit("messages", {
-          channelID: result.data.channelID,
-          messages: result.data.messages.reverse()
-        });
-      } else {
-        // TODO handle this
-        console.log(error.response);
-      }
-    }
+
   },
 
-  // OLD STUFF
-  async openddChat(context, { channelID, channelName }) {
-    context.commit("selectedChannelID", channelID);
-    if (channelName) context.commit("setChannelName", channelName);
-
-    const messages = context.state.messages[channelID];
-    const channel = context.rootState.channelModule.channels[channelID];
-    if (messages) return;
-    if (channel && !messages) return getMessages();
-
-    const { ok, error, result } = await channelService.post(channelID);
-    if (ok) {
-      context.commit("channel", result.data.channel);
-      getMessages();
-    } else {
-      // TODO handle this
-      console.log(error);
-    }
-
-    async function getMessages() {
-      const { ok, error, result } = await messagesService.get(channelID);
-      if (ok) {
-        context.commit("messages", {
-          channelID: result.data.channelID,
-          messages: result.data.messages.reverse()
-        });
-      } else {
-        // TODO handle this
-        console.log(error.response);
-      }
-    }
-  },
   messages(context, data) {
     context.commit("messages", data);
   },
@@ -109,6 +73,21 @@ const actions = {
     context.commit("replaceMessage", data);
   }
 };
+
+async function getMessages(context, channelID) {
+  const { ok, error, result } = await messagesService.get(channelID);
+  if (ok) {
+    context.commit("selectedChannelID", channelID);
+    context.commit("messages", {
+      channelID: result.data.channelID,
+      messages: result.data.messages.reverse()
+    });
+  } else {
+    // TODO handle this
+    console.log(error.response);
+  }
+}
+
 
 const mutations = {
   messages(state, data) {

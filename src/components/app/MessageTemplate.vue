@@ -57,7 +57,7 @@ export default {
   ],
   methods: {
     openUserInformation() {
-      this.$store.dispatch('setUserInformationPopout', this.uniqueID)
+        this.$store.dispatch('setUserInformationPopout', this.uniqueID)
     },
     imageClicked(event) {
       this.$store.dispatch("setImagePreviewURL", event.target.src);
@@ -140,8 +140,6 @@ export default {
 
 .message {
   margin: 10px;
-  margin-top: 10px;
-  margin-bottom: 10px;
   display: flex;
 
   animation: showMessage 0.3s ease-in-out;
@@ -203,20 +201,14 @@ export default {
 }
 
 .avatar {
-  margin: auto;
-  margin-left: 0;
-  margin-right: 5px;
-  margin-bottom: 0;
+  margin: auto 5px 0 0;
 }
 
 .triangle {
   display: flex;
   justify-content: bottom;
   flex-direction: column;
-  margin: auto;
-  margin-left: 0;
-  margin-right: 0px;
-  margin-bottom: 8.7px;
+  margin: auto 0 8.7px 0;
 }
 .triangle-inner {
   width: 0;
@@ -235,9 +227,7 @@ export default {
   flex-direction: column;
   border-radius: 10px;
   color: rgb(231, 231, 231);
-  margin: auto;
-  margin-left: 0;
-  margin-right: 0;
+  margin: auto 0;
   transition: 1s;
   overflow: hidden;
 }
@@ -265,9 +255,7 @@ export default {
 .username {
   color: rgb(219, 219, 219);
   font-size: 14px;
-  margin: auto;
-  margin-left: 0;
-  margin-right: 0;
+  margin: auto 0;
   transition: 0.1s;
   cursor: default;
 }
@@ -278,8 +266,7 @@ export default {
 .date {
   color: rgb(161, 161, 161);
   font-size: 10px;
-  margin: auto;
-  margin-left: 5px;
+  margin: auto auto auto 5px;
 }
 .content-message {
   word-wrap: break-word;
@@ -299,9 +286,7 @@ export default {
   padding-bottom: 5px;
   font-size: 15px;
   color: white;
-  margin: auto;
-  margin-left: 4px;
-  margin-bottom: 0;
+  margin: auto auto 0 4px;
   user-select: none;
   transition: 0.5;
   align-content: center;

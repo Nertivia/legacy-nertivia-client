@@ -8,7 +8,8 @@
       <drag-drop-file-upload-dialog key="ddfud" v-if="showUploadDrapDrop"/>
       <user-information-popout key="uip" v-if="popouts.userInformationPopoutID"/>
       <take-survey-popout key="tsp" v-if="popouts.surveyPopout"/>
-      <AddServer key="as" v-if="false"/>
+      <add-server key="as" v-if="popouts.addServer"/>
+      <server-invite key="sip" v-if="popouts.showServerInviteMenu" />
     </transition-group>
   </div>
 </template>
@@ -24,6 +25,7 @@
   const GDriveLinkMenu = () => import('./Popouts/GDriveLinkMenu.vue');
   const imageLargePreview = () => import('./Popouts/imageLargePreview.vue');
   const DragDropFileUploadDialog = () => import('./Popouts/DragDropFileUploadDialog.vue');
+  const ServerInvitePopout = () => import('./Popouts/ServerInvitePopout.vue');
 
 
 
@@ -36,7 +38,8 @@ export default {
     DragDropFileUploadDialog,
     imageLargePreview,
     TakeSurveyPopout,
-    AddServer
+    AddServer,
+    ServerInvite: ServerInvitePopout
   },
   data() {
     return {

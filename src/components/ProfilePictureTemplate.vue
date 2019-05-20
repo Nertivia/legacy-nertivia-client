@@ -39,6 +39,7 @@ export default {
           name: "cute",
           emotePath: this.flower
         };
+      return ""
     }
   }
 };
@@ -75,38 +76,16 @@ export default {
   margin-left: 0;
   flex-shrink: 0;
   margin: auto;
-  background: linear-gradient(
-    45deg,
-    #ffd828 1%,
-    #ffd828 40%,
-    #ffd828 50%,
-    #ffe87f 60%,
-    #ffd828 99%,
-    #ffd828 100%,
-    #ffd828 100%
-  );
-  background-size: 400% 400%;
+  background: #ffd828 100%;
 
-  animation: Anime 4s ease infinite;
+
 }
 .cute {
   margin-right: 5px;
   margin-left: 0;
   flex-shrink: 0;
   margin: auto;
-  background: linear-gradient(
-    45deg,
-    #ffb7ed 1%,
-    #ffb7ed 40%,
-    #ffb7ed 50%,
-    #ffe2f8 60%,
-    #ffb7ed 99%,
-    #ffb7ed 100%,
-    #ffb7ed 100%
-  );
-  background-size: 400% 400%;
-
-  animation: Anime 4s ease infinite;
+  background: #ffb7ed;
 }
 .cute .emote {
   z-index: 999;
@@ -114,17 +93,6 @@ export default {
   left: -3px;
 }
 
-@keyframes Anime {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
 .emote {
   position: absolute;
   height: 20px;

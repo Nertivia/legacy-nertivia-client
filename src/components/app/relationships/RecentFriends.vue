@@ -24,7 +24,7 @@ export default {
       const keys = Object.keys(json);
       let result = [];
       keys.forEach(function(key){
-        if (json[key].recipients.length > 0)
+        if (json[key].recipients.length > 0 && !json[key].servers)
           result.push(json[key]);
       });
 

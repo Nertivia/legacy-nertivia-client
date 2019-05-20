@@ -34,8 +34,19 @@ const actions = {
           }
         }
       }
-      data.user.friends = friendObject;
     }
+
+    let servers = user.servers || [];
+    //convert array to object for servers
+    servers = servers.reduce((obj, item) => {
+      obj[item.server_id] = item
+      return obj
+    }, {})
+
+    context.dispatch('servers/setServers', servers)
+
+    data.user.servers = undefined;
+    data.user.friends = friendObject;
 
     context.commit('user', data.user)
 
@@ -123,7 +134,13 @@ const actions = {
   },
   ['socket_survey:completed'](context) {
     context.dispatch('surveyCompleted');
-  }
+  },
+  ['socket_server:joined'](context, server) {
+    context.dispatch('servers/setServer', server)
+  },
+  ['socket_server:leave'](context, {server_id}) {
+    context.dispatch('servers/removeServer', server_id)
+  },
 }
 
 export default {

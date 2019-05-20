@@ -35,6 +35,7 @@ export default {
   margin-left: 70px;
   display: flex;
   padding: 10px;
+  border-radius: 10px;
 }
 .icon .material-icons {
   font-size: 40px;

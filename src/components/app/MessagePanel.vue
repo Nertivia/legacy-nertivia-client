@@ -1,20 +1,11 @@
 <template>
   <div class="right-panel">
-    <div class="heading">
-      <div class="show-menu-button" @click="toggleLeftMenu">
-        <i class="material-icons">menu</i>
-      </div>
-      <div class="current-channel">
-        <span class="channel-name" v-if="!selectedChannelID">Welcome back, {{user.username}}!</span>
-        <span class="channel-selected" v-else>
-          <div
-            class="user-status"
-            :style="`box-shadow: 0px 0px 14px 3px ${userStatusColor}; background-color: ${userStatusColor};`"
-          ></div>
-          <div class="channel-name">{{channelName}}</div>
-        </span>
-      </div>
-    </div>
+    <heading
+      :uniqueID="recipients && recipients.length ? recipients[0].uniqueID : undefined"
+      :type="selectedChannelID && channel && !channel.server_id ? 1 : 0"
+      :status-color="userStatusColor"
+      :name="selectedChannelID ? channelName : `Welcome back, ${user.username}!` "
+    />
     <div class="loading" v-if="selectedChannelID && !selectedChannelMessages">
       <spinner/>
     </div>
@@ -74,9 +65,10 @@
       </div>
       <div class="info">
         <div class="typing-outer">
-          <transition name="typing-animate">
-            <typing-status v-if="typing" :username="whosTyping"/>
-          </transition>
+          <typing-status
+            v-if="typingRecipients[selectedChannelID]"
+            :recipients="typingRecipients[selectedChannelID]"
+          />
         </div>
         <div
           :class="{'message-count': true, 'error-info': messageLength > 5000 }"
@@ -96,6 +88,7 @@ import Message from "../../components/app/MessageTemplate.vue";
 import Spinner from "@/components/Spinner.vue";
 import TypingStatus from "@/components/app/TypingStatus.vue";
 import uploadsQueue from "@/components/app/uploadsQueue.vue";
+import heading from "@/components/app/MessagePanel/Heading.vue";
 import emojiSuggestions from "@/components/app/EmojiPanels/emojiSuggestions.vue";
 import emojiParser from "@/utils/emojiParser.js";
 import statuses from "@/utils/statuses";
@@ -109,23 +102,21 @@ export default {
     TypingStatus,
     uploadsQueue,
     emojiSuggestions,
-    emojiPanel
+    emojiPanel,
+    heading
   },
   data() {
     return {
       message: "",
       messageLength: 0,
       postTimerID: null,
-      getTimerID: null,
+      typingTimer: null,
       typing: false,
-      whosTyping: "",
+      typingRecipients: {},
       showEmojiPanel: false
     };
   },
   methods: {
-    toggleLeftMenu() {
-      bus.$emit("toggleLeftMenu");
-    },
     generateNum(n) {
       var add = 1,
         max = 12 - add; // 12 is the min safe number Math.random() can generate without it starting to pad the end with zeros.
@@ -193,13 +184,18 @@ export default {
       }
     },
     async postTimer() {
-      this.postTimerID = setInterval(async () => {
+
+
+      this.postTimerID = setTimeout(async () => {
         if (this.message.trim() == "") {
           clearInterval(this.postTimerID);
-          return (this.postTimerID = null);
+          this.postTimerID = null;
+        }else {
+          await typingService.post(this.selectedChannelID);
+          this.postTimer()
         }
-        await typingService.post(this.selectedChannelID);
-      }, 2000);
+      }, 2000)
+
     },
 
     resize(event) {
@@ -336,7 +332,14 @@ export default {
     },
     hideTypingStatus(data) {
       if (this.user.uniqueID === data.message.creator.uniqueID) return;
-      this.typing = false;
+      clearTimeout(
+        this.typingRecipients[data.channelID][data.message.creator.uniqueID]
+          .timer
+      );
+      this.$delete(
+        this.typingRecipients[data.channelID],
+        data.message.creator.uniqueID
+      );
     },
     attachmentButton() {
       this.$refs.sendFileBrowse.click();
@@ -378,24 +381,50 @@ export default {
   },
   mounted() {
     this.$options.sockets.typingStatus = data => {
-      const { channelID, userID } = data;
-      if (channelID !== this.selectedChannelID) return;
-      this.typing = true;
-      this.whosTyping = this.channel.recipients.find(function(recipient) {
-        return recipient.uniqueID == userID;
-      }).username;
-      clearTimeout(this.getTimerID);
-      this.getTimerID = setTimeout(() => {
-        this.typing = false;
-      }, 2500);
+      const { channel_id, user } = data;
+      const typingRecipients = this.typingRecipients[channel_id];
+
+      if (
+        this.selectedChannelID !== channel_id ||
+        user.unique_id === this.user.uniqueID
+      )
+        return;
+
+      if (typingRecipients === undefined) {
+        this.$set(this.typingRecipients, channel_id, {
+          [user.unique_id]: { username: user.username }
+        });
+      } else if (!typingRecipients[user.unique_id]) {
+        this.$set(this.typingRecipients[channel_id], user.unique_id, {
+          username: user.username
+        });
+      }
+
+      clearTimeout(this.typingRecipients[channel_id][user.unique_id].timer);
+
+      this.typingRecipients[channel_id][user.unique_id].timer = setTimeout(
+        () => {
+          this.$delete(this.typingRecipients[channel_id], user.unique_id);
+        },
+        2500
+      );
     };
+
     bus.$on("newMessage", this.hideTypingStatus);
     bus.$on("emojiSuggestions:Selected", this.enterEmojiSuggestion);
     bus.$on("emojiPanel:Selected", this.enterEmojiPanel);
-    //dismiss notification on focus
-    window.onfocus = () => {
+    window.onblur = () => {
+      clearTimeout(this.postTimerID);
+      this.postTimerID = null;
+    }
+    window.onfocus = async () => {
+      if (this.message.trim() !== "") {
+        await typingService.post(this.selectedChannelID);
+        this.postTimer();
+      }
       bus.$emit("title:change", "Nertivia");
       if (!this.$store.getters.selectedChannelID) return;
+    //dismiss notification on focus
       const find = this.$store.getters.notifications.find(notification => {
         return notification.channelID === this.$store.getters.selectedChannelID;
       });
@@ -406,7 +435,10 @@ export default {
       }
     };
   },
+  
   beforeDestroy() {
+    clearTimeout(this.postTimerID);
+    this.postTimerID = null;
     bus.$off("newMessage", this.hideTypingStatus);
     bus.$off("emojiSuggestions:Selected", this.enterEmojiSuggestion);
     bus.$on("emojiPanel:Selected", this.enterEmojiPanel);
@@ -449,12 +481,17 @@ export default {
     emojiIndex() {
       return this.$store.getters.getEmojiIndex;
     },
+    recipients() {
+      const selectedChannel = this.$store.getters.selectedChannelID;
+      const channel = this.$store.getters.channels[selectedChannel];
+      return channel ? channel.recipients : undefined;
+    },
     userStatusColor() {
       const selectedChannel = this.$store.getters.selectedChannelID;
       const channel = this.$store.getters.channels[selectedChannel];
 
       let status = 0;
-      if (!channel) {
+      if (!channel || !channel.recipients || !channel.recipients.length) {
         status = 0;
       } else if (
         this.$store.getters.user.friends[channel.recipients[0].uniqueID]
@@ -464,14 +501,6 @@ export default {
             .recipient.status || 0;
       }
       return statuses[status].color;
-
-      // const allFriends = this.$store.getters.user.friends;
-      // const selectedChannel = this.$store.getters.selectedChannelID;
-      // const arr = Object.keys(allFriends).map(el => allFriends[el]);
-      // const find = arr.find(el => el.channelID === selectedChannel);
-      // console.log(find)
-      // if (!find) return statuses[0].color;
-      // return statuses[find.recipient.status || 0].color;
     }
   }
 };
@@ -500,69 +529,17 @@ export default {
 }
 .channel-selected {
   display: flex;
+  width: 100%;
   align-items: center;
+  height: 100%;
 }
-.user-status {
-  border-radius: 4px;
-  height: 10px;
-  width: 10px;
-  margin-right: 10px;
-  flex-shrink: 0;
-}
+
 .hidden {
   display: none;
 }
-.typing-animate-enter-active {
-  transition: 0.1s;
-}
-.typing-animate-enter /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-  transform: translateY(3px);
-}
-.typing-animate-leave-to {
-  opacity: 0;
-  transform: translateY(-3px);
-}
+
 .error-info {
   color: red;
-}
-
-.heading {
-  padding: 5px;
-  background: rgba(0, 0, 0, 0.185);
-  margin-bottom: 0;
-  height: 40px;
-  padding-bottom: 2spx;
-  display: flex;
-  flex-shrink: 0;
-}
-.show-menu-button {
-  display: inline-block;
-  margin: auto;
-  color: white;
-  margin-left: 10px;
-  margin-right: 5px;
-  margin-top: 8px;
-  user-select: none;
-  display: none;
-}
-
-.heading .current-channel {
-  color: white;
-  font-size: 20px;
-  margin: auto;
-  margin-left: 5px;
-  flex: 1;
-  padding: 5px;
-}
-.current-channel .channel-name {
-  display: block;
-  height: 26px;
-  width: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: calc(100% - 17px);
 }
 
 .right-panel {
@@ -649,7 +626,6 @@ export default {
   resize: none;
   border: none;
   outline: none;
-  padding-left: 10px;
   transition: 0.3s;
   height: 1em;
   overflow: hidden;
@@ -718,10 +694,4 @@ export default {
 .emojis-button:hover {
   background: rgba(0, 0, 0, 0.514);
 }
-@media (max-width: 600px) {
-  .show-menu-button {
-    display: block;
-  }
-}
 </style>
-

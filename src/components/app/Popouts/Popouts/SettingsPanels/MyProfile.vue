@@ -145,6 +145,7 @@ export default {
   display: flex;
   width: 100%;
   margin-top: 20px;
+  flex-shrink: 0;
 }
 .avatar {
   display: flex;
@@ -233,11 +234,11 @@ export default {
 }
 @media (max-width: 815px) {
   .general-information {
-    display: block;
     flex-direction: column;
   }
   .avatar{
-    margin: auto;
+    align-self: center;
+    margin: 0;
     margin-bottom: 10px;
   }
   .information {
