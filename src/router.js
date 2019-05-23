@@ -17,6 +17,7 @@ const MainApp = () => import(/* webpackChunkName: "MainApp" */ "../src/views/App
 const HomePage = () => import(/* webpackChunkName: "HomePage" */ "../src/views/HomePage.vue");
 const GDriveCallback = () => import(/* webpackChunkName: "GDriveCallback" */ "../src/views/GDriveCallback.vue");
 const LoginPage = () => import(/* webpackChunkName: "LoginPage" */ "../src/views/LoginPage.vue");
+const InvitesPage = () => import(/* webpackChunkName: "Invites" */ "../src/views/Invites.vue");
 const RegisterPage = () => import(/* webpackChunkName: "RegisterPage" */ "../src/views/RegisterPage.vue");
 
 export const router = new VueRouter({
@@ -69,10 +70,11 @@ export const router = new VueRouter({
             }
           }),
           { store }
-        );
-        Vue.use(VueMq, {
-          breakpoints: {
+          );
+          Vue.use(VueMq, {
+            breakpoints: {
             mobile: 600,
+            members_panel: 950,
             desktop: Infinity
           }
         });
@@ -83,6 +85,11 @@ export const router = new VueRouter({
       path: "/GDrive_callback",
       name: "GDrive callback",
       component: GDriveCallback
-    }
+    },
+    {
+      path: "/invites/:invite_id",
+      name: "invites",
+      component: InvitesPage,
+    },
   ]
 });

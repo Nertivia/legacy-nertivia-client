@@ -13,24 +13,24 @@
             <strong>What's new?</strong>
             <br>
             <ul>
-              <li v-for="(wnew, index) in change.new" :key="index">{{wnew}}</li>
+              <li v-for="(wnew, index) in change.new" :key="index" v-html="wnew"></li>
             </ul>
           </div>
           <div v-if="change.fix">
             <strong>Issues fixed</strong>
             <br>
             <ul>
-              <li v-for="(wfix, index) in change.fix" :key="index">{{wfix}}</li>
+              <li v-for="(wfix, index) in change.fix" :key="index" v-html="wfix"></li>
             </ul>
           </div>
           <div v-if="change.next">
             <strong>Up next</strong>
             <br>
             <ul>
-              <li v-for="(wnext, index) in change.next" :key="index">{{wnext}}</li>
+              <li v-for="(wnext, index) in change.next" :key="index" v-html="wnext"></li>
             </ul>
           </div>
-          <div v-if="change.msg">{{change.msg}}</div>
+          <div v-if="change.msg" v-html="change.msg"></div>
         </div>
       </div>
     </div>

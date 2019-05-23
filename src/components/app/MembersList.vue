@@ -3,6 +3,7 @@
     <div class="header">
       <div class="title">Members</div>
     </div>
+      <div style="text-align: center">Soon!</div>
   </div>
 </template>
 

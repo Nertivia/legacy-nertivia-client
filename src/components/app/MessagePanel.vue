@@ -2,7 +2,7 @@
   <div class="right-panel">
     <heading
       :uniqueID="recipients && recipients.length ? recipients[0].uniqueID : undefined"
-      :type="selectedChannelID && channel && !channel.server_id ? 1 : 0"
+      :type="selectedChannelID && channel && !channel.server_id ? 1 : channel && channel.server_id ? 2 : 0"
       :status-color="userStatusColor"
       :name="selectedChannelID ? channelName : `Welcome back, ${user.username}!` "
     />
@@ -22,6 +22,7 @@
           :message="msg.message"
           :files="msg.files"
           :status="msg.status"
+          :type="msg.type"
         />
         <uploadsQueue v-if="uploadQueue !== undefined" :queue="uploadQueue"/>
       </div>

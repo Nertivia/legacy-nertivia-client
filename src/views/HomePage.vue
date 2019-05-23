@@ -76,7 +76,7 @@ export default {
       this.showPopout = false;
     },
     logOut() {
-      localStorage.removeItem("hauthid");
+      this.$store.dispatch("logout");
       this.loggedIn = null;
     },
     loginPage() {

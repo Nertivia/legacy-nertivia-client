@@ -1,9 +1,9 @@
 
  const prototype =  {
-    version: 3,
-    title: "Make your own servers!",
-    shortTitle: "Servers",
-    date: "24/04/2019",
+    version: 4,
+    title: "",
+    shortTitle: "",
+    date: "23/05/2019",
     headColor: "rgba(155, 244, 66, 0.77)",
     new: [
       "",
@@ -13,6 +13,27 @@
   }
 
 const config = [
+  {
+    version: 4,
+    title: "Make your own servers! (Alpha)",
+    shortTitle: "Servers (Alpha)",
+    date: "23/05/2019",
+    headColor: "rgb(0, 102, 170, 0.77)",
+    new: [
+      "You can now make servers! Note that this is in alpha stage which means that it's not complete and there could be a ton of bugs everywhere :c get reporting!",
+      "Adjusted padding in some areas.",
+    ],
+    next: ["Members list for servers"],
+    msg:
+    `
+<div style='color: red;'>
+  Please note that this update could be unstable and could involve of resetting the database.
+</div>Join the official Nertivia server by clicking
+
+<a style="
+color: #27a3ff;
+" href='https://nertivia.supertiger.tk/invites/8SSrCF'>here</a>`
+  },
   {
     version: 3,
     title: "Page Re-designs",

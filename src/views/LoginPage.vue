@@ -117,6 +117,10 @@ export default {
         this.visible = false;
         this.$store.dispatch("token", result.data.token);
         setTimeout(_ => {
+          const {to, id} = this.$route.query;
+          if (to) {
+            return window.location.href = `/${to}/${id}`
+          }
           window.location.href = "/app";
         }, 1000);
       } else {

@@ -1,33 +1,50 @@
 <template>
-  <div :class="{message: true,  ownMessage: user.uniqueID === $props.uniqueID, ownMessageLeft: user.uniqueID === $props.uniqueID && (apperance && apperance.own_message_right === true)} ">
-    <profile-picture class="avatar" :admin="$props.admin" :url="userAvatar" size="50px" :hover="true" @click.native="openUserInformation"/>
-    <div class="triangle">
-      <div class="triangle-inner"></div>
-    </div>
-    <div class="content">
-      <div class="user-info">
-        <div class="username" @click="openUserInformation">{{this.$props.username}}</div>
-        <div class="date">{{getDate}}</div>
+  <div class="container">
+    <div v-if="!type || type === 0" :class="{message: true,  ownMessage: user.uniqueID === $props.uniqueID, ownMessageLeft: user.uniqueID === $props.uniqueID && (apperance && apperance.own_message_right === true)} " >
+      <profile-picture
+        class="avatar"
+        :admin="$props.admin"
+        :url="userAvatar"
+        size="50px"
+        :hover="true"
+        @click.native="openUserInformation"
+      />
+      <div class="triangle">
+        <div class="triangle-inner"></div>
       </div>
-      <div class="content-message" v-html="formatMessage"></div>
-
-      <div class="file-content" v-if="getFile">
-        <div class="icon">
-          <i class="material-icons">insert_drive_file</i>
+      <div class="content">
+        <div class="user-info">
+          <div class="username" @click="openUserInformation">{{this.$props.username}}</div>
+          <div class="date">{{getDate}}</div>
         </div>
-        <div class="information">
-          <div class="info">{{getFile.fileName}}</div>
-          <a :href="getFile.url" target="_blank">
-            <div class="download-button">Download</div>
-          </a>
+        <div class="content-message" v-html="formatMessage"></div>
+
+        <div class="file-content" v-if="getFile">
+          <div class="icon">
+            <i class="material-icons">insert_drive_file</i>
+          </div>
+          <div class="information">
+            <div class="info">{{getFile.fileName}}</div>
+            <a :href="getFile.url" target="_blank">
+              <div class="download-button">Download</div>
+            </a>
+          </div>
+        </div>
+
+        <div class="image-content" v-if="getImage">
+          <img :src="getImage" @click="imageClicked">
         </div>
       </div>
-
-      <div class="image-content" v-if="getImage">
-        <img :src="getImage" @click="imageClicked">
-      </div>
+      <div class="sending-status" v-html="statusMessage"></div>
     </div>
-    <div class="sending-status" v-html="statusMessage"></div>
+    <div v-if="type && (type === 1 || type === 2)" :class="{'presence-message': true,  green: type === 1, red: type === 2}" >
+      <span>
+        <span class="username" @click="openUserInformation">{{this.$props.username}}</span>
+        <span class="text" v-if="type === 1">has joined the server!</span>
+        <span class="text" v-if="type === 2">has left the server.</span>
+        <span class="date">{{getDate}}</span>
+      </span>
+    </div>
   </div>
 </template>
 
@@ -53,18 +70,19 @@ export default {
     "date",
     "uniqueID",
     "files",
-    "admin"
+    "admin",
+    "type"
   ],
   methods: {
     openUserInformation() {
-        this.$store.dispatch('setUserInformationPopout', this.uniqueID)
+      this.$store.dispatch("setUserInformationPopout", this.uniqueID);
     },
     imageClicked(event) {
       this.$store.dispatch("setImagePreviewURL", event.target.src);
     }
   },
   computed: {
-    ...mapState('settingsModule', ['apperance']),
+    ...mapState("settingsModule", ["apperance"]),
     getImage() {
       if (!this.$props.files || this.$props.files.length === 0)
         return undefined;
@@ -118,7 +136,27 @@ export default {
 
 <style scoped>
 
-.ownMessageLeft  {
+.presence-message {
+  margin: 10px;
+  padding: 10px;
+  display: table;
+  color: white;
+  overflow: hidden;
+  border-radius: 5px;
+  animation: showMessage 0.3s ease-in-out;
+}
+
+.presence-message .text {
+  margin-left: 5px;
+}
+.presence-message.green {
+  background: rgba(0, 128, 0, 0.534);
+}
+.presence-message.red {
+  background: rgba(128, 0, 0, 0.534);
+}
+
+.ownMessageLeft {
   flex-direction: row-reverse;
 }
 
@@ -127,16 +165,14 @@ export default {
   border-left: 7px solid rgba(184, 184, 184, 0.219);
   border-right: none !important;
 }
-.ownMessageLeft .avatar { 
-    margin-right: 0px;
-    margin-left: 5px;
+.ownMessageLeft .avatar {
+  margin-right: 0px;
+  margin-left: 5px;
 }
-.ownMessageLeft .sending-status{
+.ownMessageLeft .sending-status {
   margin-left: auto !important;
   margin-right: 4px !important;
 }
-
-
 
 .message {
   margin: 10px;
@@ -259,7 +295,7 @@ export default {
   transition: 0.1s;
   cursor: default;
 }
-.username:hover{
+.username:hover {
   color: rgb(199, 199, 199);
   text-decoration: underline;
 }

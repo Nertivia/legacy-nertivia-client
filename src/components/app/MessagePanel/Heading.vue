@@ -10,6 +10,9 @@
     <div class="information">
       <div :class="{name: true, clickable: !!uniqueID }" @click="openUserInfoPanel">{{name}}</div>
     </div>
+    <div class="show-members-button" @click="toggleMembersPanel">
+      <i class="material-icons">view_list</i>
+    </div>
   </div>
 </template>
 
@@ -17,7 +20,7 @@
 import { bus } from "@/main";
 export default {
   props: [
-    "type", // 0: without online status; 1: with online status
+    "type", // 0: without online status; 1: with online status; 2: server.
     "statusColor", // only if type is set to 1;
     "name",
     "uniqueID"
@@ -29,6 +32,9 @@ export default {
     },
     toggleLeftMenu() {
       bus.$emit("toggleLeftMenu");
+    },
+    toggleMembersPanel() {
+      bus.$emit("toggleMembersPanel");
     }
   }
 };
@@ -50,6 +56,14 @@ export default {
   margin-top: 3px;
   user-select: none;
   display: none;
+}
+.show-members-button{
+  display: inline-block;
+  margin-right: 5px;
+  margin-top: 3px;
+  user-select: none;
+  display: none;
+  color: white;
 }
 .show-menu-button .material-icons {
   color: rgb(207, 207, 207);
@@ -94,6 +108,14 @@ export default {
   color: rgb(219, 219, 219);
   text-decoration: underline;
 }
+
+
+@media (max-width: 949px) {
+  .show-members-button {
+    display: block;
+  }
+}
+
 @media (max-width: 600px) {
   .show-menu-button {
     display: block;
