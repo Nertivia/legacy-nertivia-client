@@ -24,7 +24,8 @@ export default {
   data() {
     return {
       crown: require("twemoji/2/svg/1f451.svg"),
-      flower: require("twemoji/2/svg/1f33a.svg")
+      flower: require("twemoji/2/svg/1f33a.svg"),
+      heart: require("twemoji/2/svg/2764.svg"),
     };
   },
   computed: {
@@ -38,6 +39,11 @@ export default {
         return {
           name: "cute",
           emotePath: this.flower
+        };
+      if (this.$props.admin == 5)
+        return {
+          name: "supporter",
+          emotePath: this.heart
         };
       return ""
     }
@@ -77,9 +83,25 @@ export default {
   flex-shrink: 0;
   margin: auto;
   background: #ffd828 100%;
-
-
 }
+
+.supporter {
+  margin-right: 5px;
+  margin-left: 0;
+  flex-shrink: 0;
+  margin: auto;
+  background: #ff2828 100%;
+}
+
+.supporter .emote {
+  z-index: 999;
+  top: -3px;
+  left: -3px;
+}
+.supporter .emote:after {
+  z-index: 999;
+}
+
 .cute {
   margin-right: 5px;
   margin-left: 0;
@@ -87,6 +109,7 @@ export default {
   margin: auto;
   background: #ffb7ed;
 }
+
 .cute .emote {
   z-index: 999;
   top: -3px;

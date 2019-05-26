@@ -1,14 +1,18 @@
 <template>
   <div class="container">
-    <div v-if="!type || type === 0" :class="{message: true,  ownMessage: user.uniqueID === $props.uniqueID, ownMessageLeft: user.uniqueID === $props.uniqueID && (apperance && apperance.own_message_right === true)} " >
-      <profile-picture
-        class="avatar"
-        :admin="$props.admin"
-        :url="userAvatar"
-        size="50px"
-        :hover="true"
-        @click.native="openUserInformation"
-      />
+    <div
+      v-if="!type || type === 0"
+      :class="{message: true,  ownMessage: user.uniqueID === $props.uniqueID, ownMessageLeft: user.uniqueID === $props.uniqueID && (apperance && apperance.own_message_right === true)} "
+    >
+      <div class="avatar">
+        <profile-picture
+          :admin="$props.admin"
+          :url="userAvatar"
+          size="50px"
+          :hover="true"
+          @click.native="openUserInformation"
+        />
+      </div>
       <div class="triangle">
         <div class="triangle-inner"></div>
       </div>
@@ -37,7 +41,10 @@
       </div>
       <div class="sending-status" v-html="statusMessage"></div>
     </div>
-    <div v-if="type && (type === 1 || type === 2)" :class="{'presence-message': true,  green: type === 1, red: type === 2}" >
+    <div
+      v-if="type && (type === 1 || type === 2)"
+      :class="{'presence-message': true,  green: type === 1, red: type === 2}"
+    >
       <span>
         <span class="username" @click="openUserInformation">{{this.$props.username}}</span>
         <span class="text" v-if="type === 1">has joined the server!</span>
@@ -135,7 +142,6 @@ export default {
 
 
 <style scoped>
-
 .presence-message {
   margin: 10px;
   padding: 10px;

@@ -76,6 +76,7 @@ const actions = {
     if (context.getters.channels[data.message.channelID]){
       context.dispatch('updateChannelLastMessage', data.message.channelID);
     }
+    console.log(data)
     if (context.getters.messages[data.message.channelID]) {
       context.dispatch('addMessage', {
         message: data.message,
