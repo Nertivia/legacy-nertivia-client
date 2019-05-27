@@ -34,14 +34,12 @@ export default {
           return `<strong>${this.escapeHtml(
             arr[0].username
           )}</strong> is typing...`;
-          break;
         case arr.length == 2:
           return `<strong>${this.escapeHtml(
             arr[0].username
           )}</strong> and <strong>${this.escapeHtml(
             arr[1].username
           )}</strong> are typing...`;
-          break;
         case arr.length == 3:
           return `<strong>${this.escapeHtml(
             arr[0].username
@@ -50,10 +48,8 @@ export default {
           )}</strong> and <strong>${this.escapeHtml(
             arr[2].username
           )}</strong> are typing...`;
-          break;
         case arr.length > 3:
           return `<strong>${arr.length}</strong> people are typing...`;
-          break;
         default:
           break;
       }

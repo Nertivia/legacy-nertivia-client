@@ -89,10 +89,29 @@ export default {
     };
   },
   methods: {
+    switchChannel(isServer) {
+      const serverChannelID = this.$store.state.channelModule.serverChannelID;
+      const DMChannelID = this.$store.state.channelModule.DMChannelID;
+
+      if (isServer) {
+        this.$store.dispatch('selectedChannelID', serverChannelID)
+        const channel = this.$store.state.channelModule.channels[serverChannelID];
+        this.$store.dispatch("setChannelName", channel ? channel.name : "")
+      } else {
+        const channel = this.$store.state.channelModule.channels[DMChannelID];
+        this.$store.dispatch("setChannelName", channel ? channel.recipients[0].username : "");
+        this.$store.dispatch('selectedChannelID', DMChannelID)
+      }
+    },
     switchTab(index) {
       localStorage.setItem("currentTab", index);
       this.currentTab = index;
-    }
+      if (index == 1) { //1: direct message tab.
+        this.switchChannel(false)
+      } else if (index === 2) { //2: server tab
+        this.switchChannel(true)
+      }
+    },
   },
   mounted() {
     // check if changelog is updated

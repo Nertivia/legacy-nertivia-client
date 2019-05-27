@@ -15,16 +15,21 @@ const getters = {
 };
 
 const actions = {
+  // server channel
   async openChannel(context, channel) {
     context.commit("setChannelName", channel.name);
     const messages = context.state.messages[channel.channelID];
-    if (messages) return context.commit("selectedChannelID", channel.channelID);
+    if (messages) {
+      context.commit("selectedChannelID", channel.channelID);
+      context.commit("setServerChannelID", channel.channelID);
+      return;
+    }
     context.commit("selectedChannelID", "loading")
-    getMessages(context, channel.channelID);
+    getMessages(context, channel.channelID, true);
 
   },
+  //dm channel
   async openChat(context, { uniqueID, channelID, channelName }) {
-
     if (channelName) context.commit("setChannelName", channelName);
 
     const channels = context.rootState.channelModule.channels;
@@ -35,6 +40,7 @@ const actions = {
     const channel = channels[channelID];
     
     if (channelID) {
+      context.commit("setDMChannelID", channelID);
       context.commit("selectedChannelID", channelID); 
     } else {
       context.commit("selectedChannelID", "Loading");
@@ -47,7 +53,7 @@ const actions = {
     const { ok, error, result } = await channelService.post(uniqueID);
     if (ok) {
       context.commit("channel", result.data.channel);
-      getMessages(context, result.data.channel.channelID);
+      getMessages(context, result.data.channel.channelID, false);
     } else {
       // TODO handle this
       console.log(error);
@@ -74,10 +80,15 @@ const actions = {
   }
 };
 
-async function getMessages(context, channelID) {
+async function getMessages(context, channelID, isServerChannel) {
   const { ok, error, result } = await messagesService.get(channelID);
   if (ok) {
     context.commit("selectedChannelID", channelID);
+    if (isServerChannel) {
+      context.commit("setServerChannelID", channelID);
+    } else {
+      context.commit("setDMChannelID", channelID);
+    }
     context.commit("messages", {
       channelID: result.data.channelID,
       messages: result.data.messages.reverse()

@@ -4,6 +4,8 @@ import Vue from "vue";
 
 const state = {
   selectedChannelID: null,
+  DMChannelID: null,
+  serverChannelID: null,
   channelName: null,
   channels: {}
 };
@@ -30,6 +32,12 @@ const actions = {
   setChannelName(context, name) {
     context.commit("setChannelName", name);
   },
+  setDMChannelID(context, channelID) {
+    context.commit("setDMChannelID", channelID);
+  },
+  setServerChannelID(context, channelID) {
+    context.commit("setServerChannelID", channelID);
+  },
   updateChannelLastMessage(context, channelID) {
     context.commit("updateChannelLastMessage", channelID);
   }
@@ -47,6 +55,12 @@ const mutations = {
   },
   selectedChannelID(state, channelID) {
     state.selectedChannelID = channelID;
+  },
+  setDMChannelID(state, channelID) {
+    state.DMChannelID = channelID;
+  },
+  setServerChannelID(state, channelID) {
+    state.serverChannelID = channelID;
   },
   setChannelName(state, name) {
     state.channelName = name;
