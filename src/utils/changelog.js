@@ -14,6 +14,20 @@
 
 const config = [
   {
+    version: 4.5,
+    title: "Server bug fixes",
+    shortTitle: "Server bug fixes",
+    date: "27/05/2019",
+    headColor: "rgba(155, 244, 66, 0.77)",
+    new: [
+      "When switching from server to direct message tab (and vice versa), the channels should now be seperated.",
+    ],
+    fix: [
+      ''
+    ],
+    next: [""]
+  },
+  {
     version: 4,
     title: "Make your own servers! (Alpha)",
     shortTitle: "Servers (Alpha)",
