@@ -48,7 +48,8 @@ const mutations = {
     Vue.set(state.channels[channelID], "lastMessaged", Date.now());
   },
   addAllChannels(state, channels) {
-    Vue.set(state, "channels", channels);
+    const test = Object.assign(state.channels, channels);
+    Vue.set(state, "channels", test);
   },
   channel(state, channel) {
     Vue.set(state.channels, channel.channelID, channel);

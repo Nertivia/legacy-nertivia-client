@@ -39,6 +39,20 @@ const actions = {
     let servers = user.servers || [];
     //convert array to object for servers
     servers = servers.reduce((obj, item) => {
+      item.channels.forEach(element => {
+        element.server = undefined
+        element._id = undefined;
+        element.__v = undefined;
+        element.server_id = item.server_id
+        console.log(element)
+
+        context.dispatch('channel', element)
+        context.dispatch("servers/setChannelsIDs", {
+          serverID: item.server_id,
+          channelsIDs: [element.channelID]
+        });
+      });
+      item.channels = undefined;
       obj[item.server_id] = item
       return obj
     }, {})
