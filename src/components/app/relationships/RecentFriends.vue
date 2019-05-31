@@ -51,6 +51,7 @@ export default {
 
       // gets unopened dms
       const notificationsFiltered = notifications.filter(item => {
+        if (json[item.channelID] && json[item.channelID].server_id) return;
         const find = result.find(resFind => {
           return resFind.channelID === item.channelID
         })

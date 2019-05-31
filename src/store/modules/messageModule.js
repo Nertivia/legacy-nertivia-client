@@ -34,7 +34,7 @@ const actions = {
 
     const channels = context.rootState.channelModule.channels;
     channelID = Object.keys(channels).find(_channelID => {
-      return channels[_channelID].recipients[0].uniqueID === uniqueID
+      return channels[_channelID].recipients && channels[_channelID].recipients.length && channels[_channelID].recipients[0].uniqueID === uniqueID
     })
     const messages = context.state.messages[channelID];
     const channel = channels[channelID];
