@@ -44,7 +44,7 @@ const actions = {
         element._id = undefined;
         element.__v = undefined;
         element.server_id = item.server_id
-        console.log(element)
+
 
         context.dispatch('channel', element)
         context.dispatch("servers/setChannelsIDs", {
@@ -152,6 +152,22 @@ const actions = {
   },
   ['socket_server:joined'](context, server) {
     context.dispatch('servers/setServer', server)
+
+    const channels = server.channels;
+
+    for (let index = 0; index < channels.length; index++) {
+      const element = channels[index];
+      element.server = undefined;
+      element.server_id = server.server_id;
+      context.dispatch('channel', element)
+      context.dispatch("servers/setChannelsIDs", {
+        serverID: server.server_id,
+        channelsIDs: [element.channelID]
+      });
+    }
+
+
+    console.log(server.channels)
   },
   ['socket_server:leave'](context, {server_id}) {
     context.dispatch('servers/removeServer', server_id)
