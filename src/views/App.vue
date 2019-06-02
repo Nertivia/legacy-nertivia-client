@@ -7,17 +7,17 @@
       <div class="box" v-if="loggedIn">
         <div class="frame">
           <div class="tabs">
-            <div :class="`tab ${currentTab === 0 ? 'selected' : ''}`" @click="switchTab(0)">
+            <div    :class="`tab ${currentTab === 0 ? 'selected' : ''}`" @click="switchTab(0)">
               <i class="material-icons">list_alt</i>
               Changelog
             </div>
 
-            <div :class="`tab ${currentTab === 1 ? 'selected' : ''}`" @click="switchTab(1)">
+            <div :class="{tab: true, selected: currentTab === 0, notifyAnimation: DMNotification}" @click="switchTab(1)">
               <i class="material-icons">chat</i>
               Direct Message
             </div>
 
-            <div :class="`tab ${currentTab === 2 ? 'selected' : ''}`" @click="switchTab(2)">
+            <div :class="{tab: true, selected: currentTab === 0, notifyAnimation: serverNotification}" @click="switchTab(2)">
               <i class="material-icons">forum</i>
               Servers
             </div>
@@ -128,6 +128,22 @@ export default {
   computed: {
     loggedIn() {
       return this.$store.getters.loggedIn;
+    },
+    serverNotification() {
+      const notifications = this.$store.getters.notifications;
+      const channels = this.$store.getters.channels
+      const notification = notifications.find(e => {
+        return channels[e.channelID] && channels[e.channelID].server_id
+      })
+      return notification;
+    },
+    DMNotification() {
+      const notifications = this.$store.getters.notifications;
+      const channels = this.$store.getters.channels
+      const notification = notifications.find(e => {
+        return channels[e.channelID] && !channels[e.channelID].server_id
+      })
+      return notification;
     }
   }
 };
@@ -140,6 +156,31 @@ export default {
   width: 100%;
   height: 100%;
 }
+
+
+.notifyAnimation{
+  animation: notifyAnime;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
+}
+@keyframes notifyAnime {
+  0%{
+    background: rgba(121, 3, 3, 0.541);
+  }
+  40%{
+    background: rgba(255, 0, 0, 0.568);
+  }
+  60%{
+    background: rgba(255, 0, 0, 0.568);
+  }
+  100%{
+    background: rgba(121, 3, 3, 0.541);
+  }
+}
+
+
+
 .coming-soon {
   display: flex;
   align-items: center;
