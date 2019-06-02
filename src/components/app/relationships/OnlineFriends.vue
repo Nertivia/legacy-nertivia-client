@@ -31,9 +31,14 @@ export default {
     friends() {
       const allFriend = this.$store.getters.user.friends;
       const notifications = this.$store.getters.notifications;
+      const channels = this.$store.getters.channels;
       const result = Object.keys(allFriend).map(function(key) {
         const friend = allFriend[key];
-        const findNotification = notifications.find( e => e.sender.uniqueID === friend.recipient.uniqueID )
+        const findNotification = notifications.find( e => {
+
+          return e.sender.uniqueID === friend.recipient.uniqueID && !channels[e.channelID].server_id
+        
+        })
         if ( findNotification ){
           friend.channelID = findNotification.channelID;
         }

@@ -13,11 +13,13 @@ const newFriendAudio = new Audio(newFriendSound);
 export default  {
     notification: () => {
         if (isBusy()) return;
-        notificationAudio.play();
+        const audio = new Audio(notificationSound);
+        audio.play();
     },
     newFriend: () => {
         if (isBusy()) return;
-        newFriendAudio.play();
+        const audio = new Audio(newFriendSound);
+        audio.play();
     }
 }
 

@@ -4,7 +4,7 @@
       <friends-list
         class="left-panel"
         v-click-outside="hideLeftPanel"
-        v-show="$mq === 'mobile' && showLeftPanel || $mq === 'desktop'"
+        v-show="$mq === 'mobile' && showLeftPanel || ($mq !== 'mobile')"
       />
     </transition>
     <message-panel/>

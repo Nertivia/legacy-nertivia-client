@@ -47,7 +47,9 @@ export default {
   computed: {
     notifications () {
       const channelID = this.$props.channelID;
+      const channels = this.$store.getters.channels;
       const notifications = this.$store.getters.notifications.find(function(e) {
+        if (channels[e.channelID] && channels[e.channelID].server_id) return;
         return e.channelID == channelID
       })
       if (!notifications || (this.$props.channelID === this.$store.getters.selectedChannelID && document.hasFocus())) return;

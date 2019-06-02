@@ -12,12 +12,12 @@
               Changelog
             </div>
 
-            <div :class="{tab: true, selected: currentTab === 0, notifyAnimation: DMNotification}" @click="switchTab(1)">
+            <div :class="{tab: true, selected: currentTab === 1, notifyAnimation: DMNotification}" @click="switchTab(1)">
               <i class="material-icons">chat</i>
               Direct Message
             </div>
 
-            <div :class="{tab: true, selected: currentTab === 0, notifyAnimation: serverNotification}" @click="switchTab(2)">
+            <div :class="{tab: true, selected: currentTab === 2, notifyAnimation: serverNotification}" @click="switchTab(2)">
               <i class="material-icons">forum</i>
               Servers
             </div>
@@ -83,7 +83,7 @@ export default {
   },
   data() {
     return {
-      currentTab: localStorage.getItem("currentTab") || 0,
+      currentTab: 0,
       title: "Nertivia",
       isElectron: window && window.process && window.process.type
     };
@@ -114,6 +114,13 @@ export default {
     },
   },
   mounted() {
+
+    const currentTab = localStorage.getItem("currentTab");
+    if(currentTab) {
+      this.currentTab = parseInt(currentTab);
+    }
+
+
     // check if changelog is updated
     const seenVersion = localStorage.getItem("changelog-version-seen");
     if (!seenVersion || seenVersion < changelog[0].version) {
