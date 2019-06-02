@@ -1,6 +1,6 @@
 <template>
   <div :class="{server: true, 'add-server': mode === 'ADD_SERVER'}">
-    <div class="small-view">
+    <div :class="{'small-view': true, notifyAnimation: notification}">
       <profile-picture size="50px" v-if="!mode" :url="tempImage"/>
       <div class="add-icon" v-if="mode === 'ADD_SERVER'">
         <i class="material-icons">add</i>
@@ -83,12 +83,53 @@ export default {
   computed: {
     user() {
       return this.$store.getters.user;
+    },
+    notification() {
+      const notifications = this.$store.getters.notifications;
+      const channels = this.$store.getters.channels
+      const notification = notifications.find(e => {
+        return channels[e.channelID] && channels[e.channelID].server_id && this.ServerData && channels[e.channelID].server_id === this.ServerData.server_id 
+      })
+      return notification;
     }
   }
 };
 </script>
 
 <style scoped>
+
+
+.notifyAnimation:before{
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  animation: notifyAnime;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
+  border-radius: 5px;
+
+}
+@keyframes notifyAnime {
+  0%{
+    background: rgba(255, 0, 0, 0.198);
+  }
+  40%{
+    background: rgba(255, 0, 0, 0.411);
+  }
+  60%{
+    background: rgba(255, 0, 0, 0.411);
+  }
+  100%{
+    background: rgba(255, 0, 0, 0.198);
+  }
+}
+
+
 .server {
   color: white;
   display: flex;

@@ -4,16 +4,20 @@ import {
 	store
 } from '@/store/index';
 
+//init audio
+const notificationAudio = new Audio(notificationSound);
+
+const newFriendAudio = new Audio(newFriendSound);
+
+
 export default  {
     notification: () => {
         if (isBusy()) return;
-        const audio = new Audio(notificationSound);
-        audio.play();
+        notificationAudio.play();
     },
     newFriend: () => {
         if (isBusy()) return;
-        const audio = new Audio(newFriendSound);
-        audio.play();
+        newFriendAudio.play();
     }
 }
 

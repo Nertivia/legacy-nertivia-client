@@ -20,10 +20,12 @@ const config = [
     date: "27/05/2019",
     headColor: "rgba(155, 244, 66, 0.77)",
     new: [
-      "When switching from server to direct message tab (and vice versa), the channels should now be seperated.",
+      "Notifications for servers has been added."
     ],
     fix: [
-      ''
+      "Fixed notification bug where server notification are shown in dms",
+      "When switching from server to direct message tab (and vice versa), the channels should now be separated.",
+      'You can now only create 30 invites per server.'
     ],
     next: [""]
   },
