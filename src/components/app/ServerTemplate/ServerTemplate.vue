@@ -72,7 +72,6 @@ export default {
     async leaveServer(serverID) {
       this.showContextMenu = false;
       const {ok, error, result} = await ServerService.leaveServer(serverID);
-      console.log({ok, error, result})
     }
   },
   mounted() {
