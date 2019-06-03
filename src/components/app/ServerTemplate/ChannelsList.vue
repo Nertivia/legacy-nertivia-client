@@ -11,12 +11,20 @@
 import Spinner from "@/components/Spinner.vue";
 import ChannelTemplate from "@/components/app/ServerTemplate/ChannelTemplate.vue";
 import ServerService from "@/services/ServerService.js";
+import {bus} from '@/main.js'
 
 export default {
   components: { ChannelTemplate, Spinner },
   props: ["serverID"],
   methods: {
     openChannel(channel) {
+      const notificationExists = this.$store.getters.notifications.find(n => n.channelID === channel.channelID)
+
+      if (notificationExists && document.hasFocus()) {
+        this.$socket.emit('notification:dismiss', {channelID: channel.channelID});
+      }
+      
+      bus.$emit('closeLeftMenu');
       this.$store.dispatch('openChannel', channel)
     }
   },

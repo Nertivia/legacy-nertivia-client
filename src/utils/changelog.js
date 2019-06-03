@@ -17,17 +17,16 @@ const config = [
     version: 4.5,
     title: "Server bug fixes",
     shortTitle: "Server bug fixes",
-    date: "27/05/2019",
-    headColor: "rgba(155, 244, 66, 0.77)",
+    date: "03/06/2019",
+    headColor: "rgba(3, 70, 115, 0.77)",
     new: [
       "Notifications for servers has been added."
     ],
     fix: [
-      "Fixed notification bug where server notification are shown in dms",
+      "Fixed notification bug where server notification are shown in dms.",
       "When switching from server to direct message tab (and vice versa), the channels should now be separated.",
       'You can now only create 30 invites per server.'
     ],
-    next: [""]
   },
   {
     version: 4,

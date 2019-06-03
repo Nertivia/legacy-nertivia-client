@@ -34,7 +34,7 @@ const actions = {
 const mutations = {
   SET_CHANNELS_IDS(state, {serverID, channelsIDs}) {
     const previousChannels = state.channelsIDs[serverID] || []
-    Vue.set(state.channelsIDs, serverID, [...previousChannels, ...channelsIDs]);
+    Vue.set(state.channelsIDs, serverID, [...new Set([...previousChannels, ...channelsIDs])]);
 
   },
   SET_SERVERS(state, servers) {

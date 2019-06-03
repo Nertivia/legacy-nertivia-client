@@ -1,5 +1,5 @@
 <template>
-  <div class="channel">
+  <div :class="{channel: true,  notifyAnimation: hasNotifications}">
     <i class="material-icons">storage</i>
     <div class="channel-name">{{ChannelData.name}}</div>
   </div>
@@ -7,12 +7,45 @@
 
 <script>
 export default {
-  props: ["ChannelData"]
+  props: ["ChannelData"],
+  computed: {
+    hasNotifications() {
+      const notifications = this.$store.getters.notifications;
+      const find = notifications.find(n => n.channelID === this.ChannelData.channelID)
+      return find
+    }
+  }
 };
 </script>
 
 
 <style scoped>
+
+.notifyAnimation{
+
+  animation: notifyAnime;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
+
+}
+@keyframes notifyAnime {
+  0%{
+    background: rgba(255, 0, 0, 0.198);
+  }
+  40%{
+    background: rgba(255, 0, 0, 0.411);
+  }
+  60%{
+    background: rgba(255, 0, 0, 0.411);
+  }
+  100%{
+    background: rgba(255, 0, 0, 0.198);
+  }
+}
+
+
+
 .channel {
   display: flex;
   align-items: center;

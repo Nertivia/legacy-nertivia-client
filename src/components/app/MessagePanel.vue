@@ -192,8 +192,11 @@ export default {
           clearInterval(this.postTimerID);
           this.postTimerID = null;
         }else {
-          await typingService.post(this.selectedChannelID);
-          this.postTimer()
+          if (this.selectedChannelID)
+            await typingService.post(this.selectedChannelID);
+          
+          if (this.postTimerID)
+            this.postTimer()
         }
       }, 2000)
 

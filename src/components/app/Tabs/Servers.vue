@@ -68,12 +68,16 @@ export default {
 </script>
 
 <style scoped>
+
+.direct-message-tab{
+  overflow: hidden;
+}
 .slide-left-enter-active,
 .slide-left-leave-active {
   transition: 0.5s;
 }
 .slide-left-enter, .slide-left-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  margin-left: -300px;
+    transform: translateX(-300px)
 }
 
 .slide-right-enter-active,
@@ -81,7 +85,7 @@ export default {
   transition: 0.5s;
 }
 .slide-right-enter, .slide-right-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  margin-right: -300px;
+  transform: translateX(300px)
 }
 
 
