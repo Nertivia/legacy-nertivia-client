@@ -14,6 +14,21 @@
 
 const config = [
   {
+    version: 4.6,
+    title: "Server Members list and bug fixes",
+    shortTitle: "Server Members list and bug fixes",
+    date: "20/06/2019",
+    headColor: "rgba(0, 102, 170, 0.77)",
+    new: [
+      "Server members are now shown!",
+      "Adjusted some padding with the tabs."
+    ],
+    fix: [
+      "Fixed a vulnerability where after leaving a server, you could still send messages.",
+    ],
+    next: ["Online status for server members list."]
+  },
+  {
     version: 4.5,
     title: "Server bug fixes",
     shortTitle: "Server bug fixes",

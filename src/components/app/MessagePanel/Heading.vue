@@ -10,7 +10,7 @@
     <div class="information">
       <div :class="{name: true, clickable: !!uniqueID }" @click="openUserInfoPanel">{{name}}</div>
     </div>
-    <div v-if="type === 2" class="show-members-button" @click="toggleMembersPanel">
+    <div v-if="type === 2 && selectedServerID" class="show-members-button" @click="toggleMembersPanel">
       <i class="material-icons">view_list</i>
     </div>
   </div>
@@ -35,6 +35,11 @@ export default {
     },
     toggleMembersPanel() {
       bus.$emit("toggleMembersPanel");
+    }
+  },
+  computed: {
+    selectedServerID() {
+      return this.$store.getters['servers/selectedServerID'];
     }
   }
 };

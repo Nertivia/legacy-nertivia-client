@@ -17,7 +17,7 @@ const actions = {
   },
   socket_success(context, data) {
 
-    const {message, user, dms, notifications, currentFriendStatus, settings} = data;
+    const {message, user, serverMembers, dms, notifications, currentFriendStatus, settings} = data;
     const friendsArray = user.friends;
     const friendObject = {};
 
@@ -63,6 +63,12 @@ const actions = {
     data.user.friends = friendObject;
 
     context.commit('user', data.user)
+
+    
+    
+    //server members
+    context.dispatch( 'servers/addServerMembers', serverMembers )
+
 
     // convert dms array to object
     const channelsObject = {}
@@ -168,6 +174,18 @@ const actions = {
   },
   ['socket_server:leave'](context, {server_id}) {
     context.dispatch('servers/removeServer', server_id)
+  },
+  ['socket_server:memberAdd'](context, {serverMember}) { // member_add
+    context.dispatch('servers/addServerMember', serverMember)
+    console.log("someone joined")
+  },
+  ['socket_server:memberRemove'](context, {uniqueID, server_id}) { // member_remove
+    context.dispatch('servers/removeServerMember', {uniqueID, server_id})
+    console.log("Someone left")
+  },
+  ['socket_server:members'](context, {serverMembers}) { // members
+    context.dispatch('servers/addServerMembers', serverMembers)
+    console.log("server members ")
   },
 }
 

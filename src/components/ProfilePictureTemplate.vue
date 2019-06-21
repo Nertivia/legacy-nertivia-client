@@ -54,7 +54,7 @@ export default {
 
 <style scoped>
 .outer-profile-picture{
-  z-index: 9999;
+  z-index: 999;
   user-select: none;
 }
 .profile-picture {

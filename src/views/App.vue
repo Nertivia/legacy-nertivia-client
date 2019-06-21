@@ -227,8 +227,7 @@ export default {
   display: flex;
   overflow-y: hidden;
   overflow-x: auto;
-  height: 35px;
-  max-width: 479px;
+  max-width: 495px;
   flex-basis: auto; /* default value */
   flex-grow: 1;
   -webkit-app-region: no-drag;
@@ -246,13 +245,14 @@ export default {
   margin-bottom: 0;
   background: rgba(0, 0, 0, 0.63);
   color: white;
-  padding: 5px;
+  padding: 7px;
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
   cursor: default;
   user-select: none;
   transition: 0.3s;
   -webkit-app-region: no-drag;
+  margin-top: 5px;
 }
 .tab.selected {
   background: rgba(71, 71, 71, 0.637);
@@ -290,11 +290,6 @@ export default {
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
-}
-@media (max-width: 470px) {
-  .tabs {
-    height: 40px;
-  }
 }
 </style>
 

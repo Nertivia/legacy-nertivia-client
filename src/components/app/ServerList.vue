@@ -31,10 +31,14 @@ export default {
     },
     toggleChannel(serverID, event) {
       if (!event.target.closest('.small-view') || event.target.closest('.options-context-button') || event.target.closest('.options-context-menu')) return;
-      if (this.openedServer === serverID) 
+      if (this.openedServer === serverID) {
         this.openedServer = null;
-      else
+        this.$store.dispatch('servers/setSelectedServerID', null)
+      }
+      else{
         this.openedServer = serverID;
+        this.$store.dispatch('servers/setSelectedServerID', serverID)
+      }
     }
   },
   computed: {
