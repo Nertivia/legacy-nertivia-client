@@ -1,6 +1,6 @@
 {
-  "name": "chatlol",
-  "version": "0.1.0",
+  "name": "nertivia-client",
+  "version": "0.2.1",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -49,5 +49,20 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "description": "chat app",
+  "main": ".eslintrc.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/supertiger1234/Nertivia-Client.git"
+  },
+  "keywords": [
+    "chat"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/supertiger1234/Nertivia-Client/issues"
+  },
+  "homepage": "https://github.com/supertiger1234/Nertivia-Client#readme"
 }
