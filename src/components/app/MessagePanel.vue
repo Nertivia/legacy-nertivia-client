@@ -298,11 +298,10 @@ export default {
     enterEmojiPanel(shortcode) {
       const target = this.$refs["input-box"];
       target.focus();
+      const isSuccessful = document.execCommand("insertText", false, `:${shortcode}: `);
 
-      if (document.queryCommandSupported("insertText")) {
-        document.execCommand("insertText", false, `:${shortcode}: `);
-      } else {
-        document.execCommand("paste", false, `:${shortcode}: `);
+      if (!isSuccessful) {
+        this.message = this.message +  `:${shortcode}: `;
       }
       target.blur();
       this.$store.dispatch("settingsModule/addRecentEmoji", shortcode);

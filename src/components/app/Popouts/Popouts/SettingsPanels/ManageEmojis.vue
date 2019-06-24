@@ -106,10 +106,14 @@ export default {
         formData.append(
           "emoji",
           file,
-          `${fileName}-1${path.extname(file.name)}`
+          `${fileName.substring(0, 28)}-1${path.extname(file.name)}`
         );
       } else {
-        formData.append("emoji", file);
+        formData.append(
+          "emoji",
+          file,
+          `${fileName.substring(0, 30)}${path.extname(file.name)}`
+        );
       }
       const { ok, error, result } = await customEmoji.post(
         formData,

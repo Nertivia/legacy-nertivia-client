@@ -12,7 +12,7 @@
               Changelog
             </div>
 
-            <div :class="{tab: true, selected: currentTab === 1, notifyAnimation: DMNotification}" @click="switchTab(1)">
+            <div :class="{tab: true, selected: currentTab === 1, notifyAnimation: DMNotification || friendRequestExists}" @click="switchTab(1)">
               <i class="material-icons">chat</i>
               Direct Message
             </div>
@@ -89,6 +89,16 @@ export default {
     };
   },
   methods: {
+
+    dismissNotification (channelID) {
+      const notifications = this.$store.getters.notifications.find(function(e) {
+        return e.channelID === channelID
+      }) 
+
+      if (notifications && notifications.count >= 1 && document.hasFocus()) {
+        this.$socket.emit('notification:dismiss', {channelID});
+      }
+    },
     switchChannel(isServer) {
       const serverChannelID = this.$store.state.channelModule.serverChannelID;
       const DMChannelID = this.$store.state.channelModule.DMChannelID;
@@ -97,11 +107,14 @@ export default {
         this.$store.dispatch('selectedChannelID', serverChannelID)
         const channel = this.$store.state.channelModule.channels[serverChannelID];
         this.$store.dispatch("setChannelName", channel ? channel.name : "")
+        this.dismissNotification(serverChannelID)
       } else {
         const channel = this.$store.state.channelModule.channels[DMChannelID];
         this.$store.dispatch("setChannelName", channel ? channel.recipients[0].username : "");
         this.$store.dispatch('selectedChannelID', DMChannelID)
+        this.dismissNotification(DMChannelID)
       }
+      
     },
     switchTab(index) {
       localStorage.setItem("currentTab", index);
@@ -150,7 +163,20 @@ export default {
       const notification = notifications.find(e => {
         return channels[e.channelID] && !channels[e.channelID].server_id
       })
+      // unopened dm
+      if (!notification) {
+        return notifications.find(e => {
+          return !channels[e.channelID]
+        })
+      }
       return notification;
+    },
+    friendRequestExists() {
+      const allFriend = this.$store.getters.user.friends;
+      const result = Object.keys(allFriend).map(function(key) {
+        return allFriend[key];
+      });
+      return result.find(friend => friend.status === 1);
     }
   }
 };
