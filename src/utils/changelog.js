@@ -17,7 +17,7 @@ const config = [
     version: 4.7,
     title: "Bug fixes",
     shortTitle: "Bug fixes",
-    date: "22/06/2019",
+    date: "24/06/2019",
     headColor: "rgba(3, 70, 115, 0.77)",
     new: [
       "Emoji character limit expanded to 30 characters!"
@@ -25,6 +25,8 @@ const config = [
     fix: [
       "Fixed a bug with the notification where it wouldn't dismiss on changing tabs.",
       "Fixed a bug where unopened dms wouldn't show notifications on the tabs.",
+      "Fixed emoji character limit bypass.",
+      "Emojis can now be inserted in firefox!",
     ],
     next: ["Online status for server members list."]
   },
@@ -40,8 +42,6 @@ const config = [
     ],
     fix: [
       "Fixed a vulnerability where after leaving a server, you could still send messages.",
-      "Fixed emoji character limit bypass.",
-      "Emojis can now be inserted in firefox!",
     ],
     next: ["Online status for server members list."]
   },
