@@ -27,10 +27,13 @@ export default {
   computed: {
     friends() {
       const allFriend = this.$store.getters.user.friends;
+      const members = this.$store.getters['members/members'];
+      const presences = this.$store.getters['members/presences'];
       const result = Object.keys(allFriend).map(function(key) {
+        allFriend[key].recipient = members[allFriend[key].uniqueID];
         return allFriend[key];
       });
-      return result.filter(friend => friend.status == 2 && (friend.recipient.status === undefined || friend.recipient.status == 0 ));
+      return result.filter(friend => friend.status == 2 && (!presences[friend.uniqueID] || presences[friend.uniqueID] == 0 ));
     }
   }
 }

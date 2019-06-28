@@ -27,7 +27,9 @@ export default {
   computed: {
     friends() {
       const allFriend = this.$store.getters.user.friends;
+      const members = this.$store.getters['members/members'];
       const result = Object.keys(allFriend).map(function(key) {
+        allFriend[key].recipient = members[allFriend[key].uniqueID];
         return allFriend[key];
       });
       return result.filter(friend => friend.status < 2);

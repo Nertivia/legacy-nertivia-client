@@ -30,10 +30,14 @@ export default {
   computed: {
     friends() {
       const allFriend = this.$store.getters.user.friends;
+      const members = this.$store.getters['members/members'];
+      const presences = this.$store.getters['members/presences'];
       const notifications = this.$store.getters.notifications;
       const channels = this.$store.getters.channels;
+
       const result = Object.keys(allFriend).map(function(key) {
-        const friend = allFriend[key];
+        const friend = allFriend[key]; 
+        friend.recipient = members[friend.uniqueID];
         const findNotification = notifications.find( e => {
 
           return e.sender.uniqueID === friend.recipient.uniqueID && !channels[e.channelID].server_id
@@ -45,7 +49,7 @@ export default {
 
         return friend
       });
-      return result.filter(friend => friend.status == 2 && (friend.recipient.status !== undefined && friend.recipient.status > 0 ));
+      return result.filter(friend => friend.status == 2 && (presences[friend.uniqueID] && presences[friend.uniqueID] > 0 ));
     }
   }
 }

@@ -10,6 +10,7 @@ import uploadFilesModule from './modules/uploadFilesModule';
 import popoutsModule from './modules/popoutsModule/popoutsModule.js';
 import emojiSuggestionModule from './modules/emojiSuggestionModule';
 import serversModule from './modules/serversModule';
+import membersModule from './modules/membersModule';
 import {
   router
 } from './../router'
@@ -27,7 +28,8 @@ export const store = new Vuex.Store({
     uploadFilesModule,
     popoutsModule,
     emojiSuggestionModule,
-    servers: serversModule
+    servers: serversModule,
+    members: membersModule
   },
   state: {
     

@@ -68,18 +68,18 @@ const mutations = {
   ADD_SERVER_MEMBERS(state, serverMembersArr) {
 
     for (let members of serverMembersArr) {
-      if (!state.serverMembers.find(sm => sm.member.uniqueID === members.member.uniqueID && sm.server_id === members.server_id)){
+      if (!state.serverMembers.find(sm => sm.uniqueID === members.uniqueID && sm.server_id === members.server_id)){
         state.serverMembers.push(members)
       }
     }
   },
   ADD_SERVER_MEMBER(state, serverMember) {
-    const exists = state.serverMembers.find(sm => sm.member.uniqueID === serverMember.member.uniqueID && sm.server_id === serverMember.server_id)
+    const exists = state.serverMembers.find(sm => sm.uniqueID === serverMember.uniqueID && sm.server_id === serverMember.server_id)
     if (exists) return;
     state.serverMembers.push(serverMember);
   },
   REMOVE_SERVER_MEMBER(state, {uniqueID, server_id}) {
-    state.serverMembers = state.serverMembers.filter(m => m.member.uniqueID !== uniqueID && m.server_id === server_id);
+    state.serverMembers = state.serverMembers.filter(m => m.uniqueID !== uniqueID && m.server_id === server_id);
   },
   SET_SELECTED_SERVER_ID(state, serverID){
     state.selectedServerID = serverID;

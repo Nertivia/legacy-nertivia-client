@@ -350,6 +350,5 @@ img.emoji {
   height: 1.7em;
   width: auto;
   margin: 0 0.05em 0 0.1em;
-  vertical-align: -0.1em;
 }
 </style>

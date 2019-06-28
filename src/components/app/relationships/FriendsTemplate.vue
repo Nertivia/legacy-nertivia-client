@@ -59,9 +59,10 @@ export default {
       return config.domain + "/avatars/" + this.recipient.avatar
     },
     status() {
+      const presences = this.$store.getters['members/presences'];
       let status = 0;
-      if (this.$store.getters.user.friends[this.recipient.uniqueID]) {
-        status = this.$store.getters.user.friends[this.recipient.uniqueID].recipient.status || 0
+      if (presences[this.recipient.uniqueID]) {
+        status = presences[this.recipient.uniqueID] || 0
       }
 
       return {

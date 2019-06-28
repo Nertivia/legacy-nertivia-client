@@ -18,23 +18,53 @@ const actions = {
   socket_success(context, data) {
 
     const {message, user, serverMembers, dms, notifications, currentFriendStatus, settings} = data;
-    const friendsArray = user.friends;
-    const friendObject = {};
 
-    // convert array into object and add online status.
-    if(friendsArray !== undefined && friendsArray.length >=1) {
-      for (let index = 0; index < friendsArray.length; index++) {
-        const element = friendsArray[index];
-        if (element.recipient) {
-          friendObject[element.recipient.uniqueID] = element;
-          for (let currentFriendStatus of currentFriendStatus){
-            if(currentFriendStatus[0] == element.recipient.uniqueID){
-              friendObject[element.recipient.uniqueID].recipient.status = currentFriendStatus[1]
-            }
-          }
-        }
+
+    const friendsArr = user.friends;
+
+    const presence = {};
+    const friendObj = {};
+    const memberObj = {};
+    if (friendsArr) {
+      for ( let friend of friendsArr ){
+        const member = friend.recipient;
+        delete friend.recipient;
+        friend.uniqueID = member.uniqueID;
+        friendObj[member.uniqueID] = friend;
+        memberObj[member.uniqueID] = member;
       }
     }
+    if (currentFriendStatus) {
+      for (const _presence of currentFriendStatus) {
+        presence[_presence[0]] = _presence[1];
+      }
+    }
+
+    context.dispatch('members/addPresences', presence);
+
+    context.dispatch('members/addMembers', memberObj);
+
+
+
+
+    // const friendsArray = user.friends;
+    // const friendObject = {};
+
+    // // convert array into object and add online status.
+    // if(friendsArray !== undefined && friendsArray.length >=1) {
+    //   for (let index = 0; index < friendsArray.length; index++) {
+    //     const element = friendsArray[index];
+    //     if (element.recipient) {
+    //       friendObject[element.recipient.uniqueID] = element;
+    //       for (let currentFriendStatus of currentFriendStatus){
+    //         console.log(currentFriendStatus[0], currentFriendStatus[1])
+    //         if(currentFriendStatus[0] == element.recipient.uniqueID){
+    //           friendObject[element.recipient.uniqueID].recipient.status = currentFriendStatus[1]
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
 
     let servers = user.servers || [];
     //convert array to object for servers
@@ -60,14 +90,24 @@ const actions = {
     context.dispatch('servers/setServers', servers)
 
     data.user.servers = undefined;
-    data.user.friends = friendObject;
+    data.user.friends = friendObj;
 
     context.commit('user', data.user)
 
     
     
     //server members
-    context.dispatch( 'servers/addServerMembers', serverMembers )
+    let serverMembersArr = [];
+    let membersObj = {};
+    for (let serverMember of serverMembers) {
+      const member = serverMember.member;
+      delete serverMember.member;
+      serverMember.uniqueID = member.uniqueID;
+      serverMembersArr.push(serverMember);
+      membersObj[member.uniqueID] = member;
+    }
+    context.dispatch('members/addMembers', membersObj);
+    context.dispatch( 'servers/addServerMembers', serverMembersArr )
 
 
     // convert dms array to object
@@ -84,6 +124,12 @@ const actions = {
 
   },
   socket_relationshipAdd(context, friend) {
+    const member = friend.recipient;
+    delete friend.recipient;
+    friend.uniqueID = member.uniqueID;
+    context.dispatch('members/updatePresence', {uniqueID: member.uniqueID, status: member.status})
+    delete member.status;
+    context.dispatch('members/addMember', member)
     context.commit('addFriend', friend)
   },
   socket_relationshipAccept(context, uniqueID) {
@@ -116,7 +162,8 @@ const actions = {
     context.dispatch('messageCreatedNotification', notification);
   },
   socket_userStatusChange(context, data) {
-    context.commit('userStatusChange', data)
+    if (context.rootState.user.user.uniqueID === data.uniqueID) return;
+    context.dispatch('members/updatePresence', {uniqueID: data.uniqueID, status: data.status})
   },
   socket_multiDeviceStatus(context, data) {
     context.commit('changeStatus', data.status)
@@ -128,7 +175,7 @@ const actions = {
     context.commit('changeAvatar', data.avatarID);
   },
   socket_userAvatarChange(context, data) {
-    context.commit('userAvatarChange', data)
+    context.commit('members/updateAvatar', data)
   },
   ['socket_channel:created'](context, data){
     const {channel} = data;
@@ -176,7 +223,14 @@ const actions = {
     context.dispatch('servers/removeServer', server_id)
   },
   ['socket_server:memberAdd'](context, {serverMember}) { // member_add
-    context.dispatch('servers/addServerMember', serverMember)
+    let sm = Object.assign({}, serverMember);
+    const member = sm.member;
+    delete sm.member;
+    sm.uniqueID = member.uniqueID;
+
+    context.dispatch('members/addMember', member)
+    context.dispatch('servers/addServerMember', sm)
+
     console.log("someone joined")
   },
   ['socket_server:memberRemove'](context, {uniqueID, server_id}) { // member_remove
@@ -184,6 +238,16 @@ const actions = {
     console.log("Someone left")
   },
   ['socket_server:members'](context, {serverMembers}) { // members
+    let serverMembersArr = [];
+    let members = {};
+    for (let serverMember of serverMembers) {
+      const member = serverMember.member;
+      delete serverMember.member;
+      serverMember.uniqueID = member.uniqueID;
+      serverMembersArr.push(serverMember);
+      members[member.uniqueID] = member;
+    }
+    context.dispatch('members/addMembers', members);
     context.dispatch('servers/addServerMembers', serverMembers)
     console.log("server members ")
   },

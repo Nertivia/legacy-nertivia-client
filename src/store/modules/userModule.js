@@ -52,18 +52,6 @@ const mutations = {
     //changes my status
     Vue.set(state.user, "status", status)
   },
-  userStatusChange(state, data) {
-    // changes friends status
-    const friends = state.user.friends;
-    friends[data.uniqueID].recipient.status = data.status;
-    state.user.friends = Object.assign({}, friends)
-  },
-  userAvatarChange(state, data) {
-    // changes friends status
-    const friends = state.user.friends;
-    friends[data.uniqueID].recipient.avatar = data.avatarID;
-    state.user.friends = Object.assign({}, friends)
-  },
   token(state, token) {
     axios.defaults.headers.common['authorization'] = token;
     localStorage.setItem('hauthid', token);
@@ -81,7 +69,7 @@ const mutations = {
   addFriend(state, friend) {
 
     const friends = state.user.friends;
-    friends[friend.recipient.uniqueID] = friend;
+    friends[friend.uniqueID] = friend;
 
     state.user.friends = Object.assign({}, friends)
 

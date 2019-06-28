@@ -16,10 +16,17 @@ export default {
   components: { MemberTemplate },
   computed: {
     members() {
+      const members = this.$store.getters['members/members'];
       const serverMembers = this.$store.getters['servers/serverMembers']
       const selectedServerID = this.$store.getters['servers/selectedServerID'];
 
-      return serverMembers.filter(sm => sm.server_id === selectedServerID).sort((a, b) => {
+      let filteredSM = serverMembers.filter(sm => sm.server_id === selectedServerID);
+
+      let getMember = filteredSM.map(sm => {
+        sm.member = members[sm.uniqueID];
+        return sm;
+      })
+      const sort = getMember.sort((a, b) => {
         var nameA = a.member.username.toUpperCase();
         var nameB = b.member.username.toUpperCase();
         if (nameA < nameB) {
@@ -30,6 +37,7 @@ export default {
         }
         return 0;
       })
+      return sort;
 
     }
   }
