@@ -51,15 +51,14 @@
     "not ie <= 8"
   ],
   "description": "chat app",
-  "main": ".eslintrc.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/supertiger1234/Nertivia-Client.git"
   },
   "keywords": [
-    "chat"
+    "chat-app"
   ],
-  "author": "",
+  "author": "supertiger1234",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/supertiger1234/Nertivia-Client/issues"
