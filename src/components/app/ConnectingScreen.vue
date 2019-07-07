@@ -1,9 +1,9 @@
 <template>
   <div class="connecting-screen">
     <div class="center-box">
-      <div class="animation">
-        <div class="map"></div>
-        <div class="flash-message"></div>
+      <div class="cat-face">
+        <div class="eyes"></div>
+        <div class="animation"></div>
       </div>
       <div class="message">Connecting...</div>
     </div>
@@ -25,71 +25,53 @@
   margin: auto;
 }
 
-.animation{
+.cat-face{
   height: 300px;
   width: 300px;
-  background-color: #2CB4FF;
-  border-radius: 50%;
-  box-shadow: 0px 0px 96px -4px rgba(69,212,255,1);
-  overflow: hidden;
-}
-.map {
-  height: 300px;
-  width: 300px;
-  background-position: -490px center;
-  background-size: 170%;
-  background-repeat: no-repeat;
-  background-image: url(./../../assets/LogoAnimation/map.png);
-  animation: rotateGlobe;
-  animation-timing-function: linear;
-  animation-duration: 4s;
-  animation-fill-mode: forwards;
-  animation-iteration-count: infinite;
-  
-}
-
-@keyframes rotateGlobe {
-  from {
-    background-position: -490px center;
-  }
-  to {
-  background-position: 300px center;
-  }
-}
-
-.flash-message {
-  height: 300px;
-  width: 300px;
-  margin-top: -300px;
   background-position: center;
-  background-size: 50%;
+  background-size: 100%;
   background-repeat: no-repeat;
-  background-image: url(./../../assets/LogoAnimation/message.png);
-  animation: flashMessage;
-  animation-timing-function: linear;
-  animation-duration: 1s;
-  animation-fill-mode: forwards;
-  animation-iteration-count: infinite;
-  opacity: 0.5;
+  background-image: url(./../../assets/logo.png);
+  display: flex;
+  position: relative;
+}
+.animation {
+  height: 280px;
+  width: 280px;
+  border: 16px solid #3498db;
+  border-top: 16px solid white; 
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
+  flex-shrink: 0;
 }
 
-@keyframes flashMessage {
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.eyes {
+  position: absolute;
+  left: 180px;
+  top: 166px;
+  height: 0px;
+  width: 25px;
+  background: white;
+  animation: blink 5s cubic-bezier(0.17, 0.41, 0.76, 0.98);
+  animation-iteration-count: infinite;
+}
+@keyframes blink {
+  20%, 100% {
+    height: 0px;
+  }
   0% {
-    opacity: 0;
+    height: 0 px;
   }
   10% {
-    background-size: 55%;
-  }
-  30% {
-    background-size: 50%;
-  }
-  50% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 0;
+    height: 35px;
   }
 }
+
 
 .message{
   text-align: center;

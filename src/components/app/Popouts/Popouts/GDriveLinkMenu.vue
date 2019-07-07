@@ -78,7 +78,7 @@ export default {
 }
 .inner {
   margin: auto;
-  height: 400px;
+  height: 420px;
   width: 400px;
   background: rgb(32, 32, 32);
   display: flex;
@@ -110,8 +110,7 @@ export default {
 .nertivia-img {
   background-image: url(./../../../../assets/logo.png);
   border-radius: 50%;
-  background-size: calc(100% + 34px);
-  box-shadow: 0px 0px 66px -4px rgba(69, 212, 255, 1);
+  background-size: 100%;
 }
 .arrow {
   font-size: 40px;

@@ -245,6 +245,7 @@ body {
   margin-top: auto;
   margin-bottom: auto;
   margin-left: 10px;
+  background-repeat: no-repeat;
 }
 .name {
   margin-top: auto;

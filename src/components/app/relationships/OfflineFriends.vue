@@ -3,7 +3,7 @@
     <div class="tab" @click="expanded = !expanded">
       <Tab :expanded="expanded" tabname="Offline" />
     </div>
-    <transition name="list" appear>
+    <transition name="list">
       <div class="list" v-if="expanded">
         <FriendsTemplate v-for="(friend, key) of friends" :key="key" :channelID="friend.channelID" :recipient="friends[key].recipient" />
       </div>

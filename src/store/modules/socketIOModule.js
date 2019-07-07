@@ -220,14 +220,16 @@ const actions = {
 
   },
   ['socket_server:leave'](context, {server_id}) {
+    context.dispatch('servers/removePresences', server_id);
     context.dispatch('servers/removeServer', server_id)
   },
-  ['socket_server:memberAdd'](context, {serverMember}) { // member_add
+  ['socket_server:memberAdd'](context, {serverMember, presence}) { // member_add
     let sm = Object.assign({}, serverMember);
     const member = sm.member;
     delete sm.member;
     sm.uniqueID = member.uniqueID;
 
+    context.dispatch('members/updatePresence', {uniqueID: member.uniqueID, status: presence})
     context.dispatch('members/addMember', member)
     context.dispatch('servers/addServerMember', sm)
 
@@ -237,7 +239,7 @@ const actions = {
     context.dispatch('servers/removeServerMember', {uniqueID, server_id})
     console.log("Someone left")
   },
-  ['socket_server:members'](context, {serverMembers}) { // members
+  ['socket_server:members'](context, {serverMembers, memberPresences}) { // members
     let serverMembersArr = [];
     let members = {};
     for (let serverMember of serverMembers) {
@@ -249,7 +251,11 @@ const actions = {
     }
     context.dispatch('members/addMembers', members);
     context.dispatch('servers/addServerMembers', serverMembers)
-    console.log("server members ")
+    let presences = {};
+    for (const _presence of memberPresences) {
+      presences[_presence[0]] = _presence[1];
+    }
+    context.dispatch('members/addPresences', presences);
   },
 }
 

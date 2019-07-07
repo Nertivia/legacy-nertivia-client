@@ -33,7 +33,7 @@
           <profile-picture class="avatar" size="100px" :url="tempImage"/>
           <div class="server-name">{{server.name}}</div>
           <div class="buttons">
-            <div class="button join-button" @click="joinButton" v-if="!servers[server.server_id]">Join {{server.name}}</div>
+            <div class="button join-button" @click="joinButton" v-if="!servers[server.server_id]">Join</div>
             <div class="button join-button button-clicked" v-if="servers[server.server_id]">Joined</div>
             <div
               class="button cancel-button"

@@ -3,7 +3,7 @@
     <div class="tab" @click="expanded = !expanded">
       <Tab :expanded="expanded" tabname="Pending requests" />
     </div>
-    <transition name="list" appear>
+    <transition name="list">
       <div class="list" v-if="expanded">
         <PendingTemplate v-for="(friend, key) of friends"  :key="key" :uniqueID="friend.recipient.uniqueID" :status="friend.status" :username="friend.recipient.username" :tag="friend.recipient.tag"/>
       </div>

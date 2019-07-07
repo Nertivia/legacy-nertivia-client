@@ -22,6 +22,7 @@ function owo (text) {
 	return `<img class="emoji" draggable="false" alt=":${split[0]}:" src="${config.domain + "/files/" + url}">`
 }
 
+
 futoji.addTransformer({
 	name: 'custom emoji',
 	symbol: ':',
@@ -34,6 +35,18 @@ futoji.addTransformer({
 
 	}
 })
+
+
+
+futoji.addTransformer({
+	name: 'url',
+	open: 'http',
+	close: ' ',
+	recursive: false,
+	validate: text => /(https?:\/\/[^\s]+)/g.test('http' + text),
+	transformer: text => '<a class="msg-link" target="_blank" href="http' + text + '">http' + text + '</a> '
+})
+
 
 futoji.addTransformer({
 	name: 'bold-and-italic',
@@ -85,11 +98,15 @@ futoji.addTransformer({
 
 export default (message) => {
 
-	message = futoji.format(escapeHtml(message));
+	message = futoji.format(escapeHtml(message + ' ')).trim();
+
 	message = emojiParser.replaceEmojis(message);
 
 	return message;
 }
+
+
+
 
 /**
  * format code to add syntax highlighting

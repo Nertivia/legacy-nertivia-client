@@ -273,7 +273,6 @@ export default {
   transition: 1s;
   overflow: hidden;
 }
-
 .image-content {
   margin-top: 10px;
   padding: 5px;
@@ -321,7 +320,6 @@ export default {
   overflow-wrap: anywhere;
   margin-top: 3px;
 }
-
 .message .sending-status {
   display: flex;
   justify-content: flex-end;
@@ -336,6 +334,9 @@ export default {
 </style>
 
 <style>
+.msg-link {
+  color: rgb(50, 138, 253);
+}
 .message .sending-status .material-icons {
   font-size: 15px;
   color: rgb(306, 306, 306);

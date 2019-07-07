@@ -48,10 +48,21 @@ const actions = {
   },
   addServerMember(context, serverMember) {
     context.commit('ADD_SERVER_MEMBER', serverMember)
+  },
+  removePresences(context, server_id) {
+    const members = context.getters.serverMembers.filter(m => m.server_id === server_id)
+    const friends = context.rootGetters.user.friends;
+    for (let member of members) {
+      if (!friends[member.uniqueID]) {
+        context.dispatch('members/updatePresence', {uniqueID: member.uniqueID, status: null}, {root: true})
+      }
+      context.commit('REMOVE_SERVER_MEMBER', {uniqueID: member.uniqueID, server_id})
+    }
   }
 };
 
 const mutations = {
+
   SET_CHANNELS_IDS(state, {serverID, channelsIDs}) {
     const previousChannels = state.channelsIDs[serverID] || []
     Vue.set(state.channelsIDs, serverID, [...new Set([...previousChannels, ...channelsIDs])]);

@@ -1,8 +1,8 @@
 <template>
   <transition name="fade-in" appear >
     <div class="header">
-      <div :class="{animation: true, night: !isDay }" id="animation">
-        <div :class="{map: true, 'night-map': !isDay }"></div>
+      <div class="cat">
+        <div class="eyes"></div>
       </div>
       <div class="title">Nertivia</div>
     </div>
@@ -73,47 +73,46 @@ export default {
   z-index: 99999;
   flex-shrink: 0;
 }
-.animation {
+.cat {
   height: 200px;
   width: 200px;
-  background-color: #2cb4ff;
-  border-radius: 50%;
-  box-shadow: 0px 0px 96px -4px rgba(69, 212, 255, 1);
+  background-position: center;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-image: url(./../assets/logo.svg);
   overflow: hidden;
-  transition: 10s;
+  position: relative;
   margin: auto;
   margin-bottom: 0;
 }
-.map {
-  height: 200px;
-  width: 200px;
-  background-position: -490px center;
-  background-size: 170%;
-  background-repeat: no-repeat;
-  background-image: url(./../assets/LogoAnimation/map.png);
-  animation: rotateGlobe;
-  animation-timing-function: linear;
-  animation-duration: 10s;
-  animation-fill-mode: forwards;
+.eyes {
+  position: absolute;
+  left: 110px;
+  top: 101px;
+  height: 0px;
+  width: 25px;
+  background: white;
+  animation: blink 5s;
   animation-iteration-count: infinite;
-  transition: 10s;
 }
-.night-map {
-  filter: grayscale(90%);
+@keyframes blink {
+  20%, 100% {
+    height: 0px;
+  }
+  0% {
+    height: 0 px;
+  }
+  10% {
+    height: 27px;
+  }
 }
+
 
 .night {
   background: rgb(0, 48, 73);
   box-shadow: 0px 0px 96px -4px rgb(0, 48, 73);
 }
-@keyframes rotateGlobe {
-  from {
-    background-position: -400px center;
-  }
-  to {
-    background-position: 190px center;
-  }
-}
+
 .header .title {
   color: white;
   font-size: 40px;

@@ -1,6 +1,6 @@
 <template>
   <div class="recents">
-    <transition name="list" appear>
+    <transition name="list">
       <div class="list">
         <FriendsTemplate v-for="(channel, key) of channels" :key="key" :channelID="channel.channelID" :recipient="channel.recipients[0]"/>
       </div>

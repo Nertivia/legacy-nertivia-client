@@ -1,7 +1,7 @@
 <template>
   <div class="outer-profile-picture">
     <div
-      :class="`profile-picture ${adminType ? adminType.name : ''}`"
+      :class="`profile-picture ${admin && adminType ? adminType.name : ''}`"
       :style="`padding: ${$props.animationPadding || '3px'}`"
     >
       <img
@@ -12,15 +12,16 @@
       >
       <div
         :class="`inner-profile-picture ${$props.hover ? 'hoverable' : ''}`"
-        :style="`height: ${$props.size}; width: ${$props.size}; background-image: url(${$props.url})`"
+        :style="`${status || status === 0 ? 'border: solid 3px ' + statusColor.statusColor : ''}; height: ${$props.size}; width: ${$props.size}; background-image: url(${$props.url})`"
       ></div>
     </div>
   </div>
 </template>
 
 <script>
+import statuses from '@/utils/statuses';
 export default {
-  props: ["url", "size", "emoteSize", "admin", "hover", "animationPadding"],
+  props: ["url", "size", "emoteSize", "admin", "hover", "animationPadding", "status", "uniqueID"],
   data() {
     return {
       crown: require("twemoji/2/svg/1f451.svg"),
@@ -46,6 +47,15 @@ export default {
           emotePath: this.heart
         };
       return ""
+    },
+    statusColor() {
+      let status = this.status;
+      return {
+        statusName: statuses[parseInt(status)].name,
+        statusURL: statuses[parseInt(status)].url,
+        statusColor: statuses[parseInt(status)].color,
+        bgColor: statuses[parseInt(status)].bgColor
+      }
     }
   }
 };

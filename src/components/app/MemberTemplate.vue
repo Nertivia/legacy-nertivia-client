@@ -4,6 +4,8 @@
       class="avatar"
       :url="userAvatar"
       size="35px"
+      :uniqueID="user.uniqueID"
+      :status="presense"
     />
     <div class="information">
       <div class="username">{{user.username}}</div>
@@ -27,7 +29,16 @@ export default {
   computed: {
     userAvatar() {
       return config.domain + "/avatars/" + this.avatar  
-    } 
+    },
+    presense(){
+      //attach presense
+      if (this.user.uniqueID === this.$store.getters.user.uniqueID) {
+        return this.$store.getters.user.status || 0
+      }
+      const presences = this.$store.getters['members/presences'];
+      const userPresense = presences[this.user.uniqueID]
+      return userPresense || 0
+    }
   }
   
 }
@@ -71,7 +82,7 @@ export default {
 }
 
 .avatar {
- 
+
 }
 
 </style>

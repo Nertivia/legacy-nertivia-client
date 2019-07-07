@@ -5,7 +5,7 @@
       <div class="add-icon" v-if="mode === 'ADD_SERVER'">
         <i class="material-icons">add</i>
       </div>
-      <div class="server-name">{{mode === 'ADD_SERVER'? 'Add Server' : ServerData.name }}</div>
+      <div class="server-name">{{mode === 'ADD_SERVER'? 'Create / Join Server' : ServerData.name }}</div>
       <div
         ref="contextMenuButton"
         class="options-context-button"
@@ -15,7 +15,7 @@
         <i class="material-icons">more_vert</i>
       </div>
       <div class="options-context-menu" v-if="showContextMenu" v-click-outside="closeContextMenu">
-        <div class="menu-button" @click="createInvite(ServerData.server_id)">Create Invite</div>
+        <div class="menu-button" @click="createInvite(ServerData.server_id)">Manage Invites</div>
         <div
           class="menu-button warn"
           @click="leaveServer(ServerData.server_id)"

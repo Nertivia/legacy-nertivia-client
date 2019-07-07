@@ -335,10 +335,8 @@ export default {
     },
     hideTypingStatus(data) {
       if (this.user.uniqueID === data.message.creator.uniqueID) return;
-      clearTimeout(
-        this.typingRecipients[data.channelID][data.message.creator.uniqueID]
-          .timer
-      );
+      if (!this.typingRecipients[data.channelID] || !this.typingRecipients[data.channelID][data.message.creator.uniqueID]) return;
+      clearTimeout( this.typingRecipients[data.channelID][data.message.creator.uniqueID].timer );
       this.$delete(
         this.typingRecipients[data.channelID],
         data.message.creator.uniqueID
