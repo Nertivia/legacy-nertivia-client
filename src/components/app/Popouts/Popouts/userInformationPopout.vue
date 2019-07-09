@@ -1,113 +1,196 @@
 <template>
-  <div class="drop-background" @click="backgroundClickEvent">
+  <div
+    class="drop-background"
+    @click="backgroundClickEvent"
+  >
     <div class="box">
-      <spinner v-if="!user"/>
-      <div class="inner" v-else>
+      <spinner v-if="!user" />
+      <div
+        v-else
+        class="inner"
+      >
         <div class="top">
-
-            <profile-picture
-              class="avatar"
-              size="90px"
-              emoteSize="28px"
-              animationPadding="5px"
-              :admin="user.admin"
-              :url="`${avatarDomain}${user.avatar}`"
-            />
+          <profile-picture
+            class="avatar"
+            size="90px"
+            emote-size="28px"
+            animation-padding="5px"
+            :admin="user.admin"
+            :url="`${avatarDomain}${user.avatar}`"
+          />
 
           <div class="info">
-            <div class="username">{{user.username}}</div>
-            <div class="tag">@{{user.tag}}</div>
+            <div class="username">
+              {{ user.username }}
+            </div>
+            <div class="tag">
+              @{{ user.tag }}
+            </div>
           </div>
         </div>
-        <div class="bottom" v-if="selfUniqueID !== user.uniqueID">
-          <div class="button valid" v-if="this.relationshipStatus == null" @click="AddFriendButton">
-            <div class="material-icons">person_add</div>Add friend
+        <div
+          v-if="selfUniqueID !== user.uniqueID"
+          class="bottom"
+        >
+          <div
+            v-if="this.relationshipStatus == null"
+            class="button valid"
+            @click="AddFriendButton"
+          >
+            <div class="material-icons">
+              person_add
+            </div>Add friend
           </div>
 
-          <div class="button valid" v-if="this.relationshipStatus == 0" @click="RemoveFriendButton">
-            <div class="material-icons">person_add</div>Request Sent!
+          <div
+            v-if="this.relationshipStatus == 0"
+            class="button valid"
+            @click="RemoveFriendButton"
+          >
+            <div class="material-icons">
+              person_add
+            </div>Request Sent!
           </div>
 
-          <div class="button valid" v-if="this.relationshipStatus == 1" @click="AcceptFriendButton">
-            <div class="material-icons">person_add</div>Accept Friend
+          <div
+            v-if="this.relationshipStatus == 1"
+            class="button valid"
+            @click="AcceptFriendButton"
+          >
+            <div class="material-icons">
+              person_add
+            </div>Accept Friend
           </div>
 
-          <div class="button warn" v-if="this.relationshipStatus == 2" @click="RemoveFriendButton">
-            <div class="material-icons">person_add_disabled</div>End Friendship
+          <div
+            v-if="this.relationshipStatus == 2"
+            class="button warn"
+            @click="RemoveFriendButton"
+          >
+            <div class="material-icons">
+              person_add_disabled
+            </div>End Friendship
           </div>
 
-          <div class="button" @click="openChat">
-            <div class="material-icons">chat</div>Send Message
+          <div
+            class="button"
+            @click="openChat"
+          >
+            <div class="material-icons">
+              chat
+            </div>Send Message
           </div>
           <div class="button warn">
-            <div class="material-icons">block</div>Block
+            <div class="material-icons">
+              block
+            </div>Block
           </div>
         </div>
-        <div v-else class="cross"><i class="material-icons">close</i></div>
+        <div
+          v-else
+          class="cross"
+        >
+          <i class="material-icons">close</i>
+        </div>
       </div>
-      <div class="about-me-box" v-if="user && user.about_me">
-        <div class="title">About {{user.username}}</div>
+      <div
+        v-if="user && user.about_me"
+        class="about-me-box"
+      >
+        <div class="title">
+          About {{ user.username }}
+        </div>
         <div class="about-me-inner">
-          <div class="about-me-detail" v-if="user.about_me.name">
+          <div
+            v-if="user.about_me.name"
+            class="about-me-detail"
+          >
             <div class="about-me-title">
-              <div class="main-title-about-me">Name:</div>
-              <div class="emoji-about-me"></div>
-              {{user.about_me.name}}
-            </div>
-          </div>
-
-          <div class="about-me-detail" v-if="user.about_me.gender == 0 || user.about_me.gender">
-            <div class="about-me-title">
-              <div class="main-title-about-me">Gender:</div>
-              <div
-                class="emoji-about-me"
-                v-html="emojiParse(surveyItems.gender[user.about_me.gender].emoji)"
-              ></div>
-              {{surveyItems.gender[user.about_me.gender].name}}
-            </div>
-          </div>
-
-          <div class="about-me-detail" v-if="user.about_me.age == 0 || user.about_me.age">
-            <div class="about-me-title">
-              <div class="main-title-about-me">Age:</div>
-              <div
-                class="emoji-about-me"
-                v-html="emojiParse(surveyItems.age[user.about_me.age].emoji)"
-              ></div>
-              {{surveyItems.age[user.about_me.age].name}}
+              <div class="main-title-about-me">
+                Name:
+              </div>
+              <div class="emoji-about-me" />
+              {{ user.about_me.name }}
             </div>
           </div>
 
           <div
+            v-if="user.about_me.gender == 0 || user.about_me.gender"
             class="about-me-detail"
-            v-if="user.about_me.continent == 0 || user.about_me.continent"
           >
             <div class="about-me-title">
-              <div class="main-title-about-me">Continent:</div>
+              <div class="main-title-about-me">
+                Gender:
+              </div>
+              <div
+                class="emoji-about-me"
+                v-html="emojiParse(surveyItems.gender[user.about_me.gender].emoji)"
+              />
+              {{ surveyItems.gender[user.about_me.gender].name }}
+            </div>
+          </div>
+
+          <div
+            v-if="user.about_me.age == 0 || user.about_me.age"
+            class="about-me-detail"
+          >
+            <div class="about-me-title">
+              <div class="main-title-about-me">
+                Age:
+              </div>
+              <div
+                class="emoji-about-me"
+                v-html="emojiParse(surveyItems.age[user.about_me.age].emoji)"
+              />
+              {{ surveyItems.age[user.about_me.age].name }}
+            </div>
+          </div>
+
+          <div
+            v-if="user.about_me.continent == 0 || user.about_me.continent"
+            class="about-me-detail"
+          >
+            <div class="about-me-title">
+              <div class="main-title-about-me">
+                Continent:
+              </div>
               <div
                 class="emoji-about-me"
                 v-html="emojiParse(surveyItems.continents[user.about_me.continent].emoji)"
-              ></div>
-              {{surveyItems.continents[user.about_me.continent].name}}
+              />
+              {{ surveyItems.continents[user.about_me.continent].name }}
             </div>
           </div>
 
-          <div class="about-me-detail" v-if="user.about_me.country == 0 || user.about_me.country">
+          <div
+            v-if="user.about_me.country == 0 || user.about_me.country"
+            class="about-me-detail"
+          >
             <div class="about-me-title">
-              <div class="main-title-about-me">Country:</div>
+              <div class="main-title-about-me">
+                Country:
+              </div>
               <div
                 class="emoji-about-me"
                 v-html="emojiParse(surveyItems.countries[user.about_me.country].emoji)"
-              ></div>
-              {{surveyItems.countries[user.about_me.country].name}}
+              />
+              {{ surveyItems.countries[user.about_me.country].name }}
             </div>
           </div>
 
-          <div class="about-me-detail" v-if="user.about_me.about_me">
+          <div
+            v-if="user.about_me.about_me"
+            class="about-me-detail"
+          >
             <div class="about-me-title about_me">
-              <div class="main-title-about-me">About Me:</div>
-              <div class="emoji-about-me"></div>
-              <div class="about-me-format" v-html="formatAboutMe(user.about_me.about_me)"></div>
+              <div class="main-title-about-me">
+                About Me:
+              </div>
+              <div class="emoji-about-me" />
+              <div
+                class="about-me-format"
+                v-html="formatAboutMe(user.about_me.about_me)"
+              />
             </div>
           </div>
         </div>
@@ -132,6 +215,26 @@ export default {
       user: null,
       avatarDomain: config.domain + "/avatars/"
     };
+  },
+  computed: {
+    selfUniqueID() {
+      return this.$store.getters.user.uniqueID;
+    },
+    uniqueID() {
+      return this.$store.getters.popouts.userInformationPopoutID;
+    },
+    relationshipStatus() {
+      const userUniqueID = this.$store.getters.popouts.userInformationPopoutID;
+      const allFriend = this.$store.getters.user.friends;
+      if (!allFriend[userUniqueID]) return null;
+      return allFriend[userUniqueID].status;
+    }
+  },
+  async mounted() {
+    const { ok, error, result } = await userService.get(this.uniqueID);
+    if (ok) {
+      this.user = result.data.user;
+    }
   },
   methods: {
     backgroundClickEvent(event) {
@@ -168,26 +271,6 @@ export default {
     },
     formatAboutMe(string) {
       return messageFormatter(string);
-    }
-  },
-  async mounted() {
-    const { ok, error, result } = await userService.get(this.uniqueID);
-    if (ok) {
-      this.user = result.data.user;
-    }
-  },
-  computed: {
-    selfUniqueID() {
-      return this.$store.getters.user.uniqueID;
-    },
-    uniqueID() {
-      return this.$store.getters.popouts.userInformationPopoutID;
-    },
-    relationshipStatus() {
-      const userUniqueID = this.$store.getters.popouts.userInformationPopoutID;
-      const allFriend = this.$store.getters.user.friends;
-      if (!allFriend[userUniqueID]) return null;
-      return allFriend[userUniqueID].status;
     }
   }
 };

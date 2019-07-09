@@ -1,50 +1,95 @@
 <template>
   <div id="app">
     <div class="app-content">
-      <header-login v-on:isDay="isDayEvent"/>
+      <header-login @isDay="isDayEvent" />
       <div class="content">
-        <transition appear name="fade-up">
-          <div class="box" v-if="visible">
+        <transition
+          appear
+          name="fade-up"
+        >
+          <div
+            v-if="visible"
+            class="box"
+          >
             <div class="title">
               <i class="material-icons">account_circle</i>
               Login
             </div>
-            <div class="info">Login to access Nertivia</div>
-            <form action="#" @submit.prevent="submitForm" v-if="!showCaptcha">
+            <div class="info">
+              Login to access Nertivia
+            </div>
+            <form
+              v-if="!showCaptcha"
+              action="#"
+              @submit.prevent="submitForm"
+            >
               <div class="input">
                 <div class="input-text">
                   Email
-                  <span class="error" v-if="email.alert">- {{email.alert}}</span>
+                  <span
+                    v-if="email.alert"
+                    class="error"
+                  >- {{ email.alert }}</span>
                 </div>
-                <input type="email" v-model="email.value" placeholder="Email">
+                <input
+                  v-model="email.value"
+                  type="email"
+                  placeholder="Email"
+                >
               </div>
               <div class="input">
                 <div class="input-text">
                   Password
-                  <span class="error" v-if="password.alert">- {{password.alert}}</span>
+                  <span
+                    v-if="password.alert"
+                    class="error"
+                  >- {{ password.alert }}</span>
                 </div>
                 <input
-                  type="password"
                   v-model="password.value"
+                  type="password"
                   autocomplete="password"
                   placeholder="Password"
                 >
               </div>
 
-              <span class="error" style="text-align: center;" v-if="otherError">{{otherError}}</span>
+              <span
+                v-if="otherError"
+                class="error"
+                style="text-align: center;"
+              >{{ otherError }}</span>
               <div class="buttons">
-                <button type="submit" :class="{button: true, deactive: deactive}">Login</button>
-                <button class="button register-button" @click.prevent="registerButton">I'm new!</button>
+                <button
+                  type="submit"
+                  :class="{button: true, deactive: deactive}"
+                >
+                  Login
+                </button>
+                <button
+                  class="button register-button"
+                  @click.prevent="registerButton"
+                >
+                  I'm new!
+                </button>
               </div>
             </form>
-            <div class="captcha-box" v-if="showCaptcha">
+            <div
+              v-if="showCaptcha"
+              class="captcha-box"
+            >
               <div class="input captcha-input">
                 <div class="input-text">
                   Beep Boop
-                  <span class="error" v-if="reCaptcha.alert">- {{reCaptcha.alert}}</span>
+                  <span
+                    v-if="reCaptcha.alert"
+                    class="error"
+                  >- {{ reCaptcha.alert }}</span>
                 </div>
                 <div class="captcha">
-                  <Recaptcha ref="recaptcha" @verify="captchaSubmit"/>
+                  <Recaptcha
+                    ref="recaptcha"
+                    @verify="captchaSubmit"
+                  />
                 </div>
               </div>
             </div>
@@ -53,8 +98,10 @@
       </div>
     </div>
     <div class="background">
-      <div :class="{background: true, 'night-background': true, chosen: !isDay}"><particlesJS class="particles"/></div>
-      <div class="background day-background"></div>
+      <div :class="{background: true, 'night-background': true, chosen: !isDay}">
+        <particlesJS class="particles" />
+      </div>
+      <div class="background day-background" />
     </div>
   </div>
 </template>

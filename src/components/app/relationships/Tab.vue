@@ -4,7 +4,7 @@
       expand_more
     </i>
     <div class="tab-name">
-      {{$props.tabname}}
+      {{ $props.tabname }}
     </div>
   </div>
 </template>

@@ -1,12 +1,19 @@
 <template>
   <div class="members-list">
     <div class="header">
-      <div class="title">Members ({{members.length}})</div>
-
-    </div>
-      <div class="members">
-        <member-template v-for="(member, index) in members" :key="index" :type="member.type" :avatar="member.member.avatar" :user="member.member" />
+      <div class="title">
+        Members ({{ members.length }})
       </div>
+    </div>
+    <div class="members">
+      <member-template
+        v-for="(member, index) in members"
+        :key="index"
+        :type="member.type"
+        :avatar="member.member.avatar"
+        :user="member.member"
+      />
+    </div>
   </div>
 </template>
 

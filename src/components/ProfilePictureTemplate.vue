@@ -13,7 +13,7 @@
       <div
         :class="`inner-profile-picture ${$props.hover ? 'hoverable' : ''}`"
         :style="`${status || status === 0 ? 'border: solid 3px ' + statusColor.statusColor : ''}; height: ${$props.size}; width: ${$props.size}; background-image: url(${$props.url})`"
-      ></div>
+      />
     </div>
   </div>
 </template>

@@ -2,33 +2,56 @@
   <div class="dark-background">
     <div class="inner">
       <div class="info">
-        <div class="preview-image" v-show="image" ref="preview-image"></div>
-        <div class="file-icon" v-if="!image">
+        <div
+          v-show="image"
+          ref="preview-image"
+          class="preview-image"
+        />
+        <div
+          v-if="!image"
+          class="file-icon"
+        >
           <i class="material-icons">insert_drive_file</i>
         </div>
         <div class="data">
           <div class="name">
             <strong>Name:</strong>
-            {{name}}
+            {{ name }}
           </div>
           <div class="size">
             <strong>Size:</strong>
-            {{size}}
+            {{ size }}
           </div>
         </div>
       </div>
-      <div class="message">Add a message</div>
+      <div class="message">
+        Add a message
+      </div>
       <div class="message-area">
-        <textarea class="chat-input" v-model="message" placeholder></textarea>
+        <textarea
+          v-model="message"
+          class="chat-input"
+          placeholder
+        />
       </div>
       <div class="bottom-panel">
-        <div class="close-button button" @click="closeButton">
+        <div
+          class="close-button button"
+          @click="closeButton"
+        >
           <i class="material-icons">close</i>
-          <div class="text">Cancel</div>
+          <div class="text">
+            Cancel
+          </div>
         </div>
-        <div class="send-button button" @click="send">
+        <div
+          class="send-button button"
+          @click="send"
+        >
           <i class="material-icons">send</i>
-          <div class="text">Send</div>
+          <div class="text">
+            Send
+          </div>
         </div>
       </div>
     </div>
@@ -50,6 +73,33 @@ export default {
       size: "",
       image: false
     };
+  },
+  beforeMount() {
+    if (this.popouts.fileToUpload.size == 0) {
+      this.$store.dispatch("setPopoutVisibility", {
+        name: "uploadDialog",
+        visibility: false
+      });
+    }
+    if (!this.GDriveLinked) {
+      this.$store.dispatch("setPopoutVisibility", {
+        name: "uploadDialog",
+        visibility: false
+      });
+      this.$store.dispatch("setPopoutVisibility", {
+        name: "GDLinkMenu",
+        visibility: true
+      });
+    }
+  },
+  mounted() {
+    (this.name = this.popouts.fileToUpload.name),
+      (this.size = filesize(this.popouts.fileToUpload.size)),
+      this.loadFileInfo(this.popouts.fileToUpload);
+    document.addEventListener("keydown", this.keyDownEvent);
+  },
+  destroyed() {
+    document.removeEventListener("keydown", this.keyDownEvent);
   },
   methods: {
     generateNum(n) {
@@ -133,33 +183,6 @@ export default {
         });
       }
     }
-  },
-  beforeMount() {
-    if (this.popouts.fileToUpload.size == 0) {
-      this.$store.dispatch("setPopoutVisibility", {
-        name: "uploadDialog",
-        visibility: false
-      });
-    }
-    if (!this.GDriveLinked) {
-      this.$store.dispatch("setPopoutVisibility", {
-        name: "uploadDialog",
-        visibility: false
-      });
-      this.$store.dispatch("setPopoutVisibility", {
-        name: "GDLinkMenu",
-        visibility: true
-      });
-    }
-  },
-  mounted() {
-    (this.name = this.popouts.fileToUpload.name),
-      (this.size = filesize(this.popouts.fileToUpload.size)),
-      this.loadFileInfo(this.popouts.fileToUpload);
-    document.addEventListener("keydown", this.keyDownEvent);
-  },
-  destroyed() {
-    document.removeEventListener("keydown", this.keyDownEvent);
   },
   computed: {
     ...mapState('settingsModule', ['GDriveLinked']),

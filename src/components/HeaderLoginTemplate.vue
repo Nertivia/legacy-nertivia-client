@@ -1,10 +1,15 @@
 <template>
-  <transition name="fade-in" appear >
+  <transition
+    name="fade-in"
+    appear
+  >
     <div class="header">
       <div class="cat">
-        <div class="eyes"></div>
+        <div class="eyes" />
       </div>
-      <div class="title">Nertivia</div>
+      <div class="title">
+        Nertivia
+      </div>
     </div>
   </transition>
 </template>

@@ -1,11 +1,25 @@
 <template>
-  <div class="friends" >
-    <div class="tab" @click="expanded = !expanded">
-      <Tab :expanded="expanded" tabname="Offline" />
+  <div class="friends">
+    <div
+      class="tab"
+      @click="expanded = !expanded"
+    >
+      <Tab
+        :expanded="expanded"
+        tabname="Offline"
+      />
     </div>
     <transition name="list">
-      <div class="list" v-if="expanded">
-        <FriendsTemplate v-for="(friend, key) of friends" :key="key" :channelID="friend.channelID" :recipient="friends[key].recipient" />
+      <div
+        v-if="expanded"
+        class="list"
+      >
+        <FriendsTemplate
+          v-for="(friend, key) of friends"
+          :key="key"
+          :channel-i-d="friend.channelID"
+          :recipient="friends[key].recipient"
+        />
       </div>
     </transition>
   </div>

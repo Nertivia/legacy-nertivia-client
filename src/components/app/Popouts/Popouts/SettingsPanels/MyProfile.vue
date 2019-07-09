@@ -6,39 +6,66 @@
         :url="avatar"
         :admin="user.admin"
         size="100px"
-        emoteSize="30px"
-        animationPadding="5px"
+        emote-size="30px"
+        animation-padding="5px"
       />
       <div class="information">
         <div class="username">
           <strong>Username:</strong>
-          {{user.username}}
+          {{ user.username }}
         </div>
         <div class="tag">
           <strong>Tag:</strong>
-          @{{user.tag}}
+          @{{ user.tag }}
         </div>
       </div>
       <div class="options">
         <input
+          ref="avatarBrowser"
           type="file"
           accept="image/*"
-          ref="avatarBrowser"
-          @change="avatarBrowse"
           class="hidden"
+          @change="avatarBrowse"
         >
-        <div class="option" @click="editAvatarBtn">Edit Avatar</div>
-        <div class="option" @click="changePassword">Change Password</div>
-        <div class="option red" @click="logout">Logout</div>
+        <div
+          class="option"
+          @click="editAvatarBtn"
+        >
+          Edit Avatar
+        </div>
+        <div
+          class="option"
+          @click="changePassword"
+        >
+          Change Password
+        </div>
+        <div
+          class="option red"
+          @click="logout"
+        >
+          Logout
+        </div>
       </div>
     </div>
     <survey />
-    <div class="alert-outer" v-if="alert.show">
+    <div
+      v-if="alert.show"
+      class="alert-outer"
+    >
       <div class="alert">
-        <div class="alert-title">Error</div>
-        <div class="alert-content">{{alert.content}}</div>
+        <div class="alert-title">
+          Error
+        </div>
+        <div class="alert-content">
+          {{ alert.content }}
+        </div>
         <div class="alert-buttons">
-          <div class="alert-button" @click="alert.show = false">Okay</div>
+          <div
+            class="alert-button"
+            @click="alert.show = false"
+          >
+            Okay
+          </div>
         </div>
       </div>
     </div>

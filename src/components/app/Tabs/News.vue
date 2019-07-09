@@ -3,34 +3,60 @@
     <div class="change-log">
       <span class="news-title">Changes in this release</span>
 
-      <div class="change" v-for="change in changelog" :key="change.title">
-        <div class="heading" :style="change.headColor ? `background-color: ${change.headColor}` : ``">
-          <div class="date">{{change.date}}</div>
-          <div class="changes-title">{{change.title}}</div>
+      <div
+        v-for="change in changelog"
+        :key="change.title"
+        class="change"
+      >
+        <div
+          class="heading"
+          :style="change.headColor ? `background-color: ${change.headColor}` : ``"
+        >
+          <div class="date">
+            {{ change.date }}
+          </div>
+          <div class="changes-title">
+            {{ change.title }}
+          </div>
         </div>
         <div class="information">
           <div v-if="change.new">
             <strong>What's new?</strong>
             <br>
             <ul>
-              <li v-for="(wnew, index) in change.new" :key="index" v-html="wnew"></li>
+              <li
+                v-for="(wnew, index) in change.new"
+                :key="index"
+                v-html="wnew"
+              />
             </ul>
           </div>
           <div v-if="change.fix">
             <strong>Issues fixed</strong>
             <br>
             <ul>
-              <li v-for="(wfix, index) in change.fix" :key="index" v-html="wfix"></li>
+              <li
+                v-for="(wfix, index) in change.fix"
+                :key="index"
+                v-html="wfix"
+              />
             </ul>
           </div>
           <div v-if="change.next">
             <strong>Up next</strong>
             <br>
             <ul>
-              <li v-for="(wnext, index) in change.next" :key="index" v-html="wnext"></li>
+              <li
+                v-for="(wnext, index) in change.next"
+                :key="index"
+                v-html="wnext"
+              />
             </ul>
           </div>
-          <div v-if="change.msg" v-html="change.msg"></div>
+          <div
+            v-if="change.msg"
+            v-html="change.msg"
+          />
         </div>
       </div>
     </div>

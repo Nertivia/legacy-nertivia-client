@@ -3,15 +3,27 @@
     <div class="info">
       <div
         class="title"
-      >Upload your own pretty emojis for free! Emojis must be 1MB or less. (png, jpg, gif)</div>
-      <div class="button" @click="addEmojiBtn">
+      >
+        Upload your own pretty emojis for free! Emojis must be 1MB or less. (png, jpg, gif)
+      </div>
+      <div
+        class="button"
+        @click="addEmojiBtn"
+      >
         <i class="material-icons">add_box</i>Add Emoji
       </div>
     </div>
 
     <div class="emojis-list">
-      <div class="emoji" v-for="emoji in customEmojis" :key="emoji.emojiID">
-        <img class="preview" :src="`${domain}${emoji.emojiID}`">
+      <div
+        v-for="emoji in customEmojis"
+        :key="emoji.emojiID"
+        class="emoji"
+      >
+        <img
+          class="preview"
+          :src="`${domain}${emoji.emojiID}`"
+        >
         <div class="emoji-name">
           <input
             type="text"
@@ -20,21 +32,44 @@
             @blur="blurEvent(emoji.emojiID, $event)"
           >
         </div>
-        <div class="delete-button" @click="removeEmoji(emoji.emojiID)">
-          <div class="material-icons">close</div>
-          <div class="inner"></div>
+        <div
+          class="delete-button"
+          @click="removeEmoji(emoji.emojiID)"
+        >
+          <div class="material-icons">
+            close
+          </div>
+          <div class="inner" />
         </div>
       </div>
     </div>
-    <input type="file" accept="image/*" ref="emojiBrowser" @change="emojiBrowse" class="hidden">
+    <input
+      ref="emojiBrowser"
+      type="file"
+      accept="image/*"
+      class="hidden"
+      @change="emojiBrowse"
+    >
     <!-- <div class="option" @click="changePassword">Change Password</div> -->
 
-    <div class="alert-outer" v-if="alert.show">
+    <div
+      v-if="alert.show"
+      class="alert-outer"
+    >
       <div class="alert">
-        <div class="alert-title">Error</div>
-        <div class="alert-content">{{alert.content}}</div>
+        <div class="alert-title">
+          Error
+        </div>
+        <div class="alert-content">
+          {{ alert.content }}
+        </div>
         <div class="alert-buttons">
-          <div class="alert-button" @click="alert.show = false">Okay</div>
+          <div
+            class="alert-button"
+            @click="alert.show = false"
+          >
+            Okay
+          </div>
         </div>
       </div>
     </div>

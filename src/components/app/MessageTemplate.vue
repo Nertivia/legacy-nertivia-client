@@ -2,7 +2,7 @@
   <div class="container">
     <div
       v-if="!type || type === 0"
-      :class="{message: true,  ownMessage: user.uniqueID === $props.uniqueID, ownMessageLeft: user.uniqueID === $props.uniqueID && (apperance && apperance.own_message_right === true)} "
+      :class="{message: true, ownMessage: user.uniqueID === $props.uniqueID, ownMessageLeft: user.uniqueID === $props.uniqueID && (apperance && apperance.own_message_right === true)} "
     >
       <div class="avatar">
         <profile-picture
@@ -14,42 +14,78 @@
         />
       </div>
       <div class="triangle">
-        <div class="triangle-inner"></div>
+        <div class="triangle-inner" />
       </div>
       <div class="content">
         <div class="user-info">
-          <div class="username" @click="openUserInformation">{{this.$props.username}}</div>
-          <div class="date">{{getDate}}</div>
+          <div
+            class="username"
+            @click="openUserInformation"
+          >
+            {{ this.$props.username }}
+          </div>
+          <div class="date">
+            {{ getDate }}
+          </div>
         </div>
-        <div class="content-message" v-html="formatMessage"></div>
+        <div
+          class="content-message"
+          v-html="formatMessage"
+        />
 
-        <div class="file-content" v-if="getFile">
+        <div
+          v-if="getFile"
+          class="file-content"
+        >
           <div class="icon">
             <i class="material-icons">insert_drive_file</i>
           </div>
           <div class="information">
-            <div class="info">{{getFile.fileName}}</div>
-            <a :href="getFile.url" target="_blank">
+            <div class="info">
+              {{ getFile.fileName }}
+            </div>
+            <a
+              :href="getFile.url"
+              target="_blank"
+            >
               <div class="download-button">Download</div>
             </a>
           </div>
         </div>
 
-        <div class="image-content" v-if="getImage">
-          <img :src="getImage" @click="imageClicked">
+        <div
+          v-if="getImage"
+          class="image-content"
+        >
+          <img
+            :src="getImage"
+            @click="imageClicked"
+          >
         </div>
       </div>
-      <div class="sending-status" v-html="statusMessage"></div>
+      <div
+        class="sending-status"
+        v-html="statusMessage"
+      />
     </div>
     <div
       v-if="type && (type === 1 || type === 2)"
-      :class="{'presence-message': true,  green: type === 1, red: type === 2}"
+      :class="{'presence-message': true, green: type === 1, red: type === 2}"
     >
       <span>
-        <span class="username" @click="openUserInformation">{{this.$props.username}}</span>
-        <span class="text" v-if="type === 1">has joined the server!</span>
-        <span class="text" v-if="type === 2">has left the server.</span>
-        <span class="date">{{getDate}}</span>
+        <span
+          class="username"
+          @click="openUserInformation"
+        >{{ this.$props.username }}</span>
+        <span
+          v-if="type === 1"
+          class="text"
+        >has joined the server!</span>
+        <span
+          v-if="type === 2"
+          class="text"
+        >has left the server.</span>
+        <span class="date">{{ getDate }}</span>
       </span>
     </div>
   </div>

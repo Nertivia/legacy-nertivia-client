@@ -1,17 +1,31 @@
 <template>
   <div class="pending-friend">
-    <div class="profile-picture" @click="openUserInformation" :style="`background-image: url(${userAvatar})`"></div>
+    <div
+      class="profile-picture"
+      :style="`background-image: url(${userAvatar})`"
+      @click="openUserInformation"
+    />
     <div class="information">
-      <div class="username">{{$props.username}}</div>
-      <div class="tag">@{{$props.tag}}</div>
+      <div class="username">
+        {{ $props.username }}
+      </div>
+      <div class="tag">
+        @{{ $props.tag }}
+      </div>
     </div>
     <div class="buttons">
-      <div :class="{button: true, accept: true, hide: $props.status == 0}" @click="accept" >
+      <div
+        :class="{button: true, accept: true, hide: $props.status == 0}"
+        @click="accept"
+      >
         <i class="material-icons">
           check
         </i>
       </div>
-      <div class="button decline" @click="deny">
+      <div
+        class="button decline"
+        @click="deny"
+      >
         <i class="material-icons">
           not_interested
         </i>
@@ -26,6 +40,14 @@ import config from '@/config.js'
 
 export default {
   props: ['username', 'tag', 'status', 'uniqueID'],
+  computed: {
+    user() {
+      return this.$store.getters.user.friends[this.$props.uniqueID].recipient;
+    },
+    userAvatar() {
+      return config.domain + "/avatars/" + this.user.avatar
+    },
+  },
   methods: {
     deny() {
       RelationshipService.delete(this.$props.uniqueID)
@@ -36,14 +58,6 @@ export default {
     openUserInformation() {
       this.$store.dispatch('setUserInformationPopout', this.uniqueID)
     }
-  },
-  computed: {
-    user() {
-      return this.$store.getters.user.friends[this.$props.uniqueID].recipient;
-    },
-    userAvatar() {
-      return config.domain + "/avatars/" + this.user.avatar
-    },
   }
 }
 </script>

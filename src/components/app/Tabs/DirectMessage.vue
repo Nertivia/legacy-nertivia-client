@@ -2,12 +2,12 @@
   <div class="direct-message-tab">
     <transition name="slidein">
       <friends-list
-        class="left-panel"
-        v-click-outside="hideLeftPanel"
         v-show="$mq === 'mobile' && showLeftPanel || ($mq !== 'mobile')"
+        v-click-outside="hideLeftPanel"
+        class="left-panel"
       />
     </transition>
-    <message-panel/>
+    <message-panel />
   </div>
 </template>
 
@@ -27,6 +27,14 @@ export default {
       showLeftPanel: false
     };
   },
+  mounted() {
+    bus.$on("toggleLeftMenu", () => {
+      this.showLeftPanel = !this.showLeftPanel;
+    });
+    bus.$on("closeLeftMenu", () => {
+      this.showLeftPanel = false;
+    });
+  },
   methods: {
     hideLeftPanel(event) {
       if (this.showLeftPanel) {
@@ -35,14 +43,6 @@ export default {
         }
       }
     }
-  },
-  mounted() {
-    bus.$on("toggleLeftMenu", () => {
-      this.showLeftPanel = !this.showLeftPanel;
-    });
-    bus.$on("closeLeftMenu", () => {
-      this.showLeftPanel = false;
-    });
   }
 };
 </script>

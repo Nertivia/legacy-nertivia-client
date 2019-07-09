@@ -1,16 +1,29 @@
 <template>
   <div class="heading">
-    <div class="show-menu-button" @click="toggleLeftMenu">
+    <div
+      class="show-menu-button"
+      @click="toggleLeftMenu"
+    >
       <i class="material-icons">menu</i>
     </div>
     <div
       v-if="type === 1"
       class="user-status"
-      :style="`box-shadow: 0px 0px 14px 3px ${statusColor}; background-color: ${statusColor};`"/>
+      :style="`box-shadow: 0px 0px 14px 3px ${statusColor}; background-color: ${statusColor};`"
+    />
     <div class="information">
-      <div :class="{name: true, clickable: !!uniqueID }" @click="openUserInfoPanel">{{name}}</div>
+      <div
+        :class="{name: true, clickable: !!uniqueID }"
+        @click="openUserInfoPanel"
+      >
+        {{ name }}
+      </div>
     </div>
-    <div v-if="type === 2 && selectedServerID" class="show-members-button" @click="toggleMembersPanel">
+    <div
+      v-if="type === 2 && selectedServerID"
+      class="show-members-button"
+      @click="toggleMembersPanel"
+    >
       <i class="material-icons">view_list</i>
     </div>
   </div>
@@ -25,6 +38,11 @@ export default {
     "name",
     "uniqueID"
   ],
+  computed: {
+    selectedServerID() {
+      return this.$store.getters['servers/selectedServerID'];
+    }
+  },
   methods: {
     openUserInfoPanel() {
       if (this.uniqueID)
@@ -35,11 +53,6 @@ export default {
     },
     toggleMembersPanel() {
       bus.$emit("toggleMembersPanel");
-    }
-  },
-  computed: {
-    selectedServerID() {
-      return this.$store.getters['servers/selectedServerID'];
     }
   }
 };

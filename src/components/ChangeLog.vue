@@ -1,42 +1,70 @@
 <template>
   <div class="change-log">
     <div class="inner">
-      <div class="close-button" @click="close">
+      <div
+        class="close-button"
+        @click="close"
+      >
         <i class="material-icons">
           close
         </i>
       </div>
-      <div class="change-title">Change Log <div class="changelog-icon"><i class="material-icons ">update</i></div></div>
+      <div class="change-title">
+        Change Log <div class="changelog-icon">
+          <i class="material-icons ">update</i>
+        </div>
+      </div>
       <div class="change-list">
-
-        <div class="change" v-for="change in changelog" :key="change.title">
-          <div class="date">{{change.date}}</div>
-          <div class="changes-title">{{change.title}}</div>
+        <div
+          v-for="change in changelog"
+          :key="change.title"
+          class="change"
+        >
+          <div class="date">
+            {{ change.date }}
+          </div>
+          <div class="changes-title">
+            {{ change.title }}
+          </div>
           <div class="information">
             <div v-if="change.new">
               <strong>What's new?</strong><br>
               <ul>
-                <li v-for="(wnew, index) in change.new" :key="index">{{wnew}}</li>
+                <li
+                  v-for="(wnew, index) in change.new"
+                  :key="index"
+                >
+                  {{ wnew }}
+                </li>
               </ul>
             </div>
             <div v-if="change.fix">
               <strong>Issues fixed</strong><br>
               <ul>
-                <li v-for="(wfix, index) in change.fix" :key="index">{{wfix}}</li>
+                <li
+                  v-for="(wfix, index) in change.fix"
+                  :key="index"
+                >
+                  {{ wfix }}
+                </li>
               </ul>
             </div>
             <div v-if="change.next">
               <strong>Up next</strong><br>
               <ul>
-                <li v-for="(wnext, index) in change.next" :key="index">{{wnext}}</li>
+                <li
+                  v-for="(wnext, index) in change.next"
+                  :key="index"
+                >
+                  {{ wnext }}
+                </li>
               </ul>
             </div>
             <div v-if="change.msg">
-              {{change.msg}}
+              {{ change.msg }}
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>

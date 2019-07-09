@@ -1,5 +1,8 @@
 <template>
-  <div ref="background" class="drop-background">
+  <div
+    ref="background"
+    class="drop-background"
+  >
     <div class="img-outer">
       <img :src="$store.getters.popouts.ImagePreviewURL">
     </div>
@@ -7,13 +10,6 @@
 </template>
 <script>
 export default {
-  methods: {
-    backgroundClickEvent(event) {
-      if(event.target.matches('.img-outer') || event.target.matches('.drop-background')){
-        this.$store.dispatch('setImagePreviewURL', event.target.src)
-      }
-    }
-  },
   mounted() {
     this.$refs["background"].addEventListener(
       "click",
@@ -25,6 +21,13 @@ export default {
       "click",
       this.backgroundClickEvent
     );
+  },
+  methods: {
+    backgroundClickEvent(event) {
+      if(event.target.matches('.img-outer') || event.target.matches('.drop-background')){
+        this.$store.dispatch('setImagePreviewURL', event.target.src)
+      }
+    }
   }
 };
 </script>

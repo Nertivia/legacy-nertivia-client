@@ -1,19 +1,43 @@
 <template>
-  <div class="dark-background" @click="backgroundClick">
+  <div
+    class="dark-background"
+    @click="backgroundClick"
+  >
     <div class="inner">
       <div
         class="text"
-      >To upload files, images or set avatars, You must link your Google Drive account with your Nertivia account.</div>
-      <div class="images">
-        <div class="image GDrive-img"></div>
-        <div class="arrow">></div>
-        <div class="image nertivia-img"></div>
+      >
+        To upload files, images or set avatars, You must link your Google Drive account with your Nertivia account.
       </div>
-      <div class="text">If you would like to see Nertivia grow, and have its own storage CDN, donations would be appriciated.</div>
+      <div class="images">
+        <div class="image GDrive-img" />
+        <div class="arrow">
+          >
+        </div>
+        <div class="image nertivia-img" />
+      </div>
+      <div class="text">
+        If you would like to see Nertivia grow, and have its own storage CDN, donations would be appriciated.
+      </div>
       <div class="buttons">
-        <div class="button donate" @click="donateButton">Donate</div>
-        <div class="button deny" @click="closeMenu">No thanks</div>
-        <div class="button" @click="link">Link me</div>
+        <div
+          class="button donate"
+          @click="donateButton"
+        >
+          Donate
+        </div>
+        <div
+          class="button deny"
+          @click="closeMenu"
+        >
+          No thanks
+        </div>
+        <div
+          class="button"
+          @click="link"
+        >
+          Link me
+        </div>
       </div>
     </div>
   </div>

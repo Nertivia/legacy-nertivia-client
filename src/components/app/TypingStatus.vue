@@ -1,8 +1,18 @@
 <template>
   <transition name="typing-animate">
-    <div class="typing-status" v-if="formatedRecipients">
-      <object class="animation" type="image/svg+xml" :data="animation"></object>
-      <div class="text" v-html="formatedRecipients"></div>
+    <div
+      v-if="formatedRecipients"
+      class="typing-status"
+    >
+      <object
+        class="animation"
+        type="image/svg+xml"
+        :data="animation"
+      />
+      <div
+        class="text"
+        v-html="formatedRecipients"
+      />
     </div>
   </transition>
 </template>
@@ -14,16 +24,6 @@ export default {
     return {
       animation: require("@/assets/typing-indicator.svg")
     };
-  },
-  methods: {
-    escapeHtml(unsafe) {
-      return unsafe
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
   },
   computed: {
     formatedRecipients() {
@@ -54,6 +54,16 @@ export default {
           break;
       }
       return arr;
+    }
+  },
+  methods: {
+    escapeHtml(unsafe) {
+      return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
     }
   }
 };

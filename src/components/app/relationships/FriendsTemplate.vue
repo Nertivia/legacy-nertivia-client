@@ -1,15 +1,36 @@
 <template>
-  <div :class="{friend: true, notifyAnimation: (notifications && notifications > 0) }" :style="`background: ${status.bgColor};`" @click="openChat">
-    <div class="profile-picture" @click="openUserInformation" :style="`border-color: ${status.statusColor}; background-image: url(${userAvatar})`">
-      <div class="status" :style="`background-image: url(${status.statusURL})`" ></div>
+  <div
+    :class="{friend: true, notifyAnimation: (notifications && notifications > 0) }"
+    :style="`background: ${status.bgColor};`"
+    @click="openChat"
+  >
+    <div
+      class="profile-picture"
+      :style="`border-color: ${status.statusColor}; background-image: url(${userAvatar})`"
+      @click="openUserInformation"
+    >
+      <div
+        class="status"
+        :style="`background-image: url(${status.statusURL})`"
+      />
     </div>
     <div class="information">
-      <div class="username">{{recipient.username}}</div>
-      <div class="status-name" :style="`color: ${status.statusColor}`">{{status.statusName}}</div>
+      <div class="username">
+        {{ recipient.username }}
+      </div>
+      <div
+        class="status-name"
+        :style="`color: ${status.statusColor}`"
+      >
+        {{ status.statusName }}
+      </div>
     </div>
-    <div class="notification" v-if="notifications && notifications >0">
+    <div
+      v-if="notifications && notifications >0"
+      class="notification"
+    >
       <div class="notification-inner">
-        {{notifications}}
+        {{ notifications }}
       </div>
     </div>
   </div>
@@ -24,26 +45,6 @@ import {bus} from '@/main'
 
 export default {
   props: ['username', 'tag',  'channelID',  'uniqueID', 'recipient'],
-  methods: {
-
-    async openChat(event) {
-      if (event.target.closest(".profile-picture")) return;
-      bus.$emit('closeLeftMenu');
-      // dismiss notification if exists 
-      // TODO move this into openchat or something :/
-      if (this.notifications && this.notifications >= 1 && document.hasFocus()) {
-        this.$socket.emit('notification:dismiss', {channelID: this.channelID});
-      }
-      this.$store.dispatch('openChat', {
-        uniqueID: this.recipient.uniqueID,
-        channelID: this.channelID,
-        channelName: this.recipient.username
-      })
-    },
-    openUserInformation() {
-      this.$store.dispatch('setUserInformationPopout', this.recipient.uniqueID)
-    }
-  },
   computed: {
     notifications () {
       const channelID = this.$props.channelID;
@@ -71,6 +72,26 @@ export default {
         statusColor: statuses[parseInt(status)].color,
         bgColor: statuses[parseInt(status)].bgColor
       }
+    }
+  },
+  methods: {
+
+    async openChat(event) {
+      if (event.target.closest(".profile-picture")) return;
+      bus.$emit('closeLeftMenu');
+      // dismiss notification if exists 
+      // TODO move this into openchat or something :/
+      if (this.notifications && this.notifications >= 1 && document.hasFocus()) {
+        this.$socket.emit('notification:dismiss', {channelID: this.channelID});
+      }
+      this.$store.dispatch('openChat', {
+        uniqueID: this.recipient.uniqueID,
+        channelID: this.channelID,
+        channelName: this.recipient.username
+      })
+    },
+    openUserInformation() {
+      this.$store.dispatch('setUserInformationPopout', this.recipient.uniqueID)
     }
   }
 }

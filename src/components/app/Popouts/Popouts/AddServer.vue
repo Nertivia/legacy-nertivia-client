@@ -1,44 +1,128 @@
 <template>
-  <div class="dark-background" @mousedown="backgroundClick">
+  <div
+    class="dark-background"
+    @mousedown="backgroundClick"
+  >
     <div class="inner">
       <div class="tabs">
-        <div :class="{tab: true, selected: tab == 0}" @click="tab = 0; slideBack(); ">Create</div>
-        <div :class="{tab: true, selected: tab == 1 || tab == 2}" @click="tab = 1; slideForward();">Join</div>
-      </div>
-      <transition-group tag="div" class="slider" :name="slideInDirection">
-        <div class="content" v-if="tab == 0" key="add-server">
-          <div class="title">Set your server's avatar</div>
-          <profile-picture class="avatar" size="90px" :url="tempImage"/>
-          <div class="button">Browse Avatar Coming Soon!</div>
-          <div class="input">
-            <div class="input-name">Server Name</div>
-            <input type="text" v-model="serverName" placeholder="Server Name">
-          </div>
-          <span v-if="serverNameError" class="warn">{{serverNameError}}</span>
-          <div class="button create-button" @click="createButton">Create</div>
+        <div
+          :class="{tab: true, selected: tab == 0}"
+          @click="tab = 0; slideBack(); "
+        >
+          Create
         </div>
-        <div class="content" v-if="tab == 1" key="check-invite">
+        <div
+          :class="{tab: true, selected: tab == 1 || tab == 2}"
+          @click="tab = 1; slideForward();"
+        >
+          Join
+        </div>
+      </div>
+      <transition-group
+        tag="div"
+        class="slider"
+        :name="slideInDirection"
+      >
+        <div
+          v-if="tab == 0"
+          key="add-server"
+          class="content"
+        >
+          <div class="title">
+            Set your server's avatar
+          </div>
+          <profile-picture
+            class="avatar"
+            size="90px"
+            :url="tempImage"
+          />
+          <div class="button">
+            Browse Avatar Coming Soon!
+          </div>
+          <div class="input">
+            <div class="input-name">
+              Server Name
+            </div>
+            <input
+              v-model="serverName"
+              type="text"
+              placeholder="Server Name"
+            >
+          </div>
+          <span
+            v-if="serverNameError"
+            class="warn"
+          >{{ serverNameError }}</span>
+          <div
+            class="button create-button"
+            @click="createButton"
+          >
+            Create
+          </div>
+        </div>
+        <div
+          v-if="tab == 1"
+          key="check-invite"
+          class="content"
+        >
           <i class="material-icons icon">forum</i>
-          <div class="title">Join A Server</div>
+          <div class="title">
+            Join A Server
+          </div>
           <div class="input">
             <div class="input-name">
               Invite Code
-              <span v-if="inviteCodeError" class="warn">- {{inviteCodeError}}</span>
+              <span
+                v-if="inviteCodeError"
+                class="warn"
+              >- {{ inviteCodeError }}</span>
             </div>
-            <input type="text" v-model="inviteCode" placeholder="Invite code">
+            <input
+              v-model="inviteCode"
+              type="text"
+              placeholder="Invite code"
+            >
           </div>
-          <div class="button check-button" @click="checkInviteCode">Check</div>
+          <div
+            class="button check-button"
+            @click="checkInviteCode"
+          >
+            Check
+          </div>
         </div>
-        <div class="content server" v-if="tab == 2" key="join-server">
-          <profile-picture class="avatar" size="100px" :url="tempImage"/>
-          <div class="server-name">{{server.name}}</div>
+        <div
+          v-if="tab == 2"
+          key="join-server"
+          class="content server"
+        >
+          <profile-picture
+            class="avatar"
+            size="100px"
+            :url="tempImage"
+          />
+          <div class="server-name">
+            {{ server.name }}
+          </div>
           <div class="buttons">
-            <div class="button join-button" @click="joinButton" v-if="!servers[server.server_id]">Join</div>
-            <div class="button join-button button-clicked" v-if="servers[server.server_id]">Joined</div>
+            <div
+              v-if="!servers[server.server_id]"
+              class="button join-button"
+              @click="joinButton"
+            >
+              Join
+            </div>
+            <div
+              v-if="servers[server.server_id]"
+              class="button join-button button-clicked"
+            >
+              Joined
+            </div>
             <div
               class="button cancel-button"
               @click="server = null; inviteCode = ''; tab = 1; slideBack();"
-            >Cancel</div>
+            >
+              Cancel
+            </div>
           </div>
         </div>
       </transition-group>
@@ -66,6 +150,11 @@ export default {
       server: null,
       slideInDirection: "slide-forward"
     };
+  },
+  computed: {
+    servers() {
+      return this.$store.getters['servers/servers'];
+    }
   },
   methods: {
     closeMenu() {
@@ -136,11 +225,6 @@ export default {
       if (ok) {
         this.closeMenu();
       }
-    }
-  },
-  computed: {
-    servers() {
-      return this.$store.getters['servers/servers'];
     }
   }
 };

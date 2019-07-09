@@ -2,18 +2,26 @@
   <div class="emoji-suggetions-list">
     <div
       v-for="(emoji, index) in $props.emojiArray.slice(0,10)"
+      :key="emoji.hexcode || emoji.emojiID"
       :class="{emojiItem: true, selected: index === emojiIndex}"
       @mouseenter="hoverEvent"
       @click="clickEvent"
-      :key="emoji.hexcode || emoji.emojiID"
     >
       <div class="preview">
-        <span v-if="emoji.unicode" v-html="emojiParser(emoji.unicode)"></span>
-        <span v-else >
-          <img class="custom-emoji" :src="customEmojiPath + emoji.emojiID" >
+        <span
+          v-if="emoji.unicode"
+          v-html="emojiParser(emoji.unicode)"
+        />
+        <span v-else>
+          <img
+            class="custom-emoji"
+            :src="customEmojiPath + emoji.emojiID"
+          >
         </span>
       </div>
-      <div class="short-code">:{{emoji.name || emoji.shortcodes[0]}}:</div>
+      <div class="short-code">
+        :{{ emoji.name || emoji.shortcodes[0] }}:
+      </div>
     </div>
   </div>
 </template>
@@ -28,6 +36,22 @@ export default {
     return {
       customEmojiPath: config.domain + "/files/"
     }
+  },
+  computed: {
+    emojiIndex() {
+      return this.$store.getters.getEmojiIndex;
+    }
+  },
+  watch: {
+    emojiArray() {
+      this.$store.dispatch("changeIndex", 0);
+    }
+  },
+  mounted() {
+    bus.$on("emojiSuggestions:key", this.KeySwitch);
+  },
+  destroyed() {
+    bus.$off("emojiSuggestions:key", this.KeySwitch);
   },
   methods: {
     emojiParser(emoji) {
@@ -58,22 +82,6 @@ export default {
     },
     clickEvent() {
       bus.$emit('emojiSuggestions:Selected')
-    }
-  },
-  mounted() {
-    bus.$on("emojiSuggestions:key", this.KeySwitch);
-  },
-  destroyed() {
-    bus.$off("emojiSuggestions:key", this.KeySwitch);
-  },
-  watch: {
-    emojiArray() {
-      this.$store.dispatch("changeIndex", 0);
-    }
-  },
-  computed: {
-    emojiIndex() {
-      return this.$store.getters.getEmojiIndex;
     }
   }
 };

@@ -1,7 +1,15 @@
 <template>
-  <button type="submit" :disabled="$props.loading">
-    <div class="loading-icon" v-if="$props.loading" ></div>
-    <div class="text">{{$props.message}}</div>
+  <button
+    type="submit"
+    :disabled="$props.loading"
+  >
+    <div
+      v-if="$props.loading"
+      class="loading-icon"
+    />
+    <div class="text">
+      {{ $props.message }}
+    </div>
   </button>
 </template>
 

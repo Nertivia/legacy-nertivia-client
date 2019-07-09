@@ -1,13 +1,15 @@
 <template>
-  <div :class="{channel: true,  notifyAnimation: hasNotifications}">
+  <div :class="{channel: true, notifyAnimation: hasNotifications}">
     <i class="material-icons">storage</i>
-    <div class="channel-name">{{ChannelData.name}}</div>
+    <div class="channel-name">
+      {{ ChannelData.name }}
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["ChannelData"],
+  props: ["channelData"],
   computed: {
     hasNotifications() {
       const notifications = this.$store.getters.notifications;

@@ -1,24 +1,52 @@
 <template>
   <div class="add-friend-panel">
-    <div class="panel-title" @click="expanded = !expanded">
+    <div
+      class="panel-title"
+      @click="expanded = !expanded"
+    >
       <div>
-        <i class="material-icons" v-if="!expanded">
+        <i
+          v-if="!expanded"
+          class="material-icons"
+        >
           person_add
         </i>
-        <span>{{expanded ? "Hide" : "Add friend"}}</span>
+        <span>{{ expanded ? "Hide" : "Add friend" }}</span>
       </div>
     </div>
-    <transition name="slide" appear>
-      <div class="add-friend" v-if="expanded">
-        <div class="title">Add friend</div>
-        <div class="info">Type in your friends username and tag. eg: someone@jt4g</div>
-        <div class="infoC">Creators tag: Fishie@azK0</div>
-        <form action="#" @submit.prevent="addFriend">
-          <input type="text" placeholder="username@tag" v-model="input">
-          <loadingButton :loading="currentButtonMessage == 1" :message="buttonMessages[currentButtonMessage]" />
+    <transition
+      name="slide"
+      appear
+    >
+      <div
+        v-if="expanded"
+        class="add-friend"
+      >
+        <div class="title">
+          Add friend
+        </div>
+        <div class="info">
+          Type in your friends username and tag. eg: someone@jt4g
+        </div>
+        <div class="infoC">
+          Creators tag: Fishie@azK0
+        </div>
+        <form
+          action="#"
+          @submit.prevent="addFriend"
+        >
+          <input
+            v-model="input"
+            type="text"
+            placeholder="username@tag"
+          >
+          <loadingButton
+            :loading="currentButtonMessage == 1"
+            :message="buttonMessages[currentButtonMessage]"
+          />
         </form>
         <div :class="{message: true, warning: errorMessage.isError}">
-          {{errorMessage.message}}
+          {{ errorMessage.message }}
         </div>
       </div>
     </transition>

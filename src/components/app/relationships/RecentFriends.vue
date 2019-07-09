@@ -2,7 +2,12 @@
   <div class="recents">
     <transition name="list">
       <div class="list">
-        <FriendsTemplate v-for="(channel, key) of channels" :key="key" :channelID="channel.channelID" :recipient="channel.recipients[0]"/>
+        <FriendsTemplate
+          v-for="(channel, key) of channels"
+          :key="key"
+          :channel-i-d="channel.channelID"
+          :recipient="channel.recipients[0]"
+        />
       </div>
     </transition>
   </div>

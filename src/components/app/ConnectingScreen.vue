@@ -2,10 +2,12 @@
   <div class="connecting-screen">
     <div class="center-box">
       <div class="cat-face">
-        <div class="eyes"></div>
-        <div class="animation"></div>
+        <div class="eyes" />
+        <div class="animation" />
       </div>
-      <div class="message">Connecting...</div>
+      <div class="message">
+        Connecting...
+      </div>
     </div>
   </div>
 </template>

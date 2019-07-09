@@ -1,5 +1,10 @@
 <template>
-  <vue-recaptcha ref="recaptcha" :sitekey="sitekey" theme="dark" @verify="submit"></vue-recaptcha>
+  <vue-recaptcha
+    ref="recaptcha"
+    :sitekey="sitekey"
+    theme="dark"
+    @verify="submit"
+  />
 </template>
  
 <script>

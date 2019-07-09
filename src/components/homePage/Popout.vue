@@ -1,17 +1,34 @@
 <template>
   <div class="profile-popout">
-    <div class="triangle"></div>
+    <div class="triangle" />
     <div class="inner">
-      <profile-picture v-if="user" class="avatar" :url="avatarDomain + user.avatar" :admin="user.admin" size="40px" emoteSize="17px" />
+      <profile-picture
+        v-if="user"
+        class="avatar"
+        :url="avatarDomain + user.avatar"
+        :admin="user.admin"
+        size="40px"
+        emote-size="17px"
+      />
       <div class="information">
         <div
           class="username"
-        >{{user.username}}</div>
-        <div class="tag">@{{user.tag}}</div>
+        >
+          {{ user.username }}
+        </div>
+        <div class="tag">
+          @{{ user.tag }}
+        </div>
       </div>
       <div class="buttons">
-        <i class="material-icons warn" @click="logOut">exit_to_app</i>
-        <i class="material-icons" @click="openApp">message</i>
+        <i
+          class="material-icons warn"
+          @click="logOut"
+        >exit_to_app</i>
+        <i
+          class="material-icons"
+          @click="openApp"
+        >message</i>
       </div>
     </div>
   </div>
@@ -22,8 +39,8 @@ import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
 import config from "@/config.js";
 
 export default {
-  props: ["user"],
   components: { ProfilePicture },
+  props: ["user"],
   data() {
     return {
       avatarDomain: config.domain + "/avatars/"

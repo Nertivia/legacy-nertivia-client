@@ -1,32 +1,55 @@
 <template>
   <div id="app">
     <div class="app-content">
-      <header-login v-on:isDay="isDayEvent"/>
+      <header-login @isDay="isDayEvent" />
       <div class="content">
-        <transition appear name="fade-up">
-          <div class="box" v-if="visible">
+        <transition
+          appear
+          name="fade-up"
+        >
+          <div
+            v-if="visible"
+            class="box"
+          >
             <div class="title">
               <i class="material-icons">account_circle</i>
               Register
             </div>
-            <div class="info">Welcome, new user! Hope you enjoy Nertivia!</div>
-            <form action="#" @submit.prevent="formSubmit" v-if="!showCaptcha">
+            <div class="info">
+              Welcome, new user! Hope you enjoy Nertivia!
+            </div>
+            <form
+              v-if="!showCaptcha"
+              action="#"
+              @submit.prevent="formSubmit"
+            >
               <div class="input">
                 <div class="input-text">
                   Email
-                  <span class="error" v-if="email.alert">- {{email.alert}}</span>
+                  <span
+                    v-if="email.alert"
+                    class="error"
+                  >- {{ email.alert }}</span>
                 </div>
-                <input type="email" v-model="email.value" placeholder="Email" autocomplete="off">
+                <input
+                  v-model="email.value"
+                  type="email"
+                  placeholder="Email"
+                  autocomplete="off"
+                >
               </div>
 
               <div class="input">
                 <div class="input-text">
                   Username
-                  <span class="error" v-if="username.alert">- {{username.alert}}</span>
+                  <span
+                    v-if="username.alert"
+                    class="error"
+                  >- {{ username.alert }}</span>
                 </div>
                 <input
-                  type="text"
                   v-model="username.value"
+                  type="text"
                   placeholder="Username"
                   autocomplete="off"
                 >
@@ -35,29 +58,51 @@
               <div class="input">
                 <div class="input-text">
                   Password
-                  <span class="error" v-if="password.alert">- {{password.alert}}</span>
+                  <span
+                    v-if="password.alert"
+                    class="error"
+                  >- {{ password.alert }}</span>
                 </div>
                 <input
-                  type="password"
                   v-model="password.value"
+                  type="password"
                   autocomplete="off"
                   placeholder="Password"
                 >
               </div>
-              <span class="error" style="text-align: center;" v-if="otherError">{{otherError}}</span>
+              <span
+                v-if="otherError"
+                class="error"
+                style="text-align: center;"
+              >{{ otherError }}</span>
               <div class="buttons">
-                <button type="submit" :class="{button: true, deactive: deactive}">Register</button>
+                <button
+                  type="submit"
+                  :class="{button: true, deactive: deactive}"
+                >
+                  Register
+                </button>
                 <button
                   class="button register-button"
                   @click.prevent="loginButton"
-                >I'm already a user!</button>
+                >
+                  I'm already a user!
+                </button>
               </div>
             </form>
-            <div class="captcha-box" v-if="showCaptcha">
+            <div
+              v-if="showCaptcha"
+              class="captcha-box"
+            >
               <div class="input captcha-input">
-                <div class="input-text">Beep Boop</div>
+                <div class="input-text">
+                  Beep Boop
+                </div>
                 <div class="captcha">
-                  <Recaptcha ref="recaptcha" @verify="captchaSubmit"/>
+                  <Recaptcha
+                    ref="recaptcha"
+                    @verify="captchaSubmit"
+                  />
                 </div>
               </div>
             </div>
@@ -66,8 +111,10 @@
       </div>
     </div>
     <div class="background">
-      <div :class="{background: true, 'night-background': true, chosen: !isDay}"><particlesJS class="particles"/></div>
-      <div class="background day-background"></div>
+      <div :class="{background: true, 'night-background': true, chosen: !isDay}">
+        <particlesJS class="particles" />
+      </div>
+      <div class="background day-background" />
     </div>
   </div>
 </template>

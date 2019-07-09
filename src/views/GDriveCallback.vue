@@ -1,7 +1,7 @@
 <template>
-    <div>
-        Redirecting...
-    </div>
+  <div>
+    Redirecting...
+  </div>
 </template>
 
 <script>

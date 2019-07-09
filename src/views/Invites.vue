@@ -1,20 +1,46 @@
 <template>
   <div id="app">
     <div class="app-content">
-      <header-login v-on:isDay="isDayEvent"/>
+      <header-login @isDay="isDayEvent" />
       <div class="content">
-        <transition appear name="fade-up">
-          <div :class="{box: true, red: server === undefined}" >
-            <spinner v-if="server === null"/>
+        <transition
+          appear
+          name="fade-up"
+        >
+          <div :class="{box: true, red: server === undefined}">
+            <spinner v-if="server === null" />
             <div v-if="server === undefined">
-              <div class="invalid">{{errorMsg}}</div>
+              <div class="invalid">
+                {{ errorMsg }}
+              </div>
             </div>
-            <div class="server" v-if="server">
-              <profile-picture class="avatar" size="100px" :url="tempImage"/>
-              <div class="server-name">{{server.name}}</div>
+            <div
+              v-if="server"
+              class="server"
+            >
+              <profile-picture
+                class="avatar"
+                size="100px"
+                :url="tempImage"
+              />
+              <div class="server-name">
+                {{ server.name }}
+              </div>
               <div class="buttons">
-                <div class="button join-button" @click="joinServerButton" v-if="loggedIn">Join {{server.name}}</div>
-                <div class="button join-button" v-else @click="loginButton">Login to join</div>
+                <div
+                  v-if="loggedIn"
+                  class="button join-button"
+                  @click="joinServerButton"
+                >
+                  Join {{ server.name }}
+                </div>
+                <div
+                  v-else
+                  class="button join-button"
+                  @click="loginButton"
+                >
+                  Login to join
+                </div>
               </div>
             </div>
           </div>
@@ -23,9 +49,9 @@
     </div>
     <div class="background">
       <div :class="{background: true, 'night-background': true, chosen: !isDay}">
-        <particlesJS class="particles"/>
+        <particlesJS class="particles" />
       </div>
-      <div class="background day-background"></div>
+      <div class="background day-background" />
     </div>
   </div>
 </template>
@@ -47,6 +73,20 @@ export default {
       loggedIn: localStorage.getItem('hauthid'),
       errorMsg: ""
     };
+  },
+  async mounted() {
+    const inviteID = this.$route.params.invite_id;
+    const { ok, error, result } = await ServerService.getInviteDetail(inviteID);
+    if (ok) {
+      this.server = result.data;
+    } else {
+      if (error.response === undefined) {
+        this.errorMsg = "Cannot connect to server. Try again later.";
+      } else {
+        this.errorMsg = "The invite code is either invalid, expired or blocked.";
+      }
+      this.server = undefined;
+    }
   },
   methods: {
     isDayEvent(data) {
@@ -83,20 +123,6 @@ export default {
     loginButton() {
       const inviteID = this.$route.params.invite_id;
       this.$router.push(`/login?to=invites&id=${inviteID}`);
-    }
-  },
-  async mounted() {
-    const inviteID = this.$route.params.invite_id;
-    const { ok, error, result } = await ServerService.getInviteDetail(inviteID);
-    if (ok) {
-      this.server = result.data;
-    } else {
-      if (error.response === undefined) {
-        this.errorMsg = "Cannot connect to server. Try again later.";
-      } else {
-        this.errorMsg = "The invite code is either invalid, expired or blocked.";
-      }
-      this.server = undefined;
     }
   }
 };
