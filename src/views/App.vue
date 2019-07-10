@@ -25,6 +25,10 @@
               <i class="material-icons">rss_feed</i>
               Server Browser
             </div>
+            <!-- <div :class="`tab ${currentTab === 4 ? 'selected' : ''}`" @click="switchTab(4)">
+              <i class="material-icons">info</i>
+              Ad
+            </div> -->
           </div>
           <div class="drag-area" v-if="isElectron"></div>
           <electron-frame-buttons v-if="isElectron"/>

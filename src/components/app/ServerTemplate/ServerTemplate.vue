@@ -43,10 +43,10 @@
         </div>
         <div
           v-if="ServerData.creator.uniqueID === user.uniqueID"
-          class="menu-button warn"
-          @click="leaveServer(ServerData.server_id)"
+          class="menu-button"
+          @click="showSettings()"
         >
-          Delete Server
+          Server Settings
         </div>
       </div>
     </div>
@@ -96,6 +96,10 @@ export default {
     });
   },
   methods: {
+    showSettings() {
+      this.showContextMenu = false;
+      this.$store.dispatch('setServerSettings', {serverID: this.ServerData.server_id})
+    },
     createInvite(serverID) {
       this.showContextMenu = false;
       this.$store.dispatch("setServerIDContextMenu", serverID);

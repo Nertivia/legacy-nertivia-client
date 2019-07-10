@@ -21,6 +21,11 @@ const state = {
   settings: false,
   GDLinkMenu: false,
   addServer: false,
+
+  serverSettings:{
+    serverID: null,
+    index: null
+   } 
 }
 
 const getters = {
@@ -30,6 +35,9 @@ const getters = {
 }
 
 const actions = {
+  setServerSettings({commit}, {serverID, index}){
+    commit('setServerSettings', {serverID, index})
+  },
   setUserInformationPopout({commit}, id){
     commit('setUserInformationPopout', id)
   },
@@ -48,6 +56,9 @@ const actions = {
 }
 
 const mutations = {
+  setServerSettings(state, {serverID, index}){
+    Vue.set(state, 'serverSettings', {serverID, index});
+  },
   setUserInformationPopout(state, id) {
     Vue.set(state, 'userInformationPopoutID', id)
   },

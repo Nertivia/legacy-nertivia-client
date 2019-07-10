@@ -10,14 +10,13 @@
     >
       <ChannelTemplate
         v-for="channel in channels"
-        :key="channel.name"
+        :key="channel.channelID"
         :channel-data="channel"
         @click.native="openChannel(channel)"
       />
     </div>
   </div>
 </template>
-
 <script>
 import Spinner from "@/components/Spinner.vue";
 import ChannelTemplate from "@/components/app/ServerTemplate/ChannelTemplate.vue";

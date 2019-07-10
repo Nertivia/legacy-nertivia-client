@@ -7,6 +7,9 @@ export default {
   getChannels(serverID) {
     return wrapper(instance().get(`/server/channels/${serverID}`));
   },
+  createChannel(serverID, name) {
+    return wrapper(instance().put(`/server/${serverID}/channel`, {name}));
+  },
   postInvite (serverID) {
     return wrapper (instance().post(`/server/${serverID}/invite`))
   },
