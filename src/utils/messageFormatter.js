@@ -84,7 +84,18 @@ futoji.addTransformer({
 	name: 'code-block',
 	symbol: '```',
 	recursive: false,
-	transformer: text => `<div class="codeblock"><code>${hljs.highlightAuto(formatCode(unescapeHTML(text)).code).value}</code></div>`
+	transformer: text => {
+		let formatted = formatCode(unescapeHTML(text))
+
+		let highlighted
+		if(formatted.lang in hljs.listLanguages()) {
+			highlighted = hljs.highlight(formatted.lang, formatted.code, true)
+		} else {
+			highlighted = hljs.highlightAuto(formatted.code)
+		}
+
+		return `<div class="codeblock"><code lang="${highlighted.language}">${highlighted.value}</code></div>`
+	}
 })
 
 futoji.addTransformer({
