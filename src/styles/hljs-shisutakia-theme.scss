@@ -1,20 +1,25 @@
 $orange: #ffa243;
+$pink: #e784a2;
+$blue: #5cbffc;
+$faded: #7d8c93;
+$gray: #bdc1c7;
+
+$red: rgb(200, 50, 100);
+$green: rgb(50, 200, 100);
 
 $primary-color: #fff;
 $attribute-color: #e86070 / 0.9;
 $variable-color: scale-color(#e4d6ff, $saturation: -90%);
-$string-color: #bdc1c7;
-$comment-color: #7d8c93;
+$string-color: $gray;
+$comment-color: $faded;
 $keyword-color: scale-color(#e784a2, $saturation: 100%); 
-$name-color: #e784a2;
+$name-color: $pink;
 $title-color: #85b5c7;
-$symbol-color: $orange;
-$number-color: #5cbffc;
+$number-color: $blue;
 $tag-color: #e8e2b7;
 $regexp-color: #6b60aa;
 
 $section-color: #99f;
-$meta-color: $orange;
 
 .hljs- {
 	&keyword {
@@ -43,10 +48,6 @@ $meta-color: $orange;
 		font-weight: bold;
 	}
 
-	&symbol {
-		color: $symbol-color;
-	}
-
 	&title {
 		color: $title-color;
 	}
@@ -71,11 +72,39 @@ $meta-color: $orange;
 		color: $section-color;
 	}
 
-	&meta {
-		color: $meta-color;
+	&quote {
+		color: $faded;
 	}
 
-	&literal, &template-variable, &tag .hljs-attr {
+	&bullet {
+		color: $gray;
+	}
+
+	&meta, &link, &symbol {
+		color: $orange;
+	}
+
+	&literal, &template-variable, &tag &attr, &addition, &deletion {
 		color: $primary-color;
+	}
+}
+
+code[lang="diff"] {
+	.hljs- {
+		&deletion {
+			background: rgba($red, 0.5) / 2;
+		}
+
+		&addition {
+			background: rgba($green, 0.5) / 2;
+		}
+	}
+}
+
+.xml {
+	.hljs- {
+		&tag {
+			color: $faded;
+		}
 	}
 }
