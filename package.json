@@ -11,6 +11,7 @@
     "axios": "^0.18.0",
     "filesize": "^4.1.2",
     "futoji": "^0.5.0",
+    "highlight.js": "^9.15.8",
     "jquery": "^3.4.0",
     "match-sorter": "^2.3.0",
     "particles.js": "^2.0.0",

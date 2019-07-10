@@ -2,6 +2,8 @@ import Formatter from 'futoji'
 import twemoji from 'twemoji'
 import emojiParser from '@/utils/emojiParser';
 import config from "@/config.js";
+import hljs from 'highlight.js'
+
 
 const futoji = new Formatter();
 const emojiFormatter = new Formatter();
@@ -22,7 +24,6 @@ function owo (text) {
 	return `<img class="emoji" draggable="false" alt=":${split[0]}:" src="${config.domain + "/files/" + url}">`
 }
 
-
 futoji.addTransformer({
 	name: 'custom emoji',
 	symbol: ':',
@@ -36,8 +37,6 @@ futoji.addTransformer({
 	}
 })
 
-
-
 futoji.addTransformer({
 	name: 'url',
 	open: 'http',
@@ -46,7 +45,6 @@ futoji.addTransformer({
 	validate: text => /(https?:\/\/[^\s]+)/g.test('http' + text),
 	transformer: text => '<a class="msg-link" target="_blank" href="http' + text + '">http' + text + '</a> '
 })
-
 
 futoji.addTransformer({
 	name: 'bold-and-italic',
@@ -86,7 +84,7 @@ futoji.addTransformer({
 	name: 'code-block',
 	symbol: '```',
 	recursive: false,
-	transformer: text => `<div class="codeblock"><code>${formatCode(text).trim()}</code></div>`,
+	transformer: (text) => `<div class="codeblock"><code>${hljs.highlightAuto(formatCode(text).code).value}</code></div>`
 })
 
 futoji.addTransformer({
@@ -105,11 +103,8 @@ export default (message) => {
 	return message;
 }
 
-
-
-
 /**
- * format code to add syntax highlighting
+ * format code to get language and code
  */
 function formatCode(text) {
 	// matches if word until newline
@@ -120,14 +115,19 @@ function formatCode(text) {
 		let language = nameRegex.exec(text)[1]
 		let newText = text.replace(nameRegex, '')
 
-		// TODO: format newText with language
-
-		return newText
+		return {
+			lang: language,
+			code: newText
+		}
 	}
 
-	return text
+	return {
+		lang: '',
+		code: text
+	}
 }
 
+// todo: replace with well tested / faster method
 function escapeHtml(unsafe) {
 	return unsafe
 		.replace(/&/g, "&amp;")
