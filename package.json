@@ -19,6 +19,7 @@
     "socket.io-client": "^2.2.0",
     "twemoji": "^11.3.0",
     "uws": "^10.148.1",
+    "validator": "^11.1.0",
     "vue": "^2.5.17",
     "vue-headful": "^2.0.1",
     "vue-mq": "^1.0.1",

@@ -3,7 +3,7 @@ import twemoji from 'twemoji'
 import emojiParser from '@/utils/emojiParser';
 import config from "@/config.js";
 import hljs from 'highlight.js'
-
+import { escape as escapeHTML, unescape as unescapeHTML } from 'validator'
 
 const futoji = new Formatter();
 const emojiFormatter = new Formatter();
@@ -84,7 +84,7 @@ futoji.addTransformer({
 	name: 'code-block',
 	symbol: '```',
 	recursive: false,
-	transformer: (text) => `<div class="codeblock"><code>${hljs.highlightAuto(formatCode(text).code).value}</code></div>`
+	transformer: text => `<div class="codeblock"><code>${hljs.highlightAuto(formatCode(unescapeHTML(text)).code).value}</code></div>`
 })
 
 futoji.addTransformer({
