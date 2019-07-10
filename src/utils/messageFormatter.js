@@ -89,7 +89,7 @@ futoji.addTransformer({
 
 		let highlighted
 		if(formatted.lang.length === 0) {
-			return `<div class="codeblock"><code>${escapeHTML(formatted.code)}</code></div>`
+			return `<div class="codeblock"><code>${formatted.code}</code></div>`
 		} else if(hljs.listLanguages().includes(formatted.lang)) {
 			highlighted = hljs.highlight(formatted.lang, formatted.code, true)
 		} else {
