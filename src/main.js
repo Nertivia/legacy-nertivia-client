@@ -1,3 +1,5 @@
+import './styles/hljs-shisutakia-theme.scss'
+
 import Vue from 'vue'
 import {router} from './router'
 import Main from '../src/Main.vue'
