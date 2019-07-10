@@ -1,0 +1,63 @@
+$primary-color: #e0e2e4;
+$attribute-color: #d64c5c;
+$variable-color: $primary-color;
+$string-color: #4cd656;
+$comment-color: #7d8c93;
+$keyword-color: #e784a2;
+$name-color: #e784a2;
+$title-color: #85b5c7;
+$symbol-color: #fff;
+$number-color: #2dd5d5;
+$tag-color: #e8e2b7;
+$regexp-color: #6b60aa;
+
+.hljs- {
+	&keyword {
+		color: $keyword-color;
+	}
+
+	&attribute {
+		color: $attribute-color;
+	}
+
+	&string {
+		color: $string-color;
+	}
+
+	&comment {
+		color: $comment-color;
+	}
+
+	&tag {
+		color: $tag-color;
+	}
+
+	&name, &built_in {
+		color: $name-color;
+		font-weight: bold;
+	}
+
+	&symbol {
+		color: $symbol-color;
+	}
+
+	&title {
+		color: $title-color;
+	}
+
+	&number {
+		color: $number-color;
+	}
+
+	&regexp {
+		color: $regexp-color;
+	}
+
+	&type, &class, &title {
+		color: $title-color;
+	}
+
+	&literal, &variable, &template-variable, &tag .hljs-attr {
+		color: $variable-color;
+	}
+}
