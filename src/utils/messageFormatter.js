@@ -88,7 +88,9 @@ futoji.addTransformer({
 		let formatted = formatCode(unescapeHTML(text))
 
 		let highlighted
-		if(formatted.lang in hljs.listLanguages()) {
+		if(formatted.lang.length === 0) {
+			return `<div class="codeblock"><code>${escapeHTML(formatted.code)}</code></div>`
+		} else if(hljs.listLanguages().includes(formatted.lang)) {
 			highlighted = hljs.highlight(formatted.lang, formatted.code, true)
 		} else {
 			highlighted = hljs.highlightAuto(formatted.code)
@@ -134,7 +136,7 @@ function formatCode(text) {
 
 	return {
 		lang: '',
-		code: text
+		code: text.replace(/^\n/, '')
 	}
 }
 
