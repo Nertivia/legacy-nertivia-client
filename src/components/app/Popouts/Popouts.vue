@@ -10,6 +10,7 @@
       <take-survey-popout key="tsp" v-if="popouts.surveyPopout"/>
       <add-server key="as" v-if="popouts.addServer"/>
       <server-invite key="sip" v-if="popouts.showServerInviteMenu" />
+      <server-settings key="ss" v-if="popouts.serverSettings.serverID"/>
     </transition-group>
   </div>
 </template>
@@ -26,6 +27,7 @@
   const imageLargePreview = () => import('./Popouts/imageLargePreview.vue');
   const DragDropFileUploadDialog = () => import('./Popouts/DragDropFileUploadDialog.vue');
   const ServerInvitePopout = () => import('./Popouts/ServerInvitePopout.vue');
+  const ServerSettings = () => import('./Popouts/ServerSettingsPanels/ServerSettings.vue');
 
 
 
@@ -39,7 +41,8 @@ export default {
     imageLargePreview,
     TakeSurveyPopout,
     AddServer,
-    ServerInvite: ServerInvitePopout
+    ServerInvite: ServerInvitePopout,
+    ServerSettings
   },
   data() {
     return {

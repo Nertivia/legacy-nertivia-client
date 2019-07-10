@@ -490,6 +490,7 @@ export default {
     userStatusColor() {
       const selectedChannel = this.$store.getters.selectedChannelID;
       const channel = this.$store.getters.channels[selectedChannel];
+      const presences = this.$store.getters['members/presences'];
 
       let status = 0;
       if (!channel || !channel.recipients || !channel.recipients.length) {
@@ -497,9 +498,7 @@ export default {
       } else if (
         this.$store.getters.user.friends[channel.recipients[0].uniqueID]
       ) {
-        status =
-          this.$store.getters.user.friends[channel.recipients[0].uniqueID]
-            .recipient.status || 0;
+        status = presences[channel.recipients[0].uniqueID] || 0;
       }
       return statuses[status].color;
     }

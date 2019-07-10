@@ -2,7 +2,7 @@
   <div class="channels-list">
     <spinner v-if="channels === undefined" size="40"/>
     <div class="wrapper" v-if="channels">
-      <ChannelTemplate v-for="channel in channels" :key="channel.name" :channel-data="channel" @click.native="openChannel(channel)"/>
+      <ChannelTemplate v-for="channel in channels" :key="channel.channelID" :channel-data="channel" @click.native="openChannel(channel)"/>
     </div>
   </div>
 </template>

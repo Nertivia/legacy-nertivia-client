@@ -17,13 +17,14 @@ const config = [
     version: 4.8,
     title: "Server Members Status and new Logo!",
     shortTitle: "",
-    date: "1/06/2019",
+    date: "08/07/2019",
     headColor: "rgba(0, 156, 170, 0.77)",
     new: [
       "Nertivia has a new cat logo! (Thanks to Fullipsp for the design!)",
       "You can now see online status of server members!",
       "You can now click on links that start with 'http'",
     ],
+    fix: ['Fixed a bug where when creating a server, a reload is required to show yourself in the server members list.'],
     next: ["Create multiple channels in a server."],
     msg: `You might be wondering, where did the official Nertivia server go? Well, I accidentally deleted it :/ sorry. Here's the new one though! <a style="color: #00b6ff;" href="http://nertivia.supertiger.tk/invites/Db3p5n">http://nertivia.supertiger.tk/invites/Db3p5n</a>`
   },

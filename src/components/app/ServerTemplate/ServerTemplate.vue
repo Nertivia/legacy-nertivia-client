@@ -22,10 +22,15 @@
           v-if="ServerData.creator.uniqueID !== user.uniqueID"
         >Leave Server</div>
         <div
+          class="menu-button"
+          @click="showSettings()"
+          v-if="ServerData.creator.uniqueID === user.uniqueID"
+        >Server Settings</div>
+        <!-- <div
           class="menu-button warn"
           @click="leaveServer(ServerData.server_id)"
           v-if="ServerData.creator.uniqueID === user.uniqueID"
-        >Delete Server</div>
+        >Delete Server</div> -->
       </div>
     </div>
     <div ref="container">
@@ -53,6 +58,10 @@ export default {
     };
   },
   methods: {
+    showSettings() {
+      this.showContextMenu = false;
+      this.$store.dispatch('setServerSettings', {serverID: this.ServerData.server_id})
+    },
     createInvite(serverID) {
       this.showContextMenu = false;
       this.$store.dispatch("setServerIDContextMenu", serverID);
