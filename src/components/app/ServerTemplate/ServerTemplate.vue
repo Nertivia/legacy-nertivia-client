@@ -13,7 +13,7 @@
         <i class="material-icons">add</i>
       </div>
       <div class="server-name">
-        {{ mode === 'ADD_SERVER'? 'Create / Join Server' : ServerData.name }}
+        {{ mode === 'ADD_SERVER'? 'Create / Join Server' : serverData.name }}
       </div>
       <div
         v-if="mode !== 'ADD_SERVER'"
@@ -30,19 +30,19 @@
       >
         <div
           class="menu-button"
-          @click="createInvite(ServerData.server_id)"
+          @click="createInvite(serverData.server_id)"
         >
           Manage Invites
         </div>
         <div
-          v-if="ServerData.creator.uniqueID !== user.uniqueID"
+          v-if="serverData.creator.uniqueID !== user.uniqueID"
           class="menu-button warn"
-          @click="leaveServer(ServerData.server_id)"
+          @click="leaveServer(serverData.server_id)"
         >
           Leave Server
         </div>
         <div
-          v-if="ServerData.creator.uniqueID === user.uniqueID"
+          v-if="serverData.creator.uniqueID === user.uniqueID"
           class="menu-button"
           @click="showSettings()"
         >
@@ -53,7 +53,7 @@
     <div ref="container">
       <channels-list
         v-if="openChannel"
-        :server-i-d="ServerData.server_id"
+        :server-i-d="serverData.server_id"
       />
     </div>
   </div>
@@ -85,7 +85,7 @@ export default {
       const notifications = this.$store.getters.notifications;
       const channels = this.$store.getters.channels
       const notification = notifications.find(e => {
-        return channels[e.channelID] && channels[e.channelID].server_id && this.ServerData && channels[e.channelID].server_id === this.ServerData.server_id 
+        return channels[e.channelID] && channels[e.channelID].server_id && this.serverData && channels[e.channelID].server_id === this.serverData.server_id 
       })
       return notification;
     }
@@ -98,7 +98,7 @@ export default {
   methods: {
     showSettings() {
       this.showContextMenu = false;
-      this.$store.dispatch('setServerSettings', {serverID: this.ServerData.server_id})
+      this.$store.dispatch('setServerSettings', {serverID: this.serverData.server_id})
     },
     createInvite(serverID) {
       this.showContextMenu = false;

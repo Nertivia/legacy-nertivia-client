@@ -2,7 +2,7 @@
   <div :class="{channel: true, notifyAnimation: hasNotifications}">
     <i class="material-icons">storage</i>
     <div class="channel-name">
-      {{ ChannelData.name }}
+      {{ channelData.name }}
     </div>
   </div>
 </template>
@@ -13,7 +13,7 @@ export default {
   computed: {
     hasNotifications() {
       const notifications = this.$store.getters.notifications;
-      const find = notifications.find(n => n.channelID === this.ChannelData.channelID)
+      const find = notifications.find(n => n.channelID === this.channelData.channelID)
       return find
     }
   }
