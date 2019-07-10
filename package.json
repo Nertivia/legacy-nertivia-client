@@ -11,6 +11,7 @@
     "axios": "^0.18.0",
     "filesize": "^4.1.2",
     "futoji": "^0.5.0",
+    "highlight.js": "^9.15.8",
     "jquery": "^3.4.0",
     "match-sorter": "^2.3.0",
     "particles.js": "^2.0.0",
@@ -18,6 +19,7 @@
     "socket.io-client": "^2.2.0",
     "twemoji": "^11.3.0",
     "uws": "^10.148.1",
+    "validator": "^11.1.0",
     "vue": "^2.5.17",
     "vue-headful": "^2.0.1",
     "vue-mq": "^1.0.1",
@@ -38,6 +40,8 @@
     "@vue/eslint-plugin": "^4.2.0",
     "babel-eslint": "^10.0.2",
     "eslint-plugin-vue": "^5.0.0-0",
+    "node-sass": "^4.12.0",
+    "sass-loader": "^7.1.0",
     "vue-template-compiler": "^2.5.17"
   },
   "postcss": {

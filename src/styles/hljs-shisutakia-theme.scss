@@ -1,0 +1,110 @@
+$orange: #ffa243;
+$pink: #e784a2;
+$blue: #5cbffc;
+$faded: #7d8c93;
+$gray: #bdc1c7;
+
+$red: rgb(200, 50, 100);
+$green: rgb(50, 200, 100);
+
+$primary-color: #fff;
+$attribute-color: #e86070 / 0.9;
+$variable-color: scale-color(#e4d6ff, $saturation: -90%);
+$string-color: $gray;
+$comment-color: $faded;
+$keyword-color: scale-color(#e784a2, $saturation: 100%); 
+$name-color: $pink;
+$title-color: #85b5c7;
+$number-color: $blue;
+$tag-color: #e8e2b7;
+$regexp-color: #6b60aa;
+
+$section-color: #99f;
+
+.hljs- {
+	&keyword {
+		color: $keyword-color;
+		font-style: italic;
+	}
+
+	&attribute {
+		color: $attribute-color;
+	}
+
+	&string {
+		color: $string-color;
+	}
+
+	&comment {
+		color: $comment-color;
+	}
+
+	&tag {
+		color: $tag-color;
+	}
+
+	&name, &built_in {
+		color: $name-color;
+		font-weight: bold;
+	}
+
+	&title {
+		color: $title-color;
+	}
+
+	&number {
+		color: $number-color;
+	}
+
+	&regexp {
+		color: $regexp-color;
+	}
+
+	&type, &class, &title {
+		color: $title-color;
+	}
+
+	&variable {
+		color: $variable-color;
+	}
+
+	&section {
+		color: $section-color;
+	}
+
+	&quote {
+		color: $faded;
+	}
+
+	&bullet {
+		color: $gray;
+	}
+
+	&meta, &link, &symbol {
+		color: $orange;
+	}
+
+	&literal, &template-variable, &tag &attr, &addition, &deletion {
+		color: $primary-color;
+	}
+}
+
+code[lang="diff"] {
+	.hljs- {
+		&deletion {
+			background: rgba($red, 0.5) / 2;
+		}
+
+		&addition {
+			background: rgba($green, 0.5) / 2;
+		}
+	}
+}
+
+.xml {
+	.hljs- {
+		&tag {
+			color: $faded;
+		}
+	}
+}
