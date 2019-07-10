@@ -2,7 +2,9 @@
   <div class="drop-background">
     <div class="box">
       <i class="material-icons">insert_drive_file</i>
-			<div class="info">Drop file</div>
+      <div class="info">
+        Drop file
+      </div>
     </div>
   </div>
 </template>

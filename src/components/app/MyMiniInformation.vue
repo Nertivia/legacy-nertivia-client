@@ -1,30 +1,56 @@
 <template>
-  <div class="my-mini-information" :style="{backgroundColor: getStatusColor}">
+  <div
+    class="my-mini-information"
+    :style="{backgroundColor: getStatusColor}"
+  >
     <div class="profile-pic-outer">
-      <profile-picture :url="avatar" :admin="user.admin" size="50px" :hover="true" @click.native="openUserInformation"/>
+      <profile-picture
+        :url="avatar"
+        :admin="user.admin"
+        size="50px"
+        :hover="true"
+        @click.native="openUserInformation"
+      />
     </div>
     <div class="information">
-      <div class="name">{{user.username}}</div>
-      <div class="tag">@{{user.tag}}</div>
+      <div class="name">
+        {{ user.username }}
+      </div>
+      <div class="tag">
+        @{{ user.tag }}
+      </div>
 
-      <div class="status" v-on:click="status.isPoppedOut = !status.isPoppedOut">
-        <img class="current-status" :src="getStatus">
+      <div
+        class="status"
+        @click="status.isPoppedOut = !status.isPoppedOut"
+      >
+        <img
+          class="current-status"
+          :src="getStatus"
+        >
         <i class="material-icons expand-status-icon">expand_more</i>
         <transition name="show-status-list">
-          <statusList v-if="status.isPoppedOut" v-click-outside="closeMenus" class="status-popout"/>
+          <statusList
+            v-if="status.isPoppedOut"
+            v-click-outside="closeMenus"
+            class="status-popout"
+          />
         </transition>
       </div>
     </div>
     <div
-      class="setting-icon survay-button"
       v-if="!user.survey_completed || user.survey_completed === false"
+      class="setting-icon survay-button"
       @click="openSurvey"
     >
       <div class="survay-inner">
         <i class="material-icons">error</i>
       </div>
     </div>
-    <div class="setting-icon" @click="openSettings">
+    <div
+      class="setting-icon"
+      @click="openSettings"
+    >
       <i class="material-icons">settings</i>
     </div>
   </div>
@@ -49,6 +75,29 @@ export default {
         isPoppedOut: false
       }
     };
+  },
+  computed: {
+    user() {
+      return this.$store.getters.user;
+    },
+    avatar() {
+      return config.domain + "/avatars/" + this.$store.getters.user.avatar;
+    },
+    getStatus() {
+      return require(`./../../assets/status/${this.$store.getters.user.status ||
+        0}.svg`);
+    },
+    getStatusColor() {
+      const status = this.$store.getters.user.status || 0
+      return statuses[parseInt(status)].bgColor
+    }
+  },
+  created() {
+    //When user changes their own status (statusList.vue)
+    bus.$on("status-change", this.changeStatus);
+  },
+  beforeDestroy() {
+    bus.$off("status-change", this.changeStatus);
   },
   methods: {
     openUserInformation() {
@@ -76,29 +125,6 @@ export default {
         name: "settings",
         visibility: true
       });
-    }
-  },
-  created() {
-    //When user changes their own status (statusList.vue)
-    bus.$on("status-change", this.changeStatus);
-  },
-  beforeDestroy() {
-    bus.$off("status-change", this.changeStatus);
-  },
-  computed: {
-    user() {
-      return this.$store.getters.user;
-    },
-    avatar() {
-      return config.domain + "/avatars/" + this.$store.getters.user.avatar;
-    },
-    getStatus() {
-      return require(`./../../assets/status/${this.$store.getters.user.status ||
-        0}.svg`);
-    },
-    getStatusColor() {
-      const status = this.$store.getters.user.status || 0
-      return statuses[parseInt(status)].bgColor
     }
   }
 };

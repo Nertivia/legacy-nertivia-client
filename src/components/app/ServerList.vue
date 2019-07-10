@@ -1,9 +1,18 @@
 <template>
   <div class="left-panel">
-    <MyMiniInformation/>
+    <MyMiniInformation />
     <div class="list">
-      <server v-for="(data, index) in servers" :key="index.server_id" :server-data="data" @click.native="toggleChannel(data.server_id, $event)" :open-channel="openedServer !== null && openedServer === data.server_id"/>
-      <server mode="ADD_SERVER" @click.native="openAddServer"/>
+      <server
+        v-for="(data, index) in servers"
+        :key="index.server_id"
+        :server-data="data"
+        :open-channel="openedServer !== null && openedServer === data.server_id"
+        @click.native="toggleChannel(data.server_id, $event)"
+      />
+      <server
+        mode="ADD_SERVER"
+        @click.native="openAddServer"
+      />
     </div>
   </div>
 </template>
@@ -22,6 +31,14 @@ export default {
       openedServer: null
     };
   },
+  computed: {
+    servers() {
+      const data = this.$store.getters['servers/servers'];
+      return Object.keys(data).map(key => {
+        return data[key];
+      }).slice().reverse()
+    }
+  },
   methods: {
     openAddServer() {
       this.$store.dispatch("setPopoutVisibility", {
@@ -39,14 +56,6 @@ export default {
         this.openedServer = serverID;
         this.$store.dispatch('servers/setSelectedServerID', serverID)
       }
-    }
-  },
-  computed: {
-    servers() {
-      const data = this.$store.getters['servers/servers'];
-      return Object.keys(data).map(key => {
-        return data[key];
-      }).slice().reverse()
     }
   }
 };

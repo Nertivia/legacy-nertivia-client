@@ -1,11 +1,25 @@
 <template>
-  <div class="friends" >
-    <div class="tab" @click="expanded = !expanded">
-      <Tab :expanded="expanded" tabname="Online" />
+  <div class="friends">
+    <div
+      class="tab"
+      @click="expanded = !expanded"
+    >
+      <Tab
+        :expanded="expanded"
+        tabname="Online"
+      />
     </div>
     <transition name="list">
-      <div class="list" v-if="expanded">
-        <FriendsTemplate v-for="(friend, key) of friends" :key="key" :channelID="friend.channelID" :recipient="friends[key].recipient"/>
+      <div
+        v-if="expanded"
+        class="list"
+      >
+        <FriendsTemplate
+          v-for="(friend, key) of friends"
+          :key="key"
+          :channel-i-d="friend.channelID"
+          :recipient="friends[key].recipient"
+        />
       </div>
     </transition>
   </div>
@@ -23,9 +37,6 @@ export default {
     return {
       expanded: true
     } 
-  },
-  methods: {
-
   },
   computed: {
     friends() {
@@ -51,6 +62,9 @@ export default {
       });
       return result.filter(friend => friend.status == 2 && (presences[friend.uniqueID] && presences[friend.uniqueID] > 0 ));
     }
+  },
+  methods: {
+
   }
 }
 </script>

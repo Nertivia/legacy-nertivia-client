@@ -1,48 +1,113 @@
 <template>
   <div id="app">
-    <vue-headful title="Nertivia" description="Nertivia Chat Client"/>
-    <div class="background-image" ref="backgroundImage"></div>
-    <spinner v-if="!showPage"/>
-    <div class="content" v-if="showPage">
-      <transition name="fall-down" appear>
+    <vue-headful
+      title="Nertivia"
+      description="Nertivia Chat Client"
+    />
+    <div
+      ref="backgroundImage"
+      class="background-image"
+    />
+    <spinner v-if="!showPage" />
+    <div
+      v-if="showPage"
+      class="content"
+    >
+      <transition
+        name="fall-down"
+        appear
+      >
         <div class="header">
-          <div class="logo"></div>
-          <div class="name">Nertivia</div>
+          <div class="logo" />
+          <div class="name">
+            Nertivia
+          </div>
           <div class="links">
-            <div class="link" @click="signupPage" v-if="!loggedIn">Sign up</div>
-            <div class="link" @click="loginPage" v-if="!loggedIn">Login</div>
-            <spinner class="spinner-profile" :size="50" v-if="loggedIn && !user" />
-            <profile-picture class="avatar" v-if="loggedIn && user" @click.native="showPopout = !showPopout" :hover='true' :url="avatarDomain + user.avatar" :admin="user.admin" size="40px" emoteSize="17px"/>
+            <div
+              v-if="!loggedIn"
+              class="link"
+              @click="signupPage"
+            >
+              Sign up
+            </div>
+            <div
+              v-if="!loggedIn"
+              class="link"
+              @click="loginPage"
+            >
+              Login
+            </div>
+            <spinner
+              v-if="loggedIn && !user"
+              class="spinner-profile"
+              :size="50"
+            />
+            <profile-picture
+              v-if="loggedIn && user"
+              class="avatar"
+              :hover="true"
+              :url="avatarDomain + user.avatar"
+              :admin="user.admin"
+              size="40px"
+              emote-size="17px"
+              @click.native="showPopout = !showPopout"
+            />
             <transition name="fall-down-fast">
-              <Popout v-if="user && loggedIn && showPopout" @logout="logOut" :user="user" v-click-outside="closePopout"/>
+              <Popout
+                v-if="user && loggedIn && showPopout"
+                v-click-outside="closePopout"
+                :user="user"
+                @logout="logOut"
+              />
             </transition>
           </div>
         </div>
       </transition>
-      <transition name="side-in" appear>
+      <transition
+        name="side-in"
+        appear
+      >
         <div class="inner-content">
           <div
             class="title"
-          >The best chat client that won't restrict you from important and fun features.</div>
-          <img class="graphic" src="@/assets/graphics/HomeGraphics2.png">
+          >
+            The best chat client that won't restrict you from important and fun features.
+          </div>
+          <img
+            class="graphic"
+            src="@/assets/graphics/HomeGraphics2.png"
+          >
           <div class="buttons">
-            <div class="button" @click="openApp">Open In Browser</div>
+            <div
+              class="button"
+              @click="openApp"
+            >
+              Open In Browser
+            </div>
             <!-- <div class="button" >Download App</div> -->
           </div>
           <div class="features-list">
-            <div class="title">Things you can do in Nertivia</div>
+            <div class="title">
+              Things you can do in Nertivia
+            </div>
             <div class="list">
               <div class="feature">
                 <i class="material-icons">insert_drive_file</i>
-                <div class="description">1GB per file limit, upload huge files!</div>
+                <div class="description">
+                  1GB per file limit, upload huge files!
+                </div>
               </div>
               <div class="feature">
                 <i class="material-icons">face</i>
-                <div class="description">Free custom gif emojis and profile picture.</div>
+                <div class="description">
+                  Free custom gif emojis and profile picture.
+                </div>
               </div>
               <div class="feature">
                 <i class="material-icons">storage</i>
-                <div class="description">Make your own servers with channels.</div>
+                <div class="description">
+                  Make your own servers with channels.
+                </div>
               </div>
             </div>
           </div>
@@ -69,6 +134,11 @@ export default {
       user: null,
       avatarDomain: config.domain + '/avatars/'
     };
+  },
+  async mounted() {
+    if (this.loggedIn) this.getUser();
+    this.preloadImages();
+
   },
   methods: {
     closePopout(event) {
@@ -135,11 +205,6 @@ export default {
         this.user = result.data.user;
       }
     }
-  },
-  async mounted() {
-    if (this.loggedIn) this.getUser();
-    this.preloadImages();
-
   }
 };
 </script>

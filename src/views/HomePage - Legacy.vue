@@ -1,46 +1,77 @@
 <template>
-<div id="app">
-  <vue-headful title="Nertivia" description="Nertivia Chat Client"/>
-  <div class="background-image"></div>
-  <div class="layout">
-    <div class="small-view-nav-bar">
-      <div class="small-logo"></div>
-      <div class="small-title">Nertivia</div>
-      <div class="show-menu-button" @click="showMobileMenu = !showMobileMenu">
+  <div id="app">
+    <vue-headful
+      title="Nertivia"
+      description="Nertivia Chat Client"
+    />
+    <div class="background-image" />
+    <div class="layout">
+      <div class="small-view-nav-bar">
+        <div class="small-logo" />
+        <div class="small-title">
+          Nertivia
+        </div>
+        <div
+          class="show-menu-button"
+          @click="showMobileMenu = !showMobileMenu"
+        >
           <i class="material-icons">
-              menu
+            menu
           </i>
+        </div>
       </div>
-    </div>
-    <div class="panels">
+      <div class="panels">
         <div class="left-panel">
-
-          <div class="title">The best chat client that wont restrict you from important and fun features.</div>
-          <img src="../assets/graphics/HomeGraphics.png" class="graphic-app" />
-          <div class="change-log-mini" @click="showChangeLog = true">
-            <div class="change-title">Change log <span style="font-size: 15px; color: rgba(211, 211, 211, 0.774);">Click for details</span></div>
+          <div class="title">
+            The best chat client that wont restrict you from important and fun features.
+          </div>
+          <img
+            src="../assets/graphics/HomeGraphics.png"
+            class="graphic-app"
+          >
+          <div
+            class="change-log-mini"
+            @click="showChangeLog = true"
+          >
+            <div class="change-title">
+              Change log <span style="font-size: 15px; color: rgba(211, 211, 211, 0.774);">Click for details</span>
+            </div>
             <div class="change-list">
-              <div class="change" v-for="change in changelogFiltered" :key="change.title">
-                <div class="notable-changes">{{change.shortTitle}}</div>
-                <div class="change-date">{{change.date}}</div>
+              <div
+                v-for="change in changelogFiltered"
+                :key="change.title"
+                class="change"
+              >
+                <div class="notable-changes">
+                  {{ change.shortTitle }}
+                </div>
+                <div class="change-date">
+                  {{ change.date }}
+                </div>
               </div>
             </div>
           </div>
           <div class="twitter-outer">
             <twitter class="twitter">
-              <div slot="loading">loading .....</div>
-              <a class="twitter-timeline" data-height="500" data-theme="dark" href="https://twitter.com/NertiviaApp?ref_src=twsrc%5Etfw">Tweets by NertiviaApp</a>
+              <div slot="loading">
+                loading .....
+              </div>
+              <a
+                class="twitter-timeline"
+                data-height="500"
+                data-theme="dark"
+                href="https://twitter.com/NertiviaApp?ref_src=twsrc%5Etfw"
+              >Tweets by NertiviaApp</a>
             </twitter>
           </div>
-
         </div>
-        <RightPanel  :class="{'show-menu-content': showMobileMenu }" />
+        <RightPanel :class="{'show-menu-content': showMobileMenu }" />
+      </div>
     </div>
+    <transition name="fade">
+      <ChangeLog v-if="showChangeLog" />
+    </transition>
   </div>
-  <transition name="fade">
-    <ChangeLog v-if="showChangeLog"/>
-  </transition>
-</div>
 </template>
 
 <script>
@@ -63,15 +94,15 @@ export default {
       changelog
     }
   },
-  mounted() {
-    bus.$on('closeChangeLog', () => {
-      this.showChangeLog = false;
-    })
-  },
   computed: {
     changelogFiltered() {
       return this.changelog.slice(0, 3)
     }
+  },
+  mounted() {
+    bus.$on('closeChangeLog', () => {
+      this.showChangeLog = false;
+    })
   }
 
 }

@@ -1,12 +1,22 @@
 <template>
   <div class="channels-list">
-    <spinner v-if="channels === undefined" size="40"/>
-    <div class="wrapper" v-if="channels">
-      <ChannelTemplate v-for="channel in channels" :key="channel.channelID" :channel-data="channel" @click.native="openChannel(channel)"/>
+    <spinner
+      v-if="channels === undefined"
+      size="40"
+    />
+    <div
+      v-if="channels"
+      class="wrapper"
+    >
+      <ChannelTemplate
+        v-for="channel in channels"
+        :key="channel.channelID"
+        :channel-data="channel"
+        @click.native="openChannel(channel)"
+      />
     </div>
   </div>
 </template>
-
 <script>
 import Spinner from "@/components/Spinner.vue";
 import ChannelTemplate from "@/components/app/ServerTemplate/ChannelTemplate.vue";
@@ -16,16 +26,18 @@ import {bus} from '@/main.js'
 export default {
   components: { ChannelTemplate, Spinner },
   props: ["serverID"],
-  methods: {
-    openChannel(channel) {
-      const notificationExists = this.$store.getters.notifications.find(n => n.channelID === channel.channelID)
-
-      if (notificationExists && document.hasFocus()) {
-        this.$socket.emit('notification:dismiss', {channelID: channel.channelID});
+  computed: {
+    channels() {
+      const channelsIds = this.$store.getters["servers/channelsIDs"][this.serverID];
+      if (channelsIds) {
+        let channels = [];
+        for ( let channelID of channelsIds ){
+          channels.push(this.$store.getters.channels[channelID])
+        }
+        return channels;
+      } else {
+        return false;
       }
-      
-      bus.$emit('closeLeftMenu');
-      this.$store.dispatch('openChannel', channel)
     }
   },
 
@@ -51,16 +63,16 @@ export default {
       });
     }
   },
-  computed: {
-    channels() {
-      const channelsIds = this.$store.getters["servers/channelsIDs"][this.serverID];
-      if (channelsIds) {
-        let channels = [];
-        for ( let channelID of channelsIds ){
-          channels.push(this.$store.getters.channels[channelID])
-        }
-        return channels;
+  methods: {
+    openChannel(channel) {
+      const notificationExists = this.$store.getters.notifications.find(n => n.channelID === channel.channelID)
+
+      if (notificationExists && document.hasFocus()) {
+        this.$socket.emit('notification:dismiss', {channelID: channel.channelID});
       }
+      
+      bus.$emit('closeLeftMenu');
+      this.$store.dispatch('openChannel', channel)
     }
   }
 };

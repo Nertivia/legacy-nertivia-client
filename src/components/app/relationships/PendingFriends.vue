@@ -1,11 +1,27 @@
 <template>
-  <div class="pending-friends" >
-    <div class="tab" @click="expanded = !expanded">
-      <Tab :expanded="expanded" tabname="Pending requests" />
+  <div class="pending-friends">
+    <div
+      class="tab"
+      @click="expanded = !expanded"
+    >
+      <Tab
+        :expanded="expanded"
+        tabname="Pending requests"
+      />
     </div>
     <transition name="list">
-      <div class="list" v-if="expanded">
-        <PendingTemplate v-for="(friend, key) of friends"  :key="key" :uniqueID="friend.recipient.uniqueID" :status="friend.status" :username="friend.recipient.username" :tag="friend.recipient.tag"/>
+      <div
+        v-if="expanded"
+        class="list"
+      >
+        <PendingTemplate
+          v-for="(friend, key) of friends"
+          :key="key"
+          :unique-i-d="friend.recipient.uniqueID"
+          :status="friend.status"
+          :username="friend.recipient.username"
+          :tag="friend.recipient.tag"
+        />
       </div>
     </transition>
   </div>

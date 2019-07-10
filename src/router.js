@@ -4,7 +4,7 @@ Vue.use(VueRouter);
 import { store } from "./store/index";
 import VueSocketio from "vue-socket.io-extended";
 import io from "socket.io-client";
-import config from "./config";
+import config from "./config.js";
 import VueMq from "vue-mq";
 
 // import MainApp from '../src/views/App.vue'
@@ -58,6 +58,7 @@ export const router = new VueRouter({
         if (!localStorage.getItem("hauthid")) {
           return router.push({ path: "/login" });
         }
+
         Vue.use(
           VueSocketio,
           io(config.socketIP, {

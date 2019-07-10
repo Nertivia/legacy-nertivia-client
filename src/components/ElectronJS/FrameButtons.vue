@@ -1,12 +1,21 @@
 <template>
   <div class="frame-buttons">
-    <div class="minimize" @click="minimizeWindow()">
+    <div
+      class="minimize"
+      @click="minimizeWindow()"
+    >
       <i class="material-icons">minimize</i>
     </div>
-    <div class="res-max" @click="maximizeWindow()">
+    <div
+      class="res-max"
+      @click="maximizeWindow()"
+    >
       <i class="material-icons">check_box_outline_blank</i>
     </div>
-    <div class="close" @click="closeWindow()">
+    <div
+      class="close"
+      @click="closeWindow()"
+    >
       <i class="material-icons">close</i>
     </div>
   </div>

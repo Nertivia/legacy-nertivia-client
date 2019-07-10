@@ -1,57 +1,90 @@
 <template>
-  <div class="survey" v-show="previousLoaded">
+  <div
+    v-show="previousLoaded"
+    class="survey"
+  >
     <div class="title">
       <i class="material-icons">error</i>
       Take Survey
     </div>
-    <div class="notice">Note: Everyone will be able to see your survey in your profile.</div>
+    <div class="notice">
+      Note: Everyone will be able to see your survey in your profile.
+    </div>
     <div class="survey-inner">
       <!-- name -->
       <div class="survey-box">
-        <div class="survey-title">What's your name?</div>
-        <input class="survey-input" v-model="selected.name" type="text" placeholder="Name">
+        <div class="survey-title">
+          What's your name?
+        </div>
+        <input
+          v-model="selected.name"
+          class="survey-input"
+          type="text"
+          placeholder="Name"
+        >
       </div>
       <!-- Gender -->
       <div class="survey-box">
         <drop-down
-          name="What is your gender?"
           v-model="selected.gender"
+          name="What is your gender?"
           :items="surveyItems.gender"
         />
       </div>
       <!-- Age -->
       <div class="survey-box">
-        <drop-down name="What is your age?" v-model="selected.age" :items="surveyItems.age"/>
+        <drop-down
+          v-model="selected.age"
+          name="What is your age?"
+          :items="surveyItems.age"
+        />
       </div>
       <!-- Continent -->
       <div class="survey-box">
         <drop-down
-          name="Pick a continent"
           v-model="selected.continent"
+          name="Pick a continent"
           :items="surveyItems.continents"
         />
       </div>
       <!-- Countries -->
       <div class="survey-box">
         <drop-down
-          name="Pick a country"
           v-if="selected.continent != null"
           v-model="selected.country"
+          name="Pick a country"
           :items="filterCountry"
         />
       </div>
       <!-- About me -->
       <div class="survey-box">
-        <div class="survey-title">About me (Formatting allowed)</div>
+        <div class="survey-title">
+          About me (Formatting allowed)
+        </div>
         <textarea
-          class="survey-input textarea"
           v-model="selected.about_me"
+          class="survey-input textarea"
           placeholder="Hobbies, games, animals"
-        ></textarea>
+        />
       </div>
-      <div class="survey-warning" v-if="surveyErrorMessage">{{surveyErrorMessage}}</div>
-      <div class="survey-valid" v-if="surveyValidMessage">{{surveyValidMessage}}</div>
-      <div class="button" @click="surveySubmitButton">Save</div>
+      <div
+        v-if="surveyErrorMessage"
+        class="survey-warning"
+      >
+        {{ surveyErrorMessage }}
+      </div>
+      <div
+        v-if="surveyValidMessage"
+        class="survey-valid"
+      >
+        {{ surveyValidMessage }}
+      </div>
+      <div
+        class="button"
+        @click="surveySubmitButton"
+      >
+        Save
+      </div>
     </div>
   </div>
 </template>
@@ -77,6 +110,43 @@ export default {
         about_me: ""
       }
     };
+  },
+  computed: {
+    filterCountry() {
+      const selectedContinentIndex = this.selected.continent;
+      const selectedContinent = this.surveyItems.continents[
+        selectedContinentIndex
+      ];
+      const code = selectedContinent.code;
+
+      return this.surveyItems.countries.filter(element => {
+        return element.code == code || !element.code;
+      });
+    }
+  },
+  async mounted() {
+    const { ok, error, result } = await userService.getSurvey();
+    if (ok) {
+      this.selected.continent = result.data.result.continent;
+      this.selected.age = result.data.result.age;
+      this.selected.name = result.data.result.name;
+      this.selected.about_me = result.data.result.about_me;
+      this.selected.gender = result.data.result.gender;
+      //filter the country
+      if (result.data.result.country) {
+        setTimeout(() => {
+          const continentCode =
+            surveyItems.continents[this.selected.continent].code;
+          const filter = surveyItems.countries.filter(
+            e => e.code === continentCode
+          );
+          const countryName =
+            surveyItems.countries[result.data.result.country].name;
+          this.selected.country = filter.findIndex(e => e.name === countryName);
+        }, 500);
+      }
+    }
+    this.previousLoaded = true;
   },
   methods: {
     async surveySubmitButton() {
@@ -133,43 +203,6 @@ export default {
         this.surveyValidMessage = null;
         this.surveyErrorMessage = error.response.data.message;
       }
-    }
-  },
-  async mounted() {
-    const { ok, error, result } = await userService.getSurvey();
-    if (ok) {
-      this.selected.continent = result.data.result.continent;
-      this.selected.age = result.data.result.age;
-      this.selected.name = result.data.result.name;
-      this.selected.about_me = result.data.result.about_me;
-      this.selected.gender = result.data.result.gender;
-      //filter the country
-      if (result.data.result.country) {
-        setTimeout(() => {
-          const continentCode =
-            surveyItems.continents[this.selected.continent].code;
-          const filter = surveyItems.countries.filter(
-            e => e.code === continentCode
-          );
-          const countryName =
-            surveyItems.countries[result.data.result.country].name;
-          this.selected.country = filter.findIndex(e => e.name === countryName);
-        }, 500);
-      }
-    }
-    this.previousLoaded = true;
-  },
-  computed: {
-    filterCountry() {
-      const selectedContinentIndex = this.selected.continent;
-      const selectedContinent = this.surveyItems.continents[
-        selectedContinentIndex
-      ];
-      const code = selectedContinent.code;
-
-      return this.surveyItems.countries.filter(element => {
-        return element.code == code || !element.code;
-      });
     }
   }
 };

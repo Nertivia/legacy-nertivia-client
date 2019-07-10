@@ -1,5 +1,5 @@
 <template>
-  <div id="particles-js"></div>
+  <div id="particles-js" />
 </template>
 
 <script>

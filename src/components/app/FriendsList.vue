@@ -2,19 +2,35 @@
   <div class="left-panel">
     <MyMiniInformation />
     <div class="tabs">
-      <div :class="{selector: true, right: !isFriendsTab}"></div>
-      <div class="tab" @click="isFriendsTab = true">Friends</div>
-      <div class="tab" @click="isFriendsTab = false">Recents</div>
+      <div :class="{selector: true, right: !isFriendsTab}" />
+      <div
+        class="tab"
+        @click="isFriendsTab = true"
+      >
+        Friends
+      </div>
+      <div
+        class="tab"
+        @click="isFriendsTab = false"
+      >
+        Recents
+      </div>
     </div>
-    <div class="list" v-if="isFriendsTab">
+    <div
+      v-if="isFriendsTab"
+      class="list"
+    >
       <pending-friends />
       <online-friends />
       <offline-friends />
     </div>
-    <div class="list" v-else>
+    <div
+      v-else
+      class="list"
+    >
       <recent-friends />
     </div>
-    <AddFriendPanel/>
+    <AddFriendPanel />
   </div>
 </template>
 

@@ -2,17 +2,17 @@
   <div class="direct-message-tab">
     <transition name="slide-left">
       <server-list
-        class="left-panel"
-        v-click-outside="hideLeftPanel"
         v-show="$mq === 'mobile' && showLeftPanel || ($mq !== 'mobile')"
+        v-click-outside="hideLeftPanel"
+        class="left-panel"
       />
     </transition>
-    <message-panel/>
+    <message-panel />
     <transition name="slide-right">
       <members-list
-        class="members-panel"
-        v-click-outside="hideMembersPanel"
         v-show="($mq === 'members_panel' || $mq === 'mobile') && showMembersPanel || ($mq === 'desktop')"
+        v-click-outside="hideMembersPanel"
+        class="members-panel"
       />
     </transition>
   </div>
@@ -37,6 +37,17 @@ export default {
       showMembersPanel: false
     };
   },
+  mounted() {
+    bus.$on("toggleLeftMenu", () => {
+      this.showLeftPanel = !this.showLeftPanel;
+    });
+    bus.$on("toggleMembersPanel", () => {
+      this.showMembersPanel = !this.showMembersPanel;
+    });
+    bus.$on("closeLeftMenu", () => {
+      this.showLeftPanel = false;
+    });
+  },
   methods: {
     hideLeftPanel(event) {
       if (this.showLeftPanel) {
@@ -52,17 +63,6 @@ export default {
         }
       }
     }
-  },
-  mounted() {
-    bus.$on("toggleLeftMenu", () => {
-      this.showLeftPanel = !this.showLeftPanel;
-    });
-    bus.$on("toggleMembersPanel", () => {
-      this.showMembersPanel = !this.showMembersPanel;
-    });
-    bus.$on("closeLeftMenu", () => {
-      this.showLeftPanel = false;
-    });
   }
 };
 </script>

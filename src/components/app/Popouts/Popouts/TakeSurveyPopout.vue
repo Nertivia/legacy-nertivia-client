@@ -4,11 +4,25 @@
       <div class="survay-icon">
         <i class="material-icons">error</i>
       </div>
-      <div class="text">There is a survey you can complete about yourself. Would you like to take it?</div>
-      <div class="text">You can always take the survey again by going to settings.</div>
+      <div class="text">
+        There is a survey you can complete about yourself. Would you like to take it?
+      </div>
+      <div class="text">
+        You can always take the survey again by going to settings.
+      </div>
       <div class="buttons">
-        <div class="button warning" @click="laterButtonClickEvent">Later</div>
-        <div class="button valid" @click="TakeThereClickEvent">Take Me There</div>
+        <div
+          class="button warning"
+          @click="laterButtonClickEvent"
+        >
+          Later
+        </div>
+        <div
+          class="button valid"
+          @click="TakeThereClickEvent"
+        >
+          Take Me There
+        </div>
       </div>
     </div>
   </div>

@@ -1,40 +1,60 @@
 <template>
   <div :class="{server: true, 'add-server': mode === 'ADD_SERVER'}">
     <div :class="{'small-view': true, notifyAnimation: notification}">
-      <profile-picture size="50px" v-if="!mode" :url="tempImage"/>
-      <div class="add-icon" v-if="mode === 'ADD_SERVER'">
+      <profile-picture
+        v-if="!mode"
+        size="50px"
+        :url="tempImage"
+      />
+      <div
+        v-if="mode === 'ADD_SERVER'"
+        class="add-icon"
+      >
         <i class="material-icons">add</i>
       </div>
-      <div class="server-name">{{mode === 'ADD_SERVER'? 'Create / Join Server' : ServerData.name }}</div>
+      <div class="server-name">
+        {{ mode === 'ADD_SERVER'? 'Create / Join Server' : ServerData.name }}
+      </div>
       <div
+        v-if="mode !== 'ADD_SERVER'"
         ref="contextMenuButton"
         class="options-context-button"
-        v-if="mode !== 'ADD_SERVER'"
         @click="showContextMenu = !showContextMenu"
       >
         <i class="material-icons">more_vert</i>
       </div>
-      <div class="options-context-menu" v-if="showContextMenu" v-click-outside="closeContextMenu">
-        <div class="menu-button" @click="createInvite(ServerData.server_id)">Manage Invites</div>
-        <div
-          class="menu-button warn"
-          @click="leaveServer(ServerData.server_id)"
-          v-if="ServerData.creator.uniqueID !== user.uniqueID"
-        >Leave Server</div>
+      <div
+        v-if="showContextMenu"
+        v-click-outside="closeContextMenu"
+        class="options-context-menu"
+      >
         <div
           class="menu-button"
-          @click="showSettings()"
-          v-if="ServerData.creator.uniqueID === user.uniqueID"
-        >Server Settings</div>
-        <!-- <div
+          @click="createInvite(ServerData.server_id)"
+        >
+          Manage Invites
+        </div>
+        <div
+          v-if="ServerData.creator.uniqueID !== user.uniqueID"
           class="menu-button warn"
           @click="leaveServer(ServerData.server_id)"
+        >
+          Leave Server
+        </div>
+        <div
           v-if="ServerData.creator.uniqueID === user.uniqueID"
-        >Delete Server</div> -->
+          class="menu-button"
+          @click="showSettings()"
+        >
+          Server Settings
+        </div>
       </div>
     </div>
     <div ref="container">
-      <channels-list v-if="openChannel" :serverID="ServerData.server_id"/>
+      <channels-list
+        v-if="openChannel"
+        :server-i-d="ServerData.server_id"
+      />
     </div>
   </div>
 </template>
@@ -47,15 +67,33 @@ import ServerService from "@/services/ServerService";
 import smoothReflow from "vue-smooth-reflow";
 
 export default {
-  mixins: [smoothReflow],
-  props: ["ServerData", "openChannel", "mode"],
   components: { ProfilePicture, ChannelsList },
+  mixins: [smoothReflow],
+  props: ["serverData", "openChannel", "mode"],
   data() {
     return {
       showContextMenu: false,
       showChannels: false,
       tempImage: config.domain + "/avatars/noob"
     };
+  },
+  computed: {
+    user() {
+      return this.$store.getters.user;
+    },
+    notification() {
+      const notifications = this.$store.getters.notifications;
+      const channels = this.$store.getters.channels
+      const notification = notifications.find(e => {
+        return channels[e.channelID] && channels[e.channelID].server_id && this.ServerData && channels[e.channelID].server_id === this.ServerData.server_id 
+      })
+      return notification;
+    }
+  },
+  mounted() {
+    this.$smoothReflow({
+      el: this.$refs.container
+    });
   },
   methods: {
     showSettings() {
@@ -81,24 +119,6 @@ export default {
     async leaveServer(serverID) {
       this.showContextMenu = false;
       const {ok, error, result} = await ServerService.leaveServer(serverID);
-    }
-  },
-  mounted() {
-    this.$smoothReflow({
-      el: this.$refs.container
-    });
-  },
-  computed: {
-    user() {
-      return this.$store.getters.user;
-    },
-    notification() {
-      const notifications = this.$store.getters.notifications;
-      const channels = this.$store.getters.channels
-      const notification = notifications.find(e => {
-        return channels[e.channelID] && channels[e.channelID].server_id && this.ServerData && channels[e.channelID].server_id === this.ServerData.server_id 
-      })
-      return notification;
     }
   }
 };

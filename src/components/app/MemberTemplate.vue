@@ -1,16 +1,26 @@
 <template>
-  <div class="member" @click="openUserInformation()">
+  <div
+    class="member"
+    @click="openUserInformation()"
+  >
     <Profile-picture 
       class="avatar"
       :url="userAvatar"
       size="35px"
-      :uniqueID="user.uniqueID"
+      :unique-i-d="user.uniqueID"
       :status="presense"
     />
     <div class="information">
-      <div class="username">{{user.username}}</div>
+      <div class="username">
+        {{ user.username }}
+      </div>
     </div>
-    <div v-if="type === 'OWNER'" class="type-box">Owner</div>
+    <div
+      v-if="type === 'OWNER'"
+      class="type-box"
+    >
+      Owner
+    </div>
   </div>
 </template>
 
@@ -21,11 +31,6 @@ import config from '@/config';
 export default {
   components: { ProfilePicture },
   props: ['user', 'avatar', 'type'],
-  methods: {
-    openUserInformation() {
-      this.$store.dispatch('setUserInformationPopout', this.user.uniqueID)
-    },
-  },
   computed: {
     userAvatar() {
       return config.domain + "/avatars/" + this.avatar  
@@ -39,6 +44,11 @@ export default {
       const userPresense = presences[this.user.uniqueID]
       return userPresense || 0
     }
+  },
+  methods: {
+    openUserInformation() {
+      this.$store.dispatch('setUserInformationPopout', this.user.uniqueID)
+    },
   }
   
 }

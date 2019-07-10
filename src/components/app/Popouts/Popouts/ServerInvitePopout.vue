@@ -1,14 +1,33 @@
 <template>
-  <div class="dark-background" @mousedown="backgroundClick">
+  <div
+    class="dark-background"
+    @mousedown="backgroundClick"
+  >
     <div class="inner">
       <div class="top">
-        <div class="button" @click="createInviteButton">Create New Invite</div>
+        <div
+          class="button"
+          @click="createInviteButton"
+        >
+          Create New Invite
+        </div>
       </div>
       <div class="bottom">
-        <div class="title">Invites created by you:</div>
-        <spinner v-if="invites === null"/>
-        <div class="invite-list" v-if="invites !== null">
-          <div class="invite" v-for="invite in invites.slice().reverse()" :key="invite">{{invite}}</div>
+        <div class="title">
+          Invites created by you:
+        </div>
+        <spinner v-if="invites === null" />
+        <div
+          v-if="invites !== null"
+          class="invite-list"
+        >
+          <div
+            v-for="invite in invites.slice().reverse()"
+            :key="invite"
+            class="invite"
+          >
+            {{ invite }}
+          </div>
         </div>
       </div>
     </div>
@@ -28,6 +47,17 @@ export default {
     return {
       invites: null
     };
+  },
+  async mounted() {
+    // get invites created by you
+    const {ok, error, result} = await ServerService.getInvites(this.serverID);
+    if (ok) {
+      let invites = [];
+      for (let invite of result.data) {
+        invites.push(invite.invite_code)
+      } 
+      this.invites = invites;
+    }
   },
   methods: {
     closeMenu() {
@@ -51,17 +81,6 @@ export default {
         this.invites.push(result.data.invite_code)
       }
 
-    }
-  },
-  async mounted() {
-    // get invites created by you
-    const {ok, error, result} = await ServerService.getInvites(this.serverID);
-    if (ok) {
-      let invites = [];
-      for (let invite of result.data) {
-        invites.push(invite.invite_code)
-      } 
-      this.invites = invites;
     }
   },
   computed: {

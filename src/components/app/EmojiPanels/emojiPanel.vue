@@ -1,20 +1,25 @@
 <template>
-  <div class="emoji-panel" v-click-outside="closePanel">
+  <div
+    v-click-outside="closePanel"
+    class="emoji-panel"
+  >
     <div class="emoji-panel-inner">
       <div class="emojis-list">
         <!-- Recent Emojis Category  -->
         <div class="category">
-          <div class="category-name">Recent</div>
+          <div class="category-name">
+            Recent
+          </div>
           <div class="list">
             <div
-              class="emoji-item"
               v-for="(recentEmoji, index) in this.recentEmojisList"
               :key="index"
+              class="emoji-item"
               @click="emojiClickEvent(recentEmoji)"
             >
               <img
-                class="panel emoji"
                 v-lazyload
+                class="panel emoji"
                 :data-url=" getCustomEmoji(recentEmoji) || emojiShortcodeToPath(':' + recentEmoji + ':')"
               >
             </div>
@@ -23,55 +28,86 @@
 
         <!-- Custom Emojis Category  -->
         <div class="category">
-          <div class="category-name">Custom Emojis</div>
+          <div class="category-name">
+            Custom Emojis
+          </div>
           <div class="list">
             <div
-              class="emoji-item"
               v-for="(customEmoji, index) in this.customEmojisList"
               :key="index"
+              class="emoji-item"
               @click="customEmojiClickEvent(customEmoji)"
             >
-              <img class="panel emoji" v-lazyload :data-url="customEmojiPath + customEmoji.emojiID">
+              <img
+                v-lazyload
+                class="panel emoji"
+                :data-url="customEmojiPath + customEmoji.emojiID"
+              >
             </div>
           </div>
         </div>
 
-        <div class="category" v-for="(group, index) in groups" :key="group">
-          <div class="category-name">{{group}}</div>
+        <div
+          v-for="(group, index) in groups"
+          :key="group"
+          class="category"
+        >
+          <div class="category-name">
+            {{ group }}
+          </div>
           <div class="list">
             <div
-              class="emoji-item"
               v-for="emojiSorted in emojiByGroup(index)"
               :key="emojiSorted.shortcodes[0]"
+              class="emoji-item"
               @click="emojiClickEvent(emojiSorted.shortcodes[0])"
             >
-              <img class="panel emoji" v-lazyload :data-url="parseEmojiPath(emojiSorted.unicode)">
+              <img
+                v-lazyload
+                class="panel emoji"
+                :data-url="parseEmojiPath(emojiSorted.unicode)"
+              >
             </div>
           </div>
         </div>
       </div>
       <div class="tabs">
-        <div class="tab" @click="scrollToCategory(0)">
+        <div
+          class="tab"
+          @click="scrollToCategory(0)"
+        >
           <i class="material-icons">history</i>
-          <div class="tooltip">Recent</div>
-        </div>
-        <div class="tab" @click="scrollToCategory(1)">
-          <i class="material-icons">face</i>
-          <div class="tooltip">Custom Emojis</div>
+          <div class="tooltip">
+            Recent
+          </div>
         </div>
         <div
           class="tab"
+          @click="scrollToCategory(1)"
+        >
+          <i class="material-icons">face</i>
+          <div class="tooltip">
+            Custom Emojis
+          </div>
+        </div>
+        <div
           v-for="(emoji, index) in groupUnicodes"
           :key="index"
+          class="tab"
           @mouseenter="mouseHover(emoji, $event)"
           @click="scrollToCategory(index + 2)"
         >
-          <img class="panel-emoji" :src="selectRandom(emoji)">
-          <div class="tooltip">{{ groups[index]}}</div>
+          <img
+            class="panel-emoji"
+            :src="selectRandom(emoji)"
+          >
+          <div class="tooltip">
+            {{ groups[index] }}
+          </div>
         </div>
       </div>
     </div>
-    <div class="triangle"></div>
+    <div class="triangle" />
   </div>
 </template>
 
@@ -346,6 +382,10 @@ export default {
 
     };
   },
+  beforeMount() {
+    this.recentEmojisList = this.recentEmojis
+    this.customEmojisList = this.customEmojis
+  },
   methods: {
     getCustomEmoji(shortCode){
       const customEmoji = emojiParser.getCustomEmojisByShortCode(shortCode)
@@ -382,10 +422,6 @@ export default {
       const elements = document.querySelectorAll(".category-name");
       elements[index].scrollIntoView();
     }
-  },
-  beforeMount() {
-    this.recentEmojisList = this.recentEmojis
-    this.customEmojisList = this.customEmojis
   }, 
   computed: {
     ...mapState('settingsModule', ['recentEmojis', 'customEmojis'])

@@ -1,20 +1,53 @@
 <template>
   <div class="my-profile-panel">
-    <div class="title">Message Example</div>
-    <div class="message-example">
-      <message-template message="Hi" :username="user.username" :date="Date.now()" :uniqueID="user.uniqueID" :admin="user.admin" :avatar="user.avatar" />
-      <message-template message="Hello." username="Cool Dude" :date="Date.now()"/>
-      <message-template message="Whaddup" :username="user.username" :date="Date.now()" :uniqueID="user.uniqueID" :admin="user.admin" :avatar="user.avatar" />
-      <message-template message="Nothing, bye." username="Cool Dude" :date="Date.now()"/>
+    <div class="title">
+      Message Example
     </div>
-    <div class="title">Options</div>  
+    <div class="message-example">
+      <message-template
+        message="Hi"
+        :username="user.username"
+        :date="Date.now()"
+        :unique-i-d="user.uniqueID"
+        :admin="user.admin"
+        :avatar="user.avatar"
+      />
+      <message-template
+        message="Hello."
+        username="Cool Dude"
+        :date="Date.now()"
+      />
+      <message-template
+        message="Whaddup"
+        :username="user.username"
+        :date="Date.now()"
+        :unique-i-d="user.uniqueID"
+        :admin="user.admin"
+        :avatar="user.avatar"
+      />
+      <message-template
+        message="Nothing, bye."
+        username="Cool Dude"
+        :date="Date.now()"
+      />
+    </div>
+    <div class="title">
+      Options
+    </div>  
     <div class="switches">
-      <div class="checkbox" @click="toggleAppearance">
-        <div :class="`checkbox-box ${apperance && apperance.own_message_right && apperance.own_message_right === true ? 'selected' : '' }`"></div>
-        <div class="checkbox-name">Show my messages on the right side.</div>
+      <div
+        class="checkbox"
+        @click="toggleAppearance"
+      >
+        <div :class="`checkbox-box ${apperance && apperance.own_message_right && apperance.own_message_right === true ? 'selected' : '' }`" />
+        <div class="checkbox-name">
+          Show my messages on the right side.
+        </div>
       </div>
     </div>
-    <div class="title">Message Themes (Soon!)</div>  
+    <div class="title">
+      Message Themes (Soon!)
+    </div>  
   </div>
 </template>
 
@@ -33,6 +66,14 @@ export default {
 
     };
   },
+  computed: {
+    apperance() {
+      return this.$store.getters['settingsModule/settings'].apperance;
+    },
+    user() {
+      return this.$store.getters.user
+    }
+  },
   methods: {
     toggleAppearance() {
       if (!this.apperance || !this.apperance.own_message_right || this.apperance.own_message_right === false) {
@@ -42,14 +83,6 @@ export default {
       this.$store.dispatch('settingsModule/setApperance', {"own_message_right": false})
       SettingsService.setApperance("own_message_right", false)
 
-    }
-  },
-  computed: {
-    apperance() {
-      return this.$store.getters['settingsModule/settings'].apperance;
-    },
-    user() {
-      return this.$store.getters.user
     }
   }
 };

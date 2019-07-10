@@ -1,27 +1,40 @@
 <template>
   <div class="drop-down">
-    <div class="main-name">{{name}}</div>
-    <div class="box" @click="opened = !opened">
+    <div class="main-name">
+      {{ name }}
+    </div>
+    <div
+      class="box"
+      @click="opened = !opened"
+    >
       <div class="selected">
         <div
-          class="emoji"
           v-if="selected !== null && updateItems[selected]"
+          class="emoji"
           v-html="updateItems[selected].emoji || ''"
-        ></div>
-        {{selected === null ? 'Select One' : updateItems[selected].name}}
+        />
+        {{ selected === null ? 'Select One' : updateItems[selected].name }}
       </div>
       <i class="material-icons">expand_more</i>
     </div>
-    <div class="drop-down-menu" v-if="opened">
+    <div
+      v-if="opened"
+      class="drop-down-menu"
+    >
       <div
-        class="item"
         v-for="(item, index) in updateItems"
         :key="index"
+        class="item"
         @click="itemClickEvent(index)"
       >
         <div class="content">
-          <div class="emoji" v-html="item.emoji"></div>
-          <div class="name">{{item.name}}</div>
+          <div
+            class="emoji"
+            v-html="item.emoji"
+          />
+          <div class="name">
+            {{ item.name }}
+          </div>
         </div>
       </div>
     </div>
@@ -43,21 +56,6 @@ export default {
       selected: this.default || null
     };
   },
-  methods: {
-    itemClickEvent(index) {
-      this.selected = index;
-      this.$emit("change", index);
-      this.opened = false;
-    }
-  },
-  watch: {
-    updateItems() {
-      this.selected = null;
-    },
-    itemSelected() {
-      this.selected = this.itemSelected;
-    }
-  },
   computed: {
     updateItems() {
       this.$emit("change", null);
@@ -74,6 +72,21 @@ export default {
         }
       }
       return newArr;
+    }
+  },
+  watch: {
+    updateItems() {
+      this.selected = null;
+    },
+    itemSelected() {
+      this.selected = this.itemSelected;
+    }
+  },
+  methods: {
+    itemClickEvent(index) {
+      this.selected = index;
+      this.$emit("change", index);
+      this.opened = false;
     }
   }
 };
