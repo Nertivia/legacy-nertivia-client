@@ -2,22 +2,23 @@
   <div class="left-panel">
     <MyMiniInformation />
     <div class="tabs">
-      <div :class="{selector: true, right: !isFriendsTab}" />
+      <div :class="{selector: true, right: currentTab === 1}" />
       <div
         class="tab"
-        @click="isFriendsTab = true"
+        @click="currentTab = 0"
       >
         Friends
       </div>
       <div
         class="tab"
-        @click="isFriendsTab = false"
+        :class="{notifyAnimation: DMNotification}"
+        @click="currentTab = 1"
       >
         Recents
       </div>
     </div>
     <div
-      v-if="isFriendsTab"
+      v-if="currentTab === 0"
       class="list"
     >
       <pending-friends />
@@ -55,8 +56,35 @@ export default {
   },
   data() {
     return {
-      isFriendsTab: true
+      currentTab:  0
     }
+  },
+  watch: {
+    currentTab(tab) {
+      localStorage.setItem('friendsListTab', tab)
+    }
+  },
+  mounted() {
+    const tab = localStorage.getItem('friendsListTab');
+    if (tab) {
+      this.currentTab = parseInt(tab)
+    }
+  },
+  computed: {
+    DMNotification() {
+      const notifications = this.$store.getters.notifications;
+      const channels = this.$store.getters.channels
+      const notification = notifications.find(e => {
+        return channels[e.channelID] && !channels[e.channelID].server_id
+      })
+      // unopened dm
+      if (!notification) {
+        return notifications.find(e => {
+          return !channels[e.channelID]
+        })
+      }
+      return notification;
+    },
   }
 }
 </script>
@@ -137,5 +165,26 @@ export default {
 /* Handle on hover */
 .list::-webkit-scrollbar-thumb:hover {
     background: #f5f5f59e;
+}
+
+.notifyAnimation{
+  animation: notifyAnime;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
+}
+@keyframes notifyAnime {
+  0%{
+    background: rgba(121, 3, 3, 0.541);
+  }
+  40%{
+    background: rgba(255, 0, 0, 0.568);
+  }
+  60%{
+    background: rgba(255, 0, 0, 0.568);
+  }
+  100%{
+    background: rgba(121, 3, 3, 0.541);
+  }
 }
 </style>

@@ -42,9 +42,8 @@ export default {
 
   methods: {
     closeMenu() {
-      this.$store.dispatch("setPopoutVisibility", {
-        name: "showServerInviteMenu",
-        visibility: false
+      this.$store.dispatch("setServerSettings", {
+        serverID: null
       });
     },
     backgroundClick(e) {

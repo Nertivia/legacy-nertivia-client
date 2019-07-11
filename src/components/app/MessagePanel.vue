@@ -378,6 +378,23 @@ export default {
           break;
         }
       }
+    },
+    async onFocus(event) {
+      if (this.message.trim() !== "") {
+        await typingService.post(this.selectedChannelID);
+        this.postTimer();
+      }
+      bus.$emit("title:change", "Nertivia");
+      if (!this.$store.getters.selectedChannelID) return;
+    //dismiss notification on focus
+      const find = this.$store.getters.notifications.find(notification => {
+        return notification.channelID === this.$store.getters.selectedChannelID;
+      });
+      if (find && find.count >= 1) {
+        this.$socket.emit("notification:dismiss", {
+          channelID: this.$store.getters.selectedChannelID
+        });
+      }
     }
   },
   mounted() {
@@ -418,23 +435,8 @@ export default {
       clearTimeout(this.postTimerID);
       this.postTimerID = null;
     }
-    window.onfocus = async () => {
-      if (this.message.trim() !== "") {
-        await typingService.post(this.selectedChannelID);
-        this.postTimer();
-      }
-      bus.$emit("title:change", "Nertivia");
-      if (!this.$store.getters.selectedChannelID) return;
-    //dismiss notification on focus
-      const find = this.$store.getters.notifications.find(notification => {
-        return notification.channelID === this.$store.getters.selectedChannelID;
-      });
-      if (find && find.count >= 1) {
-        this.$socket.emit("notification:dismiss", {
-          channelID: this.$store.getters.selectedChannelID
-        });
-      }
-    };
+    window.addEventListener('focus', this.onFocus)
+
   },
   
   beforeDestroy() {
@@ -443,6 +445,7 @@ export default {
     bus.$off("newMessage", this.hideTypingStatus);
     bus.$off("emojiSuggestions:Selected", this.enterEmojiSuggestion);
     bus.$on("emojiPanel:Selected", this.enterEmojiPanel);
+    window.removeEventListener('focus', this.onFocus)
     delete this.$options.sockets.typingStatus;
   },
   computed: {
