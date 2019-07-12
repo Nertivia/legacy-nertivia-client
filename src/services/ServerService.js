@@ -10,6 +10,12 @@ export default {
   createChannel(serverID, name) {
     return wrapper(instance().put(`/server/${serverID}/channel`, {name}));
   },
+  updateChannel (serverID, channelID, data) {
+    return wrapper(instance().patch(`/server/${serverID}/channels/${channelID}`, data));
+  },
+  deleteChannel (serverID, channelID) {
+    return wrapper(instance().delete(`/server/${serverID}/channels/${channelID}`));
+  },
   postInvite (serverID) {
     return wrapper (instance().post(`/server/${serverID}/invite`))
   },

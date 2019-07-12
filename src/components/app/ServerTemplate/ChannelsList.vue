@@ -57,7 +57,7 @@ export default {
         this.$store.dispatch('channel', element)
         channelsIDs.push(element.channelID)
       }
-      this.$store.dispatch("servers/setChannelsIDs", {
+      this.$store.dispatch("servers/AddChannelsIDs", {
         serverID: this.serverID,
         channelsIDs: channelsIDs
       });

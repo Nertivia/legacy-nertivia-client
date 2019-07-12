@@ -77,7 +77,7 @@ const actions = {
 
 
         context.dispatch('channel', element)
-        context.dispatch("servers/setChannelsIDs", {
+        context.dispatch("servers/AddChannelsIDs", {
           serverID: item.server_id,
           channelsIDs: [element.channelID]
         });
@@ -212,7 +212,7 @@ const actions = {
       element.server = undefined;
       element.server_id = server.server_id;
       context.dispatch('channel', element)
-      context.dispatch("servers/setChannelsIDs", {
+      context.dispatch("servers/AddChannelsIDs", {
         serverID: server.server_id,
         channelsIDs: [element.channelID]
       });
@@ -256,6 +256,17 @@ const actions = {
       presences[_presence[0]] = _presence[1];
     }
     context.dispatch('members/addPresences', presences);
+  },
+  ['socket_server:addChannel'](context, {channel}) { // add_channel
+    context.dispatch('channel', channel);
+    context.dispatch('servers/AddChannelsIDs', {serverID: channel.server_id, channelsIDs: [channel.channelID]})
+  },
+  ['socket_server:updateChannel'](context, {name, channelID}) { // update_channel
+    context.dispatch('updateChannel', {name, channelID});
+  },
+  ['socket_server:removeChannel'](context, {server_id, channelID}) {
+    context.dispatch('servers/removeServerChannel', {server_id, channelID});
+   // context.dispatch('removeChannel', {channelID});
   },
 }
 

@@ -5,6 +5,7 @@
       <div :class="{selector: true, right: currentTab === 1}" />
       <div
         class="tab"
+        :class="{notifyAnimation: friendRequestExists}"
         @click="currentTab = 0"
       >
         Friends
@@ -85,7 +86,14 @@ export default {
       }
       return notification;
     },
-  }
+    friendRequestExists() {
+      const allFriend = this.$store.getters.user.friends;
+      const result = Object.keys(allFriend).map(function(key) {
+        return allFriend[key];
+      });
+      return result.find(friend => friend.status === 1);
+    }
+}
 }
 </script>
 <style scoped>

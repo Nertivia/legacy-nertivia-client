@@ -1,5 +1,6 @@
 <template>
-  <div class="pending-friends">
+  <div class="pending-friends" v-if="friends && friends.length">
+
     <div
       class="tab"
       @click="expanded = !expanded"

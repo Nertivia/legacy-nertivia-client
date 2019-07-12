@@ -123,7 +123,7 @@ export default {
   background: rgb(59, 59, 59);
 }
 .header{
-  background: rgb(75, 75, 75);
+  background: rgb(47, 47, 47);
   display: flex;
   height: 50px;
   flex-shrink: 0;

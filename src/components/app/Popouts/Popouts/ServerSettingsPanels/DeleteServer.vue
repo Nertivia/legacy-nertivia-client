@@ -1,7 +1,7 @@
 <template>
-    <div class="content-inner">
+    <div class="content-inner" v-if="server">
       <div class="warning">Are you sure you want to delete <strong>{{server.name}}</strong>? This cannot be <strong>UNDONE!</strong></div>
-      <div class="button" @click="deleteServer()">DELETE <strong>{{server.name}}</strong></div>
+      <div class="button" @click="deleteServer()">{{confirmed ? 'ARE YOU SURE?' : 'DELETE SERVER'}}</div>
     </div>
 </template>
 
@@ -14,8 +14,16 @@ import { mapState } from "vuex";
 
 export default {
   components: {Spinner},
+  data() {
+    return {
+      confirmed: false
+    }
+  },
   methods: {
     async deleteServer(){
+      if (!this.confirmed) {
+        return this.confirmed = true;
+      }
       const {ok, error, result} = await ServerService.leaveServer(this.server.server_id);
       if (ok) {
         this.$store.dispatch('setServerSettings', {serverID: null})

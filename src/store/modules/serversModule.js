@@ -25,8 +25,8 @@ const getters = {
 };
 
 const actions = {
-  setChannelsIDs(context, {serverID, channelsIDs}) {
-    context.commit('SET_CHANNELS_IDS', {serverID, channelsIDs});
+  AddChannelsIDs(context, {serverID, channelsIDs}) {
+    context.commit('ADD_CHANNELS_IDS', {serverID, channelsIDs});
   },
   setServers(context, servers) {
     context.commit('SET_SERVERS', servers);
@@ -58,12 +58,20 @@ const actions = {
       }
       context.commit('REMOVE_SERVER_MEMBER', {uniqueID: member.uniqueID, server_id})
     }
+  },
+  removeServerChannel (context, {server_id, channelID}) {
+    const filter = context.state.channelsIDs[server_id].filter(c => {
+      return c !== channelID
+    })
+    context.commit('SET_CHANNEL_IDs', {serverID: server_id, channelIDs: filter})
   }
 };
 
 const mutations = {
-
-  SET_CHANNELS_IDS(state, {serverID, channelsIDs}) {
+  SET_CHANNEL_IDs(state, {serverID, channelIDs}) {
+    Vue.set(state.channelsIDs, serverID, channelIDs)
+  },
+  ADD_CHANNELS_IDS(state, {serverID, channelsIDs}) {
     const previousChannels = state.channelsIDs[serverID] || []
     Vue.set(state.channelsIDs, serverID, [...new Set([...previousChannels, ...channelsIDs])]);
   },
