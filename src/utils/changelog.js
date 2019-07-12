@@ -21,7 +21,7 @@ const config = [
     headColor: "rgba(190, 40, 40, 0.77)",
     new: [
       "You can now color your code (thanks bree!) by typing: <div style='background: #00000066; border-radius: 5px; padding: 5px;'>```js<br>    console.log('Hello World!');<br>```</div>",
-      "A new server settings option has been added that allows you to delete your server, create new channels and rename your channels. More future will be added in the future! ",
+      "A new server settings option has been added that allows you to delete your server, create new channels and rename your channels. More features will be added in the future! ",
       "The 'Recents' tab should now flash red when you get a notification.",
       "Friends and Recents tabs position will be saved when visiting the site."
     ],

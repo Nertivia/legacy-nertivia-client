@@ -6,7 +6,7 @@
       </div>
       <div class="details" v-if="channels[selectedChannelIndex]">
         <div class="input">
-        <div class="input-title">Server Name</div>
+        <div class="input-title">Channel Name</div>
           <input type="text" ref="name" placeholder="Channel Name" :default-value.prop="channels[selectedChannelIndex].name" @input="inputEvent('name', $event)">
         </div>
         <div class="button" v-if="update.name" @click="updateChannel">Save Changes</div>

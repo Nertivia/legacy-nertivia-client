@@ -126,6 +126,12 @@ export default {
   },
   computed: {
     ...mapState("settingsModule", ["apperance"]),
+    getLinks(){
+      const message = this.$props['message']
+      if (!message) return [];
+      console.log(message.match(/(https?:\/\/[^\s]+)/g) || [])
+      return "LOL"
+    },
     getImage() {
       if (!this.$props.files || this.$props.files.length === 0)
         return undefined;

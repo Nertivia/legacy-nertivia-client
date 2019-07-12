@@ -85,6 +85,7 @@ futoji.addTransformer({
 	symbol: '```',
 	recursive: false,
 	transformer: text => {
+		//TODO: use https://github.com/atom/highlights instead.
 		let formatted = formatCode(text)
 
 		let highlighted
@@ -108,7 +109,7 @@ futoji.addTransformer({
 })
 
 export default (message) => {
-	message = futoji.format(message + '').trim();
+	message = futoji.format(message + ' ').trim();
 
 	message = emojiParser.replaceEmojis(message);
 
