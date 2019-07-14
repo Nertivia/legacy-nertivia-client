@@ -184,6 +184,10 @@ export default {
 
 
 <style scoped>
+.container {
+  position: relative;
+  z-index: 999;
+}
 .presence-message {
   margin: 10px;
   padding: 10px;

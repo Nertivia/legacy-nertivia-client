@@ -10,7 +10,7 @@
           <input type="text" ref="name" placeholder="Channel Name" :default-value.prop="channels[selectedChannelIndex].name" @input="inputEvent('name', $event)">
         </div>
         <div class="button" v-if="update.name" @click="updateChannel">Save Changes</div>
-        <div class="button warn delete-server" v-if="server.default_channel_id !== channels[selectedChannelIndex].channelID" @click="deleteChannel">{{deleteButtonConfirmed ? 'ARE YOU SURE?' : 'Delete Channel' }}</div>
+        <div class="button warn delete-server" :class="{disabled: deleteClicked}" v-if="server.default_channel_id !== channels[selectedChannelIndex].channelID" @click="deleteChannel">{{deleteButtonConfirmed ? 'ARE YOU SURE?' : 'Delete Channel' }}</div>
       </div>
     </div>
 </template>
@@ -27,6 +27,7 @@ export default {
   data() {
     return {
       deleteButtonConfirmed: false,
+      deleteClicked: false,
       selectedChannelIndex: 0,
       update: {
         name: null
@@ -47,11 +48,15 @@ export default {
       }
     },
     async deleteChannel() {
+      if (this.deleteClicked) return;
       if (!this.deleteButtonConfirmed) {
         return this.deleteButtonConfirmed = true; 
       }
+      this.deleteClicked = true;
       const {ok, error, result} = await ServerService.deleteChannel(this.server.server_id, this.channels[this.selectedChannelIndex].channelID)
-      console.log({ok, error, result})
+      this.deleteButtonConfirmed = false;
+      this.selectedChannelIndex = null;
+      this.deleteClicked = false;
     },
     inputEvent(name, event) {
       this.update.name = event.target.value
@@ -109,10 +114,12 @@ export default {
   display: flex;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .channel .name {
   overflow: hidden;
   text-overflow: ellipsis; 
+  white-space: nowrap;
 }
 .channel div {
   align-self: center;
@@ -134,6 +141,7 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
+  overflow: hidden;
 }
 .button {
   background: rgba(17, 148, 255, 0.692);
@@ -154,6 +162,13 @@ export default {
 .button.warn:hover {
   background: rgb(255, 17, 17);
 }
+.button.disabled {
+  background: grey;
+}
+.button.disabled:hover {
+  background: grey;
+}
+
 .delete-server{
   margin: auto;
   margin-bottom: 0;

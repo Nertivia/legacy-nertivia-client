@@ -6,9 +6,9 @@
       </div>
       <div class="content">
         <div class="header" :class="{critical: tabs[index].critical}"><div class="material-icons">{{tabs[index].icon}}</div><div>{{tabs[index].title}}</div></div>
-        <!-- <general v-if="index === 0"/> -->
-        <manage-channels v-if="index === 0"/>
-        <delete-server v-if="index === 1"/>
+        <general v-if="index === 0"/>
+        <manage-channels v-if="index === 1"/>
+        <delete-server v-if="index === 2"/>
       </div>
     </div>
   </div>
@@ -32,7 +32,7 @@ export default {
     return {
       index: 0,
       tabs: [
-        // {title: "General", icon: "info"},
+         {title: "General", icon: "info"},
         {title: "Manage Channels", icon: "storage"},
         // {title: "Manage Invites", icon: "local_post_office"},
         {title: "Delete Server", icon: "warning", critical: true},
@@ -92,6 +92,8 @@ export default {
   flex-direction: column;
 }
 .tabs {
+  display: flex;
+  flex-direction: column;
   background: rgba(26, 26, 26, 0.897);
   height: 100%;
   width: 180px;
@@ -106,6 +108,7 @@ export default {
   user-select: none;
   display: flex;
   align-content: center;
+  flex-shrink: 0;
 }
 .tab .material-icons {
   margin-right: 3px;
@@ -134,5 +137,20 @@ export default {
 .header div {
   align-self: center;
   margin-left: 10px;
+}
+
+@media (max-width: 614px) {
+  .inner {
+    flex-direction: column;
+  }
+  .tabs {
+    width: 100%;
+    height: 50px;
+    flex-direction: row;
+    overflow: auto;
+  }
+  .tabs::-webkit-scrollbar {
+    height: 5px;
+  }
 }
 </style>

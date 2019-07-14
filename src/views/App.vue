@@ -194,7 +194,6 @@ export default {
   height: 100%;
 }
 
-
 .notifyAnimation{
   animation: notifyAnime;
   animation-duration: 1s;
@@ -266,6 +265,9 @@ export default {
 .tabs::-webkit-scrollbar {
   height: 5px;
 }
+.tabs {
+  scrollbar-width: thin;
+}
 
 .tab {
   flex-shrink: 0;
@@ -326,6 +328,7 @@ export default {
 
 
 <style>
+
 textarea {
   font-family: "Roboto", sans-serif;
 }

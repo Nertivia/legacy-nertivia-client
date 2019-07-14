@@ -27,6 +27,7 @@ export default {
       crown: require("twemoji/2/svg/1f451.svg"),
       flower: require("twemoji/2/svg/1f33a.svg"),
       heart: require("twemoji/2/svg/2764.svg"),
+      developer: require("twemoji/2/svg/2728.svg"),
     };
   },
   computed: {
@@ -45,6 +46,11 @@ export default {
         return {
           name: "supporter",
           emotePath: this.heart
+        };
+      if (this.$props.admin == 6)
+        return {
+          name: "developer",
+          emotePath: this.developer
         };
       return ""
     },
@@ -121,6 +127,15 @@ export default {
 }
 
 .cute .emote {
+  z-index: 999;
+  top: -3px;
+  left: -3px;
+}
+
+.developer {
+  background: linear-gradient(30deg, #6853b9, rgba(254, 94, 189, .8));
+}
+.developer .emote {
   z-index: 999;
   top: -3px;
   left: -3px;
