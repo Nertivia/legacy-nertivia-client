@@ -10,6 +10,7 @@
           <input type="text" ref="name" placeholder="Channel Name" :default-value.prop="channels[selectedChannelIndex].name" @input="inputEvent('name', $event)">
         </div>
         <div class="button" v-if="update.name" @click="updateChannel">Save Changes</div>
+        <div class="button warn delete-server disabled" v-if="server.default_channel_id === channels[selectedChannelIndex].channelID">Cannot delete default channel</div>
         <div class="button warn delete-server" :class="{disabled: deleteClicked}" v-if="server.default_channel_id !== channels[selectedChannelIndex].channelID" @click="deleteChannel">{{deleteButtonConfirmed ? 'ARE YOU SURE?' : 'Delete Channel' }}</div>
       </div>
     </div>

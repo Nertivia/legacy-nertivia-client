@@ -30,7 +30,7 @@ const actions = {
     context.commit('removeChannel', channelID)
   },
   updateChannel(context, data) {
-    const update = Object.assign(context.state.channels[data.channelID], data);
+    const update = Object.assign({}, context.state.channels[data.channelID], data);
     context.commit('channel', update)
   },
   selectedChannelID(context, channelID) {

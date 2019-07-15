@@ -34,6 +34,10 @@ const actions = {
   setServer(context, server) {
     context.commit('SET_SERVER', server);
   },
+  updateServer(context, {server_id, server}) {
+    const update = Object.assign({}, context.state.servers[server_id], server)
+    context.commit('SET_SERVER', update);
+  },
   removeServer(context, serverID) {
     context.commit('REMOVE_SERVER', serverID);
   },

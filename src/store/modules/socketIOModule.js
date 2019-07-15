@@ -268,6 +268,10 @@ const actions = {
     context.dispatch('servers/removeServerChannel', {server_id, channelID});
    // context.dispatch('removeChannel', {channelID});
   },
+  ['socket_server:updateServer'](context, data) {
+    context.dispatch('servers/updateServer', {server_id: data.server_id, server: data});
+   // context.dispatch('removeChannel', {channelID});
+  },
 }
 
 export default {

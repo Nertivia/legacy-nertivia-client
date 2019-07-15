@@ -22,7 +22,7 @@
           @change="changeEvent('default_channel_id', $event.channelID)"
         />
       </div>
-      <div class="button save-button" v-if="changed">Save Changes</div>
+      <div class="button save-button" v-if="changed" @click="updateServer()">Save Changes</div>
     </div>
   </div>
 </template>
@@ -49,10 +49,19 @@ export default {
     },
     changeEvent(name, value) {
       this.$set(this.update, name, value);
+    },
+    async updateServer() {
+      const {ok, error, result} = await ServerService.updateServer(this.server.server_id, this.update);
+      if (ok) {
+        this.update = {};
+      }
     }
   },
   watch: {
-    update(test) {
+    update(obj) {
+      if ( Object.keys(obj).length === 0 ){
+        return this.changed = false
+      }
       this.changed = true;
     }
   },

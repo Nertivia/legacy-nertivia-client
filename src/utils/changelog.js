@@ -13,10 +13,45 @@
   }
 
 const config = [
+
+
+
+
+
+  {
+    version: 5.0,
+    title: "Change server name and default server channel",
+    shortTitle: "Change server name and default server channel",
+    date: "15/07/2019",
+    headColor: "rgba(255, 0, 0, 0.77)",
+    new: [
+      "You can now change the name of your server.",
+      "You can now change the default channel to something else.",
+    ],
+    fix: ['Some bugs have been fixed.'],
+    next: ["Change servers avatar."],
+  },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   {
     version: 4.9,
     title: "Color codeblocks and create multiple channels!",
-    shortTitle: "",
+    shortTitle: "Color codeblocks and create multiple channels!",
     date: "12/07/2019",
     headColor: "rgba(190, 40, 40, 0.77)",
     new: [

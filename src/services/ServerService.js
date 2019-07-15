@@ -4,6 +4,9 @@ export default {
   post ( data )  {
     return wrapper(instance().post('/server', data));
   },
+  updateServer (serverID, data) {
+    return wrapper(instance().patch(`/server/${serverID}`, data));
+  },
   getChannels(serverID) {
     return wrapper(instance().get(`/server/channels/${serverID}`));
   },
