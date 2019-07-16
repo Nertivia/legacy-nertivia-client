@@ -109,10 +109,10 @@ export default {
       if (!allowedFormats.includes(path.extname(file.name).toLowerCase())) {
         this.alert.content = "Upload failed - Unsupported image file.";
         return (this.alert.show = true);
-      } else if (file.size >= 10490000) {
-        // 10490000 = 10mb
+      } else if (file.size >= 2092000) {
+        // 2092000 = 2mb
         this.alert.content =
-          "Upload failed - Image size must be less than 10 megabytes.";
+          "Upload failed - Image size must be less than 2 megabytes.";
         return (this.alert.show = true);
       }
       const formData = new FormData();

@@ -75,8 +75,8 @@ export default {
 }
 .inner {
   margin: auto;
-  height: 400px;
-  width: 600px;
+  height: 500px;
+  width: 700px;
   background: rgba(32, 32, 32, 0.87);
   display: flex;
   color: white;

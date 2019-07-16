@@ -4,7 +4,7 @@
       <profile-picture
         v-if="!mode"
         size="50px"
-        :url="tempImage"
+        :url="`${avatarDomain}/${serverData.avatar}`"
       />
       <div
         v-if="mode === 'ADD_SERVER'"
@@ -74,7 +74,7 @@ export default {
     return {
       showContextMenu: false,
       showChannels: false,
-      tempImage: config.domain + "/avatars/noob"
+      avatarDomain: config.domain + "/avatars"
     };
   },
   computed: {

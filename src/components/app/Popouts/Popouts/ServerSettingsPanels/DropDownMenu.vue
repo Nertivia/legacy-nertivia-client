@@ -3,7 +3,9 @@
     <div class="title">{{name}}</div>
     <div class="current-select-box" ref="dropDown" @click="dropped = !dropped"><div class="name">{{selectedItem ? selectedItem.name : items[0].name}}</div><div class="material-icons">expand_more</div></div>
     <div class="drop" v-if="dropped">
-      <div v-for="(item, index) of items" :key="index" class="item" :class="{selected: selectedItem === item}" @click="itemClick(item)">{{item.name}}</div>
+      <div class="drop-container">
+        <div v-for="(item, index) of items" :key="index" class="item" :class="{selected: selectedItem === item}" @click="itemClick(item)">{{item.name}}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -68,30 +70,38 @@ export default {
   margin: auto;
   margin-left: 2px;
 }
+
 .drop {
   position: absolute;
-  background: rgb(80, 80, 80);
-  border-radius: 10px;
+  background: rgb(39, 39, 39);
+  border-radius: 5px;
   left: 0;
   right: 0;
   z-index: 11111;
-  max-height: 100px;
-  overflow: auto;
+  overflow: hidden;
   padding: 2px;
   margin-top: 5px;
+}
+.drop-container {
+  border-radius: 5px;
+  overflow: auto;
+  max-height: 100px;
+}
+.drop-container::-webkit-scrollbar {
+  width: 5px;
 }
 .item {
   padding: 5px;
   border-radius: 5px;
   margin-top: 2px;
   margin-bottom: 2px;
-  background: rgba(37, 37, 37, 0.322);
+  transition: 0.2s;
 }
 .item:hover {
-  background: rgb(37, 37, 37);
+  background: rgb(46, 46, 46);
 }
 .item.selected {
-  background: rgb(41, 41, 41);
+  background: rgb(63, 63, 63);
 }
 </style>
 

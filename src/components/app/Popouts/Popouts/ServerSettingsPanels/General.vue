@@ -1,7 +1,19 @@
 <template>
   <div class="content-inner">
     <div class="top">
-      <!-- <div class="server-avatar"></div> -->
+      <profile-picture
+        class="server-avatar"
+        size="100px"
+        :url="update.avatar || `${avatarDomain}/${server.avatar}` "
+      />
+      <div class="button" @click="$refs.avatarBrowser.click()">Edit Avatar</div>
+        <input
+          ref="avatarBrowser"
+          type="file"
+          accept=".jpeg, .jpg, .png, .gif"
+          class="hidden"
+          @change="avatarChangeEvent"
+        >
       <div class="input">
         <div class="input-title">Server Name</div>
         <input
@@ -22,7 +34,7 @@
           @change="changeEvent('default_channel_id', $event.channelID)"
         />
       </div>
-      <div class="button save-button" v-if="changed" @click="updateServer()">Save Changes</div>
+      <div class="button save-button" :class="{disabled: requestSent}" v-if="changed" @click="updateServer()">{{requestSent ? 'Saving...' : 'Save Changes'}}</div>
     </div>
   </div>
 </template>
@@ -31,15 +43,19 @@
 import config from "@/config.js";
 import { bus } from "@/main";
 import Spinner from "@/components/Spinner.vue";
+import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
 import ServerService from "@/services/ServerService";
 import DropDown from "./DropDownMenu";
 import { mapState } from "vuex";
+import path from "path";
 
 export default {
-  components: { Spinner, DropDown },
+  components: { Spinner, DropDown, ProfilePicture },
   data() {
     return {
+      requestSent: false,
       changed: false,
+      avatarDomain: config.domain + "/avatars/",
       update: {}
     };
   },
@@ -51,10 +67,31 @@ export default {
       this.$set(this.update, name, value);
     },
     async updateServer() {
+      if (this.requestSent) return;
+      this.requestSent = true;
       const {ok, error, result} = await ServerService.updateServer(this.server.server_id, this.update);
       if (ok) {
         this.update = {};
+        this.requestSent = false;
       }
+    },
+    avatarChangeEvent(e) {
+      const file = event.target.files[0];
+      const _this = this;
+      event.target.value = "";
+      const allowedFormats = [".png", ".jpeg", ".gif", ".jpg"];
+      if (!allowedFormats.includes(path.extname(file.name).toLowerCase())) {
+        console.log("Invalid format.")
+      }
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
+      
+      reader.onload = function () {
+        _this.$set(_this.update, 'avatar', reader.result);
+      };
+      reader.onerror = function (error) {
+        console.log('Error: ', error);
+      };
     }
   },
   watch: {
@@ -102,14 +139,12 @@ export default {
   flex-direction: column;
 }
 .server-avatar {
-  background: grey;
-  height: 90px;
-  width: 90px;
-  border-radius: 50%;
-  flex-shrink: 0;
+  align-self: center;
+  margin: 10px;
 }
 .top {
   display: flex;
+  flex-direction: column;
   width: 100%;
   justify-content: center;
 }
@@ -157,6 +192,13 @@ export default {
 }
 .save-button {
   margin-top: 50px;
+}
+.save-button.disabled {
+  background: rgba(59, 59, 59, 0.692);
+}
+
+.hidden {
+  display: none;
 }
 </style>
 
