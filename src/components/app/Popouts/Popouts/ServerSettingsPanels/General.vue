@@ -4,7 +4,7 @@
       <profile-picture
         class="server-avatar"
         size="100px"
-        :url="update.avatar || `${avatarDomain}/${server.avatar}` "
+        :url="update.avatar || `${avatarDomain}/${server.avatar}`"
       />
       <div class="button" @click="$refs.avatarBrowser.click()">Edit Avatar</div>
         <input
@@ -70,18 +70,28 @@ export default {
       if (this.requestSent) return;
       this.requestSent = true;
       const {ok, error, result} = await ServerService.updateServer(this.server.server_id, this.update);
-      if (ok) {
-        this.update = {};
+      if (!ok) {
         this.requestSent = false;
+        if (!error.response) {
+          return this.$store.dispatch('setGenericMessage', "Something went wrong. Try again later.") 
+        }
+        return this.$store.dispatch('setGenericMessage', error.response.data.message) 
       }
+      this.update = {};
+      this.requestSent = false;
+      
     },
     avatarChangeEvent(e) {
       const file = event.target.files[0];
       const _this = this;
+      const maxSize = 2092000; 
+      if (file.size > maxSize) {
+        return this.$store.dispatch('setGenericMessage', "Image is larger than 2MB") 
+      }
       event.target.value = "";
       const allowedFormats = [".png", ".jpeg", ".gif", ".jpg"];
       if (!allowedFormats.includes(path.extname(file.name).toLowerCase())) {
-        console.log("Invalid format.")
+        return this.$store.dispatch('setGenericMessage', "That file format is not allowed!"); 
       }
       let reader = new FileReader();
       reader.readAsDataURL(file);
@@ -90,6 +100,7 @@ export default {
         _this.$set(_this.update, 'avatar', reader.result);
       };
       reader.onerror = function (error) {
+        return this.$store.dispatch('setGenericMessage', "Something went wrong. Try again later.") 
         console.log('Error: ', error);
       };
     }

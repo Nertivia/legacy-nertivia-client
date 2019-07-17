@@ -19,6 +19,20 @@ const config = [
 
 
   {
+    version: 5.1,
+    title: "Change server avatar!",
+    shortTitle: "Change server avatar!",
+    date: "17/07/2019",
+    headColor: "rgba(255, 79, 0, 0.77)",
+    new: [
+      "You can now change your server avatar from the server settings menu!",
+    ],
+    fix: ['Some bugs have been fixed.'],
+    next: ["Not decided yet."],
+  },
+
+
+  {
     version: 5.0,
     title: "Change server name and default server channel",
     shortTitle: "Change server name and default server channel",

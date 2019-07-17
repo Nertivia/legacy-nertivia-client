@@ -22,6 +22,8 @@ const state = {
   GDLinkMenu: false,
   addServer: false,
 
+  genericMessage: null, 
+
   serverSettings:{
     serverID: null,
     index: null
@@ -52,10 +54,16 @@ const actions = {
   },
   setServerIDContextMenu(context, serverID) {
     context.commit('setServerIDContextMenu', serverID);
+  },
+  setGenericMessage(context, message) {
+    context.commit('setGenericMessage', message);
   }
 }
 
 const mutations = {
+  setGenericMessage(state, message){
+    Vue.set(state, 'genericMessage', message)
+  },
   setServerSettings(state, {serverID, index}){
     Vue.set(state, 'serverSettings', {serverID, index});
   },

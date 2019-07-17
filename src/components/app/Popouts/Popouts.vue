@@ -11,6 +11,7 @@
       <add-server key="as" v-if="popouts.addServer"/>
       <server-invite key="sip" v-if="popouts.showServerInviteMenu" />
       <server-settings key="ss" v-if="popouts.serverSettings.serverID"/>
+      <GenericPopout  key="gp" v-if="popouts.genericMessage"/>
     </transition-group>
   </div>
 </template>
@@ -28,6 +29,7 @@
   const DragDropFileUploadDialog = () => import('./Popouts/DragDropFileUploadDialog.vue');
   const ServerInvitePopout = () => import('./Popouts/ServerInvitePopout.vue');
   const ServerSettings = () => import('./Popouts/ServerSettingsPanels/ServerSettings.vue');
+  const GenericPopout = () => import('./Popouts/GenericPopout');
 
 
 
@@ -42,7 +44,8 @@ export default {
     TakeSurveyPopout,
     AddServer,
     ServerInvite: ServerInvitePopout,
-    ServerSettings
+    ServerSettings,
+    GenericPopout
   },
   data() {
     return {
