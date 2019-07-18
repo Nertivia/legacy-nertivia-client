@@ -20,6 +20,7 @@
           :uniqueID="msg.creator.uniqueID"
           :avatar="msg.creator.avatar"
           :message="msg.message"
+          :embed="msg.embed"
           :files="msg.files"
           :status="msg.status"
           :type="msg.type"

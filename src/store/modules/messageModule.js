@@ -61,7 +61,6 @@ const actions = {
 
 
   },
-
   messages(context, data) {
     context.commit("messages", data);
   },
@@ -77,6 +76,17 @@ const actions = {
   },
   replaceMessage(context, data) {
     context.commit("replaceMessage", data);
+  },
+  updateMessage(context, {channelID, messageID, message}) {
+    console.log(message)
+    const messages = context.state.messages[channelID];
+    messages.find((obj, index) => {
+      if (obj.messageID === messageID){
+        const newObj = Object.assign({}, obj, message);
+        context.commit('updateMessage', {message: newObj, index});
+        return true;
+      }
+    })
   }
 };
 
@@ -101,6 +111,10 @@ async function getMessages(context, channelID, isServerChannel) {
 
 
 const mutations = {
+  updateMessage(state, {message, index}) {
+    console.log(message);
+    Vue.set(state.messages[message.channelID], index, message);
+  },
   messages(state, data) {
     Vue.set(state.messages, data.channelID, data.messages);
   },
@@ -112,7 +126,6 @@ const mutations = {
       data.message
     );
   },
-
   replaceMessage(state, data) {
     const { tempID, message } = data;
 

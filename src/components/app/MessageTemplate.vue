@@ -62,6 +62,7 @@
             @click="imageClicked"
           >
         </div>
+        <message-embed-template v-if="embed" :embed="embed"/>
       </div>
       <div
         class="sending-status"
@@ -94,6 +95,7 @@
 
 <script>
 import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
+import messageEmbedTemplate from "./messageEmbedTemplate";
 import messageFormatter from "@/utils/messageFormatter.js";
 import config from "@/config.js";
 import friendlyDate from "@/utils/date";
@@ -103,7 +105,8 @@ import { mapState } from "vuex";
 
 export default {
   components: {
-    ProfilePicture
+    ProfilePicture,
+    messageEmbedTemplate
   },
   props: [
     "message",
@@ -114,7 +117,8 @@ export default {
     "uniqueID",
     "files",
     "admin",
-    "type"
+    "type",
+    "embed"
   ],
   methods: {
     openUserInformation() {
@@ -126,12 +130,6 @@ export default {
   },
   computed: {
     ...mapState("settingsModule", ["apperance"]),
-    getLinks(){
-      const message = this.$props['message']
-      if (!message) return [];
-      console.log(message.match(/(https?:\/\/[^\s]+)/g) || [])
-      return "LOL"
-    },
     getImage() {
       if (!this.$props.files || this.$props.files.length === 0)
         return undefined;
@@ -381,7 +379,7 @@ export default {
 
 <style>
 .msg-link {
-  color: rgb(50, 138, 253);
+  color: rgb(86, 159, 253);
 }
 .message .sending-status .material-icons {
   font-size: 15px;

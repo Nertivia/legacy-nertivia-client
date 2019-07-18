@@ -28,17 +28,17 @@
           key="add-server"
           class="content"
         >
-          <div class="title">
+          <!-- <div class="title">
             Set your server's avatar
-          </div>
+          </div> -->
           <profile-picture
             class="avatar"
             size="90px"
             :url="tempImage"
           />
-          <div class="button">
+          <!-- <div class="button">
             Browse Avatar Coming Soon!
-          </div>
+          </div> -->
           <div class="input">
             <div class="input-name">
               Server Name
