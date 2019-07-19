@@ -77,8 +77,16 @@ const actions = {
   replaceMessage(context, data) {
     context.commit("replaceMessage", data);
   },
+  deleteMessage(context, {channelID, messageID}) {
+    const messages = context.state.messages[channelID];
+    messages.find((obj, index) => {
+      if (obj.messageID === messageID){
+        context.commit('deleteMessage', {channelID, index});
+        return true;
+      }
+    })
+  },
   updateMessage(context, {channelID, messageID, message}) {
-    console.log(message)
     const messages = context.state.messages[channelID];
     messages.find((obj, index) => {
       if (obj.messageID === messageID){
@@ -111,8 +119,10 @@ async function getMessages(context, channelID, isServerChannel) {
 
 
 const mutations = {
+  deleteMessage(state, {channelID, index}) {
+    Vue.delete(state.messages[channelID], index)
+  },
   updateMessage(state, {message, index}) {
-    console.log(message);
     Vue.set(state.messages[message.channelID], index, message);
   },
   messages(state, data) {

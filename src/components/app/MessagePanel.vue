@@ -23,6 +23,8 @@
           :embed="msg.embed"
           :files="msg.files"
           :status="msg.status"
+          :messageID="msg.messageID"
+          :channelID="msg.channelID"
           :type="msg.type"
         />
         <uploadsQueue v-if="uploadQueue !== undefined" :queue="uploadQueue"/>

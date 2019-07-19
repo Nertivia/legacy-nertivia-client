@@ -18,8 +18,7 @@
       </div>
       <div class="content">
         <div class="user-info">
-          <div
-            class="username"
+          <div class="username"
             @click="openUserInformation"
           >
             {{ this.$props.username }}
@@ -28,14 +27,12 @@
             {{ getDate }}
           </div>
         </div>
-        <div
-          class="content-message"
+        <div class="content-message"
           v-html="formatMessage"
         />
 
-        <div
+        <div class="file-content"
           v-if="getFile"
-          class="file-content"
         >
           <div class="icon">
             <i class="material-icons">insert_drive_file</i>
@@ -53,9 +50,8 @@
           </div>
         </div>
 
-        <div
+        <div class="image-content"
           v-if="getImage"
-          class="image-content"
         >
           <img
             :src="getImage"
@@ -64,18 +60,24 @@
         </div>
         <message-embed-template v-if="embed" :embed="embed"/>
       </div>
-      <div
-        class="sending-status"
-        v-html="statusMessage"
-      />
+      <div class="other-information">
+        <div class="drop-down-button" ref="drop-down-button" @click="dropDownVisable = !dropDownVisable"><i class="material-icons">more_vert</i></div>
+        <div class="drop-down-menu" v-click-outside="closeDropDown" v-if="dropDownVisable">
+          <!-- <div class="drop-item">Edit</div> -->
+          <div class="drop-item warn" @click="deleteMessage">Delete</div>
+        </div>
+        <div class="sending-status" v-if="status === 0"><i class="material-icons">hourglass_full</i></div>
+        <div class="sending-status" v-if="status === 1"><i class="material-icons">done</i></div>
+        <div class="sending-status" v-if="status === 2"><i class="material-icons">close</i> Failed</div>
+      </div>
+
     </div>
     <div
       v-if="type && (type === 1 || type === 2)"
       :class="{'presence-message': true, green: type === 1, red: type === 2}"
     >
       <span>
-        <span
-          class="username"
+        <span class="username"
           @click="openUserInformation"
         >{{ this.$props.username }}</span>
         <span
@@ -102,11 +104,17 @@ import friendlyDate from "@/utils/date";
 import path from "path";
 
 import { mapState } from "vuex";
+import messagesService from '../../services/messagesService';
 
 export default {
   components: {
     ProfilePicture,
     messageEmbedTemplate
+  },
+  data() {
+    return {
+      dropDownVisable: false
+    }
   },
   props: [
     "message",
@@ -118,7 +126,9 @@ export default {
     "files",
     "admin",
     "type",
-    "embed"
+    "embed",
+    "messageID",
+    "channelID"
   ],
   methods: {
     openUserInformation() {
@@ -126,6 +136,16 @@ export default {
     },
     imageClicked(event) {
       this.$store.dispatch("setImagePreviewURL", event.target.src);
+    },
+    closeDropDown(event) {
+      const dropDownButton = this.$refs['drop-down-button'];
+      if (!dropDownButton || dropDownButton.contains(event.target)) return;
+      this.dropDownVisable = false
+    },
+    async deleteMessage() {
+      this.dropDownVisable = false;
+      const {ok, error, result} = await messagesService.delete(this.messageID, this.channelID);
+      
     }
   },
   computed: {
@@ -160,19 +180,6 @@ export default {
     userAvatar() {
       return config.domain + "/avatars/" + this.$props.avatar;
     },
-    statusMessage() {
-      let status = this.$props.status;
-
-      if (status == 0) {
-        return `<i class="material-icons">hourglass_full</i>`;
-      } else if (status == 1) {
-        return `<i class="material-icons">done</i>`;
-      } else if (status == 2) {
-        return `<i class="material-icons">close</i> Failed`;
-      } else {
-        return "";
-      }
-    },
     user() {
       return this.$store.getters.user;
     }
@@ -184,7 +191,39 @@ export default {
 <style scoped>
 .container {
   position: relative;
+
+}
+
+.drop-down-button{
+  opacity: 0;
+  transition: 0.2s;
+}
+.drop-down-menu {
+  position: absolute;
   z-index: 999;
+  background: rgba(0, 0, 0, 0.918);
+  border-radius: 10px;
+  padding: 5px;
+  margin-top: 25px;
+  margin-left: -24px;
+  color: white;
+}
+.drop-item {
+  padding: 3px;
+  border-radius: 5px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 13px;
+}
+.drop-item:hover {
+  background: rgb(41, 41, 41);
+}
+.warn {
+  color: red;
+}
+
+.container:hover .drop-down-button{
+  opacity: 1;
 }
 .presence-message {
   margin: 10px;
@@ -364,6 +403,10 @@ export default {
   overflow-wrap: anywhere;
   margin-top: 3px;
 }
+.other-information {
+  display: flex;
+  flex-direction: column;
+}
 .message .sending-status {
   display: flex;
   justify-content: flex-end;
@@ -375,16 +418,31 @@ export default {
   transition: 0.5;
   align-content: center;
 }
+
+
+
+.message .other-information div .material-icons {
+  font-size: 15px;
+  color: rgb(306, 306, 306);
+  display: block;
+}
+
+.drop-down-button .material-icons {
+  font-size: 17px !important;
+  user-select: none;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+@media (max-width: 468px) {
+
+}
+
 </style>
 
 <style>
 .msg-link {
   color: rgb(86, 159, 253);
-}
-.message .sending-status .material-icons {
-  font-size: 15px;
-  color: rgb(306, 306, 306);
-  display: block;
 }
 .codeblock {
   background-color: rgba(0, 0, 0, 0.397);

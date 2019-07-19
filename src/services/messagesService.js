@@ -3,11 +3,14 @@ import filesize from "filesize";
 export default {
   // TODO: add ?continue=id
   get ( channelID )  {
-    return wrapper(instance().get(`messages/${channelID}`));
+    return wrapper(instance().get(`messages/channels/${channelID}`));
+  },
+  delete ( messageID, channelID )  {
+    return wrapper(instance().delete(`messages/${messageID}/channels/${channelID}`));
   },
 
   post (channelID, data, onProgress) {
-    const url = `messages/${channelID}`;
+    const url = `messages/channels/${channelID}`;
 
     var start = +new Date();
 

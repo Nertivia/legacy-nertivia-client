@@ -274,6 +274,9 @@ const actions = {
   ['socket_updateMessage'](context, data) {
     context.dispatch('updateMessage', {channelID: data.channelID, messageID: data.messageID, message: data});
   },
+  ['socket_deleteMessage'](context, {channelID, messageID}) {
+    context.dispatch('deleteMessage', {channelID, messageID})
+  },
 }
 
 export default {

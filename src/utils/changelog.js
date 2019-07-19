@@ -19,6 +19,19 @@ const config = [
 
 
   {
+    version: 5.2,
+    title: "Delete messages, URL Embeds",
+    shortTitle: "",
+    date: "19/07/2019",
+    headColor: "rgba(155, 79, 0, 0.77)",
+    new: [
+      "You can now delete your own messages.",
+      "URLs now show open graph embeds.",
+    ],
+    next: ["Edit messages."],
+  },
+
+  {
     version: 5.1,
     title: "Change server avatar!",
     shortTitle: "Change server avatar!",
