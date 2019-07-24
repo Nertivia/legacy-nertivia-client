@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" @mouseover="hover = true" @mouseleave="hover = false">
     <div
       v-if="!type || type === 0"
       :class="{message: true, ownMessage: user.uniqueID === $props.uniqueID, ownMessageLeft: user.uniqueID === $props.uniqueID && (apperance && apperance.own_message_right === true)} "
@@ -7,7 +7,7 @@
       <div class="avatar">
         <profile-picture
           :admin="$props.admin"
-          :url="userAvatar"
+          :url="`${userAvatar}${hover ? '' : '?type=png'}`"
           size="50px"
           :hover="true"
           @click.native="openUserInformation"
@@ -38,9 +38,7 @@
             <i class="material-icons">insert_drive_file</i>
           </div>
           <div class="information">
-            <div class="info">
-              {{ getFile.fileName }}
-            </div>
+            <div class="info"> {{ getFile.fileName }}</div>
             <a
               :href="getFile.url"
               target="_blank"
@@ -58,17 +56,18 @@
             @click="imageClicked"
           >
         </div>
-        <message-embed-template v-if="embed" :embed="embed"/>
+        <message-embed-template v-if="embed && Object.keys(embed).length" :embed="embed"/>
       </div>
       <div class="other-information">
         <div class="drop-down-button" ref="drop-down-button" @click="dropDownVisable = !dropDownVisable"><i class="material-icons">more_vert</i></div>
         <div class="drop-down-menu" v-click-outside="closeDropDown" v-if="dropDownVisable">
-          <!-- <div class="drop-item">Edit</div> -->
+          <div class="drop-item" @click="editMessage" v-if="user.uniqueID === uniqueID">Edit</div>
           <div class="drop-item warn" @click="deleteMessage">Delete</div>
         </div>
-        <div class="sending-status" v-if="status === 0"><i class="material-icons">hourglass_full</i></div>
-        <div class="sending-status" v-if="status === 1"><i class="material-icons">done</i></div>
-        <div class="sending-status" v-if="status === 2"><i class="material-icons">close</i> Failed</div>
+        <div class="sending-status" v-if="timeEdited && (status === undefined || status === 1)" :title="`Edited ${getEditedDate}`"><i class="material-icons">edit</i></div>
+        <div class="sending-status" v-else-if="status === 0"><i class="material-icons">hourglass_full</i></div>
+        <div class="sending-status" v-else-if="status === 1"><i class="material-icons">done</i></div>    
+        <div class="sending-status" v-else-if="status === 2"><i class="material-icons">close</i> Failed</div>
       </div>
 
     </div>
@@ -113,7 +112,8 @@ export default {
   },
   data() {
     return {
-      dropDownVisable: false
+      dropDownVisable: false,
+      hover: false
     }
   },
   props: [
@@ -128,7 +128,8 @@ export default {
     "type",
     "embed",
     "messageID",
-    "channelID"
+    "channelID",
+    "timeEdited"
   ],
   methods: {
     openUserInformation() {
@@ -146,6 +147,10 @@ export default {
       this.dropDownVisable = false;
       const {ok, error, result} = await messagesService.delete(this.messageID, this.channelID);
       
+    },
+    editMessage() {
+      this.dropDownVisable = false;
+      this.$store.dispatch("setEditMessage", {channelID: this.channelID, messageID: this.messageID});
     }
   },
   computed: {
@@ -158,7 +163,7 @@ export default {
       const filetypes = /jpeg|jpg|gif|png/;
       const extname = filetypes.test(path.extname(file.fileName).toLowerCase());
       if (!extname) return undefined;
-      return config.domain + "/files/" + file.fileID;
+      return config.domain + "/media/" + file.fileID;
     },
     getFile() {
       if (!this.$props.files || this.$props.files.length === 0)
@@ -176,6 +181,9 @@ export default {
     },
     getDate() {
       return friendlyDate(this.$props.date);
+    },
+    getEditedDate() {
+      return friendlyDate(this.timeEdited);
     },
     userAvatar() {
       return config.domain + "/avatars/" + this.$props.avatar;

@@ -1,5 +1,5 @@
 <template>
-  <div :class="{channel: true, notifyAnimation: hasNotifications}">
+  <div class="channel" :class="{notifyAnimation: hasNotifications, selected: selectedChannelID === channelData.channelID}">
     <i class="material-icons">storage</i>
     <div class="channel-name">
       {{ channelData.name }}
@@ -15,7 +15,10 @@ export default {
       const notifications = this.$store.getters.notifications;
       const find = notifications.find(n => n.channelID === this.channelData.channelID)
       return find
-    }
+    },
+    selectedChannelID() {
+      return this.$store.getters.selectedChannelID;
+    },
   }
 };
 </script>
@@ -60,6 +63,9 @@ export default {
 	font-size: 14px;
 }
 .channel:hover {
+  background: rgba(139, 139, 139, 0.288);
+}
+.selected {
   background: rgba(139, 139, 139, 0.288);
 }
 .channel-name {

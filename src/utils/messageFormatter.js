@@ -13,12 +13,12 @@ emojiFormatter.addTransformer({
 	symbol: ':',
 	padding: false,
 	recursive: false,
-	validate: text => /.+?&(.+?)/.test(text),
+	validate: text => /.+?&amp;(.+?)/.test(text),
 	transformer: owo
 })
 
 function owo (text) {
-	const split = escapeHTML(text).split('&');
+	const split = escapeHTML(text).split('&amp;');
 	if (!split || split.length <= 1) return `:${text}:`;
 	const url = split[split.length - 1].slice(4);
 	return `<img class="emoji" draggable="false" alt=":${split[0]}:" src="${config.domain + "/files/" + url}">`
@@ -29,7 +29,7 @@ futoji.addTransformer({
 	symbol: ':',
 	padding: false,
 	recursive: false,
-	validate: text => /.+?&(.+?)/.test(text),
+	validate: text => /.+?&amp;(.+?)/.test(text),
 	transformer: text => {
 		const formattedInner = emojiFormatter.format(text);
 		return owo(formattedInner);
@@ -85,7 +85,6 @@ futoji.addTransformer({
 	symbol: '```',
 	recursive: false,
 	transformer: text => {
-		//TODO: use https://github.com/atom/highlights instead.
 		let formatted = formatCode(text)
 
 		let highlighted
@@ -109,10 +108,9 @@ futoji.addTransformer({
 })
 
 export default (message) => {
-	message = futoji.format(message + ' ').trim();
+	message = futoji.format(escapeHtml(message + ' ')).trim();
 
 	message = emojiParser.replaceEmojis(message);
-
 	return message;
 }
 

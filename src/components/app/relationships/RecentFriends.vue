@@ -46,7 +46,6 @@ export default {
           return -1
         if (notificationB)
           return 1
-
         if (a.lastMessaged === undefined)
           return 1
         if (b.lastMessaged === undefined)

@@ -27,7 +27,8 @@ const state = {
   serverSettings:{
     serverID: null,
     index: null
-   } 
+   },
+  editMessage: null 
 }
 
 const getters = {
@@ -57,10 +58,16 @@ const actions = {
   },
   setGenericMessage(context, message) {
     context.commit('setGenericMessage', message);
+  },
+  setEditMessage(context, data){
+    context.commit('setEditMessage', data)
   }
 }
 
 const mutations = {
+  setEditMessage(state, data){
+    Vue.set(state, 'editMessage', data);
+  },
   setGenericMessage(state, message){
     Vue.set(state, 'genericMessage', message)
   },

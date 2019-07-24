@@ -8,6 +8,9 @@ export default {
   delete ( messageID, channelID )  {
     return wrapper(instance().delete(`messages/${messageID}/channels/${channelID}`));
   },
+  update ( messageID, channelID, data )  {
+    return wrapper(instance().patch(`messages/${messageID}/channels/${channelID}`, data));
+  },
 
   post (channelID, data, onProgress) {
     const url = `messages/channels/${channelID}`;

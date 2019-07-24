@@ -14,10 +14,44 @@
 
 const config = [
 
+  {
+    version: 5.4,
+    title: "Bug Fixes!",
+    shortTitle: "",
+    date: "24/07/2019",
+    headColor: "rgba(15, 65, 70, 0.77)",
+    fix: [
+      'Fixed a bug where when pressing the up arrow key to edit while there is text in the text box, it would discard the message and edit.',
+      'Fixed a bug where when editing a message and going to a different tab, the message is still editing.',
+      'Fixed a bug where if an emoji is in the recents, and then removed in the settings, the emoji would stay in the recents.',
+      'Fixed bugs with html escape :scream:',
+    ],
+  },
 
 
 
+  {
+    version: 5.3,
+    title: "Edit messages, More performance!",
+    shortTitle: "",
+    date: "23/07/2019",
+    headColor: "rgba(15, 89, 70, 0.77)",
+    new: [
+      "You can now edit your own messages!",
+      "Avatar and message pictures should now be disk cached.",
+      "Gif avatars will now only animate when being hovered. This will improve performance.",
+      "You can now click on embed images to get a full screen preview.",
+      "Server channels now show a gray background when selected.",
 
+    ],
+    fix: [
+    'Fixed a bug where when deleting a server channel, the notification would still stay.',
+    'Fixed a bug where when sending a message, the friend wouldnt go at the top in the recents list.',
+  ],
+    next: ["HTML channel for servers", "Change username, email and password."],
+  },
+  
+  
   {
     version: 5.2,
     title: "Delete messages, URL Embeds",

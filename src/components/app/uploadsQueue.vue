@@ -9,12 +9,8 @@
         <i class="material-icons">insert_drive_file</i>
       </div>
       <div class="information">
-        <div class="info">
-          {{ upload.name }}
-        </div>
-        <div class="info size">
-          {{ upload.size }}
-        </div>
+        <div class="info"> {{ upload.name }} </div>
+        <div class="info size"> {{ upload.size }} </div>
         <div class="progress">
           <div class="progress-bar">
             <div

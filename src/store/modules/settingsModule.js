@@ -30,7 +30,6 @@ const actions = {
 	},
 	addRecentEmoji(context, shortcode) {
 		const recentEmojis = JSON.parse(localStorage.getItem('recentEmojis')) || [];
-
 		let filter = recentEmojis.filter(function (item) {
 			return item !== shortcode
 		})
@@ -48,6 +47,15 @@ const actions = {
 	removeCustomEmoji(context, customEmoji) {
 		const emojiID = customEmoji.emoji.emojiID;
 		const customEmojiList = context.state.customEmojis;
+
+		// remove from recents
+		const recentEmojis = JSON.parse(localStorage.getItem('recentEmojis')) || [];
+		let filter = recentEmojis.filter(function (item) {
+			return item !== customEmoji.emoji.name
+		})
+		localStorage.setItem("recentEmojis", JSON.stringify(filter));
+		context.commit('setRecentEmojis', filter)
+
 
 		for (let index = 0; index < customEmojiList.length; index++) {
 			const element = customEmojiList[index];

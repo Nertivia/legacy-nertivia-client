@@ -29,6 +29,13 @@ const actions = {
   removeChannel(context, {channelID}) {
     context.commit('removeChannel', channelID)
   },
+  removeChannels(context, channelsArr){
+    for (let index = 0; index < channelsArr.length; index++) {
+      const element = channelsArr[index];
+      context.commit('removeChannel', element)
+      
+    }
+  },
   updateChannel(context, data) {
     const update = Object.assign({}, context.state.channels[data.channelID], data);
     context.commit('channel', update)
@@ -58,7 +65,7 @@ const mutations = {
     Vue.set(state.channels[channelID], "lastMessaged", Date.now());
   },
   addAllChannels(state, channels) {
-    const test = Object.assign(state.channels, channels);
+    const test = Object.assign({}, state.channels, channels);
     Vue.set(state, "channels", test);
   },
   channel(state, channel) {

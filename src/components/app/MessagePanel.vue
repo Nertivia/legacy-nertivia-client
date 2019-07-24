@@ -26,6 +26,7 @@
           :messageID="msg.messageID"
           :channelID="msg.channelID"
           :type="msg.type"
+          :timeEdited="msg.timeEdited"
         />
         <uploadsQueue v-if="uploadQueue !== undefined" :queue="uploadQueue"/>
       </div>
@@ -40,6 +41,7 @@
         <emoji-panel v-if="showEmojiPanel" @close="showEmojiPanel = false"/>
       </div>
 
+        <edit-panel v-if="editMessage" :data='editMessage' />
       <div class="message-area">
         <input type="file" ref="sendFileBrowse" @change="attachmentChange" class="hidden">
         <div class="attachment-button" @click="attachmentButton">
@@ -62,9 +64,9 @@
         </button>
         <button
           :class="{'send-button': true, 'error-send-button': messageLength > 5000}"
-          @click="sendMessage"
+          @click="editMessage ? updateMessage() : sendMessage()"
         >
-          <i class="material-icons">send</i>
+          <i class="material-icons">{{editMessage ? 'edit' : 'send'}}</i>
         </button>
       </div>
       <div class="info">
@@ -98,6 +100,7 @@ import emojiParser from "@/utils/emojiParser.js";
 import statuses from "@/utils/statuses";
 
 const emojiPanel = () => import("@/components/app/EmojiPanels/emojiPanel.vue");
+const EditPanel = () => import("@/components/app/EditPanel.vue");
 
 export default {
   components: {
@@ -107,7 +110,8 @@ export default {
     uploadsQueue,
     emojiSuggestions,
     emojiPanel,
-    heading
+    heading,
+    EditPanel
   },
   data() {
     return {
@@ -187,9 +191,49 @@ export default {
         console.log(error);
       }
     },
+    async updateMessage() {
+      const editMessage = this.editMessage;
+      this.$refs["input-box"].focus();
+      this.message = this.message.trim();
+      if (this.message === this.editMessage.message){
+        this.$store.dispatch("setEditMessage", null);
+        this.message = "";
+        return;
+      }
+      if (this.message == "") return;
+      if (this.message.length > 5000) return;
+      this.$store.dispatch("setEmojiArray", null);
+      clearInterval(this.postTimerID);
+      this.postTimerID = null;
+      this.messageLength = 0;
+
+      const msg = emojiParser.replaceShortcode(this.message);
+      this.$store.dispatch('updateMessage', {
+        channelID: editMessage.channelID,
+        messageID: editMessage.messageID,
+        message: {message: msg, status: 0}
+      })
+      this.$store.dispatch("setEditMessage", null);
+      this.message = "";
+
+      const {ok, error, result} = await messagesService.update(editMessage.messageID, editMessage.channelID, {
+        message: msg
+      })
+      if (ok) {
+        this.$store.dispatch('updateMessage', {
+          channelID: editMessage.channelID,
+          messageID: editMessage.messageID,
+          message: {status: 1}
+        })
+      } else {
+        this.$store.dispatch('updateMessage', {
+          channelID: editMessage.channelID,
+          messageID: editMessage.messageID,
+          message: {message: msg, status: 2}
+        })
+      }
+    },
     async postTimer() {
-
-
       this.postTimerID = setTimeout(async () => {
         if (this.message.trim() == "") {
           clearInterval(this.postTimerID);
@@ -202,7 +246,6 @@ export default {
             this.postTimer()
         }
       }, 2000)
-
     },
 
     resize(event) {
@@ -321,8 +364,25 @@ export default {
             this.enterEmojiSuggestion();
             return;
           }
-          this.sendMessage();
+          if (this.editMessage) {
+            return this.updateMessage()
+          } else {
+            this.sendMessage();
+          }
         }
+      }
+      if (event.keyCode === 38){ //38 = up arrow
+        if (this.message !== "") return;
+        if (this.editMessage) return;
+        const messagesFiltered = this.selectedChannelMessages.filter(m => m.creator.uniqueID === this.user.uniqueID);
+        if (!messagesFiltered.length) return;
+        event.preventDefault();
+        const lastMessage = messagesFiltered[messagesFiltered.length - 1];
+        this.$store.dispatch("setEditMessage", {
+          messageID: lastMessage.messageID,
+          channelID: lastMessage.channelID
+        });
+
       }
     },
     invertScroll(event) {
@@ -451,6 +511,15 @@ export default {
     window.removeEventListener('focus', this.onFocus)
     delete this.$options.sockets.typingStatus;
   },
+  watch: {
+    editMessage(editMessage) {
+      if (!editMessage) {
+        this.message = ""
+      } else {
+      this.message = editMessage.message
+      }
+    }
+  },
   computed: {
     uploadQueue() {
       const allUploads = this.$store.getters.getAllUploads;
@@ -507,6 +576,14 @@ export default {
         status = presences[channel.recipients[0].uniqueID] || 0;
       }
       return statuses[status].color;
+    },
+    editMessage() {
+      let editMessage = this.$store.getters.popouts.editMessage;
+      if (!editMessage) return null;
+      editMessage = Object.assign({}, editMessage); 
+      const messages = this.$store.getters.messages[editMessage.channelID];
+      editMessage.message = messages.find(m => m.messageID === editMessage.messageID).message
+      return editMessage;
     }
   }
 };

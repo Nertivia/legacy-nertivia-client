@@ -3,10 +3,12 @@
     :class="{friend: true, notifyAnimation: (notifications && notifications > 0) }"
     :style="`background: ${status.bgColor};`"
     @click="openChat"
+    @mouseover="hover = true"
+    @mouseleave="hover = false"
   >
     <div
       class="profile-picture"
-      :style="`border-color: ${status.statusColor}; background-image: url(${userAvatar})`"
+      :style="`border-color: ${status.statusColor}; background-image: url(${userAvatar}${hover ? '' : '?type=png'})`"
       @click="openUserInformation"
     >
       <div
@@ -45,6 +47,11 @@ import {bus} from '@/main'
 
 export default {
   props: ['username', 'tag',  'channelID',  'uniqueID', 'recipient'],
+  data() {
+    return {
+      hover: false
+    }
+  },
   computed: {
     notifications () {
       const channelID = this.$props.channelID;

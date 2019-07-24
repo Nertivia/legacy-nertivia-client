@@ -1,7 +1,7 @@
 <template>
   <div class="embed" :class="{article: embed.type === 'article' || embed.type === 'video.other'}">
     <div class="right">
-      <div class="image"><img v-if="embed.image" :src="`//images.weserv.nl/?url=${embed.image}`" alt=""></div>
+      <div class="image" v-if="embed.image" @click="embedImgClicked"><img :src="`//images.weserv.nl/?url=${embed.image}`" alt=""></div>
     </div>
     <div class="left">
       <div class="title" v-if="embed.url"><a target=”_blank” :href="embed.url">{{embed.title}}</a></div>
@@ -13,7 +13,12 @@
 
 <script>
 export default {
-  props: ["embed"]
+  props: ["embed"],
+  methods: {
+    embedImgClicked() {
+      this.$store.dispatch("setImagePreviewURL", "//images.weserv.nl/?url=" + this.embed.image);
+    },
+  }
 }
 </script>
 

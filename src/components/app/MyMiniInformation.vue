@@ -2,10 +2,12 @@
   <div
     class="my-mini-information"
     :style="{backgroundColor: getStatusColor}"
+    @mouseover="hover = true" @mouseleave="hover = false"
+    
   >
     <div class="profile-pic-outer">
       <profile-picture
-        :url="avatar"
+        :url="`${avatar}${hover ? '' : '?type=png'}`"
         :admin="user.admin"
         size="50px"
         :hover="true"
@@ -73,7 +75,8 @@ export default {
     return {
       status: {
         isPoppedOut: false
-      }
+      },
+      hover: false
     };
   },
   computed: {

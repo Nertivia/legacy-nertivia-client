@@ -222,6 +222,8 @@ const actions = {
   ['socket_server:leave'](context, {server_id}) {
     context.dispatch('servers/removePresences', server_id);
     context.dispatch('servers/removeServer', server_id)
+    context.dispatch('servers/removeNotifications', server_id)
+    context.dispatch('servers/removeAllServerChannels', server_id)
   },
   ['socket_server:memberAdd'](context, {serverMember, presence}) { // member_add
     let sm = Object.assign({}, serverMember);
@@ -232,12 +234,9 @@ const actions = {
     context.dispatch('members/updatePresence', {uniqueID: member.uniqueID, status: presence})
     context.dispatch('members/addMember', member)
     context.dispatch('servers/addServerMember', sm)
-
-    console.log("someone joined")
   },
   ['socket_server:memberRemove'](context, {uniqueID, server_id}) { // member_remove
     context.dispatch('servers/removeServerMember', {uniqueID, server_id})
-    console.log("Someone left")
   },
   ['socket_server:members'](context, {serverMembers, memberPresences}) { // members
     let serverMembersArr = [];
@@ -266,7 +265,7 @@ const actions = {
   },
   ['socket_server:removeChannel'](context, {server_id, channelID}) {
     context.dispatch('servers/removeServerChannel', {server_id, channelID});
-
+    context.dispatch('dismissNotification', channelID);
   },
   ['socket_server:updateServer'](context, data) {
     context.dispatch('servers/updateServer', {server_id: data.server_id, server: data});

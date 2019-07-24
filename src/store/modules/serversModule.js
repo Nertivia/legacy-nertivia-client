@@ -64,16 +64,28 @@ const actions = {
     }
   },
   removeServerChannel (context, {server_id, channelID}) {
-    const filter = context.state.channelsIDs[server_id].filter(c => {
-      return c !== channelID
-    })
+    const filter = context.state.channelsIDs[server_id].filter(c => c !== channelID )
     context.commit('SET_CHANNEL_IDs', {serverID: server_id, channelIDs: filter})
-  }
+  },
+  removeAllServerChannels(context, server_id) {
+    const serverChannels = context.state.channelsIDs[server_id]
+    context.dispatch('removeChannels', serverChannels, {root: true})
+    context.commit('DELETE_CHANNELS', server_id)
+  },
+  removeNotifications(context, server_id) {
+    const serverChannels = context.state.channelsIDs[server_id]
+    const filteredNotifications = context.rootState.notificationsModule.notifications.filter(n => !serverChannels.includes(n.channelID));
+    context.dispatch('addAllNotifications', filteredNotifications, {root:true});
+    
+  },
 };
 
 const mutations = {
   SET_CHANNEL_IDs(state, {serverID, channelIDs}) {
     Vue.set(state.channelsIDs, serverID, channelIDs)
+  },
+  DELETE_CHANNELS(state, server_id) {
+    Vue.delete(state.channelsIDs, server_id);
   },
   ADD_CHANNELS_IDS(state, {serverID, channelsIDs}) {
     const previousChannels = state.channelsIDs[serverID] || []
