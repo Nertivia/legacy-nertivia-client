@@ -15,6 +15,17 @@
 const config = [
 
   {
+    version: 5.5,
+    title: "Oopsies!",
+    shortTitle: "",
+    date: "25/07/2019",
+    headColor: "rgba(15, 65, 70, 0.77)",
+    fix: [
+      'Removed codeblock highlighter due to some problems. Will be back in the future.',
+    ],
+  },
+
+  {
     version: 5.4,
     title: "Bug Fixes!",
     shortTitle: "",
