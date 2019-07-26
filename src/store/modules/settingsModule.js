@@ -9,6 +9,7 @@ const state = {
 	GDriveLinked: false,
 	customEmojis: [],
 	recentEmojis: JSON.parse(localStorage.getItem('recentEmojis')) || [],
+	notification: JSON.parse(localStorage.getItem('notificationSettings')) || {},
 	apperance: {}
 }
 
@@ -28,6 +29,12 @@ const actions = {
 	setGDriveLinked(context, status) {
 		context.commit('GoogleDriveLinked', status)
 	},
+	updateNotification(context, data) {
+		let notificationSettings = JSON.parse(localStorage.getItem('notificationSettings')) || {};
+		Object.assign(notificationSettings, data); 
+		localStorage.setItem("notificationSettings", JSON.stringify(notificationSettings));
+		context.commit('updateNotification', notificationSettings)
+	},	
 	addRecentEmoji(context, shortcode) {
 		const recentEmojis = JSON.parse(localStorage.getItem('recentEmojis')) || [];
 		let filter = recentEmojis.filter(function (item) {
@@ -85,6 +92,9 @@ const actions = {
 }
 
 const mutations = {
+	updateNotification(state, data) {
+		Vue.set(state, 'notification', data)
+	},
 	setApperance(state, data) {
 		Vue.set(state.apperance, Object.keys(data)[0], data[Object.keys(data)[0]])
 	},

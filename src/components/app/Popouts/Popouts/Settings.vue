@@ -32,12 +32,14 @@ import { bus } from "@/main";
 const MyProfile = () => import("./SettingsPanels/MyProfile.vue");
 const ManageEmojis = () => import("./SettingsPanels/ManageEmojis.vue");
 const MessageDesign = () => import("./SettingsPanels/MessageDesign.vue");
+const Notifications = () => import("./SettingsPanels/Notifications.vue");
 
 export default {
   components: {
     MyProfile,
     ManageEmojis,
-    MessageDesign
+    MessageDesign,
+    Notifications
   },
   data() {
     return {
@@ -60,6 +62,12 @@ export default {
           tabName: "Manage Emojis",
           icon: "face",
           component: "manage-emojis"
+        },
+        {
+          name: "Notifications",
+          tabName: "Notifications",
+          icon: "message",
+          component: "notifications"
         }
       ]
     };

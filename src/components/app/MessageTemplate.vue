@@ -150,7 +150,7 @@ export default {
     },
     editMessage() {
       this.dropDownVisable = false;
-      this.$store.dispatch("setEditMessage", {channelID: this.channelID, messageID: this.messageID});
+      this.$store.dispatch("setEditMessage", {channelID: this.channelID, messageID: this.messageID, message: this.message});
     }
   },
   computed: {

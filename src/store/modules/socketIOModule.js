@@ -1,7 +1,8 @@
+import config from '@/config';
 import {bus} from '../../main'
 import {router} from './../../router'
 import Vue from 'vue';
-
+import DesktopNotification from '@/utils/ElectronJS/DesktopNotification'
 
 const state = {
 
@@ -151,6 +152,8 @@ const actions = {
     }
     if (context.rootState.channelModule.selectedChannelID == data.message.channelID && document.hasFocus()) {
       this._vm.$socket.emit('notification:dismiss', {channelID: data.message.channelID});
+    } else {
+      desktopNotification();
     }
     // send notification if other users message the recipient
     if (data.message.creator.uniqueID === context.getters.user.uniqueID) return;
@@ -160,6 +163,28 @@ const actions = {
       sender: data.message.creator
     }
     context.dispatch('messageCreatedNotification', notification);
+    function desktopNotification() {
+      // send desktop notification
+      const disableDesktopNotification = context.rootGetters['settingsModule/settings'].notification.disableDesktopNotification;
+      if (disableDesktopNotification === true) return
+      const channel = context.getters.channels[data.message.channelID];
+      if (channel.server_id) {
+        const server = context.getters['servers/servers'][channel.server_id]
+        DesktopNotification.serverMessage({
+          serverName: server.name,
+          channelName: channel.name,
+          username: data.message.creator.username,
+          avatarURL: config.domain + '/avatars/' + server.avatar,
+          message: data.message.message
+        })
+      } else {
+        DesktopNotification.directMessage({
+          username: data.message.creator.username,
+          avatarURL: config.domain + '/avatars/' + data.message.creator.avatar,
+          message: data.message.message
+        })
+      }
+    }
   },
   socket_userStatusChange(context, data) {
     if (context.rootState.user.user.uniqueID === data.uniqueID) return;

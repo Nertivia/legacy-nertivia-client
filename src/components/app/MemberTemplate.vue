@@ -2,10 +2,11 @@
   <div
     class="member"
     @click="openUserInformation()"
+    @mouseover="hover = true" @mouseleave="hover = false"
   >
     <Profile-picture 
       class="avatar"
-      :url="userAvatar"
+      :url="`${userAvatar}${hover ? '' : '?type=png'}`"
       size="35px"
       :unique-i-d="user.uniqueID"
       :status="presense"
@@ -31,6 +32,11 @@ import config from '@/config';
 export default {
   components: { ProfilePicture },
   props: ['user', 'avatar', 'type'],
+  data() {
+    return {
+      hover: false
+    }
+  },
   computed: {
     userAvatar() {
       return config.domain + "/avatars/" + this.avatar  

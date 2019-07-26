@@ -96,6 +96,9 @@ export default {
   margin-top: 2px;
   margin-bottom: 2px;
   transition: 0.2s;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .item:hover {
   background: rgb(46, 46, 46);

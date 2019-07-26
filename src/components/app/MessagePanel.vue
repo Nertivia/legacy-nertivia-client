@@ -580,9 +580,6 @@ export default {
     editMessage() {
       let editMessage = this.$store.getters.popouts.editMessage;
       if (!editMessage) return null;
-      editMessage = Object.assign({}, editMessage); 
-      const messages = this.$store.getters.messages[editMessage.channelID];
-      editMessage.message = messages.find(m => m.messageID === editMessage.messageID).message
       return editMessage;
     }
   }

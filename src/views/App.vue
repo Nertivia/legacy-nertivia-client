@@ -256,7 +256,7 @@ export default {
   display: flex;
   overflow-y: hidden;
   overflow-x: auto;
-  max-width: 495px;
+  max-width: 560px;
   flex-basis: auto; /* default value */
   flex-grow: 1;
   -webkit-app-region: no-drag;

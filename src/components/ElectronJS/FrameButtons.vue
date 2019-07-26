@@ -22,7 +22,7 @@
 </template>
 
 <script>
-const remote = window.require("electron").remote;
+const {remote} = window.require("electron");
 
 export default {
   methods: {
@@ -54,12 +54,11 @@ export default {
 }
 .frame-buttons div {
   display: flex;
-  padding: 5px;
   flex-shrink: 0;
-  height: 15px;
-  width: 15px;
-  border-radius: 5px;
-  margin: 3px;
+  height: 100%;
+  width: 50px;
+  border-radius: 2px;
+  margin: 1px;
   color: white;
   align-items: center;
   justify-content: center;
