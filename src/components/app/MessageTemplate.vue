@@ -452,11 +452,18 @@ export default {
 .msg-link {
   color: rgb(86, 159, 253);
 }
+
+pre {
+  padding: 0;
+  margin: 0;
+}
+
 .codeblock {
   background-color: rgba(0, 0, 0, 0.397);
   padding: 5px;
   border-radius: 5px;
 }
+
 img.emoji {
   height: 1.7em;
   width: auto;
