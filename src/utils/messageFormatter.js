@@ -3,7 +3,7 @@ import twemoji from 'twemoji'
 import emojiParser from '@/utils/emojiParser';
 import config from "@/config.js";
 
-import customEmoji from './markdown-it-plugins/replaceCustomEmoji'
+import customEmoji from './markdown-it-plugins/customEmoji'
 
 import hljs from 'highlight.js'
 
@@ -26,7 +26,7 @@ const markdown = new MarkdownIt({
   }
 }).use(chatPlugin)
 	.use(customEmoji);
-	
+
 const emojiFormatter = new Formatter();
 
 emojiFormatter.addTransformer({
