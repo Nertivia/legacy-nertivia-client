@@ -1,53 +1,13 @@
 <template>
   <div class="my-profile-panel">
-    <div class="general-information">
-      <profile-picture
-        class="avatar"
-        :url="avatar"
-        :admin="user.admin"
-        size="100px"
-        emote-size="30px"
-        animation-padding="5px"
-      />
-      <div class="information">
-        <div class="username">
-          <strong>Username:</strong>
-          {{ user.username }}
-        </div>
-        <div class="tag">
-          <strong>Tag:</strong>
-          @{{ user.tag }}
-        </div>
-      </div>
-      <div class="options">
-        <input
-          ref="avatarBrowser"
-          type="file"
-          accept="image/*"
-          class="hidden"
-          @change="avatarBrowse"
-        >
-        <div
-          class="option"
-          @click="editAvatarBtn"
-        >
-          Edit Avatar
-        </div>
-        <div
-          class="option"
-          @click="changePassword"
-        >
-          Change Password
-        </div>
-        <div
-          class="option red"
-          @click="logout"
-        >
-          Logout
-        </div>
-      </div>
+    <div class="tabs">
+      <div class="tab" :class="{selected: tab == 0}" @click="tab = 0">Edit Profile</div>
+      <div class="tab" :class="{selected: tab == 1}" @click="tab = 1">Survey</div>
     </div>
-    <survey />
+    <div class="content">
+      <edit-profile v-if="tab === 0" />
+      <survey v-if="tab === 1"/>
+    </div>
     <div
       v-if="alert.show"
       class="alert-outer"
@@ -75,7 +35,9 @@
 <script>
 
 import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
-import Survey from "./survey.vue";
+const Survey = () => import("./survey.vue");
+const EditProfile = () => import("./EditProfile.vue");
+
 import AvatarUpload from "@/services/AvatarUpload.js";
 import config from "@/config.js";
 import { bus } from "@/main";
@@ -85,10 +47,12 @@ import { mapState } from "vuex";
 export default {
   components: {
     ProfilePicture,
-    Survey
+    Survey,
+    EditProfile
   },
   data() {
     return {
+      tab: 0,
       alert: {
         content: "",
         show: false
@@ -158,59 +122,52 @@ export default {
 </script>
 <style scoped>
 
+.tabs{
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 999999;
+  display: flex;
+  background: rgb(47, 47, 47);
+  justify-content: center;
+}
+.tabs .tab {
+  padding: 10px;
+  margin: 3px;
+  margin-bottom: 0;
+  border-bottom: solid 5px rgba(255, 255, 255, 0);
+  transition: 0.3s;
+  user-select: none;
+  cursor: pointer;
+}
+.tabs .tab:hover {
+  border-bottom: solid 5px rgba(255, 255, 255, 0.507);
+}
+.tabs .tab.selected {
+  border-bottom: solid 5px white;
+}
+
+.content{
+  display: flex;
+  margin-top: 45px;
+  width: 100%;
+  height: 100%;
+}
+
+
+
 .hidden {
   display: none;
 }
 .my-profile-panel {
+  position: relative;
   display: flex;
   width: 100%;
   height: 100%;
   flex-direction: column;
   overflow: auto;
 }
-.general-information {
-  display: flex;
-  width: 100%;
-  margin-top: 20px;
-  flex-shrink: 0;
-}
-.avatar {
-  display: flex;
-  margin-left: 20px;
-}
 
-.information {
-  margin: auto;
-  margin-left: 20px;
-  margin-right: 0;
-  font-size: 18px;
-  flex: 1;
-}
-.username {
-  margin-bottom: 10px;
-}
-.options {
-  margin: auto;
-  margin-right: 30px;
-  border-left: solid 1px rgb(204, 204, 204);
-  padding-left: 10px;
-}
-.option {
-  color: rgb(218, 218, 218);
-  cursor: default;
-  user-select: none;
-  transition: 0.3s;
-}
-.option:hover {
-  color: rgb(255, 255, 255);
-}
-
-.option.red {
-  color: rgba(255, 0, 0, 0.678);
-}
-.option.red:hover {
-  color: red;
-}
 .alert-title {
   background: rgb(34, 34, 34);
   font-size: 20px;
@@ -260,23 +217,6 @@ export default {
   background: rgb(83, 53, 53);
 }
 @media (max-width: 815px) {
-  .general-information {
-    flex-direction: column;
-  }
-  .avatar{
-    align-self: center;
-    margin: 0;
-    margin-bottom: 10px;
-  }
-  .information {
-    margin: auto;
-    text-align: center;
-  }
-  .options {
-    margin: auto;
-    margin-top: 20px;
-    text-align: center;
-    border: none;
-  }
+
 }
 </style>

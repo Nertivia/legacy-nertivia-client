@@ -225,7 +225,6 @@ export default {
 .survey-inner {
   display: flex;
   margin: auto;
-  margin-top: 10px;
   margin-bottom: 50px;
   flex-direction: column;
   align-content: center;
