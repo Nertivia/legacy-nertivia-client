@@ -3,6 +3,8 @@ import emojiParser from '@/utils/emojiParser';
 import config from "@/config.js";
 
 import customEmoji from './markdown-it-plugins/customEmoji'
+import formatLink from './markdown-it-plugins/formatLink'
+import formatCode from './markdown-it-plugins/formatCode'
 
 import hljs from 'highlight.js'
 
@@ -24,37 +26,9 @@ const markdown = new MarkdownIt({
     return '<div class="codeblock"><code>' + markdown.utils.escapeHtml(str) + '</code></div>';
   }
 }).use(chatPlugin)
-	.use(customEmoji);
-
-
-//add attributes to link tag
-(function() {
-  const defaultRender = markdown.renderer.rules.link_open || function(tokens, idx, options, env, self) {
-    return self.renderToken(tokens, idx, options);
-  };
-  
-  markdown.renderer.rules.link_open = function (tokens, idx, options, env, self) {
-    tokens[idx].attrPush(['target', '_blank']); // add new attribute
-    tokens[idx].attrPush(['class', 'msg-link']);
-    // pass token to default renderer.
-    return defaultRender(tokens, idx, options, env, self);
-  };
-})();
-
-// add addribute to code
-(function() {
-  const defaultRender = markdown.renderer.rules.code_inline || function(tokens, idx, options, env, self) {
-    return self.renderToken(tokens, idx, options);
-  };
-  
-  markdown.renderer.rules.code_inline = function (tokens, idx, options, env, self) {
-    tokens[idx].attrPush(['class', 'code-inline']);
-    // pass token to default renderer.
-    return defaultRender(tokens, idx, options, env, self);
-  };
-})();
-console.log(markdown.renderer.rules)
-
+	.use(customEmoji)
+  .use(formatLink)
+  .use(formatCode);
 
 export default (message) => {
 
