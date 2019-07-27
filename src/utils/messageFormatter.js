@@ -1,4 +1,3 @@
-import Formatter from 'futoji'
 import twemoji from 'twemoji'
 import emojiParser from '@/utils/emojiParser';
 import config from "@/config.js";
@@ -26,17 +25,6 @@ const markdown = new MarkdownIt({
   }
 }).use(chatPlugin)
 	.use(customEmoji);
-
-const emojiFormatter = new Formatter();
-
-emojiFormatter.addTransformer({
-	name:'customEmoji2',
-	symbol: ':',
-	padding: false,
-	recursive: false,
-	validate: text => /.+?&(.+?)/.test(text),
-	transformer: owo
-})
 
 function owo (text) {
 	const split = text.split('&');

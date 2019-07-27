@@ -3851,11 +3851,6 @@ functional-red-black-tree@^1.0.1:
   resolved "https://registry.yarnpkg.com/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
   integrity sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=
 
-futoji@^0.5.0:
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/futoji/-/futoji-0.5.1.tgz#56caf73aeca52b86cfc9558ccc9b52a4eb072bb3"
-  integrity sha512-AIm9uVmjFq0UG6FKy7J1Gq/KOY+Gzb9uig5Xu+vjPy9l6SM8Jgaaw7qscgKD4NdHFM9IXqeC5s35o0toV1fOTQ==
-
 gauge@~2.7.3:
   version "2.7.4"
   resolved "https://registry.yarnpkg.com/gauge/-/gauge-2.7.4.tgz#2c03405c7538c39d7eb37b317022e325fb018bf7"
