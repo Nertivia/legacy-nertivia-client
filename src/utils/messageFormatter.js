@@ -28,16 +28,32 @@ const markdown = new MarkdownIt({
 
 
 //add attributes to link tag
-const defaultRender = markdown.renderer.rules.link_open || function(tokens, idx, options, env, self) {
-  return self.renderToken(tokens, idx, options);
-};
+(function() {
+  const defaultRender = markdown.renderer.rules.link_open || function(tokens, idx, options, env, self) {
+    return self.renderToken(tokens, idx, options);
+  };
+  
+  markdown.renderer.rules.link_open = function (tokens, idx, options, env, self) {
+    tokens[idx].attrPush(['target', '_blank']); // add new attribute
+    tokens[idx].attrPush(['class', 'msg-link']);
+    // pass token to default renderer.
+    return defaultRender(tokens, idx, options, env, self);
+  };
+})();
 
-markdown.renderer.rules.link_open = function (tokens, idx, options, env, self) {
-  tokens[idx].attrPush(['target', '_blank']); // add new attribute
-  tokens[idx].attrPush(['class', 'msg-link']);
-  // pass token to default renderer.
-  return defaultRender(tokens, idx, options, env, self);
-};
+// add addribute to code
+(function() {
+  const defaultRender = markdown.renderer.rules.code_inline || function(tokens, idx, options, env, self) {
+    return self.renderToken(tokens, idx, options);
+  };
+  
+  markdown.renderer.rules.code_inline = function (tokens, idx, options, env, self) {
+    tokens[idx].attrPush(['class', 'code-inline']);
+    // pass token to default renderer.
+    return defaultRender(tokens, idx, options, env, self);
+  };
+})();
+console.log(markdown.renderer.rules)
 
 
 export default (message) => {

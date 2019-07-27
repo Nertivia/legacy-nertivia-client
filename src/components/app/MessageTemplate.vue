@@ -16,7 +16,7 @@
       <div class="triangle">
         <div class="triangle-inner" />
       </div>
-      <div class="content">
+      <div class="content" @dblclick="contentDoubleClickEvent">
         <div class="user-info">
           <div class="username"
             @click="openUserInformation"
@@ -149,8 +149,12 @@ export default {
       
     },
     editMessage() {
+      if (this.uniqueID !== this.user.uniqueID) return;
       this.dropDownVisable = false;
       this.$store.dispatch("setEditMessage", {channelID: this.channelID, messageID: this.messageID, message: this.message});
+    },
+    contentDoubleClickEvent(event){
+      if (event.target.classList.contains("content") || event.target.closest('.user-info')) this.editMessage();
     }
   },
   computed: {
@@ -449,6 +453,10 @@ export default {
 </style>
 
 <style>
+
+.code-inline{
+  background: rgba(0, 0, 0, 0.322);
+}
 .msg-link {
   color: rgb(86, 159, 253);
 }
