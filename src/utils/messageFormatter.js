@@ -26,12 +26,18 @@ const markdown = new MarkdownIt({
 }).use(chatPlugin)
 	.use(customEmoji);
 
-function owo (text) {
-	const split = text.split('&');
-	if (!split || split.length <= 1) return `:${text}:`;
-	const url = split[split.length - 1].slice(4);
-	return `<img class="emoji" draggable="false" alt=":${split[0]}:" src="${config.domain + "/files/" + url}">`
-}
+
+//add attributes to link tag
+const defaultRender = markdown.renderer.rules.link_open || function(tokens, idx, options, env, self) {
+  return self.renderToken(tokens, idx, options);
+};
+
+markdown.renderer.rules.link_open = function (tokens, idx, options, env, self) {
+  tokens[idx].attrPush(['target', '_blank']); // add new attribute
+  tokens[idx].attrPush(['class', 'msg-link']);
+  // pass token to default renderer.
+  return defaultRender(tokens, idx, options, env, self);
+};
 
 
 export default (message) => {

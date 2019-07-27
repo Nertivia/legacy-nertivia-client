@@ -22,7 +22,7 @@ export default {
 			if (emoji) return emoji.unicode
 
 			const customEmoji = customEmojis.find(e => e.name === x.substr(1).slice(0, -1))
-			if (customEmoji) return `:${customEmoji.name}&${customEmoji.emojiID}:`
+			if (customEmoji) return `<:${customEmoji.name}:${customEmoji.emojiID}>`
 			return x
 		});
 	},

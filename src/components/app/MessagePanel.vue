@@ -247,7 +247,6 @@ export default {
         }
       }, 2000)
     },
-
     resize(event) {
       let input = this.$refs["input-box"];
 
@@ -371,19 +370,23 @@ export default {
           }
         }
       }
+
       if (event.keyCode === 38){ //38 = up arrow
         if (this.message !== "") return;
         if (this.editMessage) return;
         const messagesFiltered = this.selectedChannelMessages.filter(m => m.creator.uniqueID === this.user.uniqueID);
+
         if (!messagesFiltered.length) return;
         event.preventDefault();
         const lastMessage = messagesFiltered[messagesFiltered.length - 1];
         this.$store.dispatch("setEditMessage", {
           messageID: lastMessage.messageID,
-          channelID: lastMessage.channelID
+          channelID: lastMessage.channelID,
+          message: lastMessage.message
         });
 
       }
+
     },
     invertScroll(event) {
       if (event.deltaY) {
