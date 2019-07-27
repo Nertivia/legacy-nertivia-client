@@ -15,7 +15,7 @@
 const config = [
 
   {
-    version: 5.5,
+    version: 5.6,
     title: "Bug fixes and redesigns",
     shortTitle: "",
     date: "27/07/2019",
