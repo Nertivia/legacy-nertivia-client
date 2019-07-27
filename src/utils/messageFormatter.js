@@ -1,19 +1,30 @@
-import Formatter from 'futoji'
 import twemoji from 'twemoji'
 import emojiParser from '@/utils/emojiParser';
 import config from "@/config.js";
 
-const futoji = new Formatter();
-const emojiFormatter = new Formatter();
+import customEmoji from './markdown-it-plugins/customEmoji'
 
-emojiFormatter.addTransformer({
-	name:'customEmoji2',
-	symbol: ':',
-	padding: false,
-	recursive: false,
-	validate: text => /.+?&(.+?)/.test(text),
-	transformer: owo
-})
+import hljs from 'highlight.js'
+
+import MarkdownIt from 'markdown-it'
+import chatPlugin from 'markdown-it-chat-formatter/dist-src/plugin'
+
+const markdown = new MarkdownIt({
+  highlight: function (str, lang) {
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return '<div class="codeblock"><code>' +
+               hljs.highlight(lang, str, true).value +
+               '</code></div>';
+      } catch (err) {
+				console.error(err)
+      }
+    }
+
+    return '<div class="codeblock"><code>' + markdown.utils.escapeHtml(str) + '</code></div>';
+  }
+}).use(chatPlugin)
+	.use(customEmoji);
 
 function owo (text) {
 	const split = text.split('&');
@@ -23,116 +34,11 @@ function owo (text) {
 }
 
 
-futoji.addTransformer({
-	name: 'custom emoji',
-	symbol: ':',
-	padding: false,
-	recursive: false,
-	validate: text => /.+?&(.+?)/.test(text),
-	transformer: text => {
-		const formattedInner = emojiFormatter.format(text);
-		return owo(formattedInner);
-
-	}
-})
-
-
-
-futoji.addTransformer({
-	name: 'url',
-	open: 'http',
-	close: ' ',
-	recursive: false,
-	validate: text => /(https?:\/\/[^\s]+)/g.test('http' + text),
-	transformer: text => '<a class="msg-link" target="_blank" href="http' + text + '">http' + text + '</a> '
-})
-
-
-futoji.addTransformer({
-	name: 'bold-and-italic',
-	symbol: '***',
-	transformer: text => `<strong><em>${text}</em></strong>`
-})
-
-futoji.addTransformer({
-	name: 'bold',
-	symbol: '**',
-	transformer: text => `<strong>${text}</strong>`
-})
-
-futoji.addTransformer({
-	name: 'italic',
-	symbol: '*',
-	transformer: text => `<em>${text}</em>`
-})
-
-futoji.addTransformer({
-	name: 'underline',
-	symbol: '__',
-	transformer: text => `<u>${text}</u>`
-})
-futoji.addTransformer({
-	name: 'italic',
-	symbol: '_',
-	transformer: text => `<em>${text}</em>`
-})
-futoji.addTransformer({
-	name: 'srike',
-	symbol: '~~',
-	transformer: text => `<s>${text.trim()}</s>`
-})
-
-futoji.addTransformer({
-	name: 'code-block',
-	symbol: '```',
-	recursive: false,
-	transformer: text => `<div class="codeblock"><code>${formatCode(text).trim()}</code></div>`,
-})
-
-futoji.addTransformer({
-	name: 'code',
-	symbol: '`',
-	recursive: false,
-	transformer: text => `<code>${text}</code>`,
-})
-
 export default (message) => {
 
-	message = futoji.format(escapeHtml(message + ' ')).trim();
+	message = markdown.render(message).trim();
 
 	message = emojiParser.replaceEmojis(message);
 
 	return message;
-}
-
-
-
-
-/**
- * format code to add syntax highlighting
- */
-function formatCode(text) {
-	// matches if word until newline
-	// if spaces then it won't match
-	let nameRegex = new RegExp('^(\\w+)\\s')
-
-	if (nameRegex.test(text)) {
-		let language = nameRegex.exec(text)[1]
-		let newText = text.replace(nameRegex, '')
-
-		// TODO: format newText with language
-
-		return newText
-	}
-
-	return text
-}
-
-function escapeHtml(unsafe) {
-	return unsafe
-		.replace(/&/g, "&amp;")
-		.replace(/</g, "&lt;")
-		.replace(/>/g, "&gt;")
-		.replace(/"/g, "&quot;")
-		.replace(/'/g, "&#039;");
 }
