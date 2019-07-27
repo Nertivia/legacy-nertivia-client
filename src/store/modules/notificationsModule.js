@@ -19,8 +19,6 @@ const actions = {
   },
   messageCreatedNotification(context, notification) {
     const {guildID, channelID, lastMessageID, sender} = notification;
-    if (!document.hasFocus()) 
-      bus.$emit('title:change', "Someone sent a message.");
     
     // dont display a notification if the channel is selected.
     if (context.rootState.channelModule.selectedChannelID !== channelID || !document.hasFocus()) {

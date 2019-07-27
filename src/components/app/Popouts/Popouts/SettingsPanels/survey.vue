@@ -221,6 +221,13 @@ export default {
   margin-top: 10px;
   user-select: none;
 }
+
+.survey {
+  height: 100%;
+  overflow: auto;
+  align-items: center;
+  width: 100%;
+}
 .survey,
 .survey-inner {
   display: flex;

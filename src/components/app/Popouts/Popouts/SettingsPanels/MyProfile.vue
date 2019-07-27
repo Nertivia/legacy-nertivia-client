@@ -123,9 +123,6 @@ export default {
 <style scoped>
 
 .tabs{
-  position: absolute;
-  left: 0;
-  right: 0;
   z-index: 999999;
   display: flex;
   background: rgb(47, 47, 47);
@@ -163,9 +160,9 @@ export default {
 
 .content{
   display: flex;
-  margin-top: 45px;
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 
 
@@ -179,7 +176,7 @@ export default {
   width: 100%;
   height: 100%;
   flex-direction: column;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .alert-title {
