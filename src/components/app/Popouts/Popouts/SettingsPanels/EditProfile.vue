@@ -15,15 +15,17 @@
     </div>
 
     <div class="change-avatar">
-      <profile-picture
-        class="avatar"
-        :url="avatar"
-        :admin="user.admin"
-        size="100px"
-        emote-size="30px"
-        animation-padding="5px"
-      />
-      <div class="button">Change Avatar</div>
+      <div class="change-avatar-container">
+        <profile-picture
+          class="avatar"
+          :url="avatar"
+          :admin="user.admin"
+          size="100px"
+          emote-size="30px"
+          animation-padding="5px"
+        />
+        <div class="button">Change Avatar</div>
+      </div>
     </div>
 
   </div>
@@ -63,13 +65,23 @@ export default {
 .edit-profile{
   display: flex;
   margin-top: 10px;
+  width: 100%;
 }
 
 .change-avatar {
   display: flex;
   flex-direction: column;
   flex: 1
-
+}
+.change-avatar-container {
+  display: flex;
+  flex-direction: column;
+  background: rgb(42, 42, 42);
+  width: 150px;
+  align-self: center;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 10px;
 }
 .avatar {
   margin-bottom: 10px;
@@ -78,7 +90,7 @@ export default {
 
 .button {
   background: rgb(0, 119, 255);
-  padding: 5px;
+  padding: 10px;
   text-align: center;
   border-radius: 5px;
   display: inline-block;
@@ -87,27 +99,34 @@ export default {
 }
 
 .left {
-  background: rgba(255, 0, 0, 0.096);
   width: 300px;
+  display: flex;
+  flex-direction: column;
 }
 
 .outer-input {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   background: rgb(42, 42, 42);
   padding: 10px;
   border-radius: 10px;
   margin: 10px;
 }
 .outer-input .user-tag .username{ 
-  flex: 1;
+
 }
 .outer-input .user-tag .tag{ 
-  border-left: solid 1px white;
+  border-left: solid 1px rgb(168, 168, 168);
   width: 50px;
 }
 .outer-input .user-tag {
   display: flex;
   overflow: hidden;
 }
-
+.outer-input input {
+  width: initial;
+  border-radius: 5px
+}
 
 </style>

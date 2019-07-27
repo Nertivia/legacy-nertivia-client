@@ -135,16 +135,30 @@ export default {
   padding: 10px;
   margin: 3px;
   margin-bottom: 0;
-  border-bottom: solid 5px rgba(255, 255, 255, 0);
-  transition: 0.3s;
   user-select: none;
   cursor: pointer;
+  position: relative;
+  padding-bottom: 15px;
 }
-.tabs .tab:hover {
-  border-bottom: solid 5px rgba(255, 255, 255, 0.507);
+
+.tabs .tab:after {
+  content:'';
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  background:rgba(255, 255, 255, 0);
+  height:5px;
+  border-radius:10px;
+  transition: 0.3s;
 }
-.tabs .tab.selected {
-  border-bottom: solid 5px white;
+
+
+.tabs .tab:hover:after{
+  background: rgb(160, 160, 160);
+}
+.tabs .tab.selected:after {
+  background: white;
 }
 
 .content{
