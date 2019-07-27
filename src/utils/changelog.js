@@ -16,6 +16,20 @@ const config = [
 
   {
     version: 5.5,
+    title: "Bug fixes and redesigns",
+    shortTitle: "",
+    date: "27/07/2019",
+    headColor: "rgba(15, 65, 70, 0.77)",
+    new: [
+      "We have re-added syntax highlighting and also improved the performance of message formatting. (Thanks to Bree!)",
+      "Profile Setting has been re-designed. You can now edit your username, email and password!"
+    ],
+    fix: [
+      'Fixed some bugs with edit message',
+    ],
+  },
+  {
+    version: 5.5,
     title: "Oopsies!",
     shortTitle: "",
     date: "25/07/2019",
