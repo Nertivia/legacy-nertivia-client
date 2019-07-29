@@ -82,6 +82,12 @@ export default {
       
     },
     avatarChangeEvent(e) {
+      if (!this.googleDriveLinked) {
+        return this.$store.dispatch("setPopoutVisibility", {
+          name: "GDLinkMenu",
+          visibility: true
+        });
+      }
       const file = event.target.files[0];
       const _this = this;
       const maxSize = 2092000; 
@@ -114,6 +120,9 @@ export default {
     }
   },
   computed: {
+    googleDriveLinked() {
+      return this.$store.getters['settingsModule/settings'].GDriveLinked
+    },
     server() {
       const serverID = this.$store.state.popoutsModule.serverSettings.serverID;
       return this.$store.getters["servers/servers"][serverID];

@@ -34,7 +34,7 @@
           <profile-picture
             class="avatar"
             size="90px"
-            :url="tempImage"
+            :url="avatar + 'default'"
           />
           <!-- <div class="button">
             Browse Avatar Coming Soon!
@@ -98,7 +98,7 @@
           <profile-picture
             class="avatar"
             size="100px"
-            :url="tempImage"
+            :url="avatar + server.avatar"
           />
           <div class="server-name">
             {{ server.name }}
@@ -142,7 +142,7 @@ export default {
   data() {
     return {
       tab: 0,
-      tempImage: config.domain + "/avatars/noob",
+      avatar: config.domain + "/avatars/",
       serverName: "",
       serverNameError: null,
       inviteCode: "",

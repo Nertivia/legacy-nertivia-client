@@ -23,6 +23,9 @@ const RegisterPage = () => import(/* webpackChunkName: "RegisterPage" */ "../src
 export const router = new VueRouter({
   mode: "history",
   routes: [
+    { name: "404", path: '*', beforeEnter(to, from, next) {
+        return window.location.href = "/404"
+    } },  
     {
       path: "/",
       name: "HomePage",
@@ -91,6 +94,6 @@ export const router = new VueRouter({
       path: "/invites/:invite_id",
       name: "invites",
       component: InvitesPage,
-    },
+    }, 
   ]
 });

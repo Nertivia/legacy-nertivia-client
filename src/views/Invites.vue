@@ -21,7 +21,7 @@
               <profile-picture
                 class="avatar"
                 size="100px"
-                :url="tempImage"
+                :url="domain + server.avatar"
               />
               <div class="server-name">
                 {{ server.name }}
@@ -69,7 +69,7 @@ export default {
     return {
       isDay: true,
       server: null,
-      tempImage: config.domain + "/avatars/noob",
+      domain: config.domain + "/avatars/",
       loggedIn: localStorage.getItem('hauthid'),
       errorMsg: ""
     };

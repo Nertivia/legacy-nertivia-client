@@ -21,6 +21,7 @@ const config = [
     date: "27/07/2019",
     headColor: "rgba(15, 65, 70, 0.77)",
     new: [
+      "You can now enable desktop notifications by going in the settings.",
       "We have re-added syntax highlighting and also improved the performance of message formatting. (Thanks to Bree!)",
       "Profile Setting has been re-designed. You can now edit your username, email and password!"
     ],

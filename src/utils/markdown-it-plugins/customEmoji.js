@@ -88,7 +88,7 @@ function replace_custom_emoji(state, silent) {
 		state.posMax = idEnd
 
 		let token = state.push('custom_emoji', 'img', 0);
-		token.attrs = [[ 'src', `${config.domain}/files/${emojiID}` ], [ 'alt', emojiName ]]
+		token.attrs = [[ 'src', `${config.domain}/media/${emojiID}` ], [ 'alt', emojiName ]]
 	}
 
 	state.pos = idEnd + 1

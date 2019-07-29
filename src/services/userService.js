@@ -4,6 +4,9 @@ export default {
   get (uniqueID) {
     return wrapper(instance().get(`user/${uniqueID}`))
   },
+  update (data) {
+    return wrapper(instance().patch(`user`, data))
+  },
   getSurvey() {
     return wrapper(instance().get('/user/survey'));
   },

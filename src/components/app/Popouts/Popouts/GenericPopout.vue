@@ -47,7 +47,7 @@ export default {
   left: 0;
   right: 0;
   background: rgba(0, 0, 0, 0.541);
-  z-index: 1119111;
+  z-index: 1119999999999999111;
   display: flex;
 }
 .inner {

@@ -2,14 +2,17 @@
   <div class="settings-darken-background">
     <div class="settings-box">
       <div class="tabs">
-        <div
+        <div class="tab"
           v-for="(tab, index) in tabs"
           :key="index"
-          :class="{tab: true, selected: currentTab === index}"
-          @click="currentTab = index"
-        >
+          :class="{selected: currentTab === index}"
+          @click="currentTab = index">
           <div class="material-icons">{{tab.icon}}</div>
           <div class="tab-name">{{tab.name}}</div>
+        </div>
+        <div class="tab warn" @click="logout">
+          <div class="material-icons">exit_to_app</div>
+          <div class="tab-name">Logout</div>
         </div>
       </div>
       <div class="panel">
@@ -73,6 +76,10 @@ export default {
     };
   },
   methods: {
+    logout() {
+      this.$store.dispatch("logout");
+      window.location.href = "/";
+    },
     close() {
       this.$store.dispatch("setPopoutVisibility", {
         name: "settings",
@@ -112,6 +119,7 @@ export default {
   overflow-y: auto;
   overflow-x: hidden;
   flex-shrink: 0;
+  position: relative;
 }
 .panel {
   display: flex;
@@ -139,9 +147,18 @@ export default {
   background: rgb(61, 61, 61) !important;
 }
 
+
 .tab:hover {
   background: rgba(61, 61, 61, 0.616);
 }
+.tab.warn{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  color: #f54949;
+}
+
 .title {
   display: flex;
   padding: 10px;
@@ -217,6 +234,9 @@ export default {
     overflow: hidden;
     overflow-x: auto;
     flex-shrink: 0;
+  }
+  .tab.warn{
+    position: relative;
   }
   .tab {
     flex-shrink: 0;

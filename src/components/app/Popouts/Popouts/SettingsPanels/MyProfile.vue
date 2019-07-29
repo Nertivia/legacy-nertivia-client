@@ -91,10 +91,6 @@ export default {
         return (this.alert.show = true);
       }
     },
-    logout() {
-      this.$store.dispatch("logout");
-      window.location.href = "/";
-    },
     changePassword() {
       this.alert.content = "Not implemented yet.";
       return (this.alert.show = true);
