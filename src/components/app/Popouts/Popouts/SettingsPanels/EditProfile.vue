@@ -91,8 +91,8 @@ export default {
         _this.$set(_this.update, 'avatar', reader.result);
       };
       reader.onerror = function (error) {
-        return this.$store.dispatch('setGenericMessage', "Something went wrong. Try again later.") 
         console.log('Error: ', error);
+        return this.$store.dispatch('setGenericMessage', "Something went wrong. Try again later.") 
       };
     },
     async updateProfile() {

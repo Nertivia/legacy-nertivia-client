@@ -8,12 +8,11 @@
 <script>
 import config from "@/config.js";
 import { bus } from "@/main";
-import Spinner from "@/components/Spinner.vue";
 import ServerService from "@/services/ServerService";
 import { mapState } from "vuex";
 
 export default {
-  components: {Spinner},
+  components: {},
   data() {
     return {
       confirmed: false

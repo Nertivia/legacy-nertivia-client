@@ -17,7 +17,6 @@
 <script>
 import config from "@/config.js";
 import { bus } from "@/main";
-import Spinner from "@/components/Spinner.vue";
 import ServerService from "@/services/ServerService";
 import { mapState } from "vuex";
 
@@ -27,7 +26,7 @@ import DeleteServer from './DeleteServer.vue'
 import ManageChannels from './ManageChannels.vue'
 
 export default {
-  components: {Spinner, General, DeleteServer, ManageChannels},
+  components: { General, DeleteServer, ManageChannels},
   data() {
     return {
       index: 0,

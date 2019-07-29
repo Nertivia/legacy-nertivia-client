@@ -34,7 +34,6 @@
 
 <script>
 
-import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
 const Survey = () => import("./survey.vue");
 const EditProfile = () => import("./EditProfile.vue");
 
@@ -46,7 +45,6 @@ import { mapState } from "vuex";
 
 export default {
   components: {
-    ProfilePicture,
     Survey,
     EditProfile
   },

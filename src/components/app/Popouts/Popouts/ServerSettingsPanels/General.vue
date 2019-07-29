@@ -42,7 +42,6 @@
 <script>
 import config from "@/config.js";
 import { bus } from "@/main";
-import Spinner from "@/components/Spinner.vue";
 import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
 import ServerService from "@/services/ServerService";
 import DropDown from "./DropDownMenu";
@@ -50,7 +49,7 @@ import { mapState } from "vuex";
 import path from "path";
 
 export default {
-  components: { Spinner, DropDown, ProfilePicture },
+  components: { DropDown, ProfilePicture },
   data() {
     return {
       requestSent: false,
@@ -106,8 +105,8 @@ export default {
         _this.$set(_this.update, 'avatar', reader.result);
       };
       reader.onerror = function (error) {
-        return this.$store.dispatch('setGenericMessage', "Something went wrong. Try again later.") 
         console.log('Error: ', error);
+        return this.$store.dispatch('setGenericMessage', "Something went wrong. Try again later.") 
       };
     }
   },
