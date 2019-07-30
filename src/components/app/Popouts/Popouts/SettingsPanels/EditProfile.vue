@@ -250,6 +250,11 @@ export default {
   }
   .change-avatar-container {
     order: 1;
+    flex-shrink: 0;
+  }
+  .change-avatar {
+    flex: initial;
+    flex-shrink: 0;
   }
   .left {
     order: 2;

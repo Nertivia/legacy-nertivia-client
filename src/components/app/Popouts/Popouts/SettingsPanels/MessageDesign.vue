@@ -93,6 +93,7 @@ export default {
   display: flex;
   margin: 20px;
   user-select: none;
+  flex-shrink: 0;
 }
 
 .checkbox {
