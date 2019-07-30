@@ -1,5 +1,9 @@
 <template>
   <div class="edit-profile">
+    <div class="errors" v-if="errors">
+      <div class="error-title">Fix these mistakes:</div>
+      <li class="error" v-for="error in errors" :key="error.msg">{{error.msg}}</li>
+    </div>
     <div class="inner-content">
       <div class="left">
         <form>
@@ -57,6 +61,7 @@ export default {
   components: { ProfilePicture },
   data() {
     return {
+      errors: null,
       requestSent: false,
       changed: false,
       update: {}
@@ -97,8 +102,23 @@ export default {
     },
     async updateProfile() {
       if (this.requestSent) return;
+      this.errors = null;
       this.requestSent = true;
       const {ok, result, error} = await userService.update(this.update) 
+      if (!ok) {
+        if (error.response === undefined) {
+          this.errors = { message: 'Cant connect to server' }
+          return;
+        }
+        const data = error.response.data;
+        if (data.message) {
+          this.errors = [{msg: data.message}];
+          return;
+        }
+        this.errors = data.errors;
+      } else {
+        this.update = {};
+      }
       this.requestSent = false;
     }
   },
@@ -217,7 +237,13 @@ export default {
   border-radius: 10px;
 }
 
-
+.errors {
+  background: rgb(255, 62, 62);
+  color: white;
+  border-radius: 10px;
+  padding: 10px;
+  align-self: center;
+}
 @media (max-width: 740px) {
   .inner-content {
     flex-direction: column;

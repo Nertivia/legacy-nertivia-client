@@ -19,13 +19,12 @@ const GDriveCallback = () => import(/* webpackChunkName: "GDriveCallback" */ "..
 const LoginPage = () => import(/* webpackChunkName: "LoginPage" */ "../src/views/LoginPage.vue");
 const InvitesPage = () => import(/* webpackChunkName: "Invites" */ "../src/views/Invites.vue");
 const RegisterPage = () => import(/* webpackChunkName: "RegisterPage" */ "../src/views/RegisterPage.vue");
+const PageNotFound = () => import(/* webpackChunkName: "404" */ "../src/views/404.vue");
 
 export const router = new VueRouter({
   mode: "history",
   routes: [
-    { name: "404", path: '*', beforeEnter(to, from, next) {
-        return window.location.href = "/404"
-    } },  
+    { name: "404", path: '*', component: PageNotFound },  
     {
       path: "/",
       name: "HomePage",

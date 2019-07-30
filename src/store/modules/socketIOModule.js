@@ -203,6 +203,11 @@ const actions = {
   socket_userAvatarChange(context, data) {
     context.commit('members/updateAvatar', data)
   },
+  ['socket_updateMember'](context, data) {
+    if (context.rootGetters.user.uniqueID === data.uniqueID) {
+      context.dispatch('updateUser', data)
+    }
+  },
   ['socket_channel:created'](context, data){
     const {channel} = data;
     // rename to 'channel' to setchannel

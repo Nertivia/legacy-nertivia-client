@@ -144,6 +144,7 @@ export default {
   height: 100%;
   margin-top: 10px;
   flex-direction: column;
+  overflow: auto;
 }
 
 </style>
