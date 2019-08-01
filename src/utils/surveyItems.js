@@ -5,9 +5,8 @@ export default {
     { emoji: "😶", name: "Rather not say", code:"no"}
   ],
   age: [
-    { emoji: "", name: "13 or under", code: "-13"},
-    { emoji: "", name: "14-16", code:"1416"},
-    { emoji: "", name: "17-19", code:"1719"},
+    { emoji: "", name: "14-16", code:"14-16"},
+    { emoji: "", name: "17-19", code:"17-19"},
     { emoji: "", name: "20 or above", code:"20+" },
     { emoji: "😶", name: "Rather not say", code: "no" }
   ],
@@ -18,6 +17,7 @@ export default {
     { name: "South America", emoji: "🌴", code: "SA" },
     { name: "Africa", emoji: "🐘", code: "AF" },
     { name: "Oceania", emoji: "🌊", code: "OC" },
+    { emoji: "😶", name: "Rather not say", code: "no" }
   ],
 
   countries: [
@@ -266,6 +266,6 @@ export default {
     { name: "Vanuatu", emoji: "🇻🇺", code: "OC" },
     { name: "Wallis and Futuna", emoji: "🇼🇫", code: "OC" },
     { name: "Samoa", emoji: "🇼🇸", code: "OC" },
-    { emoji: "😶", name: "Rather not say" }
+    { emoji: "😶", name: "Rather not say", code: "no" }
   ]
 };

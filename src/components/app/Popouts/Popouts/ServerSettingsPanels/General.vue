@@ -189,12 +189,15 @@ export default {
   flex-direction: column;
   background-color: rgb(44, 44, 44);
   border-radius: 10px;
-  padding: 5px;
+  padding: 10px;
   align-self: center;
   margin: 10px;
 }
 .input input {
-  border-radius: 10px;
+  margin-top: 2px;
+  margin-bottom: 0;
+  border-radius: 5px;
+  width: 190px;
 }
 .button {
   background: rgba(17, 148, 255, 0.692);

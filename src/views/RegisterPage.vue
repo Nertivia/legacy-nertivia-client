@@ -16,7 +16,7 @@
               Register
             </div>
             <div class="info">
-              Welcome, new user! Hope you enjoy Nertivia!
+              Welcome, new user! I Hope you enjoy Nertivia!
             </div>
             <form
               v-if="!showCaptcha"

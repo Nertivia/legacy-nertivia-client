@@ -4,197 +4,31 @@
     @click="backgroundClickEvent"
   >
     <div class="box">
-      <spinner v-if="!user" />
-      <div
-        v-else
-        class="inner"
-      >
-        <div class="top">
+      <spinner class="spinner" v-if="!user" />
+      <div class="inner" v-if="user">
+        <div class="profile">
           <profile-picture
             class="avatar"
-            size="90px"
-            emote-size="28px"
-            animation-padding="5px"
-            :admin="user.admin"
+            size="120px"
             :url="`${avatarDomain}${user.avatar}`"
           />
-
-          <div class="info">
-            <div class="username">
-              {{ user.username }}
-            </div>
-            <div class="tag">
-              @{{ user.tag }}
-            </div>
+          <div class="uesrname-tag">
+            <div class="username">{{user.username}}</div>
+            <div class="tag">#{{user.tag}}</div>
           </div>
+          <div class="button" v-if="uniqueID !== selfUniqueID">Add Friend</div>     
         </div>
-        <div
-          v-if="selfUniqueID !== user.uniqueID"
-          class="bottom"
-        >
-          <div
-            v-if="this.relationshipStatus == null"
-            class="button valid"
-            @click="AddFriendButton"
-          >
-            <div class="material-icons">
-              person_add
-            </div>Add friend
-          </div>
-
-          <div
-            v-if="this.relationshipStatus == 0"
-            class="button valid"
-            @click="RemoveFriendButton"
-          >
-            <div class="material-icons">
-              person_add
-            </div>Request Sent!
-          </div>
-
-          <div
-            v-if="this.relationshipStatus == 1"
-            class="button valid"
-            @click="AcceptFriendButton"
-          >
-            <div class="material-icons">
-              person_add
-            </div>Accept Friend
-          </div>
-
-          <div
-            v-if="this.relationshipStatus == 2"
-            class="button warn"
-            @click="RemoveFriendButton"
-          >
-            <div class="material-icons">
-              person_add_disabled
-            </div>End Friendship
-          </div>
-
-          <div
-            class="button"
-            @click="openChat"
-          >
-            <div class="material-icons">
-              chat
-            </div>Send Message
-          </div>
-          <div class="button warn">
-            <div class="material-icons">
-              block
-            </div>Block
-          </div>
-        </div>
-        <div
-          v-else
-          class="cross"
-        >
-          <i class="material-icons">close</i>
-        </div>
-      </div>
-      <div
-        v-if="user && user.about_me"
-        class="about-me-box"
-      >
-        <div class="title">
-          About {{ user.username }}
-        </div>
-        <div class="about-me-inner">
-          <div
-            v-if="user.about_me.name"
-            class="about-me-detail"
-          >
-            <div class="about-me-title">
-              <div class="main-title-about-me">
-                Name:
-              </div>
-              <div class="emoji-about-me" />
-              {{ user.about_me.name }}
-            </div>
-          </div>
-
-          <div
-            v-if="user.about_me.gender == 0 || user.about_me.gender"
-            class="about-me-detail"
-          >
-            <div class="about-me-title">
-              <div class="main-title-about-me">
-                Gender:
-              </div>
-              <div
-                class="emoji-about-me"
-                v-html="emojiParse(surveyItems.gender[user.about_me.gender].emoji)"
-              />
-              {{ surveyItems.gender[user.about_me.gender].name }}
-            </div>
-          </div>
-
-          <div
-            v-if="user.about_me.age == 0 || user.about_me.age"
-            class="about-me-detail"
-          >
-            <div class="about-me-title">
-              <div class="main-title-about-me">
-                Age:
-              </div>
-              <div
-                class="emoji-about-me"
-                v-html="emojiParse(surveyItems.age[user.about_me.age].emoji)"
-              />
-              {{ surveyItems.age[user.about_me.age].name }}
-            </div>
-          </div>
-
-          <div
-            v-if="user.about_me.continent == 0 || user.about_me.continent"
-            class="about-me-detail"
-          >
-            <div class="about-me-title">
-              <div class="main-title-about-me">
-                Continent:
-              </div>
-              <div
-                class="emoji-about-me"
-                v-html="emojiParse(surveyItems.continents[user.about_me.continent].emoji)"
-              />
-              {{ surveyItems.continents[user.about_me.continent].name }}
-            </div>
-          </div>
-
-          <div
-            v-if="user.about_me.country == 0 || user.about_me.country"
-            class="about-me-detail"
-          >
-            <div class="about-me-title">
-              <div class="main-title-about-me">
-                Country:
-              </div>
-              <div
-                class="emoji-about-me"
-                v-html="emojiParse(surveyItems.countries[user.about_me.country].emoji)"
-              />
-              {{ surveyItems.countries[user.about_me.country].name }}
-            </div>
-          </div>
-
-          <div
-            v-if="user.about_me.about_me"
-            class="about-me-detail"
-          >
-            <div class="about-me-title about_me">
-              <div class="main-title-about-me">
-                About Me:
-              </div>
-              <div class="emoji-about-me" />
-              <div
-                class="about-me-format"
-                v-html="formatAboutMe(user.about_me.about_me)"
-              />
+        <div class="badges" v-if="user.badges && filteredBadges.length">
+          <div class="title">Badges</div>
+          <div class="badges-list">
+            <div class="badge" v-for="(badge, index) of filteredBadges" v-bind:style="{ 'border-color': badges[badge].color }" :key="index">
+              <img class="icon" :src="badges[badge].icon"/>
+              <div class="name">{{badges[badge].name}}</div>
             </div>
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </template>
@@ -207,16 +41,23 @@ import relationshipService from "@/services/RelationshipService.js";
 import surveyItems from "@/utils/surveyItems.js";
 import emojiParser from "@/utils/emojiParser.js";
 import messageFormatter from "@/utils/messageFormatter.js";
+import badges from "@/utils/Badges";
+
 export default {
   components: { Spinner, profilePicture },
   data() {
     return {
       surveyItems: Object.assign({}, surveyItems),
       user: null,
-      avatarDomain: config.domain + "/avatars/"
+      avatarDomain: config.domain + "/avatars/",
+      badges
     };
   },
   computed: {
+    filteredBadges() {
+      if (!this.user.badges) return;
+      return this.user.badges.filter(b => this.badges[b])
+    },
     selfUniqueID() {
       return this.$store.getters.user.uniqueID;
     },
@@ -272,64 +113,13 @@ export default {
     formatAboutMe(string) {
       return messageFormatter(string);
     }
-  }
+  },
 };
 </script>
 <style scoped>
-.cross {
-  margin: auto;
-  opacity: 0.1;
-}
-.cross .material-icons {
-  font-size: 150px;
-}
-.about_me {
-  flex-direction: column;
-  align-items: initial !important;
-  font-size: 15px;
-}
-.about_me .about-me-format {
-  user-select: text;
-}
-.about-me-box {
-  display: flex;
-  flex-direction: column;
-  background: rgba(31, 31, 31, 0.704);
-  width: 300px;
-  border-radius: 10px;
-  overflow: hidden;
-  margin-left: 10px;
-  overflow: auto;
-  padding-bottom: 10px;
-}
-.about-me-detail {
-  margin-top: 10px;
-  margin-left: 20px;
-  margin-right: 20px;
-}
-.about-me-title {
-  display: flex;
-  align-content: center;
-  align-items: center;
-}
-.about-me-format {
-  word-wrap: break-word;
-  word-break: break-word;
-  white-space: pre-wrap;
-}
-.emoji-about-me {
-  margin-left: 5px;
-  margin-right: 10px;
-}
-.main-title-about-me {
-  color: rgb(179, 179, 179);
-}
 
-.title {
-  padding-top: 10px;
-  font-size: 20px;
-  text-align: center;
-}
+
+
 .drop-background {
   position: absolute;
   background: rgba(0, 0, 0, 0.521);
@@ -342,124 +132,97 @@ export default {
 }
 .box {
   margin: auto;
-  height: 330px;
-  width: initial;
+  max-height: 500px;
+  width: 350px;
   color: white;
   display: flex;
   flex-direction: row;
-  user-select: none;
-  overflow: hidden;
-}
-.inner {
-  background: rgba(31, 31, 31, 0.904);
-  display: flex;
-  height: 100%;
-  width: 500px;
-  flex-direction: column;
+  overflow: auto;
+  background: rgba(0, 0, 0, 0.553);
   border-radius: 10px;
-  overflow: hidden;
+
 }
-.top {
+.spinner {
+  align-self: center;
+}
+
+.inner {
   display: flex;
   flex-direction: column;
-  background: rgba(22, 22, 22, 0.918);
   width: 100%;
-  height: 170px;
-  flex-shrink: 0;
+  align-items: center;
+  padding: 10px;
+  padding-top: 30px;
 }
-.bottom {
-  display: flex;
-  height: 100%;
-  width: calc(100% - 20px);
-  margin: auto;
-}
-.button {
-  background: rgba(49, 49, 49, 0.815);
+.profile {
   display: flex;
   flex-direction: column;
   align-content: center;
+  border-bottom: solid 1px rgba(255, 255, 255, 0.733);
+  width: 100%;
   align-items: center;
-  justify-content: center;
-  border-radius: 5px;
-  flex: 1;
-  margin: 30px;
-  margin-left: 20px;
-  margin-right: 20px;
-  transition: 0.3s;
-  height: 100px;
-  width: 100px;
+  align-content: center;
+  padding-bottom: 10px;
 }
-.button .material-icons {
-  margin-bottom: 10px;
-  font-size: 40px;
-}
-.button:hover {
-  background: rgb(61, 61, 61);
-}
-.button.valid {
-  background: #09ff002d;
-}
-.button.valid:hover {
-  background: #09ff00ab;
-}
-.button.warn {
-  background: #ff00002d;
-}
-.button.warn:hover {
-  background: #ff0000ab;
-}
-.avatar{
+
+.uesrname-tag {
   display: flex;
-  z-index: 9999;
-  margin: auto;
-  margin-bottom: 0px;
-}
-.info {
-  margin-top: 1px;
-  margin: auto;
   font-size: 20px;
-  display: flex;
-  user-select: text;
+  text-align: center;
+  align-self: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  user-select: auto !important;
 }
 .tag {
-  color: grey;
+  color: rgb(139, 139, 139);
 }
+
+.button {
+  background: rgb(23, 151, 255);
+  padding: 8px;
+  align-self: center;
+  border-radius: 5px;
+  user-select: none;
+  cursor: default;
+}
+.badges{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 10px;
+  border-bottom: solid 1px rgba(255, 255, 255, 0.733);
+  padding-bottom: 10px;
+  user-select: none;
+  cursor: default;
+}
+.badges .title {
+  font-size: 20px;
+}
+.badges-list{
+  display: flex;
+  margin-top: 5px;
+  flex-wrap: wrap;
+}
+.badge {
+  border: solid 1px white;
+  padding: 5px;
+  border-radius: 5px;
+  margin: 3px;
+  display: flex;
+}
+
+.badge div {
+  align-self: center;
+  margin-left: 5px;
+}
+.badge img {
+  align-self: center;
+  height: 20px;
+  width: 20px;
+}
+
 @media (max-width: 815px) {
-  .box {
-    flex-direction: column;
-    max-width: 500px;
-    width: 100%;
-    overflow: auto;
-  }
-  .about-me-box {
-    width: 100%;
-    margin-left: 0;
-    margin-top: 10px;
-    flex-shrink: 0;
-    overflow: initial;
-  }
-  .inner {
-    width: 100%;
-    flex-shrink: 0;
-    height: initial;
-  }
-  .bottom {
-    flex-shrink: 0;
-    height: initial;
-    margin-top: 5px;
-    margin-bottom: 5px;
-  }
-  .bottom .button {
-    margin: 2px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    height: 100px;
-    -ms-flex-negative: 0;
-    flex-shrink: 0;
-    -webkit-box-flex: 0;
-    -ms-flex: none;
-    flex: 1;
-    font-size: 10px;
-  }
+  
 }
 </style>

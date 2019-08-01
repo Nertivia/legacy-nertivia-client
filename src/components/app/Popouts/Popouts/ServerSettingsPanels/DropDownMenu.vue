@@ -1,7 +1,12 @@
 <template>
   <div class="drop-down">
     <div class="title">{{name}}</div>
-    <div class="current-select-box" ref="dropDown" @click="dropped = !dropped"><div class="name">{{selectedItem ? selectedItem.name : items[0].name}}</div><div class="material-icons">expand_more</div></div>
+    <div class="current-select-box" ref="dropDown" @click="dropped = !dropped">
+      <div class="name" v-if="noneSelect && selectedItem || !noneSelect">{{selectedItem ? selectedItem.name : items[0].name}}</div>
+      <div class="name" v-if="noneSelect && !selectedItem">Select</div>
+      <div class="material-icons">expand_more</div>
+    </div>
+    
     <div class="drop" v-if="dropped">
       <div class="drop-container">
         <div v-for="(item, index) of items" :key="index" class="item" :class="{selected: selectedItem === item}" @click="itemClick(item)">{{item.name}}</div>
@@ -12,7 +17,7 @@
 
 <script>
 export default {
-  props: ['items', 'name', 'selectedItem'],
+  props: ['items', 'name', 'selectedItem', 'noneSelect'], // noneSelect: by default, nothing will be selected.
   data() {
     return {
       dropped: false
@@ -43,7 +48,7 @@ export default {
 .drop-down {
   background-color: rgb(44, 44, 44);
   border-radius: 10px;
-  padding: 5px;
+  padding: 10px;
   user-select: none;
   cursor: default;
   flex-shrink: 0;
@@ -54,7 +59,7 @@ export default {
 }
 .current-select-box {
   background: rgba(22, 22, 22, 0.411);
-  border-radius: 10px;
+  border-radius: 5px;
   padding: 5px;
   cursor: pointer;
   display: flex;
@@ -65,6 +70,9 @@ export default {
 }
 .current-select-box div {
   align-self: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .current-select-box .name {
   margin: auto;
@@ -105,6 +113,9 @@ export default {
 }
 .item.selected {
   background: rgb(63, 63, 63);
+}
+.material-icons{
+  flex-shrink: 0;
 }
 </style>
 
