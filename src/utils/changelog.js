@@ -16,6 +16,18 @@ const config = [
 
   {
     version: 5.6,
+    title: "Redesigned survey + user pop-out",
+    shortTitle: "",
+    date: "03/08/2019",
+    headColor: "rgba(79, 98, 255, 0.77)",
+    new: [
+      "Re-coded the survey. Note: since the survey is recoded, you will need to reselect some of the options.",
+      "Remove '13 or under' option in the survey.",
+      "Redesigned user information pop-out which now shows the badges for developer, creator and more."
+    ],
+  },
+  {
+    version: 5.6,
     title: "Bug fixes and redesigns",
     shortTitle: "",
     date: "30/07/2019",

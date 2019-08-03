@@ -2,22 +2,30 @@
   <div class="drop-down">
     <div class="title">{{name}}</div>
     <div class="current-select-box" ref="dropDown" @click="dropped = !dropped">
-      <div class="name" v-if="noneSelect && selectedItem || !noneSelect">{{selectedItem ? selectedItem.name : items[0].name}}</div>
+      <div class="name" v-if="noneSelect && selectedItem || !noneSelect">
+        <div class="emoji" v-if="selectedItemSorted.emoji || items[0].emoji" v-html="selectedItem ? selectedItemSorted.emoji : items[0].emoji"></div>
+        <div class="item-name">{{selectedItem ? selectedItemSorted.name : items[0].name}}</div>
+      </div>
       <div class="name" v-if="noneSelect && !selectedItem">Select</div>
       <div class="material-icons">expand_more</div>
     </div>
     
     <div class="drop" v-if="dropped">
       <div class="drop-container">
-        <div v-for="(item, index) of items" :key="index" class="item" :class="{selected: selectedItem === item}" @click="itemClick(item)">{{item.name}}</div>
+        <div v-for="(item, index) of itemEmojified" :key="index" class="item" :class="{selected: selectedItemSorted === item}" @click="itemClick(item)">
+          <div class="emoji" v-if="item.emoji" v-html="item.emoji"></div>
+          <div class="name">{{item.name}}</div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import emojiParser from "@/utils/emojiParser.js";
+
 export default {
-  props: ['items', 'name', 'selectedItem', 'noneSelect'], // noneSelect: by default, nothing will be selected.
+  props: ['items', 'name', 'selectedItem', 'noneSelect', 'selectBy'], // noneSelect: by default, nothing will be selected.
   data() {
     return {
       dropped: false
@@ -33,13 +41,36 @@ export default {
       if (((el !== target) && !el.contains(target)) && this.dropped) {
          this.dropped = false;
       }
-    }
+    },
+
   },
   created() {
     document.addEventListener('click', this.documentClick);
   },
   destroyed() {
     document.removeEventListener('click', this.documentClick);
+  },
+  computed: {
+    selectedItemSorted() {
+      let item = null;
+      if (this.selectBy){
+        item = this.items.find(i => i[this.selectBy] === this.selectedItem);
+      } else {
+        item = this.selectedItem
+      }
+      if (item && item.emoji && !item.emoji.startsWith('<img')) {
+        item.emoji = emojiParser.replaceEmojis(item.emoji)
+      }
+      return item
+    },
+    itemEmojified(){
+      return this.items.map(i => {
+        if (i && i.emoji && !i.emoji.startsWith('<img')) {
+          i.emoji = emojiParser.replaceEmojis(i.emoji)
+        }
+        return i
+      })
+    }
   }
 }
 </script>
@@ -73,6 +104,10 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  display: flex;
+}
+.current-select-box .emoji{
+  margin-right: 5px;
 }
 .current-select-box .name {
   margin: auto;
@@ -107,7 +142,15 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  display: flex;
 }
+.item div {
+  align-self: center;
+}
+.item .emoji {
+  margin-right: 5px;
+}
+
 .item:hover {
   background: rgb(46, 46, 46);
 }
@@ -119,3 +162,13 @@ export default {
 }
 </style>
 
+<style>
+.item .emoji img {
+  width: 20px;
+  height: 20px;
+}
+.current-select-box .emoji img {
+  width: 20px;
+  height: 20px;
+}
+</style>

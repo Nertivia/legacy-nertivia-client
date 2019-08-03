@@ -97,7 +97,7 @@ export default {
   left: 0;
   right: 0;
   background: rgba(0, 0, 0, 0.781);
-  z-index: 111111;
+  z-index: 11111111133451111;
   display: flex;
 }
 .inner {

@@ -1,4 +1,11 @@
 export default {
+  constants: {
+    gender: 'gender',
+    age: 'age',
+    continent: 'continents',
+    country: 'countries'
+
+  },
   gender: [
     { emoji: "👦🏻", name: "Male", code:"M" },
     { emoji: "👧🏼", name: "Female", code:"F"},

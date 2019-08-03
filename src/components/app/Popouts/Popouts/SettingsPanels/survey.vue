@@ -1,38 +1,41 @@
 <template>
-  <div class="survey" >
-    <div class="title"><i class="material-icons">error</i>Take Survey</div>
-    <div class="notice">Note: Everyone will be able to see your survey in your profile.</div>
-    <div class="survey-inner">
-      <div class="survey-content">
-        <div class="left">
-          <!-- name -->
-          <div class="input">
-            <div class="input-title">Name</div>
-            <input type="text" placeholder="Name">
+  <div class="survey">
+    <div class="inner-content">
+      <div class="title"><i class="material-icons">error</i>Take Survey</div>
+      <div class="notice">Note: Everyone will be able to see your survey in your profile.</div>
+      <spinner v-if="!loaded"/>
+      <div class="survey-inner" v-if="loaded">
+        <div class="survey-content">
+          <div class="left">
+            <!-- name -->
+            <div class="input">
+              <div class="input-title">Name</div>
+              <input type="text" placeholder="Name" v-model="items.name">
+            </div>
+            <!-- Gender -->
+            <drop-down class="dropdown" :items="surveyItems.gender" selectBy="name" :selectedItem="items.gender" :noneSelect="true" name="Gender" @change="changeEvent('gender', $event)"/>
+            <!-- Age -->
+            <drop-down class="dropdown" :items="surveyItems.age" selectBy="name" :selectedItem="items.age" :noneSelect="true" name="Age" @change="changeEvent('age', $event)"/>
           </div>
-          <!-- Gender -->
-          <drop-down class="dropdown" :items="surveyItems.gender" :noneSelect="true" name="Gender"/>
-          <!-- Age -->
-          <drop-down class="dropdown" :items="surveyItems.age" :noneSelect="true" name="Age"/>
+          <div class="right">
+            <!-- Continent -->
+            <drop-down class="dropdown" :items="surveyItems.continents" selectBy="name" :selectedItem="items.continent" :noneSelect="true" name="Continent" @change="changeEvent('continent', $event)"/>
+            <!-- Countries -->
+            <drop-down class="dropdown" v-if="filterCountries" :items="filterCountries" selectBy="name" :selectedItem="items.country" :noneSelect="true" name="Country" @change="changeEvent('country', $event)"/>
+            <!-- About me --> 
+            <div class="input">
+              <div class="input-title">About me</div>
+              <textarea placeholder="I like cats and dogs." v-model="items.about_me"  />
+            </div>       
+          </div>
         </div>
-        <div class="right">
-          <!-- Continent -->
-          <drop-down class="dropdown" :items="surveyItems.continents" :noneSelect="true" name="Continent"/>
-          <!-- Countries -->
-          <drop-down class="dropdown" :items="surveyItems.countries" :noneSelect="true" name="Country"/>
-          <!-- About me --> 
-          <div class="input">
-            <div class="input-title">About me</div>
-            <textarea placeholder="I like cats and dogs." />
-          </div>       
-        </div>
+
+
+        <div class="survey-warning" v-if="surveyErrorMessage">{{ surveyErrorMessage }}</div>
+        <div class="survey-valid" v-if="surveyValidMessage">{{ surveyValidMessage }}</div>
       </div>
-
-
-      <div class="survey-warning" v-if="surveyErrorMessage">{{ surveyErrorMessage }}</div>
-      <div class="survey-valid" v-if="surveyValidMessage">{{ surveyValidMessage }}</div>
-      <div class="button" @click="surveySubmitButton">Save</div>
     </div>
+    <div class="button" v-if="loaded" @click="surveySubmitButton">Save</div>
   </div>
 </template>
 
@@ -40,22 +43,20 @@
 import DropDown from './../ServerSettingsPanels/DropDownMenu';
 import surveyItems from "@/utils/surveyItems.js";
 import userService from "@/services/userService.js";
+import Spinner from '@/components/Spinner';
 export default {
-  components: { DropDown },
+  components: { DropDown, Spinner },
   data() {
     return {
       surveyItems: surveyItems,
       surveyErrorMessage: null,
       surveyValidMessage: null,
+      loaded: false,
+      items: {
+        about_me: null,
+        name: null,
+      },
 
-      // selected: {
-      //   name: "",
-      //   gender: null,
-      //   age: null,
-      //   continent: null,
-      //   country: null,
-      //   about_me: ""
-      // }
     };
   },
   computed: {
@@ -63,66 +64,56 @@ export default {
   },
   async mounted() {
     const { ok, error, result } = await userService.getSurvey();
-    if (ok) {
-
+    if (!ok) {
+      if (error.response === undefined) {
+        return;
+      }
+      this.loaded = true;
+      return;
     }
-    this.previousLoaded = true;
+    this.$set(this, 'items', Object.assign({}, this.items, result.data.result)) 
+    this.loaded = true;
   },
   methods: {
+    changeEvent(name, item) {
+      if (name === 'continent'){
+        this.$set(this.items, 'country', null)
+      }
+      this.$set(this.items, name, item.name);
+    },
     async surveySubmitButton() {
       this.surveyValidMessage = null;
       this.surveyErrorMessage = null;
-      //checks if all drop boxes are not null.
-      for (let item in this.selected) {
-        if (this.selected[item] === null && item !== "country") {
-          this.surveyErrorMessage =
-            "Make sure you select / fill in all fields!";
-          return;
-        }
-      }
-      //checks if all values are not null
-      if (
-        this.selected.name.trim() === "" ||
-        this.selected.about_me.trim() === ""
-      ) {
-        this.surveyErrorMessage = "Make sure you select / fill in all fields!";
-        return;
-      }
+    
       this.surveyValidMessage = "Saving...";
       //gets the country index after unfiltering.
-      let countryIndex = undefined;
-      if (this.filterCountry[this.selected.country]) {
-        const selectedCountryName = this.filterCountry[this.selected.country]
-          .name;
-        countryIndex = this.surveyItems.countries.findIndex(
-          el => el.name == selectedCountryName
-        );
-      }
-      if (this.selected.name && this.selected.name.length > 100) {
+     
+      if (this.items.name && this.items.name.length > 100) {
         this.surveyErrorMessage = "Name must be less that 100 characters.";
         this.surveyValidMessage = null;
         return;
       }
-      if (this.selected.about_me && this.selected.about_me.length > 500) {
+      if (this.items.about_me && this.items.about_me.length > 500) {
         this.surveyErrorMessage = "About me must be less that 500 characters.";
         this.surveyValidMessage = null;
         return;
       }
 
-      const { ok, error, result } = await userService.setSurvey({
-        name: this.selected.name,
-        gender: this.selected.gender,
-        age: this.selected.age,
-        continent: this.selected.continent,
-        country: countryIndex,
-        about_me: this.selected.about_me
-      });
+      const { ok, error, result } = await userService.setSurvey(this.items);
       if (ok) {
         this.surveyValidMessage = "Saved!";
       } else {
         this.surveyValidMessage = null;
-        this.surveyErrorMessage = error.response.data.message;
+        this.surveyErrorMessage = error.response.data.message || error.response.data;
       }
+    }
+  },
+  computed: {
+    filterCountries(){
+      if (!this.items.continent || this.items.continent === "Rather not say") return null;
+      const continent = this.surveyItems.continents.find(c => c.name === this.items.continent);
+      if (!continent) return null;
+      return [...this.surveyItems.countries.filter(c => c.code === continent.code), ...[{emoji: "😶",name: 'Rather not say', code: 'no'}]];
     }
   }
 };
@@ -132,7 +123,7 @@ export default {
 .notice {
   color: grey;
   font-size: 15px;
-  margin-top: 20px;
+  margin-top: 10px;
   margin-left: 30px;
   user-select: none;
 }
@@ -144,7 +135,6 @@ export default {
 
 .survey {
   height: 100%;
-  overflow: auto;
   align-items: center;
   width: 100%;
 }
@@ -158,6 +148,12 @@ export default {
   width: 100%;
   height: 100%;
 
+}
+.inner-content {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  width: 100%;
 }
 
 .survey-content {
@@ -207,7 +203,7 @@ export default {
 
 
 .title {
-  margin-top: 30px;
+  margin-top: 20px;
   display: flex;
   align-content: center;
   align-items: center;
@@ -252,5 +248,11 @@ textarea {
 }
 textarea:hover {
   background: rgba(0, 0, 0, 0.401);
+}
+
+@media (max-width: 764px) {
+  .survey-content{
+    flex-direction: column;
+  }
 }
 </style>

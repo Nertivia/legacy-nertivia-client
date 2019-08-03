@@ -108,6 +108,7 @@ export default {
 <style scoped>
 .username{
   width: 201px;
+  white-space: nowrap; 
   overflow: hidden;
   text-overflow: ellipsis;
 }
