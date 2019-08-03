@@ -69,7 +69,7 @@ function replace_custom_emoji(state, silent) {
 	// console.log(nameEnd, parseUntil(state,nameStart,58))
 
 	// parser failed to find another ':', so it's not a valid emoji
-	if(nameEnd > max || nameEnd < 0 || nameEnd - nameStart <= 1) { return false; }
+	if(nameEnd > max || nameEnd < 0 || nameEnd - nameStart <= 0) { return false; }
 
 	let emojiName = state.src.slice(nameStart, nameEnd)
 	

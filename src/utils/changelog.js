@@ -25,6 +25,9 @@ const config = [
       "Remove '13 or under' option in the survey.",
       "Redesigned user information pop-out which now shows the badges for developer, creator and more."
     ],
+    fix: [
+      "Issues fixed where custom emojis with single character did not work."
+    ]
   },
   {
     version: 5.6,
