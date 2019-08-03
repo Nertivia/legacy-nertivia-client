@@ -15,7 +15,7 @@
 const config = [
 
   {
-    version: 5.6,
+    version: 5.7,
     title: "Redesigned survey + user pop-out",
     shortTitle: "",
     date: "03/08/2019",
