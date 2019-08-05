@@ -16,12 +16,13 @@ const config = [
 
   {
     version: 5.8,
-    title: "Bug fixes",
+    title: "Bug fixes, Change password.",
     shortTitle: "",
-    date: "04/08/2019",
-    headColor: "rgba(79, 38, 50, 0.77)",
+    date: "05/08/2019",
+    headColor: "rgba(255, 75, 127, 0.77)",
     new: [
       "Added more badges (Bug Catcher, Idea Queen)",
+      "You can now change your password.",
     ],
     fix: [
       "Fixed a bug where desktop notifications would show for your own messages.",

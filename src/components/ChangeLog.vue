@@ -16,8 +16,8 @@
       </div>
       <div class="change-list">
         <div
-          v-for="change in changelog"
-          :key="change.title"
+          v-for="(change, index) in changelog"
+          :key="index"
           class="change"
         >
           <div class="date">

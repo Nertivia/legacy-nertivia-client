@@ -23,6 +23,11 @@
             <div class="title">Current Password</div>
             <input type="password" autocomplete="new-password" @input="inputEvent('password', $event)" />
           </div>
+          <div class="link" v-if="!resetPassword" @click="resetPassword = true">Reset Password</div>
+          <div class="outer-input" v-if="resetPassword">
+            <div class="title">New Password</div>
+            <input type="password" autocomplete="new-password" @input="inputEvent('new_password', $event)" />
+          </div>
         </form>
       </div>
 
@@ -64,6 +69,7 @@ export default {
       errors: null,
       requestSent: false,
       changed: false,
+      resetPassword: false,
       update: {}
     };
   },
@@ -117,6 +123,7 @@ export default {
         }
         this.errors = data.errors;
       } else {
+        this.resetPassword = false
         this.update = {};
       }
       this.requestSent = false;
@@ -244,6 +251,15 @@ export default {
   padding: 10px;
   align-self: center;
 }
+.link {
+  user-select: none;
+  cursor: pointer;
+  margin-left: 35px;
+}
+.link:hover {
+  text-decoration: underline;
+}
+
 @media (max-width: 740px) {
   .inner-content {
     flex-direction: column;
@@ -263,6 +279,10 @@ export default {
   }
   .outer-input {
     margin-left: initial;
+  }
+  .link {
+    margin: 0;
+    text-align: center;
   }
 }
 
