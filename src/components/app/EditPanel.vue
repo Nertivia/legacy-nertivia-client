@@ -1,12 +1,14 @@
 <template>
   <div class="edit-panel" v-if="selectedChannelID === data.channelID">
     <div class="title">Edit Message:</div>
-    <div class="message">{{data.message}}</div>
+    <div class="message" v-html="message"></div>
     <div class="close-button" @click="close">Cancel</div>
   </div>
 </template>
 
 <script>
+import messageFormatter from "@/utils/messageFormatter.js";
+
 export default {
   props: ['data'],
   methods: {
@@ -26,6 +28,9 @@ export default {
     document.removeEventListener('keydown', this.keyDownEvent)
   },
   computed: {
+    message() {
+      return messageFormatter(this.data.message)
+    },
     selectedChannelID() {
       return this.$store.getters.selectedChannelID;
     },
@@ -70,5 +75,6 @@ export default {
   white-space: nowrap; 
   overflow: hidden;
   text-overflow: ellipsis;
+  
 }
 </style>

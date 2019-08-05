@@ -31,10 +31,10 @@
         </div>
 
 
-        <div class="survey-warning" v-if="surveyErrorMessage">{{ surveyErrorMessage }}</div>
-        <div class="survey-valid" v-if="surveyValidMessage">{{ surveyValidMessage }}</div>
       </div>
     </div>
+    <div class="survey-warning" v-if="surveyErrorMessage">{{ surveyErrorMessage }}</div>
+    <div class="survey-valid" v-if="surveyValidMessage">{{ surveyValidMessage }}</div>
     <div class="button" v-if="loaded" @click="surveySubmitButton">Save</div>
   </div>
 </template>
@@ -58,9 +58,6 @@ export default {
       },
 
     };
-  },
-  computed: {
-
   },
   async mounted() {
     const { ok, error, result } = await userService.getSurvey();
@@ -141,6 +138,7 @@ export default {
 .survey {
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 .survey-inner {
   display: flex;
@@ -154,6 +152,7 @@ export default {
   flex-direction: column;
   overflow: auto;
   width: 100%;
+  height: 100%;
 }
 
 .survey-content {
@@ -164,11 +163,13 @@ export default {
   display: flex;
   flex-direction: column;
   flex: 1;
+  flex-shrink: 0;
 }
 .right {
   display: flex; 
   flex-direction: column;
   flex: 1;
+  flex-shrink: 0;
 }
 
 .dropdown {

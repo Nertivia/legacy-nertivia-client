@@ -26,6 +26,17 @@ export default {
 			return x
 		});
 	},
+	emojiToShortcode: message => {
+		// replace default emojis
+		for (let emoji of emojis) {
+			const search = emoji.unicode;
+			const replace = `:${emoji.shortcodes[0]}:`
+			message = message.split(search).join(replace)
+		}
+		// replace custom emojis
+		message = message.replace(/<:([-\w]+):[-\w]+>/g, ':$1:')
+		return message
+	},
 	replaceEmojis: (string) => {
 
 		return twemoji.parse(string,

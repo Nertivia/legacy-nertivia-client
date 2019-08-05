@@ -519,7 +519,7 @@ export default {
       if (!editMessage) {
         this.message = ""
       } else {
-      this.message = editMessage.message
+        this.message = emojiParser.emojiToShortcode(editMessage.message)
       }
     }
   },

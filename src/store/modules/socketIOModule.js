@@ -154,10 +154,10 @@ const actions = {
       this._vm.$socket.emit('notification:dismiss', {channelID: data.message.channelID});
     } else {
       bus.$emit('title:change', data.message.creator.username + " sent a message.");
+      // send notification if other users message the recipient
+      if (data.message.creator.uniqueID === context.getters.user.uniqueID) return;
       desktopNotification();
     }
-    // send notification if other users message the recipient
-    if (data.message.creator.uniqueID === context.getters.user.uniqueID) return;
     const notification  = {
       channelID: data.message.channelID,
       lastMessageID: data.message.messageID,

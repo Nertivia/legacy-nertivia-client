@@ -15,6 +15,20 @@
 const config = [
 
   {
+    version: 5.8,
+    title: "Bug fixes",
+    shortTitle: "",
+    date: "04/08/2019",
+    headColor: "rgba(79, 38, 50, 0.77)",
+    new: [
+      "Added more badges (Bug Catcher, Idea Queen)",
+    ],
+    fix: [
+      "Fixed a bug where desktop notifications would show for your own messages.",
+      "Fixed a bug where editing custom emojis would break.",
+    ]
+  },
+  {
     version: 5.7,
     title: "Redesigned survey + user pop-out",
     shortTitle: "",

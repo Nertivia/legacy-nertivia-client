@@ -408,11 +408,11 @@ export default {
   word-wrap: break-word;
   word-break: break-word;
   white-space: pre-wrap;
+  overflow-wrap: anywhere;
   font-size: 14px;
   overflow: hidden;
   max-width: 100%;
   color: white;
-  overflow-wrap: anywhere;
   margin-top: 3px;
 }
 .other-information {
