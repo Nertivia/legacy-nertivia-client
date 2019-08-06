@@ -127,7 +127,6 @@ export default {
       if (about_me._id) delete about_me._id;
       const arr = [];
       for (let index in about_me) {
-        console.log(index)
         const item = {key: this.capitalize(index.replace('_', " ")), name: about_me[index]};
         if (item.name && item.name.length && item.name !== "Rather not say"){
           if (surveyItems.constants[index]){
