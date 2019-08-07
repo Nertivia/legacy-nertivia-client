@@ -164,12 +164,12 @@ export default {
 
 .show-status-list-enter-active,
 .show-status-list-leave-active {
-  transition: 0.1s;
+  transition: 0.2s;
 }
 .show-status-list-enter,
 .show-status-list-leave-to {
   opacity: 0;
-  transform: translateY(10px);
+  transform: translateY(-5px);
 }
 
 .fade-enter-active,

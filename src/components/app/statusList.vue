@@ -66,39 +66,46 @@ export default {
 <style scoped>
 
 .status-popout{
-    position: absolute;
-    background-color: rgba(44, 44, 44, 0.671);
-    border-radius: 10px;
-    padding: 5px;
-    width: 180px;
-    z-index: 1;
+  position: absolute;
+  background-color: rgba(26, 26, 26, 0.863);
+  border-radius: 10px;
+  padding: 5px;
+  width: 180px;
+  z-index: 1;
 }
 .status-list {
-    padding: 5px;
-    transition: 0.3s;
-    border-radius: 5px;
-    margin: 5px;
+  padding: 5px;
+  transition: 0.3s;
+  border-radius: 5px;
+  margin: 5px;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  flex-shrink: 0;
+
 }
 
 .status-list:hover {
-    background: rgba(0, 0, 0, 0.349);
+  background: rgba(0, 0, 0, 0.349);
 }
 
 .status-icon{
-    display: inline-block;
+  display: inline-block;
+  flex-shrink: 0;
 }
 
 .icon{
-    height: 30px;
-    width: 30px;
-    margin-top: 3px;
+  height: 20px;
+  width: 20px;
+  margin-top: 3px;
+  flex-shrink: 0;
 }
 .text{
-    display: inline-block;
-    vertical-align: top;
-    margin-top: 9px;
-    margin-left: 10px;
-    padding-right: 5px;
+  display: inline-block;
+  vertical-align: top;
+  flex-shrink: 0;
+  margin-left: 10px;
+  padding-right: 5px;
 }
 </style>
 

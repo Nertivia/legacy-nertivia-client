@@ -15,6 +15,17 @@
 const config = [
 
   {
+    version: 5.9,
+    title: "More Bug fixes!",
+    shortTitle: "",
+    date: "07/08/2019",
+    headColor: "rgba(255, 80, 17, 0.77)",
+    fix: [
+      "Fixed a bug where messages would appear blurry sometimes.",
+      "Fixed a bug where scrolling would be inverted in some devices.",
+    ]
+  },
+  {
     version: 5.8,
     title: "Bug fixes, Change password.",
     shortTitle: "",

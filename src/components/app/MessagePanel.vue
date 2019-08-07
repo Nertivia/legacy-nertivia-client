@@ -9,7 +9,7 @@
     <div class="loading" v-if="selectedChannelID && !selectedChannelMessages">
       <spinner/>
     </div>
-    <div v-else-if="selectedChannelID" class="message-logs" @wheel="invertScroll">
+    <div v-else-if="selectedChannelID" ref="msg-logs" class="message-logs" >
       <div class="scroll">
         <message
           v-for="(msg, index) in selectedChannelMessages"
@@ -98,6 +98,7 @@ import heading from "@/components/app/MessagePanel/Heading.vue";
 import emojiSuggestions from "@/components/app/EmojiPanels/emojiSuggestions.vue";
 import emojiParser from "@/utils/emojiParser.js";
 import statuses from "@/utils/statuses";
+import windowProperties from '@/utils/windowProperties';
 
 const emojiPanel = () => import("@/components/app/EmojiPanels/emojiPanel.vue");
 const EditPanel = () => import("@/components/app/EditPanel.vue");
@@ -247,7 +248,7 @@ export default {
         }
       }, 2000)
     },
-    resize(event) {
+    resize() {
       let input = this.$refs["input-box"];
 
       if (input.scrollHeight < 50) {
@@ -255,6 +256,8 @@ export default {
       } else {
         input.style.height = "auto";
         input.style.height = `calc(${input.scrollHeight}px - 1em)`;
+        this.scrollDown(false, undefined, input.scrollHeight);
+
       }
     },
     emojiSwitchKey(event) {
@@ -308,7 +311,6 @@ export default {
       this.$store.dispatch("setEmojiArray", searchArr);
     },
     async onInput(event) {
-      this.resize(event);
       this.messageLength = this.message.length;
       const value = event.target.value.trim();
       if (value && this.postTimerID == null) {
@@ -317,7 +319,7 @@ export default {
       }
     },
     keyUp(event) {
-      this.resize(event);
+      this.resize();
       this.showEmojiPopout(event);
     },
     enterEmojiSuggestion() {
@@ -388,17 +390,6 @@ export default {
       }
 
     },
-    invertScroll(event) {
-      if (event.deltaY) {
-        event.preventDefault();
-        event.currentTarget.scrollTop -=
-          parseFloat(
-            getComputedStyle(event.currentTarget).getPropertyValue("font-size")
-          ) *
-          (event.deltaY < 0 ? -1 : 1) *
-          2;
-      }
-    },
     hideTypingStatus(data) {
       if (this.user.uniqueID === data.message.creator.uniqueID) return;
       if (!this.typingRecipients[data.channelID] || !this.typingRecipients[data.channelID][data.message.creator.uniqueID]) return;
@@ -452,7 +443,7 @@ export default {
       }
       bus.$emit("title:change", "Nertivia");
       if (!this.$store.getters.selectedChannelID) return;
-    //dismiss notification on focus
+      //dismiss notification on focus
       const find = this.$store.getters.notifications.find(notification => {
         return notification.channelID === this.$store.getters.selectedChannelID;
       });
@@ -461,6 +452,18 @@ export default {
           channelID: this.$store.getters.selectedChannelID
         });
       }
+    },
+    scrollDown(ignoreScrolledDown, el, minScroll = 100) {
+      const element = el || this.$refs['msg-logs'];
+      if (!element) return;
+      const currentScroll = element.scrollHeight - element.scrollTop; 
+      const total = element.clientHeight;
+      if ( ignoreScrolledDown || ( currentScroll <= total + minScroll ) ){
+        element.scrollTop = element.scrollHeight;
+      }
+    },
+    onResize(dimentions) {
+      this.scrollDown();
     }
   },
   mounted() {
@@ -515,12 +518,38 @@ export default {
     delete this.$options.sockets.typingStatus;
   },
   watch: {
+    selectedChannelMessages(newMessages, oldMessages){
+      let element = this.$refs['msg-logs'];
+      let currentScroll;
+      let total;
+      if (element) {
+        currentScroll = element.scrollHeight - element.scrollTop
+        total = element.clientHeight
+      }
+
+      this.$nextTick(function () {
+        if (oldMessages === undefined) {
+          this.scrollDown(true);
+        } else {
+          if (currentScroll === total) {
+            this.scrollDown(true);
+          }
+        }
+      })
+    },
     editMessage(editMessage) {
       if (!editMessage) {
         this.message = ""
       } else {
         this.message = emojiParser.emojiToShortcode(editMessage.message)
       }
+      this.$nextTick(() => {
+        this.resize();
+        this.scrollDown();
+      })
+    },
+    getWindowWidth(dimentions) {
+      this.onResize(dimentions)
     }
   },
   computed: {
@@ -584,7 +613,10 @@ export default {
       let editMessage = this.$store.getters.popouts.editMessage;
       if (!editMessage) return null;
       return editMessage;
-    }
+    },
+    getWindowWidth() {
+      return {width: windowProperties.resizeWidth, height: windowProperties.resizeHeight};
+    },
   }
 };
 </script>
@@ -641,7 +673,7 @@ export default {
 }
 .message-logs,
 .message-logs .scroll {
-  transform: scale(1, -1) translate3d(0,0,0);
+  /* transform: scale(1, -1) translate3d(0,0,0); */
   margin-right: 5px;
 }
 

@@ -53,7 +53,7 @@
 <script>
 import { bus } from "../main";
 import Popouts from "@/components/app/Popouts/Popouts.vue";
-
+import windowProperties from "@/utils/windowProperties";
 import changelog from "@/utils/changelog.js";
 import ConnectingScreen from "./../components/app/ConnectingScreen.vue";
 import Spinner from "./../components/Spinner.vue";
@@ -136,8 +136,6 @@ export default {
     if(currentTab) {
       this.currentTab = parseInt(currentTab);
     }
-
-
     // check if changelog is updated
     const seenVersion = localStorage.getItem("changelog-version-seen");
     if (!seenVersion || seenVersion < changelog[0].version) {

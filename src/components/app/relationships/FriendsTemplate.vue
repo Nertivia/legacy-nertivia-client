@@ -1,7 +1,7 @@
 <template>
   <div
     :class="{friend: true, notifyAnimation: (notifications && notifications > 0) }"
-    :style="`background: ${status.bgColor};`"
+    :style="{background: status.status !== 0 ? status.bgColor : ''}"
     @click="openChat"
     @mouseover="hover = true"
     @mouseleave="hover = false"
@@ -74,6 +74,7 @@ export default {
       }
 
       return {
+        status: parseInt(status),
         statusName: statuses[parseInt(status)].name,
         statusURL: statuses[parseInt(status)].url,
         statusColor: statuses[parseInt(status)].color,
@@ -114,7 +115,7 @@ export default {
 }
 .friend {
   color: white;
-  background-color: rgba(0, 0, 0, 0.137);
+  background-color: rgba(0, 0, 0, 0.100);
   margin: 5px;
   padding: 5px;
   padding-right: 0;
@@ -125,14 +126,8 @@ export default {
   overflow: hidden;
 }
 
-.notifyAnimation:before{
-  content: '';
-  position: absolute;
-  z-index: -1;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+.notifyAnimation{
+
   animation: notifyAnime;
   animation-duration: 1s;
   animation-iteration-count: infinite;

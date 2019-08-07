@@ -48,9 +48,7 @@
           </div>
         </div>
 
-        <div class="image-content"
-          v-if="getImage"
-        >
+        <div class="image-content" ref="image" v-if="getImage">
           <img
             :src="getImage"
             @click="imageClicked"
@@ -101,21 +99,12 @@ import messageFormatter from "@/utils/messageFormatter.js";
 import config from "@/config.js";
 import friendlyDate from "@/utils/date";
 import path from "path";
+import windowProperties from '@/utils/windowProperties';
 
 import { mapState } from "vuex";
 import messagesService from '../../services/messagesService';
 
 export default {
-  components: {
-    ProfilePicture,
-    messageEmbedTemplate
-  },
-  data() {
-    return {
-      dropDownVisable: false,
-      hover: false
-    }
-  },
   props: [
     "message",
     "status",
@@ -131,6 +120,16 @@ export default {
     "channelID",
     "timeEdited"
   ],
+  components: {
+    ProfilePicture,
+    messageEmbedTemplate
+  },
+  data() {
+    return {
+      dropDownVisable: false,
+      hover: false
+    }
+  },
   methods: {
     openUserInformation() {
       this.$store.dispatch("setUserInformationPopout", this.uniqueID);
@@ -155,7 +154,50 @@ export default {
     },
     contentDoubleClickEvent(event){
       if (event.target.classList.contains("content") || event.target.closest('.user-info')) this.editMessage();
+    },
+    clamp(num, min, max) {
+      return num <= min ? min : num >= max ? max : num;
+    },
+    calculateAspectRatioFit(srcWidth, srcHeight, maxWidth, maxHeight) {
+      let ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
+      return { width: srcWidth*ratio, height: srcHeight*ratio };
+    },
+    imageSize() {
+      const messageLog = document.querySelector('.scroll');
+      const w = messageLog.offsetWidth;
+      const h = messageLog.offsetHeight;
+
+      const minWidth = w / 2;
+      const minHeight = h / 2;
+
+      const files = this.$props.files;
+      if (!files || files.length === 0 || !files[0].dimensions)
+        return undefined;
+      const dimensions = this.$props.files[0].dimensions
+      const srcWidth = dimensions.width;
+      const srcHeight = dimensions.height;
+
+      const newDimentions = this.calculateAspectRatioFit(srcWidth, srcHeight, minWidth, minHeight);
+
+      const imageTag = this.$refs['image'];
+
+      imageTag.style.width = this.clamp(newDimentions.width, 0, srcWidth) + "px"
+      imageTag.style.height = this.clamp(newDimentions.height, 0, srcHeight) + "px"
+    },
+    onResize(dimentions) {
+      this.imageSize();
     }
+  },
+  watch: {
+    getWindowWidth(dimentions) {
+      this.onResize(dimentions)
+    }
+  },
+  mounted() {
+    const files = this.files;
+    if (!files || files.length === 0 || !files[0].dimensions)
+      return undefined;
+    this.imageSize();
   },
   computed: {
     ...mapState("settingsModule", ["apperance"]),
@@ -194,7 +236,10 @@ export default {
     },
     user() {
       return this.$store.getters.user;
-    }
+    },
+    getWindowWidth() {
+      return {width: windowProperties.resizeWidth, height: windowProperties.resizeHeight};
+    },
   }
 };
 </script>
@@ -203,7 +248,7 @@ export default {
 <style scoped>
 .container {
   position: relative;
-
+  z-index: 1;
 }
 
 .drop-down-button{
@@ -262,7 +307,6 @@ export default {
 }
 
 .ownMessageLeft .triangle-inner {
-  transition: 0.5s;
   border-left: 7px solid rgba(184, 184, 184, 0.219);
   border-right: none !important;
 }
@@ -283,7 +327,6 @@ export default {
 }
 
 .ownMessage .triangle-inner {
-  transition: 0.5s;
   border-right: 7px solid rgba(184, 184, 184, 0.219);
 }
 .ownMessage .content {
@@ -332,7 +375,7 @@ export default {
 
 @keyframes showMessage {
   from {
-    transform: translate(0px, 9px);
+    transform: translate(0px, -5px);
     opacity: 0;
   }
 }
@@ -365,7 +408,6 @@ export default {
   border-radius: 10px;
   color: rgb(231, 231, 231);
   margin: auto 0;
-  transition: 1s;
   overflow: hidden;
 }
 .image-content {
@@ -378,9 +420,8 @@ export default {
   flex-direction: column;
 }
 .image-content img {
-  width: 170px;
-  height: auto;
-  transition: 0.2s;
+  width: 100%;
+  height: 100%;
 }
 .image-content:hover img {
   filter: brightness(70%);
@@ -470,6 +511,10 @@ pre {
   background-color: rgba(0, 0, 0, 0.397);
   padding: 5px;
   border-radius: 5px;
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 img.emoji {
