@@ -322,7 +322,6 @@ export default {
 .message {
   margin: 10px;
   display: flex;
-
   animation: showMessage 0.3s ease-in-out;
 }
 
@@ -375,7 +374,7 @@ export default {
 
 @keyframes showMessage {
   from {
-    transform: translate(0px, -5px);
+    transform: translate(-50px, 0);
     opacity: 0;
   }
 }

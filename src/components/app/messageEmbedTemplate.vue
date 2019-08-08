@@ -1,5 +1,5 @@
 <template>
-  <div class="embed" :class="{article: embed.type === 'article' || embed.type === 'video.other'}">
+  <div class="embed" :class="{article: embed.type === 'article' || embed.type === 'video.other', website: embed.type === 'website'}">
     <div class="right">
       <div class="image" v-if="embed.image" @click="embedImgClicked"><img :src="`//images.weserv.nl/?url=${embed.image}`" alt=""></div>
     </div>
@@ -32,10 +32,25 @@ export default {
   min-width: 200px;
   align-self: flex-start;
   margin-top: 5px;
+  text-overflow: ellipsis;
 }
 .embed.article {
   flex-direction: column;
 }
+.embed.website {
+  height: 100px;
+}
+.embed.website .image {
+  display: flex;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+}
+.embed.article .image {
+  margin-right: 0;
+}
+
 .article .left {
   order: 1;
 }
@@ -58,6 +73,10 @@ export default {
 .description {
   font-size: 14px;
   white-space: pre-wrap;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 .image img {
   width: auto;

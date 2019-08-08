@@ -1,6 +1,6 @@
 
  import Vue from "vue";
- import debounce  from "lodash/debounce";
+ import throttle  from "lodash/throttle";
 
  const WindowProperties  = new Vue({
    data () {
@@ -13,7 +13,7 @@
     this.resizeWidth = window.innerWidth;
     this.resizeHeight = window.innerHeight;
 
-    this.debouncedResize =  debounce(this.onResize, 20);
+    this.debouncedResize =  throttle(this.onResize, 70);
     window.addEventListener("resize", this.debouncedResize);
 
     

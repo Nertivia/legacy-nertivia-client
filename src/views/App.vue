@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" ref="app">
     <vue-headful :title="title" description="Nertivia Chat Client"/>
     <div class="background-image"></div>
     <transition name="fade-between-two" appear>
@@ -57,6 +57,7 @@ import windowProperties from "@/utils/windowProperties";
 import changelog from "@/utils/changelog.js";
 import ConnectingScreen from "./../components/app/ConnectingScreen.vue";
 import Spinner from "./../components/Spinner.vue";
+
 
 const ElectronFrameButtons = () =>
   import("./../components/ElectronJS/FrameButtons.vue");
@@ -129,6 +130,17 @@ export default {
         this.switchChannel(true)
       }
     },
+    resizeEvent(dimensions) {
+      const width = dimensions.width;
+      const height = dimensions.height;
+      this.$refs.app.style.height = height + 'px';
+      this.$refs.app.style.width = width + 'px';
+    }
+  },
+  watch: {
+    getWindowWidth(dimensions) {
+      this.resizeEvent(dimensions)
+    }
   },
   mounted() {
 
@@ -146,6 +158,9 @@ export default {
     bus.$on("title:change", title => {
       this.title = title;
     });
+
+
+
   },
   computed: {
     loggedIn() {
@@ -179,7 +194,10 @@ export default {
         return allFriend[key];
       });
       return result.find(friend => friend.status === 1);
-    }
+    },
+    getWindowWidth() {
+      return {width: windowProperties.resizeWidth, height: windowProperties.resizeHeight};
+    },
   }
 };
 </script>

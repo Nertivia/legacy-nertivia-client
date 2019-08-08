@@ -71,7 +71,7 @@ export default {
   border-radius: 10px;
   padding: 5px;
   width: 180px;
-  z-index: 1;
+  z-index: 4;
 }
 .status-list {
   padding: 5px;

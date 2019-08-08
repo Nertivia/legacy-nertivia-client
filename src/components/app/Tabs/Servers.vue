@@ -72,6 +72,10 @@ export default {
 .direct-message-tab{
   overflow: hidden;
 }
+.left-panel{
+  z-index: 2;
+}
+
 .slide-left-enter-active,
 .slide-left-leave-active {
   transition: 0.5s;

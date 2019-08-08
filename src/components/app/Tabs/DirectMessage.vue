@@ -53,6 +53,9 @@ export default {
   height: 100%;
   width: 100%;
 }
+.left-panel{
+  z-index: 2;
+}
 .slidein-enter-active,
 .slidein-leave-active {
   transition: 0.5s;

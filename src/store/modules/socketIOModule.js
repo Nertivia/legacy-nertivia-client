@@ -153,9 +153,9 @@ const actions = {
     if (context.rootState.channelModule.selectedChannelID == data.message.channelID && document.hasFocus()) {
       this._vm.$socket.emit('notification:dismiss', {channelID: data.message.channelID});
     } else {
-      bus.$emit('title:change', data.message.creator.username + " sent a message.");
       // send notification if other users message the recipient
       if (data.message.creator.uniqueID === context.getters.user.uniqueID) return;
+      bus.$emit('title:change', data.message.creator.username + " sent a message.");
       desktopNotification();
     }
     const notification  = {

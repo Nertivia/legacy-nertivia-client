@@ -12,8 +12,9 @@
     <div v-else-if="selectedChannelID" ref="msg-logs" class="message-logs" >
       <div class="scroll">
         <message
+          class="message-container"
           v-for="(msg, index) in selectedChannelMessages"
-          :key="index"
+          :key="index + selectedChannelID"
           :date="msg.created"
           :admin="msg.creator.admin"
           :username="msg.creator.username"
@@ -537,6 +538,16 @@ export default {
         }
       })
     },
+    uploadQueue() {
+      let element = this.$refs['msg-logs'];
+      let currentScroll = element.scrollHeight - element.scrollTop;
+      let total = element.clientHeight;      
+      this.$nextTick(function () {
+        if (currentScroll === total) {
+          this.scrollDown(true);
+        }
+      })
+    },
     editMessage(editMessage) {
       if (!editMessage) {
         this.message = ""
@@ -549,7 +560,7 @@ export default {
       })
     },
     getWindowWidth(dimentions) {
-      this.onResize(dimentions)
+      this.onResize();
     }
   },
   computed: {
@@ -624,6 +635,8 @@ export default {
 
 
 <style scoped>
+
+
 .no-channel-selected {
   display: flex;
   flex-direction: column;
