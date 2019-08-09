@@ -102,6 +102,7 @@ export default {
   left: 70px;
   max-height: 400px;
   overflow-y: auto;
+  z-index: 2;
 
   background: rgba(32, 32, 32, 0.87);
   color: white;
