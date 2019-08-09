@@ -22,7 +22,7 @@ const config = [
     headColor: "rgba(255, 80, 17, 0.77)",
     fix: [
       "Fixed a bug where messages would appear blurry sometimes.",
-      "Fixed a bug where scrolling would be inverted in some devices.",
+      "Fixed a bug where scrolling would be inverted for some devices.",
       "Responsive images and embeds."
     ],
     msg: 'Notice: If your message history loads mid way, this is because of our new message scrolling down system. This will be fixed after you send few messages.'
