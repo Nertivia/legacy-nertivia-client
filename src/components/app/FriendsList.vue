@@ -135,6 +135,7 @@ export default {
   margin-right: 1px;
   border-radius: 5px;
   transition: 0.3s;
+  cursor: pointer;
 }
 .tab:hover{
   background: rgba(255, 255, 255, 0.096);

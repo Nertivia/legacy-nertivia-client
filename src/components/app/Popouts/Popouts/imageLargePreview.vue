@@ -54,7 +54,6 @@ export default {
 }
 img {
   margin: auto;
-  border: solid 1px white;
   max-height: 100%;
   max-width: 100%;
   width: auto;

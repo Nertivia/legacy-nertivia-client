@@ -163,16 +163,22 @@ export default {
       return { width: srcWidth*ratio, height: srcHeight*ratio };
     },
     imageSize() {
-      const messageLog = document.querySelector('.scroll');
-      const w = messageLog.offsetWidth;
-      const h = messageLog.offsetHeight;
-
-      const minWidth = w / 2;
-      const minHeight = h / 2;
-
       const files = this.$props.files;
       if (!files || files.length === 0 || !files[0].dimensions)
         return undefined;
+        
+      const messageLog = document.querySelector('.scroll');
+      const w = messageLog.offsetWidth;
+      const h = messageLog.offsetHeight;
+      
+      let minWidth = w / 4;
+      let minHeight = h / 4;
+      if (w <= 800) {
+        minWidth = w / 1.7;
+        minHeight = h / 1.7;
+      }
+
+
       const dimensions = this.$props.files[0].dimensions
       const srcWidth = dimensions.width;
       const srcHeight = dimensions.height;

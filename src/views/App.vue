@@ -216,6 +216,12 @@ export default {
   animation-iteration-count: infinite;
   animation-fill-mode: forwards;
 }
+.box {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
 @keyframes notifyAnime {
   0%{
     background: rgba(121, 3, 3, 0.541);
@@ -301,6 +307,7 @@ export default {
   transition: 0.3s;
   -webkit-app-region: no-drag;
   margin-top: 5px;
+  cursor: pointer;
 }
 .tab.selected {
   background: rgba(71, 71, 71, 0.637);
@@ -348,12 +355,7 @@ export default {
 textarea {
   font-family: "Roboto", sans-serif;
 }
-.box {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
-}
+
 .background-image {
   background: url(./../assets/background.jpg);
   position: fixed;

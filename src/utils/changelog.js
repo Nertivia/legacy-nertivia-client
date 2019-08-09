@@ -23,6 +23,7 @@ const config = [
     fix: [
       "Fixed a bug where messages would appear blurry sometimes.",
       "Fixed a bug where scrolling would be inverted in some devices.",
+      "Responsive images and embeds."
     ]
   },
   {

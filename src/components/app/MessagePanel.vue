@@ -497,6 +497,7 @@ export default {
         2500
       );
     };
+    this.scrollDown(true);
 
     bus.$on("newMessage", this.hideTypingStatus);
     bus.$on("emojiSuggestions:Selected", this.enterEmojiSuggestion);

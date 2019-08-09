@@ -124,6 +124,7 @@ export default {
   border-radius: 5px;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .notifyAnimation{

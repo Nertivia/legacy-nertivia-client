@@ -171,9 +171,10 @@ export default {
   bottom: 0;
   z-index: 999;
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .box {
-  margin: auto;
   max-height: 500px;
   width: 350px;
   color: white;
