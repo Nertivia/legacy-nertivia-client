@@ -9,7 +9,7 @@
     <div class="loading" v-if="selectedChannelID && !selectedChannelMessages">
       <spinner/>
     </div>
-    <div v-else-if="selectedChannelID" ref="msg-logs" class="message-logs" >
+    <div v-else-if="selectedChannelID" ref="msg-logs" class="message-logs" @scroll="scrollEvent">
       <div class="scroll">
         <message
           class="message-container"
@@ -123,7 +123,8 @@ export default {
       typingTimer: null,
       typing: false,
       typingRecipients: {},
-      showEmojiPanel: false
+      showEmojiPanel: false,
+      scrolledDown: true,
     };
   },
   methods: {
@@ -257,7 +258,7 @@ export default {
       } else {
         input.style.height = "auto";
         input.style.height = `calc(${input.scrollHeight}px - 1em)`;
-        this.scrollDown(false, undefined, input.scrollHeight);
+        this.scrollDown();
 
       }
     },
@@ -454,14 +455,15 @@ export default {
         });
       }
     },
-    scrollDown(ignoreScrolledDown, el, minScroll = 100) {
-      const element = el || this.$refs['msg-logs'];
+    scrollEvent(event) {
+      const { currentTarget: { scrollTop, clientHeight, scrollHeight} } = event;
+      this.scrolledDown = Math.abs(scrollHeight - scrollTop - clientHeight) <= 3.0;
+    },
+    scrollDown() {
+      if (!this.scrolledDown) return;
+      const element = this.$refs['msg-logs']
       if (!element) return;
-      const currentScroll = element.scrollHeight - element.scrollTop; 
-      const total = element.clientHeight;
-      if ( ignoreScrolledDown || ( currentScroll <= total + minScroll ) ){
-        element.scrollTop = element.scrollHeight;
-      }
+      element.scrollTop = element.scrollHeight;
     },
     onResize(dimentions) {
       this.scrollDown();
@@ -497,7 +499,7 @@ export default {
         2500
       );
     };
-    this.scrollDown(true);
+    this.scrollDown();
 
     bus.$on("newMessage", this.hideTypingStatus);
     bus.$on("emojiSuggestions:Selected", this.enterEmojiSuggestion);
@@ -520,33 +522,21 @@ export default {
     delete this.$options.sockets.typingStatus;
   },
   watch: {
-    selectedChannelMessages(newMessages, oldMessages){
-      let element = this.$refs['msg-logs'];
-      let currentScroll;
-      let total;
-      if (element) {
-        currentScroll = element.scrollHeight - element.scrollTop
-        total = element.clientHeight
-      }
+    scrolledDown(v) {
 
+      
+    },
+    selectedChannelMessages(newMessages, oldMessages){
       this.$nextTick(function () {
-        if (oldMessages === undefined) {
-          this.scrollDown(true);
-        } else {
-          if (currentScroll === total) {
-            this.scrollDown(true);
-          }
-        }
+        this.scrollDown();
       })
     },
+    selectedChannelID(){
+      this.scrolledDown = true;
+    },
     uploadQueue() {
-      let element = this.$refs['msg-logs'];
-      let currentScroll = element.scrollHeight - element.scrollTop;
-      let total = element.clientHeight;      
       this.$nextTick(function () {
-        if (currentScroll === total) {
-          this.scrollDown(true);
-        }
+        this.scrollDown(true);
       })
     },
     editMessage(editMessage) {
