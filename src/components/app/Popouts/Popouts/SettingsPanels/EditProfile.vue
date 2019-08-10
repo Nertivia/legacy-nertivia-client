@@ -1,9 +1,6 @@
 <template>
   <div class="edit-profile">
-    <div class="errors" v-if="errors">
-      <div class="error-title">Fix these mistakes:</div>
-      <li class="error" v-for="error in errors" :key="error.msg">{{error.msg}}</li>
-    </div>
+    <errors-list-template :errors="errors" v-if="errors" />
     <div class="inner-content">
       <div class="left">
         <form>
@@ -59,11 +56,12 @@
 <script>
 import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
 import userService from "@/services/userService.js";
+import ErrorsListTemplate from "@/components/app/errorsListTemplate";
 import config from "@/config.js";
 import path from "path";
 
 export default {
-  components: { ProfilePicture },
+  components: { ProfilePicture, ErrorsListTemplate },
   data() {
     return {
       errors: null,
@@ -245,10 +243,6 @@ export default {
 }
 
 .errors {
-  background: rgb(255, 62, 62);
-  color: white;
-  border-radius: 10px;
-  padding: 10px;
   align-self: center;
 }
 .link {

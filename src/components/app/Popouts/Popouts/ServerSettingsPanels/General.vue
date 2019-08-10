@@ -166,6 +166,7 @@ export default {
   flex-direction: column;
   width: 100%;
   justify-content: center;
+  flex-shrink: 0;
 }
 .details {
   display: flex;
@@ -179,6 +180,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-self: center;
+  flex-shrink: 0;
 }
 .server-name {
   align-self: center;
@@ -192,6 +194,7 @@ export default {
   padding: 10px;
   align-self: center;
   margin: 10px;
+  flex-shrink: 0;
 }
 .input input {
   margin-top: 2px;

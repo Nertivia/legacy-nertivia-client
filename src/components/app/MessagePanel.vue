@@ -522,10 +522,6 @@ export default {
     delete this.$options.sockets.typingStatus;
   },
   watch: {
-    scrolledDown(v) {
-
-      
-    },
     selectedChannelMessages(newMessages, oldMessages){
       this.$nextTick(function () {
         this.scrollDown();

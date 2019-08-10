@@ -1,128 +1,55 @@
 <template>
-  <div
-    class="dark-background"
-    @mousedown="backgroundClick"
-  >
+  <div class="dark-background" @mousedown="backgroundClick">
     <div class="inner">
       <div class="tabs">
-        <div
-          :class="{tab: true, selected: tab == 0}"
-          @click="tab = 0; slideBack(); "
-        >
-          Create
-        </div>
+        <div :class="{tab: true, selected: tab == 0}" @click="tab = 0; slideBack(); ">Create</div>
         <div
           :class="{tab: true, selected: tab == 1 || tab == 2}"
           @click="tab = 1; slideForward();"
-        >
-          Join
-        </div>
+        >Join</div>
       </div>
-      <transition-group
-        tag="div"
-        class="slider"
-        :name="slideInDirection"
-      >
-        <div
-          v-if="tab == 0"
-          key="add-server"
-          class="content"
-        >
-          <!-- <div class="title">
-            Set your server's avatar
-          </div> -->
-          <profile-picture
-            class="avatar"
-            size="90px"
-            :url="avatar + 'default'"
-          />
-          <!-- <div class="button">
-            Browse Avatar Coming Soon!
-          </div> -->
-          <div class="input">
-            <div class="input-name">
-              Server Name
+      <transition-group tag="div" class="slider" :name="slideInDirection">
+        <div class="content" v-if="tab == 0" key="add-server">
+          <errors-list-template :errors="errors" v-if="errors" />
+
+          <div class="inner-content">
+            <div class="add-server">
+              <profile-picture class="avatar" size="90px" :url="avatar + 'default'" />
+              <div class="input">
+                <div class="input-name">Server Name</div>
+                <input v-model="serverName" type="text" placeholder="Server Name" />
+              </div>
+              <span v-if="serverNameError" class="warn">{{ serverNameError }}</span>
+              <div class="button create-button" @click="createButton">Create</div>
             </div>
-            <input
-              v-model="serverName"
-              type="text"
-              placeholder="Server Name"
-            >
-          </div>
-          <span
-            v-if="serverNameError"
-            class="warn"
-          >{{ serverNameError }}</span>
-          <div
-            class="button create-button"
-            @click="createButton"
-          >
-            Create
           </div>
         </div>
-        <div
-          v-if="tab == 1"
-          key="check-invite"
-          class="content"
-        >
+        <div v-if="tab == 1" key="check-invite" class="content">
           <i class="material-icons icon">forum</i>
-          <div class="title">
-            Join A Server
-          </div>
+          <div class="title">Join A Server</div>
           <div class="input">
             <div class="input-name">
               Invite Code
-              <span
-                v-if="inviteCodeError"
-                class="warn"
-              >- {{ inviteCodeError }}</span>
+              <span v-if="inviteCodeError" class="warn">- {{ inviteCodeError }}</span>
             </div>
-            <input
-              v-model="inviteCode"
-              type="text"
-              placeholder="Invite code"
-            >
+            <input v-model="inviteCode" type="text" placeholder="Invite code" />
           </div>
-          <div
-            class="button check-button"
-            @click="checkInviteCode"
-          >
-            Check
-          </div>
+          <div class="button check-button" @click="checkInviteCode">Check</div>
         </div>
-        <div
-          v-if="tab == 2"
-          key="join-server"
-          class="content server"
-        >
-          <profile-picture
-            class="avatar"
-            size="100px"
-            :url="avatar + server.avatar"
-          />
-          <div class="server-name">
-            {{ server.name }}
-          </div>
+        <div v-if="tab == 2" key="join-server" class="content server">
+          <profile-picture class="avatar" size="100px" :url="avatar + server.avatar" />
+          <div class="server-name">{{ server.name }}</div>
           <div class="buttons">
             <div
               v-if="!servers[server.server_id]"
               class="button join-button"
               @click="joinButton"
-            >
-              Join
-            </div>
-            <div
-              v-if="servers[server.server_id]"
-              class="button join-button button-clicked"
-            >
-              Joined
-            </div>
+            >Join</div>
+            <div v-if="servers[server.server_id]" class="button join-button button-clicked">Joined</div>
             <div
               class="button cancel-button"
               @click="server = null; inviteCode = ''; tab = 1; slideBack();"
-            >
-              Cancel
-            </div>
+            >Cancel</div>
           </div>
         </div>
       </transition-group>
@@ -135,10 +62,11 @@ import config from "@/config.js";
 import { bus } from "@/main";
 import ServerService from "@/services/ServerService";
 import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
-import serversModule from '../../../../store/modules/serversModule';
+import serversModule from "../../../../store/modules/serversModule";
+import ErrorsListTemplate from "@/components/app/errorsListTemplate";
 
 export default {
-  components: { ProfilePicture },
+  components: { ProfilePicture, ErrorsListTemplate },
   data() {
     return {
       tab: 0,
@@ -148,12 +76,13 @@ export default {
       inviteCode: "",
       inviteCodeError: null,
       server: null,
-      slideInDirection: "slide-forward"
+      slideInDirection: "slide-forward",
+      errors: null
     };
   },
   computed: {
     servers() {
-      return this.$store.getters['servers/servers'];
+      return this.$store.getters["servers/servers"];
     }
   },
   methods: {
@@ -176,10 +105,10 @@ export default {
     },
     async createButton(event) {
       if (event.target.classList.contains("button-clicked")) return;
-      this.serverNameError = null;
+      this.errors = null;
       const name = this.serverName.trim();
       if (!name) {
-        this.serverNameError = "Enter a name!";
+        this.errors = [{ msg: "Enter a name!" }];
         return;
       }
       event.target.classList.add("button-clicked");
@@ -188,9 +117,11 @@ export default {
         this.closeMenu();
       } else {
         if (error.response) {
-          this.serverNameError = error.response.data.message;
+          if (error.response.data.message)
+            this.errors = [{ msg: error.response.data.message }];
+          else this.errors = error.response.data.errors;
         } else {
-          this.serverNameError = "Something went wrong.";
+          this.errors = [{ msg: "Something went wrong." }];
         }
         event.target.classList.remove("button-clicked");
       }
@@ -221,7 +152,9 @@ export default {
     async joinButton(event) {
       if (event.target.classList.contains("button-clicked")) return;
       event.target.classList.add("button-clicked");
-      const { ok, error, result } = await ServerService.joinServer(this.inviteCode)
+      const { ok, error, result } = await ServerService.joinServer(
+        this.inviteCode
+      );
       if (ok) {
         this.closeMenu();
       }
@@ -273,7 +206,8 @@ export default {
 }
 .inner {
   margin: auto;
-  height: 450px;
+  height: 100%;
+  max-height: 450px;
   width: 400px;
   background: rgb(32, 32, 32);
   display: flex;
@@ -287,6 +221,7 @@ export default {
   justify-content: center;
   padding-top: 15px;
   background: rgb(27, 27, 27);
+  flex-shrink: 0;
 }
 .tab {
   flex-shrink: 0;
@@ -314,15 +249,31 @@ export default {
   height: 100%;
   width: 100%;
 
-  overflow: hidden;
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
   top: 0;
   align-items: center;
-  justify-content: center;
+  overflow: auto;
 }
+.inner-content {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  align-content: center;
+}
+.add-server {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+.errors {
+  margin-top: 10px;
+  flex-shrink: 0;
+}
+
 .input {
   align-self: center;
   margin-top: 15px;
