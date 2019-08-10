@@ -1,40 +1,48 @@
 <template>
-  <div class="content-inner">
-    <div class="top">
-      <profile-picture
-        class="server-avatar"
-        size="100px"
-        :url="update.avatar || `${avatarDomain}/${server.avatar}`"
-      />
-      <div class="button" @click="$refs.avatarBrowser.click()">Edit Avatar</div>
+  <div class="content">
+  <errors-list-template :errors="errors" v-if="errors" />
+    <div class="content-inner">
+      <div class="top">
+        <profile-picture
+          class="server-avatar"
+          size="100px"
+          :url="update.avatar || `${avatarDomain}/${server.avatar}`"
+        />
+        <div class="button" @click="$refs.avatarBrowser.click()">Edit Avatar</div>
         <input
           ref="avatarBrowser"
           type="file"
           accept=".jpeg, .jpg, .png, .gif"
           class="hidden"
           @change="avatarChangeEvent"
-        >
-      <div class="input">
-        <div class="input-title">Server Name</div>
-        <input
-          type="text"
-          ref="name"
-          placeholder="Channel Name"
-          :default-value.prop="server.name"
-          @input="inputEvent('name', $event)"
         />
+        <div class="input">
+          <div class="input-title">Server Name</div>
+          <input
+            type="text"
+            ref="name"
+            placeholder="Channel Name"
+            :default-value.prop="server.name"
+            @input="inputEvent('name', $event)"
+          />
+        </div>
       </div>
-    </div>
-    <div class="details">
-      <div class="options">
-        <drop-down
-          :items="channels"
-          :selected-item="defaultChannel"
-          name="Default Channel"
-          @change="changeEvent('default_channel_id', $event.channelID)"
-        />
+      <div class="details">
+        <div class="options">
+          <drop-down
+            :items="channels"
+            :selected-item="defaultChannel"
+            name="Default Channel"
+            @change="changeEvent('default_channel_id', $event.channelID)"
+          />
+        </div>
+        <div
+          class="button save-button"
+          :class="{disabled: requestSent}"
+          v-if="changed"
+          @click="updateServer()"
+        >{{requestSent ? 'Saving...' : 'Save Changes'}}</div>
       </div>
-      <div class="button save-button" :class="{disabled: requestSent}" v-if="changed" @click="updateServer()">{{requestSent ? 'Saving...' : 'Save Changes'}}</div>
     </div>
   </div>
 </template>
@@ -43,17 +51,19 @@
 import config from "@/config.js";
 import { bus } from "@/main";
 import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
+import ErrorsListTemplate from "@/components/app/errorsListTemplate";
 import ServerService from "@/services/ServerService";
 import DropDown from "./DropDownMenu";
 import { mapState } from "vuex";
 import path from "path";
 
 export default {
-  components: { DropDown, ProfilePicture },
+  components: { DropDown, ProfilePicture, ErrorsListTemplate },
   data() {
     return {
       requestSent: false,
       changed: false,
+      errors: null,
       avatarDomain: config.domain + "/avatars/",
       update: {}
     };
@@ -68,17 +78,23 @@ export default {
     async updateServer() {
       if (this.requestSent) return;
       this.requestSent = true;
-      const {ok, error, result} = await ServerService.updateServer(this.server.server_id, this.update);
+      const { ok, error, result } = await ServerService.updateServer(
+        this.server.server_id,
+        this.update
+      );
       if (!ok) {
-        this.requestSent = false;
-        if (!error.response) {
-          return this.$store.dispatch('setGenericMessage', "Something went wrong. Try again later.") 
+        if (error.response) {
+            if (error.response.data.message)
+            this.errors = [{ msg: error.response.data.message }];
+          else this.errors = error.response.data.errors;
+        } else {
+          this.errors = [{ msg: "Something went wrong." }];
         }
-        return this.$store.dispatch('setGenericMessage', error.response.data.message) 
+        this.requestSent = false;
+        return;
       }
       this.update = {};
       this.requestSent = false;
-      
     },
     avatarChangeEvent(e) {
       if (!this.googleDriveLinked) {
@@ -89,38 +105,47 @@ export default {
       }
       const file = event.target.files[0];
       const _this = this;
-      const maxSize = 2092000; 
+      const maxSize = 2092000;
       if (file.size > maxSize) {
-        return this.$store.dispatch('setGenericMessage', "Image is larger than 2MB") 
+        return this.$store.dispatch(
+          "setGenericMessage",
+          "Image is larger than 2MB"
+        );
       }
       event.target.value = "";
       const allowedFormats = [".png", ".jpeg", ".gif", ".jpg"];
       if (!allowedFormats.includes(path.extname(file.name).toLowerCase())) {
-        return this.$store.dispatch('setGenericMessage', "That file format is not allowed!"); 
+        return this.$store.dispatch(
+          "setGenericMessage",
+          "That file format is not allowed!"
+        );
       }
       let reader = new FileReader();
       reader.readAsDataURL(file);
-      
-      reader.onload = function () {
-        _this.$set(_this.update, 'avatar', reader.result);
+
+      reader.onload = function() {
+        _this.$set(_this.update, "avatar", reader.result);
       };
-      reader.onerror = function (error) {
-        console.log('Error: ', error);
-        return this.$store.dispatch('setGenericMessage', "Something went wrong. Try again later.") 
+      reader.onerror = function(error) {
+        console.log("Error: ", error);
+        return this.$store.dispatch(
+          "setGenericMessage",
+          "Something went wrong. Try again later."
+        );
       };
     }
   },
   watch: {
     update(obj) {
-      if ( Object.keys(obj).length === 0 ){
-        return this.changed = false
+      if (Object.keys(obj).length === 0) {
+        return (this.changed = false);
       }
       this.changed = true;
     }
   },
   computed: {
     googleDriveLinked() {
-      return this.$store.getters['settingsModule/settings'].GDriveLinked
+      return this.$store.getters["settingsModule/settings"].GDriveLinked;
     },
     server() {
       const serverID = this.$store.state.popoutsModule.serverSettings.serverID;
@@ -156,6 +181,9 @@ export default {
   overflow: auto;
   display: flex;
   flex-direction: column;
+}
+.errors {
+  align-self: center;
 }
 .server-avatar {
   align-self: center;
