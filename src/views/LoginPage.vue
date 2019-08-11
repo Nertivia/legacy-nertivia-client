@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <electron-frame-buttons v-if="isElectron" />
     <div class="app-content">
       <header-login @isDay="isDayEvent" />
       <div class="content">
@@ -111,10 +112,16 @@ import Recaptcha from "@/components/Recaptcha.vue";
 import HeaderLogin from "@/components/HeaderLoginTemplate.vue";
 import AuthenticationService from "@/services/AuthenticationService";
 import particlesJS from "@/components/ParticlesJS.vue";
+
+const ElectronFrameButtons = () =>
+  import("@/components/ElectronJS/FrameButtons.vue");
+
 export default {
-  components: { HeaderLogin, Recaptcha, particlesJS },
+  components: { HeaderLogin, Recaptcha, particlesJS, ElectronFrameButtons },
   data() {
     return {
+      isElectron: window && window.process && window.process.type,
+
       showCaptcha: false,
       visible: true,
       email: { value: "", alert: "" },
@@ -248,11 +255,9 @@ html, body {
   display: flex;
   position: relative;
   flex-direction: column;
-  height: 100%;
   width: 100%;
   overflow: auto;
   z-index: 9999;
-  padding-bottom: 100px;
 }
 .background {
   position: fixed;

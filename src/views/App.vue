@@ -30,8 +30,10 @@
               Ad
             </div> -->
           </div>
-          <div class="drag-area" v-if="isElectron"></div>
-          <electron-frame-buttons v-if="isElectron"/>
+            <div class="window-buttons" v-if="isElectron">
+              <electron-frame-buttons />
+            </div>
+
         </div>
         <div class="panel-layout">
           <news v-if="currentTab == 0"/>
@@ -60,11 +62,9 @@ import Spinner from "./../components/Spinner.vue";
 
 
 const ElectronFrameButtons = () =>
-  import("./../components/ElectronJS/FrameButtons.vue");
-
+  import("@/components/ElectronJS/FrameButtons.vue");
 const News = () =>
   import(/* webpackChunkName: "News" */ "./../components/app/Tabs/News.vue");
-//const DirectMessage = () => import('./../components/app/Tabs/DirectMessage.vue');
 const DirectMessage = () => ({
   component: import("./../components/app/Tabs/DirectMessage.vue"),
   loading: Spinner,
@@ -79,12 +79,13 @@ const Servers = () => ({
 export default {
   name: "app",
   components: {
-    ElectronFrameButtons,
+
     DirectMessage,
     Servers,
     ConnectingScreen,
     Popouts,
-    News
+    News,
+    ElectronFrameButtons
   },
   data() {
     return {
@@ -267,21 +268,19 @@ export default {
   flex-shrink: 0;
 }
 
-.drag-area {
-  display: flex;
-  min-width: 20px;
+.window-buttons {
+  position: relative;
+  min-width: 175px;
   flex: 1;
-  -webkit-app-region: drag;
 }
 
 .tabs {
   display: flex;
   overflow-y: hidden;
   overflow-x: auto;
-  max-width: 560px;
+  max-width: 500px;
   flex-basis: auto; /* default value */
   flex-grow: 1;
-  -webkit-app-region: no-drag;
 }
 
 .tabs::-webkit-scrollbar {

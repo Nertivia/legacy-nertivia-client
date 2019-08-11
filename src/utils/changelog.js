@@ -15,6 +15,18 @@
 const config = [
 
   {
+    version: 6.0,
+    title: "Desktop app!",
+    shortTitle: "",
+    date: "11/08/2019",
+    headColor: "rgba(255, 80, 17, 0.77)",
+    new: [
+      "Desktop app is available to download!"
+    ],
+    msg: 'Download: https://github.com/supertiger1234/nertivia-desktop-app/releases'
+  },
+
+  {
     version: 5.9,
     title: "More Bug fixes!",
     shortTitle: "",

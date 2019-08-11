@@ -1,19 +1,19 @@
 <template>
   <div class="frame-buttons">
     <div
-      class="minimize"
+      class="button minimize"
       @click="minimizeWindow()"
     >
       <i class="material-icons">minimize</i>
     </div>
     <div
-      class="res-max"
+      class="button res-max"
       @click="maximizeWindow()"
     >
       <i class="material-icons">check_box_outline_blank</i>
     </div>
     <div
-      class="close"
+      class="button close"
       @click="closeWindow()"
     >
       <i class="material-icons">close</i>
@@ -48,9 +48,19 @@ export default {
 <style scoped>
 .frame-buttons {
   display: flex;
-  align-items: center;
-  -webkit-app-region: drag;
   user-select: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 9999999999999999;
+  height: 30px;
+  -webkit-app-region: drag;
+  justify-content: flex-end;
+}
+.button {
+  -webkit-app-region: no-drag;
+  
 }
 .frame-buttons div {
   display: flex;

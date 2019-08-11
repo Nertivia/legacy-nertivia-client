@@ -46,6 +46,7 @@ export default {
   },
   data() {
     return {
+      isElectron: window && window.process && window.process.type,
       currentTab: 0,
       tabs: [
         {
@@ -78,7 +79,7 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch("logout");
-      window.location.href = "/";
+      this.isElectron ? window.location.href = '/login' : window.location.href = "/";
     },
     close() {
       this.$store.dispatch("setPopoutVisibility", {
