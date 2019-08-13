@@ -19,7 +19,7 @@
         {{ user.username }}
       </div>
       <div class="tag">
-        #{{ user.tag }}
+        @{{ user.tag }}
       </div>
 
       <div
