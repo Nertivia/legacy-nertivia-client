@@ -19,7 +19,7 @@ const config = [
     title: "Desktop app!",
     shortTitle: "",
     date: "11/08/2019",
-    headColor: "rgba(255, 80, 17, 0.77)",
+    headColor: "rgba(255, 80, 87, 0.77)",
     new: [
       "Desktop app is available to download!"
     ],
