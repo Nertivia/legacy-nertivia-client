@@ -482,7 +482,6 @@ export default {
   margin: 4px;
   padding: 2px;
   border-radius: 5px;
-  height: 30px;
   min-width: 30px;
 }
 .emoji-item:hover {
@@ -572,9 +571,12 @@ export default {
 </style>
 <style>
 img.panel.emoji {
-  margin-left: 3px;
-  margin-top: 3px;
+
   margin: auto;
-  width: auto;
+  padding: 2px;
+  object-fit: contain;
+  height: 2em;
+  width: 2em;
+
 }
 </style>

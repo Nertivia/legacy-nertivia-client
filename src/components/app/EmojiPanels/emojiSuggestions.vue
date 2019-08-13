@@ -14,7 +14,7 @@
         />
         <span v-else>
           <img
-            class="custom-emoji"
+            class="emoji"
             :src="customEmojiPath + emoji.emojiID"
           >
         </span>
@@ -134,5 +134,14 @@ export default {
   .emoji-suggetions-list {
     max-height: 150px;
   }
+}
+</style>
+
+<style>
+.emoji-suggetions-list img.emoji {
+  object-fit: contain;
+  height: 2em;
+  width: 2em;
+  margin: 1px;
 }
 </style>

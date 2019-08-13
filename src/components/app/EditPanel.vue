@@ -78,3 +78,14 @@ export default {
   
 }
 </style>
+
+
+<style>
+.edit-panel img.emoji {
+  object-fit: contain;
+  height: 2em;
+  width: 2em;
+  margin: 1px;
+  vertical-align: -9px;
+}
+</style>

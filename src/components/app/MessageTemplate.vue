@@ -522,9 +522,11 @@ pre {
   overflow-wrap: anywhere;
 }
 
-img.emoji {
-  height: 1.7em;
-  width: auto;
-  margin: 0 0.05em 0 0.1em;
+.content-message img.emoji {
+  object-fit: contain;
+  height: 2em;
+  width: 2em;
+  margin: 1px;
+  vertical-align: -9px;
 }
 </style>
