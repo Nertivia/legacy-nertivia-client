@@ -21,7 +21,7 @@
                 <div class="button" v-if="this.relationshipStatus === null" @click="AddFriendButton"><div class="material-icons">person_add</div><div>Add Friend</div></div>  
                 <div class="button" v-if="this.relationshipStatus === 0" @click="RemoveFriendButton"><div class="material-icons">hourglass_empty</div><div>Request Sent</div></div>  
                 <div class="button green" v-if="this.relationshipStatus === 1" @click="AcceptFriendButton"><div class="material-icons">check</div><div>Accept Friend</div></div>
-                <div class="button" v-if="this.relationshipStatus === 2" @click="openChat"><div class="material-icons">message</div><div>Message</div></div>  
+                <div class="button" @click="openChat"><div class="material-icons">message</div><div>Message</div></div>  
                 <div class="button warn" v-if="this.relationshipStatus === 2" @click="RemoveFriendButton"><div class="material-icons">person_add_disabled</div><div>Remove Friend</div></div>
                 <div class="button warn"><div class="material-icons">block</div><div>Block</div></div>
               </div>
