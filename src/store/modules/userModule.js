@@ -30,6 +30,8 @@ const actions = {
     context.commit('user', user)
   },
   logout(context) {
+    axios.defaults.headers.common['authorization'] = "";
+    localStorage.clear()
     context.commit('logout');
   },
   changeStatus(context, status) {
@@ -66,8 +68,6 @@ const mutations = {
     state.token = token
   },
   logout(state) {
-    axios.defaults.headers.common['authorization'] = "";
-    localStorage.removeItem('hauthid')
     state.user = null,
     state.token = null;
   },
