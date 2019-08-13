@@ -1,47 +1,17 @@
 <template>
   <div id="app">
-    <vue-headful
-      title="Nertivia"
-      description="Nertivia Chat Client"
-    />
-    <div
-      ref="backgroundImage"
-      class="background-image"
-    />
+    <vue-headful title="Nertivia" description="Nertivia Chat Client" />
+    <div ref="backgroundImage" class="background-image" />
     <spinner v-if="!showPage" />
-    <div
-      v-if="showPage"
-      class="content"
-    >
-      <transition
-        name="fall-down"
-        appear
-      >
+    <div v-if="showPage" class="content">
+      <transition name="fall-down" appear>
         <div class="header">
           <div class="logo" />
-          <div class="name">
-            Nertivia
-          </div>
+          <div class="name">Nertivia</div>
           <div class="links">
-            <div
-              v-if="!loggedIn"
-              class="link"
-              @click="signupPage"
-            >
-              Sign up
-            </div>
-            <div
-              v-if="!loggedIn"
-              class="link"
-              @click="loginPage"
-            >
-              Login
-            </div>
-            <spinner
-              v-if="loggedIn && !user"
-              class="spinner-profile"
-              :size="50"
-            />
+            <div v-if="!loggedIn" class="link" @click="signupPage">Sign up</div>
+            <div v-if="!loggedIn" class="link" @click="loginPage">Login</div>
+            <spinner v-if="loggedIn && !user" class="spinner-profile" :size="50" />
             <profile-picture
               v-if="loggedIn && user"
               class="avatar"
@@ -50,12 +20,12 @@
               :admin="user.admin"
               size="40px"
               emote-size="17px"
-              @click.native="showPopout = !showPopout"
+              @click.native="showProfilePopout = !showProfilePopout"
             />
             <transition name="fall-down-fast">
-              <Popout
-                v-if="user && loggedIn && showPopout"
-                v-click-outside="closePopout"
+              <profile-popout
+                v-if="user && loggedIn && showProfilePopout"
+                v-click-outside="closeProfilePopout"
                 :user="user"
                 @logout="logOut"
               />
@@ -63,55 +33,39 @@
           </div>
         </div>
       </transition>
-      <transition
-        name="side-in"
-        appear
-      >
+      <transition name="side-in" appear>
         <div class="inner-content">
           <div
             class="title"
-          >
-            The best chat client that won't restrict you from important and fun features.
-          </div>
-          <img
-            class="graphic"
-            src="@/assets/graphics/HomeGraphics2.png"
-          >
+          >The best chat client that won't restrict you from important and fun features.</div>
+          <img class="graphic" src="@/assets/graphics/HomeGraphics2.png" />
           <div class="buttons">
-            <div
-              class="button"
-              @click="openApp"
-            >
-              Open In Browser
-            </div>
-            <!-- <div class="button" >Download App</div> -->
+            <div class="button" @click="openApp">Open In Browser</div>
+            <div class="button download" @click="showDownloadsPopout = true">Download App</div>
           </div>
           <div class="features-list">
-            <div class="title">
-              Things you can do in Nertivia
-            </div>
+            <div class="title">Things you can do in Nertivia</div>
             <div class="list">
               <div class="feature">
                 <i class="material-icons">insert_drive_file</i>
-                <div class="description">
-                  1GB per file limit, upload huge files!
-                </div>
+                <div class="description">1GB per file limit, upload huge files!</div>
               </div>
               <div class="feature">
                 <i class="material-icons">face</i>
-                <div class="description">
-                  Free custom gif emojis and profile picture.
-                </div>
+                <div class="description">Free custom gif emojis and profile picture.</div>
               </div>
               <div class="feature">
                 <i class="material-icons">storage</i>
-                <div class="description">
-                  Make your own servers with channels.
-                </div>
+                <div class="description">Make your own servers with channels.</div>
               </div>
             </div>
           </div>
         </div>
+      </transition>
+    </div>
+    <div class="popouts">
+      <transition name="fade">
+        <download-app-popout v-if="showDownloadsPopout" @close="showDownloadsPopout = false"/>
       </transition>
     </div>
   </div>
@@ -120,30 +74,30 @@
 <script>
 import Spinner from "@/components/Spinner.vue";
 import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
-import Popout from "@/components/homePage/Popout.vue";
+import ProfilePopout from "@/components/homePage/ProfilePopout.vue";
+import DownloadAppPopout from "@/components/homePage/DownloadAppPopout.vue";
 import AuthenticationService from "@/services/AuthenticationService.js";
-import config from '@/config.js'
- 
+import config from "@/config.js";
+
 export default {
-  components: { Spinner, ProfilePicture, Popout },
+  components: { Spinner, ProfilePicture, ProfilePopout, DownloadAppPopout },
   data() {
     return {
-      showPopout: false,
+      showDownloadsPopout: false,
+      showProfilePopout: false,
       showPage: false,
       loggedIn: localStorage.getItem("hauthid") || null,
       user: null,
-      avatarDomain: config.domain + '/avatars/'
+      avatarDomain: config.domain + "/avatars/"
     };
   },
   async mounted() {
     if (this.loggedIn) this.getUser();
     this.preloadImages();
-
   },
   methods: {
-    closePopout(event) {
-      if (!event.target.closest('.avatar'))
-      this.showPopout = false;
+    closeProfilePopout(event) {
+      if (!event.target.closest(".avatar")) this.showProfilePopout = false;
     },
     logOut() {
       this.$store.dispatch("logout");
@@ -180,9 +134,7 @@ export default {
       setTimeout(() => {
         background.src = src;
         background.onload = () => {
-          this.$refs.backgroundImage.style.backgroundImage = `url(${
-            background.src
-          })`;
+          this.$refs.backgroundImage.style.backgroundImage = `url(${background.src})`;
           this.$refs.backgroundImage.style.opacity = 0.7;
           setTimeout(() => (this.showPage = true), 500);
         };
@@ -198,8 +150,8 @@ export default {
           }, 5000);
           return;
         } else {
-          localStorage.removeItem('hauthid');
-          this.loggedIn = null
+          localStorage.removeItem("hauthid");
+          this.loggedIn = null;
         }
       } else {
         this.user = result.data.user;
@@ -211,6 +163,14 @@ export default {
 
 
 <style scoped>
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .2s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
 .fall-down-enter-active {
   opacity: 0;
   animation: fall-down 0.5s;
@@ -256,8 +216,6 @@ export default {
   }
 }
 
-
-
 .side-in-enter-active {
   opacity: 0;
   animation: side-in 0.5s;
@@ -278,10 +236,6 @@ export default {
     opacity: 1;
   }
 }
-
-
-
-
 
 html,
 body {
@@ -319,7 +273,6 @@ body {
   margin-left: 10px;
   color: white;
 }
-
 
 .background-image {
   z-index: -1;
@@ -381,7 +334,9 @@ body {
   box-shadow: 3px 3px rgb(5, 86, 179);
   user-select: none;
   transition: 0.3s;
+  margin: 10px;
 }
+
 .button:hover {
   background: rgb(24, 132, 255);
 }
@@ -389,6 +344,22 @@ body {
   transform: translate(3px, 3px);
   box-shadow: 0 0 rgb(5, 86, 179);
 }
+
+.button.download {
+  background: rgba(0, 223, 67, 0.733);
+  box-shadow: 3px 3px rgb(0, 121, 36);
+}
+
+
+.button.download:hover {
+  background: rgba(0, 223, 67, 0.777);
+}
+.button.download:active {
+  transform: translate(3px, 3px);
+  box-shadow: 0 0 rgb(0, 121, 36);
+}
+
+
 .features-list {
   margin-top: 20px;
 }
@@ -452,6 +423,15 @@ body {
     padding: 0px;
     height: 150px;
     width: 150px;
+  }
+}
+
+@media (max-width: 334px) {
+  .buttons {
+    flex-direction: column;
+  }
+  .buttons .button {
+    text-align: center;
   }
 }
 
