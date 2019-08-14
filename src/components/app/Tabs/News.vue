@@ -112,6 +112,9 @@ export default {
   margin-bottom: 10px;
   border-radius: 10px;
 }
+.information {
+  overflow-wrap: break-word;
+}
 .heading.latest {
   background: rgba(38, 139, 255, 0.87);
 }
@@ -140,12 +143,4 @@ export default {
   margin-bottom: 10px;
 }
 
-@media (max-width: 840px) {
-  .news {
-    flex-direction: column;
-  }
-  .todo-list {
-    margin-left: 0;
-  }
-}
 </style>

@@ -125,6 +125,7 @@ export default {
       typingRecipients: {},
       showEmojiPanel: false,
       scrolledDown: true,
+      scrolledTop: false,
     };
   },
   methods: {
@@ -458,6 +459,7 @@ export default {
     scrollEvent(event) {
       const { currentTarget: { scrollTop, clientHeight, scrollHeight} } = event;
       this.scrolledDown = Math.abs(scrollHeight - scrollTop - clientHeight) <= 3.0;
+      this.scrolledTop = scrollTop === 0;
     },
     scrollDown() {
       if (!this.scrolledDown) return;
@@ -467,6 +469,25 @@ export default {
     },
     onResize(dimentions) {
       this.scrollDown();
+    },
+    async loadMoreMessages() {
+      const msgLogs = this.$refs['msg-logs'];
+      const scrollTop = msgLogs.scrollTop;
+      const scrollHeight = msgLogs.scrollHeight;
+
+      const continueMessageID = this.selectedChannelMessages[0].messageID;
+
+      const {ok, result, error} = await messagesService.get(this.selectedChannelID, continueMessageID)
+      if (ok) {
+        if (!result.data.messages.length) return
+        this.$store.dispatch('addMessages', result.data.messages)
+        this.$nextTick(_ => {
+          msgLogs.scrollTop = msgLogs.scrollHeight - scrollHeight; 
+        })
+      }
+    },
+    scrolledUpEvent() {
+      this.loadMoreMessages();
     }
   },
   mounted() {
@@ -548,6 +569,10 @@ export default {
     },
     getWindowWidth(dimentions) {
       this.onResize();
+    },
+    scrolledTop(scrolledTop) {
+      if (scrolledTop)
+        this.scrolledUpEvent();
     }
   },
   computed: {

@@ -74,6 +74,14 @@ const actions = {
     // send notification if message is not ours
     context.commit("addMessage", data);
   },
+  addMessages(context, messagesArr){
+    const channelID = messagesArr[0].channelID;
+    const messages = context.state.messages[channelID];
+
+    const join = [ ...messagesArr.reverse(), ...messages,  ];
+
+    context.commit('messages', {messages: join, channelID});
+  },
   replaceMessage(context, data) {
     context.commit("replaceMessage", data);
   },

@@ -15,6 +15,22 @@
 const config = [
 
   {
+    version: 6.1,
+    title: "Download button, bug fixes",
+    shortTitle: "",
+    date: "13/08/2019",
+    headColor: "rgba(205, 80, 87, 0.77)",
+    new: [
+      "Added download button.",
+
+    ],
+    fix: [
+      "Fixed emoji size (2emx2em).",
+      "Fixed a mistake in tag in profile panel.",
+      "Fixed a bug where when logging out, the local storage data used to be present."
+    ]
+  },
+  {
     version: 6.0,
     title: "Desktop app!",
     shortTitle: "",

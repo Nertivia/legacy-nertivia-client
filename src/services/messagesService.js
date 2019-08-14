@@ -2,8 +2,8 @@ import {instance, wrapper} from './Api';
 import filesize from "filesize";
 export default {
   // TODO: add ?continue=id
-  get ( channelID )  {
-    return wrapper(instance().get(`messages/channels/${channelID}`));
+  get ( channelID, continueMessageID )  {
+    return wrapper(instance().get(`messages/channels/${channelID}${continueMessageID ? '?continue=' + continueMessageID : ''}`));
   },
   delete ( messageID, channelID )  {
     return wrapper(instance().delete(`messages/${messageID}/channels/${channelID}`));
