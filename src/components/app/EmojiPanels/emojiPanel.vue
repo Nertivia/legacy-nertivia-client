@@ -1,15 +1,10 @@
 <template>
-  <div
-    v-click-outside="closePanel"
-    class="emoji-panel"
-  >
+  <div v-click-outside="closePanel" class="emoji-panel">
     <div class="emoji-panel-inner">
       <div class="emojis-list">
         <!-- Recent Emojis Category  -->
         <div class="category">
-          <div class="category-name">
-            Recent
-          </div>
+          <div class="category-name">Recent</div>
           <div class="list">
             <div
               v-for="(recentEmoji, index) in this.recentEmojisList"
@@ -21,16 +16,14 @@
                 v-lazyload
                 class="panel emoji"
                 :data-url=" getCustomEmoji(recentEmoji) || emojiShortcodeToPath(':' + recentEmoji + ':')"
-              >
+              />
             </div>
           </div>
         </div>
 
         <!-- Custom Emojis Category  -->
         <div class="category">
-          <div class="category-name">
-            Custom Emojis
-          </div>
+          <div class="category-name">Custom Emojis</div>
           <div class="list">
             <div
               v-for="(customEmoji, index) in this.customEmojisList"
@@ -38,23 +31,13 @@
               class="emoji-item"
               @click="customEmojiClickEvent(customEmoji)"
             >
-              <img
-                v-lazyload
-                class="panel emoji"
-                :data-url="customEmojiPath + customEmoji.emojiID"
-              >
+              <img v-lazyload class="panel emoji" :data-url="customEmojiPath + customEmoji.emojiID" />
             </div>
           </div>
         </div>
 
-        <div
-          v-for="(group, index) in groups"
-          :key="group"
-          class="category"
-        >
-          <div class="category-name">
-            {{ group }}
-          </div>
+        <div v-for="(group, index) in groups" :key="group" class="category">
+          <div class="category-name">{{ group }}</div>
           <div class="list">
             <div
               v-for="emojiSorted in emojiByGroup(index)"
@@ -62,33 +45,19 @@
               class="emoji-item"
               @click="emojiClickEvent(emojiSorted.shortcodes[0])"
             >
-              <img
-                v-lazyload
-                class="panel emoji"
-                :data-url="parseEmojiPath(emojiSorted.unicode)"
-              >
+              <img v-lazyload class="panel emoji" :data-url="parseEmojiPath(emojiSorted.unicode)" />
             </div>
           </div>
         </div>
       </div>
       <div class="tabs">
-        <div
-          class="tab"
-          @click="scrollToCategory(0)"
-        >
+        <div class="tab" @click="scrollToCategory(0)">
           <i class="material-icons">history</i>
-          <div class="tooltip">
-            Recent
-          </div>
+          <div class="tooltip">Recent</div>
         </div>
-        <div
-          class="tab"
-          @click="scrollToCategory(1)"
-        >
+        <div class="tab" @click="scrollToCategory(1)">
           <i class="material-icons">face</i>
-          <div class="tooltip">
-            Custom Emojis
-          </div>
+          <div class="tooltip">Custom Emojis</div>
         </div>
         <div
           v-for="(emoji, index) in groupUnicodes"
@@ -97,13 +66,8 @@
           @mouseenter="mouseHover(emoji, $event)"
           @click="scrollToCategory(index + 2)"
         >
-          <img
-            class="panel-emoji"
-            :src="selectRandom(emoji)"
-          >
-          <div class="tooltip">
-            {{ groups[index] }}
-          </div>
+          <img class="panel-emoji" :src="selectRandom(emoji)" />
+          <div class="tooltip">{{ groups[index] }}</div>
         </div>
       </div>
     </div>
@@ -115,9 +79,8 @@
 import { bus } from "@/main";
 import emojiParser from "@/utils/emojiParser.js";
 import lazyLoad from "@/directives/LazyLoad.js";
-import {mapState} from 'vuex'
+import { mapState } from "vuex";
 import config from "@/config.js";
-
 
 export default {
   directives: {
@@ -377,23 +340,23 @@ export default {
       emojis: emojiParser.allEmojis,
       groups: emojiParser.allGroups,
       recentEmojisList: null,
-      customEmojisList : null,
-      customEmojiPath: config.domain + "/files/"
-
+      customEmojisList: null,
+      customEmojiPath: config.domain + "/media/"
     };
   },
   beforeMount() {
-    this.recentEmojisList = this.recentEmojis
-    this.customEmojisList = this.customEmojis
+    this.recentEmojisList = this.recentEmojis;
+    this.customEmojisList = this.customEmojis;
   },
   methods: {
-    getCustomEmoji(shortCode){
-      const customEmoji = emojiParser.getCustomEmojisByShortCode(shortCode)
-      return (customEmoji ? this.customEmojiPath + customEmoji.emojiID : undefined)
+    getCustomEmoji(shortCode) {
+      const customEmoji = emojiParser.getCustomEmojisByShortCode(shortCode);
+      return customEmoji
+        ? this.customEmojiPath + customEmoji.emojiID
+        : undefined;
     },
     closePanel(event) {
-      if (!event.target.closest('.emojis-button'))
-        this.$emit('close')
+      if (!event.target.closest(".emojis-button")) this.$emit("close");
     },
     emojiByGroup(index) {
       index = parseInt(index);
@@ -422,9 +385,9 @@ export default {
       const elements = document.querySelectorAll(".category-name");
       elements[index].scrollIntoView();
     }
-  }, 
+  },
   computed: {
-    ...mapState('settingsModule', ['recentEmojis', 'customEmojis'])
+    ...mapState("settingsModule", ["recentEmojis", "customEmojis"])
   }
 };
 </script>
@@ -483,6 +446,7 @@ export default {
   padding: 2px;
   border-radius: 5px;
   min-width: 30px;
+  cursor: pointer;
 }
 .emoji-item:hover {
   background: rgb(59, 59, 59);
@@ -529,6 +493,7 @@ export default {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  cursor: pointer;
 }
 
 .tab:hover {
@@ -571,12 +536,10 @@ export default {
 </style>
 <style>
 img.panel.emoji {
-
   margin: auto;
   padding: 2px;
   object-fit: contain;
   height: 2em;
   width: 2em;
-
 }
 </style>

@@ -5,12 +5,16 @@ import channelService from "@/services/channelService";
 import messagesService from "@/services/messagesService";
 
 const state = {
-  messages: {}
+  messages: {},
+  scrollPosition: {}
 };
 
 const getters = {
   messages(state) {
     return state.messages;
+  },
+  scrollPosition(state) {
+    return state.scrollPosition
   }
 };
 
@@ -103,6 +107,14 @@ const actions = {
         return true;
       }
     })
+  },
+  changeScrollPosition(context, {channelID, pos}) {
+    context.commit('changeScrollPosition', {channelID, pos})
+  },
+  unloadTopMessages(context, {channelID}) {
+    const messages = context.state.messages[channelID];
+    const unloaded = messages.slice(Math.max(messages.length - 50, 0))
+    context.commit('messages', {channelID, messages: unloaded})
   }
 };
 
@@ -127,6 +139,9 @@ async function getMessages(context, channelID, isServerChannel) {
 
 
 const mutations = {
+  changeScrollPosition(state, {channelID, pos}) {
+    Vue.set(state.scrollPosition, channelID, pos);
+  },
   deleteMessage(state, {channelID, index}) {
     Vue.delete(state.messages[channelID], index)
   },

@@ -18,11 +18,12 @@ const config = [
     version: 6.1,
     title: "Download button, bug fixes",
     shortTitle: "",
-    date: "13/08/2019",
-    headColor: "rgba(205, 80, 87, 0.77)",
+    date: "16/08/2019",
+    headColor: "rgba(25, 300, 87, 0.77)",
     new: [
       "Added download button.",
-
+      "Scroll up to load more messages.",
+      "Scroll to bottom button has been added."
     ],
     fix: [
       "Fixed emoji size (2emx2em).",

@@ -36,7 +36,7 @@ export default {
         return undefined;
 
       const embed = this.$refs['embed'];
-      const messageLog = document.querySelector('.scroll');
+      const messageLog = document.querySelector('.message-logs');
       const w = messageLog.offsetWidth;
       const h = messageLog.offsetHeight;
 
@@ -77,7 +77,7 @@ export default {
     imageURL() {
       const image = this.embed.image;
       if (!image) return undefined;
-      if (typeof image === 'string') return image;
+      if (typeof image === 'string') return undefined;
       if (image.url) return image.url;
       return undefined;
     }

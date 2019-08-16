@@ -34,7 +34,7 @@ export default {
   props: ["emojiArray"],
   data(){
     return {
-      customEmojiPath: config.domain + "/files/"
+      customEmojiPath: config.domain + "/media/"
     }
   },
   computed: {

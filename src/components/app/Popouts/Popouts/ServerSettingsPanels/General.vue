@@ -1,7 +1,7 @@
 <template>
   <div class="content">
   <errors-list-template :errors="errors" v-if="errors" />
-    <div class="content-inner">
+    <div class="content-inner" :key="key">
       <div class="top">
         <profile-picture
           class="server-avatar"
@@ -65,7 +65,8 @@ export default {
       changed: false,
       errors: null,
       avatarDomain: config.domain + "/avatars/",
-      update: {}
+      update: {},
+      key: 1,
     };
   },
   methods: {
@@ -93,6 +94,7 @@ export default {
         this.requestSent = false;
         return;
       }
+      this.key = Math.random();
       this.update = {};
       this.requestSent = false;
     },

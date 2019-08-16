@@ -3,7 +3,7 @@
     <errors-list-template :errors="errors" v-if="errors" />
     <div class="inner-content">
       <div class="left">
-        <form>
+        <form :key="key">
           <div class="outer-input">
             <div class="title">Username</div>
             <div class="user-tag">
@@ -18,7 +18,7 @@
           </div>
           <div class="outer-input">
             <div class="title">Current Password</div>
-            <input type="password" autocomplete="new-password" @input="inputEvent('password', $event)" />
+            <input type="password" autocomplete="new-password" ref="passwordInput" @input="inputEvent('password', $event)" />
           </div>
           <div class="link" v-if="!resetPassword" @click="resetPassword = true">Reset Password</div>
           <div class="outer-input" v-if="resetPassword">
@@ -68,7 +68,8 @@ export default {
       requestSent: false,
       changed: false,
       resetPassword: false,
-      update: {}
+      update: {},
+      key: 0,
     };
   },
   methods: {
@@ -121,8 +122,10 @@ export default {
         }
         this.errors = data.errors;
       } else {
+        this.$refs['passwordInput'].value = "";
         this.resetPassword = false
-        this.update = {};
+        this.$set(this, 'update', {})
+        this.key = Math.random();
       }
       this.requestSent = false;
     }

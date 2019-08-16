@@ -3,48 +3,31 @@
     <heading
       :uniqueID="recipients && recipients.length ? recipients[0].uniqueID : undefined"
       :type="selectedChannelID && channel && !channel.server_id ? 1 : channel && channel.server_id ? 2 : 0"
-      :status-color="userStatusColor"
       :name="selectedChannelID ? channelName : `Welcome back, ${user.username}!` "
     />
     <div class="loading" v-if="selectedChannelID && !selectedChannelMessages">
-      <spinner/>
+      <spinner />
     </div>
-    <div v-else-if="selectedChannelID" ref="msg-logs" class="message-logs" @scroll="scrollEvent">
-      <div class="scroll">
-        <message
-          class="message-container"
-          v-for="(msg, index) in selectedChannelMessages"
-          :key="index + selectedChannelID"
-          :date="msg.created"
-          :admin="msg.creator.admin"
-          :username="msg.creator.username"
-          :uniqueID="msg.creator.uniqueID"
-          :avatar="msg.creator.avatar"
-          :message="msg.message"
-          :embed="msg.embed"
-          :files="msg.files"
-          :status="msg.status"
-          :messageID="msg.messageID"
-          :channelID="msg.channelID"
-          :type="msg.type"
-          :timeEdited="msg.timeEdited"
-        />
-        <uploadsQueue v-if="uploadQueue !== undefined" :queue="uploadQueue"/>
-      </div>
-    </div>
+    <message-logs v-else-if="selectedChannelID && selectedChannelMessages" :key="selectedChannelID" />
     <div class="no-channel-selected" v-if="!selectedChannelID ">
       <div class="material-icons">chat</div>
       <div class="message">Select a person to message!</div>
     </div>
     <div class="chat-input-area" v-if="selectedChannelID">
       <div style="position: relative;">
-        <emoji-suggestions v-if="emojiArray" :emojiArray="emojiArray"/>
-        <emoji-panel v-if="showEmojiPanel" @close="showEmojiPanel = false"/>
+        <transition name="show-up">
+          <div class="back-to-bottom-button" @click="backToTopButton" v-if="!scrolledDown && selectedChannelMessages">
+            Back to bottom
+            <i class="material-icons">keyboard_arrow_down</i>
+          </div>
+        </transition>
+        <emoji-suggestions v-if="emojiArray" :emojiArray="emojiArray" />
+        <emoji-panel v-if="showEmojiPanel" @close="showEmojiPanel = false" />
       </div>
 
-        <edit-panel v-if="editMessage" :data='editMessage' />
+      <edit-panel v-if="editMessage" :data="editMessage" />
       <div class="message-area">
-        <input type="file" ref="sendFileBrowse" @change="attachmentChange" class="hidden">
+        <input type="file" ref="sendFileBrowse" @change="attachmentChange" class="hidden" />
         <div class="attachment-button" @click="attachmentButton">
           <i class="material-icons">attach_file</i>
         </div>
@@ -64,7 +47,8 @@
           <i class="material-icons">face</i>
         </button>
         <button
-          :class="{'send-button': true, 'error-send-button': messageLength > 5000}"
+          class="send-button"
+          :class="{'error-send-button': messageLength > 5000}"
           @click="editMessage ? updateMessage() : sendMessage()"
         >
           <i class="material-icons">{{editMessage ? 'edit' : 'send'}}</i>
@@ -90,30 +74,26 @@ import messagesService from "@/services/messagesService";
 import typingService from "@/services/TypingService";
 import { bus } from "../../main";
 import JQuery from "jquery";
-let $ = JQuery;
-import Message from "../../components/app/MessageTemplate.vue";
 import Spinner from "@/components/Spinner.vue";
 import TypingStatus from "@/components/app/TypingStatus.vue";
-import uploadsQueue from "@/components/app/uploadsQueue.vue";
 import heading from "@/components/app/MessagePanel/Heading.vue";
 import emojiSuggestions from "@/components/app/EmojiPanels/emojiSuggestions.vue";
-import emojiParser from "@/utils/emojiParser.js";
-import statuses from "@/utils/statuses";
-import windowProperties from '@/utils/windowProperties';
+import MessageLogs from "@/components/app/MessageLogs.vue";
+import emojiParser from "@/utils/emojiParser.js"; 
+import windowProperties from "@/utils/windowProperties";
 
 const emojiPanel = () => import("@/components/app/EmojiPanels/emojiPanel.vue");
 const EditPanel = () => import("@/components/app/EditPanel.vue");
 
 export default {
   components: {
-    Message,
     Spinner,
     TypingStatus,
-    uploadsQueue,
     emojiSuggestions,
     emojiPanel,
     heading,
-    EditPanel
+    EditPanel,
+    MessageLogs
   },
   data() {
     return {
@@ -124,8 +104,8 @@ export default {
       typing: false,
       typingRecipients: {},
       showEmojiPanel: false,
-      scrolledDown: true,
-      scrolledTop: false,
+
+      scrolledDown: true
     };
   },
   methods: {
@@ -199,7 +179,7 @@ export default {
       const editMessage = this.editMessage;
       this.$refs["input-box"].focus();
       this.message = this.message.trim();
-      if (this.message === this.editMessage.message){
+      if (this.message === this.editMessage.message) {
         this.$store.dispatch("setEditMessage", null);
         this.message = "";
         return;
@@ -212,29 +192,33 @@ export default {
       this.messageLength = 0;
 
       const msg = emojiParser.replaceShortcode(this.message);
-      this.$store.dispatch('updateMessage', {
+      this.$store.dispatch("updateMessage", {
         channelID: editMessage.channelID,
         messageID: editMessage.messageID,
-        message: {message: msg, status: 0}
-      })
+        message: { message: msg, status: 0 }
+      });
       this.$store.dispatch("setEditMessage", null);
       this.message = "";
 
-      const {ok, error, result} = await messagesService.update(editMessage.messageID, editMessage.channelID, {
-        message: msg
-      })
+      const { ok, error, result } = await messagesService.update(
+        editMessage.messageID,
+        editMessage.channelID,
+        {
+          message: msg
+        }
+      );
       if (ok) {
-        this.$store.dispatch('updateMessage', {
+        this.$store.dispatch("updateMessage", {
           channelID: editMessage.channelID,
           messageID: editMessage.messageID,
-          message: {status: 1}
-        })
+          message: { status: 1 }
+        });
       } else {
-        this.$store.dispatch('updateMessage', {
+        this.$store.dispatch("updateMessage", {
           channelID: editMessage.channelID,
           messageID: editMessage.messageID,
-          message: {message: msg, status: 2}
-        })
+          message: { message: msg, status: 2 }
+        });
       }
     },
     async postTimer() {
@@ -242,14 +226,13 @@ export default {
         if (this.message.trim() == "") {
           clearInterval(this.postTimerID);
           this.postTimerID = null;
-        }else {
+        } else {
           if (this.selectedChannelID)
             await typingService.post(this.selectedChannelID);
-          
-          if (this.postTimerID)
-            this.postTimer()
+
+          if (this.postTimerID) this.postTimer();
         }
-      }, 2000)
+      }, 2000);
     },
     resize() {
       let input = this.$refs["input-box"];
@@ -259,9 +242,8 @@ export default {
       } else {
         input.style.height = "auto";
         input.style.height = `calc(${input.scrollHeight}px - 1em)`;
-        this.scrollDown();
-
       }
+      bus.$emit('scrollDown');
     },
     emojiSwitchKey(event) {
       if (!this.emojiArray) return;
@@ -347,11 +329,16 @@ export default {
     },
     enterEmojiPanel(shortcode) {
       const target = this.$refs["input-box"];
+      if (!target) return;
       target.focus();
-      const isSuccessful = document.execCommand("insertText", false, `:${shortcode}: `);
+      const isSuccessful = document.execCommand(
+        "insertText",
+        false,
+        `:${shortcode}: `
+      );
 
       if (!isSuccessful) {
-        this.message = this.message +  `:${shortcode}: `;
+        this.message = this.message + `:${shortcode}: `;
       }
       target.blur();
       this.$store.dispatch("settingsModule/addRecentEmoji", shortcode);
@@ -369,17 +356,20 @@ export default {
             return;
           }
           if (this.editMessage) {
-            return this.updateMessage()
+            return this.updateMessage();
           } else {
             this.sendMessage();
           }
         }
       }
 
-      if (event.keyCode === 38){ //38 = up arrow
+      if (event.keyCode === 38) {
+        //38 = up arrow
         if (this.message !== "") return;
         if (this.editMessage) return;
-        const messagesFiltered = this.selectedChannelMessages.filter(m => m.creator.uniqueID === this.user.uniqueID);
+        const messagesFiltered = this.selectedChannelMessages.filter(
+          m => m.creator.uniqueID === this.user.uniqueID
+        );
 
         if (!messagesFiltered.length) return;
         event.preventDefault();
@@ -389,14 +379,19 @@ export default {
           channelID: lastMessage.channelID,
           message: lastMessage.message
         });
-
       }
-
     },
     hideTypingStatus(data) {
       if (this.user.uniqueID === data.message.creator.uniqueID) return;
-      if (!this.typingRecipients[data.channelID] || !this.typingRecipients[data.channelID][data.message.creator.uniqueID]) return;
-      clearTimeout( this.typingRecipients[data.channelID][data.message.creator.uniqueID].timer );
+      if (
+        !this.typingRecipients[data.channelID] ||
+        !this.typingRecipients[data.channelID][data.message.creator.uniqueID]
+      )
+        return;
+      clearTimeout(
+        this.typingRecipients[data.channelID][data.message.creator.uniqueID]
+          .timer
+      );
       this.$delete(
         this.typingRecipients[data.channelID],
         data.message.creator.uniqueID
@@ -456,38 +451,16 @@ export default {
         });
       }
     },
-    scrollEvent(event) {
-      const { currentTarget: { scrollTop, clientHeight, scrollHeight} } = event;
-      this.scrolledDown = Math.abs(scrollHeight - scrollTop - clientHeight) <= 3.0;
-      this.scrolledTop = scrollTop === 0;
+    backToTopButton() {
+      bus.$emit('backToBottom');
     },
-    scrollDown() {
-      if (!this.scrolledDown) return;
-      const element = this.$refs['msg-logs']
-      if (!element) return;
-      element.scrollTop = element.scrollHeight;
-    },
-    onResize(dimentions) {
-      this.scrollDown();
-    },
-    async loadMoreMessages() {
-      const msgLogs = this.$refs['msg-logs'];
-      const scrollTop = msgLogs.scrollTop;
-      const scrollHeight = msgLogs.scrollHeight;
+    editMessageEvent(editMessage) {
+      this.message = editMessage ? emojiParser.emojiToShortcode(editMessage.message) : ''; 
 
-      const continueMessageID = this.selectedChannelMessages[0].messageID;
-
-      const {ok, result, error} = await messagesService.get(this.selectedChannelID, continueMessageID)
-      if (ok) {
-        if (!result.data.messages.length) return
-        this.$store.dispatch('addMessages', result.data.messages)
-        this.$nextTick(_ => {
-          msgLogs.scrollTop = msgLogs.scrollHeight - scrollHeight; 
-        })
-      }
     },
-    scrolledUpEvent() {
-      this.loadMoreMessages();
+    onBlur() {
+      clearTimeout(this.postTimerID);
+      this.postTimerID = null;
     }
   },
   mounted() {
@@ -520,59 +493,34 @@ export default {
         2500
       );
     };
-    this.scrollDown();
 
     bus.$on("newMessage", this.hideTypingStatus);
     bus.$on("emojiSuggestions:Selected", this.enterEmojiSuggestion);
     bus.$on("emojiPanel:Selected", this.enterEmojiPanel);
-    window.onblur = () => {
-      clearTimeout(this.postTimerID);
-      this.postTimerID = null;
-    }
-    window.addEventListener('focus', this.onFocus)
 
+    bus.$on('scrolledDown', (scrolledDown) => {
+      this.scrolledDown = scrolledDown;
+    })
+
+    window.addEventListener('blur', this.onBlur)
+    window.addEventListener("focus", this.onFocus);
   },
-  
+
   beforeDestroy() {
     clearTimeout(this.postTimerID);
     this.postTimerID = null;
+
     bus.$off("newMessage", this.hideTypingStatus);
     bus.$off("emojiSuggestions:Selected", this.enterEmojiSuggestion);
     bus.$on("emojiPanel:Selected", this.enterEmojiPanel);
-    window.removeEventListener('focus', this.onFocus)
+    window.removeEventListener("focus", this.onFocus);
+    window.removeEventListener("blur", this.onBlur);
+
     delete this.$options.sockets.typingStatus;
   },
   watch: {
-    selectedChannelMessages(newMessages, oldMessages){
-      this.$nextTick(function () {
-        this.scrollDown();
-      })
-    },
-    selectedChannelID(){
-      this.scrolledDown = true;
-    },
-    uploadQueue() {
-      this.$nextTick(function () {
-        this.scrollDown(true);
-      })
-    },
     editMessage(editMessage) {
-      if (!editMessage) {
-        this.message = ""
-      } else {
-        this.message = emojiParser.emojiToShortcode(editMessage.message)
-      }
-      this.$nextTick(() => {
-        this.resize();
-        this.scrollDown();
-      })
-    },
-    getWindowWidth(dimentions) {
-      this.onResize();
-    },
-    scrolledTop(scrolledTop) {
-      if (scrolledTop)
-        this.scrolledUpEvent();
+      this.editMessageEvent(editMessage);
     }
   },
   computed: {
@@ -617,37 +565,30 @@ export default {
       const channel = this.$store.getters.channels[selectedChannel];
       return channel ? channel.recipients : undefined;
     },
-    userStatusColor() {
-      const selectedChannel = this.$store.getters.selectedChannelID;
-      const channel = this.$store.getters.channels[selectedChannel];
-      const presences = this.$store.getters['members/presences'];
-
-      let status = 0;
-      if (!channel || !channel.recipients || !channel.recipients.length) {
-        status = 0;
-      } else if (
-        this.$store.getters.user.friends[channel.recipients[0].uniqueID]
-      ) {
-        status = presences[channel.recipients[0].uniqueID] || 0;
-      }
-      return statuses[status].color;
-    },
     editMessage() {
       let editMessage = this.$store.getters.popouts.editMessage;
       if (!editMessage) return null;
       return editMessage;
     },
     getWindowWidth() {
-      return {width: windowProperties.resizeWidth, height: windowProperties.resizeHeight};
+      return {
+        width: windowProperties.resizeWidth,
+        height: windowProperties.resizeHeight
+      };
     },
   }
 };
 </script>
 
-
-
-<style scoped>
-
+<style lang="scss" scoped>
+.show-up-enter-active,
+.show-up-leave-active {
+  transition: 0.3s;
+}
+.show-up-enter, .show-up-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(10px);
+}
 
 .no-channel-selected {
   display: flex;
@@ -659,19 +600,13 @@ export default {
   justify-content: center;
   color: white;
   font-size: 20px;
-}
-.no-channel-selected .message {
-  margin-top: 20px;
-  text-align: center;
-}
-.no-channel-selected .material-icons {
-  font-size: 50px;
-}
-.channel-selected {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  height: 100%;
+  .message {
+    margin-top: 20px;
+    text-align: center;
+  }
+  .material-icons {
+    font-size: 50px;
+  }
 }
 
 .hidden {
@@ -695,11 +630,8 @@ export default {
 .message-logs {
   overflow: auto;
   flex: 1;
-}
-.message-logs,
-.message-logs .scroll {
-  /* transform: scale(1, -1) translate3d(0,0,0); */
-  margin-right: 5px;
+  margin-right: 2px;
+  position: relative;
 }
 
 .loading {
@@ -725,14 +657,16 @@ export default {
   user-select: none;
   transition: 0.3s;
   border-radius: 5px;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.322);
+  }
+  .material-icons {
+    color: white;
+    margin: auto;
+  }
 }
-.attachment-button:hover {
-  background: rgba(0, 0, 0, 0.322);
-}
-.attachment-button .material-icons {
-  color: white;
-  margin: auto;
-}
+
 .chat-input-area .info {
   color: rgba(255, 255, 255, 0.466);
   font-size: 12px;
@@ -740,15 +674,18 @@ export default {
   margin-top: 5px;
   display: flex;
 }
+
 .typing-outer {
   flex: 1;
   height: 20px;
 }
+
 .message-count {
   float: right;
   margin-right: 20px;
   margin-top: 3px;
 }
+
 .message-area {
   display: flex;
   width: 100%;
@@ -772,14 +709,14 @@ export default {
   max-height: 30vh;
   overflow-y: auto;
   border-radius: 5px;
-}
 
-.chat-input:hover {
-  background: rgba(0, 0, 0, 0.288);
-}
+  &:hover {
+    background: rgba(0, 0, 0, 0.288);
+  }
 
-.chat-input:focus {
-  background: rgba(0, 0, 0, 0.466);
+  &:focus {
+    background: rgba(0, 0, 0, 0.466);
+  }
 }
 
 .send-button {
@@ -797,20 +734,22 @@ export default {
   flex-shrink: 0;
   border-radius: 5px;
   user-select: none;
-}
-.send-button .material-icons {
-  margin: auto;
-}
-.send-button:hover {
-  background: rgba(0, 0, 0, 0.514);
-}
-.error-send-button {
-  background-color: rgba(255, 0, 0, 0.294);
+  cursor: pointer;
+  .material-icons {
+    margin: auto;
+  }
+  &:hover {
+    background: rgba(0, 0, 0, 0.514);
+  }
 }
 
-.error-send-button:hover {
+.error-send-button {
   background-color: rgba(255, 0, 0, 0.294);
+  &:hover {
+    background-color: rgba(255, 0, 0, 0.294);
+  }
 }
+
 .emojis-button {
   font-size: 20px;
   color: white;
@@ -818,7 +757,7 @@ export default {
   border: none;
   outline: none;
   margin-left: 2px;
-
+  cursor: pointer;
   min-height: 40px;
   width: 50px;
   transition: 0.3s;
@@ -826,12 +765,41 @@ export default {
   flex-shrink: 0;
   border-radius: 5px;
   user-select: none;
+  .material-icons {
+    margin: auto;
+  }
+  &:hover {
+    background: rgba(0, 0, 0, 0.514);
+  }
 }
 
-.emojis-button .material-icons {
-  margin: auto;
-}
-.emojis-button:hover {
-  background: rgba(0, 0, 0, 0.514);
+.back-to-bottom-button {
+  &:hover {
+    background: rgb(23, 124, 255);
+    box-shadow: 0px 0px 15px 0px #0000008a;
+  }
+  transition: 0.2s;
+  background: rgba(23, 124, 255, 0.818);
+  color: white;
+  position: absolute;
+  bottom: 15px;
+  right: 25px;
+  border-radius: 10px;
+  height: 50px;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0px 0px 7px 0px #0000008a;
+  align-content: center;
+  align-items: center;
+  padding-left: 10px;
+  user-select: none;
+  cursor: pointer;
+  .material-icons {
+    align-self: center;
+    flex-shrink: 0;
+    font-size: 35px;
+  }
 }
 </style>

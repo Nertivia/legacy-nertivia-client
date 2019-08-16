@@ -1,23 +1,15 @@
 <template>
   <div class="heading">
-    <div
-      class="show-menu-button"
-      @click="toggleLeftMenu"
-    >
+    <div class="show-menu-button" @click="toggleLeftMenu">
       <i class="material-icons">menu</i>
     </div>
     <div
       v-if="type === 1"
       class="user-status"
-      :style="`box-shadow: 0px 0px 14px 3px ${statusColor}; background-color: ${statusColor};`"
+      :style="`box-shadow: 0px 0px 14px 3px ${userStatusColor}; background-color: ${userStatusColor};`"
     />
     <div class="information">
-      <div
-        :class="{name: true, clickable: !!uniqueID }"
-        @click="openUserInfoPanel"
-      >
-        {{ name }}
-      </div>
+      <div :class="{name: true, clickable: !!uniqueID }" @click="openUserInfoPanel">{{ name }}</div>
     </div>
     <div
       v-if="type === 2 && selectedServerID"
@@ -31,18 +23,14 @@
 
 <script>
 import { bus } from "@/main";
+import statuses from "@/utils/statuses";
 export default {
   props: [
     "type", // 0: without online status; 1: with online status; 2: server.
-    "statusColor", // only if type is set to 1;
     "name",
     "uniqueID"
   ],
-  computed: {
-    selectedServerID() {
-      return this.$store.getters['servers/selectedServerID'];
-    }
-  },
+
   methods: {
     openUserInfoPanel() {
       if (this.uniqueID)
@@ -53,6 +41,26 @@ export default {
     },
     toggleMembersPanel() {
       bus.$emit("toggleMembersPanel");
+    }
+  },
+  computed: {
+    selectedServerID() {
+      return this.$store.getters["servers/selectedServerID"];
+    },
+    userStatusColor() {
+      const selectedChannel = this.$store.getters.selectedChannelID;
+      const channel = this.$store.getters.channels[selectedChannel];
+      const presences = this.$store.getters["members/presences"];
+
+      let status = 0;
+      if (!channel || !channel.recipients || !channel.recipients.length) {
+        status = 0;
+      } else if (
+        this.$store.getters.user.friends[channel.recipients[0].uniqueID]
+      ) {
+        status = presences[channel.recipients[0].uniqueID] || 0;
+      }
+      return statuses[status].color;
     }
   }
 };
@@ -75,7 +83,7 @@ export default {
   user-select: none;
   display: none;
 }
-.show-members-button{
+.show-members-button {
   display: inline-block;
   margin-right: 5px;
   margin-top: 3px;
@@ -126,7 +134,6 @@ export default {
   color: rgb(219, 219, 219);
   text-decoration: underline;
 }
-
 
 @media (max-width: 949px) {
   .show-members-button {

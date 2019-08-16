@@ -8,6 +8,7 @@
 
 <script>
 import messageFormatter from "@/utils/messageFormatter.js";
+import { bus } from "../../main";
 
 export default {
   props: ['data'],
@@ -19,6 +20,9 @@ export default {
       if(event.keyCode !== 27) return; // 27 = escape
       this.close();
     }
+  },
+  mounted() {
+    bus.$emit('scrollDown')
   },
   created() {
     document.addEventListener('keydown', this.keyDownEvent)
@@ -46,7 +50,7 @@ export default {
   background: rgba(23, 112, 255, 0.877);
   display: flex;
   flex-direction: column;
-  z-index: 99999;
+  z-index:1;
   border-radius: 10px;
   margin: 10px;
   margin-bottom: 0;

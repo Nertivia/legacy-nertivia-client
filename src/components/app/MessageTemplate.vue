@@ -167,7 +167,7 @@ export default {
       if (!files || files.length === 0 || !files[0].dimensions)
         return undefined;
         
-      const messageLog = document.querySelector('.scroll');
+      const messageLog = document.querySelector('.message-logs');
       const w = messageLog.offsetWidth;
       const h = messageLog.offsetHeight;
       
@@ -186,6 +186,9 @@ export default {
       const newDimentions = this.calculateAspectRatioFit(srcWidth, srcHeight, minWidth, minHeight);
 
       const imageTag = this.$refs['image'];
+
+      imageTag.firstChild.style.width = "100%"
+      imageTag.firstChild.style.height = "100%"
 
       imageTag.style.width = this.clamp(newDimentions.width, 0, srcWidth) + "px"
       imageTag.style.height = this.clamp(newDimentions.height, 0, srcHeight) + "px"
@@ -425,8 +428,10 @@ export default {
   flex-direction: column;
 }
 .image-content img {
-  width: 100%;
-  height: 100%;
+  width: 100px;
+  object-fit: contain;
+  height: 100px;
+
 }
 .image-content:hover img {
   filter: brightness(70%);
