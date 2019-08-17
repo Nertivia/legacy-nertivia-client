@@ -15,11 +15,24 @@
 const config = [
 
   {
+    version: 6.2,
+    title: "Bug fixes",
+    shortTitle: "",
+    date: "17/08/2019",
+    headColor: "rgba(25, 130, 255, 0.77)",
+    new: [
+
+    ],
+    fix: [
+      "Fixed bugs with textarea not resizing properly",
+      "Other small bugs have been fixed."
+    ]
+  },
+  {
     version: 6.1,
     title: "Download button, bug fixes",
     shortTitle: "",
     date: "16/08/2019",
-    headColor: "rgba(25, 300, 87, 0.77)",
     new: [
       "Added download button.",
       "Scroll up to load more messages.",
@@ -36,7 +49,6 @@ const config = [
     title: "Desktop app!",
     shortTitle: "",
     date: "11/08/2019",
-    headColor: "rgba(255, 80, 87, 0.77)",
     new: [
       "Desktop app is available to download!"
     ],
@@ -48,7 +60,6 @@ const config = [
     title: "More Bug fixes!",
     shortTitle: "",
     date: "07/08/2019",
-    headColor: "rgba(255, 80, 17, 0.77)",
     fix: [
       "Fixed a bug where messages would appear blurry sometimes.",
       "Fixed a bug where scrolling would be inverted for some devices.",
@@ -61,7 +72,6 @@ const config = [
     title: "Bug fixes, Change password.",
     shortTitle: "",
     date: "05/08/2019",
-    headColor: "rgba(255, 75, 127, 0.77)",
     new: [
       "Added more badges (Bug Catcher, Idea Queen)",
       "You can now change your password.",
@@ -76,7 +86,6 @@ const config = [
     title: "Redesigned survey + user pop-out",
     shortTitle: "",
     date: "03/08/2019",
-    headColor: "rgba(79, 98, 255, 0.77)",
     new: [
       "Re-coded the survey. Note: since the survey is recoded, you will need to reselect some of the options.",
       "Remove '13 or under' option in the survey.",
@@ -91,7 +100,6 @@ const config = [
     title: "Bug fixes and redesigns",
     shortTitle: "",
     date: "30/07/2019",
-    headColor: "rgba(222, 46, 46, 0.77)",
     new: [
       "You can now enable desktop notifications by going in the settings.",
       "We have re-added syntax highlighting and also improved the performance of message formatting. (Thanks to Bree!)",
@@ -106,7 +114,6 @@ const config = [
     title: "Oopsies!",
     shortTitle: "",
     date: "25/07/2019",
-    headColor: "rgba(15, 65, 70, 0.77)",
     fix: [
       'Removed codeblock highlighter due to some problems. Will be back in the future.',
     ],
@@ -117,7 +124,6 @@ const config = [
     title: "Bug Fixes!",
     shortTitle: "",
     date: "24/07/2019",
-    headColor: "rgba(15, 65, 70, 0.77)",
     fix: [
       'Fixed a bug where when pressing the up arrow key to edit while there is text in the text box, it would discard the message and edit.',
       'Fixed a bug where when editing a message and going to a different tab, the message is still editing.',
@@ -133,7 +139,6 @@ const config = [
     title: "Edit messages, More performance!",
     shortTitle: "",
     date: "23/07/2019",
-    headColor: "rgba(15, 89, 70, 0.77)",
     new: [
       "You can now edit your own messages!",
       "Avatar and message pictures should now be disk cached.",
@@ -155,7 +160,6 @@ const config = [
     title: "Delete messages, URL Embeds",
     shortTitle: "",
     date: "19/07/2019",
-    headColor: "rgba(155, 79, 0, 0.77)",
     new: [
       "You can now delete your own messages.",
       "URLs now show open graph embeds.",
@@ -168,7 +172,6 @@ const config = [
     title: "Change server avatar!",
     shortTitle: "Change server avatar!",
     date: "17/07/2019",
-    headColor: "rgba(255, 79, 0, 0.77)",
     new: [
       "You can now change your server avatar from the server settings menu!",
     ],
@@ -182,7 +185,6 @@ const config = [
     title: "Change server name and default server channel",
     shortTitle: "Change server name and default server channel",
     date: "15/07/2019",
-    headColor: "rgba(255, 0, 0, 0.77)",
     new: [
       "You can now change the name of your server.",
       "You can now change the default channel to something else.",
@@ -212,7 +214,6 @@ const config = [
     title: "Color codeblocks and create multiple channels!",
     shortTitle: "Color codeblocks and create multiple channels!",
     date: "12/07/2019",
-    headColor: "rgba(190, 40, 40, 0.77)",
     new: [
       "You can now color your code (thanks bree!) by typing: <div style='background: #00000066; border-radius: 5px; padding: 5px;'>```js<br>    console.log('Hello World!');<br>```</div>",
       "A new server settings option has been added that allows you to delete your server, create new channels and rename your channels. More features will be added in the future! ",
@@ -227,7 +228,6 @@ const config = [
     title: "Server Members Status and new Logo!",
     shortTitle: "Server Members Status and new Logo!",
     date: "08/07/2019",
-    headColor: "rgba(0, 156, 170, 0.77)",
     new: [
       "Nertivia has a new cat logo! (Thanks to Fullipsp for the design!)",
       "You can now see online status of server members!",
@@ -242,7 +242,6 @@ const config = [
     title: "Bug fixes",
     shortTitle: "Bug fixes",
     date: "24/06/2019",
-    headColor: "rgba(3, 70, 115, 0.77)",
     new: [
       "Emoji character limit expanded to 30 characters!"
     ],
@@ -259,7 +258,6 @@ const config = [
     title: "Server Members list and bug fixes",
     shortTitle: "Server Members list and bug fixes",
     date: "21/06/2019",
-    headColor: "rgba(0, 102, 170, 0.77)",
     new: [
       "Server members are now shown!",
       "Adjusted some padding with the tabs."
@@ -274,7 +272,6 @@ const config = [
     title: "Server bug fixes",
     shortTitle: "Server bug fixes",
     date: "03/06/2019",
-    headColor: "rgba(3, 70, 115, 0.77)",
     new: [
       "Notifications for servers has been added."
     ],
@@ -289,7 +286,6 @@ const config = [
     title: "Make your own servers! (Alpha)",
     shortTitle: "Servers (Alpha)",
     date: "23/05/2019",
-    headColor: "rgb(0, 102, 170, 0.77)",
     new: [
       "You can now make servers! Note that this is in alpha stage which means that it's not complete and there could be a ton of bugs everywhere :c get reporting!",
       "Adjusted padding in some areas.",
@@ -310,7 +306,6 @@ color: #27a3ff;
     title: "Page Re-designs",
     shortTitle: "Page Re-designs",
     date: "28/04/2019",
-    headColor: "rgba(155, 244, 66, 0.77)",
     new: [
       "Home page has been re-designed and has some cool animations.",
       "New login and register pages.",
@@ -327,7 +322,6 @@ color: #27a3ff;
     title: "New Notification Sound",
     shortTitle: "Notification Sound",
     date: "22/04/2019",
-    headColor: "rgba(16, 0, 154, 0.77)",
     new: [
       "Do not disturb should now mute notification sounds.",
       "New notification sound has been added."
@@ -342,7 +336,6 @@ color: #27a3ff;
     title: "Profile Panel",
     shortTitle: "Profile Panel",
     date: "21/04/2019",
-    headColor: "rgba(39, 14, 204, 0.77)",
     new: [
       "Tabs have been added at the top of the screen.",
       "Added an option to display your messages on the right and other messages to the left.",
@@ -357,7 +350,6 @@ color: #27a3ff;
     title: "Custom emojis!",
     shortTitle: "Custom emojis!",
     date: "29/03/2019",
-    headColor: "rgba(255, 48, 48, 0.77)",
     new: [
       "You can now add your own emojis for free.",
       "User status in the top bar to easily view if someone is still online or, if you're talking to a wall on the phone.",
@@ -369,7 +361,6 @@ color: #27a3ff;
     title: "Emoji tabs and recent emojis",
     shortTitle: "Emoji tabs and recent emojis",
     date: "22/03/2019",
-    headColor: "rgba(244, 169, 65, 0.77)",
     new: ["Tabs in emoji panel", "Recent Emojis now show in the emoji panel"],
     fix: ["Emoji panel closes when clicking outside the panel."],
     next: ["Custom emojis"]
@@ -378,7 +369,6 @@ color: #27a3ff;
     title: "Emojis :D",
     shortTitle: "Emojis",
     date: "20/03/2019",
-    headColor: "rgba(17, 153, 69, 0.77)",
     new: [
       "Emoji suggestions in chat when typing in any emoji :ok_hand:",
       "Emoji picker",
@@ -394,7 +384,6 @@ color: #27a3ff;
     title: "Upload anything!",
     shortTitle: "Upload anything!",
     date: "08/03/2019",
-    headColor: "rgba(38, 139, 255, 0.77)",
     new: [
       "You can now upload any kind of files to friends. (Google drive required)",
       "Shift + enter should expand the text area.",

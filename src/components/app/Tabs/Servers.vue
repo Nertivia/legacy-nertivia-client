@@ -2,15 +2,15 @@
   <div class="direct-message-tab">
     <transition name="slide-left">
       <server-list
-        v-show="$mq === 'mobile' && showLeftPanel || ($mq !== 'mobile')"
+        v-if="$mq === 'mobile' && showLeftPanel || ($mq !== 'mobile')"
         v-click-outside="hideLeftPanel"
         class="left-panel"
       />
     </transition>
     <message-panel />
-    <transition name="slide-right">
+    <transition :name="$mq !== 'desktop' ? 'slide-right' : 'none'">
       <members-list
-        v-show="($mq === 'members_panel' || $mq === 'mobile') && showMembersPanel || ($mq === 'desktop')"
+        v-if="selectedServerID && (($mq === 'members_panel' || $mq === 'mobile') && showMembersPanel || ($mq === 'desktop'))"
         v-click-outside="hideMembersPanel"
         class="members-panel"
       />
@@ -63,6 +63,11 @@ export default {
         }
       }
     }
+  },
+  computed: {
+    selectedServerID() {
+      return this.$store.getters['servers/selectedServerID'];
+    },
   }
 };
 </script>
@@ -81,15 +86,17 @@ export default {
   transition: 0.5s;
 }
 .slide-left-enter, .slide-left-leave-to /* .fade-leave-active below version 2.1.8 */ {
-    transform: translateX(-300px)
+  transform: translateX(-300px)
 }
 
 .slide-right-enter-active,
 .slide-right-leave-active {
   transition: 0.5s;
+
 }
 .slide-right-enter, .slide-right-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  transform: translateX(300px)
+  transform: translateX(300px);
+
 }
 
 

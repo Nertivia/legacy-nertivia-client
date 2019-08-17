@@ -4,8 +4,8 @@
       <span class="news-title">Changes in this release</span>
 
       <div
-        v-for="change in changelog"
-        :key="change.title"
+        v-for="(change, index) in changelog"
+        :key="index"
         class="change"
       >
         <div

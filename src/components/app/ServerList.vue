@@ -6,7 +6,7 @@
         v-for="(data, index) in servers"
         :key="index.server_id"
         :server-data="data"
-        :open-channel="openedServer !== null && openedServer === data.server_id"
+        :open-channel="selectedServerID && selectedServerID === data.server_id"
         @click.native="toggleChannel(data.server_id, $event)"
       />
       <server
@@ -31,14 +31,6 @@ export default {
       openedServer: null
     };
   },
-  computed: {
-    servers() {
-      const data = this.$store.getters['servers/servers'];
-      return Object.keys(data).map(key => {
-        return data[key];
-      }).slice().reverse()
-    }
-  },
   methods: {
     openAddServer() {
       this.$store.dispatch("setPopoutVisibility", {
@@ -57,6 +49,17 @@ export default {
         this.$store.dispatch('servers/setSelectedServerID', serverID)
       }
     }
+  },
+  computed: {
+    servers() {
+      const data = this.$store.getters['servers/servers'];
+      return Object.keys(data).map(key => {
+        return data[key];
+      }).slice().reverse()
+    },
+    selectedServerID() {
+      return this.$store.getters['servers/selectedServerID'];
+    },
   }
 };
 </script>

@@ -132,7 +132,6 @@ export default {
       this.$store.dispatch("setEmojiArray", null);
       clearInterval(this.postTimerID);
       this.postTimerID = null;
-      this.messageLength = 0;
 
       const msg = emojiParser.replaceShortcode(this.message);
 
@@ -189,7 +188,6 @@ export default {
       this.$store.dispatch("setEmojiArray", null);
       clearInterval(this.postTimerID);
       this.postTimerID = null;
-      this.messageLength = 0;
 
       const msg = emojiParser.replaceShortcode(this.message);
       this.$store.dispatch("updateMessage", {
@@ -236,14 +234,13 @@ export default {
     },
     resize() {
       let input = this.$refs["input-box"];
-
-      if (input.scrollHeight < 50) {
+      if (input.scrollHeight < 50 || !this.message) {
         input.style.height = "1em";
       } else {
         input.style.height = "auto";
         input.style.height = `calc(${input.scrollHeight}px - 1em)`;
       }
-      bus.$emit('scrollDown');
+      bus.$emit('scrollDown');  
     },
     emojiSwitchKey(event) {
       if (!this.emojiArray) return;
@@ -296,7 +293,6 @@ export default {
       this.$store.dispatch("setEmojiArray", searchArr);
     },
     async onInput(event) {
-      this.messageLength = this.message.length;
       const value = event.target.value.trim();
       if (value && this.postTimerID == null) {
         this.postTimer();
@@ -304,8 +300,7 @@ export default {
       }
     },
     keyUp(event) {
-      this.resize();
-      this.showEmojiPopout(event);
+
     },
     enterEmojiSuggestion() {
       const emoji = this.emojiArray[this.emojiIndex];
@@ -344,7 +339,6 @@ export default {
       this.$store.dispatch("settingsModule/addRecentEmoji", shortcode);
     },
     keyDown(event) {
-      this.resize(event);
       this.emojiSwitchKey(event);
       // when enter is press
       if (event.keyCode == 13) {
@@ -456,7 +450,6 @@ export default {
     },
     editMessageEvent(editMessage) {
       this.message = editMessage ? emojiParser.emojiToShortcode(editMessage.message) : ''; 
-
     },
     onBlur() {
       clearTimeout(this.postTimerID);
@@ -521,6 +514,11 @@ export default {
   watch: {
     editMessage(editMessage) {
       this.editMessageEvent(editMessage);
+    },
+    message(message) {
+      this.showEmojiPopout(event);
+      this.messageLength = message.length;
+      this.$nextTick(this.resize)
     }
   },
   computed: {
@@ -703,7 +701,7 @@ export default {
   resize: none;
   border: none;
   outline: none;
-  transition: 0.3s;
+  transition: background 0.2s;
   height: 1em;
   overflow: hidden;
   max-height: 30vh;
