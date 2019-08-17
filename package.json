@@ -20,6 +20,7 @@
     "socket.io-client": "^2.2.0",
     "twemoji": "^11.3.0",
     "uws": "^10.148.1",
+    "v-clipboard": "^2.2.2",
     "validator": "^11.1.0",
     "vue": "^2.5.17",
     "vue-headful": "^2.0.1",

@@ -59,6 +59,7 @@
       <div class="other-information">
         <div class="drop-down-button" ref="drop-down-button" @click="dropDownVisable = !dropDownVisable"><i class="material-icons">more_vert</i></div>
         <div class="drop-down-menu" v-click-outside="closeDropDown" v-if="dropDownVisable">
+          <div class="drop-item" @click="copyMessage" >Copy</div>
           <div class="drop-item" @click="editMessage" v-if="user.uniqueID === uniqueID">Edit</div>
           <div class="drop-item warn" @click="deleteMessage">Delete</div>
         </div>
@@ -195,6 +196,10 @@ export default {
     },
     onResize(dimentions) {
       this.imageSize();
+    },
+    copyMessage() {
+      this.dropDownVisable = false;
+      this.$clipboard(this.message);
     }
   },
   watch: {
@@ -263,10 +268,12 @@ export default {
 .drop-down-button{
   opacity: 0;
   transition: 0.2s;
+  position: relative;
+  z-index: 1;
 }
 .drop-down-menu {
   position: absolute;
-  z-index: 999;
+  z-index: 9999999;
   background: rgba(0, 0, 0, 0.918);
   border-radius: 10px;
   padding: 5px;

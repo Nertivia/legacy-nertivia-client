@@ -7,7 +7,10 @@ import {store} from './store/index';
 import Axios from 'axios';
 import './utils/clickOutside';
 import vueHeadful from 'vue-headful';
+import Clipboard from 'v-clipboard';
+
 Vue.component('vue-headful', vueHeadful);
+Vue.use(Clipboard)
 
 Vue.config.productionTip = false
 
