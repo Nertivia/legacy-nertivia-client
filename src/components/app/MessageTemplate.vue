@@ -57,12 +57,7 @@
         <message-embed-template v-if="embed && Object.keys(embed).length" :embed="embed"/>
       </div>
       <div class="other-information">
-        <div class="drop-down-button" ref="drop-down-button" @click="dropDownVisable = !dropDownVisable"><i class="material-icons">more_vert</i></div>
-        <div class="drop-down-menu" v-click-outside="closeDropDown" v-if="dropDownVisable">
-          <div class="drop-item" @click="copyMessage" >Copy</div>
-          <div class="drop-item" @click="editMessage" v-if="user.uniqueID === uniqueID">Edit</div>
-          <div class="drop-item warn" @click="deleteMessage">Delete</div>
-        </div>
+        <div class="drop-down-button" ref="drop-down-button" @click="openContextMenu"><i class="material-icons">more_vert</i></div>
         <div class="sending-status" v-if="timeEdited && (status === undefined || status === 1)" :title="`Edited ${getEditedDate}`"><i class="material-icons">edit</i></div>
         <div class="sending-status" v-else-if="status === 0"><i class="material-icons">hourglass_full</i></div>
         <div class="sending-status" v-else-if="status === 1"><i class="material-icons">done</i></div>    
@@ -127,26 +122,26 @@ export default {
   },
   data() {
     return {
-      dropDownVisable: false,
       hover: false
     }
   },
   methods: {
+    openContextMenu(event) {
+      const element = event.target;
+      const {x, y} = element.getBoundingClientRect()
+      this.$store.dispatch('setMessageContext', {
+        x,
+        y,
+        channelID: this.channelID,
+        messageID: this.messageID,
+        message: this.message
+      });
+    },
     openUserInformation() {
       this.$store.dispatch("setUserInformationPopout", this.uniqueID);
     },
     imageClicked(event) {
       this.$store.dispatch("setImagePreviewURL", event.target.src);
-    },
-    closeDropDown(event) {
-      const dropDownButton = this.$refs['drop-down-button'];
-      if (!dropDownButton || dropDownButton.contains(event.target)) return;
-      this.dropDownVisable = false
-    },
-    async deleteMessage() {
-      this.dropDownVisable = false;
-      const {ok, error, result} = await messagesService.delete(this.messageID, this.channelID);
-      
     },
     editMessage() {
       if (this.uniqueID !== this.user.uniqueID) return;
@@ -197,10 +192,6 @@ export default {
     onResize(dimentions) {
       this.imageSize();
     },
-    copyMessage() {
-      this.dropDownVisable = false;
-      this.$clipboard(this.message);
-    }
   },
   watch: {
     getWindowWidth(dimentions) {
@@ -271,29 +262,8 @@ export default {
   position: relative;
   z-index: 1;
 }
-.drop-down-menu {
-  position: absolute;
-  z-index: 9999999;
-  background: rgba(0, 0, 0, 0.918);
-  border-radius: 10px;
-  padding: 5px;
-  margin-top: 25px;
-  margin-left: -24px;
-  color: white;
-}
-.drop-item {
-  padding: 3px;
-  border-radius: 5px;
-  cursor: pointer;
-  user-select: none;
-  font-size: 13px;
-}
-.drop-item:hover {
-  background: rgb(41, 41, 41);
-}
-.warn {
-  color: red;
-}
+
+
 
 .container:hover .drop-down-button{
   opacity: 1;

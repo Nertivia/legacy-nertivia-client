@@ -21,10 +21,11 @@ const config = [
     date: "17/08/2019",
     headColor: "rgba(25, 130, 255, 0.77)",
     new: [
-
+      "Added a copy button in the message context menu."
     ],
     fix: [
       "Fixed bugs with textarea not resizing properly",
+      "Fixed a bug where message context menu would be not visible.",
       "Other small bugs have been fixed."
     ]
   },

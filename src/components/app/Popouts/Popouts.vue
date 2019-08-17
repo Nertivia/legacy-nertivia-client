@@ -12,6 +12,7 @@
       <server-invite key="sip" v-if="popouts.showServerInviteMenu" />
       <server-settings key="ss" v-if="popouts.serverSettings.serverID"/>
       <GenericPopout  key="gp" v-if="popouts.genericMessage"/>
+      <message-context-menu  key="mcm" v-if="popouts.messageContextMenu.messageID"/>
     </transition-group>
   </div>
 </template>
@@ -20,6 +21,7 @@
 
 //popouts
   const userInformationPopout = () => import('./Popouts/userInformationPopout.vue');
+  const messageContextMenu = () => import('./Popouts/messageContextMenu');
   const AddServer = () => import('./Popouts/AddServer.vue');
   const Settings = () => import('./Popouts/Settings.vue');
   const TakeSurveyPopout = () => import('./Popouts/TakeSurveyPopout.vue');
@@ -45,7 +47,8 @@ export default {
     AddServer,
     ServerInvite: ServerInvitePopout,
     ServerSettings,
-    GenericPopout
+    GenericPopout,
+    messageContextMenu
   },
   data() {
     return {
@@ -118,7 +121,7 @@ export default {
 <style scoped>
 .show-enter-active,
 .show-leave-active {
-  transition: opacity 0.3s;
+  transition: opacity 0.1s;
 }
 .show-enter, .show-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;

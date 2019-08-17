@@ -35,7 +35,7 @@ import { bus } from "../../main";
 import Message from "../../components/app/MessageTemplate.vue";
 import Spinner from "@/components/Spinner.vue";
 import uploadsQueue from "@/components/app/uploadsQueue.vue";
-
+import debounce from "lodash/debounce";
 
 import windowProperties from '@/utils/windowProperties';
 
@@ -59,12 +59,12 @@ export default {
     };
   },
   methods: {
-    scrollEvent(event) {
-      const { currentTarget: { scrollTop, clientHeight, scrollHeight} } = event;
+    scrollEvent: debounce(function(event) {
+      const { target: { scrollTop, clientHeight, scrollHeight} } = event;
       this.scrolledDown = Math.abs(scrollHeight - scrollTop - clientHeight) <= 3.0;
       this.scrolledTop = scrollTop === 0;
       this.currentScrollTopPos = scrollTop;
-    },
+    }, 20),
     scrollDown(data) {
       const element = this.$refs['msg-logs']
       const force = data && data.force ? data.force : false;

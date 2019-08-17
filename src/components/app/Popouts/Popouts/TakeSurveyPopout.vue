@@ -70,6 +70,7 @@ export default {
   height: 330px;
   width: 400px;
   display: flex;
+  flex-direction: column;
   margin: auto;
   background-color: rgba(43, 43, 43, 0.959);
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.507);

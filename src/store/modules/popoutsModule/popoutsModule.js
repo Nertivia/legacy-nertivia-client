@@ -28,7 +28,16 @@ const state = {
     serverID: null,
     index: null
    },
-  editMessage: null 
+  editMessage: null,
+  messageContextMenu: {
+    messageID: null, 
+    message: null,
+    channelID: null,
+    x: null,
+    y: null
+  } 
+
+  
 }
 
 const getters = {
@@ -61,10 +70,16 @@ const actions = {
   },
   setEditMessage(context, data){
     context.commit('setEditMessage', data)
+  },
+  setMessageContext(context, {messageID, x, y, channelID, message}) {
+    context.commit('setMessageContext', {messageID, x, y, channelID, message});
   }
 }
 
 const mutations = {
+  setMessageContext(state, data) {
+    Vue.set(state, 'messageContextMenu', data);
+  },
   setEditMessage(state, data){
     Vue.set(state, 'editMessage', data);
   },
