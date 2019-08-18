@@ -15,11 +15,19 @@
 const config = [
 
   {
+    version: 6.3,
+    title: "Performance Improvements!",
+    shortTitle: "",
+    date: "18/08/2019",
+    headColor: "rgba(25, 130, 255, 0.77)",
+    msg: "I finally managed to find out why the chat is choppy when scrolling. The rotated emote is the cause. In this update, emotes only appear only when hovering over the profile picture."
+  },
+
+  {
     version: 6.2,
     title: "Bug fixes",
     shortTitle: "",
     date: "17/08/2019",
-    headColor: "rgba(25, 130, 255, 0.77)",
     new: [
       "Added a copy button in the message context menu."
     ],

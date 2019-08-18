@@ -145,9 +145,24 @@ export default {
   position: absolute;
   height: 20px;
   width: 20px;
-  transform: rotate(-40deg);
   top: -6px;
   left: -6px;
   z-index: -1;
+  opacity: 0;
+}
+.outer-profile-picture:hover .emote {
+  animation-name: emote;
+  animation-duration: 0.2s;
+  animation-fill-mode: forwards;
+}
+@keyframes emote {
+  0% {
+    opacity: 0;
+    transform: rotate(-40deg);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(-40deg);
+  }
 }
 </style>
