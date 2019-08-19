@@ -149,9 +149,9 @@ export default {
       const scrollHeight = msgLogs.scrollHeight;
 
       this.unloadBottomMessages();
-      this.$set(this.loadMoreBottom, 'show', true);
       
       this.$nextTick(_ => {
+      this.$set(this.loadMoreBottom, 'show', true);
         msgLogs.scrollTop = msgLogs.scrollHeight - scrollHeight; 
         if (this.loadMoreTop.show)
           this.loadMoreMessages();
