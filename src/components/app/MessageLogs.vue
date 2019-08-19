@@ -1,9 +1,9 @@
 <template>
 
-    <div  ref="msg-logs" class="message-logs" @scroll="scrollEvent" @resize="onResize">
-      <div class="load-more-button" v-if="!noMoreLoadMore && selectedChannelMessages.length >= 50">
-        <spinner :size="30" v-if="loadingMore" />
-        <div class="text" v-if="!loadingMore" @click="loadMoreMessages">Load more</div>
+    <div  ref="msg-logs" class="message-logs" @scroll.passive="scrollEvent" @resize="onResize">
+      <div class="load-more-button" v-if="loadMoreTop.show && selectedChannelMessages.length >= 50">
+        <spinner :size="30" v-if="loadMoreTop.loading" />
+        <div class="text" v-if="!loadMoreTop.loading" @click="loadMoreMessages">Load more</div>
       </div>
       <message
         class="message-container"
@@ -24,7 +24,10 @@
         :timeEdited="msg.timeEdited"
       />
       <uploadsQueue v-if="uploadQueue !== undefined" :queue="uploadQueue"/>
-
+        <div class="load-more-button" v-if="loadMoreBottom.show && selectedChannelMessages.length >= 50">
+          <spinner :size="30" v-if="!loadMoreTop.loading" />
+        <div class="text" v-if="!loadMoreBottom.loading">Load more</div>
+      </div>
     </div>
 
 </template>
@@ -51,9 +54,14 @@ export default {
       scrolledDown: true,
       scrolledTop: false,
 
-      //load more messages
-      loadingMore: false,
-      noMoreLoadMore: false,
+      loadMoreTop: {
+        show: true,
+        loading: false
+      },
+      loadMoreBottom: {
+        show: false,
+        loading: false,
+      },
       selectedChannelID: null,
       currentScrollTopPos: null
     };
@@ -73,40 +81,89 @@ export default {
       if (!element) return;
       element.scrollTop = pos || element.scrollHeight;
     },
+    unloadTopMessages(){
+      if (this.selectedChannelMessages && this.selectedChannelMessages.length >= 100)
+        this.$store.dispatch('unloadTopMessages', {channelID: this.selectedChannelID});
+    },
+    unloadBottomMessages(){
+      if (this.selectedChannelMessages && this.selectedChannelMessages.length >= 100)
+        this.$store.dispatch('unloadBottomMessages', {channelID: this.selectedChannelID});
+    },
     onResize(dimentions) {
       this.scrollDown();
     },
     async loadMoreMessages() {
+      if (this.loadMoreTop.loading) return;
       const msgLogs = this.$refs['msg-logs'];
       const scrollTop = msgLogs.scrollTop;
       const scrollHeight = msgLogs.scrollHeight;
 
       const continueMessageID = this.selectedChannelMessages[0].messageID;
-      this.loadingMore = true
+      this.$set(this.loadMoreTop, 'loading', true);
       const {ok, result, error} = await messagesService.get(this.selectedChannelID, continueMessageID)
       if (ok) {
         if (!result.data.messages.length) {
-          this.loadingMore = false;
-          this.noMoreLoadMore = true;
+          this.$set(this.loadMoreTop, 'loading', false);
+          this.$set(this.loadMoreTop, 'show', false);
           return;
         }
         this.$store.dispatch('addMessages', result.data.messages)
         this.$nextTick(_ => {
-          this.loadingMore = false;
+          this.$set(this.loadMoreTop, 'loading', false);
           msgLogs.scrollTop = msgLogs.scrollHeight - scrollHeight; 
         })
       }
     },
+    async loadBottomMessages() {
+
+      if (this.loadMoreBottom.loading) return;
+      const msgLogs = this.$refs['msg-logs'];
+      const scrollTop = msgLogs.scrollTop;
+      const scrollHeight = msgLogs.scrollHeight;
+
+
+      const beforeMessageID = this.selectedChannelMessages[this.selectedChannelMessages.length - 1].messageID;
+
+      this.$set(this.loadMoreBottom, 'loading', true);
+      const {ok, result, error} = await messagesService.get(this.selectedChannelID, null, beforeMessageID)
+      if (ok) {
+        if (!result.data.messages.length) {
+          this.$set(this.loadMoreBottom, 'loading', false);
+          this.$set(this.loadMoreBottom, 'show', false);
+          return;
+        }
+        this.$store.dispatch('addMessagesBefore', result.data.messages)
+
+        this.$nextTick(_ => {
+
+          this.$set(this.loadMoreBottom, 'loading', false);
+          this.scrolledDown = false;
+          msgLogs.scrollTop = scrollTop
+            this.$set(this.loadMoreBottom, 'show', true);
+        })
+      }
+    },
     scrolledUpEvent() {
-      this.loadMoreMessages();
+      const msgLogs = this.$refs['msg-logs'];
+      const scrollTop = msgLogs.scrollTop;
+      const scrollHeight = msgLogs.scrollHeight;
+
+      this.unloadBottomMessages();
+      this.$set(this.loadMoreBottom, 'show', true);
+      
+      this.$nextTick(_ => {
+        msgLogs.scrollTop = msgLogs.scrollHeight - scrollHeight; 
+        if (this.loadMoreTop.show)
+          this.loadMoreMessages();
+      })
     },
     scrolledDownEvent(){
-      this.noMoreLoadMore = false;
       this.unloadTopMessages()
-    },
-    unloadTopMessages(){
-      if (this.selectedChannelMessages && this.selectedChannelMessages.length)
-      this.$store.dispatch('unloadTopMessages', {channelID: this.selectedChannelID});
+      this.$nextTick(_ => {     
+        if (this.loadMoreBottom.show)
+          this.loadBottomMessages();
+        this.$set(this.loadMoreTop, 'show', true);
+      })
     },
     backToBottomEvent() {
       this.scrollDown({force: true});
@@ -130,14 +187,17 @@ export default {
 
   beforeDestroy() {
     this.$store.dispatch("setEditMessage", null);
-    this.$store.dispatch('changeScrollPosition',{ channelID: this.selectedChannelID, pos: this.currentScrollTopPos });
+    this.$store.dispatch('changeScrollPosition',{
+      channelID: this.selectedChannelID,
+      pos: !this.scrolledDown ? this.currentScrollTopPos : null
+    });
     bus.$off('backToBottom', this.backToBottomEvent);
     bus.$off('scrollDown', this.scrollDown)
   },
  
   watch: {
     selectedChannelMessages(newMessages, oldMessages){
-      this.noMoreLoadMore = false;
+      this.$set(this.loadMoreTop, 'show', true);
       const msgLogs = this.$refs['msg-logs'];
       this.$nextTick(function () {
         this.scrollDown();

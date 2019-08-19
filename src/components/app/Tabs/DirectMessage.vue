@@ -7,7 +7,7 @@
         class="left-panel"
       />
     </transition>
-    <message-panel />
+    <message-panel :type="0"/>
   </div>
 </template>
 

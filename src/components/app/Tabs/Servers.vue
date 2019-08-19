@@ -7,7 +7,7 @@
         class="left-panel"
       />
     </transition>
-    <message-panel />
+    <message-panel :type="1" />
     <transition :name="$mq !== 'desktop' ? 'slide-right' : 'none'">
       <members-list
         v-if="selectedServerID && (($mq === 'members_panel' || $mq === 'mobile') && showMembersPanel || ($mq === 'desktop'))"

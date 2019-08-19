@@ -15,12 +15,22 @@
 const config = [
 
   {
+    version: 6.4,
+    title: "Scrolling up should be smoother!",
+    shortTitle: "",
+    date: "19/08/2019",
+    headColor: "rgba(25, 130, 255, 0.77)",
+    new: [
+      'Scrolling up should be smoother now as messages below get unloaded.'
+    ]
+  },
+  {
     version: 6.3,
     title: "Performance Improvements!",
     shortTitle: "",
     date: "18/08/2019",
     headColor: "rgba(25, 130, 255, 0.77)",
-    msg: "I finally managed to find out why the chat is choppy when scrolling. The rotated emote is the cause. In this update, emotes only appear only when hovering over the profile picture."
+    msg: "I finally managed to find out why the chat is choppy when scrolling. The rotated emote is the cause. In this update, emotes only appear when hovering over the profile picture."
   },
 
   {

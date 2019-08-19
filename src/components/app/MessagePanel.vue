@@ -9,9 +9,9 @@
       <spinner />
     </div>
     <message-logs v-else-if="selectedChannelID && selectedChannelMessages" :key="selectedChannelID" />
-    <div class="no-channel-selected" v-if="!selectedChannelID ">
-      <div class="material-icons">chat</div>
-      <div class="message">Select a person to message!</div>
+    <div class="no-channel-selected" v-if="!selectedChannelID">
+      <div class="material-icons">{{type === 0 ? 'chat' : type === 1 ? 'forum' : 'question'}}</div>
+      <div class="message">{{type === 0 ? 'Select a person to message!' : type === 1 ?'Selected a server!' : "wot"}}</div>
     </div>
     <div class="chat-input-area" v-if="selectedChannelID">
       <div style="position: relative;">
@@ -86,6 +86,7 @@ const emojiPanel = () => import("@/components/app/EmojiPanels/emojiPanel.vue");
 const EditPanel = () => import("@/components/app/EditPanel.vue");
 
 export default {
+  props: ['type'], // type 0: dm; type 1: server
   components: {
     Spinner,
     TypingStatus,

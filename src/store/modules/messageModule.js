@@ -86,6 +86,14 @@ const actions = {
 
     context.commit('messages', {messages: join, channelID});
   },
+  addMessagesBefore(context, messagesArr){
+    const channelID = messagesArr[0].channelID;
+    const messages = context.state.messages[channelID];
+
+    const join = [ ...messages, ...messagesArr, ];
+
+    context.commit('messages', {messages: join, channelID});
+  },
   replaceMessage(context, data) {
     context.commit("replaceMessage", data);
   },
@@ -112,8 +120,14 @@ const actions = {
     context.commit('changeScrollPosition', {channelID, pos})
   },
   unloadTopMessages(context, {channelID}) {
+    const messages = [...[], ...context.state.messages[channelID]];
+    const unloaded = messages.splice(50)
+    context.commit('messages', {channelID, messages: unloaded})
+  },
+  unloadBottomMessages(context, {channelID}) {
     const messages = context.state.messages[channelID];
-    const unloaded = messages.slice(Math.max(messages.length - 50, 0))
+    const unloaded = messages.slice(0, -50)
+
     context.commit('messages', {channelID, messages: unloaded})
   }
 };
