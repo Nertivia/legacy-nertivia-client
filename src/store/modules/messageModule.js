@@ -76,7 +76,7 @@ const actions = {
     //check if bottom messages unloaded.
     const channelID = data.message.channelID;
     const unloadedList = context.state.bottomUnloaded[channelID];
-    if (unloadedList === undefined || unloadedList === true) return
+    if (unloadedList) return
 
     // if the message is sent by this client, add additional information.
     if (data.sender) {
