@@ -172,8 +172,8 @@ export default {
     async backToBottomEvent() {
       if (this.backToBottomLoading) return;
       const channelID = this.selectedChannelID;
-      const bottomUnloaded = this.bottomUnloaded[this.selectedChannelID];
-      if (bottomUnloaded === undefined || bottomUnloaded === false) {
+      const bottomUnloaded = this.bottomUnloaded;
+      if (!bottomUnloaded) {
         this.scrollDown({force: true});
         this.unloadTopMessages();
         return;
@@ -199,9 +199,14 @@ export default {
     bus.$on('backToBottom', this.backToBottomEvent)
     bus.$on('scrollDown', this.scrollDown)
     bus.$emit('scrolledDown',this.scrolledDown);
+
+    if (this.bottomUnloaded) {
+      this.$set(this.loadMoreBottom, 'show', true);
+    }
     this.$nextTick( _ => {
       this.scrollDown({force: pos, pos: pos});
     })
+    
 
   },
 
@@ -278,7 +283,7 @@ export default {
       return this.$store.getters.scrollPosition;
     },
     bottomUnloaded() {
-      return this.$store.getters.bottomUnloaded;
+      return this.$store.getters.bottomUnloaded[this.selectedChannelID] || false;
     }
   }
 };
