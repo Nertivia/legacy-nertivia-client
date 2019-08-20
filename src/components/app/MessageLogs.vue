@@ -5,27 +5,28 @@
         <spinner :size="30" v-if="loadMoreTop.loading" />
         <div class="text" v-if="!loadMoreTop.loading" @click="loadMoreMessages">Load more</div>
       </div>
-      <message
-        class="message-container"
-        v-for="(msg, index) in selectedChannelMessages"
-        :key="index + selectedChannelID"
-        :date="msg.created"
-        :admin="msg.creator.admin"
-        :username="msg.creator.username"
-        :uniqueID="msg.creator.uniqueID"
-        :avatar="msg.creator.avatar"
-        :message="msg.message"
-        :embed="msg.embed"
-        :files="msg.files"
-        :status="msg.status"
-        :messageID="msg.messageID"
-        :channelID="msg.channelID"
-        :type="msg.type"
-        :timeEdited="msg.timeEdited"
-      />
+        <message
+          class="message-container"
+          v-for="(msg, index) in selectedChannelMessages"
+          :class="{'show-message-animation': index === selectedChannelMessages.length - 1}"
+          :key="msg.tempID || msg.messageID"
+          :date="msg.created"
+          :admin="msg.creator.admin"
+          :username="msg.creator.username"
+          :uniqueID="msg.creator.uniqueID"
+          :avatar="msg.creator.avatar"
+          :message="msg.message"
+          :embed="msg.embed"
+          :files="msg.files"
+          :status="msg.status"
+          :messageID="msg.messageID"
+          :channelID="msg.channelID"
+          :type="msg.type"
+          :timeEdited="msg.timeEdited"
+        />
       <uploadsQueue v-if="uploadQueue !== undefined" :queue="uploadQueue"/>
         <div class="load-more-button" v-if="loadMoreBottom.show && selectedChannelMessages.length >= 50">
-          <spinner :size="30" v-if="!loadMoreTop.loading" />
+          <spinner :size="30" v-if="loadMoreBottom.loading" />
         <div class="text" v-if="!loadMoreBottom.loading">Load more</div>
       </div>
     </div>
@@ -63,7 +64,8 @@ export default {
         loading: false,
       },
       selectedChannelID: null,
-      currentScrollTopPos: null
+      currentScrollTopPos: null,
+      backToBottomLoading: false,
     };
   },
   methods: {
@@ -86,8 +88,10 @@ export default {
         this.$store.dispatch('unloadTopMessages', {channelID: this.selectedChannelID});
     },
     unloadBottomMessages(){
-      if (this.selectedChannelMessages && this.selectedChannelMessages.length >= 100)
+      if (this.selectedChannelMessages && this.selectedChannelMessages.length >= 100){
+        this.$store.dispatch('setBottomUnloadStatus', {channelID: this.selectedChannelID, status: true})
         this.$store.dispatch('unloadBottomMessages', {channelID: this.selectedChannelID});
+      }
     },
     onResize(dimentions) {
       this.scrollDown();
@@ -110,24 +114,24 @@ export default {
         this.$store.dispatch('addMessages', result.data.messages)
         this.$nextTick(_ => {
           this.$set(this.loadMoreTop, 'loading', false);
-          msgLogs.scrollTop = msgLogs.scrollHeight - scrollHeight; 
+          msgLogs.scrollTop = msgLogs.scrollHeight - scrollHeight;
         })
       }
     },
     async loadBottomMessages() {
-
       if (this.loadMoreBottom.loading) return;
       const msgLogs = this.$refs['msg-logs'];
       const scrollTop = msgLogs.scrollTop;
       const scrollHeight = msgLogs.scrollHeight;
+      const channelID = this.selectedChannelID;
 
 
       const beforeMessageID = this.selectedChannelMessages[this.selectedChannelMessages.length - 1].messageID;
-
       this.$set(this.loadMoreBottom, 'loading', true);
-      const {ok, result, error} = await messagesService.get(this.selectedChannelID, null, beforeMessageID)
+      const {ok, result, error} = await messagesService.get(channelID, null, beforeMessageID)
       if (ok) {
         if (!result.data.messages.length) {
+          this.$store.dispatch('setBottomUnloadStatus', {channelID, status: false})
           this.$set(this.loadMoreBottom, 'loading', false);
           this.$set(this.loadMoreBottom, 'show', false);
           return;
@@ -139,35 +143,51 @@ export default {
           this.$set(this.loadMoreBottom, 'loading', false);
           this.scrolledDown = false;
           msgLogs.scrollTop = scrollTop
-            this.$set(this.loadMoreBottom, 'show', true);
+          this.$set(this.loadMoreBottom, 'show', true);
         })
       }
     },
     scrolledUpEvent() {
+      this.unloadBottomMessages();
       const msgLogs = this.$refs['msg-logs'];
       const scrollTop = msgLogs.scrollTop;
       const scrollHeight = msgLogs.scrollHeight;
 
-      this.unloadBottomMessages();
+      this.$set(this.loadMoreBottom, 'show', true);
       
       this.$nextTick(_ => {
-      this.$set(this.loadMoreBottom, 'show', true);
-        msgLogs.scrollTop = msgLogs.scrollHeight - scrollHeight; 
+        msgLogs.scrollTop = 0;
         if (this.loadMoreTop.show)
           this.loadMoreMessages();
       })
     },
     scrolledDownEvent(){
       this.unloadTopMessages()
+        this.$set(this.loadMoreTop, 'show', true);
       this.$nextTick(_ => {     
         if (this.loadMoreBottom.show)
           this.loadBottomMessages();
-        this.$set(this.loadMoreTop, 'show', true);
       })
     },
-    backToBottomEvent() {
-      this.scrollDown({force: true});
-      this.unloadTopMessages();
+    async backToBottomEvent() {
+      if (this.backToBottomLoading) return;
+      const channelID = this.selectedChannelID;
+      const bottomUnloaded = this.bottomUnloaded[this.selectedChannelID];
+      if (bottomUnloaded === undefined || bottomUnloaded === false) {
+        this.scrollDown({force: true});
+        this.unloadTopMessages();
+        return;
+      }
+      this.backToBottomLoading = true;
+      const {ok, result, error} = await messagesService.get(this.selectedChannelID)
+      if (ok) {
+        this.$store.dispatch('messages', {messages: result.data.messages.reverse(), channelID});
+        this.$set(this.loadMoreBottom, 'show', false);
+        this.$store.dispatch('setBottomUnloadStatus', {channelID, status: false})
+        this.$nextTick(_ => {this.scrollDown({force: true});})
+
+      }
+      this.backToBottomLoading = false;
     },
     
   },
@@ -256,6 +276,9 @@ export default {
     },
     scrollPosition() {
       return this.$store.getters.scrollPosition;
+    },
+    bottomUnloaded() {
+      return this.$store.getters.bottomUnloaded;
     }
   }
 };
@@ -314,6 +337,17 @@ export default {
     align-self: center;
     flex-shrink: 0;
     font-size: 35px;
+  }
+}
+
+
+.show-message-animation {
+  animation: showMessage 0.3s ease-in-out;
+}
+@keyframes showMessage {
+  from {
+    transform: translate(-50px, 0);
+    opacity: 0;
   }
 }
 </style>

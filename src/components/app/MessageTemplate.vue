@@ -275,7 +275,6 @@ export default {
   color: white;
   overflow: hidden;
   border-radius: 5px;
-  animation: showMessage 0.3s ease-in-out;
 }
 
 .presence-message .text {
@@ -308,7 +307,6 @@ export default {
 .message {
   margin: 10px;
   display: flex;
-  animation: showMessage 0.3s ease-in-out;
 }
 
 .ownMessage .triangle-inner {
@@ -356,13 +354,6 @@ export default {
   color: white;
   overflow-wrap: anywhere;
   margin-top: 3px;
-}
-
-@keyframes showMessage {
-  from {
-    transform: translate(-50px, 0);
-    opacity: 0;
-  }
 }
 
 .avatar {

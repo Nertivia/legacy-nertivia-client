@@ -15,21 +15,31 @@
 const config = [
 
   {
+    version: 6.5,
+    title: "Bug fixes",
+    shortTitle: "",
+    date: "20/08/2019",
+    headColor: "rgba(25, 130, 255, 0.77)",
+    fix: [
+      'Fixed a bug where when being scrolled up, new messages would cause it to not load more.',
+      'Fixed a bug where scroll to bottom button wouldnt work'
+    ],
+  },
+  {
     version: 6.4,
     title: "Scrolling up should be smoother!",
     shortTitle: "",
     date: "19/08/2019",
-    headColor: "rgba(25, 130, 255, 0.77)",
     new: [
       'Scrolling up should be smoother now as messages below get unloaded.'
-    ]
+    ],
+    msg: 'Known issue: When scrolled up and messages get unloaded below, new messages sent get appended at the bottom and messes up things D: going to fix asap.'
   },
   {
     version: 6.3,
     title: "Performance Improvements!",
     shortTitle: "",
     date: "18/08/2019",
-    headColor: "rgba(25, 130, 255, 0.77)",
     msg: "I finally managed to find out why the chat is choppy when scrolling. The rotated emote is the cause. In this update, emotes only appear when hovering over the profile picture."
   },
 

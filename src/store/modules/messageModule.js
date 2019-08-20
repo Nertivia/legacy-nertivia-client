@@ -6,7 +6,8 @@ import messagesService from "@/services/messagesService";
 
 const state = {
   messages: {},
-  scrollPosition: {}
+  scrollPosition: {},
+  bottomUnloaded: {},
 };
 
 const getters = {
@@ -15,6 +16,9 @@ const getters = {
   },
   scrollPosition(state) {
     return state.scrollPosition
+  },
+  bottomUnloaded(state) {
+    return state.bottomUnloaded;
   }
 };
 
@@ -69,13 +73,17 @@ const actions = {
     context.commit("messages", data);
   },
   addMessage(context, data) {
+    //check if bottom messages unloaded.
+    const channelID = data.message.channelID;
+    const unloadedList = context.state.bottomUnloaded[channelID];
+    if (unloadedList === undefined || unloadedList === true) return
+
     // if the message is sent by this client, add additional information.
     if (data.sender) {
       data.message.creator = context.getters.user;
       data.message.status = 0;
     }
 
-    // send notification if message is not ours
     context.commit("addMessage", data);
   },
   addMessages(context, messagesArr){
@@ -129,6 +137,9 @@ const actions = {
     const unloaded = messages.slice(0, -50)
 
     context.commit('messages', {channelID, messages: unloaded})
+  },
+  setBottomUnloadStatus(context, { channelID, status }) {
+    context.commit('setBottomUnloadStatus', { channelID, status })
   }
 };
 
@@ -153,6 +164,9 @@ async function getMessages(context, channelID, isServerChannel) {
 
 
 const mutations = {
+  setBottomUnloadStatus(state, {channelID, status}) {
+    Vue.set(state.bottomUnloaded, channelID, status)
+  },
   changeScrollPosition(state, {channelID, pos}) {
     Vue.set(state.scrollPosition, channelID, pos);
   },
@@ -178,7 +192,7 @@ const mutations = {
 
     state.messages[message.channelID].find((o, i) => {
       if (o.tempID === tempID) {
-        Vue.set(state.messages[message.channelID], i, message);
+        Vue.set(state.messages[message.channelID], i, Object.assign({}, message, {tempID}));
         return true;
       }
     });
