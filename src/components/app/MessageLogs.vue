@@ -27,7 +27,7 @@
       <uploadsQueue v-if="uploadQueue !== undefined" :queue="uploadQueue"/>
         <div class="load-more-button" v-if="loadMoreBottom.show && selectedChannelMessages.length >= 50">
           <spinner :size="30" v-if="loadMoreBottom.loading" />
-        <div class="text" v-if="!loadMoreBottom.loading">Load more</div>
+        <div class="text" v-if="!loadMoreBottom.loading" @click="loadBottomMessages">Load more</div>
       </div>
     </div>
 
