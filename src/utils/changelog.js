@@ -18,7 +18,7 @@ const config = [
     version: 6.5,
     title: "Bug fixes",
     shortTitle: "",
-    date: "20/08/2019",
+    date: "22/08/2019",
     headColor: "rgba(25, 130, 255, 0.77)",
     fix: [
       'Fixed a bug where when being scrolled up, new messages would cause it to not load more.',
