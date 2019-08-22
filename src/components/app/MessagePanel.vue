@@ -11,7 +11,7 @@
     <message-logs v-else-if="selectedChannelID && selectedChannelMessages" :key="selectedChannelID" />
     <div class="no-channel-selected" v-if="!selectedChannelID">
       <div class="material-icons">{{type === 0 ? 'chat' : type === 1 ? 'forum' : 'question'}}</div>
-      <div class="message">{{type === 0 ? 'Select a person to message!' : type === 1 ?'Selected a server!' : "wot"}}</div>
+      <div class="message">{{type === 0 ? 'Select a person to message!' : type === 1 ?'Select a server!' : "wot"}}</div>
     </div>
     <div class="chat-input-area" v-if="selectedChannelID">
       <div style="position: relative;">
