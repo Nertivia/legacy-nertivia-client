@@ -8,7 +8,8 @@
         <div class="header" :class="{critical: tabs[index].critical}"><div class="material-icons">{{tabs[index].icon}}</div><div>{{tabs[index].title}}</div></div>
         <general v-if="index === 0"/>
         <manage-channels v-if="index === 1"/>
-        <delete-server v-if="index === 2"/>
+        <server-visibility v-if="index === 2"/>
+        <delete-server v-if="index === 3"/>
       </div>
     </div>
   </div>
@@ -24,9 +25,9 @@ import { mapState } from "vuex";
 import General from './General.vue'
 import DeleteServer from './DeleteServer.vue'
 import ManageChannels from './ManageChannels.vue'
-
+import ServerVisibility from './ServerVisibility.vue'
 export default {
-  components: { General, DeleteServer, ManageChannels},
+  components: { General, DeleteServer, ManageChannels, ServerVisibility},
   data() {
     return {
       index: 0,
@@ -34,6 +35,7 @@ export default {
          {title: "General", icon: "info"},
         {title: "Manage Channels", icon: "storage"},
         // {title: "Manage Invites", icon: "local_post_office"},
+        {title: "Server Visibility", icon: "visibility"},
         {title: "Delete Server", icon: "warning", critical: true},
       ]
     }
@@ -104,7 +106,7 @@ export default {
   margin: 5px;
   padding: 5px;
   transition: 0.2s;
-  cursor: default;
+  cursor: pointer;
   user-select: none;
   display: flex;
   align-content: center;
