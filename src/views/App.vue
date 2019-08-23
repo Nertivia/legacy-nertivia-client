@@ -22,8 +22,8 @@
               Servers
             </div>
             <div :class="`tab ${currentTab === 3 ? 'selected' : ''}`" @click="switchTab(3)">
-              <i class="material-icons">rss_feed</i>
-              Server Browser
+              <i class="material-icons">explore</i>
+              Explore
             </div>
             <!-- <div :class="`tab ${currentTab === 4 ? 'selected' : ''}`" @click="switchTab(4)">
               <i class="material-icons">info</i>
@@ -39,12 +39,7 @@
           <news v-if="currentTab == 0"/>
           <direct-message v-if="currentTab == 1"/>
           <servers v-if="currentTab == 2"/>
-          <div class="coming-soon" v-if="currentTab > 2">
-            <div class="icon">
-              <i class="material-icons">cached</i>
-            </div>
-            <div class="text">Coming soon!</div>
-          </div>
+          <explore v-if="currentTab == 3"/>
         </div>
       </div>
     </transition>
@@ -63,15 +58,24 @@ import Spinner from "./../components/Spinner.vue";
 
 const ElectronFrameButtons = () =>
   import("@/components/ElectronJS/FrameButtons.vue");
+
 const News = () =>
   import(/* webpackChunkName: "News" */ "./../components/app/Tabs/News.vue");
+
 const DirectMessage = () => ({
   component: import("./../components/app/Tabs/DirectMessage.vue"),
   loading: Spinner,
   delay: 0
 });
+
 const Servers = () => ({
   component: import("./../components/app/Tabs/Servers.vue"),
+  loading: Spinner,
+  delay: 0
+});
+
+const Explore = () => ({
+  component: import("./../components/app/Tabs/Explore.vue"),
   loading: Spinner,
   delay: 0
 });
@@ -85,7 +89,8 @@ export default {
     ConnectingScreen,
     Popouts,
     News,
-    ElectronFrameButtons
+    ElectronFrameButtons,
+    Explore
   },
   data() {
     return {
