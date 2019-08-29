@@ -9,10 +9,17 @@ const state = {
 }
 
 const actions = {
+  socket_authErr(context){
+    context.dispatch('logout')
+    router.push({ path: '/' })
+  },
+  socket_connect() {
+    this._vm.$socket.emit('authentication', {token: localStorage.getItem("hauthid")})
+  },
   socket_error(context, error) {
     // if the token is invalid.
     if (error === "Authentication error") {
-      context.commit('logout')
+      context.dispatch('logout')
       router.push({ path: '/' })
     }
   },

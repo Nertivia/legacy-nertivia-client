@@ -15,11 +15,21 @@
 const config = [
 
   {
+    version: 6.6,
+    title: "Performance improvements",
+    shortTitle: "",
+    date: "29/08/2019",
+    headColor: "rgba(25, 130, 255, 0.77)",
+    new: ['Sneak peak of the new "Explore" tab :D (Unfinished)'],
+    fix: [
+      'Improved backend code. This should improve performance.',
+    ],
+  },
+  {
     version: 6.5,
     title: "Bug fixes",
     shortTitle: "",
     date: "22/08/2019",
-    headColor: "rgba(25, 130, 255, 0.77)",
     fix: [
       'Fixed a bug where when being scrolled up, new messages would cause it to not load more.',
       'Fixed a bug where scroll to bottom button wouldnt work'

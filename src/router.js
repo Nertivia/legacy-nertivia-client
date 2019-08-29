@@ -63,15 +63,7 @@ export const router = new VueRouter({
 
         Vue.use(
           VueSocketio,
-          io(config.socketIP, {
-            transportOptions: {
-              polling: {
-                extraHeaders: {
-                  authorization: localStorage.getItem("hauthid")
-                }
-              }
-            }
-          }),
+          io(config.socketIP),
           { store }
           );
           Vue.use(VueMq, {
