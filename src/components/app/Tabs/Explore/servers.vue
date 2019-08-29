@@ -4,167 +4,9 @@
     <div class="items-main-container">
       <div class="items-container">
         <div class="items">
-          <div class="item">
-            <div class="top">
-              <div class="avatar"></div>
-              <div class="name">Nertivia</div>
-            </div>
-            <div class="bottom">
-              <div class="description">Nertivia is a cool server.</div>
-              <div class="button">Join</div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="top">
-              <div class="avatar"></div>
-              <div class="name">Nertivia</div>
-            </div>
-            <div class="bottom">
-              <div class="description">Nertivia is a cool server.</div>
-              <div class="button">Join</div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="top">
-              <div class="avatar"></div>
-              <div class="name">Nertivia</div>
-            </div>
-            <div class="bottom">
-              <div class="description">Nertivia is a cool server.</div>
-              <div class="button">Join</div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="top">
-              <div class="avatar"></div>
-              <div class="name">Nertivia</div>
-            </div>
-            <div class="bottom">
-              <div class="description">Nertivia is a cool server.</div>
-              <div class="button">Join</div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="top">
-              <div class="avatar"></div>
-              <div class="name">Nertivia</div>
-            </div>
-            <div class="bottom">
-              <div class="description">Nertivia is a cool server.</div>
-              <div class="button">Join</div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="top">
-              <div class="avatar"></div>
-              <div class="name">Nertivia</div>
-            </div>
-            <div class="bottom">
-              <div class="description">Nertivia is a cool server.</div>
-              <div class="button">Join</div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="top">
-              <div class="avatar"></div>
-              <div class="name">Nertivia</div>
-            </div>
-            <div class="bottom">
-              <div class="description">Nertivia is a cool server.</div>
-              <div class="button">Join</div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="top">
-              <div class="avatar"></div>
-              <div class="name">Nertivia</div>
-            </div>
-            <div class="bottom">
-              <div class="description">Nertivia is a cool server.</div>
-              <div class="button">Join</div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="top">
-              <div class="avatar"></div>
-              <div class="name">Nertivia</div>
-            </div>
-            <div class="bottom">
-              <div class="description">Nertivia is a cool server.</div>
-              <div class="button">Join</div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="top">
-              <div class="avatar"></div>
-              <div class="name">Nertivia</div>
-            </div>
-            <div class="bottom">
-              <div class="description">Nertivia is a cool server.</div>
-              <div class="button">Join</div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="top">
-              <div class="avatar"></div>
-              <div class="name">Nertivia</div>
-            </div>
-            <div class="bottom">
-              <div class="description">Nertivia is a cool server.</div>
-              <div class="button">Join</div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="top">
-              <div class="avatar"></div>
-              <div class="name">Nertivia</div>
-            </div>
-            <div class="bottom">
-              <div class="description">Nertivia is a cool server.</div>
-              <div class="button">Join</div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="top">
-              <div class="avatar"></div>
-              <div class="name">Nertivia</div>
-            </div>
-            <div class="bottom">
-              <div class="description">Nertivia is a cool server.</div>
-              <div class="button">Join</div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="top">
-              <div class="avatar"></div>
-              <div class="name">Nertivia</div>
-            </div>
-            <div class="bottom">
-              <div class="description">Nertivia is a cool server.</div>
-              <div class="button">Join</div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="top">
-              <div class="avatar"></div>
-              <div class="name">Nertivia</div>
-            </div>
-            <div class="bottom">
-              <div class="description">Nertivia is a cool server.</div>
-              <div class="button">Join</div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="top">
-              <div class="avatar"></div>
-              <div class="name">Nertivia</div>
-            </div>
-            <div class="bottom">
-              <div class="description">Nertivia is a cool server.</div>
-              <div class="button">Join</div>
-            </div>
-          </div>
-    
+          <server-template :server="serverData[0]"/>
+  
+  
         </div>
       </div>
     </div>
@@ -173,9 +15,17 @@
 
 <script>
 import searchHeader from "./searchHeader";
+import serverTemplate from './serverTemplate';
 
 export default {
-  components: { searchHeader }
+  components: { searchHeader, serverTemplate },
+  data() {
+    return {
+      serverData: [
+        {server_id: "6572151490335477760", name: 'Nertivia', description: 'Nertivia is a cool server.', code: ''},
+      ]
+    }
+  }
 };
 </script>
 
@@ -210,71 +60,6 @@ export default {
     align-items: stretch;
     justify-content: space-evenly;
     user-select: none;
-
-    .item {
-      width: 250px;
-      height: 270px;
-      background: rgba(0, 0, 0, 0.479);
-      opacity: 0.9;
-      margin: 5px;
-      flex-shrink: 0;
-      border-radius: 10px;
-      transition: 0.3s;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      &:hover {
-        opacity: 1;
-      }
-      .top {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        height: 140px;
-        justify-content: center;
-        align-content: center;
-        align-items: center;
-        flex-shrink: 0;
-        .avatar {
-          background: rgb(26, 133, 255);
-          height: 80px;
-          width: 80px;
-          border-radius: 50%;
-          margin-bottom: 10px;
-        }
-        .name {
-          font-size: 23px;
-        }
-      }
-      .bottom {
-        display: flex;
-        flex-direction: column;
-        background: rgba(0, 0, 0, 0.194);
-        flex: 1;
-        .description {
-          margin: 20px;
-          margin-top: 20px;
-          margin-bottom: 10px;
-          height: 100%;
-          opacity: 0.9;
-        }
-        .button {
-          background: rgba(40, 140, 255, 0.8);
-          border-radius: 5px;
-          align-self: flex-end;
-          flex-shrink: 0;
-          margin-bottom: 10px;
-          margin-right: 10px;
-          padding: 7px;
-          transition: 0.3s;
-          cursor: pointer;
-          &:hover {
-            background: rgb(40, 140, 255);
-          }
-        }
-      }
-    }
-
   }
 }
 </style>
