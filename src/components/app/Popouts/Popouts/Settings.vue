@@ -227,6 +227,8 @@ export default {
 @media (max-width: 550px) {
   .settings-box {
     flex-direction: column;
+    height:100%;
+    border-radius: 0;
   }
   .tabs {
     height: 50px;
