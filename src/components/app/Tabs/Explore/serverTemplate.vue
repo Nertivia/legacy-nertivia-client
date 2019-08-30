@@ -1,12 +1,15 @@
 <template>
   <div class="item">
     <div class="top">
-      <div class="avatar"></div>
-      <div class="name">{{server.name}}</div>
+      <profile-picture
+        size="90px"
+        :url="`${avatarDomain}/${server.server.avatar}`"
+      />
+      <div class="name">{{server.server.name}}</div>
     </div>
     <div class="bottom">
       <div class="description">{{server.description}}</div>
-      <div class="button" :class="{selected: joinClicked || joined}" @click="joinButton">
+      <div class="button" :class="{selected: joined}" @click="joinButton">
 				<span v-if="joined">Joined</span>
 				<spinner v-else-if="joinClicked" :size="30"/>
 				<span v-else-if="!joinClicked">Join Server</span>
@@ -18,32 +21,34 @@
 <script>
 import Spinner from "@/components/Spinner";
 import ServerService from "@/services/ServerService";
+import config from "@/config.js";
+import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
+
 export default {
-	components: {Spinner},
+	components: {Spinner, ProfilePicture},
   props: [
 		'server',
 	],
 	data() {
 		return {
-			joinClicked: false,
+      joinClicked: false,
+      avatarDomain: config.domain + "/avatars"
 		}
 	},
 	methods: {
 		async joinButton(event) {
       if (this.joinClicked|| this.joined) return;
 			this.joinClicked = true;
-			return;
-      const { ok, error, result } = await ServerService.joinServer(
-        
-      );
+
+      const { ok, error, result } = await ServerService.joinServer(this.server.invite_code);
       if (ok) {
-        this.closeMenu();
+        this.joinClicked = false;
       }
     }
 	},
 	computed: {
 		joined() {
-      return this.$store.getters["servers/servers"][this.server.server_id];
+      return this.$store.getters["servers/servers"][this.server.server.server_id];
     }
 	}
 };
@@ -52,7 +57,7 @@ export default {
 <style lang="scss" scoped>
     .item {
       width: 250px;
-      height: 270px;
+      height: 300px;
       background: rgba(0, 0, 0, 0.479);
       opacity: 0.9;	
       margin: 5px;
@@ -70,7 +75,7 @@ export default {
         display: flex;
         flex-direction: column;
         width: 100%;
-        height: 140px;
+        height: 150px;
         justify-content: center;
         align-content: center;
         align-items: center;
@@ -83,7 +88,13 @@ export default {
           margin-bottom: 10px;
         }
         .name {
-          font-size: 23px;
+          margin-top: 9px;
+          font-size: 21px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          width: 100%;
+          text-align: center;
         }
       }
       .bottom {
@@ -91,12 +102,17 @@ export default {
         flex-direction: column;
         background: rgba(0, 0, 0, 0.194);
         flex: 1;
+        height: 100%;
+        flex-shrink: 0;
         .description {
-          margin: 20px;
-          margin-top: 20px;
-          margin-bottom: 10px;
-          height: 100%;
+          margin: 10px;
+          flex: 1;
           opacity: 0.9;
+          overflow: auto;
+          font-size: 14px;
+          word-break: break-word;
+          white-space: pre-wrap;
+          overflow-wrap: anywhere;
         }
         .button {
 					display: flex;

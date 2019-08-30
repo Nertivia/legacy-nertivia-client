@@ -4,7 +4,7 @@
     <div class="items-main-container">
       <div class="items-container">
         <div class="items">
-          <server-template :server="serverData[0]"/>
+          <server-template v-for="server in publicServers" :key="server.id" :server="server"/>
   
   
         </div>
@@ -16,15 +16,26 @@
 <script>
 import searchHeader from "./searchHeader";
 import serverTemplate from './serverTemplate';
+import exploreService from '@/services/exploreService';
 
 export default {
   components: { searchHeader, serverTemplate },
   data() {
     return {
-      serverData: [
-        {server_id: "6572151490335477760", name: 'Nertivia', description: 'Nertivia is a cool server.', code: ''},
-      ]
+      publicServers: null,
     }
+  },
+  methods: {
+    async getServersList() {
+      const {ok, result, error} = await exploreService.getServersList();
+      if (ok) {
+        this.publicServers =  result.data;
+      }
+
+    }
+  },
+  mounted() {
+    this.getServersList();
   }
 };
 </script>

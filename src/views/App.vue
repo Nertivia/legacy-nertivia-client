@@ -312,7 +312,9 @@ export default {
   -webkit-app-region: no-drag;
   margin-top: 5px;
   cursor: pointer;
+  position: relative;
 }
+
 .tab.selected {
   background: rgba(71, 71, 71, 0.637);
 }

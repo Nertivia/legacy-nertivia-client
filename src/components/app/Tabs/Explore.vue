@@ -110,8 +110,19 @@ export default {
       justify-content: center;
       flex-shrink: 0;
       width: 100px;
+      position: relative;
       .material-icons {
         font-size: 70px;
+      }
+      &::after{
+        content: 'BETA';
+        position: absolute;
+        background: #ff3333;
+        border-radius: 5px;
+        font-size: 10px;
+        padding: 2px;
+        bottom: 15px;
+        z-index: 999;
       }
     }
     .details {
@@ -119,6 +130,7 @@ export default {
       .title {
         font-size: 20px;
         margin-bottom: 5px;
+        position: relative;
       }
       .description {
         opacity: 0.7;
