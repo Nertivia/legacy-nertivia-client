@@ -47,7 +47,7 @@ export default {
       tabs: [
         // {icon: "home", name: "home", component: ""},
         { icon: "rss_feed", name: "Servers", component: "servers" },
-        { icon: "face", name: "Emojis", component: "" },
+        { icon: "face", name: "Emoji Packs", component: "" },
         { icon: "brush", name: "Themes", component: "" },
         { icon: "message", name: "Message Styles", component: "" }
       ]
