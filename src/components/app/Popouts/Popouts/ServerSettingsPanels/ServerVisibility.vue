@@ -17,6 +17,7 @@
           <textarea placeholder="Description" v-model="description"></textarea>
         </div>
       </div>
+      <div class="button" v-if="showSaveButton">Save</div>
     </div>
   </div>
 </template>
@@ -31,10 +32,16 @@ export default {
     return {
       privateServer: true,
       description: '',
+      showSaveButton: false,
     };
   },
   methods: {
 
+  },
+  watch: {
+    privateServer() {
+      this.showSaveButton = true;
+    }
   },
   computed: {
     server() {
@@ -50,6 +57,8 @@ export default {
   display: flex;
   flex-direction: column;
   user-select: none;
+  overflow: auto;
+  height: 100%;
 }
 
 .details {
@@ -60,6 +69,7 @@ export default {
 .content {
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 
 .toggle {
@@ -121,14 +131,20 @@ export default {
 
 .button {
   padding: 10px;
-  background: rgba(255, 0, 0, 0.719);
-  margin: auto;
+  background: rgba(17, 148, 255, 0.692);
   border-radius: 10px;
+  -webkit-transition: 0.3s;
   transition: 0.3s;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
   user-select: none;
+  align-self: center;
+  margin-top: auto;
+  margin-bottom: 15px;
 }
 .button:hover {
-  background: rgb(255, 0, 0);
+  background: rgb(17, 148, 255);
 }
 </style>
 
