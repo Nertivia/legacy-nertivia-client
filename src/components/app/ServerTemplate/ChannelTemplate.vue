@@ -61,6 +61,7 @@ export default {
   border-radius: 5px;
   transition: 0.3s;
 	font-size: 14px;
+  cursor: pointer;
 }
 .channel:hover {
   background: rgba(139, 139, 139, 0.288);
