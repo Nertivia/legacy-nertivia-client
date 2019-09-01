@@ -31,6 +31,9 @@ export default {
   joinServer (inviteCode) {
     return wrapper (instance().post(`/servers/invite/${inviteCode}`))
   },
+  joinServerById (server_id) {
+    return wrapper (instance().post(`/servers/invite/servers/${server_id}`))
+  },
   leaveServer (serverID) {
     return wrapper (instance().delete(`/servers/${serverID}`))
   },

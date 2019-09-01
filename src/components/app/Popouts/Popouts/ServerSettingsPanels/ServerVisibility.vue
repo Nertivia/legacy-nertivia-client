@@ -1,5 +1,6 @@
 <template>
-  <div class="content-inner" v-if="server">
+  <div class="content-inner" v-if="server && loaded">
+    <errors-template class="errors" v-if="errors" :errors="errors"/>
     <div class="details">Making your server visibility public means that your server will be shown publicly in the Nertivia's "Explore" tab.</div>
     <div class="content">
       <div class="toggle">
@@ -13,11 +14,30 @@
       </div>
       <div class="public-settings" v-if="!privateServer">
         <div class="input">
-          <div class="title">Description (<span :class="{warn: description.length > 150}">{{description.length}}</span>/150)</div>
+          <div class="title">
+            Description (<span :class="{warn: description.length > 150}">{{description.length}}</span>/150)
+          </div>
           <textarea placeholder="Description" v-model="description"></textarea>
         </div>
       </div>
-      <div class="button" v-if="showSaveButton">Save</div>
+      <div
+        class="button"
+        :class="{disabled: saving}"
+        v-if="showSaveButton && privateServer"
+        @click="deleteButton"
+      >{{saving ? 'Deleting...' : 'Delete'}}</div>
+      <div
+        class="button"
+        :class="{disabled: saving}"
+        v-if="alreadyPublic && showSaveButton && !privateServer"
+        @click="updateButton"
+      >{{saving ? 'Updating...' : 'Update'}}</div>
+      <div
+        class="button"
+        :class="{disabled: saving}"
+        v-if="!alreadyPublic && showSaveButton && !privateServer"
+        @click="saveButton"
+      >{{saving ? 'Saving...' : 'Save'}}</div>
     </div>
   </div>
 </template>
@@ -25,23 +45,119 @@
 <script>
 import config from "@/config.js";
 import { bus } from "@/main";
+import exploreService from '../../../../../services/exploreService';
+import ErrorsTemplate from '@/components/app/errorsListTemplate';
 
 export default {
-  components: {},
+  components: {ErrorsTemplate},
   data() {
     return {
       privateServer: true,
       description: '',
       showSaveButton: false,
+      saving: false,
+      errors: null,
+      loaded: false,
+      alreadyPublic: false,
     };
   },
   methods: {
+    async saveButton() {
+      if (this.saving) return;
+      this.saving = true;
+      this.errors = null;
 
+      const data = {
+        server_id: this.server.server_id,
+        description: this.description,
+      }
+      const {ok, result, error} = await exploreService.addServersList(data)
+      if (!ok) {
+        this.saving = false;
+        if (error.response === undefined) {
+          this.errors = { message: 'Cant connect to server' }
+          return;
+        }
+        const data = error.response.data;
+        if (data.message) {
+          this.errors = [{msg: data.message}];
+          return;
+        }
+        this.errors = data.errors;
+      }
+      if (ok) {
+        this.saving = false;
+        this.showSaveButton = false;
+        this.alreadyPublic = true;
+      }
+    },
+    async deleteButton() {
+      if (this.saving) return;
+      this.saving = true;
+      this.errors = null;
+      const {ok, result, error} = await exploreService.deleteServer(this.server.server_id);
+      if (!ok) {
+        this.saving = false;
+        if (error.response === undefined) {
+          this.errors = { message: 'Cant connect to server' }
+          return;
+        }
+        const data = error.response.data;
+        if (data.message) {
+          this.errors = [{msg: data.message}];
+          return;
+        }
+        this.errors = data.errors;
+      }
+      if (ok) {
+        this.saving = false;
+        this.showSaveButton = false;
+        this.alreadyPublic = false;
+      }
+    },
+    async updateButton() {
+      if (this.saving) return;
+      this.saving = true;
+      this.errors = null;
+      const {ok, result, error} = await exploreService.updateServer(this.server.server_id, {description: this.description});
+      if (!ok) {
+        this.saving = false;
+        if (error.response === undefined) {
+          this.errors = { message: 'Cant connect to server' }
+          return;
+        }
+        const data = error.response.data;
+        if (data.message) {
+          this.errors = [{msg: data.message}];
+          return;
+        }
+        this.errors = data.errors;
+      }
+      if (ok) {
+        this.saving = false;
+        this.showSaveButton = false;
+        this.alreadyPublic = true;
+      }
+    },
   },
   watch: {
+    description() {
+      if (this.loaded)
+        this.showSaveButton = true;
+    },
     privateServer() {
-      this.showSaveButton = true;
+      if (this.loaded)
+        this.showSaveButton = true;
     }
+  },
+  async mounted() {
+    const {result, ok, error} = await exploreService.getServer(this.server.server_id);
+    if (ok) {
+      this.privateServer = false;
+      this.description = result.data.description
+      this.alreadyPublic = true;
+    }
+    this.loaded = true;
   },
   computed: {
     server() {
@@ -101,7 +217,7 @@ export default {
   display: flex;
 }
 
-.input{
+.input {
   background: rgb(46, 46, 46);
   border-radius: 5px;
   padding: 5px;
@@ -133,7 +249,7 @@ export default {
   padding: 10px;
   background: rgba(17, 148, 255, 0.692);
   border-radius: 10px;
-  -webkit-transition: 0.3s;
+  -webkit-transition: background 0.3s;
   transition: 0.3s;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -142,9 +258,18 @@ export default {
   align-self: center;
   margin-top: auto;
   margin-bottom: 15px;
+  cursor: pointer;
 }
+
 .button:hover {
   background: rgb(17, 148, 255);
+}
+.button.disabled {
+  background: grey;
+}
+.errors {
+  align-self: center;
+  margin: 10px;
 }
 </style>
 

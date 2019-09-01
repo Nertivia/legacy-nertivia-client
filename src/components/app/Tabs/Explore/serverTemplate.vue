@@ -40,7 +40,7 @@ export default {
       if (this.joinClicked|| this.joined) return;
 			this.joinClicked = true;
 
-      const { ok, error, result } = await ServerService.joinServer(this.server.invite_code);
+      const { ok, error, result } = await ServerService.joinServerById(this.server.server.server_id);
       if (ok) {
         this.joinClicked = false;
       }
