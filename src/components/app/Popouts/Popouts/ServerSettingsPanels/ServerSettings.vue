@@ -5,7 +5,12 @@
         <div class="tab" v-for="(tab, _index) in tabs" :key="_index" :class="{selected: index === _index, critical: tab.critical}" @click="index = _index"><div class="material-icons">{{tab.icon}}</div><div>{{tab.title}}</div></div>
       </div>
       <div class="content">
-        <div class="header" :class="{critical: tabs[index].critical}"><div class="material-icons">{{tabs[index].icon}}</div><div>{{tabs[index].title}}</div></div>
+        <div class="header" :class="{critical: tabs[index].critical}">
+          <div class="material-icons">{{tabs[index].icon}}</div><div>{{tabs[index].title}}</div>
+            <div class="close-button" @click="closeMenu">
+              <div class="material-icons">close</div>
+            </div>  
+        </div>
         <general v-if="index === 0"/>
         <manage-channels v-if="index === 1"/>
         <server-visibility v-if="index === 2"/>
@@ -84,6 +89,7 @@ export default {
   color: white;
   overflow: hidden;
   border-radius: 10px;
+  position: relative;
 }
 
 
@@ -141,8 +147,34 @@ export default {
   margin-left: 10px;
 }
 
+.close-button {
+  display: flex;
+  border-radius: 50%;
+  padding: 5px;
+  cursor: pointer;
+  user-select: none;
+  transition: 0.3s;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+
+}
+.close-button:hover {
+  background: rgba(37, 37, 37, 0.692);
+}
+.close-button .material-icons {
+  margin: auto;
+  font-size: 30px;
+}
+
 @media (max-width: 614px) {
+  .close-button {
+    top: 55px;
+  }
   .inner {
+    height: 100%;
+    border-radius: 0;
+    max-height: initial;
     flex-direction: column;
   }
   .tabs {
@@ -155,4 +187,5 @@ export default {
     height: 5px;
   }
 }
+
 </style>

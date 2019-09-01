@@ -4,6 +4,11 @@
     @click="backgroundClickEvent"
   >
     <div class="box">
+      <div class="back-button" @click="close">
+        <div class="material-icons">
+        keyboard_arrow_left
+        </div>
+      </div>
       <spinner class="spinner" v-if="!user" />
       <div class="inner" v-if="user">
         <div class="profile">
@@ -74,9 +79,12 @@ export default {
     };
   },
   methods: {
+    close() {
+      this.$store.dispatch("setUserInformationPopout", null);
+    },
     backgroundClickEvent(event) {
       if (event.target.classList.contains("drop-background")) {
-        this.$store.dispatch("setUserInformationPopout", null);
+        this.close();
       }
     },
     async AddFriendButton() {
@@ -182,6 +190,7 @@ export default {
   flex-direction: row;
   background: rgba(22, 22, 22, 0.853);
   border-radius: 10px;
+  position: relative;
 
 }
 .spinner {
@@ -389,9 +398,32 @@ export default {
   background: rgb(255, 53, 53);
   border-radius: 5px;
 }
-@media (max-width: 352px) {
+
+.back-button {
+  display: flex;
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  cursor: pointer;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  transition: 0.2s;
+  user-select: none;
+}
+.back-button:hover {
+  background: rgba(49, 49, 49, 0.712);
+}
+@media (max-width: 432px) {
   .box {
     width: 100%;
+    height: 100%;
+    max-height: initial;
+    border-radius: 0;
   }
 }
 </style>

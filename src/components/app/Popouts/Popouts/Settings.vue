@@ -181,7 +181,7 @@ export default {
   display: flex;
   border-radius: 50%;
   padding: 5px;
-  cursor: default;
+  cursor: pointer;
   user-select: none;
   transition: 0.3s;
 }

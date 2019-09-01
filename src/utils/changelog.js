@@ -15,11 +15,19 @@
 const config = [
 
   {
+    version: 6.8,
+    title: "New Explore tab!",
+    shortTitle: "",
+    date: "01/09/2019",
+    headColor: "rgba(25, 130, 255, 0.77)",
+    new: ['You can now make your servers go public by posting them in the explore tab.', 'Some pop ups have been improved for mobile users.',],
+    fix: ['Some bugs have been fixed.']
+  },
+  {
     version: 6.6,
     title: "Performance improvements",
     shortTitle: "",
     date: "29/08/2019",
-    headColor: "rgba(25, 130, 255, 0.77)",
     new: ['Sneak peak of the new "Explore" tab :D (Unfinished)'],
     fix: [
       'Improved backend code. This should improve performance.',

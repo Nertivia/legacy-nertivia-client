@@ -1,6 +1,9 @@
 <template>
   <div class="explore-tab">
-    <div class="left-panel">
+    <div class="left-panel"
+      v-show="$mq === 'mobile' && showLeftPanel || ($mq !== 'mobile')"
+      v-click-outside="hideLeftPanel"
+    >
       <div class="header">
         <div class="icon">
           <i class="material-icons">explore</i>
@@ -43,6 +46,7 @@ export default {
   components: { Servers },
   data() {
     return {
+      showLeftPanel: false,
       selectedTab: 0,
       tabs: [
         // {icon: "home", name: "home", component: ""},
@@ -54,7 +58,15 @@ export default {
     };
   },
   mounted() {},
-  methods: {},
+  methods: {
+    hideLeftPanel(event) {
+      if (this.showLeftPanel) {
+        if (event.target.closest(".show-menu-button") == null) {
+          this.showLeftPanel = false;
+        }
+      }
+    }
+  },
   computed: {}
 };
 </script>
