@@ -9,11 +9,14 @@
     </div>
     <div class="bottom">
       <div class="description">{{server.description}}</div>
-      <div class="button" :class="{selected: joined}" @click="joinButton">
-				<span v-if="joined">Joined</span>
-				<spinner v-else-if="joinClicked" :size="30"/>
-				<span v-else-if="!joinClicked">Join Server</span>
-			</div>
+      <div class="buttons">
+        <div class="verified" v-if="server.verified"><div class="material-icons">check</div> Verified</div>
+        <div class="button" :class="{selected: joined}" @click="joinButton">
+          <span v-if="joined">Joined</span>
+          <spinner v-else-if="joinClicked" :size="30"/>
+          <span v-else-if="!joinClicked">Join Server</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -113,6 +116,24 @@ export default {
           word-break: break-word;
           white-space: pre-wrap;
           overflow-wrap: anywhere;
+          flex-shrink: 0;
+        }
+        .buttons {
+          display: flex;
+          width: 100%;
+          justify-content: flex-end;
+        }
+        .verified {
+          display: flex;
+          width: 100%;
+          margin-left: 10px;
+          align-content: center;
+          align-items: center;
+          align-self: center;
+          margin-bottom: 5px;
+          .material-icons {
+            margin-right: 5px;
+          }
         }
         .button {
 					display: flex;

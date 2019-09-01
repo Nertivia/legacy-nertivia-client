@@ -185,6 +185,7 @@ export default {
   position: relative;
   align-items: center;
   padding: 5px;
+  cursor: pointer;
 }
 
 .server-name {
