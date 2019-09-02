@@ -3,7 +3,7 @@
     <div class="settings-box">
       <div class="tabs">
         <div class="tab"
-          v-for="(tab, index) in tabs"
+          v-for="(tab, index) in tabsFiltered"
           :key="index"
           :class="{selected: currentTab === index}"
           @click="currentTab = index">
@@ -32,10 +32,13 @@
 <script>
 import { bus } from "@/main";
 
+import {isMobile} from '@/utils/Mobile';
+
 const MyProfile = () => import("./SettingsPanels/MyProfile.vue");
 const ManageEmojis = () => import("./SettingsPanels/ManageEmojis.vue");
 const MessageDesign = () => import("./SettingsPanels/MessageDesign.vue");
 const Notifications = () => import("./SettingsPanels/Notifications.vue");
+
 
 export default {
   components: {
@@ -71,7 +74,8 @@ export default {
           name: "Notifications",
           tabName: "Notifications",
           icon: "message",
-          component: "notifications"
+          component: "notifications",
+          hidden: isMobile(),
         }
       ]
     };
@@ -86,6 +90,11 @@ export default {
         name: "settings",
         visibility: false
       });
+    }
+  },
+  computed: {
+    tabsFiltered() {
+      return this.tabs.filter(t => t.hidden !== true )
     }
   }
 };
@@ -136,7 +145,7 @@ export default {
   border-radius: 5px;
   margin-top: 5px;
   margin-bottom: 5px;
-  cursor: default;
+  cursor: pointer;
   user-select: none;
   transition: 0.3s;
   align-items: center;
