@@ -15,11 +15,26 @@
 const config = [
 
   {
+    version: 6.9,
+    title: "Bug fix",
+    shortTitle: "",
+    date: "03/09/2019",
+    headColor: "rgba(25, 130, 255, 0.77)",
+    fix: ['Fixed a bug where when someone leaves the server, the whole members list would disappear for that server.'],
+  },
+  {
     version: 6.8,
+    title: "Bug fixes",
+    shortTitle: "",
+    date: "02/09/2019",
+    fix: ['You can no longer turn on popup notifications on mobile as it causes issues.'],
+    msg: "Notice: If you don't receive real time notifications inside the app, log out, and in again to fix it."
+  },
+  {
+    version: 6.7,
     title: "New Explore tab!",
     shortTitle: "",
     date: "01/09/2019",
-    headColor: "rgba(25, 130, 255, 0.77)",
     new: ['You can now make your servers go public by posting them in the explore tab.', 'Some pop ups have been improved for mobile users.',],
     fix: ['Some bugs have been fixed.']
   },
