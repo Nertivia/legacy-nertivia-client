@@ -114,7 +114,7 @@ const mutations = {
     state.serverMembers.push(serverMember);
   },
   REMOVE_SERVER_MEMBER(state, {uniqueID, server_id}) {
-    state.serverMembers = state.serverMembers.filter(m => m.uniqueID !== uniqueID && m.server_id !== server_id);
+    state.serverMembers = state.serverMembers.filter(m => m.uniqueID !== uniqueID || m.server_id !== server_id);
   },
   SET_SELECTED_SERVER_ID(state, serverID){
     state.selectedServerID = serverID;
