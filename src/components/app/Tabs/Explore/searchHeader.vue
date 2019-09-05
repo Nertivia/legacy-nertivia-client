@@ -4,16 +4,25 @@
       <div class="filter">
         <div class="title">Filter:</div>
         <div class="filter-item">
-          <div class="item">All</div>
-          <div class="item selected">Verified</div>
+          <div
+            class="item"
+            v-for="(filter, index) in filters"
+            :class="{selected: filterSelected === index}"
+            :key="filter.name"
+            @click="filterSelected = index"
+          >{{filter.name}}</div>
         </div>
       </div>
       <div class="filter">
         <div class="title">Sort By:</div>
         <div class="filter-item">
-          <div class="item selected">Most Users</div>
-          <div class="item">Least Users</div>
-          <div class="item">Date Added</div>
+          <div
+            class="item"
+            v-for="(sortBy, index) in sortBys"
+            :class="{selected: sortSelected === index}"
+            :key="sortBy.name"
+            @click="sortSelected = index"
+          >{{sortBy.name}}</div>
         </div>
       </div>
     </div>
@@ -28,9 +37,19 @@ export default {
   props: ["name"],
   data() {
     return {
-
-    }
-
+      filters: [
+        { name: "All", param: "All" },
+        { name: "Verified", param: "verified" }
+      ],
+      sortBys: [
+        { name: "Alphabetical", param: "alphabetical" },
+        { name: "Most Users", param: "most_users" },
+        { name: "Least Users", param: "least_users" },
+        { name: "Date Added", param: "date_added" }
+      ],
+      filterSelected: 1,
+      sortSelected: 0
+    };
   }
 };
 </script>
@@ -92,7 +111,7 @@ input {
       opacity: 0.9;
     }
     &:hover {
-      opacity: 0.8; 
+      opacity: 0.8;
     }
   }
 }
