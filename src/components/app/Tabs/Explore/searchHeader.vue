@@ -83,7 +83,6 @@ input {
   }
   font-size: 15px;
   .item {
-    background: rgba(0, 0, 0, 0.356);
     color: white;
     opacity: 0.5;
     cursor: pointer;
