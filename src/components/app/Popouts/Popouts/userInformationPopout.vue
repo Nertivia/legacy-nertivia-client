@@ -43,7 +43,7 @@
             </div>
           </div>
           <div class="about-me" v-if="aboutMe">
-            <div class="title">About Me</div>
+            <div class="title">Profile</div>
             <div class="about-item" v-for="(aboutItem) of aboutMe" :key="aboutItem.name" :class="{infoAboutMe: aboutItem.key === 'About me'}">
               <div class="key">{{aboutItem.key}}: </div>
               <div class="emoji" v-if="aboutItem.emoji" v-html="aboutItem.emoji"></div>
@@ -188,9 +188,10 @@ export default {
   color: white;
   display: flex;
   flex-direction: row;
-  background: rgba(22, 22, 22, 0.853);
   border-radius: 10px;
   position: relative;
+  background: rgba(0, 0, 0, 0.349);
+  backdrop-filter: blur(10px)
 
 }
 .spinner {
@@ -220,7 +221,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-content: center;
-  border-bottom: solid 1px rgba(255, 255, 255, 0.733);
+  border-bottom: solid 1px rgba(255, 255, 255, 0.15);
   width: 100%;
   align-items: center;
   align-content: center;
@@ -280,7 +281,7 @@ export default {
   flex-direction: column;
   width: 100%;
   margin-top: 3px;
-  border-bottom: solid 1px rgba(255, 255, 255, 0.733);
+  border-bottom: solid 1px rgba(255, 255, 255, 0.15);
   padding-bottom: 10px;
   user-select: none;
   cursor: default;
@@ -308,10 +309,16 @@ export default {
 .badge {
   border: solid 1px white;
   padding: 5px;
-  border-radius: 5px;
+  padding-left: 5px;
+  padding-right: 6px;
+  padding-right: 0.25rem;
+  border-radius: 6px;
   margin: 3px;
   display: flex;
   flex-shrink: 0
+}
+.badge .name {
+  margin-top: 1px;
 }
 
 .badge div {
@@ -330,7 +337,7 @@ export default {
   width: 100%;
   margin-top: 10px;
   margin-bottom: 5px;
-  border-bottom: solid 1px rgba(255, 255, 255, 0.733);
+  border-bottom: solid 1px rgba(255, 255, 255, 0.15);
   padding-bottom: 10px;
   cursor: default;
   flex-shrink: 0
