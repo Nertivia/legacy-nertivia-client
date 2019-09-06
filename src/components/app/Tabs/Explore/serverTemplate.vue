@@ -10,7 +10,7 @@
     <div class="bottom">
       <div class="description">{{server.description}}</div>
       <div class="buttons">
-        <div class="verified" v-if="server.verified"><div class="material-icons">check</div> Verified</div>
+        <div class="verified" v-if="server.verified">Verified<div class="material-icons">check</div></div>
         <div class="button" :class="{selected: joined}" @click="joinButton">
           <span v-if="joined">Joined</span>
           <spinner v-else-if="joinClicked" :size="30"/>
@@ -132,7 +132,9 @@ export default {
           align-self: center;
           margin-bottom: 5px;
           .material-icons {
-            margin-right: 5px;
+            margin-left: 5px;
+            margin-bottom: 5px;
+            color: #66e0ff;
           }
         }
         .button {
