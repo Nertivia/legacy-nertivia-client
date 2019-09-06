@@ -213,6 +213,8 @@ export default {
   width: 100%;
   align-items: center;
   overflow: auto;
+  padding-right: 7px;
+  margin-left: 5px;
 }
 .scrollable::-webkit-scrollbar {
     width: 3px;
@@ -300,6 +302,7 @@ export default {
 .title {
   font-size: 20px;
   margin-bottom: 3px;
+  margin-left: 3px;
 }
 .badges-list{
   display: flex;
