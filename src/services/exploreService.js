@@ -1,8 +1,8 @@
 import {instance, wrapper} from './Api';
 
 export default {
-  getServersList () {
-    return wrapper(instance().get(`explore/servers`))
+  getServersList (params) {
+    return wrapper(instance().get(`explore/servers${params || ''}`))
   },
   getServer (server_id) {
     return wrapper(instance().get(`explore/servers/${server_id}`))
