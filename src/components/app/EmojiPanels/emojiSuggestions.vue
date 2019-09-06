@@ -52,6 +52,7 @@ export default {
   },
   destroyed() {
     bus.$off("emojiSuggestions:key", this.KeySwitch);
+    this.$store.dispatch("setEmojiArray", null);
   },
   methods: {
     emojiParser(emoji) {
