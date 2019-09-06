@@ -332,7 +332,7 @@ export default {
 }
 
 .about-me{
-   display: flex;
+  display: flex;
   flex-direction: column;
   width: 100%;
   margin-top: 10px;
