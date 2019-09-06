@@ -16,11 +16,15 @@ const config = [
 
   {
     version: 6.9,
-    title: "Bug fix",
+    title: "Explore filter, Blur experiment!",
     shortTitle: "",
-    date: "03/09/2019",
+    date: "06/09/2019",
     headColor: "rgba(25, 130, 255, 0.77)",
-    fix: ['Fixed a bug where when someone leaves the server, the whole members list would disappear for that server.'],
+    new: [
+      'Added filter options to public servers list. Verified servers will be the default filter. Servers will be verified by me (Fishie). If your server does not get verified, Join the official nertivia server and message me.',
+      'Added blur effect to user information popout for an experiment. (Only works in chrome and edge.) Blur effect may be added in more places in the future.'
+    ],
+    fix: ['Fixed a bug where when someone leaves the server, the whole members list would disappear for that server.', 'Fixed bugs with emoji sugestions panel.'],
   },
   {
     version: 6.8,
