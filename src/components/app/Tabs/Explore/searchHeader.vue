@@ -33,23 +33,45 @@
 </template>
 
 <script>
+import qs from "querystring";
+
 export default {
   props: ["name"],
   data() {
     return {
       filters: [
-        { name: "All", param: "All" },
-        { name: "Verified", param: "verified" }
+        { name: "All", param: "", value: true },
+        { name: "Verified", param: "verified", default: true, value: true }
       ],
       sortBys: [
-        { name: "Alphabetical", param: "alphabetical" },
-        { name: "Most Users", param: "most_users" },
-        { name: "Least Users", param: "least_users" },
-        { name: "Date Added", param: "date_added" }
+        { name: "Alphabetical", param: "", value: true },
+        { name: "Most Users", param: "most_users", value: true },
+        { name: "Least Users", param: "most_users", value: false },
+        { name: "Date Added", param: "date_added", value: true }
       ],
       filterSelected: 1,
       sortSelected: 0
     };
+  },
+  methods: {
+    param(){
+      const filter = this.filters[this.filterSelected];
+      const sort = this.sortBys[this.sortSelected];      
+      const query = {};
+
+      !!filter.param && (query[filter.param] = filter.value);
+      !!sort.param && (query[sort.param] = sort.value);
+
+      return '?' + qs.stringify(query);
+    }
+  }, 
+  watch:{ 
+    filterSelected() {
+      this.$emit('params', this.param())
+    },
+    sortSelected() {
+      this.$emit('params', this.param())
+    }
   }
 };
 </script>
