@@ -301,7 +301,7 @@ export default {
       }
     },
     keyUp(event) {
-
+      this.showEmojiPopout(event);
     },
     enterEmojiSuggestion() {
       const emoji = this.emojiArray[this.emojiIndex];
@@ -517,7 +517,6 @@ export default {
       this.editMessageEvent(editMessage);
     },
     message(message) {
-      this.showEmojiPopout(event);
       this.messageLength = message.length;
       this.$nextTick(this.resize)
     }
