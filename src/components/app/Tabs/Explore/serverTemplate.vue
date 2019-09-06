@@ -10,7 +10,8 @@
     <div class="bottom">
       <div class="description">{{server.description}}</div>
       <div class="buttons">
-        <div class="verified" v-if="server.verified">Verified<div class="material-icons">check</div></div>
+        <div class="member-count"><div class="material-icons">account_box</div>{{server.total_members}}</div>
+        <div class="verified" v-if="server.verified"><div class="material-icons">check</div></div>
         <div class="button" :class="{selected: joined}" @click="joinButton">
           <span v-if="joined">Joined</span>
           <spinner v-else-if="joinClicked" :size="30"/>
@@ -121,21 +122,26 @@ export default {
         .buttons {
           display: flex;
           width: 100%;
-          justify-content: flex-end;
+          flex-direction: row;
         }
         .verified {
           display: flex;
-          width: 100%;
-          margin-left: 10px;
-          align-content: center;
-          align-items: center;
-          align-self: center;
-          margin-bottom: 5px;
+          margin: auto;
+          margin-right: 10px;
+          margin-bottom: 14px;
+          flex-shrink: 0;
           .material-icons {
-            margin-left: 5px;
-            margin-bottom: 5px;
             color: #66e0ff;
           }
+        }
+        .member-count {
+          display: flex;
+          align-items: center;
+          align-content: center;
+          margin-left: 10px;
+          margin-top: 0px;
+          width: 100%;
+          .material-icons { margin-right: 5px;}
         }
         .button {
 					display: flex;
@@ -148,8 +154,10 @@ export default {
           border-radius: 5px;
           align-self: flex-end;
           flex-shrink: 0;
-          margin-bottom: 10px;
+          margin: auto;
           margin-right: 10px;
+          margin-left: 0;
+          margin-bottom: 10px;
           padding: 7px;
           transition: 0.3s;
 					width: 80px;
