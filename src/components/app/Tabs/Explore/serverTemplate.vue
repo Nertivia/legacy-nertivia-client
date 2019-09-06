@@ -5,13 +5,17 @@
         size="90px"
         :url="`${avatarDomain}/${server.server.avatar}`"
       />
-      <div class="name">{{server.server.name}}</div>
+      <div class="name">
+        <div class="name-container">
+          <span class="inner-name">{{server.server.name}}</span> 
+          <span class="material-icons"  v-if="server.verified">check</span>
+       </div>
+      </div>
     </div>
     <div class="bottom">
       <div class="description">{{server.description}}</div>
       <div class="buttons">
         <div class="member-count"><div class="material-icons">account_box</div>{{server.total_members}}</div>
-        <div class="verified" v-if="server.verified"><div class="material-icons">check</div></div>
         <div class="button" :class="{selected: joined}" @click="joinButton">
           <span v-if="joined">Joined</span>
           <spinner v-else-if="joinClicked" :size="30"/>
@@ -99,6 +103,20 @@ export default {
           text-overflow: ellipsis;
           width: 100%;
           text-align: center;
+          display: flex;
+          .name-container {
+            display: flex;
+            margin: auto;
+          }
+          .inner-name {
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis
+          }
+          .material-icons {
+            color: #66e0ff;
+            margin-left: 5px;
+          }
         }
       }
       .bottom {
@@ -123,16 +141,6 @@ export default {
           display: flex;
           width: 100%;
           flex-direction: row;
-        }
-        .verified {
-          display: flex;
-          margin: auto;
-          margin-right: 10px;
-          margin-bottom: 14px;
-          flex-shrink: 0;
-          .material-icons {
-            color: #66e0ff;
-          }
         }
         .member-count {
           display: flex;
