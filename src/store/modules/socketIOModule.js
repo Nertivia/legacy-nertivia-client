@@ -176,7 +176,7 @@ const actions = {
       const disableDesktopNotification = context.rootGetters['settingsModule/settings'].notification.disableDesktopNotification;
       if (disableDesktopNotification === true) return
       const channel = context.getters.channels[data.message.channelID];
-      if (channel.server_id) {
+      if (channel && channel.server_id) {
         const server = context.getters['servers/servers'][channel.server_id]
         DesktopNotification.serverMessage({
           serverName: server.name,
