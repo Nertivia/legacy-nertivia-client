@@ -48,7 +48,7 @@
             <div class="list">
               <div class="feature">
                 <i class="material-icons">insert_drive_file</i>
-                <div class="description">1GB per file limit, upload huge files!</div>
+                <div class="description">Link Nertivia with Google Drive to upload large files.</div>
               </div>
               <div class="feature">
                 <i class="material-icons">face</i>
