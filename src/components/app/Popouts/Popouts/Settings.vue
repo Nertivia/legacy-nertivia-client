@@ -33,11 +33,13 @@
 import { bus } from "@/main";
 
 import {isMobile} from '@/utils/Mobile';
+import isElectron from '@/utils/ElectronJS/isElectron';
 
 const MyProfile = () => import("./SettingsPanels/MyProfile.vue");
 const ManageEmojis = () => import("./SettingsPanels/ManageEmojis.vue");
 const MessageDesign = () => import("./SettingsPanels/MessageDesign.vue");
 const Notifications = () => import("./SettingsPanels/Notifications.vue");
+const AppSettings = () => import("./SettingsPanels/appSettings");
 
 
 export default {
@@ -45,11 +47,11 @@ export default {
     MyProfile,
     ManageEmojis,
     MessageDesign,
-    Notifications
+    Notifications,
+    AppSettings
   },
   data() {
     return {
-      isElectron: window && window.process && window.process.type,
       currentTab: 0,
       tabs: [
         {
@@ -76,6 +78,13 @@ export default {
           icon: "message",
           component: "notifications",
           hidden: isMobile(),
+        },
+        {
+          name: "App Settings",
+          tabName: "App Settings",
+          icon: "desktop_windows",
+          component: "app-settings",
+          hidden: !isElectron,
         }
       ]
     };
@@ -83,7 +92,7 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch("logout");
-      this.isElectron ? window.location.href = '/login' : window.location.href = "/";
+      isElectron ? window.location.href = '/login' : window.location.href = "/";
     },
     close() {
       this.$store.dispatch("setPopoutVisibility", {
