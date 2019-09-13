@@ -15,11 +15,21 @@
 const config = [
 
   {
+    version: 7.0,
+    title: "Nertivia now starts up when you get on your PC!",
+    shortTitle: "",
+    date: "13/09/2019",
+    headColor: "rgba(25, 130, 255, 0.77)",
+    new: [
+      'Nertivia app now starts up when you start your pc. You can change the behaviour in the settings.',
+    ],
+
+  },
+  {
     version: 6.9,
     title: "Explore filter, Blur experiment!",
     shortTitle: "",
     date: "06/09/2019",
-    headColor: "rgba(25, 130, 255, 0.77)",
     new: [
       'Added filter options to public servers list. Verified servers will be the default filter. Servers will be verified by me (Fishie). If your server does not get verified, Join the official nertivia server and message me.',
       'Added blur effect to user information popout for an experiment. (Only works in chrome and edge.) Blur effect may be added in more places in the future.'
