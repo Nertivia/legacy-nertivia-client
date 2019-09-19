@@ -16,7 +16,7 @@ const config = [
 
   {
     version: 7.1,
-    title: "TODO: UPDATE ME",
+    title: "Small improvements, bug fixes",
     shortTitle: "",
     date: "19/09/2019",
     headColor: "rgba(25, 130, 255, 0.77)",
