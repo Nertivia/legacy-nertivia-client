@@ -33,6 +33,7 @@ const state = {
     messageID: null, 
     message: null,
     channelID: null,
+    uniqueID: null,
     x: null,
     y: null
   } 
@@ -71,8 +72,8 @@ const actions = {
   setEditMessage(context, data){
     context.commit('setEditMessage', data)
   },
-  setMessageContext(context, {messageID, x, y, channelID, message}) {
-    context.commit('setMessageContext', {messageID, x, y, channelID, message});
+  setMessageContext(context, {messageID, x, y, channelID, message, uniqueID}) {
+    context.commit('setMessageContext', {messageID, x, y, channelID, message, uniqueID});
   }
 }
 

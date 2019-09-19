@@ -134,7 +134,9 @@ export default {
         y,
         channelID: this.channelID,
         messageID: this.messageID,
-        message: this.message
+        message: this.message,
+        uniqueID: this.uniqueID
+
       });
     },
     openUserInformation() {
