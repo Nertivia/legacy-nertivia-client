@@ -15,11 +15,25 @@
 const config = [
 
   {
+    version: 7.1,
+    title: "TODO: UPDATE ME",
+    shortTitle: "",
+    date: "19/09/2019",
+    headColor: "rgba(25, 130, 255, 0.77)",
+    new: [
+      "When joining a server, the tabs should change to servers and default channel should open up.",
+      "Swapped the changelog and the explore tab."
+    ],
+    fix: [
+      'Fixed a bug where edit and delete buttons would show for all members.',
+      'Fixed a bug where when clicking on "message" in the server tab, in someones profile, the tab wouldnt change to dm.'
+    ],
+  },
+  {
     version: 7.0,
     title: "Nertivia now starts up when you get on your PC!",
     shortTitle: "",
     date: "13/09/2019",
-    headColor: "rgba(25, 130, 255, 0.77)",
     new: [
       'Nertivia app now starts up when you start your pc. You can change the behaviour in the settings.',
     ],

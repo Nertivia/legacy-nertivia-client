@@ -245,6 +245,7 @@ const actions = {
 
     const channels = server.channels;
 
+    
     for (let index = 0; index < channels.length; index++) {
       const element = channels[index];
       element.server = undefined;
@@ -255,6 +256,14 @@ const actions = {
         channelsIDs: [element.channelID]
       });
     }
+    
+    if (!server.socketID) return;
+    if (this._vm.$socket.id !== server.socketID) return;
+    const defaultChannel = channels.find(c => c.channelID === server.default_channel_id)
+    bus.$emit('changeTab', 2)
+    context.dispatch('servers/setSelectedServerID', server.server_id, {root: true})
+    context.dispatch('openChannel', defaultChannel, {root: true})
+
 
   },
   ['socket_server:leave'](context, {server_id}) {

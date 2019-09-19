@@ -28,11 +28,11 @@ export default {
   getInviteDetail (inviteCode) {
     return wrapper (instance().get(`/servers/invite/${inviteCode}`))
   },
-  joinServer (inviteCode) {
-    return wrapper (instance().post(`/servers/invite/${inviteCode}`))
+  joinServer (inviteCode, optionalData) {
+    return wrapper (instance().post(`/servers/invite/${inviteCode}`, optionalData))
   },
-  joinServerById (server_id) {
-    return wrapper (instance().post(`/servers/invite/servers/${server_id}`))
+  joinServerById (server_id, optionalData) {
+    return wrapper (instance().post(`/servers/invite/servers/${server_id}`, optionalData))
   },
   leaveServer (serverID) {
     return wrapper (instance().delete(`/servers/${serverID}`))

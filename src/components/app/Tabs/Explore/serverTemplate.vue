@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import {bus} from '@/main'
 import Spinner from "@/components/Spinner";
 import ServerService from "@/services/ServerService";
 import config from "@/config.js";
@@ -48,7 +49,9 @@ export default {
       if (this.joinClicked|| this.joined) return;
 			this.joinClicked = true;
 
-      const { ok, error, result } = await ServerService.joinServerById(this.server.server.server_id);
+      const { ok, error, result } = await ServerService.joinServerById(this.server.server.server_id, {
+        socketID: this.$socket.id
+      });      
       if (ok) {
         this.joinClicked = false;
       }
@@ -57,6 +60,9 @@ export default {
 	computed: {
 		joined() {
       return this.$store.getters["servers/servers"][this.server.server.server_id];
+    },
+    channels() {
+      return this.$store.getters.channels;
     }
 	}
 };

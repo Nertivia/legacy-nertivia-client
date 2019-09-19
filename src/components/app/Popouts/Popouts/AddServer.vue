@@ -153,7 +153,10 @@ export default {
       if (event.target.classList.contains("button-clicked")) return;
       event.target.classList.add("button-clicked");
       const { ok, error, result } = await ServerService.joinServer(
-        this.inviteCode
+        this.inviteCode,
+        {
+          socketID: this.$socket.id
+        }
       );
       if (ok) {
         this.closeMenu();
