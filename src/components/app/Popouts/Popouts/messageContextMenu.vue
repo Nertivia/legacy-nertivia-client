@@ -1,8 +1,8 @@
 <template>
   <div class="drop-down-menu" v-click-outside="outsideClick">
     <div class="item" @click="copyMessage" >Copy</div>
-    <div class="item" @click="editMessage">Edit</div>
-    <div class="item warn" @click="deleteMessage">Delete</div>
+    <div class="item" @click="editMessage" v-if="showEditOption">Edit</div>
+    <div class="item warn" @click="deleteMessage" v-if="showDeleteOption">Delete</div>
   </div>
 </template>
 
@@ -58,14 +58,42 @@ export default {
   },
   computed: {
     contextDetails() {
-      const { x, y, messageID, message, channelID } = this.$store.getters.popouts.messageContextMenu;
+      const { x, y, messageID, message, channelID, uniqueID } = this.$store.getters.popouts.messageContextMenu;
       return { 
         x,
         y,
         messageID,
         message,
-        channelID
+        channelID,
+        uniqueID
       }
+    },
+    serverID() {
+      const serverChannelIDs = Object.entries(this.$store.getters['servers/channelsIDs']);
+      const find = serverChannelIDs.find(c => {
+        return c[1].includes(this.contextDetails.channelID)
+      });
+      return find ? find[0] : undefined; 
+    },
+    serverMember () {
+      const serverMembers = this.$store.getters['servers/serverMembers'];
+      return serverMembers.find(m => 
+        m.uniqueID === this.user.uniqueID && m.server_id === this.serverID && m.type === "OWNER"
+      )
+    },
+    user() {
+      return this.$store.getters.user;
+    },
+    showEditOption() {
+      // Only show edit option if the user is us.
+      return this.user.uniqueID === this.contextDetails.uniqueID
+    },
+    showDeleteOption() {
+      // Only show delete option if the user is us or server owner is us.
+      if (this.user.uniqueID === this.contextDetails.uniqueID){
+        return true;
+      }
+      return !!this.serverMember;
     }
   },
 
