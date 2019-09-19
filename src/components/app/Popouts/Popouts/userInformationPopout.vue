@@ -58,6 +58,7 @@
   </div>
 </template>
 <script>
+import {bus} from '@/main'
 import config from "@/config.js";
 import Spinner from "@/components/Spinner.vue";
 import profilePicture from "@/components/ProfilePictureTemplate.vue";
@@ -104,6 +105,7 @@ export default {
       );
     },
     openChat() {
+      bus.$emit('changeTab', 1)
       this.$store.dispatch("openChat", {
         uniqueID: this.uniqueID,
         channelName: this.user.username
