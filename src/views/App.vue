@@ -7,9 +7,10 @@
       <div class="box" v-if="loggedIn">
         <div class="frame">
           <div class="tabs">
-            <div    :class="`tab ${currentTab === 0 ? 'selected' : ''}`" @click="switchTab(0)">
-              <i class="material-icons">list_alt</i>
-              Changelog
+
+            <div :class="`tab ${currentTab === 0 ? 'selected' : ''}`" @click="switchTab(0)">
+              <i class="material-icons">explore</i>
+              Explore
             </div>
 
             <div :class="{tab: true, selected: currentTab === 1, notifyAnimation: DMNotification || friendRequestExists}" @click="switchTab(1)">
@@ -21,10 +22,13 @@
               <i class="material-icons">forum</i>
               Servers
             </div>
+
             <div :class="`tab ${currentTab === 3 ? 'selected' : ''}`" @click="switchTab(3)">
-              <i class="material-icons">explore</i>
-              Explore
+              <i class="material-icons">list_alt</i>
+              Changelog
             </div>
+
+
             <!-- <div :class="`tab ${currentTab === 4 ? 'selected' : ''}`" @click="switchTab(4)">
               <i class="material-icons">info</i>
               Ad
@@ -36,10 +40,10 @@
 
         </div>
         <div class="panel-layout">
-          <news v-if="currentTab == 0"/>
+          <news v-if="currentTab == 3"/>
           <direct-message v-if="currentTab == 1"/>
           <servers v-if="currentTab == 2"/>
-          <explore v-if="currentTab == 3"/>
+          <explore v-if="currentTab == 0"/>
         </div>
       </div>
     </transition>
@@ -165,8 +169,10 @@ export default {
       this.title = title;
     });
 
-
-
+    bus.$on('changeTab', this.switchTab)
+  },
+  destroyed() {
+    bus.$off('changeTab', this.switchTab)
   },
   computed: {
     loggedIn() {
