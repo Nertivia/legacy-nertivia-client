@@ -1,49 +1,51 @@
 <template>
   <div class="explore-tab">
-    <div class="left-panel"
-      v-show="$mq === 'mobile' && showLeftPanel || ($mq !== 'mobile')"
-      v-click-outside="hideLeftPanel"
-    >
-      <div class="header">
-        <div class="icon">
-          <i class="material-icons">explore</i>
+
+    <transition name="slidein">
+      <div class="left-panel"
+        v-show="$mq === 'mobile' && showLeftPanel || ($mq !== 'mobile')"
+        v-click-outside="hideLeftPanel">
+        <div class="header">
+          <div class="icon">
+            <i class="material-icons">explore</i>
+          </div>
+          <div class="details">
+            <div class="title">Explore</div>
+            <div class="description">Find new servers, Emojis and more!</div>
+          </div>
         </div>
-        <div class="details">
-          <div class="title">Explore</div>
-          <div class="description">Find new servers, Emojis and more!</div>
+        <div class="items">
+          <div class="item"
+            v-for="(tab, index) in tabs"
+            :key="index"
+            :class="{selected: selectedTab === index}"
+            @click="selectedTab = index">
+            <i class="material-icons">{{tab.icon}}</i>
+            {{tab.name}}
+          </div>
+
+          <div class="card self-promo" v-if="nertiviaServerHide !== true && !nertiviaServer">
+            <div class="material-icons close-btn" @click="hideSelfPromo">close</div>
+            <div class="logo"/>
+            <div class="title">Join the official Nertivia server</div>
+            <div class="button" @click="joinNertiviaServer">Join</div>
+          </div>
+
+          <div class="card donate-paypal" v-if="donateHide !== true">
+            <div class="material-icons close-btn" @click="hideDonatePaypal">close</div>
+            <div class="material-icons heart">favorite</div>
+            <div class="title">Support Nertivia by donating any amount of money. You will get a supporter badge and more features in the future.</div>
+            <div class="button" @click="donateButton">Donate With PayPal</div>
+          </div>
         </div>
       </div>
-      <div class="items">
-        <div class="item"
-          v-for="(tab, index) in tabs"
-          :key="index"
-          :class="{selected: selectedTab === index}"
-          @click="selectedTab = index">
-          <i class="material-icons">{{tab.icon}}</i>
-          {{tab.name}}
-        </div>
-
-        <div class="card self-promo" v-if="nertiviaServerHide !== true && !nertiviaServer">
-          <div class="material-icons close-btn" @click="hideSelfPromo">close</div>
-          <div class="logo"/>
-          <div class="title">Join the official Nertivia server</div>
-          <div class="button" @click="joinNertiviaServer">Join</div>
-        </div>
-
-        <div class="card donate-paypal" v-if="donateHide !== true">
-          <div class="material-icons close-btn" @click="hideDonatePaypal">close</div>
-          <div class="material-icons heart">favorite</div>
-          <div class="title">Support Nertivia by donating any amount of money. You will get a supporter badge and more features in the future.</div>
-          <div class="button" @click="donateButton">Donate With PayPal</div>
-        </div>
-      </div>
+    </transition>
 
 
 
 
-    </div>
     <div class="right-panel">
-      <div class="header"> <i class="material-icons">{{tabs[selectedTab].icon}}</i>{{tabs[selectedTab].name}}</div>
+      <div class="header"> <div class="material-icons left-menu-show-button" @click="showLeftPanel = !showLeftPanel">view_list</div> <i class="material-icons">{{tabs[selectedTab].icon}}</i>{{tabs[selectedTab].name}}</div>
       <div class="coming-soon" v-if="selectedTab > 0">
         <div class="icon">
           <i class="material-icons">explore</i>
@@ -52,6 +54,7 @@
       </div>
       <component :is="tabs[selectedTab].component" /> 
     </div>
+
   </div>
 </template>
 
@@ -63,7 +66,7 @@ export default {
   components: { Servers },
   data() {
     return {
-      showLeftPanel: true,
+      showLeftPanel: false,
       selectedTab: 0,
       tabs: [
         // {icon: "home", name: "home", component: ""},
@@ -82,7 +85,7 @@ export default {
   methods: {
     hideLeftPanel(event) {
       if (this.showLeftPanel) {
-        if (event.target.closest(".show-menu-button") == null) {
+        if (event.target.closest(".left-menu-show-button") == null) {
           this.showLeftPanel = false;
         }
       }
@@ -116,12 +119,14 @@ export default {
 
 
 <style lang="scss" scoped>
+
 .explore-tab {
   display: flex;
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.459);
   color: white;
+  position: relative;
 }
 .left-panel {
   display: flex;
@@ -129,6 +134,7 @@ export default {
   background: rgba(0, 0, 0, 0.274);
   width: 300px;
   flex-shrink: 0;
+  z-index: 2;
   .items {
     user-select: none;
     height: 100%;
@@ -197,7 +203,6 @@ export default {
     }
   }
 }
-
 
 .card {
   background: black;
@@ -287,5 +292,38 @@ export default {
   flex-direction: column;
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
+
+
+.left-menu-show-button {
+  border-right: solid 1px rgb(158, 158, 158);
+  padding-right: 5px;
+  display: none;
+  cursor: pointer;
+}
+
+
+.slidein-enter-active,
+.slidein-leave-active {
+  transition: 0.5s;
+}
+.slidein-enter, .slidein-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  /* margin-left: -300px; */
+  transform: translateX(-300px)
+}
+
+@media (max-width: 600px) {
+  .left-menu-show-button {
+    display: block;
+  }
+  .left-panel {
+    position: absolute;
+    background-color: rgba(39, 39, 39, 0.97);
+    bottom: 0;
+    height: calc(100% - 44px);
+    z-index: 2;
+  }
+}
+
 </style>

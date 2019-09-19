@@ -83,4 +83,6 @@ export default {
 .spinner {
   align-self: center;
 }
+
+
 </style>

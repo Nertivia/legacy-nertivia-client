@@ -137,4 +137,29 @@ input {
     }
   }
 }
+
+
+@media (max-width: 945px) {
+  .search-header {
+    flex-direction: column;
+    height: initial;
+  }
+  .search-area {
+    order: 1;
+    margin: 0;
+    width: 100%;
+    input {
+      width: 95%;
+      overflow: hidden;
+      border-radius: 0;
+      margin-top: 1px;
+
+    }
+
+  }
+  .filter-area{
+    order: 2;
+  }
+}
+
 </style>
