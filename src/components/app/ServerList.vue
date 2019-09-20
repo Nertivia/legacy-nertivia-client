@@ -1,6 +1,16 @@
 <template>
   <div class="left-panel">
     <MyMiniInformation />
+    <div class="actions">
+      <div class="action" @click="openAddServer">
+        <div class="material-icons">add</div>
+        <div class="text">Add Server</div>
+      </div>
+      <div class="action" @click="openExploreTab">
+        <div class="material-icons">explore</div>
+        <div class="text">Explore</div>
+      </div>
+    </div>
     <div class="list">
       <server
         v-for="(data, index) in servers"
@@ -9,10 +19,6 @@
         :open-channel="selectedServerID && selectedServerID === data.server_id"
         @click.native="toggleChannel(data.server_id, $event)"
       />
-      <server
-        mode="ADD_SERVER"
-        @click.native="openAddServer"
-      />
     </div>
   </div>
 </template>
@@ -20,6 +26,7 @@
 <script>
 import MyMiniInformation from "@/components/app/MyMiniInformation.vue";
 import Server from "@/components/app/ServerTemplate/ServerTemplate.vue";
+import {bus} from '@/main'
 
 export default {
   components: {
@@ -48,6 +55,9 @@ export default {
         this.openedServer = serverID;
         this.$store.dispatch('servers/setSelectedServerID', serverID)
       }
+    },
+    openExploreTab() {
+      bus.$emit('changeTab', 0)
     }
   },
   computed: {
@@ -63,7 +73,8 @@ export default {
   }
 };
 </script>
-<style scoped>
+
+<style scoped lang="scss" >
 .left-panel {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.671);
@@ -101,5 +112,31 @@ export default {
 /* Handle on hover */
 .list::-webkit-scrollbar-thumb:hover {
   background: #f5f5f59e;
+}
+
+.actions {
+  color: white;
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+  user-select: none;
+  .action {
+    display: flex;
+    padding: 5px;
+    margin: 2px;
+    align-items: center;
+    align-content: center;
+    cursor: pointer;
+    color: rgb(223, 223, 223);
+    border-radius: 5px;
+    transition: 0.2s;
+    .material-icons {
+      color: white;
+      margin-right: 5px;
+    }
+    &:hover {
+      background: rgba(0, 0, 0, 0.24);
+    }
+  }
 }
 </style>
