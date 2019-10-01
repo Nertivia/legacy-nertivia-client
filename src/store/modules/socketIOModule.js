@@ -3,6 +3,7 @@ import {bus} from '../../main'
 import {router} from './../../router'
 import Vue from 'vue';
 import DesktopNotification from '@/utils/ElectronJS/DesktopNotification'
+import isElectron from '@/utils/ElectronJS/DesktopNotification'
 
 const state = {
 
@@ -175,6 +176,8 @@ const actions = {
       // send desktop notification
       const disableDesktopNotification = context.rootGetters['settingsModule/settings'].notification.disableDesktopNotification;
       if (disableDesktopNotification === true) return
+    
+      if (!isElectron || disableDesktopNotification === undefined) return;
       const channel = context.getters.channels[data.message.channelID];
       if (channel && channel.server_id) {
         const server = context.getters['servers/servers'][channel.server_id]
@@ -267,10 +270,23 @@ const actions = {
 
   },
   ['socket_server:leave'](context, {server_id}) {
+    // check if server channel selected
+    const serverChannelIDs = context.rootState.servers.channelsIDs[server_id];
+
+    const selectedChannelID = context.rootState.channelModule.selectedChannelID;
+    const serverChannelID = context.rootState.channelModule.serverChannelID;
+
+    if (serverChannelIDs.includes(selectedChannelID)) {
+      context.dispatch('selectedChannelID', null)
+    }
+    if (serverChannelIDs.includes(serverChannelID)) {
+      context.dispatch('setServerChannelID', null)
+    }
     context.dispatch('servers/removePresences', server_id);
     context.dispatch('servers/removeServer', server_id)
     context.dispatch('servers/removeNotifications', server_id)
     context.dispatch('servers/removeAllServerChannels', server_id)
+    context.dispatch('deleteAllMessages', serverChannelIDs)
   },
   ['socket_server:memberAdd'](context, {serverMember, presence}) { // member_add
     let sm = Object.assign({}, serverMember);

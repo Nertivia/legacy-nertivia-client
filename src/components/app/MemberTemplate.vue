@@ -3,11 +3,12 @@
     class="member"
     @click="openUserInformation()"
     @mouseover="hover = true" @mouseleave="hover = false"
+    @contextmenu.prevent="rightClickEvent"
   >
     <Profile-picture 
       class="avatar"
       :url="`${userAvatar}${hover ? '' : '?type=png'}`"
-      size="35px"
+      size="30px"
       :unique-i-d="user.uniqueID"
       :status="presense"
     />
@@ -47,7 +48,7 @@ export default {
         return this.$store.getters.user.status || 0
       }
       const presences = this.$store.getters['members/presences'];
-      const userPresense = presences[this.user.uniqueID]
+      const userPresense = presences[this.user.uniqueID];
       return userPresense || 0
     }
   },
@@ -55,6 +56,11 @@ export default {
     openUserInformation() {
       this.$store.dispatch('setUserInformationPopout', this.user.uniqueID)
     },
+    rightClickEvent(event) {
+      const x = event.clientX;
+      const y = event.clientY;
+      this.$store.dispatch('setServerMemberContext', {serverID: this.$store.getters['servers/selectedServerID'], uniqueID: this.user.uniqueID, x, y});
+    }
   }
   
 }
@@ -65,12 +71,10 @@ export default {
 .member {
   display: flex;
   padding: 3px;
-  margin: 10px;
-  margin-top: 3px;
-  margin-bottom: 3px;
+  margin: 3px 5px;
   align-items: center;
   align-content: center;
-  border-radius: 10px;
+  border-radius: 5px;
   transition: 0.3s;
   cursor: pointer;
   user-select: none;

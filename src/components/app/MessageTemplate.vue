@@ -66,8 +66,9 @@
 
     </div>
     <div
-      v-if="type && (type === 1 || type === 2)"
-      :class="{'presence-message': true, green: type === 1, red: type === 2}"
+      v-if="type && (type === 1 || type === 2 || type === 3 || type === 4)"
+      class="presence-message"
+      :class="{join: type === 1, leave: type === 2, kick: type === 3, ban: type === 4}"
     >
       <span>
         <span class="username"
@@ -81,6 +82,14 @@
           v-if="type === 2"
           class="text"
         >has left the server.</span>
+        <span
+          v-if="type === 3"
+          class="text"
+        >has been kicked.</span>
+        <span
+          v-if="type === 4"
+          class="text"
+        >has been banned.</span>
         <span class="date">{{ getDate }}</span>
       </span>
     </div>
@@ -127,8 +136,8 @@ export default {
   },
   methods: {
     openContextMenu(event) {
-      const element = event.target;
-      const {x, y} = element.getBoundingClientRect()
+      const x = event.clientX;
+      const y = event.clientY;
       this.$store.dispatch('setMessageContext', {
         x,
         y,
@@ -277,16 +286,28 @@ export default {
   color: white;
   overflow: hidden;
   border-radius: 5px;
+  background: rgba(0, 0, 0, 0.356);
 }
 
 .presence-message .text {
   margin-left: 5px;
+  font-size: 15px;
 }
-.presence-message.green {
-  background: rgba(0, 128, 0, 0.534);
+.presence-message .username {
+  font-size: 15px;
+  font-weight: bold
 }
-.presence-message.red {
-  background: rgba(128, 0, 0, 0.534);
+.presence-message.join {
+  color: #29BF12;
+}
+.presence-message.leave {
+  color: rgb(150, 139, 139);
+}
+.presence-message.kick {
+  color: #FF9914;
+}
+.presence-message.ban {
+  color: #d92121;
 }
 
 .ownMessageLeft {
@@ -294,7 +315,7 @@ export default {
 }
 
 .ownMessageLeft .triangle-inner {
-  border-left: 7px solid rgba(184, 184, 184, 0.219);
+  border-left: 8px solid rgba(184, 184, 184, 0.219);
   border-right: none !important;
 }
 .ownMessageLeft .avatar {
@@ -312,7 +333,7 @@ export default {
 }
 
 .ownMessage .triangle-inner {
-  border-right: 7px solid rgba(184, 184, 184, 0.219);
+  border-right: 8px solid rgba(184, 184, 184, 0.219);
 }
 .ownMessage .content {
   background: rgba(184, 184, 184, 0.219);
@@ -366,15 +387,15 @@ export default {
   display: flex;
   justify-content: bottom;
   flex-direction: column;
-  margin: auto 0 8.7px 0;
+  margin: auto 0 0 0;
 }
-.triangle-inner {
-  width: 0;
-  height: 0;
 
-  border-top: 1px solid transparent;
-  border-bottom: 7px solid transparent;
-  border-right: 7px solid rgba(0, 0, 0, 0.301);
+.triangle-inner {
+    width: 0;
+    height: 0;
+    border-top: 9px solid transparent;
+    border-bottom: 0px solid transparent;
+    border-right: 8px solid rgba(0, 0, 0, 0.301);
 }
 
 .content {
@@ -384,9 +405,14 @@ export default {
   justify-content: center;
   flex-direction: column;
   border-radius: 10px;
+  border-bottom-left-radius: 0;
   color: rgb(231, 231, 231);
   margin: auto 0;
   overflow: hidden;
+}
+.ownMessageLeft .content {
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 0;
 }
 .image-content {
   margin-top: 10px;
@@ -414,16 +440,17 @@ export default {
   font-size: 14px;
   margin: auto 0;
   transition: 0.1s;
-  cursor: default;
+  cursor: pointer;
 }
 .username:hover {
   color: rgb(199, 199, 199);
   text-decoration: underline;
 }
 .date {
-  color: rgb(161, 161, 161);
+  color: rgb(177, 177, 177);
   font-size: 10px;
   margin: auto auto auto 5px;
+  font-weight: normal;
 }
 .content-message {
   word-wrap: break-word;

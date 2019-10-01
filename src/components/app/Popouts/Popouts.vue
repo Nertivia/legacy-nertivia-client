@@ -13,6 +13,7 @@
       <server-settings key="ss" v-if="popouts.serverSettings.serverID"/>
       <GenericPopout  key="gp" v-if="popouts.genericMessage"/>
       <message-context-menu  key="mcm" v-if="popouts.messageContextMenu.messageID"/>
+      <server-member-context  key="smc" v-if="popouts.serverMemberContext.uniqueID"/>
     </transition-group>
   </div>
 </template>
@@ -21,7 +22,12 @@
 
 //popouts
   const userInformationPopout = () => import('./Popouts/userInformationPopout.vue');
+
+  // context menus
   const messageContextMenu = () => import('./Popouts/messageContextMenu');
+  const ServerMemberContext = () => import('./Popouts/ServerMemberContext');
+
+
   const AddServer = () => import('./Popouts/AddServer.vue');
   const Settings = () => import('./Popouts/Settings.vue');
   const TakeSurveyPopout = () => import('./Popouts/TakeSurveyPopout.vue');
@@ -48,7 +54,8 @@ export default {
     ServerInvite: ServerInvitePopout,
     ServerSettings,
     GenericPopout,
-    messageContextMenu
+    messageContextMenu,
+    ServerMemberContext
   },
   data() {
     return {

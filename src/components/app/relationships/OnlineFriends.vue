@@ -49,11 +49,11 @@ export default {
       const result = Object.keys(allFriend).map(function(key) {
         const friend = allFriend[key]; 
         friend.recipient = members[friend.uniqueID];
-        const findNotification = notifications.find( e => {
 
+        const findNotification = notifications.find( e => {
           return e.sender.uniqueID === friend.recipient.uniqueID && !channels[e.channelID].server_id
-        
         })
+        
         if ( findNotification ){
           friend.channelID = findNotification.channelID;
         }

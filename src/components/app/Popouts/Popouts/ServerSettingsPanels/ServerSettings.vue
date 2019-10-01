@@ -13,8 +13,9 @@
         </div>
         <general v-if="index === 0"/>
         <manage-channels v-if="index === 1"/>
-        <server-visibility v-if="index === 2"/>
-        <delete-server v-if="index === 3"/>
+        <manage-bans v-if="index === 2"/>
+        <server-visibility v-if="index === 3"/>
+        <delete-server v-if="index === 4"/>
       </div>
     </div>
   </div>
@@ -30,9 +31,10 @@ import { mapState } from "vuex";
 import General from './General.vue'
 import DeleteServer from './DeleteServer.vue'
 import ManageChannels from './ManageChannels.vue'
+import ManageBans from './ManageBans.vue'
 import ServerVisibility from './ServerVisibility.vue'
 export default {
-  components: { General, DeleteServer, ManageChannels, ServerVisibility},
+  components: { General, DeleteServer, ManageChannels, ServerVisibility, ManageBans},
   data() {
     return {
       index: 0,
@@ -40,6 +42,7 @@ export default {
          {title: "General", icon: "info"},
         {title: "Manage Channels", icon: "storage"},
         // {title: "Manage Invites", icon: "local_post_office"},
+        {title: "Banned Members", icon: "lock"},
         {title: "Server Visibility", icon: "visibility"},
         {title: "Delete Server", icon: "warning", critical: true},
       ]
@@ -98,6 +101,7 @@ export default {
   height: 100%;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 .tabs {
   display: flex;

@@ -3,6 +3,7 @@ import Vue from 'vue'
 // to close popout menus when clicking outside.
 Vue.directive('click-outside', {
     bind: function (el, binding, vnode) {
+        
         el.clickOutsideEvent = function (event) {
             // here I check that click was outside the el and his childrens
             if (!(el == event.target || el.contains(event.target))) {

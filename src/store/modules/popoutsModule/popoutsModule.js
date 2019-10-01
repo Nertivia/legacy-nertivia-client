@@ -36,6 +36,12 @@ const state = {
     uniqueID: null,
     x: null,
     y: null
+  },
+  serverMemberContext: {
+    serverID: null,
+    uniqueID: null,
+    x: null,
+    y: null
   } 
 
   
@@ -74,10 +80,16 @@ const actions = {
   },
   setMessageContext(context, {messageID, x, y, channelID, message, uniqueID}) {
     context.commit('setMessageContext', {messageID, x, y, channelID, message, uniqueID});
+  },
+  setServerMemberContext(context, {uniqueID, x, y, serverID}) {
+    context.commit('setServerMemberContext', {uniqueID, x, y, serverID});
   }
 }
 
 const mutations = {
+  setServerMemberContext(state, data) {
+    Vue.set(state, 'serverMemberContext', data);
+  },
   setMessageContext(state, data) {
     Vue.set(state, 'messageContextMenu', data);
   },

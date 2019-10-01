@@ -6,9 +6,19 @@
       </div>
     </div>
     <div class="members">
+      <div class="tab" v-if="onlineMembers.length">Online ({{onlineMembers.length}})</div>
+        <member-template
+          v-for="member in onlineMembers"
+          :key="member.member.uniqueID"
+          :type="member.type"
+          :avatar="member.member.avatar"
+          :user="member.member"
+        />
+      <div class="tab" v-if="offlineMembers.length">Offline ({{offlineMembers.length}})</div>
+
       <member-template
-        v-for="(member, index) in members"
-        :key="index"
+        v-for="member in offlineMembers"
+        :key="member.member.uniqueID"
         :type="member.type"
         :avatar="member.member.avatar"
         :user="member.member"
@@ -26,11 +36,19 @@ export default {
       const members = this.$store.getters['members/members'];
       const serverMembers = this.$store.getters['servers/serverMembers']
       const selectedServerID = this.$store.getters['servers/selectedServerID'];
+      const presences = this.$store.getters['members/presences'];
 
       let filteredSM = serverMembers.filter(sm => sm.server_id === selectedServerID);
 
       let getMember = filteredSM.map(sm => {
         sm.member = members[sm.uniqueID];
+
+        // attach presense
+        if (sm.uniqueID === this.$store.getters.user.uniqueID) {
+          sm.presense =  this.$store.getters.user.status || 0
+        } else {
+          sm.presense =  presences[sm.uniqueID] || 0
+        }
         return sm;
       })
       const sort = getMember.sort((a, b) => {
@@ -46,6 +64,12 @@ export default {
       })
       return sort;
 
+    },
+    onlineMembers() {
+      return this.members.filter(sm => sm.presense >= 1)
+    },
+    offlineMembers() {
+      return this.members.filter(sm => sm.presense == 0)
     }
   }
 }
@@ -77,6 +101,16 @@ export default {
 .members{
   padding-top: 10px;
   overflow: auto;
+}
+.tab {
+  background: rgba(0, 0, 0, 0.308);
+  padding: 5px;
+  border-radius: 5px;
+  margin: 5px;
+  user-select: none;
+  cursor: default;
+  color: rgb(200, 200, 200);
+  font-size: 15px;
 }
 </style>
 

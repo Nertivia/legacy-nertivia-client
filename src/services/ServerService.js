@@ -4,21 +4,10 @@ export default {
   post ( data )  {
     return wrapper(instance().post('/servers', data));
   },
-  updateServer (serverID, data) {
-    return wrapper(instance().patch(`/servers/${serverID}`, data));
-  },
   getChannels(serverID) {
     return wrapper(instance().get(`/servers/${serverID}/channels`));
   },
-  createChannel(serverID, name) {
-    return wrapper(instance().put(`/servers/${serverID}/channels`, {name}));
-  },
-  updateChannel (serverID, channelID, data) {
-    return wrapper(instance().patch(`/servers/${serverID}/channels/${channelID}`, data));
-  },
-  deleteChannel (serverID, channelID) {
-    return wrapper(instance().delete(`/servers/${serverID}/channels/${channelID}`));
-  },
+
   postInvite (serverID) {
     return wrapper (instance().post(`/servers/${serverID}/invite`))
   },
@@ -38,4 +27,30 @@ export default {
     return wrapper (instance().delete(`/servers/${serverID}`))
   },
   
+  // Admin commands
+  updateServer (serverID, data) {
+    return wrapper(instance().patch(`/servers/${serverID}`, data));
+  },
+  createChannel(serverID, name) {
+    return wrapper(instance().put(`/servers/${serverID}/channels`, {name}));
+  },
+  
+  updateChannel (serverID, channelID, data) {
+    return wrapper(instance().patch(`/servers/${serverID}/channels/${channelID}`, data));
+  },
+  deleteChannel (serverID, channelID) {
+    return wrapper(instance().delete(`/servers/${serverID}/channels/${channelID}`));
+  },
+  kickMember (serverID, uniqueID) {
+    return wrapper(instance().delete(`/servers/${serverID}/members/${uniqueID}`));
+  },
+  banMember (serverID, uniqueID) {
+    return wrapper(instance().put(`/servers/${serverID}/bans/${uniqueID}`));
+  },
+  unBanMember (serverID, uniqueID) {
+    return wrapper(instance().delete(`/servers/${serverID}/bans/${uniqueID}`));
+  },
+  memberBans (serverID,) {
+    return wrapper(instance().get(`/servers/${serverID}/bans`));
+  },
 }

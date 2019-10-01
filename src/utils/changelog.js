@@ -15,11 +15,35 @@
 const config = [
 
   {
+    version: 7.3,
+    title: "Kick and ban!",
+    shortTitle: "",
+    date: "29/09/2019",
+    headColor: "rgba(25, 130, 255, 0.77)",
+    new: [
+      'You can now kick/back members of a server by right clicking on their names in the server members list.',
+      'Slightly changed message bubble design.'
+    ],
+    fix: [
+      "Fixed a bug where Join and Leave messages would not get notified when reloading client.",
+    ],
+  },
+  {
+    version: 7.2,
+    title: "Online, offline category in server member list",
+    shortTitle: "",
+    date: "21/09/2019",
+    new: [
+      "Online and offline is now a category in the server members list.",
+      "Moved add server to the top of the servers list with new design.",
+      "Added Explore button to the top of the servers list."
+    ],
+  },
+  {
     version: 7.1,
     title: "Small improvements, bug fixes",
     shortTitle: "",
     date: "19/09/2019",
-    headColor: "rgba(25, 130, 255, 0.77)",
     new: [
       "When joining a server, the tabs should change to servers and default channel should open up.",
       "Swapped the changelog and the explore tab."

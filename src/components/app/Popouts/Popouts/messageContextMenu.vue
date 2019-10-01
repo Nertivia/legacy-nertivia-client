@@ -115,20 +115,16 @@ export default {
 }
 
 .item {
-  padding: 3px;
+  padding: 5px;
   margin: 2px;
   border-radius: 5px;
   transition: 0.3s;
   font-size: 13px;
   cursor: pointer;
   &:hover {
-    background: rgb(56, 56, 56);
+    background: rgb(46, 46, 46);
   }
   &.warn {
-    &:hover {
-      background: rgba(255, 90, 90, 0.338);
-    }
-    background: rgba(255, 90, 90, 0.1);
     color: rgb(255, 59, 59);
   }
 }

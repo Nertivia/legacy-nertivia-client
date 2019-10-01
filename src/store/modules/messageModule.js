@@ -114,6 +114,14 @@ const actions = {
       }
     })
   },
+  deleteAllMessages(context, channelIDArr) {
+    const messages = Object.assign({}, context.state.messages);
+    for (let index = 0; index < channelIDArr.length; index++) {
+      const channelID = channelIDArr[index];
+      delete messages[channelID]
+    }
+    context.commit('setAllMessages', messages)
+  },
   updateMessage(context, {channelID, messageID, message}) {
     const messages = context.state.messages[channelID];
     messages.find((obj, index) => {
@@ -164,6 +172,9 @@ async function getMessages(context, channelID, isServerChannel) {
 
 
 const mutations = {
+  setAllMessages(state, messages) {
+    state.messages = messages;
+  },
   setBottomUnloadStatus(state, {channelID, status}) {
     Vue.set(state.bottomUnloaded, channelID, status)
   },

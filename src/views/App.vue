@@ -160,9 +160,9 @@ export default {
     }
     // check if changelog is updated
     const seenVersion = localStorage.getItem("changelog-version-seen");
-    if (!seenVersion || seenVersion < changelog[0].version) {
-      this.currentTab = 0;
-      localStorage.setItem("currentTab", 0);
+    if (seenVersion && seenVersion < changelog[0].version) {
+      localStorage.setItem("currentTab", 3);
+      this.currentTab = 3;
     }
     localStorage.setItem("changelog-version-seen", changelog[0].version);
     bus.$on("title:change", title => {
