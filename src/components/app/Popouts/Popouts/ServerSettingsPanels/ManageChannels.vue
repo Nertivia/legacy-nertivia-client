@@ -33,7 +33,18 @@
             @input="inputEvent('name', $event)"
           />
         </div>
-        <div class="button" v-if="update.name" @click="updateChannel">Save Changes</div>
+        <div class="input">
+          <div class="input-title">Permissions</div>
+          <div class="check-box" @click="updatePermissions('send_message')">
+            <div 
+              class="box" 
+              :class="{checked: sendMessagePermission}"
+              />
+            <div class="name">Send Messages</div>
+          </div>
+        </div>
+
+        <div class="button" v-if="update.name || update.permissions" @click="updateChannel">Save Changes</div>
         <div
           class="button warn delete-server disabled"
           v-if="server.default_channel_id === channels[selectedChannelIndex].channelID"
@@ -65,7 +76,7 @@ export default {
       selectedChannelIndex: 0,
       errors: null,
       update: {
-        name: null
+        name: null,
       }
     };
   },
@@ -81,13 +92,16 @@ export default {
       const data = {
         name: this.update.name || this.channels[this.selectedChannelIndex].name
       };
+      if (this.update.permissions) {
+        data.permissions = this.update.permissions;
+      }
       const { ok, error, result } = await ServerService.updateChannel(
         this.server.server_id,
         this.channels[this.selectedChannelIndex].channelID,
         data
       );
       if (ok) {
-        this.update.name = null;
+        this.update = {name: null};
       } else {
         if (error.response) {
           if (error.response.data.message)
@@ -118,8 +132,13 @@ export default {
     channelClick(event, index) {
       this.selectedChannelIndex = index;
       this.$refs["name"].value = this.channels[this.selectedChannelIndex].name;
-      this.update.name = null;
+      this.update = {name: null};
       this.deleteButtonConfirmed = false;
+    },
+    updatePermissions(permissionName) {
+      const permissions = this.update.permissions || {}
+      permissions[permissionName] = !this.sendMessagePermission;
+      this.$set(this.update, 'permissions', permissions )
     }
   },
   computed: {
@@ -134,12 +153,23 @@ export default {
       return channelIDs.map(c => {
         return channels[c];
       });
+    },
+    sendMessagePermission() {
+      const channel = this.channels[this.selectedChannelIndex];
+      const permissions = this.update.permissions || undefined 
+      if (permissions) {
+        return !!permissions.send_message
+      }
+      if (!channel.permissions) {
+        return true
+      }
+      return !!channel.permissions.send_message
     }
   }
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .server-avatar {
   background: grey;
   height: 90px;
@@ -247,6 +277,26 @@ export default {
 .input input {
   border-radius: 5px;
   width: initial;
+}
+
+.check-box {
+  display: flex;
+  margin: 5px;
+  align-content: center;
+  align-items: center;
+  user-select: none;
+  cursor: pointer;
+  .box {
+    height: 20px;
+    width: 20px;
+    flex-shrink: 0;
+    background-color: rgb(255, 31, 31);
+    margin-right: 5px;
+    border-radius: 2px;
+    &.checked {
+      background-color: rgb(31, 154, 255);
+    }
+  }
 }
 </style>
 

@@ -323,8 +323,8 @@ const actions = {
     context.dispatch('channel', channel);
     context.dispatch('servers/AddChannelsIDs', {serverID: channel.server_id, channelsIDs: [channel.channelID]})
   },
-  ['socket_server:updateChannel'](context, {name, channelID}) { // update_channel
-    context.dispatch('updateChannel', {name, channelID});
+  ['socket_server:updateChannel'](context, update) { // update_channel
+    context.dispatch('updateChannel', update);
   },
   ['socket_server:removeChannel'](context, {server_id, channelID}) {
     context.dispatch('servers/removeServerChannel', {server_id, channelID});
