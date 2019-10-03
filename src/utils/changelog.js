@@ -15,11 +15,23 @@
 const config = [
 
   {
+    version: 7.4,
+    title: "Send message permission, Improved performance",
+    shortTitle: "",
+    date: "03/10/2019",
+    headColor: "rgba(25, 130, 255, 0.77)",
+    new: [
+      'Added send message permission. You can use this to allow other people to not write in your channel such as the "rules" channel.',
+    ],
+    fix: [
+      "Fixed a lot of bugs in our cache system. This means that messages should send faster!",
+    ],
+  },
+  {
     version: 7.3,
     title: "Kick and ban!",
     shortTitle: "",
     date: "29/09/2019",
-    headColor: "rgba(25, 130, 255, 0.77)",
     new: [
       'You can now kick/back members of a server by right clicking on their names in the server members list.',
       'Slightly changed message bubble design.'
