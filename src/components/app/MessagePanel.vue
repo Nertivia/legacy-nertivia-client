@@ -26,7 +26,7 @@
       </div>
 
       <edit-panel v-if="editMessage" :data="editMessage" />
-      <div class="message-area">
+      <div class="message-area" v-if="sendMessagePermission === true || editMessage">
         <input type="file" ref="sendFileBrowse" @change="attachmentChange" class="hidden" />
         <div class="attachment-button" @click="attachmentButton">
           <i class="material-icons">attach_file</i>
@@ -61,11 +61,12 @@
             :recipients="typingRecipients[selectedChannelID]"
           />
         </div>
-        <div
+        <div v-if="sendMessagePermission === true || editMessage"
           :class="{'message-count': true, 'error-info': messageLength > 5000 }"
         >{{messageLength}}/5000</div>
       </div>
     </div>
+    <div class="no-message-permission" v-if="sendMessagePermission === false">You don't have permission to send messages.</div>
   </div>
 </template>
 
@@ -235,6 +236,7 @@ export default {
     },
     resize() {
       let input = this.$refs["input-box"];
+      if (!input) return;
       if (input.scrollHeight < 50 || !this.message) {
         input.style.height = "1em";
       } else {
@@ -542,6 +544,22 @@ export default {
     channel() {
       return this.$store.getters.channels[this.selectedChannelID];
     },
+    server () {
+      if (!this.channel) return false;
+      if (!this.channel.server_id) return false;
+      return this.$store.getters["servers/servers"][this.channel.server_id] || undefined;
+    },
+    sendMessagePermission() {
+      if (this.type !== 1) return true;
+      if (!this.channel) return null
+
+      if (!this.server)  return false;
+
+      if (this.server.creator.uniqueID === this.user.uniqueID) return true;
+      if (!this.channel.permissions) return true;
+      if (this.channel.permissions.send_message === undefined) return true;
+      return this.channel.permissions.send_message;
+    },
     selectedChannelMessages() {
       const selectedChannel = this.$store.getters.selectedChannelID;
       return this.$store.getters.messages[selectedChannel];
@@ -799,5 +817,14 @@ export default {
     flex-shrink: 0;
     font-size: 35px;
   }
+}
+
+.no-message-permission {
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  text-align: center;
+  padding: 5px;
+  user-select: none;
+  cursor: default;
 }
 </style>
