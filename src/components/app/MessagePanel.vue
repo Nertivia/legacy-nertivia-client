@@ -66,7 +66,7 @@
         >{{messageLength}}/5000</div>
       </div>
     </div>
-    <div class="no-message-permission" v-if="sendMessagePermission === false">You don't have permission to send messages.</div>
+    <div class="no-message-permission" v-if="sendMessagePermission === false">You don't have permission to send messages in this channel.</div>
   </div>
 </template>
 
