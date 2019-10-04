@@ -17,7 +17,7 @@
         <div class="image nertivia-img" />
       </div>
       <div class="text">
-        If you would like to see Nertivia grow, and have its own storage CDN, donations would be appriciated.
+        If you would like to see Nertivia grow, and have its own storage CDN, donations would be appreciated.
       </div>
       <div class="buttons">
         <div
