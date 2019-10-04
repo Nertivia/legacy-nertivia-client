@@ -100,6 +100,7 @@ export default {
     },
     avatarChangeEvent(e) {
       if (!this.googleDriveLinked) {
+        event.target.value = "";
         return this.$store.dispatch("setPopoutVisibility", {
           name: "GDLinkMenu",
           visibility: true
