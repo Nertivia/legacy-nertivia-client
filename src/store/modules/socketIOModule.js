@@ -220,7 +220,7 @@ const actions = {
   },
   ['socket_channel:created'](context, data){
     const {channel} = data;
-    // rename to 'channel' to setchannel
+    // rename to 'channel' to setChannel
     context.dispatch('channel', channel);
   },
   ['socket_notification:dismiss'](context, data){
