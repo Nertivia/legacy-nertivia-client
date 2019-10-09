@@ -15,11 +15,22 @@
 const config = [
 
   {
+    version: 7.5,
+    title: "GUI improvements",
+    shortTitle: "",
+    date: "09/10/2019",
+    headColor: "rgba(25, 130, 255, 0.77)",
+    new: [
+      'Design changes to some elements such as the tabs, Window controls and more.',
+    ],
+    fix: ['Fixed a bug where presence status would not show properly in the header.'],
+    msg: 'I just want to say thanks to everyone who gave me feedback, it helps a lot! 😉 Native mobile app is coming soon!'
+  },
+  {
     version: 7.4,
     title: "Send message permission, Improved performance",
     shortTitle: "",
     date: "03/10/2019",
-    headColor: "rgba(25, 130, 255, 0.77)",
     new: [
       'Added send message permission. You can use this to allow other people to not write in your channel such as the "rules" channel.',
     ],

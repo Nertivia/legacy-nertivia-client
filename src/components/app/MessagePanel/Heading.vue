@@ -52,14 +52,7 @@ export default {
       const channel = this.$store.getters.channels[selectedChannel];
       const presences = this.$store.getters["members/presences"];
 
-      let status = 0;
-      if (!channel || !channel.recipients || !channel.recipients.length) {
-        status = 0;
-      } else if (
-        this.$store.getters.user.friends[channel.recipients[0].uniqueID]
-      ) {
-        status = presences[channel.recipients[0].uniqueID] || 0;
-      }
+      let status = presences[channel.recipients[0].uniqueID] || 0;
       return statuses[status].color;
     }
   }
@@ -70,7 +63,7 @@ export default {
 .heading {
   background: rgba(0, 0, 0, 0.185);
   margin-bottom: 0;
-  height: 40px;
+  height: 50px;
   display: flex;
   flex-shrink: 0;
   padding-left: 10px;
@@ -82,6 +75,7 @@ export default {
   margin-top: 3px;
   user-select: none;
   display: none;
+  cursor: pointer;
 }
 .show-members-button {
   display: inline-block;
@@ -90,6 +84,7 @@ export default {
   user-select: none;
   display: none;
   color: white;
+  cursor: pointer;
 }
 .show-menu-button .material-icons {
   color: rgb(207, 207, 207);

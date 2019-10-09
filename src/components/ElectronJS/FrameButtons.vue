@@ -54,7 +54,7 @@ export default {
   right: 0;
   left: 0;
   z-index: 9999999999999999;
-  height: 30px;
+  height: 100%;
   -webkit-app-region: drag;
   justify-content: flex-end;
 }
@@ -66,15 +66,13 @@ export default {
   display: flex;
   flex-shrink: 0;
   height: 100%;
-  width: 50px;
+  width: 60px;
   border-radius: 2px;
-  margin: 1px;
   color: white;
   align-items: center;
   justify-content: center;
   -webkit-app-region: no-drag;
   transition: 0.3s;
-  background: rgba(56, 56, 56, 0.247);
 }
 .frame-buttons .material-icons {
   display: block;

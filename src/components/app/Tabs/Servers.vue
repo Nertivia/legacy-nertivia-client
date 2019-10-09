@@ -106,7 +106,7 @@ export default {
     background-color: rgba(39, 39, 39, 0.97);
     right: 0;
     bottom: 0;
-    height: calc(100% - 40px);
+    height: calc(100% - 50px);
     z-index: 1;
   }
 }
@@ -116,7 +116,7 @@ export default {
     position: absolute;
     background-color: rgba(39, 39, 39, 0.97);
     bottom: 0;
-    height: calc(100% - 40px);
+    height: calc(100% - 50px);
     z-index: 2;
   }
 }

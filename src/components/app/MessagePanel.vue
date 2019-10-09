@@ -61,7 +61,7 @@
             :recipients="typingRecipients[selectedChannelID]"
           />
         </div>
-        <div v-if="sendMessagePermission === true || editMessage"
+        <div v-if=" messageLength >= 4500 && (sendMessagePermission === true || editMessage)"
           :class="{'message-count': true, 'error-info': messageLength > 5000 }"
         >{{messageLength}}/5000</div>
       </div>

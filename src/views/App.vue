@@ -303,31 +303,31 @@ export default {
 
 .tab {
   flex-shrink: 0;
-  margin: auto;
-  margin-right: 1px;
-  margin-left: 3px;
   margin-bottom: 0;
-  background: rgba(0, 0, 0, 0.63);
-  color: white;
-  padding: 7px;
-  border-top-right-radius: 5px;
-  border-top-left-radius: 5px;
+  background: rgba(0, 0, 0, 0.253);
+  color: rgba(255, 255, 255, 0.822);
+  padding: 10px;
+  padding-left: 14px;
+  padding-right: 14px;
   cursor: default;
   user-select: none;
   transition: 0.3s;
   -webkit-app-region: no-drag;
-  margin-top: 5px;
   cursor: pointer;
   position: relative;
-}
-
-.tab.selected {
-  background: rgba(71, 71, 71, 0.637);
+  border-right:solid 1px rgba(0, 0, 0, 0.5);
 }
 
 .tab:hover {
-  background: rgba(71, 71, 71, 0.637);
+  background: rgba(0, 0, 0, 0.418);
 }
+
+.tab.selected {
+  background: rgba(0, 0, 0, 0.671);
+  color: white;
+}
+
+
 
 .tab .material-icons {
   font-size: 15px;
@@ -386,8 +386,6 @@ textarea {
   display: flex;
   overflow: auto;
   height: 100%;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
 }
 
 input {
