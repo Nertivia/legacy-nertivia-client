@@ -54,7 +54,7 @@ export default {
   right: 0;
   left: 0;
   z-index: 9999999999999999;
-  height: 100%;
+  height: 39px;
   -webkit-app-region: drag;
   justify-content: flex-end;
 }
