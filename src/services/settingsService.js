@@ -7,8 +7,8 @@ export default {
   GDriveURL ()  {
     return wrapper(instance().get('/settings/drive/url'));
   },
-  GDriveAuth (code) {
-    return wrapper(instance().post('/settings/drive/auth', {code}));
+  GDriveAuth (code, token) {
+    return wrapper(instance().post('/settings/drive/auth', {code, token}));
   },
   setApperance (apperance, boolean) {
     return wrapper(instance().put('/settings/apperance', {

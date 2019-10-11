@@ -74,10 +74,6 @@ export default {
         );
         window.onmessage = async e => {
           consentWindow.close();
-          if (!e.data.code) return;
-          const url = new URL(e.data.code);
-          const code = url.searchParams.get("code");
-          await settingsService.GDriveAuth(code);
         };
       }
     },
