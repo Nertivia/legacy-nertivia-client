@@ -64,17 +64,7 @@ export default {
       const { ok, error, result } = await settingsService.GDriveURL();
       if (ok) {
         const { url } = result.data;
-        //open a new window
-        const left = screen.width / 2 - 400 / 2;
-        const top = screen.height / 2 - 500 / 2;
-        const consentWindow = window.open(
-          url,
-          "",
-          "width=400,height=500,top=" + top + ", left=" + left
-        );
-        window.onmessage = async e => {
-          consentWindow.close();
-        };
+        window.open(url,'_blank');
       }
     },
     donateButton() {

@@ -108,7 +108,7 @@ export default {
     height: 0 px;
   }
   10% {
-    height: 27px;
+    height: 33px;
   }
 }
 
