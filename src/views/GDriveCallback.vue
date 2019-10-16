@@ -10,7 +10,7 @@
               <div class="text">Linking...</div>
             </div>
             <div class="loading" v-if="showSuccess">
-              <div class="text">Google drive has been linked with Nertivia account!</div>
+              <div class="text">Your Google Drive has been linked with your Nertivia account!</div>
               <div class="text">You may close this tab.</div>
             </div>
             <div class="loading" v-if="error">
