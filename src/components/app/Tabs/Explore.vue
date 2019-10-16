@@ -15,13 +15,18 @@
           </div>
         </div>
         <div class="items">
-          <div class="item"
+          <div class="item halloween"
             v-for="(tab, index) in tabs"
             :key="index"
             :class="{selected: selectedTab === index}"
             @click="selectedTab = index">
             <i class="material-icons">{{tab.icon}}</i>
             {{tab.name}}
+          </div>
+
+          <div class="card halloween" v-if="halloween">
+            <div class="pumpkin">🎃</div>
+            <div class="title">Happy Halloween!</div>
           </div>
 
           <div class="card self-promo" v-if="nertiviaServerHide !== true && !nertiviaServer">
@@ -77,7 +82,8 @@ export default {
       ],
       nertiviaServerID: '6572915451527958528',
       nertiviaServerHide: localStorage.getItem('exploreTabNertiviaServerPromoHide') === 'true',
-      donateHide: localStorage.getItem('exploreTabDonateHide') === 'true'
+      donateHide: localStorage.getItem('exploreTabDonateHide') === 'true',
+      halloween: new Date().getDate() === 31
 
     };
   },
@@ -158,6 +164,9 @@ export default {
       &.selected {
         background: rgba(0, 0, 0, 0.452);
       }
+    }
+    .item.halloween.selected {
+      background: rgba(255, 166, 0, 0.692);
     }
   }
   .header {
@@ -261,6 +270,14 @@ export default {
       margin-bottom: 10px;
     }
 
+  }
+  &.halloween {
+    .pumpkin {
+      font-size: 50px;
+      margin-bottom: 10px;
+    }
+    background: orange;
+    font-size: 30px;
   }
 }
 .coming-soon {

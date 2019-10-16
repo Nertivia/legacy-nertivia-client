@@ -8,7 +8,7 @@
       <div class="name">
         <div class="name-container">
           <span class="inner-name">{{server.server.name}}</span> 
-          <span class="material-icons"  v-if="server.verified">check</span>
+          <span class="material-icons halloween-icons"  v-if="server.verified">check</span>
        </div>
       </div>
     </div>
@@ -16,7 +16,7 @@
       <div class="description">{{server.description}}</div>
       <div class="buttons">
         <div class="member-count"><div class="material-icons">account_box</div>{{server.total_members}}</div>
-        <div class="button" :class="{selected: joined}" @click="joinButton">
+        <div class="button halloween-button" :class="{selected: joined}" @click="joinButton">
           <span v-if="joined">Joined</span>
           <spinner v-else-if="joinClicked" :size="30"/>
           <span v-else-if="!joinClicked">Join Server</span>
@@ -123,6 +123,9 @@ export default {
             color: #66e0ff;
             margin-left: 5px;
           }
+          .halloween-icons {
+            color: orange;
+          }
         }
       }
       .bottom {
@@ -181,6 +184,15 @@ export default {
             background: rgb(40, 140, 255);
           }
 					&.selected {
+						background: grey;
+					}
+        }
+        .halloween-button {
+          background: rgba(255, 166, 0, 0.8);
+          &:hover {
+            background: rgb(255, 166, 0);
+          }
+          &.selected {
 						background: grey;
 					}
         }

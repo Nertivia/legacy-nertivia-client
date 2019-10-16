@@ -1,7 +1,7 @@
 <template>
   <div id="app" ref="app">
     <vue-headful :title="title" description="Nertivia Chat Client"/>
-    <div class="background-image"></div>
+    <div class="background-image halloween-background"></div>
     <transition name="fade-between-two" appear>
       <ConnectingScreen v-if="!loggedIn"/>
       <div class="box" v-if="loggedIn">
@@ -380,6 +380,12 @@ textarea {
   background-size: cover;
   filter: blur(15px);
   transform: scale(1.1);
+}
+.halloween-background {
+  background: url(./../assets/halloween_background.jpg);
+  filter: blur(10px);
+  
+  background-position: center;
 }
 
 .panel-layout {

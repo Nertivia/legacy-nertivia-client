@@ -15,11 +15,24 @@
 const config = [
 
   {
+    version: 7.6,
+    title: "👻Spooky bug fixes👻",
+    shortTitle: "",
+    date: "16/10/2019",
+    headColor: "rgb(255, 166, 0)", // halloween
+    //headColor: "rgba(25, 130, 255, 0.77)",
+    new: [
+      'Better handled Google Drive linking.',
+      '👻👻👻',
+    ],
+    fix: ['Spooked away a lot of bugs behind the scenes.'],
+    msg: '👻'
+  },
+  {
     version: 7.5,
     title: "GUI improvements",
     shortTitle: "",
     date: "09/10/2019",
-    headColor: "rgba(25, 130, 255, 0.77)",
     new: [
       'Design changes to some elements such as the tabs, Window controls and more.',
     ],
