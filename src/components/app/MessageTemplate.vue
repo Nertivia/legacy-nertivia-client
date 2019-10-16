@@ -2,7 +2,7 @@
   <div class="container" @mouseover="hover = true" @mouseleave="hover = false">
     <div
       v-if="!type || type === 0"
-      :class="{message: true, ownMessage: user.uniqueID === $props.uniqueID, ownMessageLeft: user.uniqueID === $props.uniqueID && (apperance && apperance.own_message_right === true)} "
+      :class="{message: true, ownMessage: user.uniqueID === $props.uniqueID, halloween: user.uniqueID === $props.uniqueID, ownMessageLeft: user.uniqueID === $props.uniqueID && (apperance && apperance.own_message_right === true)} "
     >
       <div class="avatar">
         <profile-picture
@@ -18,7 +18,7 @@
       </div>
       <div class="content" @dblclick="contentDoubleClickEvent">
         <div class="user-info">
-          <div class="username"
+          <div class="username halloween-color"
             @click="openUserInformation"
           >
             {{ this.$props.username }}
@@ -338,6 +338,9 @@ export default {
 .ownMessage .content {
   background: rgba(184, 184, 184, 0.219);
 }
+.ownMessage .content.halloween {
+  background: rgba(255, 135, 31, 0.43);
+}
 .ownMessage .date {
   color: rgb(209, 209, 209);
 }
@@ -442,9 +445,13 @@ export default {
   transition: 0.1s;
   cursor: pointer;
 }
+
 .username:hover {
   color: rgb(199, 199, 199);
   text-decoration: underline;
+}
+.username.halloween-color {
+  color: orange
 }
 .date {
   color: rgb(177, 177, 177);
