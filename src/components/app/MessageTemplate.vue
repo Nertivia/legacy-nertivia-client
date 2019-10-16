@@ -341,6 +341,9 @@ export default {
 .ownMessage.halloween .content {
   background: rgba(255, 135, 31, 0.43);
 }
+.ownMessage.halloween .triangle-inner {
+  background: rgba(255, 135, 31, 0.43);
+}
 .ownMessage .date {
   color: rgb(209, 209, 209);
 }
