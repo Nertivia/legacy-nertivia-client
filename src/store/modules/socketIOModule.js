@@ -3,7 +3,7 @@ import {bus} from '../../main'
 import {router} from './../../router'
 import Vue from 'vue';
 import DesktopNotification from '@/utils/ElectronJS/DesktopNotification'
-import isElectron from '@/utils/ElectronJS/DesktopNotification'
+import isElectron from '@/utils/ElectronJS/isElectron'
 import { isMobile } from '@/utils/Mobile';
 
 const state = {
@@ -179,14 +179,9 @@ const actions = {
       const disableDesktopNotification = context.rootGetters['settingsModule/settings'].notification.disableDesktopNotification;
 
 
-
-      // if (disableDesktopNotification === true) return
-    
-      // if (!isElectron || disableDesktopNotification === undefined) return;
       if (isMobile()) return;
       if (isElectron && disableDesktopNotification === undefined) return sendNotification();
       if (disableDesktopNotification !== undefined && disableDesktopNotification === false) return sendNotification()
-
 
 
       function sendNotification() {
