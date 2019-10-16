@@ -4,6 +4,7 @@ import {router} from './../../router'
 import Vue from 'vue';
 import DesktopNotification from '@/utils/ElectronJS/DesktopNotification'
 import isElectron from '@/utils/ElectronJS/DesktopNotification'
+import { isMobile } from '@/utils/Mobile';
 
 const state = {
 
@@ -174,26 +175,37 @@ const actions = {
     context.dispatch('messageCreatedNotification', notification);
     function desktopNotification() {
       // send desktop notification
-      const disableDesktopNotification = context.rootGetters['settingsModule/settings'].notification.disableDesktopNotification;
-      if (disableDesktopNotification === true) return
-    
-      if (!isElectron || disableDesktopNotification === undefined) return;
       const channel = context.getters.channels[data.message.channelID];
-      if (channel && channel.server_id) {
-        const server = context.getters['servers/servers'][channel.server_id]
-        DesktopNotification.serverMessage({
-          serverName: server.name,
-          channelName: channel.name,
-          username: data.message.creator.username,
-          avatarURL: config.domain + '/avatars/' + server.avatar,
-          message: data.message.message
-        })
-      } else {
-        DesktopNotification.directMessage({
-          username: data.message.creator.username,
-          avatarURL: config.domain + '/avatars/' + data.message.creator.avatar,
-          message: data.message.message
-        })
+      const disableDesktopNotification = context.rootGetters['settingsModule/settings'].notification.disableDesktopNotification;
+
+
+
+      // if (disableDesktopNotification === true) return
+    
+      // if (!isElectron || disableDesktopNotification === undefined) return;
+      if (isMobile) return;
+      if (isElectron && disableDesktopNotification === undefined) return sendNotification();
+      if (disableDesktopNotification !== undefined && disableDesktopNotification === false) return sendNotification()
+
+
+
+      function sendNotification() {
+        if (channel && channel.server_id) {
+          const server = context.getters['servers/servers'][channel.server_id]
+          DesktopNotification.serverMessage({
+            serverName: server.name,
+            channelName: channel.name,
+            username: data.message.creator.username,
+            avatarURL: config.domain + '/avatars/' + server.avatar,
+            message: data.message.message
+          })
+        } else {
+          DesktopNotification.directMessage({
+            username: data.message.creator.username,
+            avatarURL: config.domain + '/avatars/' + data.message.creator.avatar,
+            message: data.message.message
+          })
+        }
       }
     }
   },
