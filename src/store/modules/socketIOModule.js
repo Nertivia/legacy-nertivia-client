@@ -183,7 +183,7 @@ const actions = {
       // if (disableDesktopNotification === true) return
     
       // if (!isElectron || disableDesktopNotification === undefined) return;
-      if (isMobile) return;
+      if (isMobile()) return;
       if (isElectron && disableDesktopNotification === undefined) return sendNotification();
       if (disableDesktopNotification !== undefined && disableDesktopNotification === false) return sendNotification()
 
