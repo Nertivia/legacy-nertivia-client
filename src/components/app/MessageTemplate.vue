@@ -338,7 +338,7 @@ export default {
 .ownMessage .content {
   background: rgba(184, 184, 184, 0.219);
 }
-.ownMessage .content.halloween {
+.ownMessage.halloween .content {
   background: rgba(255, 135, 31, 0.43);
 }
 .ownMessage .date {
