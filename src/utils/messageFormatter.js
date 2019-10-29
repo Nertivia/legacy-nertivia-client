@@ -6,6 +6,7 @@ import customEmoji from './markdown-it-plugins/customEmoji'
 import formatLink from './markdown-it-plugins/formatLink'
 import formatCode from './markdown-it-plugins/formatCode'
 import normalizeFence from './markdown-it-plugins/normalizeFence'
+import inlineFence from './markdown-it-plugins/inlineFence'
 
 import hljs from 'highlight.js'
 
@@ -31,7 +32,8 @@ const markdown = new MarkdownIt({
   .use(chatPlugin)
 	.use(customEmoji)
   .use(formatLink)
-  .use(formatCode);
+  .use(formatCode)
+  .use(inlineFence)
 
 export default (message) => {
 

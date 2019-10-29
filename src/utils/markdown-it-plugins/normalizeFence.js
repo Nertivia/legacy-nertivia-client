@@ -7,7 +7,7 @@ function fence(state, startLine, endLine, silent) {
   // if it's indented more than 3 spaces, it should be a code block
   // if (state.sCount[startLine] - state.blkIndent >= 4) { return false; }
 
-  if (pos + 3 > max) { return false; }
+  if (pos + 6 > max) { return false; }
 
   marker = state.src.charCodeAt(pos);
 
@@ -16,10 +16,10 @@ function fence(state, startLine, endLine, silent) {
   }
 
   // scan marker length
-  mem = pos;
-  pos = state.skipChars(pos, marker);
+  let count = state.skipChars(pos, marker);
 
-  len = pos - mem;
+  len = count - pos;
+  pos += 3
 
   if (len < 3) { return false; }
 
@@ -52,7 +52,7 @@ function fence(state, startLine, endLine, silent) {
     pos = state.skipChars(pos, marker);
 
     // closing code fence must be at least as long as the opening one
-    if (pos - mem < len) { continue; }
+    if (pos - mem < 3) { continue; }
 
     // make sure tail has spaces only
     pos = state.skipSpaces(pos);
@@ -79,5 +79,5 @@ function fence(state, startLine, endLine, silent) {
 }
 
 export default function normalizeFence(md, opts) {
-	md.block.ruler.at('fence', fence)
+  md.block.ruler.at('fence', fence, {alt: [ 'paragraph', 'reference', 'blockquote', 'list' ]})
 }
