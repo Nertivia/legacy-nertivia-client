@@ -8380,6 +8380,11 @@ uws@^10.148.1:
   resolved "https://registry.yarnpkg.com/uws/-/uws-10.148.2.tgz#f01652a0b4bb941cb18bb7a6248d780fd0150245"
   integrity sha1-8BZSoLS7lByxi7emJI14D9AVAkU=
 
+v-clipboard@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/v-clipboard/-/v-clipboard-2.2.2.tgz#6144e3c5b895ead35463386aa660360a9f88fabf"
+  integrity sha512-8Nch/q4j4e5BqHFuKUReKBvB7lzn9FQTEuPa54pmfX44VYhWnxAoSHuMwm2Qf9EnyCSEmczqj2VYPsU2BEe6Mw==
+
 validate-npm-package-license@^3.0.1:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/validate-npm-package-license/-/validate-npm-package-license-3.0.4.tgz#fc91f6b9c7ba15c857f4cb2c5defeec39d4f410a"
