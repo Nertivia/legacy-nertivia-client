@@ -5,6 +5,7 @@ import config from "@/config.js";
 import customEmoji from './markdown-it-plugins/customEmoji'
 import formatLink from './markdown-it-plugins/formatLink'
 import formatCode from './markdown-it-plugins/formatCode'
+import normalizeFence from './markdown-it-plugins/normalizeFence'
 
 import hljs from 'highlight.js'
 
@@ -25,7 +26,9 @@ const markdown = new MarkdownIt({
 
     return '<div class="codeblock"><code>' + markdown.utils.escapeHtml(str) + '</code></div>';
   }
-}).use(chatPlugin)
+})
+  .use(normalizeFence)
+  .use(chatPlugin)
 	.use(customEmoji)
   .use(formatLink)
   .use(formatCode);
