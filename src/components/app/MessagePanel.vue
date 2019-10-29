@@ -636,7 +636,7 @@ export default {
 .right-panel {
   height: 100%;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.507);
+  background-color: rgba(0, 0, 0, 0.650);
   flex: 1;
   display: flex;
   flex-direction: column;

@@ -106,23 +106,21 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
-  background: rgba(31, 31, 31, 0.995);
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
   z-index: 99999;
-  padding: 5px;
-  border-radius: 5px;
   user-select: none;
   color: white;
 }
 
 .item {
-  padding: 5px;
-  margin: 2px;
+  padding: 10px;
   border-radius: 5px;
   transition: 0.3s;
   font-size: 13px;
   cursor: pointer;
   &:hover {
-    background: rgb(46, 46, 46);
+    background: rgba(46, 46, 46, 0.651);
   }
   &.warn {
     color: rgb(255, 59, 59);

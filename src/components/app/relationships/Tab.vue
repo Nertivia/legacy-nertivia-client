@@ -20,6 +20,7 @@ export default {
   .tab{
     display: flex;
     color: white;
+    cursor: pointer;
   }
   .tab-name {
     padding-top: 3px;

@@ -105,7 +105,7 @@ export default {
       );
     },
     openChat() {
-      bus.$emit('changeTab', 1)
+      this.$store.dispatch('setCurrentTab', 1)
       this.$store.dispatch("openChat", {
         uniqueID: this.uniqueID,
         channelName: this.user.username

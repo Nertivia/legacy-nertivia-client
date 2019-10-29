@@ -67,10 +67,10 @@ export default {
 @media (max-width: 600px) {
   .left-panel {
     position: absolute;
-    background-color: rgba(39, 39, 39, 0.97);
     bottom: 0;
     height: calc(100% - 50px);
     z-index: 2;
+    backdrop-filter: blur(15px);
   }
 }
 </style>

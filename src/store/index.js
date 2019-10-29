@@ -32,16 +32,22 @@ export const store = new Vuex.Store({
     members: membersModule
   },
   state: {
-    
+    currentTab: 0,
   },
   getters: {
-
-  },
-  mutations: {
-
-
+    currentTab(state) {
+      return state.currentTab;
+    }
   },
   actions: {
-
-  }
+    setCurrentTab({commit}, currentTab) {
+      localStorage.setItem("currentTab", currentTab);
+      commit('SET_CURRENT_TAB', currentTab)
+    }
+  },
+  mutations: {
+    SET_CURRENT_TAB(state, currentTab) {
+      state.currentTab = currentTab;
+    }
+  },
 })

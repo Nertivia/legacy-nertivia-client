@@ -1,7 +1,7 @@
 <template>
   <div
     class="my-mini-information"
-    :style="{backgroundColor: getStatusColor}"
+
     @mouseover="hover = true" @mouseleave="hover = false"
     
   >
@@ -9,7 +9,7 @@
       <profile-picture
         :url="`${avatar}${hover ? '' : '?type=png'}`"
         :admin="user.admin"
-        size="50px"
+        size="35px"
         :hover="true"
         @click.native="openUserInformation"
       />
@@ -30,7 +30,7 @@
           class="current-status"
           :src="getStatus"
         >
-        <i class="material-icons expand-status-icon">expand_more</i>
+        <i class="material-icons expand-status-icon">expand_less</i>
         <transition name="show-status-list">
           <statusList
             v-if="status.isPoppedOut"
@@ -48,12 +48,6 @@
       <div class="survay-inner">
         <i class="material-icons">error</i>
       </div>
-    </div>
-    <div
-      class="setting-icon"
-      @click="openSettings"
-    >
-      <i class="material-icons">settings</i>
     </div>
   </div>
 </template>
@@ -123,12 +117,7 @@ export default {
         this.$store.dispatch("changeStatus", result.data.set);
       }
     },
-    openSettings() {
-      this.$store.dispatch("setPopoutVisibility", {
-        name: "settings",
-        visibility: true
-      });
-    }
+
   }
 };
 </script>
@@ -139,8 +128,9 @@ export default {
 .profile-pic-outer{
   z-index:9999;
   display: flex;
-    margin-left: 10px;
+  margin-left: 10px;
   margin-right: 10px;
+  cursor: pointer;
 }
 .survay-button {
   padding: 10px;
@@ -160,6 +150,7 @@ export default {
   width: 24px;
   font-size: 30px;
   color: cyan;
+  cursor: pointer;
 }
 
 .show-status-list-enter-active,
@@ -169,7 +160,7 @@ export default {
 .show-status-list-enter,
 .show-status-list-leave-to {
   opacity: 0;
-  transform: translateY(-5px);
+  transform: translateY(20px);
 }
 
 .fade-enter-active,
@@ -181,19 +172,19 @@ export default {
 }
 
 .my-mini-information {
-  border-radius: 10px;
-  margin: 5px;
-  height: 80px;
+  position: relative;
+  background: rgba(0, 0, 0, 0.3);;
+  height: 50px;
   display: flex;
   align-items: center;
-  margin-top: 10px;
   transition: 0.3s;
+  flex-shrink: 0;
 }
 
 
 .information {
   color: white;
-  margin-top: -7px;
+  margin-top: -4px;
   flex: 1;
   width: 100%;
   overflow: hidden;
@@ -205,9 +196,9 @@ export default {
   margin-right: 15px;
   padding: 5px;
   border-radius: 50%;
-  cursor: default;
   user-select: none;
   transition: 0.3s;
+  cursor: pointer;
 }
 .setting-icon:hover {
   background: rgba(0, 0, 0, 0.294);
@@ -221,10 +212,11 @@ export default {
   padding-top: 1px;
   padding-left: 5px;
   margin-left: 10px;
-  margin-top: -2px;
+  margin-top: -10px;
   transition: 0.3s;
   user-select: none;
   border-radius: 10px;
+  cursor: pointer;
 }
 
 .status:hover {
@@ -251,14 +243,15 @@ export default {
   margin-top: 10px;
   text-overflow: ellipsis;
   width: 100%;
+  font-size: 14px;
   overflow: hidden;
 }
 
 .tag {
   color: rgb(199, 199, 199);
-  font-size: 13px;
+  font-size: 11px;
   display: inline-block;
   vertical-align: top;
-  margin-top: 5px;
+  margin-top: 1px;
 }
 </style>

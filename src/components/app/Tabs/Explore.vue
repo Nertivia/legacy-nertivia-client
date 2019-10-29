@@ -1,74 +1,80 @@
 <template>
   <div class="explore-tab">
-
     <transition name="slidein">
-      <div class="left-panel"
+      <div
+        class="left-panel"
         v-show="$mq === 'mobile' && showLeftPanel || ($mq !== 'mobile')"
-        v-click-outside="hideLeftPanel">
-        <div class="header">
-          <div class="icon">
-            <i class="material-icons">explore</i>
+        v-click-outside="hideLeftPanel"
+      >
+        <navigation />
+        <div class="content">
+          <div class="header">
+            <div class="icon">
+              <i class="material-icons">explore</i>
+            </div>
+            <div class="details">
+              <div class="title">Explore</div>
+              <div class="description">Find new servers, Emojis and more!</div>
+            </div>
           </div>
-          <div class="details">
-            <div class="title">Explore</div>
-            <div class="description">Find new servers, Emojis and more!</div>
-          </div>
-        </div>
-        <div class="items">
-          <div class="item halloween"
-            v-for="(tab, index) in tabs"
-            :key="index"
-            :class="{selected: selectedTab === index}"
-            @click="selectedTab = index">
-            <i class="material-icons">{{tab.icon}}</i>
-            {{tab.name}}
-          </div>
+          <div class="items">
+            <div
+              class="item"
+              v-for="(tab, index) in tabs"
+              :key="index"
+              :class="{selected: selectedTab === index}"
+              @click="selectedTab = index"
+            >
+              <i class="material-icons">{{tab.icon}}</i>
+              {{tab.name}}
+            </div>
+            <div class="card self-promo" v-if="nertiviaServerHide !== true && !nertiviaServer">
+              <div class="material-icons close-btn" @click="hideSelfPromo">close</div>
+              <div class="logo" />
+              <div class="title">Join the official Nertivia server</div>
+              <div class="button" @click="joinNertiviaServer">Join</div>
+            </div>
 
-          <div class="card halloween" v-if="halloween">
-            <div class="pumpkin">🎃</div>
-            <div class="title">Happy Halloween!</div>
-          </div>
-
-          <div class="card self-promo" v-if="nertiviaServerHide !== true && !nertiviaServer">
-            <div class="material-icons close-btn" @click="hideSelfPromo">close</div>
-            <div class="logo"/>
-            <div class="title">Join the official Nertivia server</div>
-            <div class="button" @click="joinNertiviaServer">Join</div>
-          </div>
-
-          <div class="card donate-paypal" v-if="donateHide !== true">
-            <div class="material-icons close-btn" @click="hideDonatePaypal">close</div>
-            <div class="material-icons heart">favorite</div>
-            <div class="title">Support Nertivia by donating any amount of money. You will get a supporter badge and more features in the future.</div>
-            <div class="button" @click="donateButton">Donate With PayPal</div>
+            <div class="card donate-paypal" v-if="donateHide !== true">
+              <div class="material-icons close-btn" @click="hideDonatePaypal">close</div>
+              <div class="material-icons heart">favorite</div>
+              <div
+                class="title"
+              >Support Nertivia by donating any amount of money. You will get a supporter badge and more features in the future.</div>
+              <div class="button" @click="donateButton">Donate</div>
+            </div>
           </div>
         </div>
       </div>
     </transition>
 
-
-
-
     <div class="right-panel">
-      <div class="header"> <div class="material-icons left-menu-show-button" @click="showLeftPanel = !showLeftPanel">view_list</div> <i class="material-icons">{{tabs[selectedTab].icon}}</i>{{tabs[selectedTab].name}}</div>
+      <div class="header">
+        <div
+          class="material-icons left-menu-show-button"
+          @click="showLeftPanel = !showLeftPanel"
+        >view_list</div>
+        <i class="material-icons">{{tabs[selectedTab].icon}}</i>
+        {{tabs[selectedTab].name}}
+      </div>
       <div class="coming-soon" v-if="selectedTab > 0">
         <div class="icon">
           <i class="material-icons">explore</i>
         </div>
         <div class="text">Coming soon!</div>
       </div>
-      <component :is="tabs[selectedTab].component" /> 
+      <component :is="tabs[selectedTab].component" />
     </div>
-
   </div>
 </template>
 
 <script>
 import { bus } from "@/main";
-import Servers from './Explore/servers'
-import ServerService from '@/services/ServerService'
+import Servers from "./Explore/servers";
+import ServerService from "@/services/ServerService";
+import Navigation from '@/components/app/Navigation';
 export default {
-  components: { Servers },
+  components: { Servers, Navigation },
   data() {
     return {
       showLeftPanel: false,
@@ -80,11 +86,10 @@ export default {
         { icon: "brush", name: "Themes", component: "" },
         { icon: "message", name: "Message Styles", component: "" }
       ],
-      nertiviaServerID: '6572915451527958528',
-      nertiviaServerHide: localStorage.getItem('exploreTabNertiviaServerPromoHide') === 'true',
-      donateHide: localStorage.getItem('exploreTabDonateHide') === 'true',
-      halloween: new Date().getDate() === 31
-
+      nertiviaServerID: "6572915451527958528",
+      nertiviaServerHide:
+        localStorage.getItem("exploreTabNertiviaServerPromoHide") === "true",
+      donateHide: localStorage.getItem("exploreTabDonateHide") === "true",
     };
   },
 
@@ -97,27 +102,29 @@ export default {
       }
     },
     hideSelfPromo() {
-      localStorage.setItem('exploreTabNertiviaServerPromoHide', true)
+      localStorage.setItem("exploreTabNertiviaServerPromoHide", true);
       this.nertiviaServerHide = true;
     },
     hideDonatePaypal() {
-      localStorage.setItem('exploreTabDonateHide', true)
+      localStorage.setItem("exploreTabDonateHide", true);
       this.donateHide = true;
     },
     async joinNertiviaServer() {
-      const {ok, error, result} = await ServerService.joinServerById(this.nertiviaServerID, {
-        socketID: this.$socket.id
-      });
+      const { ok, error, result } = await ServerService.joinServerById(
+        this.nertiviaServerID,
+        {
+          socketID: this.$socket.id
+        }
+      );
     },
     donateButton() {
-      window.open('https://www.patreon.com/nertivia', '_blank');
+      window.open("https://www.patreon.com/nertivia", "_blank");
     }
   },
-  mounted() {
-  },
+  mounted() {},
   computed: {
     nertiviaServer() {
-      return this.$store.getters['servers/servers'][this.nertiviaServerID]
+      return this.$store.getters["servers/servers"][this.nertiviaServerID];
     }
   }
 };
@@ -125,26 +132,32 @@ export default {
 
 
 <style lang="scss" scoped>
-
 .explore-tab {
   display: flex;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.459);
   color: white;
   position: relative;
 }
 .left-panel {
   display: flex;
-  flex-direction: column;
-  background: rgba(0, 0, 0, 0.274);
+  flex-direction: row;
+  background: rgba(0, 0, 0, 0.6);
   width: 300px;
   flex-shrink: 0;
   z-index: 2;
+  .content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
   .items {
     user-select: none;
     height: 100%;
     overflow: auto;
+    &::-webkit-scrollbar {
+      width: 3px;
+    }
     .item {
       .material-icons {
         margin-right: 5px;
@@ -152,21 +165,15 @@ export default {
       display: flex;
       align-content: center;
       align-items: center;
-      background: rgba(0, 0, 0, 0.199);
-      margin: 5px;
       padding: 10px;
-      border-radius: 5px;
       cursor: pointer;
       transition: 0.3s;
       &:hover {
-        background: rgba(0, 0, 0, 0.452);
+        background: rgba(0, 0, 0, 0.2);
       }
       &.selected {
-        background: rgba(0, 0, 0, 0.452);
+        background: rgba(0, 0, 0, 0.4);
       }
-    }
-    .item.halloween.selected {
-      background: rgba(255, 166, 0, 0.692);
     }
   }
   .header {
@@ -182,19 +189,19 @@ export default {
       align-content: center;
       justify-content: center;
       flex-shrink: 0;
-      width: 100px;
+      width: 70px;
       position: relative;
       .material-icons {
-        font-size: 70px;
+        font-size: 50px;
       }
-      &::after{
-        content: 'BETA';
+      &::after {
+        content: "BETA";
         position: absolute;
         background: #ff3333;
         border-radius: 5px;
-        font-size: 10px;
+        font-size: 9px;
         padding: 2px;
-        bottom: 15px;
+        bottom: 20px;
         z-index: 999;
       }
     }
@@ -228,28 +235,28 @@ export default {
   .title {
     text-align: center;
   }
-    .button {
-      background-color: rgba(0, 0, 0, 0.200);
-      border-radius: 5px;
-      padding: 5px;
-      font-size: 20px;
-      margin-top: 15px;
-      cursor: pointer;
-      transition: 0.3s;
-      color: rgba(255, 255, 255, 0.924);
-      &:hover {
-        background-color: rgba(0, 0, 0, 0.300);
-      }
+  .button {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 15px;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+    color: rgba(255, 255, 255, 0.924);
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.3);
     }
+  }
   .close-btn {
     position: absolute;
     top: 15px;
     right: 15px;
     cursor: pointer;
   }
-  &.self-promo{
+  &.self-promo {
     .logo {
-      background-image: url('../../../assets/logo.png');
+      background-image: url("../../../assets/logo.png");
       background-size: cover;
       height: 100px;
       width: 100px;
@@ -269,15 +276,6 @@ export default {
       font-size: 60px;
       margin-bottom: 10px;
     }
-
-  }
-  &.halloween {
-    .pumpkin {
-      font-size: 50px;
-      margin-bottom: 10px;
-    }
-    background: orange;
-    font-size: 30px;
   }
 }
 .coming-soon {
@@ -295,13 +293,16 @@ export default {
 }
 
 .right-panel {
+  background: rgba(0, 0, 0, 0.65);
   .header {
     background: rgba(0, 0, 0, 0.448);
     padding: 10px;
     display: flex;
     align-items: center;
     align-content: center;
-    .material-icons {margin-right: 5px;}
+    .material-icons {
+      margin-right: 5px;
+    }
     user-select: none;
     cursor: default;
   }
@@ -312,7 +313,6 @@ export default {
   overflow: hidden;
 }
 
-
 .left-menu-show-button {
   border-right: solid 1px rgb(158, 158, 158);
   padding-right: 5px;
@@ -320,14 +320,13 @@ export default {
   cursor: pointer;
 }
 
-
 .slidein-enter-active,
 .slidein-leave-active {
   transition: 0.5s;
 }
 .slidein-enter, .slidein-leave-to /* .fade-leave-active below version 2.1.8 */ {
   /* margin-left: -300px; */
-  transform: translateX(-300px)
+  transform: translateX(-300px);
 }
 
 @media (max-width: 600px) {
@@ -336,11 +335,10 @@ export default {
   }
   .left-panel {
     position: absolute;
-    background-color: rgba(39, 39, 39, 0.97);
     bottom: 0;
     height: calc(100% - 44px);
+    backdrop-filter: blur(15px);
     z-index: 2;
   }
 }
-
 </style>

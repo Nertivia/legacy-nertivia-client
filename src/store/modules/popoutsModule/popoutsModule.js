@@ -42,7 +42,18 @@ const state = {
     uniqueID: null,
     x: null,
     y: null
-  } 
+  },
+
+  // TODO: convert all above into one.
+  allPopout: {
+    show: false,
+    type: null,
+    serverID: null,
+    uniqueID: null,
+    creatorUniqueID: null,
+    x: null, 
+    y: null,
+  }
 
   
 }
@@ -54,6 +65,9 @@ const getters = {
 }
 
 const actions = {
+  setAllPopout({commit, state}, data) {
+    commit('setAllPopout', {...state.allPopout, ...data})
+  },
   setServerSettings({commit}, {serverID, index}){
     commit('setServerSettings', {serverID, index})
   },
@@ -87,6 +101,9 @@ const actions = {
 }
 
 const mutations = {
+  setAllPopout(state, data) {
+    Vue.set(state, 'allPopout', data)
+  }, 
   setServerMemberContext(state, data) {
     Vue.set(state, 'serverMemberContext', data);
   },

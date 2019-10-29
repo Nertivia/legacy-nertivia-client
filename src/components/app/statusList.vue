@@ -67,17 +67,16 @@ export default {
 
 .status-popout{
   position: absolute;
-  background-color: rgba(26, 26, 26, 0.863);
-  border-radius: 10px;
-  padding: 5px;
+  bottom: 55px;
+  left: 30px;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
   width: 180px;
   z-index: 4;
 }
 .status-list {
-  padding: 5px;
+  padding: 10px;
   transition: 0.3s;
-  border-radius: 5px;
-  margin: 5px;
   display: flex;
   align-items: center;
   align-content: center;
@@ -86,7 +85,7 @@ export default {
 }
 
 .status-list:hover {
-  background: rgba(0, 0, 0, 0.349);
+  background: rgba(46, 46, 46, 0.651);
 }
 
 .status-icon{

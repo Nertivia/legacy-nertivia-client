@@ -1,62 +1,42 @@
 <template>
   <div class="news">
-    <div class="change-log">
-      <span class="news-title">Changes in this release</span>
+    <navigation />
+    <div class="changelog">
+      <div class="change-log">
+        <span class="news-title">Changes in this release</span>
 
-      <div
-        v-for="(change, index) in changelog"
-        :key="index"
-        class="change"
-      >
-        <div
-          class="heading"
-          :style="change.headColor ? `background-color: ${change.headColor}` : ``"
-        >
-          <div class="date">
-            {{ change.date }}
-          </div>
-          <div class="changes-title">
-            {{ change.title }}
-          </div>
-        </div>
-        <div class="information">
-          <div v-if="change.new">
-            <strong>What's new?</strong>
-            <br>
-            <ul>
-              <li
-                v-for="(wnew, index) in change.new"
-                :key="index"
-                v-html="wnew"
-              />
-            </ul>
-          </div>
-          <div v-if="change.fix">
-            <strong>Issues fixed</strong>
-            <br>
-            <ul>
-              <li
-                v-for="(wfix, index) in change.fix"
-                :key="index"
-                v-html="wfix"
-              />
-            </ul>
-          </div>
-          <div v-if="change.next">
-            <strong>Up next</strong>
-            <br>
-            <ul>
-              <li
-                v-for="(wnext, index) in change.next"
-                :key="index"
-                v-html="wnext"
-              />
-            </ul>
-          </div>
+        <div v-for="(change, index) in changelog" :key="index" class="change">
           <div
-            v-if="change.msg"
-            v-html="change.msg"
-          />
+            class="heading"
+            :style="change.headColor ? `background-color: ${change.headColor}` : ``"
+          >
+            <div class="date">{{ change.date }}</div>
+            <div class="changes-title">{{ change.title }}</div>
+          </div>
+          <div class="information">
+            <div v-if="change.new">
+              <strong>What's new?</strong>
+              <br />
+              <ul>
+                <li v-for="(wnew, index) in change.new" :key="index" v-html="wnew" />
+              </ul>
+            </div>
+            <div v-if="change.fix">
+              <strong>Issues fixed</strong>
+              <br />
+              <ul>
+                <li v-for="(wfix, index) in change.fix" :key="index" v-html="wfix" />
+              </ul>
+            </div>
+            <div v-if="change.next">
+              <strong>Up next</strong>
+              <br />
+              <ul>
+                <li v-for="(wnext, index) in change.next" :key="index" v-html="wnext" />
+              </ul>
+            </div>
+            <div v-if="change.msg" v-html="change.msg" />
+          </div>
         </div>
       </div>
     </div>
@@ -65,12 +45,13 @@
 
 <script>
 import Spinner from "@/components/Spinner.vue";
+import Navigation from "@/components/app/Navigation";
 import changelog from "@/utils/changelog.js";
 export default {
-  components: {},
+  components: { Navigation },
   data() {
     return {
-      changelog: changelog
+      changelog
     };
   }
 };
@@ -84,16 +65,19 @@ export default {
   height: 100%;
   color: white;
   overflow: auto;
-  background: rgba(0, 0, 0, 0.486);
+  background: #0000005d;
+  position: relative;
 }
+
 .news-title {
   display: inline-block;
   margin-bottom: 10px;
-  font-size: 20px;
+  margin-left: 10px;
+  margin-top: 20px;
+  font-size: 21px;
   color: white;
   font-weight: bold;
   padding-bottom: 10px;
-  border-bottom: solid 1px white;
 }
 .todo-list {
   flex: 1;
@@ -102,28 +86,34 @@ export default {
   padding: 20px;
 }
 .change {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   padding-bottom: 10px;
-  border-bottom: solid 1px white;
 }
-.heading{
+.heading {
   padding: 10px;
   background: rgba(0, 0, 0, 0.555);
   margin-bottom: 10px;
-  border-radius: 10px;
 }
 .information {
   overflow-wrap: break-word;
+  margin: 10px;
 }
 .heading.latest {
   background: rgba(38, 139, 255, 0.87);
 }
 .change-log {
-  background: rgba(0, 0, 0, 0.137);
-  padding: 20px;
+  background: rgba(0, 0, 0, 0.561);
   overflow-y: auto;
   max-width: 700px;
   margin: auto;
+}
+.changelog {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  overflow: auto;
+
 }
 .plan-list {
   color: white;
@@ -142,5 +132,4 @@ export default {
   margin-top: -5px;
   margin-bottom: 10px;
 }
-
 </style>

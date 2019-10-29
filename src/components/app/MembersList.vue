@@ -82,7 +82,7 @@ export default {
   color: white;
   display: flex;
 	flex-direction: column;
-  background: rgba(0, 0, 0, 0.671);
+  background: rgba(0, 0, 0, 0.6);
   width: 300px;
   height: 100%;
 }
@@ -105,8 +105,6 @@ export default {
 .tab {
   background: rgba(0, 0, 0, 0.308);
   padding: 5px;
-  border-radius: 5px;
-  margin: 5px;
   user-select: none;
   cursor: default;
   color: rgb(200, 200, 200);

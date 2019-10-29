@@ -54,22 +54,26 @@ export default {
 .channel {
   display: flex;
   align-items: center;
-  margin: 5px;
-	margin-top: 3px;
-	margin-bottom: 3px;
   padding: 5px;
-  border-radius: 5px;
   transition: 0.3s;
 	font-size: 14px;
   cursor: pointer;
+  color: white;
+  user-select: none;
+  overflow: hidden;
+  padding-right: 10px;
+  padding-left: 10px;
 }
 .channel:hover {
-  background: rgba(139, 139, 139, 0.288);
+  background: rgba(0, 0, 0, 0.192);
 }
-.selected {
-  background: rgba(139, 139, 139, 0.288);
+.channel.selected {
+  background: rgba(0, 0, 0, 0.288);
 }
+
+
 .channel-name {
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   margin-left: 5px;

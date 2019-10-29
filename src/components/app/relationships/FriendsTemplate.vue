@@ -1,7 +1,8 @@
 <template>
   <div
-    :class="{friend: true, notifyAnimation: (notifications && notifications > 0) }"
+    class="friend"
     :style="{background: status.status !== 0 ? status.bgColor : ''}"
+    :class="{selected: uniqueIDSelected, notifyAnimation: (notifications && notifications > 0) }"
     @click="openChat"
     @mouseover="hover = true"
     @mouseleave="hover = false"
@@ -80,6 +81,9 @@ export default {
         statusColor: statuses[parseInt(status)].color,
         bgColor: statuses[parseInt(status)].bgColor
       }
+    },
+    uniqueIDSelected() {
+      return this.$store.getters.selectedUserUniqueID === this.recipient.uniqueID
     }
   },
   methods: {
@@ -108,20 +112,18 @@ export default {
 
 <style scoped>
 .username{
-  width: 201px;
+  width: 150px;
   white-space: nowrap; 
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .friend {
   color: white;
-  background-color: rgba(0, 0, 0, 0.100);
-  margin: 5px;
   padding: 5px;
-  padding-right: 0;
+  padding-left: 10px;
+  padding-left: 10px;
   display: flex;
   transition: 0.3s;
-  border-radius: 5px;
   position: relative;
   overflow: hidden;
   cursor: pointer;
@@ -151,9 +153,11 @@ export default {
 }
 
 .friend:hover {
-    background-color: rgba(0, 0, 0, 0.246);
+  background: rgba(0, 0, 0, 0.3) !important;
 }
-
+.friend.selected {
+  background: rgba(0, 0, 0, 0.4) !important;
+}
 .profile-picture{
   height: 30px;
   width: 30px;

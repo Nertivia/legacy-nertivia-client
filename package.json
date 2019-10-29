@@ -16,6 +16,7 @@
     "markdown-it-chat-formatter": "^0.1.1",
     "match-sorter": "^2.3.0",
     "particles.js": "^2.0.0",
+    "simple-markdown": "^0.6.1",
     "socket.io": "^2.2.0",
     "socket.io-client": "^2.2.0",
     "twemoji": "^11.3.0",

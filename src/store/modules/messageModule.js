@@ -25,6 +25,7 @@ const getters = {
 const actions = {
   // server channel
   async openChannel(context, channel) {
+    context.commit("selectedChannelID", channel.channelID)
     context.commit("setChannelName", channel.name);
     const messages = context.state.messages[channel.channelID];
     if (messages) {
@@ -32,14 +33,12 @@ const actions = {
       context.commit("setServerChannelID", channel.channelID);
       return;
     }
-    context.commit("selectedChannelID", "loading")
     getMessages(context, channel.channelID, true);
 
   },
   //dm channel
   async openChat(context, { uniqueID, channelID, channelName }) {
     if (channelName) context.commit("setChannelName", channelName);
-
     const channels = context.rootState.channelModule.channels;
     channelID = Object.keys(channels).find(_channelID => {
       return channels[_channelID].recipients && channels[_channelID].recipients.length && channels[_channelID].recipients[0].uniqueID === uniqueID
@@ -47,6 +46,7 @@ const actions = {
     const messages = context.state.messages[channelID];
     const channel = channels[channelID];
     
+    context.commit('selectedUserUniqueID', uniqueID);
     if (channelID) {
       context.commit("setDMChannelID", channelID);
       context.commit("selectedChannelID", channelID); 

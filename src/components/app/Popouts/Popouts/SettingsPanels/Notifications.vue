@@ -3,6 +3,13 @@
 
     <div class="switches">
       <div class="checkbox"
+        @click="toggleNotificationSounds">
+        <div class="checkbox-box" :class="{selected: !notificationSettings.disableNotificationSound}" />
+        <div class="checkbox-name">
+          Notification Sounds
+        </div>
+      </div>
+      <div class="checkbox"
         @click="toggleNotification()">
         <div class="checkbox-box" :class="{selected: !notificationSettings.disableDesktopNotification}" />
         <div class="checkbox-name">
@@ -23,7 +30,8 @@ import SettingsService from '@/services/settingsService.js';
 export default {
   data() {
     return {
-      isElectron: window && window.process && window.process.type
+      isElectron: window && window.process && window.process.type,
+
     };
   },
   methods: {
@@ -39,7 +47,7 @@ export default {
       const setting = this.notificationSettings['disableDesktopNotification'];
       if (setting && setting === true && !this.isElectron) {
         if (Notification.permission === "denied") {
-          alert("Notifications blocked. Please enable them in your browser.");
+          alert("Notifications permission is blocked. Allow notifications from this website in your browsers permission settings.");
         }
         Notification.requestPermission().then(function(result) {
           if (result === 'denied' || result === 'default') return;
@@ -49,6 +57,12 @@ export default {
       }
       this.toggleSetting('disableDesktopNotification');
     },
+    toggleNotificationSounds(){
+      console.log("test")
+      const setting = this.notificationSettings['disableNotificationSound'];
+      console.log(!!!setting)
+      this.$store.dispatch('settingsModule/updateNotification', {disableNotificationSound: !setting})
+    }
   },
   mounted() {
     if (!this.isElectron && this.notificationSettings.disableDesktopNotification === undefined) {
@@ -69,18 +83,19 @@ export default {
 
 .switches {
   display: flex;
+  flex-direction: column;
   margin: 20px;
   user-select: none;
 }
 
 .checkbox {
   display: flex;
+  margin-top: 10px;
 }
 .checkbox-box {
   background: rgba(88, 88, 88, 0.74);
   height: 20px;
   width: 20px;
-  margin: auto;
   margin-right: 10px;
   transition: 0.3s;
   border-radius: 5px;

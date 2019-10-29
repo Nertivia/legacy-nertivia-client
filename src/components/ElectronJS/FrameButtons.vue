@@ -54,7 +54,7 @@ export default {
   right: 0;
   left: 0;
   z-index: 9999999999999999;
-  height: 39px;
+  height: 25px;
   -webkit-app-region: drag;
   justify-content: flex-end;
 }
@@ -66,8 +66,7 @@ export default {
   display: flex;
   flex-shrink: 0;
   height: 100%;
-  width: 60px;
-  border-radius: 2px;
+  width: 30px;
   color: white;
   align-items: center;
   justify-content: center;
@@ -82,9 +81,9 @@ export default {
   background: rgba(255, 0, 0, 0.595);
 }
 .frame-buttons .minimize:hover {
-  background: rgba(255, 81, 0, 0.595);
+  background: rgba(46, 46, 46, 0.595);
 }
 .frame-buttons .res-max:hover {
-  background: rgba(0, 162, 255, 0.595);
+  background: rgba(46, 46, 46, 0.595);
 }
 </style>

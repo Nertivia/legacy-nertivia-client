@@ -69,7 +69,7 @@ function replace_custom_emoji(state, silent) {
 	// console.log(nameEnd, parseUntil(state,nameStart,58))
 
 	// parser failed to find another ':', so it's not a valid emoji
-	if(nameEnd > max || nameEnd < 0 || nameEnd - nameStart <= 0) { return false; }
+	if((nameEnd+1) > max || nameEnd < 0 || nameEnd - nameStart <= 0) { return false; }
 
 	let emojiName = state.src.slice(nameStart, nameEnd)
 	
@@ -79,7 +79,9 @@ function replace_custom_emoji(state, silent) {
 	let idStart = pos
 	let idEnd = skipUntil(state, pos, 62);
 
-	if(idEnd > max || idEnd < 0 || idEnd - idStart <= 1) { return false; }
+	if((idEnd+1) > max || idEnd < 0 || idEnd - idStart <= 1) { return false; }
+
+	// console.log(idStart, idEnd)
 
 	let emojiID = state.src.slice(idStart, idEnd)
 
@@ -88,7 +90,7 @@ function replace_custom_emoji(state, silent) {
 		state.posMax = idEnd
 
 		let token = state.push('custom_emoji', 'img', 0);
-		token.attrs = [[ 'src', `${config.domain}/media/${emojiID}` ], [ 'alt', emojiName ]]
+		token.attrs = [[ 'src', (`${config.domain}/media/${emojiID}`) ], [ 'alt', (emojiName) ]]
 	}
 
 	state.pos = idEnd + 1
@@ -96,14 +98,17 @@ function replace_custom_emoji(state, silent) {
 	return true
 }
 
+const emojiRe = /<:[\w\d]+:[\w\d]+>/
+
 export default function custom_emoji_plugin(md, opts) {
 	md.renderer.rules.custom_emoji = (tokens, idx) => { 
 		let token = tokens[idx]
+		
+		const srcIdx = token.attrIndex('src');
+		const altIdx = token.attrIndex('alt');
 
-		// todo: better escaping method,
-		// 			 even if this is good and covers most cases, there may be edge cases where DOMPurify may be better
-		let src = md.utils.escapeHtml(token.attrs.find(([name]) => name === 'src')[1])
-		let alt = md.utils.escapeHtml(token.attrs.find(([name]) => name === 'alt')[1])
+		let src = encodeURI(md.utils.escapeHtml(token.attrs[srcIdx][1]))
+		let alt = md.utils.escapeHtml(token.attrs[altIdx][1])
 
 		return `<${md.utils.escapeHtml(token.tag)} class="emoji" title=${alt} alt=${alt} src=${src} />` 
 	}

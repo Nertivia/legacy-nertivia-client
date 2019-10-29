@@ -84,14 +84,12 @@ export default {
 
 .recents{
   background-color: rgba(0, 0, 0, 0);
-  margin: 5px;
   user-select: none;
   padding-bottom: 3px;
   border-radius: 5px;
   transition: 0.3s;
 }
 .tab{
-  border-radius: 5px;
   transition: 0.3s;
 }
 .tab:hover{

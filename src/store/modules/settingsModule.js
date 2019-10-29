@@ -31,9 +31,9 @@ const actions = {
 	},
 	updateNotification(context, data) {
 		let notificationSettings = JSON.parse(localStorage.getItem('notificationSettings')) || {};
-		Object.assign(notificationSettings, data); 
-		localStorage.setItem("notificationSettings", JSON.stringify(notificationSettings));
-		context.commit('updateNotification', notificationSettings)
+		const assigned = Object.assign({}, notificationSettings, data); 
+		localStorage.setItem("notificationSettings", JSON.stringify(assigned));
+		context.commit('updateNotification', assigned)
 	},	
 	addRecentEmoji(context, shortcode) {
 		const recentEmojis = JSON.parse(localStorage.getItem('recentEmojis')) || [];

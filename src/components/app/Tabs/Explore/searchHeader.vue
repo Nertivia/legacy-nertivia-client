@@ -5,7 +5,7 @@
         <div class="title">Filter:</div>
         <div class="filter-item">
           <div
-            class="item halloween"
+            class="item"
             v-for="(filter, index) in filters"
             :class="{selected: filterSelected === index}"
             :key="filter.name"
@@ -17,7 +17,7 @@
         <div class="title">Sort By:</div>
         <div class="filter-item">
           <div
-            class="item halloween"
+            class="item"
             v-for="(sortBy, index) in sortBys"
             :class="{selected: sortSelected === index}"
             :key="sortBy.name"
@@ -26,7 +26,7 @@
         </div>
       </div>
     </div>
-    <div class="search-area">
+    <div class="search-area" v-if="false">
       <input type="text" :placeholder="`Search for ${name}`" />
     </div>
   </div>
@@ -135,9 +135,6 @@ input {
     &:hover {
       opacity: 0.8;
     }
-  }
-  .item.halloween.selected {
-    color: orange;
   }
 }
 

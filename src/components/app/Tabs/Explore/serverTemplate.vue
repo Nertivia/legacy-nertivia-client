@@ -1,6 +1,7 @@
 <template>
   <div class="item">
     <div class="top">
+      <div class="background-dark"></div>
       <profile-picture
         size="90px"
         :url="`${avatarDomain}/${server.server.avatar}`"
@@ -8,7 +9,7 @@
       <div class="name">
         <div class="name-container">
           <span class="inner-name">{{server.server.name}}</span> 
-          <span class="material-icons halloween-icons"  v-if="server.verified">check</span>
+          <span class="material-icons"  v-if="server.verified">check</span>
        </div>
       </div>
     </div>
@@ -16,7 +17,7 @@
       <div class="description">{{server.description}}</div>
       <div class="buttons">
         <div class="member-count"><div class="material-icons">account_box</div>{{server.total_members}}</div>
-        <div class="button halloween-button" :class="{selected: joined}" @click="joinButton">
+        <div class="button" :class="{selected: joined}" @click="joinButton">
           <span v-if="joined">Joined</span>
           <spinner v-else-if="joinClicked" :size="30"/>
           <span v-else-if="!joinClicked">Join Server</span>
@@ -70,6 +71,7 @@ export default {
 
 <style lang="scss" scoped>
     .item {
+      position: relative;
       width: 250px;
       height: 300px;
       background: rgba(0, 0, 0, 0.479);
@@ -94,6 +96,18 @@ export default {
         align-content: center;
         align-items: center;
         flex-shrink: 0;
+        position: relative;
+        .background-dark {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          background: rgba(0, 0, 0, 0.6);
+        }
+        background-image: url('../../../../assets/background.jpg');
+        background-position: center;
+        background-size: cover;
         .avatar {
           background: rgb(26, 133, 255);
           height: 80px;
@@ -110,6 +124,7 @@ export default {
           width: 100%;
           text-align: center;
           display: flex;
+          z-index: 999;
           .name-container {
             display: flex;
             margin: auto;
@@ -123,18 +138,16 @@ export default {
             color: #66e0ff;
             margin-left: 5px;
           }
-          .halloween-icons {
-            color: orange;
-          }
         }
       }
       .bottom {
         display: flex;
         flex-direction: column;
-        background: rgba(0, 0, 0, 0.194);
+        background: rgba(0, 0, 0, 0.541);
         flex: 1;
         height: 100%;
         flex-shrink: 0;
+        
         .description {
           margin: 10px;
           flex: 1;
@@ -146,6 +159,7 @@ export default {
           overflow-wrap: anywhere;
           flex-shrink: 0;
         }
+
         .buttons {
           display: flex;
           width: 100%;
@@ -187,15 +201,7 @@ export default {
 						background: grey;
 					}
         }
-        .halloween-button {
-          background: rgba(255, 166, 0, 0.8);
-          &:hover {
-            background: rgb(255, 166, 0);
-          }
-          &.selected {
-						background: grey;
-					}
-        }
       }
     }
+
 </style>

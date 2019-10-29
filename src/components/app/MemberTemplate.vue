@@ -71,18 +71,18 @@ export default {
 .member {
   display: flex;
   padding: 3px;
-  margin: 3px 5px;
   align-items: center;
   align-content: center;
-  border-radius: 5px;
   transition: 0.3s;
   cursor: pointer;
   user-select: none;
   overflow: hidden;
 }
+
 .member:hover {
   background: rgba(0, 0, 0, 0.301);
 }
+
 .information {
   margin-left: 5px;
   overflow: hidden;

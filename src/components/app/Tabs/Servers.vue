@@ -103,21 +103,21 @@ export default {
 @media (max-width: 949px) {
   .members-panel {
     position: absolute;
-    background-color: rgba(39, 39, 39, 0.97);
     right: 0;
     bottom: 0;
     height: calc(100% - 50px);
     z-index: 1;
+    backdrop-filter: blur(15px);
   }
 }
 
 @media (max-width: 600px) {
   .left-panel {
     position: absolute;
-    background-color: rgba(39, 39, 39, 0.97);
     bottom: 0;
     height: calc(100% - 50px);
     z-index: 2;
+    backdrop-filter: blur(15px);
   }
 }
 </style>

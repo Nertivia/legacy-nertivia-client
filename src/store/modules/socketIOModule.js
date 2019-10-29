@@ -270,13 +270,18 @@ const actions = {
     if (!server.socketID) return;
     if (this._vm.$socket.id !== server.socketID) return;
     const defaultChannel = channels.find(c => c.channelID === server.default_channel_id)
-    bus.$emit('changeTab', 2)
+    context.dispatch('setCurrentTab',  2, {root: true})
     context.dispatch('servers/setSelectedServerID', server.server_id, {root: true})
     context.dispatch('openChannel', defaultChannel, {root: true})
 
 
   },
   ['socket_server:leave'](context, {server_id}) {
+    const lastSelectedChannel = JSON.parse(localStorage.getItem('selectedChannels') || '{}')
+    if (lastSelectedChannel[server_id]) {
+      delete lastSelectedChannel[server_id];
+      localStorage.setItem('selectedChannels', JSON.stringify(lastSelectedChannel));
+    }
     // check if server channel selected
     const serverChannelIDs = context.rootState.servers.channelsIDs[server_id];
 

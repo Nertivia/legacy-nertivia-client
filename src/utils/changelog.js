@@ -15,12 +15,24 @@
 const config = [
 
   {
+    version: 7.8,
+    title: "Redesigns!",
+    shortTitle: "",
+    date: "25/10/2019",
+    headColor: "rgba(25, 130, 255, 0.77)",
+    new: [
+      'Layout has been redesigned.',
+      'Added an option to mute notification sounds.',
+      'Last clicked channels should be remembered for each server.',
+      'You can now delete Join, Left and Ban messages from the chat.',
+    ],
+    next: ['Custom server banners.'],
+  },
+  {
     version: 7.6,
     title: "👻Spooky bug fixes👻",
     shortTitle: "",
     date: "16/10/2019",
-    headColor: "rgb(255, 166, 0)", // halloween
-    //headColor: "rgba(25, 130, 255, 0.77)",
     new: [
       'Better handled Google Drive linking.',
       '👻👻👻',

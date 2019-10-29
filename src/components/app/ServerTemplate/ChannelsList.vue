@@ -65,6 +65,11 @@ export default {
   },
   methods: {
     openChannel(channel) {
+      // add to local storage
+      const selectedChannels = JSON.parse(localStorage.getItem('selectedChannels') || '{}')
+      selectedChannels[this.serverID] = channel.channelID;
+      localStorage.setItem('selectedChannels', JSON.stringify(selectedChannels));
+
       const notificationExists = this.$store.getters.notifications.find(n => n.channelID === channel.channelID)
 
       if (notificationExists && document.hasFocus()) {
@@ -79,10 +84,20 @@ export default {
 </script>
 
 <style scoped>
-.channel-list {
-  background: rgba(0, 0, 0, 0.288);
+.channels-list {
+  height: 100%;
+  width: 100%;
   display: flex;
+  flex: 1;
+  overflow: hidden;
+  overflow-y: auto;
   flex-direction: column;
+}
+
+/* ------- SCROLL BAR -------*/
+/* width */
+.channels-list::-webkit-scrollbar {
+  width: 3px;
 }
 </style>
 
