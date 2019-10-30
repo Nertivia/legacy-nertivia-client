@@ -19,6 +19,7 @@
           :key="key"
           :channel-i-d="friend.channelID"
           :recipient="friends[key].recipient"
+          :tree="true"
         />
       </div>
     </transition>

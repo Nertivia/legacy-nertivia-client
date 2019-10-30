@@ -2,7 +2,7 @@
   <div
     class="friend"
     :style="{background: status.status !== 0 ? status.bgColor : ''}"
-    :class="{selected: uniqueIDSelected, notifyAnimation: (notifications && notifications > 0) }"
+    :class="{selected: uniqueIDSelected, notifyAnimation: (notifications && notifications > 0), tree }"
     @click="openChat"
     @mouseover="hover = true"
     @mouseleave="hover = false"
@@ -47,7 +47,8 @@ import statuses from '@/utils/statuses';
 import {bus} from '@/main'
 
 export default {
-  props: ['username', 'tag',  'channelID',  'uniqueID', 'recipient'],
+  // tree will add padding to the left.
+  props: ['username', 'tag',  'channelID',  'uniqueID', 'recipient', 'tree'],
   data() {
     return {
       hover: false
@@ -120,15 +121,15 @@ export default {
 .friend {
   color: white;
   padding: 5px;
-  padding-left: 10px;
-  padding-left: 10px;
   display: flex;
   transition: 0.3s;
   position: relative;
   overflow: hidden;
   cursor: pointer;
 }
-
+.tree {
+  padding-left: 22px;
+}
 .notifyAnimation{
 
   animation: notifyAnime;
