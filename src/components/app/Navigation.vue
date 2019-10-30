@@ -33,6 +33,12 @@
             @click="switchTab(3)"
             @mouseenter="localToolTipEvent('Changelog', $event)"
           >list_alt</div>
+          <div
+            v-if="!user.survey_completed"
+            class="item material-icons"
+            @click="openSurvey"
+            @mouseenter="localToolTipEvent('Click Me', $event)"
+          >error</div>
         </div>
         <div class="seperater" />
         <div class="server-items" v-if="currentTab === 2">
@@ -174,9 +180,18 @@ export default {
         show: true,
         type: "ADD_FRIEND",
       })
+    },
+    openSurvey() {
+      this.$store.dispatch("setPopoutVisibility", {
+        name: "surveyPopout",
+        visibility: true
+      });
     }
   },
   computed: {
+    user() {
+      return this.$store.getters.user;
+    },
     currentTab() {
       return this.$store.getters.currentTab;
     },
@@ -249,7 +264,7 @@ export default {
   flex-shrink: 0;
   height: 100%;
   width: 60px;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
 .container {

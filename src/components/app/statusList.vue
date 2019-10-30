@@ -1,4 +1,5 @@
 <template>
+  <transition name="show-status-list" appear="true">
   <div class="status-popout">
     <div
       class="status-list"
@@ -46,6 +47,7 @@
       ></span><span class="text">Offline</span>
     </div>
   </div>
+  </transition>
 </template>
 
 <script>
@@ -65,10 +67,20 @@ export default {
 
 <style scoped>
 
+.show-status-list-enter-active,
+.show-status-list-leave-active {
+  transition: 0.2s;
+}
+.show-status-list-enter,
+.show-status-list-leave-to {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
 .status-popout{
   position: absolute;
-  bottom: 55px;
-  left: 30px;
+  bottom: 60px;
+  right: 0px;
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(5px);
   width: 180px;
@@ -76,11 +88,12 @@ export default {
 }
 .status-list {
   padding: 10px;
-  transition: 0.3s;
+  transition: 0.2s;
   display: flex;
   align-items: center;
   align-content: center;
   flex-shrink: 0;
+  color: white;
 
 }
 

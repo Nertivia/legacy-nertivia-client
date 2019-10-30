@@ -1,54 +1,32 @@
 <template>
-  <div
-    class="my-mini-information"
-
-    @mouseover="hover = true" @mouseleave="hover = false"
-    
-  >
-    <div class="profile-pic-outer">
-      <profile-picture
-        :url="`${avatar}${hover ? '' : '?type=png'}`"
-        :admin="user.admin"
-        size="35px"
-        :hover="true"
-        @click.native="openUserInformation"
+  <div class="my-mini-information">
+    <ProfilePicture
+      class="avatar"
+      :url="`${avatar}${hover ? '' : '?type=png'}`"
+      :admin="user.admin"
+      size="40px"
+      :hover="true"
+      @click.native="openUserInformation" 
+    />
+    <div class="information">
+      <div class="username">{{user.username}}</div>
+      <div class="tag">@{{user.tag}}</div>
+    </div>
+    <div 
+      class="status-button"
+      @click="status.isPoppedOut = !status.isPoppedOut"
+    >
+      <statusList
+        v-if="status.isPoppedOut"
+        v-click-outside="closeMenus"
+        class="status-popout"
+      />
+      <img
+        class="status"
+        :src="getStatus"
       />
     </div>
-    <div class="information">
-      <div class="name">
-        {{ user.username }}
-      </div>
-      <div class="tag">
-        @{{ user.tag }}
-      </div>
 
-      <div
-        class="status"
-        @click="status.isPoppedOut = !status.isPoppedOut"
-      >
-        <img
-          class="current-status"
-          :src="getStatus"
-        >
-        <i class="material-icons expand-status-icon">expand_less</i>
-        <transition name="show-status-list">
-          <statusList
-            v-if="status.isPoppedOut"
-            v-click-outside="closeMenus"
-            class="status-popout"
-          />
-        </transition>
-      </div>
-    </div>
-    <div
-      v-if="!user.survey_completed || user.survey_completed === false"
-      class="setting-icon survay-button"
-      @click="openSurvey"
-    >
-      <div class="survay-inner">
-        <i class="material-icons">error</i>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -101,7 +79,7 @@ export default {
       this.$store.dispatch('setUserInformationPopout', this.user.uniqueID)
     },
     closeMenus(event) {
-      if (event.target.closest('.status')) return;
+      if (event.target.closest('.status-button')) return;
       this.status.isPoppedOut = false;
     },
     openSurvey() {
@@ -124,134 +102,62 @@ export default {
 
 
 
-<style scoped>
-.profile-pic-outer{
-  z-index:9999;
-  display: flex;
-  margin-left: 10px;
-  margin-right: 10px;
-  cursor: pointer;
-}
-.survay-button {
-  padding: 10px;
-  height: 24px;
-  width: 24px;
-}
-.survay-inner {
-  display: inline-block;
-  box-shadow: 0px 0px 20px 3px cyan;
-  border-radius: 50%;
-}
-.survay-button .material-icons {
-  display: block;
-  margin-left: -3px !important;
-  margin-top: -3px !important;
-  height: 24px;
-  width: 24px;
-  font-size: 30px;
-  color: cyan;
-  cursor: pointer;
-}
-
-.show-status-list-enter-active,
-.show-status-list-leave-active {
-  transition: 0.2s;
-}
-.show-status-list-enter,
-.show-status-list-leave-to {
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.2s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-}
+<style scoped lang="scss">
 
 .my-mini-information {
-  position: relative;
-  background: rgba(0, 0, 0, 0.3);;
-  height: 50px;
   display: flex;
+  position: relative;
+  background: rgba(0, 0, 0, 0.5);
+  flex-shrink: 0;
   align-items: center;
+  height: 60px;
   transition: 0.3s;
+}
+
+.avatar {
+  margin-left: 10px;
   flex-shrink: 0;
 }
 
-
 .information {
+  display: flex;
+  flex-direction: column;
   color: white;
-  margin-top: -4px;
-  flex: 1;
-  width: 100%;
-  overflow: hidden;
-}
-
-.setting-icon {
-  color: white;
-  margin: auto;
-  margin-right: 15px;
-  padding: 5px;
-  border-radius: 50%;
-  user-select: none;
-  transition: 0.3s;
-  cursor: pointer;
-}
-.setting-icon:hover {
-  background: rgba(0, 0, 0, 0.294);
-}
-.setting-icon .material-icons {
-  display: block;
-  margin: auto;
-}
-.status {
-  display: inline-block;
-  padding-top: 1px;
-  padding-left: 5px;
-  margin-left: 10px;
-  margin-top: -10px;
-  transition: 0.3s;
-  user-select: none;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-.status:hover {
-  background: rgba(26, 25, 25, 0.349);
-}
-
-.expand-status-icon {
-  opacity: 0;
-  transition: 0.3s;
-}
-
-.status:hover .expand-status-icon {
-  opacity: 1;
-}
-
-.status .current-status {
-  width: 20px;
-  height: 20px;
-  background-size: 100%;
-  background-position: center;
-}
-
-.name {
-  margin-top: 10px;
-  text-overflow: ellipsis;
-  width: 100%;
   font-size: 14px;
+  margin-left: 5px;
   overflow: hidden;
+  flex: 1;
+  .username, .tag {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .tag {
+    font-size: 13px;
+    color: rgb(187, 187, 187);
+  }
 }
 
-.tag {
-  color: rgb(199, 199, 199);
-  font-size: 11px;
-  display: inline-block;
-  vertical-align: top;
-  margin-top: 1px;
+
+.status-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  width: 60px;
+  transition: 0.2s;
+  margin-left: 3px;
+  user-select: none;
+  cursor: pointer;
+  .status {
+    height: 25px;
+    width: 25px;
+    flex-shrink: 0;
+  }
+  &:hover {
+    background: rgba(44, 44, 44, 0.596);
+  }
 }
+
+
 </style>
