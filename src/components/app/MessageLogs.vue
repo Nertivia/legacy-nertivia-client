@@ -294,7 +294,7 @@ export default {
 .message-logs {
   overflow: auto;
   flex: 1;
-  margin-right: 2px;
+  margin-right: 1px;
   position: relative;
 }
 

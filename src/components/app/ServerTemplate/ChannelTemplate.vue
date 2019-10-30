@@ -65,10 +65,10 @@ export default {
   padding-left: 10px;
 }
 .channel:hover {
-  background: rgba(0, 0, 0, 0.192);
+  background: rgba(255, 255, 255, 0.07);
 }
 .channel.selected {
-  background: rgba(0, 0, 0, 0.288);
+  background: rgba(255, 255, 255, 0.13);
 }
 
 

@@ -80,7 +80,7 @@ export default {
 }
 
 .member:hover {
-  background: rgba(0, 0, 0, 0.301);
+  background: rgba(255, 255, 255, 0.07);
 }
 
 .information {

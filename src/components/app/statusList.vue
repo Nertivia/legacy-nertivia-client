@@ -1,5 +1,5 @@
 <template>
-  <transition name="show-status-list" appear="true">
+  <transition name="show-status-list" :appear="true">
   <div class="status-popout">
     <div
       class="status-list"

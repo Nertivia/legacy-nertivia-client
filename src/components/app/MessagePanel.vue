@@ -486,7 +486,7 @@ export default {
         () => {
           this.$delete(this.typingRecipients[channel_id], user.unique_id);
         },
-        2500
+        3500
       );
     };
 
@@ -664,18 +664,17 @@ export default {
 
 .attachment-button {
   width: 50px;
-  background: rgba(0, 0, 0, 0.219);
+  background: rgba(255, 255, 255, 0.07);
   margin-right: 2px;
   margin-left: 10px;
   display: flex;
   flex-shrink: 0;
-  cursor: default;
+  cursor: pointer;
   user-select: none;
   transition: 0.3s;
-  border-radius: 5px;
 
   &:hover {
-    background: rgba(0, 0, 0, 0.322);
+    background: rgba(255, 255, 255, 0.13);
   }
   .material-icons {
     color: white;
@@ -709,7 +708,7 @@ export default {
 
 .chat-input {
   font-family: "Roboto", sans-serif;
-  background: rgba(0, 0, 0, 0.158);
+  background: rgba(255, 255, 255, 0.07);
   color: white;
   width: 100%;
   min-height: 20px;
@@ -724,21 +723,19 @@ export default {
   overflow: hidden;
   max-height: 30vh;
   overflow-y: auto;
-  border-radius: 5px;
-
   &:hover {
-    background: rgba(0, 0, 0, 0.288);
+    background: rgba(255, 255, 255, 0.10);
   }
 
   &:focus {
-    background: rgba(0, 0, 0, 0.466);
+    background: rgba(255, 255, 255, 0.13);
   }
 }
 
 .send-button {
   font-size: 20px;
   color: white;
-  background: rgba(0, 0, 0, 0.274);
+  background: rgba(255, 255, 255, 0.07);
   border: none;
   outline: none;
   margin-left: 2px;
@@ -748,14 +745,13 @@ export default {
   transition: 0.3s;
   display: flex;
   flex-shrink: 0;
-  border-radius: 5px;
   user-select: none;
   cursor: pointer;
   .material-icons {
     margin: auto;
   }
   &:hover {
-    background: rgba(0, 0, 0, 0.514);
+    background: rgba(255, 255, 255, 0.13);
   }
 }
 
@@ -769,7 +765,7 @@ export default {
 .emojis-button {
   font-size: 20px;
   color: white;
-  background: rgba(0, 0, 0, 0.274);
+  background: rgba(255, 255, 255, 0.07);
   border: none;
   outline: none;
   margin-left: 2px;
@@ -779,13 +775,12 @@ export default {
   transition: 0.3s;
   display: flex;
   flex-shrink: 0;
-  border-radius: 5px;
   user-select: none;
   .material-icons {
     margin: auto;
   }
   &:hover {
-    background: rgba(0, 0, 0, 0.514);
+  background: rgba(255, 255, 255, 0.13);
   }
 }
 

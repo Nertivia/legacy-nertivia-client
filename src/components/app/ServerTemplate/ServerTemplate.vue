@@ -78,10 +78,10 @@ export default {
   transition: 0.2s;
   cursor: pointer;
   &:hover {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.07);
   }
   &.selected {
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(255, 255, 255, 0.13);
     opacity: 1;
   }
 }

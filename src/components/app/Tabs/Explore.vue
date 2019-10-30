@@ -23,7 +23,7 @@
               v-for="(tab, index) in tabs"
               :key="index"
               :class="{selected: selectedTab === index}"
-              @click="selectedTab = index"
+              @click="selectedTab = index; showLeftPanel = false;"
             >
               <i class="material-icons">{{tab.icon}}</i>
               {{tab.name}}
@@ -169,10 +169,10 @@ export default {
       cursor: pointer;
       transition: 0.3s;
       &:hover {
-        background: rgba(0, 0, 0, 0.2);
+        background: rgba(255, 255, 255, 0.07);
       }
       &.selected {
-        background: rgba(0, 0, 0, 0.4);
+        background: rgba(255, 255, 255, 0.13);
       }
     }
   }
