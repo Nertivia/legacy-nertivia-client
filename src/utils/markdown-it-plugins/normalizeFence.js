@@ -7,7 +7,7 @@ function fence(state, startLine, endLine, silent) {
   // if it's indented more than 3 spaces, it should be a code block
   // if (state.sCount[startLine] - state.blkIndent >= 4) { return false; }
 
-  if (pos + 6 > max) { return false; }
+  if (pos + 3 > max) { return false; }
 
   marker = state.src.charCodeAt(pos);
 
