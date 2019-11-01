@@ -23,7 +23,6 @@
 
 <script>
 import MyMiniInformation from "@/components/app/MyMiniInformation.vue";
-import Server from "@/components/app/ServerTemplate/ServerTemplate.vue";
 import ChannelsList from "@/components/app/ServerTemplate/ChannelsList.vue";
 import Navigation from "@/components/app/Navigation.vue";
 import { bus } from "@/main";
@@ -32,7 +31,6 @@ export default {
   components: {
     MyMiniInformation,
     ChannelsList,
-    Server,
     Navigation
   },
   data() {

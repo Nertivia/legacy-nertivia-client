@@ -72,6 +72,7 @@
 <script>
 import Recaptcha from "@/components/Recaptcha.vue";
 import HeaderLogin from "@/components/HeaderLoginTemplate.vue";
+import AuthenticationService from "@/services/AuthenticationService";
 
 const ElectronFrameButtons = () =>
   import("@/components/ElectronJS/FrameButtons.vue");
