@@ -3,13 +3,16 @@
     <navigation />
     <div class="content">
       <div class="tabs">
-        <div :class="{selector: true, right: currentTab === 1}" />
         <div
           class="tab"
-          :class="{notifyAnimation: friendRequestExists}"
+          :class="{notifyAnimation: friendRequestExists, selected: currentTab === 0}"
           @click="currentTab = 0"
         >Friends</div>
-        <div class="tab" :class="{notifyAnimation: DMNotification}" @click="currentTab = 1">Recents</div>
+        <div
+          class="tab"
+          :class="{notifyAnimation: DMNotification, selected: currentTab === 1 }"
+          @click="currentTab = 1"
+        >Recents</div>
       </div>
       <div v-if="currentTab === 0" class="list">
         <pending-friends />
@@ -19,6 +22,7 @@
       <div v-else class="list">
         <recent-friends />
       </div>
+      <div class="seperater" />
       <MyMiniInformation />
     </div>
   </div>
@@ -89,12 +93,15 @@ export default {
 <style scoped>
 .left-panel {
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
   width: 300px;
   flex-shrink: 0;
   display: flex;
   flex-direction: row;
   z-index: 1;
+  background-image: url("../../assets/leftPanelBackground.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 .content {
   display: flex;
@@ -102,8 +109,6 @@ export default {
   flex-shrink: 0;
   flex: 1;
   overflow: hidden;
-
-
 }
 .list {
   flex: 1;
@@ -128,29 +133,17 @@ export default {
   user-select: none;
   cursor: default;
   height: 50px;
-  background: rgba(0, 0, 0, 0.171);
-  margin-left: 1px;
-  margin-right: 1px;
-  transition: 0.3s;
+  transition: 0.2s;
   cursor: pointer;
 }
+
 .tab:hover {
-  background: rgba(255, 255, 255, 0.096);
-}
-.selector {
-  background: rgba(255, 255, 255, 0.322);
-  width: 118px;
-  height: 50px;
-  top: 0;
-  left: 1px;
-  position: absolute;
-  z-index: -1;
-  transition: 0.3s;
-}
-.right {
-  transform: translateX(120px);
+  background: #097279;
 }
 
+.tab.selected {
+  background: #075e64;
+}
 /* ------- SCROLL BAR -------*/
 /* width */
 .list::-webkit-scrollbar {
@@ -170,6 +163,14 @@ export default {
 /* Handle on hover */
 .list::-webkit-scrollbar-thumb:hover {
   background: #f5f5f59e;
+}
+
+.seperater {
+  height: 1px;
+  width: calc(100% - 10px);
+  align-self: center;
+  background-color: #a0c8d5;
+  flex-shrink: 0;
 }
 
 .notifyAnimation {

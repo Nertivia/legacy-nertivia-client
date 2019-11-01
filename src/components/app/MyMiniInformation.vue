@@ -6,27 +6,16 @@
       :admin="user.admin"
       size="40px"
       :hover="true"
-      @click.native="openUserInformation" 
+      @click.native="openUserInformation"
     />
     <div class="information">
       <div class="username">{{user.username}}</div>
       <div class="tag">@{{user.tag}}</div>
     </div>
-    <div 
-      class="status-button"
-      @click="status.isPoppedOut = !status.isPoppedOut"
-    >
-      <statusList
-        v-if="status.isPoppedOut"
-        v-click-outside="closeMenus"
-        class="status-popout"
-      />
-      <img
-        class="status"
-        :src="getStatus"
-      />
+    <div class="status-button" @click="status.isPoppedOut = !status.isPoppedOut">
+      <statusList v-if="status.isPoppedOut" v-click-outside="closeMenus" class="status-popout" />
+      <img class="status" :src="getStatus" />
     </div>
-
   </div>
 </template>
 
@@ -36,7 +25,7 @@ import config from "@/config.js";
 import statusList from "../../components/app/statusList.vue";
 import settingsService from "@/services/settingsService";
 import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
-import statuses from '@/utils/statuses';
+import statuses from "@/utils/statuses";
 
 export default {
   components: {
@@ -63,8 +52,8 @@ export default {
         0}.svg`);
     },
     getStatusColor() {
-      const status = this.$store.getters.user.status || 0
-      return statuses[parseInt(status)].bgColor
+      const status = this.$store.getters.user.status || 0;
+      return statuses[parseInt(status)].bgColor;
     }
   },
   created() {
@@ -76,10 +65,10 @@ export default {
   },
   methods: {
     openUserInformation() {
-      this.$store.dispatch('setUserInformationPopout', this.user.uniqueID)
+      this.$store.dispatch("setUserInformationPopout", this.user.uniqueID);
     },
     closeMenus(event) {
-      if (event.target.closest('.status-button')) return;
+      if (event.target.closest(".status-button")) return;
       this.status.isPoppedOut = false;
     },
     openSurvey() {
@@ -94,8 +83,7 @@ export default {
       if (ok && result.data.status == true) {
         this.$store.dispatch("changeStatus", result.data.set);
       }
-    },
-
+    }
   }
 };
 </script>
@@ -103,11 +91,9 @@ export default {
 
 
 <style scoped lang="scss">
-
 .my-mini-information {
   display: flex;
   position: relative;
-  background: rgba(0, 0, 0, 0.5);
   flex-shrink: 0;
   align-items: center;
   height: 60px;
@@ -127,26 +113,28 @@ export default {
   margin-left: 5px;
   overflow: hidden;
   flex: 1;
-  .username, .tag {
+  .username,
+  .tag {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
   .tag {
     font-size: 13px;
-    color: rgb(187, 187, 187);
+    color: #b2d1d9;
   }
 }
-
 
 .status-button {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 60px;
-  width: 60px;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
   transition: 0.2s;
   margin-left: 3px;
+  margin-right: 5px;
   user-select: none;
   cursor: pointer;
   .status {
@@ -155,9 +143,7 @@ export default {
     flex-shrink: 0;
   }
   &:hover {
-    background: rgba(44, 44, 44, 0.596);
+    background: rgba(0, 0, 0, 0.3);
   }
 }
-
-
 </style>

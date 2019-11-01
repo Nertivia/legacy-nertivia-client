@@ -7,7 +7,7 @@
         class="left-panel"
       />
     </transition>
-    <message-panel :type="0"/>
+    <message-panel :type="0" />
   </div>
 </template>
 
@@ -53,7 +53,7 @@ export default {
   height: 100%;
   width: 100%;
 }
-.left-panel{
+.left-panel {
   z-index: 2;
 }
 .slidein-enter-active,
@@ -62,7 +62,7 @@ export default {
 }
 .slidein-enter, .slidein-leave-to /* .fade-leave-active below version 2.1.8 */ {
   /* margin-left: -300px; */
-  transform: translateX(-300px)
+  transform: translateX(-300px);
 }
 @media (max-width: 600px) {
   .left-panel {
@@ -70,7 +70,6 @@ export default {
     bottom: 0;
     height: calc(100% - 50px);
     z-index: 2;
-    backdrop-filter: blur(15px);
   }
 }
 </style>

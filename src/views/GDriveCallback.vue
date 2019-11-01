@@ -1,11 +1,11 @@
 <template>
   <div id="app">
     <div class="app-content">
-      <header-login @isDay="isDayEvent" />
+      <header-login />
       <div class="content">
         <transition appear name="fade-up">
           <div class="box">
-            <div class="loading" v-if="showSpinner" >
+            <div class="loading" v-if="showSpinner">
               <spinner />
               <div class="text">Linking...</div>
             </div>
@@ -33,31 +33,25 @@ export default {
   components: { HeaderLogin, Spinner },
   data() {
     return {
-      isDay: true,
       showSpinner: true,
       error: false,
-      showSuccess: false,
+      showSuccess: false
     };
   },
   async mounted() {
     const url = new URL(location.href);
     const token = url.searchParams.get("state");
     const code = url.searchParams.get("code");
-    const {ok, error, result} = await settingsService.GDriveAuth(code, token);
+    const { ok, error, result } = await settingsService.GDriveAuth(code, token);
     if (!ok) {
       this.showSpinner = false;
       this.error = true;
     } else {
-      this.showSpinner = false
+      this.showSpinner = false;
       this.showSuccess = true;
     }
-
   },
-  methods: {
-    isDayEvent(data) {
-      this.isDay = data;
-    }
-  }
+  methods: {}
 };
 </script>
 
@@ -94,9 +88,9 @@ body {
 #app {
   display: flex;
   flex-direction: column;
-  transition: background 10s;
   color: white;
   height: 100%;
+  background: #173d42;
 }
 .app-content {
   display: flex;
@@ -107,23 +101,6 @@ body {
   overflow: auto;
   z-index: 9999;
   padding-bottom: 100px;
-}
-.background {
-  position: fixed;
-  height: 100%;
-  width: 100%;
-  transition: background 10s;
-}
-
-.night-background {
-  opacity: 0;
-  transition: 10s;
-  background: linear-gradient(to bottom, #000000 0%, #606060 100%) !important;
-}
-.day-background {
-  opacity: 1;
-  background: linear-gradient(to bottom, #165dc0 0%, #5482bf 100%);
-  z-index: -1;
 }
 
 .night-background.chosen {
@@ -143,17 +120,18 @@ body {
 .box {
   width: 100%;
   max-width: 400px;
-  background: rgba(75, 75, 75, 0.774);
   transition: 0.3s;
   margin: auto;
   margin-top: 20px;
-  border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   z-index: 9999;
   padding: 20px;
+  background-image: url("../assets/leftPanelBackground.jpg");
+  background-position: center;
+  background-size: cover;
 }
 
 .loading {

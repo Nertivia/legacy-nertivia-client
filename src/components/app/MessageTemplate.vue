@@ -18,10 +18,7 @@
       </div>
       <div class="content" @dblclick="contentDoubleClickEvent">
         <div class="user-info">
-          <div
-            class="username"
-            @click="openUserInformation"
-          >{{ this.$props.username }}</div>
+          <div class="username" @click="openUserInformation">{{ this.$props.username }}</div>
           <div class="date">{{ getDate }}</div>
         </div>
         <div class="content-message" v-html="formatMessage" />
@@ -135,7 +132,8 @@ export default {
         channelID: this.channelID,
         messageID: this.messageID,
         message: this.message,
-        uniqueID: this.uniqueID
+        uniqueID: this.uniqueID,
+        type: this.type
       });
     },
     openUserInformation() {
@@ -285,7 +283,7 @@ export default {
 }
 .presence-message {
   margin: 10px;
-  display: flex; 
+  display: flex;
   color: white;
   overflow: hidden;
 }
@@ -296,9 +294,8 @@ export default {
   color: white;
   overflow: hidden;
   border-radius: 5px;
-  background: rgba(0, 0, 0, 0.356);
+  background: #0a1a1c;
 }
-
 
 .presence-message .text {
   margin-left: 5px;
@@ -330,7 +327,6 @@ export default {
   border-right: none !important;
 }
 
-
 .ownMessageLeft .avatar {
   margin-right: 0px;
   margin-left: 5px;
@@ -352,14 +348,13 @@ export default {
   background: rgba(184, 184, 184, 0.219);
 }
 
-
 .ownMessage .date {
   color: rgb(209, 209, 209);
 }
 
 .file-content {
   display: flex;
-  background: rgba(0, 0, 0, 0.089);
+  background: #0a1a1c;
   padding: 10px;
   margin-top: 5px;
 }
@@ -410,11 +405,11 @@ export default {
   height: 0;
   border-top: 9px solid transparent;
   border-bottom: 0px solid transparent;
-  border-right: 8px solid rgba(0, 0, 0, 0.301);
+  border-right: 8px solid #0a1a1c;
 }
 
 .content {
-  background: rgba(0, 0, 0, 0.301);
+  background: #0a1a1c;
   padding: 10px;
   display: flex;
   justify-content: center;
@@ -433,7 +428,7 @@ export default {
   margin-top: 10px;
   padding: 5px;
   border-radius: 5px;
-  background: rgba(0, 0, 0, 0.493);
+  background: #1d2c2e;
   display: -ms-flexbox;
   display: flex;
   flex-direction: column;

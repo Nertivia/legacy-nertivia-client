@@ -65,7 +65,6 @@ export default {
   height: 100%;
   color: white;
   overflow: auto;
-  background: #0000005d;
   position: relative;
 }
 
@@ -91,7 +90,7 @@ export default {
 }
 .heading {
   padding: 10px;
-  background: rgba(0, 0, 0, 0.555);
+  background: #071415;
   margin-bottom: 10px;
 }
 .information {
@@ -102,7 +101,7 @@ export default {
   background: rgba(38, 139, 255, 0.87);
 }
 .change-log {
-  background: rgba(0, 0, 0, 0.561);
+  background: #0a1e20;
   overflow-y: auto;
   max-width: 700px;
   margin: auto;
@@ -113,7 +112,6 @@ export default {
   height: 100%;
   overflow: hidden;
   overflow: auto;
-
 }
 .plan-list {
   color: white;

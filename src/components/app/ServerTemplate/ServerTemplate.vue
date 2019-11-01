@@ -1,11 +1,21 @@
 <template>
-  <div class="server" :class="{selected: selectedServerID === serverData.server_id, notifyAnimation: notification }" @contextmenu.prevent="contextEvent" @mouseenter="hoverEvent" @mouseover="hover = true" @mouseleave="hover = false">
-    <profile-picture size="45px" :url="`${avatarDomain}/${serverData.avatar}${hover ? '' : '?type=png'}`" />
+  <div
+    class="server"
+    :class="{selected: selectedServerID === serverData.server_id, notifyAnimation: notification }"
+    @contextmenu.prevent="contextEvent"
+    @mouseenter="hoverEvent"
+    @mouseover="hover = true"
+    @mouseleave="hover = false"
+  >
+    <profile-picture
+      size="45px"
+      :url="`${avatarDomain}/${serverData.avatar}${hover ? '' : '?type=png'}`"
+    />
   </div>
 </template>
 
 <script>
-import {bus} from "../../../main.js"
+import { bus } from "../../../main.js";
 import config from "@/config.js";
 import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
 import ServerService from "@/services/ServerService";
@@ -43,26 +53,28 @@ export default {
   methods: {
     hoverEvent(event) {
       const rect = event.target.getBoundingClientRect();
-        //let centerX = targetNode.offsetLeft + targetNode.offsetWidth / 2;
-        //let centerY = targetNode.offsetTop + targetNode.offsetHeight / 2;
-      bus.$emit('server-tool-tip', {serverID: this.serverData.server_id, top: rect.top})
+      //let centerX = targetNode.offsetLeft + targetNode.offsetWidth / 2;
+      //let centerY = targetNode.offsetTop + targetNode.offsetHeight / 2;
+      bus.$emit("server-tool-tip", {
+        serverID: this.serverData.server_id,
+        top: rect.top
+      });
     },
     contextEvent(event) {
-      this.$store.dispatch('setAllPopout', {
+      this.$store.dispatch("setAllPopout", {
         show: true,
-        type: 'SERVER',
+        type: "SERVER",
         serverID: this.serverData.server_id,
         creatorUniqueID: this.serverData.creator.uniqueID,
         x: event.clientX,
         y: event.clientY
-      })
+      });
     }
-  },
+  }
 };
 </script>
 
 <style scoped lang="scss">
-
 .server {
   position: relative;
   z-index: 1;
@@ -78,11 +90,10 @@ export default {
   transition: 0.2s;
   cursor: pointer;
   &:hover {
-    background: rgba(255, 255, 255, 0.07);
+    background: #074447;
   }
   &.selected {
-    background: rgba(255, 255, 255, 0.13);
-    opacity: 1;
+    background: #042a2b;
   }
 }
 
@@ -122,5 +133,4 @@ export default {
     opacity: 0.2;
   }
 }
-
 </style>

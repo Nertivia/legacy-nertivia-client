@@ -1,7 +1,6 @@
 <template>
   <div
     class="friend"
-    :style="{background: status.status !== 0 ? status.bgColor : ''}"
     :class="{selected: uniqueIDSelected, notifyAnimation: (notifications && notifications > 0), tree }"
     @click="openChat"
     @mouseover="hover = true"
@@ -12,67 +11,57 @@
       :style="`border-color: ${status.statusColor}; background-image: url(${userAvatar}${hover ? '' : '?type=png'})`"
       @click="openUserInformation"
     >
-      <div
-        class="status"
-        :style="`background-image: url(${status.statusURL})`"
-      />
+      <div class="status" :style="`background-image: url(${status.statusURL})`" />
     </div>
     <div class="information">
-      <div class="username">
-        {{ recipient.username }}
-      </div>
-      <div
-        class="status-name"
-        :style="`color: ${status.statusColor}`"
-      >
-        {{ status.statusName }}
-      </div>
+      <div class="username">{{ recipient.username }}</div>
+      <div class="status-name">{{ status.statusName }}</div>
     </div>
-    <div
-      v-if="notifications && notifications >0"
-      class="notification"
-    >
-      <div class="notification-inner">
-        {{ notifications }}
-      </div>
+    <div v-if="notifications && notifications >0" class="notification">
+      <div class="notification-inner">{{ notifications }}</div>
     </div>
   </div>
 </template>
 
 <script>
-import channelService from '@/services/channelService';
-import messagesService from '@/services/messagesService';
-import config from '@/config.js'
-import statuses from '@/utils/statuses';
-import {bus} from '@/main'
+import channelService from "@/services/channelService";
+import messagesService from "@/services/messagesService";
+import config from "@/config.js";
+import statuses from "@/utils/statuses";
+import { bus } from "@/main";
 
 export default {
   // tree will add padding to the left.
-  props: ['username', 'tag',  'channelID',  'uniqueID', 'recipient', 'tree'],
+  props: ["username", "tag", "channelID", "uniqueID", "recipient", "tree"],
   data() {
     return {
       hover: false
-    }
+    };
   },
   computed: {
-    notifications () {
+    notifications() {
       const channelID = this.$props.channelID;
       const channels = this.$store.getters.channels;
       const notifications = this.$store.getters.notifications.find(function(e) {
         if (channels[e.channelID] && channels[e.channelID].server_id) return;
-        return e.channelID == channelID
-      })
-      if (!notifications || (this.$props.channelID === this.$store.getters.selectedChannelID && document.hasFocus())) return;
+        return e.channelID == channelID;
+      });
+      if (
+        !notifications ||
+        (this.$props.channelID === this.$store.getters.selectedChannelID &&
+          document.hasFocus())
+      )
+        return;
       return notifications.count;
     },
     userAvatar() {
-      return config.domain + "/avatars/" + this.recipient.avatar
+      return config.domain + "/avatars/" + this.recipient.avatar;
     },
     status() {
-      const presences = this.$store.getters['members/presences'];
+      const presences = this.$store.getters["members/presences"];
       let status = 0;
       if (presences[this.recipient.uniqueID]) {
-        status = presences[this.recipient.uniqueID] || 0
+        status = presences[this.recipient.uniqueID] || 0;
       }
 
       return {
@@ -81,40 +70,47 @@ export default {
         statusURL: statuses[parseInt(status)].url,
         statusColor: statuses[parseInt(status)].color,
         bgColor: statuses[parseInt(status)].bgColor
-      }
+      };
     },
     uniqueIDSelected() {
-      return this.$store.getters.selectedUserUniqueID === this.recipient.uniqueID
+      return (
+        this.$store.getters.selectedUserUniqueID === this.recipient.uniqueID
+      );
     }
   },
   methods: {
-
     async openChat(event) {
       if (event.target.closest(".profile-picture")) return;
-      bus.$emit('closeLeftMenu');
-      // dismiss notification if exists 
+      bus.$emit("closeLeftMenu");
+      // dismiss notification if exists
       // TODO move this into openchat or something :/
-      if (this.notifications && this.notifications >= 1 && document.hasFocus()) {
-        this.$socket.emit('notification:dismiss', {channelID: this.channelID});
+      if (
+        this.notifications &&
+        this.notifications >= 1 &&
+        document.hasFocus()
+      ) {
+        this.$socket.emit("notification:dismiss", {
+          channelID: this.channelID
+        });
       }
-      this.$store.dispatch('openChat', {
+      this.$store.dispatch("openChat", {
         uniqueID: this.recipient.uniqueID,
         channelID: this.channelID,
         channelName: this.recipient.username
-      })
+      });
     },
     openUserInformation() {
-      this.$store.dispatch('setUserInformationPopout', this.recipient.uniqueID)
+      this.$store.dispatch("setUserInformationPopout", this.recipient.uniqueID);
     }
   }
-}
+};
 </script>
 
 
 <style scoped>
-.username{
+.username {
   width: 150px;
-  white-space: nowrap; 
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -130,36 +126,34 @@ export default {
 .tree {
   padding-left: 22px;
 }
-.notifyAnimation{
-
+.notifyAnimation {
   animation: notifyAnime;
   animation-duration: 1s;
   animation-iteration-count: infinite;
-  animation-fill-mode: forwards
-
+  animation-fill-mode: forwards;
 }
 @keyframes notifyAnime {
-  0%{
+  0% {
     background: rgba(255, 0, 0, 0.198);
   }
-  40%{
+  40% {
     background: rgba(255, 0, 0, 0.411);
   }
-  60%{
+  60% {
     background: rgba(255, 0, 0, 0.411);
   }
-  100%{
+  100% {
     background: rgba(255, 0, 0, 0.198);
   }
 }
 
 .friend:hover {
-  background: rgba(255, 255, 255, 0.07);
+  background: #08616b;
 }
 .friend.selected {
-  background: rgba(255, 255, 255, 0.13);
+  background: #064c55;
 }
-.profile-picture{
+.profile-picture {
   height: 30px;
   width: 30px;
   background-color: rgba(0, 0, 0, 0.425);
@@ -175,14 +169,14 @@ export default {
   transition: 0.3s;
   flex-shrink: 0;
 }
-.information{
+.information {
   margin: auto;
   margin-left: 5px;
   margin-right: 5px;
   flex: 1;
 }
 
-.notification{
+.notification {
   position: absolute;
   display: flex;
   background: rgba(134, 134, 134, 0.315);
@@ -193,7 +187,7 @@ export default {
   width: 50px;
   border-radius: 1px;
 }
-.notification-inner{ 
+.notification-inner {
   margin: auto;
 }
 
@@ -211,19 +205,20 @@ export default {
   transition: 0.3s;
 }
 
-.friend:hover .status { 
+.friend:hover .status {
   opacity: 1;
   bottom: -4px;
 }
 
-.status-name{
+.status-name {
   opacity: 0;
   font-size: 13px;
   transition: 0.3s;
+  color: #b7cbce;
   height: 0;
 }
-.friend:hover .status-name { 
-  opacity: 0.8;
+.friend:hover .status-name {
+  opacity: 1;
   height: 13px;
 }
 </style>

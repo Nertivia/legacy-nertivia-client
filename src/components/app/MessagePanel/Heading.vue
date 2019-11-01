@@ -61,7 +61,7 @@ export default {
 
 <style scoped>
 .heading {
-  background: rgba(0, 0, 0, 0.185);
+  background: #112c30;
   margin-bottom: 0;
   height: 50px;
   display: flex;

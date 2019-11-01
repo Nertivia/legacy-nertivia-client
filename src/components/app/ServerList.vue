@@ -4,14 +4,18 @@
     <div class="right">
       <div class="server-banner" v-if="selectedServerID">
         <div class="banner-image"></div>
-        <div class="sub-banner" >
-          <div class="text" :title="servers[selectedServerID].name">{{servers[selectedServerID].name}}</div>
+        <div class="sub-banner">
+          <div
+            class="text"
+            :title="servers[selectedServerID].name"
+          >{{servers[selectedServerID].name}}</div>
           <div class="options-button material-icons" @click="openServerContext">more_vert</div>
         </div>
       </div>
       <div class="channels-list">
         <channels-list v-if="selectedServerID" :server-i-d="selectedServerID" />
       </div>
+      <div class="seperater" />
       <MyMiniInformation />
     </div>
   </div>
@@ -48,25 +52,25 @@ export default {
       this.$store.dispatch("servers/setSelectedServerID", serverID);
     },
     openExploreTab() {
-      this.$store.dispatch('setCurrentTab',  0)
+      this.$store.dispatch("setCurrentTab", 0);
     },
     openServerContext(event) {
       const rect = event.target.getBoundingClientRect();
       if (this.checkServerContextOpened) {
-        this.$store.dispatch('setAllPopout', {
+        this.$store.dispatch("setAllPopout", {
           show: false,
           type: null
-        })
+        });
         return;
       }
-      this.$store.dispatch('setAllPopout', {
+      this.$store.dispatch("setAllPopout", {
         show: true,
-        type: 'SERVER',
+        type: "SERVER",
         serverID: this.servers[this.selectedServerID].server_id,
         creatorUniqueID: this.servers[this.selectedServerID].creator.uniqueID,
         x: rect.left - 30,
-        y: rect.top + 35,
-      })
+        y: rect.top + 35
+      });
     }
   },
   computed: {
@@ -95,31 +99,30 @@ export default {
 
 <style scoped lang="scss" >
 .left-panel {
-  background-color: rgba(0, 0, 0, 0.6);
   height: 100%;
   width: 300px;
   flex-shrink: 0;
   display: flex;
   flex-direction: row;
   z-index: 1;
+  background-image: url("../../assets/leftPanelBackground.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.seperater {
+  height: 1px;
+  width: calc(100% - 10px);
+  align-self: center;
+  background-color: #a0c8d5;
+  flex-shrink: 0;
 }
 
 .channels-list {
   display: flex;
   flex: 1;
   height: 100%;
-}
-
-
-.left {
-  display: flex;
-  align-content: center;
-  align-items: center;
-  flex-direction: column;
-  flex-shrink: 0;
-  background: rgba(29, 29, 29, 0.37);
-  width: 70px;
-  overflow-x: auto;
 }
 .right {
   display: flex;
@@ -150,7 +153,7 @@ export default {
 .sub-banner {
   display: flex;
   color: white;
-  background-color: rgba(0, 0, 0, 0.507);
+  background-color: rgba(0, 0, 0, 0.5);
   align-self: flex-end;
   height: 35px;
   width: 100%;
@@ -169,7 +172,7 @@ export default {
     width: 100%;
   }
 }
-.options-button  {
+.options-button {
   display: flex;
   align-items: center;
   align-content: center;
@@ -184,6 +187,5 @@ export default {
   &:hover {
     background: rgba(0, 0, 0, 0.322);
   }
-
 }
 </style>

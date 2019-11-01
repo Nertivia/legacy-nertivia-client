@@ -2,8 +2,7 @@
   <div id="app">
     <vue-headful title="Nertivia" description="Nertivia Chat Client" />
     <div ref="backgroundImage" class="background-image" />
-    <spinner v-if="!showPage" />
-    <div v-if="showPage" class="content">
+    <div class="content">
       <transition name="fall-down" appear>
         <div class="header">
           <div class="logo" />
@@ -38,7 +37,7 @@
           <div
             class="title"
           >The best chat client that won't restrict you from important and fun features.</div>
-          <img class="graphic" src="@/assets/graphics/HomeGraphics2.png" />
+          <img class="graphic" src="@/assets/graphics/HomeGraphics.png" />
           <div class="buttons">
             <div class="button" @click="openApp">Open In Browser</div>
             <div class="button download" @click="showDownloadsPopout = true">Download App</div>
@@ -65,7 +64,7 @@
     </div>
     <div class="popouts">
       <transition name="fade">
-        <download-app-popout v-if="showDownloadsPopout" @close="showDownloadsPopout = false"/>
+        <download-app-popout v-if="showDownloadsPopout" @close="showDownloadsPopout = false" />
       </transition>
     </div>
   </div>
@@ -85,7 +84,6 @@ export default {
     return {
       showDownloadsPopout: false,
       showProfilePopout: false,
-      showPage: false,
       loggedIn: localStorage.getItem("hauthid") || null,
       user: null,
       avatarDomain: config.domain + "/avatars/"
@@ -93,7 +91,6 @@ export default {
   },
   async mounted() {
     if (this.loggedIn) this.getUser();
-    this.preloadImages();
   },
   methods: {
     closeProfilePopout(event) {
@@ -111,34 +108,6 @@ export default {
     },
     openApp() {
       window.location.href = "/app";
-    },
-    async imagePreloader(srcArray) {
-      srcArray.forEach(async element => {
-        await wrapper(element);
-      });
-      function wrapper(src) {
-        return new Promise(resolve => {
-          const image = new Image();
-          image.src = src;
-          image.onload = () => resolve("done");
-        });
-      }
-    },
-    async preloadImages() {
-      await this.imagePreloader([
-        require("@/assets/logo.png"),
-        require("@/assets/graphics/HomeGraphics2.png")
-      ]);
-      const src = require("@/assets/background.jpg");
-      const background = new Image();
-      setTimeout(() => {
-        background.src = src;
-        background.onload = () => {
-          this.$refs.backgroundImage.style.backgroundImage = `url(${background.src})`;
-          this.$refs.backgroundImage.style.opacity = 0.7;
-          setTimeout(() => (this.showPage = true), 500);
-        };
-      }, 500);
     },
     async getUser() {
       const { ok, error, result } = await AuthenticationService.user();
@@ -163,9 +132,9 @@ export default {
 
 
 <style scoped>
-
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .2s;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
@@ -247,14 +216,15 @@ body {
   height: 100%;
 }
 .header {
-  background: rgba(0, 0, 0, 0.52);
   display: flex;
   height: 70px;
-  margin: 5px;
-  border-radius: 10px;
   flex-shrink: 0;
   border: 10px;
   position: relative;
+  background-image: url("../assets/leftPanelBackground.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 .logo {
   background-image: url("../assets/logo.png");
@@ -279,11 +249,8 @@ body {
   position: fixed;
   width: 100%;
   height: 100%;
-  background-repeat: no-repeat;
-  background-position: bottom;
-  background-size: cover;
-  opacity: 0;
   transition: 0.5s;
+  background-color: #173d42;
 }
 .content {
   position: fixed;
@@ -312,6 +279,7 @@ body {
   margin-bottom: 0;
   user-select: none;
   flex-shrink: 0;
+  border: solid 5px #0f272a;
 }
 .title {
   font-size: 25px;
@@ -329,36 +297,24 @@ body {
 .button {
   padding: 15px;
   background: rgba(24, 132, 255, 0.733);
-  border-radius: 5px;
   color: white;
-  box-shadow: 3px 3px rgb(5, 86, 179);
   user-select: none;
   transition: 0.3s;
   margin: 10px;
+  cursor: pointer;
 }
 
 .button:hover {
   background: rgb(24, 132, 255);
 }
-.button:active {
-  transform: translate(3px, 3px);
-  box-shadow: 0 0 rgb(5, 86, 179);
-}
 
 .button.download {
   background: rgba(0, 223, 67, 0.733);
-  box-shadow: 3px 3px rgb(0, 121, 36);
 }
-
 
 .button.download:hover {
-  background: rgba(0, 223, 67, 0.777);
+  background: rgba(0, 223, 67, 0.904);
 }
-.button.download:active {
-  transform: translate(3px, 3px);
-  box-shadow: 0 0 rgb(0, 121, 36);
-}
-
 
 .features-list {
   margin-top: 20px;
@@ -368,7 +324,7 @@ body {
   justify-content: center;
 }
 .feature {
-  background: rgba(0, 0, 0, 0.541);
+  background: #102a2e;
   color: white;
   margin: 10px;
   padding: 2px;
@@ -379,7 +335,6 @@ body {
   justify-content: center;
   height: 200px;
   width: 200px;
-  border-radius: 10px;
   flex-shrink: 0;
   transition: 0.3s;
 }
@@ -397,12 +352,12 @@ body {
   display: flex;
 }
 .link {
-  padding: 5px;
+  padding: 10px;
   background: rgba(0, 0, 0, 0.219);
-  border-radius: 5px;
   user-select: none;
   margin-left: 5px;
   transition: 0.3s;
+  cursor: pointer;
 }
 .link:hover {
   background: rgba(255, 255, 255, 0.26);

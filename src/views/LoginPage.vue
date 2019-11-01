@@ -2,107 +2,56 @@
   <div id="app">
     <electron-frame-buttons v-if="isElectron" />
     <div class="app-content">
-      <header-login @isDay="isDayEvent" />
+      <header-login />
       <div class="content">
-        <transition
-          appear
-          name="fade-up"
-        >
-          <div
-            v-if="visible"
-            class="box"
-          >
+        <transition appear name="fade-up">
+          <div v-if="visible" class="box">
             <div class="title">
               <i class="material-icons">account_circle</i>
               Login
             </div>
-            <div class="info">
-              Login to access Nertivia
-            </div>
-            <form
-              v-if="!showCaptcha"
-              action="#"
-              @submit.prevent="submitForm"
-            >
+            <div class="info">Login to access Nertivia</div>
+            <form v-if="!showCaptcha" action="#" @submit.prevent="submitForm">
               <div class="input">
                 <div class="input-text">
                   Email
-                  <span
-                    v-if="email.alert"
-                    class="error"
-                  >- {{ email.alert }}</span>
+                  <span v-if="email.alert" class="error">- {{ email.alert }}</span>
                 </div>
-                <input
-                  v-model="email.value"
-                  type="email"
-                  placeholder="Email"
-                >
+                <input v-model="email.value" type="email" placeholder="Email" />
               </div>
               <div class="input">
                 <div class="input-text">
                   Password
-                  <span
-                    v-if="password.alert"
-                    class="error"
-                  >- {{ password.alert }}</span>
+                  <span v-if="password.alert" class="error">- {{ password.alert }}</span>
                 </div>
                 <input
                   v-model="password.value"
                   type="password"
                   autocomplete="password"
                   placeholder="Password"
-                >
+                />
               </div>
 
-              <span
-                v-if="otherError"
-                class="error"
-                style="text-align: center;"
-              >{{ otherError }}</span>
+              <span v-if="otherError" class="error" style="text-align: center;">{{ otherError }}</span>
               <div class="buttons">
-                <button
-                  type="submit"
-                  :class="{button: true, deactive: deactive}"
-                >
-                  Login
-                </button>
-                <button
-                  class="button register-button"
-                  @click.prevent="registerButton"
-                >
-                  I'm new!
-                </button>
+                <button class="button register-button" @click.prevent="registerButton">I'm new!</button>
+                <button type="submit" :class="{button: true, deactive: deactive}">Login</button>
               </div>
             </form>
-            <div
-              v-if="showCaptcha"
-              class="captcha-box"
-            >
+            <div v-if="showCaptcha" class="captcha-box">
               <div class="input captcha-input">
                 <div class="input-text">
                   Beep Boop
-                  <span
-                    v-if="reCaptcha.alert"
-                    class="error"
-                  >- {{ reCaptcha.alert }}</span>
+                  <span v-if="reCaptcha.alert" class="error">- {{ reCaptcha.alert }}</span>
                 </div>
                 <div class="captcha">
-                  <Recaptcha
-                    ref="recaptcha"
-                    @verify="captchaSubmit"
-                  />
+                  <Recaptcha ref="recaptcha" @verify="captchaSubmit" />
                 </div>
               </div>
             </div>
           </div>
         </transition>
       </div>
-    </div>
-    <div class="background">
-      <div :class="{background: true, 'night-background': true, chosen: !isDay}">
-        <particlesJS class="particles" />
-      </div>
-      <div class="background day-background" />
     </div>
   </div>
 </template>
@@ -111,13 +60,12 @@
 import Recaptcha from "@/components/Recaptcha.vue";
 import HeaderLogin from "@/components/HeaderLoginTemplate.vue";
 import AuthenticationService from "@/services/AuthenticationService";
-import particlesJS from "@/components/ParticlesJS.vue";
 
 const ElectronFrameButtons = () =>
   import("@/components/ElectronJS/FrameButtons.vue");
 
 export default {
-  components: { HeaderLogin, Recaptcha, particlesJS, ElectronFrameButtons },
+  components: { HeaderLogin, Recaptcha, ElectronFrameButtons },
   data() {
     return {
       isElectron: window && window.process && window.process.type,
@@ -130,7 +78,6 @@ export default {
       otherError: "",
 
       captchaToken: "",
-      isDay: true,
       deactive: false
     };
   },
@@ -142,9 +89,7 @@ export default {
       this.reCaptcha.alert = "";
       this.otherError = "";
     },
-    isDayEvent(data) {
-      this.isDay = data;
-    },
+
     captchaSubmit(token) {
       this.captchaToken = token;
       this.login();
@@ -171,14 +116,14 @@ export default {
         this.visible = false;
         this.$store.dispatch("token", result.data.token);
         setTimeout(_ => {
-          const {to, id} = this.$route.query;
+          const { to, id } = this.$route.query;
           if (to) {
-            return window.location.href = `/${to}/${id}`
+            return (window.location.href = `/${to}/${id}`);
           }
           window.location.href = "/app";
         }, 1000);
       } else {
-        this.showCaptcha = false
+        this.showCaptcha = false;
         this.deactive = false;
         this.captchaToken = null;
         this.$refs.recaptcha.resetRecaptcha();
@@ -206,7 +151,8 @@ export default {
 </script>
 
 <style>
-html, body {
+html,
+body {
   height: 100%;
 }
 </style>
@@ -235,21 +181,12 @@ html, body {
   }
 }
 
-/* .fade-up-enter-active, .fade-up-leave-active {
-  transition: .5s;
-  transition-delay: 0.5s
-}
-.fade-up-enter, .fade-up-leave-to /* .fade-leave-active {
-  opacity: 0;
-  transform: translateX(20px)
-} */
-
 #app {
   display: flex;
   flex-direction: column;
-  transition: background 10s;
   color: white;
-    height: 100%;
+  height: 100%;
+  background: #173d42;
 }
 .app-content {
   display: flex;
@@ -259,50 +196,26 @@ html, body {
   overflow: auto;
   z-index: 9999;
 }
-.background {
-  position: fixed;
-  height: 100%;
-  width: 100%;
-  transition: background 10s;
-}
-
-.night-background {
-  opacity: 0;
-  transition: 10s;
-  background: linear-gradient(to bottom, #000000 0%,#606060 100%) !important;
-}
-.day-background {
-  opacity: 1;
-  background: linear-gradient(to bottom, #165dc0 0%,#5482bf 100%);  
-  z-index: -1
-}
-
-.night-background.chosen {
-  opacity: 1 !important;
-}
-
-.night-background .particles {
-  opacity: 1;
-}
 
 .content {
   display: flex;
   height: 100%;
   margin: 10px;
-  flex-shrink:0;
+  flex-shrink: 0;
 }
 .box {
   width: 100%;
   max-width: 400px;
-  background: rgba(44, 44, 44, 0.774);
   margin: auto;
   margin-top: 20px;
-  border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   z-index: 9999;
   padding-bottom: 20px;
+  background-image: url("../assets/leftPanelBackground.jpg");
+  background-position: center;
+  background-size: cover;
 }
 .box .title {
   text-align: center;
@@ -334,9 +247,8 @@ form {
   margin: 10px;
   width: 80%;
   align-self: center;
-  background: rgb(59, 59, 59);
+  background: #074d57;
   padding: 10px;
-  border-radius: 10px;
 }
 .input-text {
   margin-bottom: 5px;
@@ -345,10 +257,8 @@ form {
 input {
   outline: none;
   padding: 10px;
-  border: solid 1px rgba(0, 0, 0, 0);
-  background: none;
-  border-radius: 5px;
-  background: rgb(36, 36, 36);
+  border: none;
+  background: #03262b;
   color: white;
 }
 .buttons {
@@ -361,7 +271,6 @@ input {
 .button {
   padding: 10px;
   background: rgba(25, 151, 255, 0.699);
-  border-radius: 5px;
   margin: 10px;
   margin-top: 10px;
   user-select: none;
@@ -370,7 +279,7 @@ input {
   font-size: 17px;
   outline: none;
   transition: 0.2s;
-  box-shadow: 3px 3px rgba(23, 112, 255, 0.479);
+  cursor: pointer;
 }
 .button:hover {
   background: rgb(25, 151, 255);
@@ -378,15 +287,9 @@ input {
 .button:focus {
   background: rgb(25, 151, 255);
 }
-.button:active {
-  background: rgb(25, 151, 255);
-  transform: translate(3px, 3px);
-  box-shadow: 0px 0px rgba(0, 97, 207, 0.479);
-}
 
 .button.deactive {
   background: rgba(70, 70, 70, 0.699);
-  box-shadow: 3px 3px rgba(0, 0, 0, 0.479);
 }
 
 .button.deactive :hover {
@@ -395,26 +298,15 @@ input {
 .button.deactive :focus {
   background: rgba(70, 70, 70, 0.699);
 }
-.button.deactive:active {
-  background: rgba(70, 70, 70, 0.699);
-  transform: translate(3px, 3px);
-  box-shadow: 0px 0px rgba(0, 0, 0, 0.479);
-}
 
 .register-button {
   background: rgba(46, 204, 112, 0.67);
-  box-shadow: 3px 3px #0f7e3d;
 }
 .register-button.button:hover {
   background: #2ecc71;
 }
 .register-button.button:focus {
   background: #2ecc71;
-}
-.register-button.button:active {
-  background: #2ecc71;
-  transform: translate(3px, 3px);
-  box-shadow: 0px 0px #0f7e3d;
 }
 
 .captcha-input {

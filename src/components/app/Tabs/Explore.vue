@@ -72,7 +72,7 @@
 import { bus } from "@/main";
 import Servers from "./Explore/servers";
 import ServerService from "@/services/ServerService";
-import Navigation from '@/components/app/Navigation';
+import Navigation from "@/components/app/Navigation";
 export default {
   components: { Servers, Navigation },
   data() {
@@ -89,7 +89,7 @@ export default {
       nertiviaServerID: "6572915451527958528",
       nertiviaServerHide:
         localStorage.getItem("exploreTabNertiviaServerPromoHide") === "true",
-      donateHide: localStorage.getItem("exploreTabDonateHide") === "true",
+      donateHide: localStorage.getItem("exploreTabDonateHide") === "true"
     };
   },
 
@@ -142,10 +142,13 @@ export default {
 .left-panel {
   display: flex;
   flex-direction: row;
-  background: rgba(0, 0, 0, 0.6);
   width: 300px;
   flex-shrink: 0;
   z-index: 2;
+  background-image: url("../../../assets/leftPanelBackground.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
   .content {
     display: flex;
     flex-direction: column;
@@ -169,17 +172,17 @@ export default {
       cursor: pointer;
       transition: 0.3s;
       &:hover {
-        background: rgba(255, 255, 255, 0.07);
+        background: #08616b;
       }
       &.selected {
-        background: rgba(255, 255, 255, 0.13);
+        background: #064c55;
       }
     }
   }
   .header {
     display: flex;
     height: 100px;
-    background: rgba(0, 0, 0, 0.226);
+    background: #086974;
     user-select: none;
     flex-shrink: 0;
     .icon {
@@ -213,7 +216,7 @@ export default {
         position: relative;
       }
       .description {
-        opacity: 0.7;
+        color: #b2d1d4;
         font-size: 14px;
       }
     }
@@ -285,7 +288,6 @@ export default {
   flex-direction: column;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.39);
   color: white;
   .material-icons {
     font-size: 100px;
@@ -293,7 +295,6 @@ export default {
 }
 
 .right-panel {
-  background: rgba(0, 0, 0, 0.65);
   .header {
     background: rgba(0, 0, 0, 0.448);
     padding: 10px;
@@ -337,7 +338,6 @@ export default {
     position: absolute;
     bottom: 0;
     height: calc(100% - 44px);
-    backdrop-filter: blur(15px);
     z-index: 2;
   }
 }

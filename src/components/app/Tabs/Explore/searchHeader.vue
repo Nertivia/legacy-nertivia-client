@@ -54,23 +54,23 @@ export default {
     };
   },
   methods: {
-    param(){
+    param() {
       const filter = this.filters[this.filterSelected];
-      const sort = this.sortBys[this.sortSelected];      
+      const sort = this.sortBys[this.sortSelected];
       const query = {};
 
       !!filter.param && (query[filter.param] = filter.value);
       !!sort.param && (query[sort.param] = sort.value);
 
-      return '?' + qs.stringify(query);
+      return "?" + qs.stringify(query);
     }
-  }, 
-  watch:{ 
+  },
+  watch: {
     filterSelected() {
-      this.$emit('params', this.param())
+      this.$emit("params", this.param());
     },
     sortSelected() {
-      this.$emit('params', this.param())
+      this.$emit("params", this.param());
     }
   }
 };
@@ -79,7 +79,7 @@ export default {
 <style lang="scss" scoped>
 .search-header {
   display: flex;
-  background: rgba(0, 0, 0, 0.231);
+  background: #0a1d20;
   width: 100%;
   height: 70px;
   flex-shrink: 0;
@@ -138,7 +138,6 @@ input {
   }
 }
 
-
 @media (max-width: 945px) {
   .search-header {
     flex-direction: column;
@@ -153,13 +152,10 @@ input {
       overflow: hidden;
       border-radius: 0;
       margin-top: 1px;
-
     }
-
   }
-  .filter-area{
+  .filter-area {
     order: 2;
   }
 }
-
 </style>

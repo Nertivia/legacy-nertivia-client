@@ -1,36 +1,59 @@
 <template>
-
-    <div  ref="msg-logs" class="message-logs" @scroll.passive="scrollEvent" @resize="onResize">
-      <div class="load-more-button" v-if="loadMoreTop.show && selectedChannelMessages.length >= 50">
-        <spinner :size="30" v-if="loadMoreTop.loading" />
-        <div class="text" v-if="!loadMoreTop.loading" @click="loadMoreMessages">Load more</div>
-      </div>
-        <message
-          class="message-container"
-          v-for="(msg, index) in selectedChannelMessages"
-          :class="{'show-message-animation': index === selectedChannelMessages.length - 1}"
-          :key="msg.tempID || msg.messageID"
-          :date="msg.created"
-          :admin="msg.creator.admin"
-          :username="msg.creator.username"
-          :uniqueID="msg.creator.uniqueID"
-          :avatar="msg.creator.avatar"
-          :message="msg.message"
-          :embed="msg.embed"
-          :files="msg.files"
-          :status="msg.status"
-          :messageID="msg.messageID"
-          :channelID="msg.channelID"
-          :type="msg.type"
-          :timeEdited="msg.timeEdited"
-        />
-      <uploadsQueue v-if="uploadQueue !== undefined" :queue="uploadQueue"/>
-        <div class="load-more-button" v-if="loadMoreBottom.show && selectedChannelMessages.length >= 50">
-          <spinner :size="30" v-if="loadMoreBottom.loading" />
-        <div class="text" v-if="!loadMoreBottom.loading" @click="loadBottomMessages">Load more</div>
-      </div>
+  <div ref="msg-logs" class="message-logs" @scroll.passive="scrollEvent" @resize="onResize">
+    <div class="load-more-button" v-if="loadMoreTop.show && selectedChannelMessages.length >= 50">
+      <spinner :size="30" v-if="loadMoreTop.loading" />
+      <div class="text" v-if="!loadMoreTop.loading" @click="loadMoreMessages">Load more</div>
     </div>
-
+    <message
+      class="message-container"
+      v-for="(msg, index) in selectedChannelMessages"
+      :class="{'show-message-animation': index === selectedChannelMessages.length - 1}"
+      :key="msg.tempID || msg.messageID"
+      :date="msg.created"
+      :admin="msg.creator.admin"
+      :username="msg.creator.username"
+      :uniqueID="msg.creator.uniqueID"
+      :avatar="msg.creator.avatar"
+      :message="msg.message"
+      :embed="msg.embed"
+      :files="msg.files"
+      :status="msg.status"
+      :messageID="msg.messageID"
+      :channelID="msg.channelID"
+      :type="msg.type"
+      :timeEdited="msg.timeEdited"
+    />
+    <!-- <div class="typing-list">
+      <message-typing
+        class="message-container"
+        :username="user.username"
+        :uniqueID="user.uniqueID"
+        :avatar="user.avatar"
+        :channelID="'5865686142508030876'"
+      />
+      <message-typing
+        class="message-container"
+        :username="user.username"
+        :uniqueID="user.uniqueID"
+        :avatar="user.avatar"
+        :channelID="'5865686142508030876'"
+      />
+    </div>-->
+    <div class="typing-outer">
+      <typing-status
+        v-if="typingRecipients[selectedChannelID]"
+        :recipients="typingRecipients[selectedChannelID]"
+      />
+    </div>
+    <uploadsQueue v-if="uploadQueue !== undefined" :queue="uploadQueue" />
+    <div
+      class="load-more-button"
+      v-if="loadMoreBottom.show && selectedChannelMessages.length >= 50"
+    >
+      <spinner :size="30" v-if="loadMoreBottom.loading" />
+      <div class="text" v-if="!loadMoreBottom.loading" @click="loadBottomMessages">Load more</div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -40,15 +63,17 @@ import Message from "../../components/app/MessageTemplate.vue";
 import Spinner from "@/components/Spinner.vue";
 import uploadsQueue from "@/components/app/uploadsQueue.vue";
 import debounce from "lodash/debounce";
+import TypingStatus from "@/components/app/TypingStatus.vue";
 
-import windowProperties from '@/utils/windowProperties';
-
+import windowProperties from "@/utils/windowProperties";
 
 export default {
+  props: ["typingRecipients"],
   components: {
     Message,
     Spinner,
     uploadsQueue,
+    TypingStatus
   },
   data() {
     return {
@@ -61,36 +86,52 @@ export default {
       },
       loadMoreBottom: {
         show: false,
-        loading: false,
+        loading: false
       },
       selectedChannelID: null,
       currentScrollTopPos: null,
-      backToBottomLoading: false,
+      backToBottomLoading: false
     };
   },
   methods: {
     scrollEvent: debounce(function(event) {
-      const { target: { scrollTop, clientHeight, scrollHeight} } = event;
-      this.scrolledDown = Math.abs(scrollHeight - scrollTop - clientHeight) <= 3.0;
+      const {
+        target: { scrollTop, clientHeight, scrollHeight }
+      } = event;
+      this.scrolledDown =
+        Math.abs(scrollHeight - scrollTop - clientHeight) <= 3.0;
       this.scrolledTop = scrollTop === 0;
       this.currentScrollTopPos = scrollTop;
     }, 20),
     scrollDown(data) {
-      const element = this.$refs['msg-logs']
+      const element = this.$refs["msg-logs"];
       const force = data && data.force ? data.force : false;
       const pos = data && data.pos ? data.pos : undefined;
       if (!force && !this.scrolledDown) return;
       if (!element) return;
       element.scrollTop = pos || element.scrollHeight;
     },
-    unloadTopMessages(){
-      if (this.selectedChannelMessages && this.selectedChannelMessages.length >= 100)
-        this.$store.dispatch('unloadTopMessages', {channelID: this.selectedChannelID});
+    unloadTopMessages() {
+      if (
+        this.selectedChannelMessages &&
+        this.selectedChannelMessages.length >= 100
+      )
+        this.$store.dispatch("unloadTopMessages", {
+          channelID: this.selectedChannelID
+        });
     },
-    unloadBottomMessages(){
-      if (this.selectedChannelMessages && this.selectedChannelMessages.length >= 100){
-        this.$store.dispatch('setBottomUnloadStatus', {channelID: this.selectedChannelID, status: true})
-        this.$store.dispatch('unloadBottomMessages', {channelID: this.selectedChannelID});
+    unloadBottomMessages() {
+      if (
+        this.selectedChannelMessages &&
+        this.selectedChannelMessages.length >= 100
+      ) {
+        this.$store.dispatch("setBottomUnloadStatus", {
+          channelID: this.selectedChannelID,
+          status: true
+        });
+        this.$store.dispatch("unloadBottomMessages", {
+          channelID: this.selectedChannelID
+        });
       }
     },
     onResize(dimentions) {
@@ -98,152 +139,163 @@ export default {
     },
     async loadMoreMessages() {
       if (this.loadMoreTop.loading) return;
-      const msgLogs = this.$refs['msg-logs'];
+      const msgLogs = this.$refs["msg-logs"];
       const scrollTop = msgLogs.scrollTop;
       const scrollHeight = msgLogs.scrollHeight;
 
       const continueMessageID = this.selectedChannelMessages[0].messageID;
-      this.$set(this.loadMoreTop, 'loading', true);
-      const {ok, result, error} = await messagesService.get(this.selectedChannelID, continueMessageID)
+      this.$set(this.loadMoreTop, "loading", true);
+      const { ok, result, error } = await messagesService.get(
+        this.selectedChannelID,
+        continueMessageID
+      );
       if (ok) {
         if (!result.data.messages.length) {
-          this.$set(this.loadMoreTop, 'loading', false);
-          this.$set(this.loadMoreTop, 'show', false);
+          this.$set(this.loadMoreTop, "loading", false);
+          this.$set(this.loadMoreTop, "show", false);
           return;
         }
-        this.$store.dispatch('addMessages', result.data.messages)
+        this.$store.dispatch("addMessages", result.data.messages);
         this.$nextTick(_ => {
-          this.$set(this.loadMoreTop, 'loading', false);
+          this.$set(this.loadMoreTop, "loading", false);
           msgLogs.scrollTop = msgLogs.scrollHeight - scrollHeight;
-        })
+        });
       }
     },
     async loadBottomMessages() {
       if (this.loadMoreBottom.loading) return;
-      const msgLogs = this.$refs['msg-logs'];
+      const msgLogs = this.$refs["msg-logs"];
       const scrollTop = msgLogs.scrollTop;
       const scrollHeight = msgLogs.scrollHeight;
       const channelID = this.selectedChannelID;
 
-
-      const beforeMessageID = this.selectedChannelMessages[this.selectedChannelMessages.length - 1].messageID;
-      this.$set(this.loadMoreBottom, 'loading', true);
-      const {ok, result, error} = await messagesService.get(channelID, null, beforeMessageID)
+      const beforeMessageID = this.selectedChannelMessages[
+        this.selectedChannelMessages.length - 1
+      ].messageID;
+      this.$set(this.loadMoreBottom, "loading", true);
+      const { ok, result, error } = await messagesService.get(
+        channelID,
+        null,
+        beforeMessageID
+      );
       if (ok) {
         if (!result.data.messages.length) {
-          this.$store.dispatch('setBottomUnloadStatus', {channelID, status: false})
-          this.$set(this.loadMoreBottom, 'loading', false);
-          this.$set(this.loadMoreBottom, 'show', false);
+          this.$store.dispatch("setBottomUnloadStatus", {
+            channelID,
+            status: false
+          });
+          this.$set(this.loadMoreBottom, "loading", false);
+          this.$set(this.loadMoreBottom, "show", false);
           return;
         }
-        this.$store.dispatch('addMessagesBefore', result.data.messages)
+        this.$store.dispatch("addMessagesBefore", result.data.messages);
 
         this.$nextTick(_ => {
-
-          this.$set(this.loadMoreBottom, 'loading', false);
+          this.$set(this.loadMoreBottom, "loading", false);
           this.scrolledDown = false;
-          msgLogs.scrollTop = scrollTop
-          this.$set(this.loadMoreBottom, 'show', true);
-        })
+          msgLogs.scrollTop = scrollTop;
+          this.$set(this.loadMoreBottom, "show", true);
+        });
       }
     },
     scrolledUpEvent() {
       this.unloadBottomMessages();
-      const msgLogs = this.$refs['msg-logs'];
+      const msgLogs = this.$refs["msg-logs"];
       const scrollTop = msgLogs.scrollTop;
       const scrollHeight = msgLogs.scrollHeight;
 
-      this.$set(this.loadMoreBottom, 'show', true);
-      
+      this.$set(this.loadMoreBottom, "show", true);
+
       this.$nextTick(_ => {
         msgLogs.scrollTop = 0;
-        if (this.loadMoreTop.show)
-          this.loadMoreMessages();
-      })
+        if (this.loadMoreTop.show) this.loadMoreMessages();
+      });
     },
-    scrolledDownEvent(){
-      this.unloadTopMessages()
-        this.$set(this.loadMoreTop, 'show', true);
-      this.$nextTick(_ => {     
-        if (this.loadMoreBottom.show)
-          this.loadBottomMessages();
-      })
+    scrolledDownEvent() {
+      this.unloadTopMessages();
+      this.$set(this.loadMoreTop, "show", true);
+      this.$nextTick(_ => {
+        if (this.loadMoreBottom.show) this.loadBottomMessages();
+      });
     },
     async backToBottomEvent() {
       if (this.backToBottomLoading) return;
       const channelID = this.selectedChannelID;
       const bottomUnloaded = this.bottomUnloaded;
       if (!bottomUnloaded) {
-        this.scrollDown({force: true});
+        this.scrollDown({ force: true });
         this.unloadTopMessages();
         return;
       }
       this.backToBottomLoading = true;
-      const {ok, result, error} = await messagesService.get(this.selectedChannelID)
+      const { ok, result, error } = await messagesService.get(
+        this.selectedChannelID
+      );
       if (ok) {
-        this.$store.dispatch('messages', {messages: result.data.messages.reverse(), channelID});
-        this.$set(this.loadMoreBottom, 'show', false);
-        this.$store.dispatch('setBottomUnloadStatus', {channelID, status: false})
-        this.$nextTick(_ => {this.scrollDown({force: true});})
-
+        this.$store.dispatch("messages", {
+          messages: result.data.messages.reverse(),
+          channelID
+        });
+        this.$set(this.loadMoreBottom, "show", false);
+        this.$store.dispatch("setBottomUnloadStatus", {
+          channelID,
+          status: false
+        });
+        this.$nextTick(_ => {
+          this.scrollDown({ force: true });
+        });
       }
       this.backToBottomLoading = false;
-    },
-    
+    }
   },
-  
+
   mounted() {
-    
     this.selectedChannelID = this.$store.getters.selectedChannelID;
     const pos = this.$store.getters.scrollPosition[this.selectedChannelID];
-    bus.$on('backToBottom', this.backToBottomEvent)
-    bus.$on('scrollDown', this.scrollDown)
-    bus.$emit('scrolledDown',this.scrolledDown);
+    bus.$on("backToBottom", this.backToBottomEvent);
+    bus.$on("scrollDown", this.scrollDown);
+    bus.$emit("scrolledDown", this.scrolledDown);
 
     if (this.bottomUnloaded) {
-      this.$set(this.loadMoreBottom, 'show', true);
+      this.$set(this.loadMoreBottom, "show", true);
     }
-    this.$nextTick( _ => {
-      this.scrollDown({force: pos, pos: pos});
-    })
-    
-
+    this.$nextTick(_ => {
+      this.scrollDown({ force: pos, pos: pos });
+    });
   },
 
   beforeDestroy() {
     this.$store.dispatch("setEditMessage", null);
-    this.$store.dispatch('changeScrollPosition',{
+    this.$store.dispatch("changeScrollPosition", {
       channelID: this.selectedChannelID,
       pos: !this.scrolledDown ? this.currentScrollTopPos : null
     });
-    bus.$off('backToBottom', this.backToBottomEvent);
-    bus.$off('scrollDown', this.scrollDown)
+    bus.$off("backToBottom", this.backToBottomEvent);
+    bus.$off("scrollDown", this.scrollDown);
   },
- 
+
   watch: {
-    selectedChannelMessages(newMessages, oldMessages){
-      this.$set(this.loadMoreTop, 'show', true);
-      const msgLogs = this.$refs['msg-logs'];
-      this.$nextTick(function () {
+    selectedChannelMessages(newMessages, oldMessages) {
+      this.$set(this.loadMoreTop, "show", true);
+      const msgLogs = this.$refs["msg-logs"];
+      this.$nextTick(function() {
         this.scrollDown();
-      })
+      });
     },
     uploadQueue() {
-      this.$nextTick(function () {
-        this.scrollDown({force: true});
-      })
+      this.$nextTick(function() {
+        this.scrollDown({ force: true });
+      });
     },
     getWindowWidth(dimentions) {
       this.onResize();
     },
     scrolledTop(scrolledTop) {
-      if (scrolledTop)
-        this.scrolledUpEvent();
+      if (scrolledTop) this.scrolledUpEvent();
     },
     scrolledDown(scrolledDown) {
-      bus.$emit('scrolledDown',scrolledDown);
-      if (scrolledDown)
-        this.scrolledDownEvent();
+      bus.$emit("scrolledDown", scrolledDown);
+      if (scrolledDown) this.scrolledDownEvent();
     }
   },
   computed: {
@@ -277,24 +329,34 @@ export default {
       return editMessage;
     },
     getWindowWidth() {
-      return {width: windowProperties.resizeWidth, height: windowProperties.resizeHeight};
+      return {
+        width: windowProperties.resizeWidth,
+        height: windowProperties.resizeHeight
+      };
     },
     scrollPosition() {
       return this.$store.getters.scrollPosition;
     },
     bottomUnloaded() {
-      return this.$store.getters.bottomUnloaded[this.selectedChannelID] || false;
+      return (
+        this.$store.getters.bottomUnloaded[this.selectedChannelID] || false
+      );
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-
+.typing-outer {
+  display: flex;
+  flex: 1;
+  height: 20px;
+  margin-bottom: 5px;
+  margin-left: 10px;
+}
 .message-logs {
   overflow: auto;
   flex: 1;
-  margin-right: 1px;
   position: relative;
 }
 
@@ -317,7 +379,7 @@ export default {
 }
 .back-to-bottom-button {
   &:hover {
-    background: rgb(23, 124, 255);  
+    background: rgb(23, 124, 255);
     box-shadow: 0px 0px 15px 0px #0000008a;
   }
   transition: 0.2s;
@@ -344,7 +406,6 @@ export default {
     font-size: 35px;
   }
 }
-
 
 .show-message-animation {
   animation: showMessage 0.3s ease-in-out;

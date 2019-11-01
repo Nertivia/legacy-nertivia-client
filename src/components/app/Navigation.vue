@@ -176,10 +176,10 @@ export default {
       });
     },
     addFriend() {
-      this.$store.dispatch('setAllPopout', {
+      this.$store.dispatch("setAllPopout", {
         show: true,
-        type: "ADD_FRIEND",
-      })
+        type: "ADD_FRIEND"
+      });
     },
     openSurvey() {
       this.$store.dispatch("setPopoutVisibility", {
@@ -264,7 +264,7 @@ export default {
   flex-shrink: 0;
   height: 100%;
   width: 60px;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: #085053;
 }
 
 .container {
@@ -311,11 +311,10 @@ export default {
   opacity: 0.8;
   transition: 0.2s;
   &:hover {
-    background: rgba(255, 255, 255, 0.07);
+    background: #074447;
   }
   &.selected {
-    background: rgba(255, 255, 255, 0.13);
-    opacity: 1;
+    background: #042a2b;
   }
 }
 
