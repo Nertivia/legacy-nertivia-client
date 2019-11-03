@@ -11,7 +11,12 @@
               Register
             </div>
             <div class="info">Welcome, new user! I Hope you enjoy Nertivia!</div>
-            <form v-if="!showCaptcha" action="#" @submit.prevent="formSubmit">
+            <form
+              v-if="!showCaptcha"
+              action="#"
+              @submit.prevent="formSubmit"
+              @keydown.prevent="keyDownEvent"
+            >
               <div class="input">
                 <div class="input-text">
                   Email
@@ -108,6 +113,11 @@ export default {
     },
     formSubmit() {
       this.showCaptcha = true;
+    },
+    keyDownEvent(event) {
+      if (event.keyCode === 13) {
+        this.formSubmit();
+      }
     },
     async register() {
       this.resetValues();

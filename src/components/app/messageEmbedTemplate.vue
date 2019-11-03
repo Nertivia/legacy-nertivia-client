@@ -115,8 +115,7 @@ export default {
   text-overflow: ellipsis;
   overflow: hidden;
 }
-.embed.article {
-}
+
 .embed.website {
   height: 100px;
 }

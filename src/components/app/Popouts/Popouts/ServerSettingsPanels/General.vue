@@ -1,34 +1,52 @@
 <template>
   <div class="content">
-  <errors-list-template :errors="errors" v-if="errors" />
+    <errors-list-template :errors="errors" v-if="errors" />
     <div class="content-inner" :key="key">
       <div class="top">
-        <profile-picture
-          class="server-avatar"
-          size="100px"
-          :url="update.avatar || `${avatarDomain}/${server.avatar}`"
-        />
-        <div class="button" @click="$refs.avatarBrowser.click()">Edit Avatar</div>
-        <input
-          ref="avatarBrowser"
-          type="file"
-          accept=".jpeg, .jpg, .png, .gif"
-          class="hidden"
-          @change="avatarChangeEvent"
-        />
-        <div class="input">
-          <div class="input-title">Server Name</div>
+        <div class="avatar">
+          <profile-picture
+            class="server-avatar"
+            size="100px"
+            :url="update.avatar || `${avatarDomain}/${server.avatar}`"
+          />
+          <div class="button" @click="$refs.avatarBrowser.click()">Edit Avatar</div>
           <input
-            type="text"
-            ref="name"
-            placeholder="Channel Name"
-            :default-value.prop="server.name"
-            @input="inputEvent('name', $event)"
+            ref="avatarBrowser"
+            type="file"
+            accept=".jpeg, .jpg, .png, .gif"
+            class="hidden"
+            @change="imageChangeEvent('avatar', $event)"
+          />
+        </div>
+        <div class="banner">
+          <div
+            class="banner-image"
+            :style="{backgroundImage: `url(${update.banner || `${bannerDomain}${server.banner}` })`}"
+          >
+            <div class="banner-text"></div>
+          </div>
+          <div class="button" @click="$refs.bannerBrowser.click()">Edit Banner</div>
+          <input
+            ref="bannerBrowser"
+            type="file"
+            accept=".jpeg, .jpg, .png, .gif"
+            class="hidden"
+            @change="imageChangeEvent('banner', $event)"
           />
         </div>
       </div>
       <div class="details">
         <div class="options">
+          <div class="input">
+            <div class="input-title">Server Name</div>
+            <input
+              type="text"
+              ref="name"
+              placeholder="Channel Name"
+              :default-value.prop="server.name"
+              @input="inputEvent('name', $event)"
+            />
+          </div>
           <drop-down
             :items="channels"
             :selected-item="defaultChannel"
@@ -65,8 +83,9 @@ export default {
       changed: false,
       errors: null,
       avatarDomain: config.domain + "/avatars/",
+      bannerDomain: config.domain + "/media/",
       update: {},
-      key: 1,
+      key: 1
     };
   },
   methods: {
@@ -85,7 +104,7 @@ export default {
       );
       if (!ok) {
         if (error.response) {
-            if (error.response.data.message)
+          if (error.response.data.message)
             this.errors = [{ msg: error.response.data.message }];
           else this.errors = error.response.data.errors;
         } else {
@@ -98,7 +117,8 @@ export default {
       this.update = {};
       this.requestSent = false;
     },
-    avatarChangeEvent(e) {
+    //type: avatar || banner
+    imageChangeEvent(type, e) {
       if (!this.googleDriveLinked) {
         event.target.value = "";
         return this.$store.dispatch("setPopoutVisibility", {
@@ -127,7 +147,7 @@ export default {
       reader.readAsDataURL(file);
 
       reader.onload = function() {
-        _this.$set(_this.update, "avatar", reader.result);
+        _this.$set(_this.update, type, reader.result);
       };
       reader.onerror = function(error) {
         console.log("Error: ", error);
@@ -145,6 +165,9 @@ export default {
       }
       this.changed = true;
     }
+  },
+  mounted() {
+    console.log(this.server);
   },
   computed: {
     googleDriveLinked() {
@@ -178,7 +201,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .content-inner {
   height: 100%;
   overflow: auto;
@@ -194,11 +217,54 @@ export default {
 }
 .top {
   display: flex;
-  flex-direction: column;
-  width: 100%;
+  align-self: center;
+  margin-top: 10px;
   justify-content: center;
-  flex-shrink: 0;
+  background-color: #06454d;
+
+  .avatar {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    flex-shrink: 0;
+    .server-avatar {
+      height: 100%;
+      margin-top: 35px;
+    }
+    .button {
+      margin-bottom: 10px;
+    }
+  }
+  .banner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+    flex-shrink: 0;
+    margin-top: 10px;
+    padding: 5px;
+    margin-left: 2px;
+    .banner-image {
+      position: relative;
+      width: 240px;
+      height: 150px;
+      background: rgba(0, 0, 0, 0.4);
+      background-position: center;
+      background-size: cover;
+      .banner-text {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 35px;
+        backdrop-filter: blur(15px);
+        background: rgba(0, 0, 0, 0.5);
+      }
+    }
+  }
 }
+
 .details {
   display: flex;
   flex-direction: column;
@@ -220,8 +286,7 @@ export default {
 .input {
   display: flex;
   flex-direction: column;
-  background-color: rgb(44, 44, 44);
-  border-radius: 10px;
+  background-color: #06454d;
   padding: 10px;
   align-self: center;
   margin: 10px;
@@ -230,13 +295,12 @@ export default {
 .input input {
   margin-top: 2px;
   margin-bottom: 0;
-  border-radius: 5px;
   width: 190px;
+  background: #05353b;
 }
 .button {
-  background: rgba(17, 148, 255, 0.692);
+  background: #05353b;
   padding: 10px;
-  border-radius: 5px;
   align-self: center;
   margin: 5px;
   cursor: pointer;
@@ -244,17 +308,25 @@ export default {
   transition: 0.3s;
 }
 .button:hover {
-  background: rgb(17, 148, 255);
+  background: #0f292c;
 }
 .save-button {
-  margin-top: 50px;
+  margin-top: 10px;
 }
 .save-button.disabled {
-  background: rgba(59, 59, 59, 0.692);
+  background: rgba(0, 0, 0, 0.692);
 }
 
 .hidden {
   display: none;
+}
+@media (max-width: 390px) {
+  .top {
+    flex-direction: column;
+    .avatar {
+      height: initial;
+    }
+  }
 }
 </style>
 

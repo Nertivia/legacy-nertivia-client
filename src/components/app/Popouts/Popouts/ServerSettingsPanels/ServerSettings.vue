@@ -2,20 +2,30 @@
   <div class="dark-background" @mousedown="backgroundClick">
     <div class="inner">
       <div class="tabs">
-        <div class="tab" v-for="(tab, _index) in tabs" :key="_index" :class="{selected: index === _index, critical: tab.critical}" @click="index = _index"><div class="material-icons">{{tab.icon}}</div><div>{{tab.title}}</div></div>
+        <div
+          class="tab"
+          v-for="(tab, _index) in tabs"
+          :key="_index"
+          :class="{selected: index === _index, critical: tab.critical}"
+          @click="index = _index"
+        >
+          <div class="material-icons">{{tab.icon}}</div>
+          <div>{{tab.title}}</div>
+        </div>
       </div>
       <div class="content">
         <div class="header" :class="{critical: tabs[index].critical}">
-          <div class="material-icons">{{tabs[index].icon}}</div><div>{{tabs[index].title}}</div>
-            <div class="close-button" @click="closeMenu">
-              <div class="material-icons">close</div>
-            </div>  
+          <div class="material-icons">{{tabs[index].icon}}</div>
+          <div>{{tabs[index].title}}</div>
+          <div class="close-button" @click="closeMenu">
+            <div class="material-icons">close</div>
+          </div>
         </div>
-        <general v-if="index === 0"/>
-        <manage-channels v-if="index === 1"/>
-        <manage-bans v-if="index === 2"/>
-        <server-visibility v-if="index === 3"/>
-        <delete-server v-if="index === 4"/>
+        <general v-if="index === 0" />
+        <manage-channels v-if="index === 1" />
+        <manage-bans v-if="index === 2" />
+        <server-visibility v-if="index === 3" />
+        <delete-server v-if="index === 4" />
       </div>
     </div>
   </div>
@@ -28,25 +38,31 @@ import ServerService from "@/services/ServerService";
 import { mapState } from "vuex";
 
 // panels
-import General from './General.vue'
-import DeleteServer from './DeleteServer.vue'
-import ManageChannels from './ManageChannels.vue'
-import ManageBans from './ManageBans.vue'
-import ServerVisibility from './ServerVisibility.vue'
+import General from "./General.vue";
+import DeleteServer from "./DeleteServer.vue";
+import ManageChannels from "./ManageChannels.vue";
+import ManageBans from "./ManageBans.vue";
+import ServerVisibility from "./ServerVisibility.vue";
 export default {
-  components: { General, DeleteServer, ManageChannels, ServerVisibility, ManageBans},
+  components: {
+    General,
+    DeleteServer,
+    ManageChannels,
+    ServerVisibility,
+    ManageBans
+  },
   data() {
     return {
       index: 0,
       tabs: [
-         {title: "General", icon: "info"},
-        {title: "Manage Channels", icon: "storage"},
+        { title: "General", icon: "info" },
+        { title: "Manage Channels", icon: "storage" },
         // {title: "Manage Invites", icon: "local_post_office"},
-        {title: "Banned Members", icon: "lock"},
-        {title: "Server Visibility", icon: "visibility"},
-        {title: "Delete Server", icon: "warning", critical: true},
+        { title: "Banned Members", icon: "lock" },
+        { title: "Server Visibility", icon: "visibility" },
+        { title: "Delete Server", icon: "warning", critical: true }
       ]
-    }
+    };
   },
 
   methods: {
@@ -59,19 +75,19 @@ export default {
       if (e.target.classList.contains("dark-background")) {
         this.closeMenu();
       }
-    },
+    }
   },
   computed: {
     server() {
-      const serverID = this.$store.state.popoutsModule.serverSettings.serverID
-      return this.$store.getters['servers/servers'][serverID]
+      const serverID = this.$store.state.popoutsModule.serverSettings.serverID;
+      return this.$store.getters["servers/servers"][serverID];
     }
   }
 };
 </script>
 
 
-<style scoped>
+<style scoped lang="scss">
 .dark-background {
   position: absolute;
   top: 0;
@@ -85,16 +101,17 @@ export default {
 .inner {
   margin: auto;
   height: 100%;
-  max-height: 500px;
+  max-height: 550px;
   width: 700px;
-  background: rgba(32, 32, 32, 0.87);
   display: flex;
   color: white;
   overflow: hidden;
-  border-radius: 10px;
   position: relative;
+  background-image: url("../../../../../assets/leftPanelBackground.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
-
 
 .content {
   width: 100%;
@@ -106,14 +123,12 @@ export default {
 .tabs {
   display: flex;
   flex-direction: column;
-  background: rgba(26, 26, 26, 0.897);
+  background: #144a59;
   height: 100%;
   width: 180px;
   flex-shrink: 0;
 }
 .tab {
-  border-radius: 5px;
-  margin: 5px;
   padding: 5px;
   transition: 0.2s;
   cursor: pointer;
@@ -121,24 +136,29 @@ export default {
   display: flex;
   align-content: center;
   flex-shrink: 0;
+  font-size: 15px;
+  .material-icons {
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.8);
+  }
 }
 .tab .material-icons {
-  margin-right: 3px;
+  margin-right: 5px;
 }
 .tab div {
   align-self: center;
 }
 .tab:hover {
-  background: rgb(39, 39, 39);
+  background: #103a45;
 }
 .critical {
   color: red;
 }
 .tab.selected {
-  background: rgb(59, 59, 59);
+  background: #0c2c35;
 }
-.header{
-  background: rgb(47, 47, 47);
+.header {
+  background: #063e45;
   display: flex;
   height: 50px;
   flex-shrink: 0;
@@ -161,7 +181,6 @@ export default {
   position: absolute;
   top: 5px;
   right: 5px;
-
 }
 .close-button:hover {
   background: rgba(37, 37, 37, 0.692);
@@ -191,5 +210,4 @@ export default {
     height: 5px;
   }
 }
-
 </style>

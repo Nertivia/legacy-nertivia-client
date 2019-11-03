@@ -1,36 +1,69 @@
 <template>
   <div class="survey">
     <div class="inner-content">
-      <div class="title"><i class="material-icons">error</i>Take Survey</div>
+      <div class="title">
+        <i class="material-icons">error</i>Take Survey
+      </div>
       <div class="notice">Note: Everyone will be able to see your survey in your profile.</div>
-      <spinner v-if="!loaded"/>
+      <spinner v-if="!loaded" />
       <div class="survey-inner" v-if="loaded">
         <div class="survey-content">
           <div class="left">
             <!-- name -->
             <div class="input">
               <div class="input-title">Name</div>
-              <input type="text" placeholder="Name" v-model="items.name">
+              <input type="text" placeholder="Name" v-model="items.name" />
             </div>
             <!-- Gender -->
-            <drop-down class="dropdown" :items="surveyItems.gender" selectBy="name" :selectedItem="items.gender" :noneSelect="true" name="Gender" @change="changeEvent('gender', $event)"/>
+            <drop-down
+              class="dropdown"
+              :items="surveyItems.gender"
+              selectBy="name"
+              :selectedItem="items.gender"
+              :noneSelect="true"
+              name="Gender"
+              @change="changeEvent('gender', $event)"
+            />
             <!-- Age -->
-            <drop-down class="dropdown" :items="surveyItems.age" selectBy="name" :selectedItem="items.age" :noneSelect="true" name="Age" @change="changeEvent('age', $event)"/>
+            <drop-down
+              class="dropdown"
+              :items="surveyItems.age"
+              selectBy="name"
+              :selectedItem="items.age"
+              :noneSelect="true"
+              name="Age"
+              @change="changeEvent('age', $event)"
+            />
           </div>
           <div class="right">
             <!-- Continent -->
-            <drop-down class="dropdown" :items="surveyItems.continents" selectBy="name" :selectedItem="items.continent" :noneSelect="true" name="Continent" @change="changeEvent('continent', $event)"/>
+            <drop-down
+              class="dropdown"
+              :items="surveyItems.continents"
+              selectBy="name"
+              :selectedItem="items.continent"
+              :noneSelect="true"
+              name="Continent"
+              @change="changeEvent('continent', $event)"
+            />
             <!-- Countries -->
-            <drop-down class="dropdown" v-if="filterCountries" :items="filterCountries" selectBy="name" :selectedItem="items.country" :noneSelect="true" name="Country" @change="changeEvent('country', $event)"/>
-            <!-- About me --> 
+            <drop-down
+              class="dropdown"
+              v-if="filterCountries"
+              :items="filterCountries"
+              selectBy="name"
+              :selectedItem="items.country"
+              :noneSelect="true"
+              name="Country"
+              @change="changeEvent('country', $event)"
+            />
+            <!-- About me -->
             <div class="input">
               <div class="input-title">About me</div>
-              <textarea placeholder="I like cats and dogs." v-model="items.about_me"  />
-            </div>       
+              <textarea placeholder="I like cats and dogs." v-model="items.about_me" />
+            </div>
           </div>
         </div>
-
-
       </div>
     </div>
     <div class="survey-warning" v-if="surveyErrorMessage">{{ surveyErrorMessage }}</div>
@@ -40,10 +73,10 @@
 </template>
 
 <script>
-import DropDown from './../ServerSettingsPanels/DropDownMenu';
+import DropDown from "./../ServerSettingsPanels/DropDownMenu";
 import surveyItems from "@/utils/surveyItems.js";
 import userService from "@/services/userService.js";
-import Spinner from '@/components/Spinner';
+import Spinner from "@/components/Spinner";
 export default {
   components: { DropDown, Spinner },
   data() {
@@ -54,9 +87,8 @@ export default {
       loaded: false,
       items: {
         about_me: null,
-        name: null,
-      },
-
+        name: null
+      }
     };
   },
   async mounted() {
@@ -68,23 +100,23 @@ export default {
       this.loaded = true;
       return;
     }
-    this.$set(this, 'items', Object.assign({}, this.items, result.data.result)) 
+    this.$set(this, "items", Object.assign({}, this.items, result.data.result));
     this.loaded = true;
   },
   methods: {
     changeEvent(name, item) {
-      if (name === 'continent'){
-        this.$set(this.items, 'country', null)
+      if (name === "continent") {
+        this.$set(this.items, "country", null);
       }
       this.$set(this.items, name, item.name);
     },
     async surveySubmitButton() {
       this.surveyValidMessage = null;
       this.surveyErrorMessage = null;
-    
+
       this.surveyValidMessage = "Saving...";
       //gets the country index after unfiltering.
-     
+
       if (this.items.name && this.items.name.length > 100) {
         this.surveyErrorMessage = "Name must be less that 100 characters.";
         this.surveyValidMessage = null;
@@ -101,16 +133,23 @@ export default {
         this.surveyValidMessage = "Saved!";
       } else {
         this.surveyValidMessage = null;
-        this.surveyErrorMessage = error.response.data.message || error.response.data;
+        this.surveyErrorMessage =
+          error.response.data.message || error.response.data;
       }
     }
   },
   computed: {
-    filterCountries(){
-      if (!this.items.continent || this.items.continent === "Rather not say") return null;
-      const continent = this.surveyItems.continents.find(c => c.name === this.items.continent);
+    filterCountries() {
+      if (!this.items.continent || this.items.continent === "Rather not say")
+        return null;
+      const continent = this.surveyItems.continents.find(
+        c => c.name === this.items.continent
+      );
       if (!continent) return null;
-      return [...this.surveyItems.countries.filter(c => c.code === continent.code), ...[{emoji: "😶",name: 'Rather not say', code: 'no'}]];
+      return [
+        ...this.surveyItems.countries.filter(c => c.code === continent.code),
+        ...[{ emoji: "😶", name: "Rather not say", code: "no" }]
+      ];
     }
   }
 };
@@ -145,7 +184,6 @@ export default {
   flex-direction: column;
   width: 100%;
   height: 100%;
-
 }
 .inner-content {
   display: flex;
@@ -159,14 +197,14 @@ export default {
   display: flex;
 }
 
-.left{
+.left {
   display: flex;
   flex-direction: column;
   flex: 1;
   flex-shrink: 0;
 }
 .right {
-  display: flex; 
+  display: flex;
   flex-direction: column;
   flex: 1;
   flex-shrink: 0;
@@ -202,7 +240,6 @@ export default {
   background: rgb(0, 98, 255);
 }
 
-
 .title {
   margin-top: 20px;
   display: flex;
@@ -221,8 +258,7 @@ export default {
 .input {
   display: flex;
   flex-direction: column;
-  background-color: rgb(44, 44, 44);
-  border-radius: 10px;
+  background-color: #06454d;
   padding: 10px;
   margin: 10px;
   margin-left: 30px;
@@ -231,13 +267,13 @@ export default {
 }
 .input input {
   width: initial;
-  border-radius: 5px;
   margin-top: 2px;
+  background: #05353b;
 }
 textarea {
   padding: 10px;
   resize: none;
-  background: rgba(0, 0, 0, 0.301);
+  background: #05353b;
   border: none;
   outline: none;
   border-radius: 5px;
@@ -252,7 +288,7 @@ textarea:hover {
 }
 
 @media (max-width: 764px) {
-  .survey-content{
+  .survey-content {
     flex-direction: column;
   }
 }

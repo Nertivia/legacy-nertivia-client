@@ -11,7 +11,12 @@
               Login
             </div>
             <div class="info">Login to access Nertivia</div>
-            <form v-if="!showCaptcha" action="#" @submit.prevent="submitForm">
+            <form
+              v-if="!showCaptcha"
+              action="#"
+              @submit.prevent="submitForm"
+              @keydown.prevent="keyDownEvent"
+            >
               <div class="input">
                 <div class="input-text">
                   Email
@@ -96,6 +101,11 @@ export default {
     },
     submitForm() {
       this.showCaptcha = true;
+    },
+    keyDownEvent(event) {
+      if (event.keyCode === 13) {
+        this.submitForm();
+      }
     },
     async login() {
       if (this.deactive === true) return;

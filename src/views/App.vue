@@ -258,7 +258,7 @@ export default {
   -webkit-app-region: drag;
   flex-shrink: 0;
   height: 25px;
-  background: #1089ff;
+  background: #0a6f7b;
 }
 
 .window-buttons {

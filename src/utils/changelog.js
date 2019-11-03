@@ -10,11 +10,26 @@ const prototype = {
 
 const config = [
   {
+    version: 7.9,
+    title: "Server banner",
+    shortTitle: "",
+    date: "03/11/2019",
+    headColor: "#0c7b7f",
+    new: [
+      "You can now add banners to your server! These banners will be displayed in your server channels list and in the explore tab. To change your banner, go to your server settings page."
+    ],
+    fix: [
+      "Fixed a bug where when pressing enter on the login or register key, it would not work properly."
+    ],
+    next: [
+      "Re-design some popup menus starting from user settings. (Note that the survey kind of looks weird right now. It will be fixed in the next update hopefully :D"
+    ]
+  },
+  {
     version: 7.8,
     title: "Redesigns!",
     shortTitle: "",
     date: "01/11/2019",
-    headColor: "#0c7b7f",
     new: [
       "Layout has been redesigned.",
       "Added an option to mute notification sounds.",

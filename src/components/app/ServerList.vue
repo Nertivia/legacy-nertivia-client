@@ -2,8 +2,19 @@
   <div class="left-panel">
     <navigation />
     <div class="right">
-      <div class="server-banner" v-if="selectedServerID">
-        <div class="banner-image"></div>
+      <div
+        class="server-banner"
+        @mouseenter="bannerHover = true"
+        @mouseleave="bannerHover = false"
+        :class="{extendBanner: server && server.banner}"
+        v-if="selectedServerID"
+      >
+        <div
+          class="banner-image"
+          @click="bannerImageClicked"
+          v-if="server && server.banner"
+          :style="{backgroundImage: `url(${bannerDomain}${server.banner}${bannerHover ? '' : '?type=png'})`}"
+        />
         <div class="sub-banner">
           <div
             class="text"
@@ -25,6 +36,7 @@
 import MyMiniInformation from "@/components/app/MyMiniInformation.vue";
 import ChannelsList from "@/components/app/ServerTemplate/ChannelsList.vue";
 import Navigation from "@/components/app/Navigation.vue";
+import config from "@/config";
 import { bus } from "@/main";
 
 export default {
@@ -35,7 +47,9 @@ export default {
   },
   data() {
     return {
-      openedServer: null
+      openedServer: null,
+      bannerDomain: config.domain + "/media/",
+      bannerHover: false
     };
   },
   methods: {
@@ -69,6 +83,12 @@ export default {
         x: rect.left - 30,
         y: rect.top + 35
       });
+    },
+    bannerImageClicked() {
+      this.$store.dispatch(
+        "setImagePreviewURL",
+        this.bannerDomain + this.server.banner
+      );
     }
   },
   computed: {
@@ -86,6 +106,9 @@ export default {
     },
     selectedServerID() {
       return this.$store.getters["servers/selectedServerID"];
+    },
+    server() {
+      return this.servers[this.selectedServerID];
     },
     checkServerContextOpened() {
       const contextDetail = this.$store.getters.popouts.allPopout;
@@ -136,8 +159,12 @@ export default {
   overflow: hidden;
   position: relative;
   flex-direction: row;
-  background-color: rgb(32, 32, 32);
+  background-color: rgba(32, 32, 32, 0.4);
+  height: 35px;
+}
+.extendBanner {
   height: 150px;
+  background-color: rgb(32, 32, 32);
 }
 .banner-image {
   position: absolute;
@@ -147,6 +174,7 @@ export default {
   height: 100%;
   z-index: 2;
   width: 100%;
+  cursor: pointer;
 }
 .sub-banner {
   display: flex;

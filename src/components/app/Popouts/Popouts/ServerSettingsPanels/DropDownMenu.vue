@@ -3,16 +3,26 @@
     <div class="title">{{name}}</div>
     <div class="current-select-box" ref="dropDown" @click="dropped = !dropped">
       <div class="name" v-if="noneSelect && selectedItem || !noneSelect">
-        <div class="emoji" v-if="selectedItemSorted.emoji || items[0].emoji" v-html="selectedItem ? selectedItemSorted.emoji : items[0].emoji"></div>
+        <div
+          class="emoji"
+          v-if="selectedItemSorted.emoji || items[0].emoji"
+          v-html="selectedItem ? selectedItemSorted.emoji : items[0].emoji"
+        ></div>
         <div class="item-name">{{selectedItem ? selectedItemSorted.name : items[0].name}}</div>
       </div>
       <div class="name" v-if="noneSelect && !selectedItem">Select</div>
       <div class="material-icons">expand_more</div>
     </div>
-    
+
     <div class="drop" v-if="dropped">
       <div class="drop-container">
-        <div v-for="(item, index) of itemEmojified" :key="index" class="item" :class="{selected: selectedItemSorted === item}" @click="itemClick(item)">
+        <div
+          v-for="(item, index) of itemEmojified"
+          :key="index"
+          class="item"
+          :class="{selected: selectedItemSorted === item}"
+          @click="itemClick(item)"
+        >
           <div class="emoji" v-if="item.emoji" v-html="item.emoji"></div>
           <div class="name">{{item.name}}</div>
         </div>
@@ -25,60 +35,58 @@
 import emojiParser from "@/utils/emojiParser.js";
 
 export default {
-  props: ['items', 'name', 'selectedItem', 'noneSelect', 'selectBy'], // noneSelect: by default, nothing will be selected.
+  props: ["items", "name", "selectedItem", "noneSelect", "selectBy"], // noneSelect: by default, nothing will be selected.
   data() {
     return {
       dropped: false
-    }
+    };
   },
   methods: {
     itemClick(item) {
-      this.$emit('change', item)
+      this.$emit("change", item);
     },
     documentClick(e) {
       const target = e.target;
-      const el = this.$refs.dropDown
-      if (((el !== target) && !el.contains(target)) && this.dropped) {
-         this.dropped = false;
+      const el = this.$refs.dropDown;
+      if (el !== target && !el.contains(target) && this.dropped) {
+        this.dropped = false;
       }
-    },
-
+    }
   },
   created() {
-    document.addEventListener('click', this.documentClick);
+    document.addEventListener("click", this.documentClick);
   },
   destroyed() {
-    document.removeEventListener('click', this.documentClick);
+    document.removeEventListener("click", this.documentClick);
   },
   computed: {
     selectedItemSorted() {
       let item = null;
-      if (this.selectBy){
+      if (this.selectBy) {
         item = this.items.find(i => i[this.selectBy] === this.selectedItem);
       } else {
-        item = this.selectedItem
+        item = this.selectedItem;
       }
-      if (item && item.emoji && !item.emoji.startsWith('<img')) {
-        item.emoji = emojiParser.replaceEmojis(item.emoji)
+      if (item && item.emoji && !item.emoji.startsWith("<img")) {
+        item.emoji = emojiParser.replaceEmojis(item.emoji);
       }
-      return item
+      return item;
     },
-    itemEmojified(){
+    itemEmojified() {
       return this.items.map(i => {
-        if (i && i.emoji && !i.emoji.startsWith('<img')) {
-          i.emoji = emojiParser.replaceEmojis(i.emoji)
+        if (i && i.emoji && !i.emoji.startsWith("<img")) {
+          i.emoji = emojiParser.replaceEmojis(i.emoji);
         }
-        return i
-      })
+        return i;
+      });
     }
   }
-}
+};
 </script>
 
 <style scoped>
 .drop-down {
-  background-color: rgb(44, 44, 44);
-  border-radius: 10px;
+  background-color: #06454d;
   padding: 10px;
   user-select: none;
   cursor: default;
@@ -89,15 +97,14 @@ export default {
   margin-bottom: 2px;
 }
 .current-select-box {
-  background: rgba(22, 22, 22, 0.411);
-  border-radius: 5px;
+  background: #05353b;
   padding: 5px;
   cursor: pointer;
   display: flex;
   transition: 0.3s;
 }
 .current-select-box:hover {
-  background: rgba(22, 22, 22, 0.788);
+  background: #0f292c;
 }
 .current-select-box div {
   align-self: center;
@@ -106,7 +113,7 @@ export default {
   white-space: nowrap;
   display: flex;
 }
-.current-select-box .emoji{
+.current-select-box .emoji {
   margin-right: 5px;
 }
 .current-select-box .name {
@@ -116,8 +123,7 @@ export default {
 
 .drop {
   position: absolute;
-  background: rgb(39, 39, 39);
-  border-radius: 5px;
+  background-color: #06454d;
   left: 0;
   right: 0;
   z-index: 11111;
@@ -126,7 +132,6 @@ export default {
   margin-top: 5px;
 }
 .drop-container {
-  border-radius: 5px;
   overflow: auto;
   max-height: 100px;
 }
@@ -135,9 +140,6 @@ export default {
 }
 .item {
   padding: 5px;
-  border-radius: 5px;
-  margin-top: 2px;
-  margin-bottom: 2px;
   transition: 0.2s;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -152,12 +154,12 @@ export default {
 }
 
 .item:hover {
-  background: rgb(46, 46, 46);
+  background: #0f292c;
 }
 .item.selected {
-  background: rgb(63, 63, 63);
+  background: #021c1f;
 }
-.material-icons{
+.material-icons {
   flex-shrink: 0;
 }
 </style>
