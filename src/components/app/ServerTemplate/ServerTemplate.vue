@@ -36,15 +36,20 @@ export default {
     selectedServerID() {
       return this.$store.getters["servers/selectedServerID"];
     },
+    selectedChannelID() {
+      return this.$store.getters.selectedChannelID;
+    },
     notification() {
       const notifications = this.$store.getters.notifications;
+
       const channels = this.$store.getters.channels;
       const notification = notifications.find(e => {
         return (
           channels[e.channelID] &&
           channels[e.channelID].server_id &&
           this.serverData &&
-          channels[e.channelID].server_id === this.serverData.server_id
+          channels[e.channelID].server_id === this.serverData.server_id &&
+          (this.selectedChannelID !== e.channelID || !document.hasFocus())
         );
       });
       return notification;

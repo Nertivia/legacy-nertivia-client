@@ -12,15 +12,23 @@
 export default {
   props: ["channelData"],
   computed: {
+    selectedChannelID() {
+      return this.$store.getters.selectedChannelID;
+    },
     hasNotifications() {
       const notifications = this.$store.getters.notifications;
+
+      if (
+        document.hasFocus() &&
+        this.selectedChannelID === this.channelData.channelID
+      ) {
+        return false;
+      }
+
       const find = notifications.find(
         n => n.channelID === this.channelData.channelID
       );
       return find;
-    },
-    selectedChannelID() {
-      return this.$store.getters.selectedChannelID;
     }
   }
 };
