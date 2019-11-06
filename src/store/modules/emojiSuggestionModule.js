@@ -1,15 +1,9 @@
-import axios from 'axios'
-import Vue from 'vue'
-import {
-  bus
-} from '../../main'
-import VueRouter from 'vue-router';
-import NotificationSounds from '@/utils/notificationSound';
+import Vue from "vue";
 
 const state = {
   array: null,
-  index: 0,
-}
+  index: 0
+};
 
 const getters = {
   emojiArray(state) {
@@ -18,16 +12,16 @@ const getters = {
   getEmojiIndex(state) {
     return state.index;
   }
-}
+};
 
 const actions = {
   setEmojiArray(context, array) {
-    context.commit('setEmojiArray', array)
+    context.commit("setEmojiArray", array);
   },
   changeIndex(context, index) {
-    context.commit('changeIndex', index)
+    context.commit("changeIndex", index);
   }
-}
+};
 
 const mutations = {
   setEmojiArray(state, array) {
@@ -36,7 +30,7 @@ const mutations = {
   changeIndex(state, index) {
     Vue.set(state, "index", index);
   }
-}
+};
 
 export default {
   namespace: true,
@@ -44,4 +38,4 @@ export default {
   getters,
   actions,
   mutations
-}
+};
