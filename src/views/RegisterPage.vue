@@ -15,7 +15,7 @@
               v-if="!showCaptcha"
               action="#"
               @submit.prevent="formSubmit"
-              @keydown.prevent="keyDownEvent"
+              @keydown="keyDownEvent"
             >
               <div class="input">
                 <div class="input-text">
@@ -116,6 +116,7 @@ export default {
     },
     keyDownEvent(event) {
       if (event.keyCode === 13) {
+        event.preventDefault();
         this.formSubmit();
       }
     },
