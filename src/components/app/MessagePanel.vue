@@ -9,7 +9,6 @@
       <spinner />
     </div>
     <message-logs
-      :typingRecipients="typingRecipients"
       v-else-if="selectedChannelID && selectedChannelMessages"
       :key="selectedChannelID"
     />
@@ -19,7 +18,12 @@
         class="message"
       >{{type === 0 ? 'Select a person to message!' : type === 1 ?'Select a server!' : "wot"}}</div>
     </div>
-
+    <div class="typing-outer">
+      <typing-status
+        v-if="typingRecipients[selectedChannelID]"
+        :recipients="typingRecipients[selectedChannelID]"
+      />
+    </div>
     <div class="chat-input-area" v-if="selectedChannelID">
       <div style="position: relative;">
         <transition name="show-up">
@@ -96,6 +100,7 @@ import emojiSuggestions from "@/components/app/EmojiPanels/emojiSuggestions.vue"
 import MessageLogs from "@/components/app/MessageLogs.vue";
 import emojiParser from "@/utils/emojiParser.js";
 import windowProperties from "@/utils/windowProperties";
+import TypingStatus from "@/components/app/TypingStatus.vue";
 
 const emojiPanel = () => import("@/components/app/EmojiPanels/emojiPanel.vue");
 const EditPanel = () => import("@/components/app/EditPanel.vue");
@@ -108,7 +113,8 @@ export default {
     emojiPanel,
     heading,
     EditPanel,
-    MessageLogs
+    MessageLogs,
+    TypingStatus
   },
   data() {
     return {
@@ -640,6 +646,12 @@ export default {
   .material-icons {
     font-size: 50px;
   }
+}
+.typing-outer {
+  display: flex;
+  height: 20px;
+  margin-bottom: 5px;
+  margin-left: 10px;
 }
 
 .hidden {

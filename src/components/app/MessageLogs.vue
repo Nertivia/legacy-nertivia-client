@@ -23,28 +23,7 @@
       :type="msg.type"
       :timeEdited="msg.timeEdited"
     />
-    <!-- <div class="typing-list">
-      <message-typing
-        class="message-container"
-        :username="user.username"
-        :uniqueID="user.uniqueID"
-        :avatar="user.avatar"
-        :channelID="'5865686142508030876'"
-      />
-      <message-typing
-        class="message-container"
-        :username="user.username"
-        :uniqueID="user.uniqueID"
-        :avatar="user.avatar"
-        :channelID="'5865686142508030876'"
-      />
-    </div>-->
-    <div class="typing-outer">
-      <typing-status
-        v-if="typingRecipients[selectedChannelID]"
-        :recipients="typingRecipients[selectedChannelID]"
-      />
-    </div>
+
     <uploadsQueue v-if="uploadQueue !== undefined" :queue="uploadQueue" />
     <div
       class="load-more-button"
@@ -63,17 +42,14 @@ import Message from "../../components/app/MessageTemplate.vue";
 import Spinner from "@/components/Spinner.vue";
 import uploadsQueue from "@/components/app/uploadsQueue.vue";
 import debounce from "lodash/debounce";
-import TypingStatus from "@/components/app/TypingStatus.vue";
 
 import windowProperties from "@/utils/windowProperties";
 
 export default {
-  props: ["typingRecipients"],
   components: {
     Message,
     Spinner,
-    uploadsQueue,
-    TypingStatus
+    uploadsQueue
   },
   data() {
     return {
@@ -347,13 +323,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.typing-outer {
-  display: flex;
-  flex: 1;
-  height: 20px;
-  margin-bottom: 5px;
-  margin-left: 10px;
-}
 .message-logs {
   overflow: auto;
   flex: 1;
