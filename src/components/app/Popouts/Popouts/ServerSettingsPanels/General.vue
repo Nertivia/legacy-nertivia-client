@@ -323,6 +323,7 @@ export default {
 @media (max-width: 390px) {
   .top {
     flex-direction: column;
+    flex-shrink: 0;
     .avatar {
       height: initial;
     }
