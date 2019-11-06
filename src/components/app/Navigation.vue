@@ -214,11 +214,7 @@ export default {
       const notifications = this.$store.getters.notifications;
       const channels = this.$store.getters.channels;
       const notification = notifications.find(e => {
-        return (
-          channels[e.channelID] &&
-          channels[e.channelID].server_id &&
-          e.channelID !== this.$store.getters.selectedChannelID
-        );
+        return channels[e.channelID] && channels[e.channelID].server_id;
       });
       return notification;
     },
@@ -226,11 +222,7 @@ export default {
       const notifications = this.$store.getters.notifications;
       const channels = this.$store.getters.channels;
       const notification = notifications.find(e => {
-        return (
-          channels[e.channelID] &&
-          !channels[e.channelID].server_id &&
-          e.channelID !== this.$store.getters.selectedChannelID
-        );
+        return channels[e.channelID] && !channels[e.channelID].server_id;
       });
       // unopened dm
       if (!notification) {
