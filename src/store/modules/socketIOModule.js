@@ -82,23 +82,25 @@ const actions = {
 
     let servers = user.servers || [];
 
-    // sort server by users order
-    let tempServers = [...servers];
-    let sortedServers = [];
+    if (settings.server_position) {
+      // sort server by users order
+      let tempServers = [...servers];
+      let sortedServers = [];
 
-    for (let index = 0; index < settings.server_position.length; index++) {
-      const server_id = settings.server_position[index];
-      const findIndex = tempServers.findIndex((s) => s.server_id == server_id );
-      console.log()
-      if (tempServers[findIndex]) {
-        sortedServers = [...sortedServers, ...[tempServers[findIndex]]];
-        tempServers.splice(findIndex, 1)
-      }      
+      for (let index = 0; index < settings.server_position.length; index++) {
+        const server_id = settings.server_position[index];
+        const findIndex = tempServers.findIndex((s) => s.server_id == server_id );
+        console.log()
+        if (tempServers[findIndex]) {
+          sortedServers = [...sortedServers, ...[tempServers[findIndex]]];
+          tempServers.splice(findIndex, 1)
+        }      
+      }
+
+      servers = [...sortedServers.reverse(), ...tempServers];
+      sortedServers = null;
+      tempServers = null;
     }
-
-    servers = [...sortedServers.reverse(), ...tempServers];
-    sortedServers = null;
-    tempServers = null;
 
 
 
