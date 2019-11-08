@@ -35,7 +35,7 @@ const markdown = new MarkdownIt({
 })
   .use(normalizeFence)
   .use(chatPlugin)
-  .use(customEmoji)
+ // .use(customEmoji)
   .use(formatLink)
   .use(formatCode);
 

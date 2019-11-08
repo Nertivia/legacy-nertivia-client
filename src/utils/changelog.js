@@ -10,11 +10,24 @@ const prototype = {
 
 const config = [
   {
+    version: 8.0,
+    title: "Move servers",
+    shortTitle: "",
+    date: "08/11/2019",
+    headColor: "#0c7b7f",
+    new: [
+      "You can now move servers to make your list more organized."
+    ],
+    fix: [
+      "Fixed some bugs behind the scenes"
+    ],
+    msg: "Disabled custom emojis due to an xss vulnerability 🤦‍♂️"
+  },
+  {
     version: 7.9,
     title: "Server banner",
     shortTitle: "",
     date: "03/11/2019",
-    headColor: "#0c7b7f",
     new: [
       "You can now add banners to your server! These banners will be displayed in your server channels list and in the explore tab. To change your banner, go to your server settings page."
     ],
