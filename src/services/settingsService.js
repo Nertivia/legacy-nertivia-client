@@ -14,5 +14,8 @@ export default {
     return wrapper(instance().put('/settings/apperance', {
       [apperance]: boolean
     }));
+  },
+  setServerPositions (ServerIDArr) {
+    return wrapper(instance().put('/settings/server_position', {server_position: ServerIDArr}));
   }
 }

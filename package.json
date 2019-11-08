@@ -32,6 +32,7 @@
     "vue-socket.io": "^3.0.4",
     "vue-socket.io-extended": "^3.2.0",
     "vue-twitter": "^0.1.0",
+    "vuedraggable": "^2.23.2",
     "vuex": "^3.0.1"
   },
   "devDependencies": {

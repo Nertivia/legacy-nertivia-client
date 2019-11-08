@@ -92,7 +92,7 @@ export default {
   align-content: center;
   align-items: center;
   user-select: none;
-  transition: 0.2s;
+  transition: background 0.2s;
   cursor: pointer;
   &:hover {
     background: #074447;

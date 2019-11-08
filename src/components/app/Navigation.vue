@@ -41,14 +41,22 @@
           >error</div>
         </div>
         <div class="seperater" />
+
         <div class="server-items" v-if="currentTab === 2">
-          <server-template
-            v-for="(data, index) in serversArr"
-            :serverData="data"
-            @click.native="openServer(data.server_id)"
-            :key="index.server_id"
-          />
+          <draggable v-model="serversArr" :animation="200" :delay="mobile ? 400 : 0" ghost-class="ghost" @end="onEnd" @start="onStart">
+            <transition-group type="transition" :name="!drag ? 'flip-list' : null">
+              <server-template
+                class="sortable"
+                v-for="(data) in serversArr"
+                :serverData="data"
+                @click.native="openServer(data.server_id)"
+                :key="data.server_id"
+              />
+            </transition-group>
+          </draggable>
+
         </div>
+
       </div>
       <div class="seperater" />
       <div
@@ -75,20 +83,35 @@
 <script>
 import { bus } from "@/main.js";
 import config from "@/config.js";
+import settingsService from '@/services/settingsService';
 import ServerTemplate from "@/components/app/ServerTemplate/ServerTemplate";
-
+import draggable from 'vuedraggable'
+import { isMobile } from "@/utils/Mobile";
 export default {
-  components: { ServerTemplate },
+  components: { ServerTemplate, draggable },
   data() {
     return {
       avatarDomain: config.domain + "/avatars",
       toolTipShown: false,
       toolTipTopPosition: 0,
       toolTipServerID: null,
-      toolTipLocalName: null
+      toolTipLocalName: null,
+      mobile: isMobile(),
+
+      drag: false,
     };
   },
   methods: {
+    async onEnd(event) {
+      this.drag = false;
+      const serverIDArr = this.serversArr.map(s => s.server_id);
+      await settingsService.setServerPositions(serverIDArr);
+    },
+    onStart() {
+      this.toolTipShown = false;
+      this.drag = true;
+      this.$store.dispatch("setAllPopout", {show: false});
+    },
     dismissNotification(channelID) {
       const notifications = this.$store.getters.notifications.find(function(e) {
         return e.channelID === channelID;
@@ -156,6 +179,7 @@ export default {
       this.toolTipShown = true;
     },
     serverToolTipEvent({ serverID, top }) {
+      if (this.drag) return;
       this.toolTipLocalName = null;
       this.toolTipServerID = serverID;
       this.toolTipTopPosition = top - this.getTopHeight() + 16;
@@ -198,14 +222,25 @@ export default {
     servers() {
       return this.$store.getters["servers/servers"];
     },
-    serversArr() {
-      const data = this.servers;
-      return Object.keys(data)
+    serversArr: {
+      get() {
+        const data = this.servers;
+        return Object.keys(data)
         .map(key => {
           return data[key];
         })
-        .slice()
         .reverse();
+      },
+      set(value) {
+        const reversedServers = value.reverse()
+        // convert array to json
+        const json = {};
+        for (let index = 0; index < reversedServers.length; index++) {
+          const element = reversedServers[index];
+          json[element.server_id] = element;
+        }
+        this.$store.dispatch("servers/setServers", json);
+      }
     },
     selectedServerID() {
       return this.$store.getters["servers/selectedServerID"];
@@ -261,7 +296,25 @@ export default {
 };
 </script>
 
+
 <style lang="scss" scoped>
+
+.flip-list-move {
+  transition: 0.3s;
+}
+.sortable-drag {
+  opacity: 0;
+}
+.ghost::before {
+  content: '';
+  position: absolute;
+  background: white;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 3px;
+}
+
 .navigation {
   display: flex;
   flex-direction: column;

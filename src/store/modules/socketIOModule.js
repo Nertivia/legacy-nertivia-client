@@ -36,6 +36,7 @@ const actions = {
       settings
     } = data;
 
+
     const friendsArr = user.friends;
 
     const presence = {};
@@ -80,6 +81,27 @@ const actions = {
     // }
 
     let servers = user.servers || [];
+
+    // sort server by users order
+    let tempServers = [...servers];
+    let sortedServers = [];
+
+    for (let index = 0; index < settings.server_position.length; index++) {
+      const server_id = settings.server_position[index];
+      const findIndex = tempServers.findIndex((s) => s.server_id == server_id );
+      console.log()
+      if (tempServers[findIndex]) {
+        sortedServers = [...sortedServers, ...[tempServers[findIndex]]];
+        tempServers.splice(findIndex, 1)
+      }      
+    }
+
+    servers = [...sortedServers.reverse(), ...tempServers];
+    sortedServers = null;
+    tempServers = null;
+
+
+
     //convert array to object for servers
     servers = servers.reduce((obj, item) => {
       item.channels.forEach(element => {
