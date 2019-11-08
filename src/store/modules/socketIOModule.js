@@ -420,6 +420,16 @@ const actions = {
   },
   ["socket_deleteMessage"](context, { channelID, messageID }) {
     context.dispatch("deleteMessage", { channelID, messageID });
+  },
+  ["socket_self:serverPosition"](context, {server_position}) {
+    const servers = context.rootGetters['servers/servers'];
+    let serverSorted = {};
+    for (let index = 0; index < server_position.length; index++) {
+      const server_id = server_position[index];
+      serverSorted = { ...{[server_id]: servers[server_id]}, ...serverSorted};
+    }
+    context.dispatch("servers/setServers", serverSorted);
+    
   }
 };
 
