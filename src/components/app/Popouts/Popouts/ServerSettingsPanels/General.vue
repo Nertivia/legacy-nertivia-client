@@ -221,6 +221,7 @@ export default {
   margin-top: 10px;
   justify-content: center;
   background-color: #06454d;
+  flex-shrink: 0;
 
   .avatar {
     display: flex;
@@ -323,7 +324,6 @@ export default {
 @media (max-width: 390px) {
   .top {
     flex-direction: column;
-    flex-shrink: 0;
     .avatar {
       height: initial;
     }
