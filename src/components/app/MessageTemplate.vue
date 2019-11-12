@@ -21,7 +21,6 @@
           <div class="username" @click="openUserInformation">{{ this.$props.username }}</div>
           <div class="date">{{ getDate }}</div>
         </div>
-        <!-- <div class="content-message" v-html="formatMessage" /> -->
         <SimpleMarkdown class="content-message" :message="message" />
         <div class="file-content" v-if="getFile">
           <div class="icon">

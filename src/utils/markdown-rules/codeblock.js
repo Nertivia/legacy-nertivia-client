@@ -1,4 +1,5 @@
 import * as SimpleMarkdown from 'simple-markdown'
+import hljs from 'highlight.js'
 
 export default (order) => { return {
 	order: order++,
@@ -16,7 +17,13 @@ export default (order) => { return {
 	html: function(node, output) {
 		const className = node.lang ? `language-${node.lang}` : undefined
 
-		const codeblock = SimpleMarkdown.htmlTag("div", SimpleMarkdown.sanitizeText(node.content), {
+		let content = SimpleMarkdown.sanitizeText(node.content)
+		if(node.lang) {
+			content = hljs.highlight(node.lang, node.content, true).value
+		}
+
+
+		const codeblock = SimpleMarkdown.htmlTag("div", content, {
 			class: "codeblock"
 		})
 
