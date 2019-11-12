@@ -128,7 +128,10 @@ export default {
       )[serverID];
       const defaultChannelID = server.default_channel_id;
       const channels = this.$store.getters.channels;
-      const channel = channels[lastSelectedChannel || defaultChannelID];
+      let channel = channels[lastSelectedChannel || defaultChannelID];
+      if (!channel) {
+        channel = channels[defaultChannelID];
+      }
 
       this.dismissNotification(channel.channelID);
       this.$store.dispatch("servers/setSelectedServerID", serverID);

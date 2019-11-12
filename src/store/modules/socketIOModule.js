@@ -118,6 +118,7 @@ const actions = {
       s.channels = [...sortedServerChannels, ...tempServerChannels];
       tempServerChannels = null;
       sortedServerChannels = null;
+      delete s.channel_position;
       return s;
     })
 
@@ -190,6 +191,11 @@ const actions = {
     context.commit("removeFriend", uniqueID);
   },
   socket_receiveMessage(context, data) {
+    if (data.message.type === 1) {
+     if (context.getters.user.uniqueID === data.message.creator.uniqueID){
+       return;
+     }
+    }
     if (context.getters.channels[data.message.channelID]) {
       context.dispatch("updateChannelLastMessage", data.message.channelID);
     }
@@ -318,7 +324,28 @@ const actions = {
   ["socket_server:joined"](context, server) {
     context.dispatch("servers/setServer", server);
 
-    const channels = server.channels;
+    let channels = server.channels;
+
+
+    // sort server channels by order
+    if(server.channel_position) {
+      let tempServerChannels = [...channels];
+      let sortedServerChannels = [];
+      for (let index = 0; index < server.channel_position.length; index++) {
+        const channelID = server.channel_position[index];
+        const findIndex = tempServerChannels.findIndex((c) => c.channelID == channelID );
+        if (tempServerChannels[findIndex]) {
+          sortedServerChannels = [...sortedServerChannels, ...[tempServerChannels[findIndex]]];
+          tempServerChannels.splice(findIndex, 1)
+        }
+      }
+      channels = [...sortedServerChannels, ...tempServerChannels];
+      tempServerChannels = null;
+      sortedServerChannels = null;
+      delete server.channel_position;
+    }
+
+
 
     for (let index = 0; index < channels.length; index++) {
       const element = channels[index];
@@ -358,12 +385,16 @@ const actions = {
 
     const selectedChannelID = context.rootState.channelModule.selectedChannelID;
     const serverChannelID = context.rootState.channelModule.serverChannelID;
+    const serverID = context.rootState.servers.selectedServerID;
 
     if (serverChannelIDs.includes(selectedChannelID)) {
       context.dispatch("selectedChannelID", null);
     }
     if (serverChannelIDs.includes(serverChannelID)) {
       context.dispatch("setServerChannelID", null);
+    }
+    if (serverID === server_id) {
+      context.dispatch("servers/setSelectedServerID", null);
     }
     context.dispatch("servers/removePresences", server_id);
     context.dispatch("servers/removeServer", server_id);

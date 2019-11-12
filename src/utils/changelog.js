@@ -19,7 +19,8 @@ const config = [
       "You can now move channels to make it more organized."
     ],
     fix: [
-      "Fixed a bug where the notification sound would sometimes not work."
+      "Fixed a bug where the notification sound would sometimes not work.",
+      "Fixed a bug where join message would send twice."
     ],
   },
   {
