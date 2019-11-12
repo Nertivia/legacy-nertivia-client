@@ -34,7 +34,7 @@ export default (order) => { return {
 	html: function(node, output) {
 		return SimpleMarkdown.htmlTag("a", output(node.content), {
 			href: node.url,
-			class: "msg-link",
+			class: "link",
 			target: "_blank"
 		})
 	}

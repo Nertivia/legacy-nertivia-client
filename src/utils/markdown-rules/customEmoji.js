@@ -15,7 +15,7 @@ export default (order) => { return {
 	},
 	html: function(node, output) {
 		return SimpleMarkdown.htmlTag('img', '', {
-			class: "emoji",
+			class: "emoji custom-emoji",
 			title: node.name,
 			src: `${config.domain}/media/${node.id}`,
 			alt: node.name

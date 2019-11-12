@@ -33,6 +33,11 @@ const rules = {
 
     inlineCode: Object.assign({}, SimpleMarkdown.defaultRules.inlineCode, {
         order: order++,
+        html: function(node, parse, state) {
+          return SimpleMarkdown.htmlTag("code", SimpleMarkdown.sanitizeText(node.content), {
+            class: "inline-code"
+          }) 
+        }
     }),
 
     text: Object.assign({}, SimpleMarkdown.defaultRules.text, {

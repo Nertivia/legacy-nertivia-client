@@ -13,6 +13,8 @@ export default (order) => { return {
 	},
 
 	html: function(node, output) {
-		return SimpleMarkdown.htmlTag("u", output(node.content))
+		return SimpleMarkdown.htmlTag("u", output(node.content), {
+			class: "underline"
+		})
 	}
 }}
