@@ -21,8 +21,8 @@
           <div class="username" @click="openUserInformation">{{ this.$props.username }}</div>
           <div class="date">{{ getDate }}</div>
         </div>
-        <div class="content-message" v-html="formatMessage" />
-
+        <!-- <div class="content-message" v-html="formatMessage" /> -->
+        <SimpleMarkdown class="content-message" :message="message" />
         <div class="file-content" v-if="getFile">
           <div class="icon">
             <i class="material-icons">insert_drive_file</i>
@@ -87,6 +87,7 @@
 
 <script>
 import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
+import SimpleMarkdown from "./SimpleMarkdown.vue";
 import messageEmbedTemplate from "./messageEmbedTemplate";
 import messageFormatter from "@/utils/messageFormatter.js";
 import config from "@/config.js";
@@ -115,7 +116,8 @@ export default {
   ],
   components: {
     ProfilePicture,
-    messageEmbedTemplate
+    messageEmbedTemplate,
+    SimpleMarkdown
   },
   data() {
     return {
