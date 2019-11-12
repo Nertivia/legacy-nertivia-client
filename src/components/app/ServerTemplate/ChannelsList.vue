@@ -98,7 +98,7 @@ export default {
       get() {
         const channelsIds = this.$store.getters["servers/channelsIDs"][this.serverID];
         if (!channelsIds) {return false}
-        return channelsIds.map(id => this.channels[id])
+        return channelsIds.map(id => this.channels[id]).filter(c => c.server_id === this.serverID)
       },
       set(value) {
         this.$store.dispatch('servers/setChannelIDs', {serverID: this.serverID, channelIDs: value.map(c => c.channelID)} )

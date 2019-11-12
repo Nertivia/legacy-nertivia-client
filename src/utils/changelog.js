@@ -28,7 +28,6 @@ const config = [
     title: "Move servers",
     shortTitle: "",
     date: "08/11/2019",
-    headColor: "#0c7b7f",
     new: [
       "You can now move servers to make your list more organized."
     ],
