@@ -90,7 +90,6 @@ const actions = {
       for (let index = 0; index < settings.server_position.length; index++) {
         const server_id = settings.server_position[index];
         const findIndex = tempServers.findIndex((s) => s.server_id == server_id );
-        console.log()
         if (tempServers[findIndex]) {
           sortedServers = [...sortedServers, ...[tempServers[findIndex]]];
           tempServers.splice(findIndex, 1)
@@ -100,9 +99,27 @@ const actions = {
       servers = [...sortedServers.reverse(), ...tempServers];
       sortedServers = null;
       tempServers = null;
+      delete settings.server_position;
     }
 
-
+    // sort server channels by user order.
+    servers.map(s => {
+      if(!s.channel_position) return s;
+      let tempServerChannels = [...s.channels];
+      let sortedServerChannels = [];
+      for (let index = 0; index < s.channel_position.length; index++) {
+        const channelID = s.channel_position[index];
+        const findIndex = tempServerChannels.findIndex((c) => c.channelID == channelID );
+        if (tempServerChannels[findIndex]) {
+          sortedServerChannels = [...sortedServerChannels, ...[tempServerChannels[findIndex]]];
+          tempServerChannels.splice(findIndex, 1)
+        }
+      }
+      s.channels = [...sortedServerChannels, ...tempServerChannels];
+      tempServerChannels = null;
+      sortedServerChannels = null;
+      return s;
+    })
 
     //convert array to object for servers
     servers = servers.reduce((obj, item) => {
@@ -432,6 +449,9 @@ const actions = {
     }
     context.dispatch("servers/setServers", serverSorted);
     
+  },
+  ["socket_server:channelPosition"](context, {serverID, channel_position}) {
+    context.dispatch("servers/setChannelIDs", {serverID, channelIDs: channel_position})
   }
 };
 

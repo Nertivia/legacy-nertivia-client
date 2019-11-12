@@ -34,7 +34,9 @@ export default {
   createChannel(serverID, name) {
     return wrapper(instance().put(`/servers/${serverID}/channels`, {name}));
   },
-  
+  channelPosition(serverID, channelIDArr) {
+    return wrapper(instance().put(`/servers/${serverID}/channels/position`, {channel_position: channelIDArr}));
+  },
   updateChannel (serverID, channelID, data) {
     return wrapper(instance().patch(`/servers/${serverID}/channels/${channelID}`, data));
   },

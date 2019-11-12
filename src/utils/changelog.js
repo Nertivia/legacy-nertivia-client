@@ -10,6 +10,19 @@ const prototype = {
 
 const config = [
   {
+    version: 8.1,
+    title: "Move server channels",
+    shortTitle: "",
+    date: "12/11/2019",
+    headColor: "#0c7b7f",
+    new: [
+      "You can now move channels to make it more organized."
+    ],
+    fix: [
+      "Fixed a bug where the notification sound would sometimes not work."
+    ],
+  },
+  {
     version: 8.0,
     title: "Move servers",
     shortTitle: "",

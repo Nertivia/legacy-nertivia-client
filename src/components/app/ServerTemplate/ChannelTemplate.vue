@@ -58,10 +58,11 @@ export default {
 }
 
 .channel {
+  position: relative;
   display: flex;
   align-items: center;
   padding: 5px;
-  transition: 0.3s;
+  transition: background 0.3s;
   font-size: 14px;
   cursor: pointer;
   color: white;
