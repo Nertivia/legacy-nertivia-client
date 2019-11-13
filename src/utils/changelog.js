@@ -10,11 +10,20 @@ const prototype = {
 
 const config = [
   {
+    version: 8.2,
+    title: "Better formatter + better performance.",
+    shortTitle: "",
+    date: "13/11/2019",
+    headColor: "#0c7b7f",
+    new: [
+      "We have changed the markdown formatter from markdown-it to simple-markdown. This has also improved the performance. (Thanks bree!)"
+    ],
+  },
+  {
     version: 8.1,
     title: "Move server channels",
     shortTitle: "",
     date: "12/11/2019",
-    headColor: "#0c7b7f",
     new: [
       "You can now move channels to make it more organized."
     ],
