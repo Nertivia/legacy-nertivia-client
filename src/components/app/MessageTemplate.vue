@@ -21,8 +21,7 @@
           <div class="username" @click="openUserInformation">{{ this.$props.username }}</div>
           <div class="date">{{ getDate }}</div>
         </div>
-        <div class="content-message" v-html="formatMessage" />
-
+        <SimpleMarkdown class="content-message" :message="message" />
         <div class="file-content" v-if="getFile">
           <div class="icon">
             <i class="material-icons">insert_drive_file</i>
@@ -87,6 +86,7 @@
 
 <script>
 import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
+import SimpleMarkdown from "./SimpleMarkdown.vue";
 import messageEmbedTemplate from "./messageEmbedTemplate";
 import messageFormatter from "@/utils/messageFormatter.js";
 import config from "@/config.js";
@@ -115,7 +115,8 @@ export default {
   ],
   components: {
     ProfilePicture,
-    messageEmbedTemplate
+    messageEmbedTemplate,
+    SimpleMarkdown
   },
   data() {
     return {
@@ -503,37 +504,5 @@ export default {
 }
 
 @media (max-width: 468px) {
-}
-</style>
-
-<style>
-.code-inline {
-  background: rgba(0, 0, 0, 0.322);
-}
-.msg-link {
-  color: rgb(86, 159, 253);
-}
-
-pre {
-  padding: 0;
-  margin: 0;
-}
-
-.codeblock {
-  background-color: rgba(0, 0, 0, 0.397);
-  padding: 5px;
-  border-radius: 5px;
-  word-wrap: break-word;
-  word-break: break-word;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-}
-
-.content-message img.emoji {
-  object-fit: contain;
-  height: 2em;
-  width: 2em;
-  margin: 1px;
-  vertical-align: -9px;
 }
 </style>
