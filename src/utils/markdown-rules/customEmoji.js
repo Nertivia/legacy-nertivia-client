@@ -4,7 +4,7 @@ import config from "@/config.js";
 export default (order) => { return {
 	order: order++,
 	match: function(source) {
-		return /^<:([\w\d_]+):([\w\d_]+)>/.exec(source)
+		return /^<:([\w\d_-]+):([\w\d_-]+)>/.exec(source)
 	},
 
 	parse: function(capture, parse, state) {
