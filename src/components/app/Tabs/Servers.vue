@@ -66,18 +66,17 @@ export default {
   },
   computed: {
     selectedServerID() {
-      return this.$store.getters['servers/selectedServerID'];
-    },
+      return this.$store.getters["servers/selectedServerID"];
+    }
   }
 };
 </script>
 
 <style scoped>
-
-.direct-message-tab{
+.direct-message-tab {
   overflow: hidden;
 }
-.left-panel{
+.left-panel {
   z-index: 2;
 }
 
@@ -86,24 +85,20 @@ export default {
   transition: 0.5s;
 }
 .slide-left-enter, .slide-left-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  transform: translateX(-300px)
+  transform: translateX(-300px);
 }
 
 .slide-right-enter-active,
 .slide-right-leave-active {
   transition: 0.5s;
-
 }
 .slide-right-enter, .slide-right-leave-to /* .fade-leave-active below version 2.1.8 */ {
   transform: translateX(300px);
-
 }
-
 
 @media (max-width: 949px) {
   .members-panel {
     position: absolute;
-    background-color: rgba(39, 39, 39, 0.97);
     right: 0;
     bottom: 0;
     height: calc(100% - 50px);
@@ -114,7 +109,6 @@ export default {
 @media (max-width: 600px) {
   .left-panel {
     position: absolute;
-    background-color: rgba(39, 39, 39, 0.97);
     bottom: 0;
     height: calc(100% - 50px);
     z-index: 2;

@@ -1,53 +1,24 @@
 <template>
   <div id="app" ref="app">
-    <vue-headful :title="title" description="Nertivia Chat Client"/>
-    <div class="background-image halloween-background"></div>
+    <vue-headful :title="title" description="Nertivia Chat Client" />
+    <div class="background-image"></div>
     <transition name="fade-between-two" appear>
-      <ConnectingScreen v-if="!loggedIn"/>
+      <ConnectingScreen v-if="!loggedIn" />
       <div class="box" v-if="loggedIn">
-        <div class="frame">
-          <div class="tabs">
-
-            <div :class="`tab ${currentTab === 0 ? 'selected' : ''}`" @click="switchTab(0)">
-              <i class="material-icons">explore</i>
-              Explore
-            </div>
-
-            <div :class="{tab: true, selected: currentTab === 1, notifyAnimation: DMNotification || friendRequestExists}" @click="switchTab(1)">
-              <i class="material-icons">chat</i>
-              Direct Message
-            </div>
-
-            <div :class="{tab: true, selected: currentTab === 2, notifyAnimation: serverNotification}" @click="switchTab(2)">
-              <i class="material-icons">forum</i>
-              Servers
-            </div>
-
-            <div :class="`tab ${currentTab === 3 ? 'selected' : ''}`" @click="switchTab(3)">
-              <i class="material-icons">list_alt</i>
-              Changelog
-            </div>
-
-
-            <!-- <div :class="`tab ${currentTab === 4 ? 'selected' : ''}`" @click="switchTab(4)">
-              <i class="material-icons">info</i>
-              Ad
-            </div> -->
+        <div class="frame" v-if="isElectron">
+          <div class="window-buttons">
+            <electron-frame-buttons />
           </div>
-            <div class="window-buttons" v-if="isElectron">
-              <electron-frame-buttons />
-            </div>
-
         </div>
         <div class="panel-layout">
-          <news v-if="currentTab == 3"/>
-          <direct-message v-if="currentTab == 1"/>
-          <servers v-if="currentTab == 2"/>
-          <explore v-if="currentTab == 0"/>
+          <news v-if="currentTab == 3" />
+          <direct-message v-if="currentTab == 1" />
+          <servers v-if="currentTab == 2" />
+          <explore v-if="currentTab == 0" />
         </div>
       </div>
     </transition>
-    <Popouts v-if="loggedIn"/>
+    <Popouts v-if="loggedIn" />
   </div>
 </template>
 
@@ -58,7 +29,6 @@ import windowProperties from "@/utils/windowProperties";
 import changelog from "@/utils/changelog.js";
 import ConnectingScreen from "./../components/app/ConnectingScreen.vue";
 import Spinner from "./../components/Spinner.vue";
-
 
 const ElectronFrameButtons = () =>
   import("@/components/ElectronJS/FrameButtons.vue");
@@ -87,7 +57,6 @@ const Explore = () => ({
 export default {
   name: "app",
   components: {
-
     DirectMessage,
     Servers,
     ConnectingScreen,
@@ -98,20 +67,18 @@ export default {
   },
   data() {
     return {
-      currentTab: 0,
       title: "Nertivia",
       isElectron: window && window.process && window.process.type
     };
   },
   methods: {
-
-    dismissNotification (channelID) {
+    dismissNotification(channelID) {
       const notifications = this.$store.getters.notifications.find(function(e) {
-        return e.channelID === channelID
-      }) 
+        return e.channelID === channelID;
+      });
 
       if (notifications && notifications.count >= 1 && document.hasFocus()) {
-        this.$socket.emit('notification:dismiss', {channelID});
+        this.$socket.emit("notification:dismiss", { channelID });
       }
     },
     switchChannel(isServer) {
@@ -119,84 +86,96 @@ export default {
       const DMChannelID = this.$store.state.channelModule.DMChannelID;
 
       if (isServer) {
-        this.$store.dispatch('selectedChannelID', serverChannelID)
-        const channel = this.$store.state.channelModule.channels[serverChannelID];
-        this.$store.dispatch("setChannelName", channel ? channel.name : "")
-        this.dismissNotification(serverChannelID)
+        this.$store.dispatch("selectedChannelID", serverChannelID);
+        const channel = this.$store.state.channelModule.channels[
+          serverChannelID
+        ];
+        this.$store.dispatch("setChannelName", channel ? channel.name : "");
+        this.dismissNotification(serverChannelID);
       } else {
         const channel = this.$store.state.channelModule.channels[DMChannelID];
-        this.$store.dispatch("setChannelName", channel ? channel.recipients[0].username : "");
-        this.$store.dispatch('selectedChannelID', DMChannelID)
-        this.dismissNotification(DMChannelID)
+        this.$store.dispatch(
+          "setChannelName",
+          channel ? channel.recipients[0].username : ""
+        );
+        this.$store.dispatch("selectedChannelID", DMChannelID);
+        this.dismissNotification(DMChannelID);
       }
-      
     },
     switchTab(index) {
       localStorage.setItem("currentTab", index);
-      this.currentTab = index;
-      if (index == 1) { //1: direct message tab.
-        this.switchChannel(false)
-      } else if (index === 2) { //2: server tab
-        this.switchChannel(true)
+      this.$store.dispatch("setCurrentTab", index);
+      if (index == 1) {
+        //1: direct message tab.
+        this.switchChannel(false);
+      } else if (index === 2) {
+        //2: server tab
+        this.switchChannel(true);
       }
     },
     resizeEvent(dimensions) {
       const width = dimensions.width;
       const height = dimensions.height;
-      this.$refs.app.style.height = height + 'px';
-      this.$refs.app.style.width = width + 'px';
+      this.$refs.app.style.height = height + "px";
+      this.$refs.app.style.width = width + "px";
     }
   },
   watch: {
     getWindowWidth(dimensions) {
-      this.resizeEvent(dimensions)
+      this.resizeEvent(dimensions);
     }
   },
   mounted() {
-
     const currentTab = localStorage.getItem("currentTab");
-    if(currentTab) {
-      this.currentTab = parseInt(currentTab);
+    if (currentTab) {
+      this.$store.dispatch("setCurrentTab", parseInt(currentTab));
     }
     // check if changelog is updated
     const seenVersion = localStorage.getItem("changelog-version-seen");
     if (seenVersion && seenVersion < changelog[0].version) {
       localStorage.setItem("currentTab", 3);
-      this.currentTab = 3;
+      this.$store.dispatch("setCurrentTab", 3);
     }
     localStorage.setItem("changelog-version-seen", changelog[0].version);
     bus.$on("title:change", title => {
       this.title = title;
     });
+  },
 
-    bus.$on('changeTab', this.switchTab)
-  },
-  destroyed() {
-    bus.$off('changeTab', this.switchTab)
-  },
   computed: {
+    currentTab() {
+      return this.$store.getters.currentTab;
+    },
     loggedIn() {
       return this.$store.getters.loggedIn;
     },
     serverNotification() {
       const notifications = this.$store.getters.notifications;
-      const channels = this.$store.getters.channels
+      const channels = this.$store.getters.channels;
       const notification = notifications.find(e => {
-        return channels[e.channelID] && channels[e.channelID].server_id && e.channelID !== this.$store.getters.selectedChannelID 
-      })
+        return (
+          channels[e.channelID] &&
+          channels[e.channelID].server_id &&
+          e.channelID !== this.$store.getters.selectedChannelID
+        );
+      });
       return notification;
     },
     DMNotification() {
       const notifications = this.$store.getters.notifications;
-      const channels = this.$store.getters.channels
+      const channels = this.$store.getters.channels;
       const notification = notifications.find(e => {
-        return channels[e.channelID] && !channels[e.channelID].server_id && e.channelID !== this.$store.getters.selectedChannelID 
-      })
+        return (
+          channels[e.channelID] &&
+          !channels[e.channelID].server_id &&
+          e.channelID !== this.$store.getters.selectedChannelID
+        );
+      });
       // unopened dm
       if (!notification) {
         return notifications.find(e => {
-          return !channels[e.channelID]
-        })
+          return !channels[e.channelID];
+        });
       }
       return notification;
     },
@@ -208,8 +187,11 @@ export default {
       return result.find(friend => friend.status === 1);
     },
     getWindowWidth() {
-      return {width: windowProperties.resizeWidth, height: windowProperties.resizeHeight};
-    },
+      return {
+        width: windowProperties.resizeWidth,
+        height: windowProperties.resizeHeight
+      };
+    }
   }
 };
 </script>
@@ -222,7 +204,7 @@ export default {
   height: 100%;
 }
 
-.notifyAnimation{
+.notifyAnimation {
   animation: notifyAnime;
   animation-duration: 1s;
   animation-iteration-count: infinite;
@@ -235,21 +217,19 @@ export default {
   width: 100%;
 }
 @keyframes notifyAnime {
-  0%{
+  0% {
     background: rgba(121, 3, 3, 0.541);
   }
-  40%{
+  40% {
     background: rgba(255, 0, 0, 0.568);
   }
-  60%{
+  60% {
     background: rgba(255, 0, 0, 0.568);
   }
-  100%{
+  100% {
     background: rgba(121, 3, 3, 0.541);
   }
 }
-
-
 
 .coming-soon {
   display: flex;
@@ -277,6 +257,8 @@ export default {
   display: flex;
   -webkit-app-region: drag;
   flex-shrink: 0;
+  height: 25px;
+  background: #0a6f7b;
 }
 
 .window-buttons {
@@ -287,6 +269,9 @@ export default {
 
 .tabs {
   display: flex;
+  flex-shrink: 0;
+  height: 40px;
+
   overflow-y: hidden;
   overflow-x: auto;
   max-width: 500px;
@@ -315,7 +300,7 @@ export default {
   -webkit-app-region: no-drag;
   cursor: pointer;
   position: relative;
-  border-right:solid 1px rgba(0, 0, 0, 0.5);
+  border-right: solid 1px rgba(0, 0, 0, 0.5);
 }
 
 .tab:hover {
@@ -326,8 +311,6 @@ export default {
   background: rgba(0, 0, 0, 0.671);
   color: white;
 }
-
-
 
 .tab .material-icons {
   font-size: 15px;
@@ -358,34 +341,21 @@ export default {
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
-
 </style>
 
 
 
 <style>
-
 textarea {
   font-family: "Roboto", sans-serif;
 }
 
 .background-image {
-  background: url(./../assets/background.jpg);
   position: fixed;
   z-index: -1;
   width: 100%;
   height: 100%;
-  background-repeat: no-repeat;
-  background-position: bottom;
-  background-size: cover;
-  filter: blur(15px);
-  transform: scale(1.1);
-}
-.halloween-background {
-  background: url(./../assets/halloween_background.jpg);
-  filter: blur(10px);
-  
-  background-position: center;
+  background-color: #173d42;
 }
 
 .panel-layout {

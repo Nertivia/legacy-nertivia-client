@@ -8,7 +8,6 @@
 
 
 <style>
-
 html {
   height: 100%;
 }
@@ -35,18 +34,15 @@ body {
 /* Track */
 ::-webkit-scrollbar-track {
   background: #8080806b;
-  border-radius: 10px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: #f5f5f559;
-  border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #f5f5f59e;
-  border-radius: 10px;
 }
 </style>

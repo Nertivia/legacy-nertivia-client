@@ -11,24 +11,12 @@
         emote-size="17px"
       />
       <div class="information">
-        <div
-          class="username"
-        >
-          {{ user.username }}
-        </div>
-        <div class="tag">
-          @{{ user.tag }}
-        </div>
+        <div class="username">{{ user.username }}</div>
+        <div class="tag">@{{ user.tag }}</div>
       </div>
       <div class="buttons">
-        <i
-          class="material-icons warn"
-          @click="logOut"
-        >exit_to_app</i>
-        <i
-          class="material-icons"
-          @click="openApp"
-        >message</i>
+        <i class="material-icons warn" @click="logOut">exit_to_app</i>
+        <i class="material-icons" @click="openApp">message</i>
       </div>
     </div>
   </div>
@@ -51,7 +39,7 @@ export default {
       window.location.href = "/app";
     },
     logOut() {
-      this.$emit('logout');  
+      this.$emit("logout");
     }
   }
 };
@@ -72,14 +60,14 @@ export default {
   height: 0;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  border-bottom: 15px solid rgba(0, 0, 0, 0.826);
+  border-bottom: 15px solid #0f272a;
 }
 .inner {
   right: 0;
   top: 15px;
   position: absolute;
   display: flex;
-  background: rgba(0, 0, 0, 0.826);
+  background: #0f272a;
   border-radius: 5px;
   width: 300px;
   height: 60px;
@@ -117,6 +105,7 @@ export default {
   cursor: default;
   font-size: 27px;
   user-select: none;
+  cursor: pointer;
 }
 .buttons .material-icons:hover {
   color: white;
@@ -130,12 +119,12 @@ export default {
 @media (max-width: 342px) {
   .inner {
     left: 0;
-    right:0;
+    right: 0;
     width: 100%;
   }
-  .profile-popout{
+  .profile-popout {
     left: 0;
-    right:20px;
+    right: 20px;
   }
 }
 </style>

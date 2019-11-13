@@ -65,18 +65,18 @@ export default {
 
 <style scoped>
 .username{
-  width: 100px;
+  width: 80px;
   overflow: hidden;
+  white-space: nowrap;
   text-overflow: ellipsis;
+  font-size: 16px;
 }
 .pending-friend {
   color: white;
-  background-color: rgba(0, 0, 0, 0.137);
-  margin: 5px;
-  padding: 10px;
+  padding: 5px;
+  padding-left: 22px;
   display: flex;
   transition: 0.3s;
-  border-radius: 3px;
 }
 
 .pending-friend:hover {
@@ -84,12 +84,11 @@ export default {
 }
 
 .profile-picture{
-  height: 40px;
-  width: 40px;
+  height: 30px;
+  width: 30px;
   background-color: rgba(0, 0, 0, 0.425);
   border-radius: 50%;
   margin: auto;
-  margin-left: 2px;
   margin-right: 5px;
   background-position: center;
   background-size: cover;
@@ -120,7 +119,7 @@ export default {
   margin: 5px;
   display: flex;
   transition: 0.3s;
-  border-radius: 3px;
+  cursor: pointer;
 }
 .hide {
   display: none;

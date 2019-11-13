@@ -7,24 +7,49 @@
           <div class="outer-input">
             <div class="title">Username</div>
             <div class="user-tag">
-              <input type="text" class="username" :default-value.prop="user.username" @input="inputEvent('username', $event)"/>
+              <input
+                type="text"
+                class="username"
+                :default-value.prop="user.username"
+                @input="inputEvent('username', $event)"
+              />
 
-              <input type="text" class="tag" :default-value.prop="user.tag" @input="inputEvent('tag', $event)"/>
+              <input
+                type="text"
+                class="tag"
+                :default-value.prop="user.tag"
+                @input="inputEvent('tag', $event)"
+              />
             </div>
           </div>
           <div class="outer-input">
             <div class="title">Email</div>
-            <input type="email" autocomplete="off" :default-value.prop="user.email" @input="inputEvent('email', $event)"/>
+            <input
+              type="email"
+              autocomplete="off"
+              :default-value.prop="user.email"
+              @input="inputEvent('email', $event)"
+            />
           </div>
           <div class="outer-input">
             <div class="title">Current Password</div>
-            <input type="password" autocomplete="new-password" ref="passwordInput" @input="inputEvent('password', $event)" />
+            <input
+              type="password"
+              autocomplete="new-password"
+              ref="passwordInput"
+              @input="inputEvent('password', $event)"
+            />
           </div>
           <div class="link" v-if="!resetPassword" @click="resetPassword = true">Reset Password</div>
           <div class="outer-input" v-if="resetPassword">
             <div class="title">New Password</div>
-            <input type="password" autocomplete="new-password" @input="inputEvent('new_password', $event)" />
+            <input
+              type="password"
+              autocomplete="new-password"
+              @input="inputEvent('new_password', $event)"
+            />
           </div>
+          <div class="link" @click="linkGoogleDrive">Re-link Google Drive</div>
         </form>
       </div>
 
@@ -45,11 +70,16 @@
             accept=".jpeg, .jpg, .png, .gif"
             class="hidden"
             @change="avatarChangeEvent"
-          >
+          />
         </div>
       </div>
     </div>
-    <div class="button save-button" :class="{disabled: requestSent}" @click="updateProfile" v-if="changed">{{requestSent ? 'Saving...' : 'Update'}}</div>
+    <div
+      class="button save-button"
+      :class="{disabled: requestSent}"
+      @click="updateProfile"
+      v-if="changed"
+    >{{requestSent ? 'Saving...' : 'Update'}}</div>
   </div>
 </template>
 
@@ -69,12 +99,12 @@ export default {
       changed: false,
       resetPassword: false,
       update: {},
-      key: 0,
+      key: 0
     };
   },
   methods: {
     inputEvent(name, event) {
-      this.$set(this.update, name, event.target.value)
+      this.$set(this.update, name, event.target.value);
     },
     avatarChangeEvent(event) {
       if (!this.googleDriveLinked) {
@@ -86,62 +116,77 @@ export default {
       }
       const file = event.target.files[0];
       const _this = this;
-      const maxSize = 2092000; 
+      const maxSize = 2092000;
       if (file.size > maxSize) {
-        return this.$store.dispatch('setGenericMessage', "Image is larger than 2MB") 
+        return this.$store.dispatch(
+          "setGenericMessage",
+          "Image is larger than 2MB"
+        );
       }
       event.target.value = "";
       const allowedFormats = [".png", ".jpeg", ".gif", ".jpg"];
       if (!allowedFormats.includes(path.extname(file.name).toLowerCase())) {
-        return this.$store.dispatch('setGenericMessage', "That file format is not allowed!"); 
+        return this.$store.dispatch(
+          "setGenericMessage",
+          "That file format is not allowed!"
+        );
       }
       let reader = new FileReader();
       reader.readAsDataURL(file);
-      
-      reader.onload = function () {
-        _this.$set(_this.update, 'avatar', reader.result);
+
+      reader.onload = function() {
+        _this.$set(_this.update, "avatar", reader.result);
       };
-      reader.onerror = function (error) {
-        console.log('Error: ', error);
-        return this.$store.dispatch('setGenericMessage', "Something went wrong. Try again later.") 
+      reader.onerror = function(error) {
+        console.log("Error: ", error);
+        return this.$store.dispatch(
+          "setGenericMessage",
+          "Something went wrong. Try again later."
+        );
       };
     },
     async updateProfile() {
       if (this.requestSent) return;
       this.errors = null;
       this.requestSent = true;
-      const {ok, result, error} = await userService.update(this.update) 
+      const { ok, result, error } = await userService.update(this.update);
       if (!ok) {
         if (error.response === undefined) {
-          this.errors = { message: 'Cant connect to server' }
+          this.errors = { message: "Cant connect to server" };
           return;
         }
         const data = error.response.data;
         if (data.message) {
-          this.errors = [{msg: data.message}];
+          this.errors = [{ msg: data.message }];
           return;
         }
         this.errors = data.errors;
       } else {
-        this.$refs['passwordInput'].value = "";
-        this.resetPassword = false
-        this.$set(this, 'update', {})
+        this.$refs["passwordInput"].value = "";
+        this.resetPassword = false;
+        this.$set(this, "update", {});
         this.key = Math.random();
       }
       this.requestSent = false;
+    },
+    linkGoogleDrive() {
+      this.$store.dispatch("setPopoutVisibility", {
+        name: "GDLinkMenu",
+        visibility: true
+      });
     }
   },
   watch: {
     update(obj) {
-      if ( Object.keys(obj).length === 0 ){
-        return this.changed = false
+      if (Object.keys(obj).length === 0) {
+        return (this.changed = false);
       }
       this.changed = true;
     }
   },
   computed: {
     googleDriveLinked() {
-      return this.$store.getters['settingsModule/settings'].GDriveLinked
+      return this.$store.getters["settingsModule/settings"].GDriveLinked;
     },
     avatar() {
       return config.domain + "/avatars/" + this.$store.getters.user.avatar;
@@ -283,5 +328,4 @@ export default {
     text-align: center;
   }
 }
-
 </style>

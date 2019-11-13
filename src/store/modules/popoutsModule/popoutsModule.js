@@ -1,10 +1,8 @@
-import axios from 'axios'
-import Vue from 'vue'
-import {
-  bus
-} from '@/main'
-import VueRouter from 'vue-router';
-import NotificationSounds from '@/utils/notificationSound';
+import axios from "axios";
+import Vue from "vue";
+import { bus } from "@/main";
+import VueRouter from "vue-router";
+import NotificationSounds from "@/utils/notificationSound";
 
 const state = {
   fileToUpload: null,
@@ -22,15 +20,15 @@ const state = {
   GDLinkMenu: false,
   addServer: false,
 
-  genericMessage: null, 
+  genericMessage: null,
 
-  serverSettings:{
+  serverSettings: {
     serverID: null,
     index: null
-   },
+  },
   editMessage: null,
   messageContextMenu: {
-    messageID: null, 
+    messageID: null,
     message: null,
     channelID: null,
     uniqueID: null,
@@ -42,82 +40,108 @@ const state = {
     uniqueID: null,
     x: null,
     y: null
-  } 
+  },
 
-  
-}
+  // TODO: convert all above into one.
+  allPopout: {
+    show: false,
+    type: null,
+    serverID: null,
+    uniqueID: null,
+    creatorUniqueID: null,
+    x: null,
+    y: null
+  }
+};
 
 const getters = {
   popouts(state) {
     return state;
   }
-}
+};
 
 const actions = {
-  setServerSettings({commit}, {serverID, index}){
-    commit('setServerSettings', {serverID, index})
+  setAllPopout({ commit, state }, data) {
+    commit("setAllPopout", { ...state.allPopout, ...data });
   },
-  setUserInformationPopout({commit}, id){
-    commit('setUserInformationPopout', id)
+  setServerSettings({ commit }, { serverID, index }) {
+    commit("setServerSettings", { serverID, index });
+  },
+  setUserInformationPopout({ commit }, id) {
+    commit("setUserInformationPopout", id);
   },
   setPopoutVisibility(context, data) {
-    context.commit('setPopoutVisibility', data)
+    context.commit("setPopoutVisibility", data);
   },
   setFile(context, file) {
-    context.commit('setFileToUpload', file);
+    context.commit("setFileToUpload", file);
   },
   setImagePreviewURL(context, url) {
-    context.commit('setImagePreviewURL', url);
+    context.commit("setImagePreviewURL", url);
   },
   setServerIDContextMenu(context, serverID) {
-    context.commit('setServerIDContextMenu', serverID);
+    context.commit("setServerIDContextMenu", serverID);
   },
   setGenericMessage(context, message) {
-    context.commit('setGenericMessage', message);
+    context.commit("setGenericMessage", message);
   },
-  setEditMessage(context, data){
-    context.commit('setEditMessage', data)
+  setEditMessage(context, data) {
+    context.commit("setEditMessage", data);
   },
-  setMessageContext(context, {messageID, x, y, channelID, message, uniqueID}) {
-    context.commit('setMessageContext', {messageID, x, y, channelID, message, uniqueID});
+  setMessageContext(
+    context,
+    { messageID, x, y, channelID, message, uniqueID, type }
+  ) {
+    context.commit("setMessageContext", {
+      messageID,
+      x,
+      y,
+      channelID,
+      message,
+      uniqueID,
+      type
+    });
   },
-  setServerMemberContext(context, {uniqueID, x, y, serverID}) {
-    context.commit('setServerMemberContext', {uniqueID, x, y, serverID});
+  setServerMemberContext(context, { uniqueID, x, y, serverID }) {
+    context.commit("setServerMemberContext", { uniqueID, x, y, serverID });
   }
-}
+};
 
 const mutations = {
+  setAllPopout(state, data) {
+    Vue.set(state, "allPopout", data);
+  },
   setServerMemberContext(state, data) {
-    Vue.set(state, 'serverMemberContext', data);
+    Vue.set(state, "serverMemberContext", data);
   },
   setMessageContext(state, data) {
-    Vue.set(state, 'messageContextMenu', data);
+    Vue.set(state, "messageContextMenu", data);
   },
-  setEditMessage(state, data){
-    Vue.set(state, 'editMessage', data);
+  setEditMessage(state, data) {
+    Vue.set(state, "editMessage", data);
   },
-  setGenericMessage(state, message){
-    Vue.set(state, 'genericMessage', message)
+  setGenericMessage(state, message) {
+    Vue.set(state, "genericMessage", message);
   },
-  setServerSettings(state, {serverID, index}){
-    Vue.set(state, 'serverSettings', {serverID, index});
+  setServerSettings(state, { serverID, index }) {
+    Vue.set(state, "serverSettings", { serverID, index });
   },
   setUserInformationPopout(state, id) {
-    Vue.set(state, 'userInformationPopoutID', id)
+    Vue.set(state, "userInformationPopoutID", id);
   },
   setPopoutVisibility(state, data) {
-    Vue.set(state, data.name, data.visibility)
+    Vue.set(state, data.name, data.visibility);
   },
   setFileToUpload(state, file) {
-    Vue.set(state, 'fileToUpload', file);
+    Vue.set(state, "fileToUpload", file);
   },
   setImagePreviewURL(state, url) {
-    Vue.set(state, 'ImagePreviewURL', url);
+    Vue.set(state, "ImagePreviewURL", url);
   },
   setServerIDContextMenu(state, serverID) {
-    Vue.set(state, 'serverIDContextMenu', serverID);
+    Vue.set(state, "serverIDContextMenu", serverID);
   }
-}
+};
 
 export default {
   namespace: true,
@@ -125,4 +149,4 @@ export default {
   getters,
   actions,
   mutations
-}
+};

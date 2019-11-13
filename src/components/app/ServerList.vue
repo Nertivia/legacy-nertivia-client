@@ -1,41 +1,55 @@
 <template>
   <div class="left-panel">
-    <MyMiniInformation />
-    <div class="actions">
-      <div class="action" @click="openAddServer">
-        <div class="material-icons">add</div>
-        <div class="text">Add Server</div>
+    <navigation />
+    <div class="right">
+      <div
+        class="server-banner"
+        @mouseenter="bannerHover = true"
+        @mouseleave="bannerHover = false"
+        :class="{extendBanner: server && server.banner}"
+        v-if="selectedServerID"
+      >
+        <div
+          class="banner-image"
+          @click="bannerImageClicked"
+          v-if="server && server.banner"
+          :style="{backgroundImage: `url(${bannerDomain}${server.banner}${bannerHover ? '' : '?type=png'})`}"
+        />
+        <div class="sub-banner">
+          <div
+            class="text"
+            :title="servers[selectedServerID].name"
+          >{{servers[selectedServerID].name}}</div>
+          <div class="options-button material-icons" @click="openServerContext">more_vert</div>
+        </div>
       </div>
-      <div class="action" @click="openExploreTab">
-        <div class="material-icons">explore</div>
-        <div class="text">Explore</div>
+      <div class="channels-list">
+        <channels-list v-if="selectedServerID" :server-i-d="selectedServerID" />
       </div>
-    </div>
-    <div class="list">
-      <server
-        v-for="(data, index) in servers"
-        :key="index.server_id"
-        :server-data="data"
-        :open-channel="selectedServerID && selectedServerID === data.server_id"
-        @click.native="toggleChannel(data.server_id, $event)"
-      />
+      <div class="seperater" />
+      <MyMiniInformation />
     </div>
   </div>
 </template>
 
 <script>
 import MyMiniInformation from "@/components/app/MyMiniInformation.vue";
-import Server from "@/components/app/ServerTemplate/ServerTemplate.vue";
-import {bus} from '@/main'
+import ChannelsList from "@/components/app/ServerTemplate/ChannelsList.vue";
+import Navigation from "@/components/app/Navigation.vue";
+import config from "@/config";
+import { bus } from "@/main";
 
 export default {
   components: {
     MyMiniInformation,
-    Server
+    ChannelsList,
+    Navigation
   },
   data() {
     return {
-      openedServer: null
+      openedServer: null,
+      bannerDomain: config.domain + "/media/",
+      bannerHover: false
     };
   },
   methods: {
@@ -45,31 +59,61 @@ export default {
         visibility: true
       });
     },
-    toggleChannel(serverID, event) {
-      if (!event.target.closest('.small-view') || event.target.closest('.options-context-button') || event.target.closest('.options-context-menu')) return;
-      if (this.openedServer === serverID) {
-        this.openedServer = null;
-        this.$store.dispatch('servers/setSelectedServerID', null)
-      }
-      else{
-        this.openedServer = serverID;
-        this.$store.dispatch('servers/setSelectedServerID', serverID)
-      }
+    clickServer(serverID, event) {
+      this.openedServer = serverID;
+      this.$store.dispatch("servers/setSelectedServerID", serverID);
     },
     openExploreTab() {
-      bus.$emit('changeTab', 0)
+      this.$store.dispatch("setCurrentTab", 0);
+    },
+    openServerContext(event) {
+      const rect = event.target.getBoundingClientRect();
+      if (this.checkServerContextOpened) {
+        this.$store.dispatch("setAllPopout", {
+          show: false,
+          type: null
+        });
+        return;
+      }
+      this.$store.dispatch("setAllPopout", {
+        show: true,
+        type: "SERVER",
+        serverID: this.servers[this.selectedServerID].server_id,
+        creatorUniqueID: this.servers[this.selectedServerID].creator.uniqueID,
+        x: rect.left - 30,
+        y: rect.top + 35
+      });
+    },
+    bannerImageClicked() {
+      this.$store.dispatch(
+        "setImagePreviewURL",
+        this.bannerDomain + this.server.banner
+      );
     }
   },
   computed: {
     servers() {
-      const data = this.$store.getters['servers/servers'];
-      return Object.keys(data).map(key => {
-        return data[key];
-      }).slice().reverse()
+      return this.$store.getters["servers/servers"];
+    },
+    serversArr() {
+      const data = this.servers;
+      return Object.keys(data)
+        .map(key => {
+          return data[key];
+        })
+        .slice()
+        .reverse();
     },
     selectedServerID() {
-      return this.$store.getters['servers/selectedServerID'];
+      return this.$store.getters["servers/selectedServerID"];
     },
+    server() {
+      return this.servers[this.selectedServerID];
+    },
+    checkServerContextOpened() {
+      const contextDetail = this.$store.getters.popouts.allPopout;
+      return contextDetail.show && contextDetail.type === "SERVER";
+    }
   }
 };
 </script>
@@ -77,66 +121,97 @@ export default {
 <style scoped lang="scss" >
 .left-panel {
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.671);
   width: 300px;
   flex-shrink: 0;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   z-index: 1;
-}
-.list {
-  margin: 2px;
-  margin-left: 5px;
-  margin-right: 5px;
-  flex: 1;
-  overflow: auto;
-  user-select: none;
+  background-image: url("../../assets/leftPanelBackground.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
-/* ------- SCROLL BAR -------*/
-/* width */
-.list::-webkit-scrollbar {
-  width: 3px;
+.seperater {
+  height: 1px;
+  width: calc(100% - 10px);
+  align-self: center;
+  background-color: #a0c8d5;
+  flex-shrink: 0;
 }
 
-/* Track */
-.list::-webkit-scrollbar-track {
-  background: #8080806b;
-}
-
-/* Handle */
-.list::-webkit-scrollbar-thumb {
-  background: #f5f5f559;
-}
-
-/* Handle on hover */
-.list::-webkit-scrollbar-thumb:hover {
-  background: #f5f5f59e;
-}
-
-.actions {
-  color: white;
+.channels-list {
   display: flex;
+  flex: 1;
+  height: 100%;
+}
+.right {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.server-banner {
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  flex-direction: row;
+  background-color: rgba(32, 32, 32, 0.4);
+  height: 35px;
+}
+.extendBanner {
+  height: 150px;
+  background-color: rgb(32, 32, 32);
+}
+.banner-image {
+  position: absolute;
+  background-image: url("../../assets/background.jpg");
+  background-position: center;
+  background-size: cover;
+  height: 100%;
+  z-index: 2;
+  width: 100%;
+  cursor: pointer;
+}
+.sub-banner {
+  display: flex;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  align-self: flex-end;
+  height: 35px;
+  width: 100%;
+  align-items: center;
+  padding-left: 10px;
+  position: relative;
+  backdrop-filter: blur(15px);
+  z-index: 2;
+  user-select: none;
+  overflow: hidden;
+  cursor: default;
+  .text {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+  }
+}
+.options-button {
+  display: flex;
+  align-items: center;
+  align-content: center;
   justify-content: center;
   flex-shrink: 0;
+  height: 35px;
+  width: 35px;
+  transition: 0.2s;
+  cursor: pointer;
   user-select: none;
-  .action {
-    display: flex;
-    padding: 5px;
-    margin: 2px;
-    align-items: center;
-    align-content: center;
-    cursor: pointer;
-    color: rgb(223, 223, 223);
-    border-radius: 5px;
-    transition: 0.2s;
-    .material-icons {
-      color: white;
-      margin-right: 5px;
-    }
-    &:hover {
-      background: rgba(0, 0, 0, 0.24);
-    }
+  font-size: 20px;
+  &:hover {
+    background: rgba(0, 0, 0, 0.322);
   }
 }
 </style>

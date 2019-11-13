@@ -90,6 +90,9 @@ export default {
   -webkit-transform: translateZ(0) scale(1, 1);
   transform: translateZ(0);
 }
+.hoverable {
+  cursor: pointer;
+}
 .hoverable:hover {
   filter: brightness(80%);
 }

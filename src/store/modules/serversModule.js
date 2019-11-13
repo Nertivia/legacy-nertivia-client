@@ -25,6 +25,9 @@ const getters = {
 };
 
 const actions = {
+  setChannelIDs(context, {serverID, channelIDs}) {
+    context.commit('SET_CHANNEL_IDs', {serverID, channelIDs})
+  },
   AddChannelsIDs(context, {serverID, channelsIDs}) {
     context.commit('ADD_CHANNELS_IDS', {serverID, channelsIDs});
   },

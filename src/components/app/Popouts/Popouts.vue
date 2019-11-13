@@ -14,6 +14,8 @@
       <GenericPopout  key="gp" v-if="popouts.genericMessage"/>
       <message-context-menu  key="mcm" v-if="popouts.messageContextMenu.messageID"/>
       <server-member-context  key="smc" v-if="popouts.serverMemberContext.uniqueID"/>
+      <server-context  key="sc" v-if="popouts.allPopout.type === 'SERVER' && popouts.allPopout.show"/>
+      <add-friend  key="af" v-if="popouts.allPopout.type === 'ADD_FRIEND' && popouts.allPopout.show"/>
     </transition-group>
   </div>
 </template>
@@ -26,9 +28,11 @@
   // context menus
   const messageContextMenu = () => import('./Popouts/messageContextMenu');
   const ServerMemberContext = () => import('./Popouts/ServerMemberContext');
+  const ServerContext = () => import('./Popouts/ServerContextMenu.vue');
 
 
   const AddServer = () => import('./Popouts/AddServer.vue');
+  const AddFriend = () => import('./Popouts/AddFriend');
   const Settings = () => import('./Popouts/Settings.vue');
   const TakeSurveyPopout = () => import('./Popouts/TakeSurveyPopout.vue');
   const uploadDialog = () => import('./Popouts/uploadDialog.vue');
@@ -55,7 +59,10 @@ export default {
     ServerSettings,
     GenericPopout,
     messageContextMenu,
-    ServerMemberContext
+    ServerMemberContext,
+    ServerContext,
+    AddFriend
+    
   },
   data() {
     return {

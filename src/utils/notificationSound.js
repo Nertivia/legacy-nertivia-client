@@ -12,12 +12,12 @@ const newFriendAudio = new Audio(newFriendSound);
 
 export default  {
     notification: () => {
-        if (isBusy()) return;
+        if (isBusy() || isNotificationDisabled()) return;
         const audio = new Audio(notificationSound);
         audio.play();
     },
     newFriend: () => {
-        if (isBusy()) return;
+        if (isBusy() || isNotificationDisabled()) return;
         const audio = new Audio(newFriendSound);
         audio.play();
     }
@@ -25,4 +25,7 @@ export default  {
 
 function isBusy(){
  return store.getters.user.status == 3
+}
+function isNotificationDisabled(){
+ return !!store.getters['settingsModule/settings'].notification.disableNotificationSound;
 }

@@ -8,15 +8,30 @@
     <div class="loading" v-if="selectedChannelID && !selectedChannelMessages">
       <spinner />
     </div>
-    <message-logs v-else-if="selectedChannelID && selectedChannelMessages" :key="selectedChannelID" />
+    <message-logs
+      v-else-if="selectedChannelID && selectedChannelMessages"
+      :key="selectedChannelID"
+    />
     <div class="no-channel-selected" v-if="!selectedChannelID">
       <div class="material-icons">{{type === 0 ? 'chat' : type === 1 ? 'forum' : 'question'}}</div>
-      <div class="message">{{type === 0 ? 'Select a person to message!' : type === 1 ?'Select a server!' : "wot"}}</div>
+      <div
+        class="message"
+      >{{type === 0 ? 'Select a person to message!' : type === 1 ?'Select a server!' : "wot"}}</div>
+    </div>
+    <div class="typing-outer">
+      <typing-status
+        v-if="typingRecipients[selectedChannelID]"
+        :recipients="typingRecipients[selectedChannelID]"
+      />
     </div>
     <div class="chat-input-area" v-if="selectedChannelID">
       <div style="position: relative;">
         <transition name="show-up">
-          <div class="back-to-bottom-button" @click="backToTopButton" v-if="!scrolledDown && selectedChannelMessages">
+          <div
+            class="back-to-bottom-button"
+            @click="backToTopButton"
+            v-if="!scrolledDown && selectedChannelMessages"
+          >
             Back to bottom
             <i class="material-icons">keyboard_arrow_down</i>
           </div>
@@ -26,6 +41,14 @@
       </div>
 
       <edit-panel v-if="editMessage" :data="editMessage" />
+      <div class="seperater" />
+      <!-- <div class="info">
+
+        <div
+          v-if=" messageLength >= 4500 && (sendMessagePermission === true || editMessage)"
+          :class="{'message-count': true, 'error-info': messageLength > 5000 }"
+        >{{messageLength}}/5000</div>
+      </div>-->
       <div class="message-area" v-if="sendMessagePermission === true || editMessage">
         <input type="file" ref="sendFileBrowse" @change="attachmentChange" class="hidden" />
         <div class="attachment-button" @click="attachmentButton">
@@ -52,21 +75,17 @@
           @click="editMessage ? updateMessage() : sendMessage()"
         >
           <i class="material-icons">{{editMessage ? 'edit' : 'send'}}</i>
+          <div
+            v-if=" messageLength >= 4500 && (sendMessagePermission === true || editMessage)"
+            :class="{'message-count': true, 'error-info': messageLength > 5000 }"
+          >{{messageLength}} / 5000</div>
         </button>
       </div>
-      <div class="info">
-        <div class="typing-outer">
-          <typing-status
-            v-if="typingRecipients[selectedChannelID]"
-            :recipients="typingRecipients[selectedChannelID]"
-          />
-        </div>
-        <div v-if=" messageLength >= 4500 && (sendMessagePermission === true || editMessage)"
-          :class="{'message-count': true, 'error-info': messageLength > 5000 }"
-        >{{messageLength}}/5000</div>
-      </div>
     </div>
-    <div class="no-message-permission" v-if="sendMessagePermission === false">You don't have permission to send messages in this channel.</div>
+    <div
+      class="no-message-permission"
+      v-if="sendMessagePermission === false"
+    >You don't have permission to send messages in this channel.</div>
   </div>
 </template>
 
@@ -76,26 +95,26 @@ import typingService from "@/services/TypingService";
 import { bus } from "../../main";
 import JQuery from "jquery";
 import Spinner from "@/components/Spinner.vue";
-import TypingStatus from "@/components/app/TypingStatus.vue";
 import heading from "@/components/app/MessagePanel/Heading.vue";
 import emojiSuggestions from "@/components/app/EmojiPanels/emojiSuggestions.vue";
 import MessageLogs from "@/components/app/MessageLogs.vue";
-import emojiParser from "@/utils/emojiParser.js"; 
+import emojiParser from "@/utils/emojiParser.js";
 import windowProperties from "@/utils/windowProperties";
+import TypingStatus from "@/components/app/TypingStatus.vue";
 
 const emojiPanel = () => import("@/components/app/EmojiPanels/emojiPanel.vue");
 const EditPanel = () => import("@/components/app/EditPanel.vue");
 
 export default {
-  props: ['type'], // type 0: dm; type 1: server
+  props: ["type"], // type 0: dm; type 1: server
   components: {
     Spinner,
-    TypingStatus,
     emojiSuggestions,
     emojiPanel,
     heading,
     EditPanel,
-    MessageLogs
+    MessageLogs,
+    TypingStatus
   },
   data() {
     return {
@@ -243,7 +262,7 @@ export default {
         input.style.height = "auto";
         input.style.height = `calc(${input.scrollHeight}px - 1em)`;
       }
-      bus.$emit('scrollDown');  
+      bus.$emit("scrollDown");
     },
     emojiSwitchKey(event) {
       if (!this.emojiArray) return;
@@ -449,10 +468,12 @@ export default {
       }
     },
     backToTopButton() {
-      bus.$emit('backToBottom');
+      bus.$emit("backToBottom");
     },
     editMessageEvent(editMessage) {
-      this.message = editMessage ? emojiParser.emojiToShortcode(editMessage.message) : ''; 
+      this.message = editMessage
+        ? emojiParser.emojiToShortcode(editMessage.message)
+        : "";
     },
     onBlur() {
       clearTimeout(this.postTimerID);
@@ -469,7 +490,6 @@ export default {
         user.unique_id === this.user.uniqueID
       )
         return;
-
       if (typingRecipients === undefined) {
         this.$set(this.typingRecipients, channel_id, {
           [user.unique_id]: { username: user.username }
@@ -486,7 +506,7 @@ export default {
         () => {
           this.$delete(this.typingRecipients[channel_id], user.unique_id);
         },
-        2500
+        3500
       );
     };
 
@@ -494,11 +514,11 @@ export default {
     bus.$on("emojiSuggestions:Selected", this.enterEmojiSuggestion);
     bus.$on("emojiPanel:Selected", this.enterEmojiPanel);
 
-    bus.$on('scrolledDown', (scrolledDown) => {
+    bus.$on("scrolledDown", scrolledDown => {
       this.scrolledDown = scrolledDown;
-    })
+    });
 
-    window.addEventListener('blur', this.onBlur)
+    window.addEventListener("blur", this.onBlur);
     window.addEventListener("focus", this.onFocus);
   },
 
@@ -520,7 +540,7 @@ export default {
     },
     message(message) {
       this.messageLength = message.length;
-      this.$nextTick(this.resize)
+      this.$nextTick(this.resize);
     }
   },
   computed: {
@@ -544,16 +564,19 @@ export default {
     channel() {
       return this.$store.getters.channels[this.selectedChannelID];
     },
-    server () {
+    server() {
       if (!this.channel) return false;
       if (!this.channel.server_id) return false;
-      return this.$store.getters["servers/servers"][this.channel.server_id] || undefined;
+      return (
+        this.$store.getters["servers/servers"][this.channel.server_id] ||
+        undefined
+      );
     },
     sendMessagePermission() {
       if (this.type !== 1) return true;
-      if (!this.channel) return null
+      if (!this.channel) return null;
 
-      if (!this.server)  return false;
+      if (!this.server) return false;
 
       if (this.server.creator.uniqueID === this.user.uniqueID) return true;
       if (!this.channel.permissions) return true;
@@ -591,7 +614,7 @@ export default {
         width: windowProperties.resizeWidth,
         height: windowProperties.resizeHeight
       };
-    },
+    }
   }
 };
 </script>
@@ -624,6 +647,12 @@ export default {
     font-size: 50px;
   }
 }
+.typing-outer {
+  display: flex;
+  height: 20px;
+  margin-bottom: 5px;
+  margin-left: 10px;
+}
 
 .hidden {
   display: none;
@@ -636,7 +665,6 @@ export default {
 .right-panel {
   height: 100%;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.507);
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -646,7 +674,6 @@ export default {
 .message-logs {
   overflow: auto;
   flex: 1;
-  margin-right: 2px;
   position: relative;
 }
 
@@ -657,25 +684,23 @@ export default {
 .chat-input-area {
   display: flex;
   flex-direction: column;
-  padding-top: 5px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   position: relative;
 }
 
 .attachment-button {
   width: 50px;
-  background: rgba(0, 0, 0, 0.219);
+  background: rgba(255, 255, 255, 0.07);
   margin-right: 2px;
   margin-left: 10px;
   display: flex;
   flex-shrink: 0;
-  cursor: default;
+  cursor: pointer;
   user-select: none;
   transition: 0.3s;
-  border-radius: 5px;
 
   &:hover {
-    background: rgba(0, 0, 0, 0.322);
+    background: rgba(255, 255, 255, 0.13);
   }
   .material-icons {
     color: white;
@@ -683,23 +708,24 @@ export default {
   }
 }
 
+.seperater {
+  height: 1px;
+  width: calc(100% - 10px);
+  align-self: center;
+  background-color: #a0c8d5;
+  flex-shrink: 0;
+  margin-bottom: 10px;
+}
 .chat-input-area .info {
   color: rgba(255, 255, 255, 0.466);
   font-size: 12px;
-  margin-left: 25px;
+  margin-left: 13px;
   margin-top: 5px;
   display: flex;
 }
 
-.typing-outer {
-  flex: 1;
-  height: 20px;
-}
-
 .message-count {
-  float: right;
-  margin-right: 20px;
-  margin-top: 3px;
+  font-size: 15px;
 }
 
 .message-area {
@@ -709,7 +735,7 @@ export default {
 
 .chat-input {
   font-family: "Roboto", sans-serif;
-  background: rgba(0, 0, 0, 0.158);
+  background: rgba(255, 255, 255, 0.07);
   color: white;
   width: 100%;
   min-height: 20px;
@@ -724,21 +750,19 @@ export default {
   overflow: hidden;
   max-height: 30vh;
   overflow-y: auto;
-  border-radius: 5px;
-
   &:hover {
-    background: rgba(0, 0, 0, 0.288);
+    background: rgba(255, 255, 255, 0.1);
   }
 
   &:focus {
-    background: rgba(0, 0, 0, 0.466);
+    background: rgba(255, 255, 255, 0.13);
   }
 }
 
 .send-button {
   font-size: 20px;
   color: white;
-  background: rgba(0, 0, 0, 0.274);
+  background: rgba(255, 255, 255, 0.07);
   border: none;
   outline: none;
   margin-left: 2px;
@@ -747,15 +771,17 @@ export default {
   width: 50px;
   transition: 0.3s;
   display: flex;
+  flex-direction: column;
   flex-shrink: 0;
-  border-radius: 5px;
   user-select: none;
+  overflow: hidden;
   cursor: pointer;
+  align-items: center;
   .material-icons {
     margin: auto;
   }
   &:hover {
-    background: rgba(0, 0, 0, 0.514);
+    background: rgba(255, 255, 255, 0.13);
   }
 }
 
@@ -769,7 +795,7 @@ export default {
 .emojis-button {
   font-size: 20px;
   color: white;
-  background: rgba(0, 0, 0, 0.274);
+  background: rgba(255, 255, 255, 0.07);
   border: none;
   outline: none;
   margin-left: 2px;
@@ -779,13 +805,12 @@ export default {
   transition: 0.3s;
   display: flex;
   flex-shrink: 0;
-  border-radius: 5px;
   user-select: none;
   .material-icons {
     margin: auto;
   }
   &:hover {
-    background: rgba(0, 0, 0, 0.514);
+    background: rgba(255, 255, 255, 0.13);
   }
 }
 

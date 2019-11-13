@@ -1,243 +1,141 @@
 <template>
-  <div :class="{server: true, 'add-server': mode === 'ADD_SERVER'}">
-    <div :class="{'small-view': true, notifyAnimation: notification}">
-      <profile-picture
-        v-if="!mode"
-        size="50px"
-        :url="`${avatarDomain}/${serverData.avatar}`"
-      />
-      <div
-        v-if="mode === 'ADD_SERVER'"
-        class="add-icon"
-      >
-        <i class="material-icons">add</i>
-      </div>
-      <div class="server-name">
-        {{ mode === 'ADD_SERVER'? 'Create / Join Server' : serverData.name }}
-      </div>
-      <div
-        v-if="mode !== 'ADD_SERVER'"
-        ref="contextMenuButton"
-        class="options-context-button"
-        @click="showContextMenu = !showContextMenu"
-      >
-        <i class="material-icons">more_vert</i>
-      </div>
-      <div
-        v-if="showContextMenu"
-        v-click-outside="closeContextMenu"
-        class="options-context-menu"
-      >
-        <div
-          class="menu-button"
-          @click="createInvite(serverData.server_id)"
-        >
-          Manage Invites
-        </div>
-        <div
-          v-if="serverData.creator.uniqueID !== user.uniqueID"
-          class="menu-button warn"
-          @click="leaveServer(serverData.server_id)"
-        >
-          Leave Server
-        </div>
-        <div
-          v-if="serverData.creator.uniqueID === user.uniqueID"
-          class="menu-button"
-          @click="showSettings()"
-        >
-          Server Settings
-        </div>
-      </div>
-    </div>
-    <div ref="container">
-      <channels-list
-        v-if="openChannel"
-        :server-i-d="serverData.server_id"
-      />
-    </div>
+  <div
+    class="server"
+    :class="{selected: selectedServerID === serverData.server_id, notifyAnimation: notification }"
+    @contextmenu.prevent="contextEvent"
+    @mouseenter="hoverEvent"
+    @mouseover="hover = true"
+    @mouseleave="hover = false"
+  >
+    <profile-picture
+      size="45px"
+      :url="`${avatarDomain}/${serverData.avatar}${hover ? '' : '?type=png'}`"
+    />
   </div>
 </template>
 
 <script>
+import { bus } from "../../../main.js";
 import config from "@/config.js";
-import ChannelsList from "@/components/app/ServerTemplate/ChannelsList.vue";
 import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
 import ServerService from "@/services/ServerService";
-import smoothReflow from "vue-smooth-reflow";
 
 export default {
-  components: { ProfilePicture, ChannelsList },
-  mixins: [smoothReflow],
-  props: ["serverData", "openChannel", "mode"],
+  components: { ProfilePicture },
+  props: ["serverData"],
   data() {
     return {
-      showContextMenu: false,
-      showChannels: false,
-      avatarDomain: config.domain + "/avatars"
+      avatarDomain: config.domain + "/avatars",
+      hover: false
     };
   },
   computed: {
     user() {
       return this.$store.getters.user;
     },
+    selectedServerID() {
+      return this.$store.getters["servers/selectedServerID"];
+    },
+    selectedChannelID() {
+      return this.$store.getters.selectedChannelID;
+    },
     notification() {
       const notifications = this.$store.getters.notifications;
-      const channels = this.$store.getters.channels
+
+      const channels = this.$store.getters.channels;
       const notification = notifications.find(e => {
-        return channels[e.channelID] && channels[e.channelID].server_id && this.serverData && channels[e.channelID].server_id === this.serverData.server_id 
-      })
+        return (
+          channels[e.channelID] &&
+          channels[e.channelID].server_id &&
+          this.serverData &&
+          channels[e.channelID].server_id === this.serverData.server_id &&
+          (this.selectedChannelID !== e.channelID || !document.hasFocus())
+        );
+      });
       return notification;
     }
   },
-  mounted() {
-    this.$smoothReflow({
-      el: this.$refs.container
-    });
-  },
   methods: {
-    showSettings() {
-      this.showContextMenu = false;
-      this.$store.dispatch('setServerSettings', {serverID: this.serverData.server_id})
-    },
-    createInvite(serverID) {
-      this.showContextMenu = false;
-      this.$store.dispatch("setServerIDContextMenu", serverID);
-      this.$store.dispatch("setPopoutVisibility", {
-        name: "showServerInviteMenu",
-        visibility: true
+    hoverEvent(event) {
+      const rect = event.target.getBoundingClientRect();
+      //let centerX = targetNode.offsetLeft + targetNode.offsetWidth / 2;
+      //let centerY = targetNode.offsetTop + targetNode.offsetHeight / 2;
+      bus.$emit("server-tool-tip", {
+        serverID: this.serverData.server_id,
+        top: rect.top
       });
     },
-    closeContextMenu(event) {
-      if (
-        event.target.closest(".options-context-button") ===
-        this.$refs.contextMenuButton
-      )
-        return;
-      this.showContextMenu = false;
-    },
-    async leaveServer(serverID) {
-      this.showContextMenu = false;
-      const {ok, error, result} = await ServerService.leaveServer(serverID);
+    contextEvent(event) {
+      this.$store.dispatch("setAllPopout", {
+        show: true,
+        type: "SERVER",
+        serverID: this.serverData.server_id,
+        creatorUniqueID: this.serverData.creator.uniqueID,
+        x: event.clientX,
+        y: event.clientY
+      });
     }
   }
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.server {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-self: center;
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  user-select: none;
+  transition: background 0.2s;
+  cursor: pointer;
+  &:hover {
+    background: #074447;
+  }
+  &.selected {
+    background: #042a2b;
+  }
+}
 
-
-.notifyAnimation:before{
-  content: '';
+.notifyAnimation:before {
+  content: "!";
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  font-size: 15px;
   position: absolute;
-  z-index: -1;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  z-index: 115651;
+  top: 5px;
+  right: 5px;
+  width: 20px;
+  height: 20px;
   animation: notifyAnime;
   animation-duration: 1s;
   animation-iteration-count: infinite;
   animation-fill-mode: forwards;
-  border-radius: 5px;
-
+  border-radius: 50%;
+  background: rgba(255, 23, 23, 0.753);
 }
 @keyframes notifyAnime {
-  0%{
-    background: rgba(255, 0, 0, 0.198);
+  0% {
+    opacity: 1;
   }
-  40%{
-    background: rgba(255, 0, 0, 0.411);
+  40% {
+    opacity: 0.9;
   }
-  60%{
-    background: rgba(255, 0, 0, 0.411);
+  60% {
+    opacity: 1;
   }
-  100%{
-    background: rgba(255, 0, 0, 0.198);
+  100% {
+    opacity: 0.2;
   }
-}
-
-
-.server {
-  color: white;
-  display: flex;
-  flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.137);
-  border-radius: 5px;
-  margin: 5px;
-  transition: 0.3s;
-}
-
-.server:hover {
-  background: rgba(0, 0, 0, 0.288);
-}
-.material-icons {
-  transition: 0.3s;
-}
-.add-server:hover .material-icons {
-  color: rgba(20, 255, 39, 0.726);
-}
-
-.small-view {
-  padding-right: 0;
-  display: flex;
-  transition: 0.3s;
-  position: relative;
-  align-items: center;
-  padding: 5px;
-  cursor: pointer;
-}
-
-.server-name {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-left: 5px;
-  flex: 1;
-  white-space: nowrap;
-}
-.add-icon {
-  height: 56px;
-  display: flex;
-  align-items: center;
-  margin-right: 5px;
-  margin-left: 5px;
-}
-
-.add-icon .material-icons {
-  font-size: 40px;
-}
-.options-context-button {
-  display: flex;
-  align-items: center;
-  margin-right: 5px;
-  color: rgba(255, 255, 255, 0.623);
-  border-radius: 50%;
-  transition: 0.3s;
-}
-.options-context-button .material-icons:hover {
-  color: white;
-}
-
-.options-context-menu {
-  position: absolute;
-  background: rgba(0, 0, 0, 0.692);
-  border-radius: 10px;
-  z-index: 9999;
-  padding: 5px;
-  right: 40px;
-  top: 20px;
-}
-.menu-button {
-  padding: 5px;
-  margin: 2px;
-  border-radius: 5px;
-  transition: 0.3s;
-}
-.menu-button:hover {
-  background: rgb(47, 47, 47);
-}
-
-.warn {
-  color: red;
 }
 </style>

@@ -8,12 +8,14 @@
       v-if="channels"
       class="wrapper"
     >
-      <ChannelTemplate
-        v-for="channel in channels"
-        :key="channel.channelID"
-        :channel-data="channel"
-        @click.native="openChannel(channel)"
-      />
+     <draggable :disabled="!isServerCreator" v-model="serverChannels" :animation="200" :delay="mobile ? 400 : 0" ghost-class="ghost" @end="onEnd" @start="onStart">
+        <ChannelTemplate
+          v-for="channel in serverChannels"
+          :key="channel.channelID"
+          :channel-data="channel"
+          @click.native="openChannel(channel)"
+        />
+     </draggable>
     </div>
   </div>
 </template>
@@ -21,26 +23,45 @@
 import Spinner from "@/components/Spinner.vue";
 import ChannelTemplate from "@/components/app/ServerTemplate/ChannelTemplate.vue";
 import ServerService from "@/services/ServerService.js";
+import draggable from 'vuedraggable'
+import { isMobile } from "@/utils/Mobile";
 import {bus} from '@/main.js'
 
 export default {
-  components: { ChannelTemplate, Spinner },
+  components: { draggable, ChannelTemplate, Spinner },
   props: ["serverID"],
-  computed: {
-    channels() {
-      const channelsIds = this.$store.getters["servers/channelsIDs"][this.serverID];
-      if (channelsIds) {
-        let channels = [];
-        for ( let channelID of channelsIds ){
-          channels.push(this.$store.getters.channels[channelID])
-        }
-        return channels;
-      } else {
-        return false;
-      }
+  data() {
+    return {
+      mobile: isMobile(),
+      drag: false,
     }
   },
 
+  methods: {
+    onStart() {
+      this.drag = true;
+    },
+    async onEnd() {
+      this.drag = false;
+      const channelIDs = this.serverChannels.map(s => s.channelID);
+      const update = await ServerService.channelPosition(this.serverID, channelIDs);
+    },
+    openChannel(channel) {
+      // add to local storage
+      const selectedChannels = JSON.parse(localStorage.getItem('selectedChannels') || '{}')
+      selectedChannels[this.serverID] = channel.channelID;
+      localStorage.setItem('selectedChannels', JSON.stringify(selectedChannels));
+
+      const notificationExists = this.$store.getters.notifications.find(n => n.channelID === channel.channelID)
+
+      if (notificationExists && document.hasFocus()) {
+        this.$socket.emit('notification:dismiss', {channelID: channel.channelID});
+      }
+      
+      bus.$emit('closeLeftMenu');
+      this.$store.dispatch('openChannel', channel)
+    }
+  },
   async beforeMount() {
     if (this.channels !== undefined) return;
     const { ok, error, result } = await ServerService.getChannels(
@@ -63,26 +84,58 @@ export default {
       });
     }
   },
-  methods: {
-    openChannel(channel) {
-      const notificationExists = this.$store.getters.notifications.find(n => n.channelID === channel.channelID)
-
-      if (notificationExists && document.hasFocus()) {
-        this.$socket.emit('notification:dismiss', {channelID: channel.channelID});
+  computed: {
+    user() {
+      return this.$store.getters.user;
+    },
+    isServerCreator() {
+      return this.$store.getters["servers/servers"][this.serverID].creator.uniqueID === this.user.uniqueID;
+    },
+    channels() {
+      return this.$store.getters.channels;
+    },
+    serverChannels: {
+      get() {
+        const channelsIds = this.$store.getters["servers/channelsIDs"][this.serverID];
+        if (!channelsIds) {return false}
+        return channelsIds.map(id => this.channels[id]).filter(c => c.server_id === this.serverID)
+      },
+      set(value) {
+        this.$store.dispatch('servers/setChannelIDs', {serverID: this.serverID, channelIDs: value.map(c => c.channelID)} )
       }
-      
-      bus.$emit('closeLeftMenu');
-      this.$store.dispatch('openChannel', channel)
     }
-  }
+  },
 };
 </script>
 
 <style scoped>
-.channel-list {
-  background: rgba(0, 0, 0, 0.288);
+.sortable-drag {
+  opacity: 0;
+}
+.ghost::before {
+  content: '';
+  position: absolute;
+  background: white;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 3px;
+}
+
+.channels-list {
+  height: 100%;
+  width: 100%;
   display: flex;
+  flex: 1;
+  overflow: hidden;
+  overflow-y: auto;
   flex-direction: column;
+}
+
+/* ------- SCROLL BAR -------*/
+/* width */
+.channels-list::-webkit-scrollbar {
+  width: 3px;
 }
 </style>
 

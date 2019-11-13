@@ -1,32 +1,89 @@
-
- const prototype =  {
-    version: 4,
-    title: "",
-    shortTitle: "",
-    date: "1/06/2019",
-    headColor: "rgba(155, 244, 66, 0.77)",
-    new: [
-      "",
-      "",
-    ],
-    next: [""]
-  }
+const prototype = {
+  version: 4,
+  title: "",
+  shortTitle: "",
+  date: "1/06/2019",
+  headColor: "rgba(155, 244, 66, 0.77)",
+  new: ["", ""],
+  next: [""]
+};
 
 const config = [
-
+  {
+    version: 8.2,
+    title: "Better formatter + better performance.",
+    shortTitle: "",
+    date: "13/11/2019",
+    headColor: "#0c7b7f",
+    new: [
+      "We have changed the markdown formatter from markdown-it to simple-markdown. This has also improved the performance. (Thanks bree!)"
+    ],
+  },
+  {
+    version: 8.1,
+    title: "Move server channels",
+    shortTitle: "",
+    date: "12/11/2019",
+    new: [
+      "You can now move channels to make it more organized."
+    ],
+    fix: [
+      "Fixed a bug where the notification sound would sometimes not work.",
+      "Fixed a bug where join message would send twice."
+    ],
+  },
+  {
+    version: 8.0,
+    title: "Move servers",
+    shortTitle: "",
+    date: "08/11/2019",
+    new: [
+      "You can now move servers to make your list more organized."
+    ],
+    fix: [
+      "Fixed some bugs behind the scenes"
+    ],
+    msg: "Disabled custom emojis due to an xss vulnerability 🤦‍♂️"
+  },
+  {
+    version: 7.9,
+    title: "Server banner",
+    shortTitle: "",
+    date: "03/11/2019",
+    new: [
+      "You can now add banners to your server! These banners will be displayed in your server channels list and in the explore tab. To change your banner, go to your server settings page."
+    ],
+    fix: [
+      "Fixed a bug where when pressing enter on the login or register key, it would not work properly."
+    ],
+    next: [
+      "Re-design some popup menus starting from user settings. (Note that the survey kind of looks weird right now. It will be fixed in the next update hopefully :D"
+    ]
+  },
+  {
+    version: 7.8,
+    title: "Redesigns!",
+    shortTitle: "",
+    date: "01/11/2019",
+    new: [
+      "Layout has been redesigned.",
+      "Added an option to mute notification sounds.",
+      "Last clicked channels should be remembered for each server.",
+      "You can now delete Join, Left and Ban messages from the chat.",
+      "Files not being uploaded? Try re-linking Google drive in the settings."
+    ],
+    next: ["Custom server banners."],
+    msg:
+      "Since this is a major re-design, there could be a lot of bugs. Please help me fix these bugs by sending me a message and I will give you a bug catcher badge in Nertivia. Thanks."
+  },
   {
     version: 7.6,
     title: "👻Spooky bug fixes👻",
     shortTitle: "",
     date: "16/10/2019",
-    headColor: "rgb(255, 166, 0)", // halloween
-    //headColor: "rgba(25, 130, 255, 0.77)",
-    new: [
-      'Better handled Google Drive linking.',
-      '👻👻👻',
-    ],
-    fix: ['Spooked away a lot of bugs behind the scenes.'],
-    msg: '👻'
+    new: ["Better handled Google Drive linking.", "👻👻👻"],
+    fix: ["Spooked away a lot of bugs behind the scenes."],
+    msg: "👻"
   },
   {
     version: 7.5,
@@ -34,10 +91,13 @@ const config = [
     shortTitle: "",
     date: "09/10/2019",
     new: [
-      'Design changes to some elements such as the tabs, Window controls and more.',
+      "Design changes to some elements such as the tabs, Window controls and more."
     ],
-    fix: ['Fixed a bug where presence status would not show properly in the header.'],
-    msg: 'I just want to say thanks to everyone who gave me feedback, it helps a lot! 😉 Native mobile app is coming soon!'
+    fix: [
+      "Fixed a bug where presence status would not show properly in the header."
+    ],
+    msg:
+      "I just want to say thanks to everyone who gave me feedback, it helps a lot! 😉 Native mobile app is coming soon!"
   },
   {
     version: 7.4,
@@ -45,11 +105,11 @@ const config = [
     shortTitle: "",
     date: "03/10/2019",
     new: [
-      'Added send message permission. You can use this to allow other people to not write in your channel such as the "rules" channel.',
+      'Added send message permission. You can use this to allow other people to not write in your channel such as the "rules" channel.'
     ],
     fix: [
-      "Fixed a lot of bugs in our cache system. This means that messages should send faster!",
-    ],
+      "Fixed a lot of bugs in our cache system. This means that messages should send faster!"
+    ]
   },
   {
     version: 7.3,
@@ -57,12 +117,12 @@ const config = [
     shortTitle: "",
     date: "29/09/2019",
     new: [
-      'You can now kick/back members of a server by right clicking on their names in the server members list.',
-      'Slightly changed message bubble design.'
+      "You can now kick/back members of a server by right clicking on their names in the server members list.",
+      "Slightly changed message bubble design."
     ],
     fix: [
-      "Fixed a bug where Join and Leave messages would not get notified when reloading client.",
-    ],
+      "Fixed a bug where Join and Leave messages would not get notified when reloading client."
+    ]
   },
   {
     version: 7.2,
@@ -73,7 +133,7 @@ const config = [
       "Online and offline is now a category in the server members list.",
       "Moved add server to the top of the servers list with new design.",
       "Added Explore button to the top of the servers list."
-    ],
+    ]
   },
   {
     version: 7.1,
@@ -85,9 +145,9 @@ const config = [
       "Swapped the changelog and the explore tab."
     ],
     fix: [
-      'Fixed a bug where edit and delete buttons would show for all members.',
+      "Fixed a bug where edit and delete buttons would show for all members.",
       'Fixed a bug where when clicking on "message" in the server tab, in someones profile, the tab wouldnt change to dm.'
-    ],
+    ]
   },
   {
     version: 7.0,
@@ -95,9 +155,8 @@ const config = [
     shortTitle: "",
     date: "13/09/2019",
     new: [
-      'Nertivia app now starts up when you start your pc. You can change the behaviour in the settings.',
-    ],
-
+      "Nertivia app now starts up when you start your pc. You can change the behaviour in the settings."
+    ]
   },
   {
     version: 6.9,
@@ -105,26 +164,35 @@ const config = [
     shortTitle: "",
     date: "06/09/2019",
     new: [
-      'Added filter options to public servers list. Verified servers will be the default filter. Servers will be verified by me (Fishie). If your server does not get verified, Join the official nertivia server and message me.',
-      'Added blur effect to user information popout for an experiment. (Only works in chrome and edge.) Blur effect may be added in more places in the future.'
+      "Added filter options to public servers list. Verified servers will be the default filter. Servers will be verified by me (Fishie). If your server does not get verified, Join the official nertivia server and message me.",
+      "Added blur effect to user information popout for an experiment. (Only works in chrome and edge.) Blur effect may be added in more places in the future."
     ],
-    fix: ['Fixed a bug where when someone leaves the server, the whole members list would disappear for that server.', 'Fixed bugs with emoji sugestions panel.'],
+    fix: [
+      "Fixed a bug where when someone leaves the server, the whole members list would disappear for that server.",
+      "Fixed bugs with emoji sugestions panel."
+    ]
   },
   {
     version: 6.8,
     title: "Bug fixes",
     shortTitle: "",
     date: "02/09/2019",
-    fix: ['You can no longer turn on popup notifications on mobile as it causes issues.'],
-    msg: "Notice: If you don't receive real time notifications inside the app, log out, and in again to fix it."
+    fix: [
+      "You can no longer turn on popup notifications on mobile as it causes issues."
+    ],
+    msg:
+      "Notice: If you don't receive real time notifications inside the app, log out, and in again to fix it."
   },
   {
     version: 6.7,
     title: "New Explore tab!",
     shortTitle: "",
     date: "01/09/2019",
-    new: ['You can now make your servers go public by posting them in the explore tab.', 'Some pop ups have been improved for mobile users.',],
-    fix: ['Some bugs have been fixed.']
+    new: [
+      "You can now make your servers go public by posting them in the explore tab.",
+      "Some pop ups have been improved for mobile users."
+    ],
+    fix: ["Some bugs have been fixed."]
   },
   {
     version: 6.6,
@@ -132,9 +200,7 @@ const config = [
     shortTitle: "",
     date: "29/08/2019",
     new: ['Sneak peak of the new "Explore" tab :D (Unfinished)'],
-    fix: [
-      'Improved backend code. This should improve performance.',
-    ],
+    fix: ["Improved backend code. This should improve performance."]
   },
   {
     version: 6.5,
@@ -142,9 +208,9 @@ const config = [
     shortTitle: "",
     date: "22/08/2019",
     fix: [
-      'Fixed a bug where when being scrolled up, new messages would cause it to not load more.',
-      'Fixed a bug where scroll to bottom button wouldnt work'
-    ],
+      "Fixed a bug where when being scrolled up, new messages would cause it to not load more.",
+      "Fixed a bug where scroll to bottom button wouldnt work"
+    ]
   },
   {
     version: 6.4,
@@ -152,16 +218,18 @@ const config = [
     shortTitle: "",
     date: "19/08/2019",
     new: [
-      'Scrolling up should be smoother now as messages below get unloaded.'
+      "Scrolling up should be smoother now as messages below get unloaded."
     ],
-    msg: 'Known issue: When scrolled up and messages get unloaded below, new messages sent get appended at the bottom and messes up things D: going to fix asap.'
+    msg:
+      "Known issue: When scrolled up and messages get unloaded below, new messages sent get appended at the bottom and messes up things D: going to fix asap."
   },
   {
     version: 6.3,
     title: "Performance Improvements!",
     shortTitle: "",
     date: "18/08/2019",
-    msg: "I finally managed to find out why the chat is choppy when scrolling. The rotated emote is the cause. In this update, emotes only appear when hovering over the profile picture."
+    msg:
+      "I finally managed to find out why the chat is choppy when scrolling. The rotated emote is the cause. In this update, emotes only appear when hovering over the profile picture."
   },
 
   {
@@ -169,9 +237,7 @@ const config = [
     title: "Bug fixes",
     shortTitle: "",
     date: "17/08/2019",
-    new: [
-      "Added a copy button in the message context menu."
-    ],
+    new: ["Added a copy button in the message context menu."],
     fix: [
       "Fixed bugs with textarea not resizing properly",
       "Fixed a bug where message context menu would be not visible.",
@@ -199,10 +265,9 @@ const config = [
     title: "Desktop app!",
     shortTitle: "",
     date: "11/08/2019",
-    new: [
-      "Desktop app is available to download!"
-    ],
-    msg: 'Download: https://github.com/supertiger1234/nertivia-desktop-app/releases'
+    new: ["Desktop app is available to download!"],
+    msg:
+      "Download: https://github.com/supertiger1234/nertivia-desktop-app/releases"
   },
 
   {
@@ -215,7 +280,8 @@ const config = [
       "Fixed a bug where scrolling would be inverted for some devices.",
       "Responsive images and embeds."
     ],
-    msg: 'Notice: If your message history loads mid way, this is because of our new message scrolling down system. This will be fixed after you send few messages.'
+    msg:
+      "Notice: If your message history loads mid way, this is because of our new message scrolling down system. This will be fixed after you send few messages."
   },
   {
     version: 5.8,
@@ -224,11 +290,11 @@ const config = [
     date: "05/08/2019",
     new: [
       "Added more badges (Bug Catcher, Idea Queen)",
-      "You can now change your password.",
+      "You can now change your password."
     ],
     fix: [
       "Fixed a bug where desktop notifications would show for your own messages.",
-      "Fixed a bug where editing custom emojis would break.",
+      "Fixed a bug where editing custom emojis would break."
     ]
   },
   {
@@ -255,9 +321,7 @@ const config = [
       "We have re-added syntax highlighting and also improved the performance of message formatting. (Thanks to Bree!)",
       "Profile Setting has been re-designed. You can now edit your username, email and password!"
     ],
-    fix: [
-      'Fixed some bugs with edit message',
-    ],
+    fix: ["Fixed some bugs with edit message"]
   },
   {
     version: 5.5,
@@ -265,8 +329,8 @@ const config = [
     shortTitle: "",
     date: "25/07/2019",
     fix: [
-      'Removed codeblock highlighter due to some problems. Will be back in the future.',
-    ],
+      "Removed codeblock highlighter due to some problems. Will be back in the future."
+    ]
   },
 
   {
@@ -275,14 +339,12 @@ const config = [
     shortTitle: "",
     date: "24/07/2019",
     fix: [
-      'Fixed a bug where when pressing the up arrow key to edit while there is text in the text box, it would discard the message and edit.',
-      'Fixed a bug where when editing a message and going to a different tab, the message is still editing.',
-      'Fixed a bug where if an emoji is in the recents, and then removed in the settings, the emoji would stay in the recents.',
-      'Fixed bugs with html escape :scream:',
-    ],
+      "Fixed a bug where when pressing the up arrow key to edit while there is text in the text box, it would discard the message and edit.",
+      "Fixed a bug where when editing a message and going to a different tab, the message is still editing.",
+      "Fixed a bug where if an emoji is in the recents, and then removed in the settings, the emoji would stay in the recents.",
+      "Fixed bugs with html escape :scream:"
+    ]
   },
-
-
 
   {
     version: 5.3,
@@ -294,17 +356,15 @@ const config = [
       "Avatar and message pictures should now be disk cached.",
       "Gif avatars will now only animate when being hovered. This will improve performance.",
       "You can now click on embed images to get a full screen preview.",
-      "Server channels now show a gray background when selected.",
-
+      "Server channels now show a gray background when selected."
     ],
     fix: [
-    'Fixed a bug where when deleting a server channel, the notification would still stay.',
-    'Fixed a bug where when sending a message, the friend wouldnt go at the top in the recents list.',
-  ],
-    next: ["HTML channel for servers", "Change username, email and password."],
+      "Fixed a bug where when deleting a server channel, the notification would still stay.",
+      "Fixed a bug where when sending a message, the friend wouldnt go at the top in the recents list."
+    ],
+    next: ["HTML channel for servers", "Change username, email and password."]
   },
-  
-  
+
   {
     version: 5.2,
     title: "Delete messages, URL Embeds",
@@ -312,9 +372,9 @@ const config = [
     date: "19/07/2019",
     new: [
       "You can now delete your own messages.",
-      "URLs now show open graph embeds.",
+      "URLs now show open graph embeds."
     ],
-    next: ["Edit messages."],
+    next: ["Edit messages."]
   },
 
   {
@@ -323,12 +383,11 @@ const config = [
     shortTitle: "Change server avatar!",
     date: "17/07/2019",
     new: [
-      "You can now change your server avatar from the server settings menu!",
+      "You can now change your server avatar from the server settings menu!"
     ],
-    fix: ['Some bugs have been fixed.'],
-    next: ["Not decided yet."],
+    fix: ["Some bugs have been fixed."],
+    next: ["Not decided yet."]
   },
-
 
   {
     version: 5.0,
@@ -337,27 +396,11 @@ const config = [
     date: "15/07/2019",
     new: [
       "You can now change the name of your server.",
-      "You can now change the default channel to something else.",
+      "You can now change the default channel to something else."
     ],
-    fix: ['Some bugs have been fixed.'],
-    next: ["Change servers avatar."],
+    fix: ["Some bugs have been fixed."],
+    next: ["Change servers avatar."]
   },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   {
     version: 4.9,
@@ -370,8 +413,10 @@ const config = [
       "The 'Recents' tab should now flash red when you get a notification.",
       "Friends and Recents tabs position will be saved when visiting the site."
     ],
-    fix: ['Fixed a bug where, when you are on the changelog or the server browser tab, the notifications get dismissed.'],
-    next: ["more server settings"],
+    fix: [
+      "Fixed a bug where, when you are on the changelog or the server browser tab, the notifications get dismissed."
+    ],
+    next: ["more server settings"]
   },
   {
     version: 4.8,
@@ -381,9 +426,11 @@ const config = [
     new: [
       "Nertivia has a new cat logo! (Thanks to Fullipsp for the design!)",
       "You can now see online status of server members!",
-      "You can now click on links that start with 'http'",
+      "You can now click on links that start with 'http'"
     ],
-    fix: ['Fixed a bug where when creating a server, a reload is required to show yourself in the server members list.'],
+    fix: [
+      "Fixed a bug where when creating a server, a reload is required to show yourself in the server members list."
+    ],
     next: ["Create multiple channels in a server."],
     msg: `You might be wondering, where did the official Nertivia server go? Well, I accidentally deleted it :/ sorry. Here's the new one though! <a style="color: #00b6ff;" href="http://nertivia.supertiger.tk/invites/Db3p5n">http://nertivia.supertiger.tk/invites/Db3p5n</a>`
   },
@@ -392,14 +439,12 @@ const config = [
     title: "Bug fixes",
     shortTitle: "Bug fixes",
     date: "24/06/2019",
-    new: [
-      "Emoji character limit expanded to 30 characters!"
-    ],
+    new: ["Emoji character limit expanded to 30 characters!"],
     fix: [
       "Fixed a bug with the notification where it wouldn't dismiss on changing tabs.",
       "Fixed a bug where unopened dms wouldn't show notifications on the tabs.",
       "Fixed emoji character limit bypass.",
-      "Emojis can now be inserted in firefox!",
+      "Emojis can now be inserted in firefox!"
     ],
     next: ["Online status for server members list."]
   },
@@ -413,7 +458,7 @@ const config = [
       "Adjusted some padding with the tabs."
     ],
     fix: [
-      "Fixed a vulnerability where after leaving a server, you could still send messages.",
+      "Fixed a vulnerability where after leaving a server, you could still send messages."
     ],
     next: ["Online status for server members list."]
   },
@@ -422,14 +467,12 @@ const config = [
     title: "Server bug fixes",
     shortTitle: "Server bug fixes",
     date: "03/06/2019",
-    new: [
-      "Notifications for servers has been added."
-    ],
+    new: ["Notifications for servers has been added."],
     fix: [
       "Fixed notification bug where server notification are shown in dms.",
       "When switching from server to direct message tab (and vice versa), the channels should now be separated.",
-      'You can now only create 30 invites per server.'
-    ],
+      "You can now only create 30 invites per server."
+    ]
   },
   {
     version: 4,
@@ -438,11 +481,10 @@ const config = [
     date: "23/05/2019",
     new: [
       "You can now make servers! Note that this is in alpha stage which means that it's not complete and there could be a ton of bugs everywhere :c get reporting!",
-      "Adjusted padding in some areas.",
+      "Adjusted padding in some areas."
     ],
     next: ["Members list for servers"],
-    msg:
-    `
+    msg: `
 <div style='color: red;'>
   Please note that this update could be unstable and could involve of resetting the database.
 </div>Join the official Nertivia server by clicking
@@ -462,9 +504,7 @@ color: #27a3ff;
       "Padding and margin adjusted and small design changes throughout the app.",
       "Added Oceania to the survey list."
     ],
-    fix: [
-      'Fixed bugs with appearance settings not correctly working.'
-    ],
+    fix: ["Fixed bugs with appearance settings not correctly working."],
     next: ["Servers (If nothing else distracts me -_-)"]
   },
   {
