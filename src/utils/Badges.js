@@ -29,4 +29,9 @@ module.exports = {
     icon: require('twemoji/2/svg/1f41b.svg'),
     color: '#e234eb'
   },
+  10: {
+    name: 'BOT',
+    icon: require('twemoji/2/svg/1f916.svg'),
+    color: '#0000ff'
+  },
 }

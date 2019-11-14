@@ -28,6 +28,7 @@ export default {
       flower: require("twemoji/2/svg/1f33a.svg"),
       heart: require("twemoji/2/svg/2764.svg"),
       developer: require("twemoji/2/svg/2728.svg"),
+      bot: require("twemoji/2/svg/1f916.svg"),
     };
   },
   computed: {
@@ -51,6 +52,11 @@ export default {
         return {
           name: "developer",
           emotePath: this.developer
+        };
+      if (this.$props.admin == 10)
+        return {
+          name: "BOT",
+          emotePath: this.bot
         };
       return ""
     },
