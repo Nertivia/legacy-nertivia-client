@@ -78,11 +78,7 @@
             >
               <div class="key">{{aboutItem.key}}:</div>
               <div class="emoji" v-if="aboutItem.emoji" v-html="aboutItem.emoji"></div>
-              <div
-                class="name"
-                v-if="aboutItem.key === 'About me'"
-                v-html="formatAboutMe(aboutItem.name)"
-              ></div>
+              <SimpleMarkdown class="name" v-if="aboutItem.key === 'About me'" :message="aboutItem.name" />
               <div class="name" v-else>{{aboutItem.name}}</div>
             </div>
             <div class="about-item">
@@ -105,11 +101,12 @@ import relationshipService from "@/services/RelationshipService.js";
 import surveyItems from "@/utils/surveyItems.js";
 import emojiParser from "@/utils/emojiParser.js";
 import messageFormatter from "@/utils/messageFormatter.js";
+import SimpleMarkdown from "@/components/app/SimpleMarkdown";
 import badges from "@/utils/Badges";
 import friendlyDate from "@/utils/date";
 
 export default {
-  components: { Spinner, profilePicture },
+  components: { Spinner, profilePicture, SimpleMarkdown },
   data() {
     return {
       surveyItems: Object.assign({}, surveyItems),

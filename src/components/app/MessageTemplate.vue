@@ -88,7 +88,6 @@
 import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
 import SimpleMarkdown from "./SimpleMarkdown.vue";
 import messageEmbedTemplate from "./messageEmbedTemplate";
-import messageFormatter from "@/utils/messageFormatter.js";
 import config from "@/config.js";
 import friendlyDate from "@/utils/date";
 import path from "path";
@@ -239,9 +238,6 @@ export default {
       if (extname) return undefined;
       file.url = config.domain + "/files/" + file.fileID;
       return file;
-    },
-    formatMessage() {
-      return messageFormatter(this.$props.message);
     },
     getDate() {
       return friendlyDate(this.$props.date);
