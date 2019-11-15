@@ -90,10 +90,6 @@ export default {
 
 
 <style scoped>
-.custom-emoji {
-  height: 1.5em;
-  width: auto;
-}
 .selected {
   background: rgba(66, 66, 66, 0.89);
 }
@@ -109,7 +105,6 @@ export default {
   color: white;
   padding: 5px;
   transition: 0.3s;
-  border-radius: 5px;
   user-select: none;
   cursor: default;
 }
@@ -127,9 +122,10 @@ export default {
 }
 .emojiItem {
   display: flex;
-  padding: 5px;
+  padding: 2px;
   align-content: center;
   align-items: center;
+  cursor: pointer;
 }
 @media (max-height: 441px) {
   .emoji-suggetions-list {
@@ -141,8 +137,8 @@ export default {
 <style>
 .emoji-suggetions-list img.emoji {
   object-fit: contain;
-  height: 2em;
-  width: 2em;
+  height: 1.6em;
+  width: 1.6em;
   margin: 1px;
 }
 </style>

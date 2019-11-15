@@ -5,6 +5,7 @@
         <FriendsTemplate
           v-for="(channel, key) of channels"
           :key="key"
+          :recents="true"
           :channel-i-d="channel.channelID"
           :recipient="channel.recipients[0]"
         />

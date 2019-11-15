@@ -221,11 +221,10 @@ export default {
 .change-avatar-container {
   display: flex;
   flex-direction: column;
-  background: rgb(42, 42, 42);
+  background-color: #06454d;
   width: 150px;
   align-self: center;
   padding: 20px;
-  border-radius: 10px;
   margin-top: 10px;
 }
 .avatar {
@@ -236,16 +235,18 @@ export default {
   display: none;
 }
 .button {
-  background: #5394fc;
+  background: #05353b;
   padding: 10px;
   text-align: center;
-  border-radius: 5px;
   display: inline-block;
   align-self: center;
   cursor: pointer;
   transition: 0.3s;
 }
-.disabled {
+.button:hover {
+  background: #0f292c;
+}
+.button.disabled {
   background: grey;
 }
 .left {
@@ -258,10 +259,9 @@ export default {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: rgb(42, 42, 42);
+  background-color: #06454d;
   padding: 10px;
-  border-radius: 10px;
-  margin: 5px;
+  margin: 10px;
   margin-left: 30px;
   flex-shrink: 0;
 }
@@ -278,7 +278,6 @@ export default {
 }
 .outer-input input {
   width: initial;
-  border-radius: 5px;
 }
 
 .save-button {
@@ -288,7 +287,6 @@ export default {
   display: block;
   padding: 10px 0px 10px 0px;
   margin: 0;
-  border-radius: 10px;
 }
 
 .errors {
@@ -298,6 +296,7 @@ export default {
   user-select: none;
   cursor: pointer;
   margin-left: 35px;
+  color: white;
 }
 .link:hover {
   text-decoration: underline;

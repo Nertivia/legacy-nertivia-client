@@ -182,16 +182,14 @@ export default {
   position: relative;
 }
 .channels-list {
-  background: #161616e5;
+  background: #082326;
   height: 100%;
   width: 165px;
   flex-shrink: 0;
   overflow: auto;
 }
 .channel {
-  border-radius: 5px;
   padding: 5px;
-  margin: 5px;
   user-select: none;
   cursor: pointer;
   transition: 0.3s;
@@ -209,10 +207,10 @@ export default {
   align-self: center;
 }
 .channel:hover {
-  background: rgba(58, 58, 58, 0.849);
+  background: #06454d;
 }
 .channel.selected {
-  background: rgb(58, 58, 58);
+  background: #064c55;
 }
 .add-channel-button {
   background: rgba(17, 148, 255, 0.692);
@@ -228,9 +226,8 @@ export default {
   overflow: hidden;
 }
 .button {
-  background: rgba(17, 148, 255, 0.692);
+  background: #05353b;
   padding: 10px;
-  border-radius: 5px;
   align-self: center;
   margin: 5px;
   cursor: pointer;
@@ -238,7 +235,7 @@ export default {
   transition: 0.3s;
 }
 .button:hover {
-  background: rgb(17, 148, 255);
+  background: #0f292c;
 }
 .button.warn {
   background: rgba(255, 17, 17, 0.692);
@@ -269,14 +266,14 @@ export default {
 .input {
   display: flex;
   flex-direction: column;
-  background: rgba(22, 22, 22, 0.87);
-  border-radius: 10px;
-  padding: 5px;
-  margin: 5px;
+  background-color: #06454d;
+  padding: 10px;
+  margin: 10px;
 }
 .input input {
-  border-radius: 5px;
   width: initial;
+  margin-top: 2px;
+  margin-bottom: 0;
 }
 
 .check-box {

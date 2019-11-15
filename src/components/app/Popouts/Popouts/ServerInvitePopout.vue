@@ -106,12 +106,14 @@ export default {
   margin: auto;
   height: 400px;
   width: 400px;
-  background: rgb(32, 32, 32);
   display: flex;
   flex-direction: column;
   color: white;
-  border-radius: 10px;
   overflow: hidden;
+  background-image: url("../../../../assets/leftPanelBackground.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 .top {
   display: flex;
@@ -123,19 +125,20 @@ export default {
 
 .button {
   padding: 10px;
-  background: rgba(0, 162, 255, 0.719);
+  background: #05353b;
   margin: auto;
-  border-radius: 10px;
   transition: 0.3s;
   user-select: none;
+  cursor:pointer;
 }
 .button:hover {
-  background: rgb(0, 162, 255);
+  background: #0f292c;
 }
 
 .bottom {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 .title {
   margin: 10px;
@@ -153,7 +156,6 @@ export default {
   background: rgba(0, 0, 0, 0.274);
   margin: 5px;
   padding: 10px;
-  border-radius: 10px;
 }
 </style>
 

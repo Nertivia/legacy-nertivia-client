@@ -225,7 +225,7 @@ export default {
 
 .card {
   background: black;
-  height: 200px;
+  height: 180px;
   border-radius: 5px;
   margin: 5px;
   padding: 10px;
@@ -240,10 +240,10 @@ export default {
   }
   .button {
     background-color: rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
     padding: 5px;
-    font-size: 15px;
+    font-size: 17px;
     margin-top: 15px;
+    flex-shrink: 0;
     cursor: pointer;
     transition: 0.3s;
     color: rgba(255, 255, 255, 0.924);

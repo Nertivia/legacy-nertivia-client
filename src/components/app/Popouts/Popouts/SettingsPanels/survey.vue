@@ -157,7 +157,7 @@ export default {
 
 <style scoped>
 .notice {
-  color: grey;
+  color: rgb(216, 216, 216);
   font-size: 15px;
   margin-top: 10px;
   margin-left: 30px;
@@ -226,18 +226,17 @@ export default {
 }
 .survey .button {
   color: white;
-  background: rgb(27, 114, 255);
-  border-radius: 5px;
+  background: #05353b;
   padding-top: 10px;
   padding-bottom: 10px;
   width: 100%;
   text-align: center;
   transition: 0.3s;
   user-select: none;
-  cursor: default;
+  cursor: pointer;
 }
 .survey .button:hover {
-  background: rgb(0, 98, 255);
+  background: #0f292c;
 }
 
 .title {
@@ -250,8 +249,7 @@ export default {
   user-select: none;
 }
 .title .material-icons {
-  color: cyan;
-  margin-right: 10px;
+  margin-right: 5px;
   font-size: 30px;
 }
 

@@ -99,6 +99,7 @@ export default {
 .checkbox {
   display: flex;
   margin-top: 10px;
+  cursor: pointer;
 }
 .checkbox-box {
   background: rgba(88, 88, 88, 0.74);
@@ -106,7 +107,6 @@ export default {
   width: 20px;
   margin-right: 10px;
   transition: 0.3s;
-  border-radius: 5px;
 }
 
 .checkbox-box.selected {
@@ -143,7 +143,7 @@ export default {
   display: flex;
   width: 100%;
   height: 100%;
-  margin-top: 10px;
   flex-direction: column;
+  background:#09464f;
 }
 </style>

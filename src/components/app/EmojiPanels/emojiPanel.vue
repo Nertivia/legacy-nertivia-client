@@ -36,6 +36,7 @@
           </div>
         </div>
 
+        <!-- Custom Emojis Category  -->
         <div v-for="(group, index) in groups" :key="group" class="category">
           <div class="category-name">{{ group }}</div>
           <div class="list">
@@ -398,7 +399,7 @@ export default {
   position: absolute;
   bottom: 10px;
   right: 20px;
-  max-width: 390px;
+  max-width: 410px;
   width: calc(100% - 50px);
   display: flex;
   flex-direction: column;
@@ -406,15 +407,11 @@ export default {
 }
 
 .emoji-panel-inner {
-  background: rgba(255, 255, 255, 0.61);
+  background: rgb(32, 32, 32);
   transition: 0.3s;
-  border-radius: 5px;
-  padding: 3px;
   z-index: 99999;
 }
-.emoji-panel-inner:hover {
-  background: rgba(255, 255, 255, 0.685);
-}
+
 .emojis-list {
   color: white;
   padding: 5px;
@@ -430,9 +427,10 @@ export default {
 .category {
 }
 .category-name {
-  padding: 10px;
+  padding: 5px;
+  padding-left: 3px;
   text-transform: capitalize;
-  color: rgb(93, 93, 93);
+  color: rgb(195, 195, 195);
 }
 .list {
 }
@@ -444,7 +442,6 @@ export default {
   overflow: hidden;
   margin: 4px;
   padding: 2px;
-  border-radius: 5px;
   min-width: 30px;
   cursor: pointer;
 }
@@ -459,14 +456,11 @@ export default {
   align-self: center;
   padding-top: 5px;
   padding-bottom: 5px;
-  margin-top: 10px;
-  background: rgb(161, 161, 161);
-  border-radius: 5px;
   transition: 0.3s;
   overflow: auto;
 }
 .tabs img {
-  height: 20px;
+  height: 18px;
   width: auto;
   margin: auto;
   filter: grayscale(100%);
@@ -480,14 +474,13 @@ export default {
 }
 .tab {
   background: rgba(59, 59, 59, 0.521);
-  border-radius: 5px;
   margin-left: 3px;
   margin-right: 3px;
   display: flex;
   flex-direction: column;
   transition: 0.1s;
   height: 35px;
-  width: 32px;
+  width: 35px;
   overflow: hidden;
   align-content: center;
   align-items: center;
@@ -517,29 +510,34 @@ export default {
   height: 0;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  border-top: 15px solid rgba(255, 255, 255, 0.61);
+  border-top: 15px solid rgb(32, 32, 32);
 
   align-self: flex-end;
-  margin-right: 70px;
+  margin-right: 60px;
 }
 .tooltip {
   display: none;
   position: absolute;
   margin: auto;
-  background: rgba(29, 29, 29, 0.664);
+  background: rgb(29, 29, 29);
   padding: 10px;
-  border-radius: 5px;
   bottom: -20px;
   text-transform: capitalize;
   user-select: none;
 }
+
+::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+
 </style>
 <style>
 img.panel.emoji {
   margin: auto;
   padding: 2px;
   object-fit: contain;
-  height: 2em;
-  width: 2em;
+  height: 1.6em;
+  width: 1.6em;
 }
 </style>

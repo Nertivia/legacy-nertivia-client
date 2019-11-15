@@ -46,17 +46,16 @@ export default {
 }
 .warning {
   background: red;
-  border-radius: 10px;
   padding: 10px;
-  margin: 10px;
+  margin-bottom: 10px;
 }
 .button {
   padding: 10px;
   background: rgba(255, 0, 0, 0.719);
   margin: auto;
-  border-radius: 10px;
   transition: 0.3s;
   user-select: none;
+  cursor: pointer;
 }
 .button:hover {
   background: rgb(255, 0, 0);
