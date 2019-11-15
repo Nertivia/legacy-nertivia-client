@@ -17,7 +17,6 @@
       <div class="username">{{ user.username }}</div>
     </div>
     <div v-if="type === 'OWNER'" class="type-box">Owner</div>
-    <div v-else-if="type === 'BOT'" class="type-box">BOT</div>
   </div>
 </template>
 

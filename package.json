@@ -12,6 +12,7 @@
     "filesize": "^4.1.2",
     "highlight.js": "^9.15.8",
     "jquery": "^3.4.0",
+    "linkify-it": "^2.2.0",
     "match-sorter": "^2.3.0",
     "particles.js": "^2.0.0",
     "simple-markdown": "^0.7.1",
