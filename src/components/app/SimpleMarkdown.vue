@@ -28,7 +28,6 @@
 	.codeblock {
 		background-color: rgba(0, 0, 0, 0.397);
 		padding: 5px;
-		border-radius: 5px;
 		word-wrap: break-word;
 		word-break: break-word;
 		white-space: pre-wrap;

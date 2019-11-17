@@ -24,14 +24,12 @@
           </div>
         </div>
       </div>
-      <div class="message">
-        Add a message
-      </div>
       <div class="message-area">
         <textarea
           v-model="message"
           class="chat-input"
-          placeholder
+          placeholder="Add a message"
+          ref="messageInput"
         />
       </div>
       <div class="bottom-panel">
@@ -93,6 +91,7 @@ export default {
     }
   },
   mounted() {
+    this.$refs['messageInput'].focus();
     (this.name = this.popouts.fileToUpload.name),
       (this.size = filesize(this.popouts.fileToUpload.size)),
       this.loadFileInfo(this.popouts.fileToUpload);
@@ -209,12 +208,15 @@ export default {
   display: flex;
 }
 .inner {
-  background: rgba(47, 47, 47, 0.938);
   display: flex;
   margin: auto;
   width: 500px;
   flex-direction: column;
   position: relative;
+  background-image: url("../../../../assets/leftPanelBackground.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 .info {
   display: flex;
@@ -223,7 +225,7 @@ export default {
   margin-bottom: 40px;
 }
 .size {
-  color: grey;
+  color: rgb(221, 221, 221);
   margin-top: 5px;
 }
 .data {
@@ -271,15 +273,14 @@ export default {
   display: flex;
   align-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.267);
+  background: #05353b;
   padding: 5px;
-  border-radius: 3px;
-  cursor: default;
+  cursor: pointer;
   user-select: none;
   transition: 0.3s;
 }
 .button:hover {
-  background: rgba(0, 0, 0, 0.445);
+  background: #0f292c;
 }
 .button .text {
   margin-left: 5px;
@@ -299,7 +300,7 @@ export default {
 }
 .chat-input {
   font-family: "Roboto", sans-serif;
-  background: rgb(26, 26, 26);
+  background: #45939e;
   color: white;
   width: 100%;
   height: 20px;
@@ -310,6 +311,9 @@ export default {
   border: none;
   outline: none;
   transition: 0.3s;
+}
+.chat-input::placeholder {
+  color: rgb(221, 221, 221);
 }
 @media (max-width: 518px) {
   .inner {

@@ -39,12 +39,11 @@ export default {
 }
 .upload {
   color: white;
-  background: rgba(0, 0, 0, 0.513);
+  background: #3a585c;
   margin: 10px;
-  margin-left: 70px;
+  margin-left: 10px;
   display: flex;
   padding: 10px;
-  border-radius: 10px;
 }
 .icon .material-icons {
   font-size: 40px;
@@ -62,7 +61,7 @@ export default {
 }
 .size {
   font-size: 15px;
-  color: grey;
+  color: rgb(207, 207, 207);
 }
 .progress {
   display: flex;

@@ -106,7 +106,6 @@ export default {
 <style scoped>
 .embed {
   background: #1d2b2d;
-  border-radius: 10px;
   padding: 5px;
   display: flex;
   max-width: 500px;
@@ -169,14 +168,12 @@ export default {
 .image img {
   width: auto;
   height: 100px;
-  border-radius: 5px;
   align-self: center;
 }
 .image {
   display: flex;
   margin-right: 10px;
   align-self: center;
-  border-radius: 5px;
   cursor: pointer;
   position: relative;
 }

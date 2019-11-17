@@ -816,16 +816,15 @@ export default {
 
 .back-to-bottom-button {
   &:hover {
-    background: rgb(23, 124, 255);
+    background: #748b8e;
     box-shadow: 0px 0px 15px 0px #0000008a;
   }
   transition: 0.2s;
-  background: rgba(23, 124, 255, 0.818);
+  background: #516e72;
   color: white;
   position: absolute;
   bottom: 15px;
   right: 25px;
-  border-radius: 10px;
   height: 50px;
   z-index: 2;
   display: flex;
