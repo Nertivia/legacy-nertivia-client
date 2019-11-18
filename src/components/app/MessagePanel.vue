@@ -207,6 +207,7 @@ export default {
         message: {
           tempID,
           message: msg,
+          color: this.customColor,
           channelID: this.selectedChannelID,
           created: new Date()
         }
