@@ -3,8 +3,6 @@
     <navigation />
     <div class="changelog">
       <div class="change-log">
-        <span class="news-title">Changes in this release</span>
-
         <div v-for="(change, index) in changelog" :key="index" class="change">
           <div
             class="heading"
@@ -38,6 +36,7 @@
             <div v-if="change.msg" v-html="change.msg" />
           </div>
         </div>
+        <div class="see-all-button" v-if="!showAll" @click="showAll = true">View older changes</div>
       </div>
     </div>
   </div>
@@ -51,8 +50,16 @@ export default {
   components: { Navigation },
   data() {
     return {
-      changelog
+      showAll: false,
     };
+  },
+  computed: {
+    changelog() {
+      if (this.showAll) {
+        return changelog;
+      }
+      return [changelog[0]];
+    }
   }
 };
 </script>
@@ -90,7 +97,7 @@ export default {
 }
 .heading {
   padding: 10px;
-  background: #071415;
+  background: #15282a;
   margin-bottom: 10px;
 }
 .information {
@@ -101,9 +108,10 @@ export default {
   background: rgba(38, 139, 255, 0.87);
 }
 .change-log {
-  background: #0a1e20;
+  background: #294c51;
   overflow-y: auto;
   max-width: 700px;
+  width: 100%;
   margin: auto;
 }
 .changelog {
@@ -129,5 +137,21 @@ export default {
   font-weight: bold;
   margin-top: -5px;
   margin-bottom: 10px;
+}
+.see-all-button {
+  background: #172a2c;
+  display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  height: 40px;
+  user-select: none;
+  cursor: pointer;
+  transition: 0.2s;
+  
+}
+.see-all-button:hover {
+  background: #0b1415;
 }
 </style>

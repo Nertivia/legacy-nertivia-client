@@ -90,7 +90,7 @@ const actions = {
   },
   setMessageContext(
     context,
-    { messageID, x, y, channelID, message, uniqueID, type }
+    { messageID, x, y, channelID, message, uniqueID, type, color }
   ) {
     context.commit("setMessageContext", {
       messageID,
@@ -99,7 +99,8 @@ const actions = {
       channelID,
       message,
       uniqueID,
-      type
+      type,
+      color
     });
   },
   setServerMemberContext(context, { uniqueID, x, y, serverID }) {

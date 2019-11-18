@@ -21,7 +21,7 @@
           <div class="username" @click="openUserInformation">{{ this.$props.username }}</div>
           <div class="date">{{ getDate }}</div>
         </div>
-        <SimpleMarkdown class="content-message" :message="message" />
+        <SimpleMarkdown class="content-message" :style="[color && color !== -2 ? {color: color}: '']" :message="message" />
         <div class="file-content" v-if="getFile && !getFile.fileName.endsWith('.mp3')">
           <div class="icon">
             <i class="material-icons">insert_drive_file</i>
@@ -116,7 +116,8 @@ export default {
     "embed",
     "messageID",
     "channelID",
-    "timeEdited"
+    "timeEdited",
+    "color"
   ],
   components: {
     ProfilePicture,
@@ -139,7 +140,8 @@ export default {
         messageID: this.messageID,
         message: this.message,
         uniqueID: this.uniqueID,
-        type: this.type
+        type: this.type,
+        color: this.color
       });
     },
     openUserInformation() {
@@ -154,7 +156,8 @@ export default {
       this.$store.dispatch("setEditMessage", {
         channelID: this.channelID,
         messageID: this.messageID,
-        message: this.message
+        message: this.message,
+        color: this.color,
       });
     },
     contentDoubleClickEvent(event) {

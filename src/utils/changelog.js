@@ -10,11 +10,23 @@ const prototype = {
 
 const config = [
   {
+    version: 8.5,
+    title: "format buttons and color text!",
+    shortTitle: "",
+    date: "18/11/2019",
+    headColor: "#0c7b7f",
+    new: [
+      "Enter will now create new lines on mobile.",
+      "You can now easily format your messages using the format buttons above.",
+      "You can now color your messages! <font color='pink'>WOO!</font>",
+    ],
+  },
+  {
     version: 8.4,
     title: "Redesigns and built in mp3 player!",
     shortTitle: "",
     date: "17/11/2019",
-    headColor: "#0c7b7f",
+
     new: [
       "You can now play mp3 files within nertivia! (mp4 coming soon)",
       "Redesigned some components such as file upload, edit messages and more.",
