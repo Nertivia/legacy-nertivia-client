@@ -19,6 +19,7 @@ const config = [
       "Enter will now create new lines on mobile.",
       "You can now easily format your messages using the format buttons above.",
       "You can now color your messages! <font color='pink'>WOO!</font>",
+      "Changelog will now only show the newest changelog, you can view all of the changelog by clicking on the button"
     ],
   },
   {
