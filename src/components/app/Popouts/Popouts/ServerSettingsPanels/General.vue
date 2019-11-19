@@ -247,11 +247,13 @@ export default {
     margin-left: 2px;
     .banner-image {
       position: relative;
-      width: 240px;
-      height: 150px;
+      width: 250px;
+      height: 130px;
       background: rgba(0, 0, 0, 0.4);
       background-position: center;
       background-size: cover;
+      border-radius: 4px;
+      box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.13);
       .banner-text {
         position: absolute;
         bottom: 0;
@@ -259,7 +261,6 @@ export default {
         right: 0;
         width: 100%;
         height: 35px;
-        backdrop-filter: blur(15px);
         background: rgba(0, 0, 0, 0.5);
       }
     }

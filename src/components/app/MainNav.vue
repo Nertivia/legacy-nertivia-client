@@ -7,37 +7,44 @@
       v-if="toolTipShown"
     >{{toolTipLocalName || servers[toolTipServerID].name}}</div>
     <div class="container" @mouseleave="mouseLeaveEvent">
-      <div class="scrollable">
-
-        <div class="server-items" v-if="currentTab === 2">
-          <draggable v-model="serversArr" :animation="200" :delay="mobile ? 400 : 0" ghost-class="ghost" @end="onEnd" @start="onStart">
-            <transition-group type="transition" :name="!drag ? 'flip-list' : null">
-              <server-template
-                class="sortable"
-                v-for="(data) in serversArr"
-                :serverData="data"
-                @click.native="openServer(data.server_id)"
-                :key="data.server_id"
-              />
-            </transition-group>
-          </draggable>
-
+        <div class="navigation-items">
+          <div
+            class="item material-icons"
+            :class="{selected: currentTab == 0}"
+            @click="switchTab(0)"
+            @mouseenter="localToolTipEvent('Explore', $event)"
+          >explore</div>
+          <div
+            class="item material-icons"
+            :class="{selected: currentTab == 1, notifyAnimation: DMNotification || friendRequestExists}"
+            @click="switchTab(1)"
+            @mouseenter="localToolTipEvent('Direct Message', $event)"
+          >chat</div>
+          <div
+            class="item material-icons"
+            :class="{selected: currentTab == 2, notifyAnimation: serverNotification}"
+            @click="switchTab(2)"
+            @mouseenter="localToolTipEvent('Servers', $event)"
+          >forum</div>
+          <div
+            class="item material-icons"
+            :class="{selected: currentTab == 3}"
+            @click="switchTab(3)"
+            @mouseenter="localToolTipEvent('Changelog', $event)"
+          >import_contacts</div>
+          <div
+            v-if="!user.survey_completed"
+            class="item material-icons"
+            @click="openSurvey"
+            @mouseenter="localToolTipEvent('Click Me', $event)"
+          >error</div>
         </div>
-
-      </div>
-      <div
-        class="item material-icons"
-        v-if="currentTab === 1"
-        @click="addFriend"
-        @mouseenter="localToolTipEvent('Add Friend', $event)"
-      >person_add</div>
-      <div
-        class="item material-icons"
-        v-if="currentTab === 2"
-        @click="addServer"
-        @mouseenter="localToolTipEvent('Add Server', $event)"
-      >add</div>
     </div>
+      <div
+        class="item material-icons"
+        @click="openSettings"
+        @mouseenter="localToolTipEvent('Settings', $event)"
+      >settings</div>
   </div>
 </template>
 
@@ -263,56 +270,27 @@ export default {
 
 <style lang="scss" scoped>
 
-.flip-list-move {
-  transition: 0.3s;
-}
-.sortable-drag {
-  opacity: 0;
-}
-.ghost::before {
-  content: '';
-  position: absolute;
-  background: white;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 3px;
-}
-
 .navigation {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex-shrink: 0;
-  height: 100%;
-  width: 70px;
+  height: 60px;
+  width: 100%;
 }
-
 .container {
   display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
+  flex-direction: row;
   height: 100%;
-  width: 70px;
+  width: 100%;
 }
 .navigation-items {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   width: 100%;
+  height: 100%;
   align-self: flex-start;
   align-content: center;
   flex-shrink: 0;
-}
-.scrollable {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  overflow-y: auto;
-  scrollbar-width: none;
-  height: 100%;
-  align-self: center;
-  &::-webkit-scrollbar {
-    width: 0px;
-  }
 }
 .item {
   position: relative;
@@ -324,32 +302,22 @@ export default {
   color: white;
   font-size: 30px;
   align-self: center;
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
+  margin-left: 10px;
+  border-radius: 50%;
   cursor: pointer;
   user-select: none;
   opacity: 0.8;
   transition: 0.2s;
   &:hover {
-    background: #074447;
+    background: #093b4b;
   }
   &.selected {
-    background: #042a2b;
+    background: #072C38;
   }
 }
 
-.server-items {
-  display: flex;
-  flex-direction: column;
-}
-
-.seperater {
-  background-color: #d8d8d8;
-  flex-shrink: 0;
-  align-self: center;
-  width: calc(100% - 10px);
-  height: 2px;
-}
 
 .notifyAnimation:before {
   content: "!";

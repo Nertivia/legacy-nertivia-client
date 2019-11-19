@@ -272,6 +272,10 @@ export default {
 
 
 <style scoped lang="scss">
+
+$self-message-color: #236b7f;
+$message-color: #053746;
+
 .container {
   position: relative;
   z-index: 1;
@@ -299,8 +303,7 @@ export default {
   display: table;
   color: white;
   overflow: hidden;
-  border-radius: 5px;
-  background: #0a1a1c;
+  background: $message-color;
 }
 
 .presence-message .text {
@@ -329,7 +332,7 @@ export default {
 }
 
 .ownMessageLeft .triangle-inner {
-  border-left: 8px solid #3a585c;
+  border-left: 8px solid $self-message-color;
   border-right: none !important;
 }
 
@@ -349,14 +352,14 @@ export default {
 }
 
 .ownMessage .triangle-inner {
-  border-right: 8px solid #3a585c;
+  border-right: 8px solid $self-message-color;
 }
 .ownMessage .content {
-  background: #3a585c;
+  background: $self-message-color;
 }
 
 .ownMessage .date {
-  color: rgb(209, 209, 209);
+  color: #d5e3e6;
 }
 
 .file-content {
@@ -419,11 +422,11 @@ export default {
   height: 0;
   border-top: 9px solid transparent;
   border-bottom: 0px solid transparent;
-  border-right: 8px solid #0a1a1c;
+  border-right: 8px solid $message-color;
 }
 
 .content {
-  background: #0a1a1c;
+  background: $message-color;
   padding: 10px;
   display: flex;
   justify-content: center;
@@ -457,7 +460,7 @@ export default {
   display: flex;
 }
 .username {
-  color: rgb(219, 219, 219);
+  color: rgb(255, 255, 255);
   font-size: 14px;
   margin: auto 0;
   transition: 0.1s;
@@ -465,11 +468,11 @@ export default {
 }
 
 .username:hover {
-  color: rgb(199, 199, 199);
+  color: rgb(255, 255, 255);
   text-decoration: underline;
 }
 .date {
-  color: rgb(177, 177, 177);
+  color: #d5e3e6;
   font-size: 10px;
   margin: auto auto auto 5px;
   font-weight: normal;

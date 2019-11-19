@@ -9,6 +9,7 @@
   >
     <profile-picture
       size="45px"
+      class="avatar"
       :url="`${avatarDomain}/${serverData.avatar}${hover ? '' : '?type=png'}`"
     />
   </div>
@@ -101,7 +102,6 @@ export default {
     background: #042a2b;
   }
 }
-
 .notifyAnimation:before {
   content: "!";
   color: white;

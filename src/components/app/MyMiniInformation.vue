@@ -4,7 +4,7 @@
       class="avatar"
       :url="`${avatar}${hover ? '' : '?type=png'}`"
       :admin="user.admin"
-      size="40px"
+      size="35px"
       :hover="true"
       @click.native="openUserInformation"
     />
@@ -98,6 +98,7 @@ export default {
   align-items: center;
   height: 60px;
   transition: 0.3s;
+  background-color: #083A4A
 }
 
 .avatar {

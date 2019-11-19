@@ -2,6 +2,7 @@
   <div class="left-panel">
     <navigation />
     <div class="right">
+      <MyMiniInformation />
       <div
         class="server-banner"
         @mouseenter="bannerHover = true"
@@ -26,8 +27,6 @@
       <div class="channels-list">
         <channels-list v-if="selectedServerID" :server-i-d="selectedServerID" />
       </div>
-      <div class="seperater" />
-      <MyMiniInformation />
     </div>
   </div>
 </template>
@@ -121,12 +120,12 @@ export default {
 <style scoped lang="scss" >
 .left-panel {
   height: 100%;
-  width: 300px;
+  width: 340px;
+  max-width: 100%;
   flex-shrink: 0;
   display: flex;
   flex-direction: row;
   z-index: 1;
-  background-image: url("../../assets/leftPanelBackground.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -152,6 +151,8 @@ export default {
   width: 100%;
   height: 100%;
   overflow: hidden;
+  background: rgba(0, 0, 0, 0.14);
+  border-top-left-radius: 10px;
 }
 
 .server-banner {
@@ -161,9 +162,12 @@ export default {
   flex-direction: row;
   background-color: rgba(32, 32, 32, 0.4);
   height: 35px;
+  border-radius: 4px;
+  margin: 10px;
+  box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.13);
 }
 .extendBanner {
-  height: 150px;
+  height: 130px;
   background-color: rgb(32, 32, 32);
 }
 .banner-image {
@@ -186,7 +190,6 @@ export default {
   align-items: center;
   padding-left: 10px;
   position: relative;
-  backdrop-filter: blur(15px);
   z-index: 2;
   user-select: none;
   overflow: hidden;

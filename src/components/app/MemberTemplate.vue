@@ -75,10 +75,13 @@ export default {
   cursor: pointer;
   user-select: none;
   overflow: hidden;
+  border-radius: 4px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .member:hover {
-  background: #064d55;
+  background: #063442;
 }
 
 .information {
