@@ -47,12 +47,10 @@ export default {
 .edit-panel {
   padding: 10px;
   color: white;
-  background: rgba(23, 112, 255, 0.877);
+  background: #0f272a;
   display: flex;
   flex-direction: column;
   z-index:1;
-  border-radius: 10px;
-  margin: 10px;
   margin-bottom: 0;
 }
 .top{
@@ -63,16 +61,15 @@ export default {
 }
 .close-button {
   color: white;
-  background: rgba(0, 0, 0, 0.199);
-  padding: 2px;
-  border-radius: 3px;
+  background: #304548;
+  padding: 4px;
   align-self: flex-end;
   transition: 0.3s;
   user-select: none;
   cursor: pointer;
 }
 .close-button:hover {
-  background: rgba(0, 0, 0, 0.431);
+  background: #485b5d;
 }
 .message {
   color: rgb(214, 214, 214);

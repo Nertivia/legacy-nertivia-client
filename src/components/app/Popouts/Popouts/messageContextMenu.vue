@@ -30,7 +30,8 @@ export default {
       this.$store.dispatch("setEditMessage", {
         channelID: this.contextDetails.channelID,
         messageID: this.contextDetails.messageID,
-        message: this.contextDetails.message
+        message: this.contextDetails.message,
+        color: this.contextDetails.color,
       });
       this.closeMenu();
     },
@@ -70,7 +71,8 @@ export default {
         message,
         channelID,
         uniqueID,
-        type
+        type,
+        color
       } = this.$store.getters.popouts.messageContextMenu;
       return {
         x,
@@ -79,7 +81,8 @@ export default {
         message,
         channelID,
         uniqueID,
-        type
+        type,
+        color
       };
     },
     serverID() {

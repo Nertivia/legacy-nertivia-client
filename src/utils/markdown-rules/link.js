@@ -8,7 +8,11 @@ export default (order) => { return {
 	match: function(source) {
 		const match = linkify.match(source)
 
-		if(match === null) {
+		if(
+			match === null || 
+			match[0].index !== 0 ||
+			match.length === 0
+		) {
 			return null
 		}
 

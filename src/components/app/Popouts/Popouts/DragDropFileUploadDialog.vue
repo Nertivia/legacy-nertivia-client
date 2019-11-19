@@ -24,13 +24,14 @@
   margin: auto;
   height: 230px;
   width: 300px;
-  background: rgba(0, 0, 0, 0.466);
-	border: solid 1px white;
-  border-radius: 5px;
 	color: white;
 	display: flex;
 	flex-direction: column;
 	user-select: none;
+  background-image: url("../../../../assets/leftPanelBackground.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 .material-icons{
 	font-size: 80px;

@@ -75,7 +75,6 @@ export default {
   margin-top: auto;
   margin-bottom: auto;
   transition: 0.3s;
-  border-radius: 5px;
 }
 
 .checkbox-box.selected {
@@ -111,8 +110,8 @@ export default {
   display: flex;
   width: 100%;
   height: 100%;
-  margin-top: 10px;
   flex-direction: column;
+  background:#09464f;
 }
 
 </style>

@@ -26,9 +26,8 @@
 	}
 
 	.codeblock {
-		background-color: rgba(0, 0, 0, 0.397);
+		background-color: #233538;
 		padding: 5px;
-		border-radius: 5px;
 		word-wrap: break-word;
 		word-break: break-word;
 		white-space: pre-wrap;
@@ -45,10 +44,10 @@
 
 
 	.inline-code {
-		background: rgba(0, 0, 0, 0.322);
+		background: #273c3e;
 	}
 
 	.link {
-		color: rgb(86, 159, 253);
+		color: #68aaff;
 	}
 </style>

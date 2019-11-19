@@ -22,6 +22,7 @@
       :channelID="msg.channelID"
       :type="msg.type"
       :timeEdited="msg.timeEdited"
+      :color="msg.color"
     />
 
     <uploadsQueue v-if="uploadQueue !== undefined" :queue="uploadQueue" />

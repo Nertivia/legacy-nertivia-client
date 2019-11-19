@@ -1,8 +1,5 @@
 <template>
   <div class="my-profile-panel">
-    <div class="title">
-      Message Example
-    </div>
     <div class="message-example">
       <message-template
         message="Hi"
@@ -31,17 +28,19 @@
         :date="Date.now()"
       />
     </div>
-    <div class="title">
-      Options
-    </div>  
-    <div class="switches">
-      <div
-        class="checkbox"
-        @click="toggleAppearance"
-      >
-        <div :class="`checkbox-box ${apperance && apperance.own_message_right && apperance.own_message_right === true ? 'selected' : '' }`" />
-        <div class="checkbox-name">
-          Show my messages on the right side.
+    <div class="options">
+      <div class="title">
+        Options
+      </div>  
+      <div class="switches">
+        <div
+          class="checkbox"
+          @click="toggleAppearance"
+        >
+          <div :class="`checkbox-box ${apperance && apperance.own_message_right && apperance.own_message_right === true ? 'selected' : '' }`" />
+          <div class="checkbox-name">
+            Show my messages on the right side.
+          </div>
         </div>
       </div>
     </div>
@@ -98,6 +97,7 @@ export default {
 
 .checkbox {
   display: flex;
+  cursor: pointer;
 }
 .checkbox-box {
   background: rgba(88, 88, 88, 0.74);
@@ -106,7 +106,6 @@ export default {
   margin: auto;
   margin-right: 10px;
   transition: 0.3s;
-  border-radius: 5px;
 }
 
 .checkbox-box.selected {
@@ -126,9 +125,7 @@ export default {
 
 .message-example{
   padding: 10px;
-  background: rgba(88, 88, 88, 0.44);
-  border-radius: 10px;
-  margin: 10px;
+  background: #173d42;
 }
 .title{
   font-size: 20px;
@@ -143,9 +140,13 @@ export default {
   display: flex;
   width: 100%;
   height: 100%;
-  margin-top: 10px;
   flex-direction: column;
   overflow: auto;
+}
+
+.options {
+  background-color: #06454d;
+  padding-top: 5px;
 }
 
 </style>

@@ -20,6 +20,10 @@
     <div v-if="notifications && notifications >0" class="notification">
       <div class="notification-inner">{{ notifications }}</div>
     </div>
+    <!-- doesnt work properly. if both channels closed, the chat gets wiped. -->
+    <!-- <div v-else-if="recents" class="material-icons close-button" @click="closeChannel">
+      close
+    </div> -->
   </div>
 </template>
 
@@ -32,7 +36,7 @@ import { bus } from "@/main";
 
 export default {
   // tree will add padding to the left.
-  props: ["username", "tag", "channelID", "uniqueID", "recipient", "tree"],
+  props: ["username", "tag", "channelID", "uniqueID", "recipient", "tree", "recents"],
   data() {
     return {
       hover: false
@@ -79,8 +83,12 @@ export default {
     }
   },
   methods: {
+    async closeChannel(event) {
+      this.channelID
+      await channelService.delete(this.channelID)
+    },
     async openChat(event) {
-      if (event.target.closest(".profile-picture")) return;
+      if (event.target.closest(".profile-picture") || event.target.closest(".close-button")) return;
       bus.$emit("closeLeftMenu");
       // dismiss notification if exists
       // TODO move this into openchat or something :/
@@ -220,6 +228,22 @@ export default {
 .friend:hover .status-name {
   opacity: 1;
   height: 13px;
+}
+
+.close-button {
+  flex-shrink: 0;
+  height: 100%;
+  display: none;
+  align-self: center;
+  color: rgb(207, 207, 207);
+  transition: 0.2s;
+  font-size: 18px;
+}
+.close-button:hover {
+  color: white;
+}
+.friend:hover .close-button {
+  display: flex;
 }
 </style>
 

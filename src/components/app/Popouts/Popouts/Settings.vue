@@ -125,13 +125,14 @@ export default {
 .settings-box {
   height: 600px;
   display: flex;
-
   margin: auto;
-  border-radius: 10px;
   overflow: hidden;
+  background-image: url("../../../../assets/leftPanelBackground.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 .tabs {
-  background: rgba(24, 24, 24, 0.938);
   height: 100%;
   width: 200px;
   min-width: 150px;
@@ -139,21 +140,17 @@ export default {
   overflow-x: hidden;
   flex-shrink: 0;
   position: relative;
+  background: #02292c;
 }
 .panel {
   display: flex;
   flex-direction: column;
-  background: rgba(31, 31, 31, 0.924);
   height: 100%;
   width: 600px;
 }
 .tab {
   display: flex;
   padding: 10px;
-  background: rgba(26, 26, 26, 0.233);
-  border-radius: 5px;
-  margin-top: 5px;
-  margin-bottom: 5px;
   cursor: pointer;
   user-select: none;
   transition: 0.3s;
@@ -162,14 +159,17 @@ export default {
 .tab-name {
   margin-left: 10px;
 }
-.tab.selected {
-  background: rgb(61, 61, 61) !important;
-}
-
 
 .tab:hover {
-  background: rgba(61, 61, 61, 0.616);
+  background: #08616b;
 }
+
+.tab.selected {
+  background: #064c55;
+}
+
+
+
 .tab.warn{
   position: absolute;
   bottom: 0;
@@ -182,7 +182,7 @@ export default {
   display: flex;
   padding: 10px;
   font-size: 25px;
-  background: rgb(20, 20, 20);
+  background: #02292c;
 }
 .title .material-icons {
   font-size: 40px;
@@ -204,7 +204,7 @@ export default {
   transition: 0.3s;
 }
 .close-button:hover {
-  background: rgba(37, 37, 37, 0.692);
+  background: #064f56;
 }
 .close-button .material-icons {
   margin: auto;

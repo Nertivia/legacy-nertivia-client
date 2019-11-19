@@ -7,12 +7,12 @@
           class="tab"
           :class="{notifyAnimation: friendRequestExists, selected: currentTab === 0}"
           @click="currentTab = 0"
-        >Friends</div>
+        ><div class="material-icons">group</div>Friends</div>
         <div
           class="tab"
           :class="{notifyAnimation: DMNotification, selected: currentTab === 1 }"
           @click="currentTab = 1"
-        >Recents</div>
+        ><div class="material-icons">access_time</div>Recents</div>
       </div>
       <div v-if="currentTab === 0" class="list">
         <pending-friends />
@@ -136,15 +136,41 @@ export default {
   height: 50px;
   transition: 0.2s;
   cursor: pointer;
-}
-
-.tab:hover {
-  background: #097279;
-}
-
-.tab.selected {
   background: #075e64;
+  position: relative;
 }
+.tab .material-icons {
+  margin-right: 5px;
+}
+.tab:hover::before {
+  content: '';
+  position: absolute;
+  height: 3px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgb(177, 177, 177);
+}
+.tab::before {
+  content: '';
+  position: absolute;
+  height: 3px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+  transition: 0.2s;
+}
+.tab.selected::before {
+  content: '';
+  position: absolute;
+  height: 3px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgb(255, 255, 255);
+}
+
 /* ------- SCROLL BAR -------*/
 /* width */
 .list::-webkit-scrollbar {

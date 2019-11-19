@@ -42,6 +42,17 @@
 
       <edit-panel v-if="editMessage" :data="editMessage" />
       <div class="seperater" />
+      <div class="markdown-buttons" style="color: white;" v-if="sendMessagePermission === true || editMessage">
+        <div class="material-icons markdown-icon" @click="addFormat('**')" title="Bold">format_bold</div>
+        <div class="material-icons markdown-icon" @click="addFormat('_')" title="Italic">format_italic</div>
+        <div class="material-icons markdown-icon" @click="addFormat('__')" title="Underline">format_underlined</div>
+        <div class="material-icons markdown-icon" @click="addFormat('```\n', '\n```', 4)" title="Code block">code</div>
+        <div class="color-picker" title="Message color">
+          <input type="color" ref="colorPic" style="display: none" @change="messageColorChange" value="#e7e7e7">
+          <div class="color" :style="{background:  customColor}" @click="$refs.colorPic.click()"></div>
+          <div class="reset-button" @click="customColor = null" v-if="customColor">Reset</div>
+        </div>
+      </div>
       <!-- <div class="info">
 
         <div
@@ -101,6 +112,7 @@ import MessageLogs from "@/components/app/MessageLogs.vue";
 import emojiParser from "@/utils/emojiParser.js";
 import windowProperties from "@/utils/windowProperties";
 import TypingStatus from "@/components/app/TypingStatus.vue";
+import { isMobile } from '../../utils/Mobile';
 
 const emojiPanel = () => import("@/components/app/EmojiPanels/emojiPanel.vue");
 const EditPanel = () => import("@/components/app/EditPanel.vue");
@@ -126,10 +138,41 @@ export default {
       typingRecipients: {},
       showEmojiPanel: false,
 
-      scrolledDown: true
+      customColor: null,
+      scrolledDown: true,
+      mobile: isMobile(),
     };
   },
   methods: {
+    messageColorChange(e) {
+      const hexColor = e.target.value;
+      this.customColor = hexColor;
+    },
+    addFormat(type, customEnding, customPos) {
+      const msgBox = this.$refs['input-box'];
+      msgBox.focus()
+      const startPos = msgBox.selectionStart;
+      const endPos =  msgBox.selectionEnd;
+
+      const selection = window.getSelection();
+      const selected = selection.toString();
+      console.log(selected)
+
+      if (selected === ""){
+        this.message = [this.message.slice(0, endPos), type+ (customEnding||type ), this.message.slice(endPos)].join('');
+        this.$nextTick(() => {
+          const offsetCursorPos = customPos || type.length
+          msgBox.focus()
+          msgBox.setSelectionRange(endPos+ offsetCursorPos, endPos+ offsetCursorPos);
+        })
+        return;
+      }
+      this.message = [this.message.slice(0, startPos), type + selected + (customEnding||type ), this.message.slice(endPos)].join('');
+      this.$nextTick(() => {
+        msgBox.focus()
+        msgBox.setSelectionRange(startPos + type.length, endPos + type.length);
+      })
+    },
     generateNum(n) {
       var add = 1,
         max = 12 - add; // 12 is the min safe number Math.random() can generate without it starting to pad the end with zeros.
@@ -164,6 +207,7 @@ export default {
         message: {
           tempID,
           message: msg,
+          color: this.customColor,
           channelID: this.selectedChannelID,
           created: new Date()
         }
@@ -179,6 +223,7 @@ export default {
         this.selectedChannelID,
         {
           message: msg,
+          color: this.customColor,
           socketID: this.$socket.id,
           tempID
         }
@@ -199,7 +244,7 @@ export default {
       const editMessage = this.editMessage;
       this.$refs["input-box"].focus();
       this.message = this.message.trim();
-      if (this.message === this.editMessage.message) {
+      if (this.message === this.editMessage.message && (this.customColor || undefined) === (this.editMessage.color)) {
         this.$store.dispatch("setEditMessage", null);
         this.message = "";
         return;
@@ -223,6 +268,7 @@ export default {
         editMessage.messageID,
         editMessage.channelID,
         {
+          color: this.customColor || -1,
           message: msg
         }
       );
@@ -364,6 +410,7 @@ export default {
       this.emojiSwitchKey(event);
       // when enter is press
       if (event.keyCode == 13) {
+        if (this.mobile) {return}
         // and the shift key is not held
         if (!event.shiftKey) {
           event.preventDefault();
@@ -393,7 +440,8 @@ export default {
         this.$store.dispatch("setEditMessage", {
           messageID: lastMessage.messageID,
           channelID: lastMessage.channelID,
-          message: lastMessage.message
+          message: lastMessage.message,
+          color: lastMessage.color,
         });
       }
     },
@@ -474,6 +522,8 @@ export default {
       this.message = editMessage
         ? emojiParser.emojiToShortcode(editMessage.message)
         : "";
+      if (editMessage)
+        this.customColor = editMessage.color || null;
     },
     onBlur() {
       clearTimeout(this.postTimerID);
@@ -714,7 +764,6 @@ export default {
   align-self: center;
   background-color: #a0c8d5;
   flex-shrink: 0;
-  margin-bottom: 10px;
 }
 .chat-input-area .info {
   color: rgba(255, 255, 255, 0.466);
@@ -816,16 +865,15 @@ export default {
 
 .back-to-bottom-button {
   &:hover {
-    background: rgb(23, 124, 255);
+    background: #748b8e;
     box-shadow: 0px 0px 15px 0px #0000008a;
   }
   transition: 0.2s;
-  background: rgba(23, 124, 255, 0.818);
+  background: #516e72;
   color: white;
   position: absolute;
   bottom: 15px;
   right: 25px;
-  border-radius: 10px;
   height: 50px;
   z-index: 2;
   display: flex;
@@ -851,5 +899,58 @@ export default {
   padding: 5px;
   user-select: none;
   cursor: default;
+}
+.markdown-buttons {
+  display: flex;
+  height: 35px;
+  align-items: center;
+  align-content: center;
+  margin-left: 10px;
+  flex-shrink: 0;
+  .markdown-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    cursor: pointer;
+    height: 100%;
+    width: 35px;
+    margin-left: 2px;
+    transition: 0.2s;
+    color: #d5dcdd;
+    &:hover {
+      color: white;
+    }
+  }
+}
+
+.color-picker {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  transition: 0.2s;
+  flex-shrink: 0;
+  min-width: 35px;
+  .color {
+    width: 15px;
+    height: 15px;
+    background: rgb(231, 231, 231);
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  .reset-button {
+    user-select: none;
+    cursor: pointer;
+    margin-left: 5px;
+    transition: 0.2s;
+    opacity: 0.6;
+    flex-shrink: 0;
+    &:hover {
+      opacity: 1; 
+    }
+  }
 }
 </style>

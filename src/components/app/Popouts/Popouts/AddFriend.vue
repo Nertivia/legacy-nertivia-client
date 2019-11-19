@@ -92,18 +92,21 @@ export default {
 .add-friend {
   height: 300px;
   width: 400px;
-  background: rgba(24, 24, 24, 0.9);
   backdrop-filter: blur(10px);
   display: flex;
   flex-direction: column;
   position: relative;
   margin: auto;
   overflow: hidden;
+  background-image: url("../../../../assets/leftPanelBackground.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 .header {
   display: flex;
   flex-shrink: 0;
-  background-color: rgba(41, 41, 41, 0.801);
+  background-color: #085053;
   color: white;
   height: 50px;
   align-content: center;
@@ -132,11 +135,6 @@ export default {
   margin-top: 40px;
 }
 
-.tag {
-  color: white;
-  background: transparent;
-  border: solid 1px #afafaf;
-}
 .description {
   margin-bottom: 30px;
 }
@@ -144,10 +142,10 @@ export default {
   align-self: center;
   color: white;
   width: initial;
-  background: #1998ff;
+  background: #05353b;
   cursor: pointer;
   &:hover {
-    background: #157fd6;
+    background: #0f292c;
   }
 }
 

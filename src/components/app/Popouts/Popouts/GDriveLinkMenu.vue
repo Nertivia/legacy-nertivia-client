@@ -95,6 +95,10 @@ export default {
   flex-direction: column;
   color: white;
   border-radius: 3px;
+  background-image: url("../../../../assets/leftPanelBackground.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 .text {
   color: white;
@@ -140,8 +144,7 @@ export default {
   margin: auto;
   background: rgb(32, 118, 255);
   padding: 10px;
-  border-radius: 2px;
-  cursor: default;
+  cursor: pointer;
   user-select: none;
   transition: 0.3s;
   margin-left: 10px;

@@ -21,8 +21,8 @@
           <div class="username" @click="openUserInformation">{{ this.$props.username }}</div>
           <div class="date">{{ getDate }}</div>
         </div>
-        <SimpleMarkdown class="content-message" :message="message" />
-        <div class="file-content" v-if="getFile">
+        <SimpleMarkdown class="content-message" :style="[color && color !== -2 ? {color: color}: '']" :message="message" />
+        <div class="file-content" v-if="getFile && !getFile.fileName.endsWith('.mp3')">
           <div class="icon">
             <i class="material-icons">insert_drive_file</i>
           </div>
@@ -32,6 +32,12 @@
               <div class="download-button">Download</div>
             </a>
           </div>
+        </div>
+        <div v-if="getFile && getFile.fileName.endsWith('.mp3')" class="file-content music">
+          <div class="info">{{ getFile.fileName }}</div>
+          <audio controls>
+            <source :src="getFile.url" type="audio/mp3">
+          </audio>
         </div>
 
         <div class="image-content" ref="image" v-if="getImage">
@@ -88,7 +94,6 @@
 import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
 import SimpleMarkdown from "./SimpleMarkdown.vue";
 import messageEmbedTemplate from "./messageEmbedTemplate";
-import messageFormatter from "@/utils/messageFormatter.js";
 import config from "@/config.js";
 import friendlyDate from "@/utils/date";
 import path from "path";
@@ -111,7 +116,8 @@ export default {
     "embed",
     "messageID",
     "channelID",
-    "timeEdited"
+    "timeEdited",
+    "color"
   ],
   components: {
     ProfilePicture,
@@ -134,7 +140,8 @@ export default {
         messageID: this.messageID,
         message: this.message,
         uniqueID: this.uniqueID,
-        type: this.type
+        type: this.type,
+        color: this.color
       });
     },
     openUserInformation() {
@@ -149,7 +156,8 @@ export default {
       this.$store.dispatch("setEditMessage", {
         channelID: this.channelID,
         messageID: this.messageID,
-        message: this.message
+        message: this.message,
+        color: this.color,
       });
     },
     contentDoubleClickEvent(event) {
@@ -240,9 +248,6 @@ export default {
       file.url = config.domain + "/files/" + file.fileID;
       return file;
     },
-    formatMessage() {
-      return messageFormatter(this.$props.message);
-    },
     getDate() {
       return friendlyDate(this.$props.date);
     },
@@ -324,13 +329,12 @@ export default {
 }
 
 .ownMessageLeft .triangle-inner {
-  border-left: 8px solid rgba(184, 184, 184, 0.219);
+  border-left: 8px solid #3a585c;
   border-right: none !important;
 }
 
 .ownMessageLeft .avatar {
   margin-right: 0px;
-  margin-left: 5px;
 }
 .ownMessageLeft .sending-status {
   margin-left: auto !important;
@@ -339,14 +343,16 @@ export default {
 
 .message {
   margin: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
   display: flex;
 }
 
 .ownMessage .triangle-inner {
-  border-right: 8px solid rgba(184, 184, 184, 0.219);
+  border-right: 8px solid #3a585c;
 }
 .ownMessage .content {
-  background: rgba(184, 184, 184, 0.219);
+  background: #3a585c;
 }
 
 .ownMessage .date {
@@ -355,24 +361,31 @@ export default {
 
 .file-content {
   display: flex;
-  background: #0a1a1c;
+  background: #5b7377;
   padding: 10px;
   margin-top: 5px;
+  &.music {
+   .info  {
+     margin-bottom: 5px;
+   }
+    flex-direction: column;
+  }
 }
+
+
 .file-content .material-icons {
   font-size: 40px;
 }
 .file-content .download-button {
   font-size: 14px;
   background: rgba(0, 0, 0, 0.158);
-  border-radius: 3px;
   padding: 3px;
   text-align: center;
   display: inline-block;
   margin-top: 3px;
   transition: 0.3s;
   user-select: none;
-  cursor: default;
+  cursor: pointer;
   color: white;
 }
 .file-content .download-button:hover {
@@ -391,7 +404,7 @@ export default {
 }
 
 .avatar {
-  margin: auto 5px 0 0;
+  margin: auto 0 0 0;
 }
 
 .triangle {
@@ -415,20 +428,18 @@ export default {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  border-radius: 10px;
+  // border-radius: 10px;
   border-bottom-left-radius: 0;
   color: rgb(231, 231, 231);
   margin: auto 0;
   overflow: hidden;
 }
 .ownMessageLeft .content {
-  border-bottom-left-radius: 10px;
   border-bottom-right-radius: 0;
 }
 .image-content {
   margin-top: 10px;
   padding: 5px;
-  border-radius: 5px;
   background: #1d2c2e;
   display: -ms-flexbox;
   display: flex;

@@ -119,7 +119,7 @@ export default {
 .tabs{
   z-index: 999999;
   display: flex;
-  background: rgb(47, 47, 47);
+  background: #04383d;
   justify-content: center;
 }
 .tabs .tab {
@@ -138,9 +138,7 @@ export default {
   bottom:0;
   left:0;
   right:0;
-  background:rgba(255, 255, 255, 0);
   height:5px;
-  border-radius:10px;
   transition: 0.3s;
 }
 
@@ -220,8 +218,5 @@ export default {
 }
 .alert-button:hover {
   background: rgb(83, 53, 53);
-}
-@media (max-width: 815px) {
-
 }
 </style>

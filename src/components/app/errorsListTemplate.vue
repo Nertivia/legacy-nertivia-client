@@ -18,7 +18,6 @@ export default {
 .errors{
   background: rgb(255, 62, 62);
   color: white;
-  border-radius: 10px;
   padding: 10px;
 }
 

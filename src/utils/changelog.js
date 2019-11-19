@@ -10,11 +10,46 @@ const prototype = {
 
 const config = [
   {
+    version: 8.5,
+    title: "Format buttons and color text!",
+    shortTitle: "",
+    date: "18/11/2019",
+    headColor: "#0c7b7f",
+    new: [
+      "Enter will now create new lines on mobile.",
+      "You can now easily format your messages using the format buttons above.",
+      "You can now color your messages! <font color='pink'>WOO!</font>",
+      "Changelog will now only show the newest changelog, you can view all of the changelog by clicking on the button"
+    ],
+  },
+  {
+    version: 8.4,
+    title: "Redesigns and built in mp3 player!",
+    shortTitle: "",
+    date: "17/11/2019",
+
+    new: [
+      "You can now play mp3 files within nertivia! (mp4 coming soon)",
+      "Redesigned some components such as file upload, edit messages and more.",
+    ],
+    fix: [
+      "Some bugs have been fixed."
+    ]
+  },
+  {
+    version: 8.3,
+    title: "Better formatter + better performance.",
+    shortTitle: "",
+    date: "15/11/2019",
+    new: [
+      "Made design more consistent throughout the app"
+    ],
+  },
+  {
     version: 8.2,
     title: "Better formatter + better performance.",
     shortTitle: "",
     date: "13/11/2019",
-    headColor: "#0c7b7f",
     new: [
       "We have changed the markdown formatter from markdown-it to simple-markdown. This has also improved the performance. (Thanks bree!)"
     ],
