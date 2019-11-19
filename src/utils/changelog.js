@@ -11,7 +11,7 @@ const prototype = {
 const config = [
   {
     version: 8.5,
-    title: "format buttons and color text!",
+    title: "Format buttons and color text!",
     shortTitle: "",
     date: "18/11/2019",
     headColor: "#0c7b7f",
