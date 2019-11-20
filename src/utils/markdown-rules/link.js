@@ -37,7 +37,7 @@ export default (order) => { return {
 
 	html: function(node, output) {
 		return SimpleMarkdown.htmlTag("a", output(node.content), {
-			href: node.url,
+			href: SimpleMarkdown.sanitizeText(SimpleMarkdown.sanitizeUrl(node.url)),
 			class: "link",
 			target: "_blank"
 		})
