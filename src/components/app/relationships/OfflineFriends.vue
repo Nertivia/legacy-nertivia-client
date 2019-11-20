@@ -67,9 +67,11 @@ export default {
 }
 .tab {
   transition: 0.3s;
+  margin: 4px;
+  border-radius: 4px;
 }
 .tab:hover {
-  background: #08616b;
+  background: #053240;
 }
 </style>
 

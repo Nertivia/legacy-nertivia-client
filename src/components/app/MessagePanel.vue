@@ -145,6 +145,7 @@ export default {
   methods: {
     messageColorChange(e) {
       const hexColor = e.target.value;
+      e.target.value = ""
       this.customColor = hexColor;
     },
     addFormat(type, customEnding, customPos) {
@@ -857,11 +858,11 @@ export default {
 
 .back-to-bottom-button {
   &:hover {
-    background: #748b8e;
-    box-shadow: 0px 0px 15px 0px #0000008a;
+  background: rgba(0, 0, 0, 0.90);
   }
   transition: 0.2s;
-  background: #516e72;
+  background: rgba(0, 0, 0, 0.80);
+  border-radius: 100px;
   color: white;
   position: absolute;
   bottom: 15px;
@@ -871,7 +872,7 @@ export default {
   display: flex;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0px 0px 7px 0px #0000008a;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.20);
   align-content: center;
   align-items: center;
   padding-left: 10px;
@@ -935,6 +936,7 @@ export default {
     background: rgb(231, 231, 231);
     flex-shrink: 0;
     cursor: pointer;
+    border-radius: 3px;
   }
   .reset-button {
     color: #a5bec4;

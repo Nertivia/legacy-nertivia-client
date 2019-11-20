@@ -1,5 +1,5 @@
 <template>
-  <div class="direct-message-tab">
+  <div class="direct-message-tab" :class="{darken: showLeftPanel}">
     <transition name="slidein">
       <friends-list
         v-show="$mq === 'mobile' && showLeftPanel || ($mq !== 'mobile')"
@@ -24,7 +24,7 @@ export default {
   },
   data() {
     return {
-      showLeftPanel: false
+      showLeftPanel: true
     };
   },
   mounted() {
@@ -62,14 +62,24 @@ export default {
 }
 .slidein-enter, .slidein-leave-to /* .fade-leave-active below version 2.1.8 */ {
   /* margin-left: -300px; */
-  transform: translateX(-300px);
+  transform: translateX(-340px);
 }
 @media (max-width: 600px) {
   .left-panel {
     position: absolute;
     bottom: 0;
-    height: calc(100% - 50px);
     z-index: 2;
+    background: rgba(19, 107, 139, 0.9);
+  }
+  .darken::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.4);
   }
 }
 </style>

@@ -14,7 +14,7 @@ const config = [
     title: "Format buttons and color text!",
     shortTitle: "",
     date: "18/11/2019",
-    headColor: "#0c7b7f",
+    headColor: "#007792",
     new: [
       "Enter will now create new lines on mobile.",
       "You can now easily format your messages using the format buttons above.",

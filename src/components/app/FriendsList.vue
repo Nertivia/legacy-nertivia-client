@@ -2,6 +2,7 @@
   <div class="left-panel">
     <navigation />
     <div class="content">
+      <MyMiniInformation />
       <div class="tabs">
         <div
           class="tab"
@@ -22,8 +23,6 @@
       <div v-else class="list">
         <recent-friends />
       </div>
-      <div class="seperater" />
-      <MyMiniInformation />
     </div>
   </div>
 </template>
@@ -94,15 +93,12 @@ export default {
 <style scoped>
 .left-panel {
   height: 100%;
-  width: 300px;
+  width: 340px;
+  max-width: calc(100% - 60px);
   flex-shrink: 0;
   display: flex;
   flex-direction: row;
   z-index: 1;
-  background-image: url("../../assets/leftPanelBackground.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
 }
 .content {
   display: flex;
@@ -110,6 +106,9 @@ export default {
   flex-shrink: 0;
   flex: 1;
   overflow: hidden;
+  background: rgba(0, 0, 0, 0.14);
+  border-top-left-radius: 10px;
+
 }
 .list {
   flex: 1;
@@ -136,7 +135,6 @@ export default {
   height: 50px;
   transition: 0.2s;
   cursor: pointer;
-  background: #075e64;
   position: relative;
 }
 .tab .material-icons {
@@ -218,6 +216,12 @@ export default {
   }
   100% {
     background: rgba(121, 3, 3, 0.541);
+  }
+}
+
+@media (max-width: 600px) {
+  .content{
+    border-radius: 0;
   }
 }
 </style>

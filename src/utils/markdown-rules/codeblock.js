@@ -18,7 +18,7 @@ export default (order) => { return {
 		const className = node.lang ? `language-${node.lang}` : undefined
 
 		let content = SimpleMarkdown.sanitizeText(node.content)
-		if(node.lang) {
+		if(node.lang && hljs.getLanguage(node.lang)) {
 			content = hljs.highlight(node.lang, node.content, true).value
 		}
 

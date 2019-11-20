@@ -121,14 +121,11 @@ export default {
 .left-panel {
   height: 100%;
   width: 340px;
-  max-width: 100%;
+  max-width: calc(100% - 60px);
   flex-shrink: 0;
   display: flex;
   flex-direction: row;
   z-index: 1;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
 }
 
 .seperater {
@@ -217,4 +214,11 @@ export default {
     background: rgba(0, 0, 0, 0.322);
   }
 }
+
+@media (max-width: 600px) {
+  .right{
+    border-radius: 0;
+  }
+}
+
 </style>

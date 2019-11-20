@@ -97,7 +97,7 @@ export default {
 }
 .heading {
   padding: 10px;
-  background: #15282a;
+  background: #042f3a;
   margin-bottom: 10px;
 }
 .information {
@@ -108,7 +108,7 @@ export default {
   background: rgba(38, 139, 255, 0.87);
 }
 .change-log {
-  background: #294c51;
+  background: #054151;
   overflow-y: auto;
   max-width: 700px;
   width: 100%;

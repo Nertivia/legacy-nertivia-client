@@ -9,7 +9,7 @@
     <div class="container" @mouseleave="mouseLeaveEvent">
       <div class="scrollable">
 
-        <div class="server-items" v-if="currentTab === 2">
+        <div class="server-items">
           <draggable v-model="serversArr" :animation="200" :delay="mobile ? 400 : 0" ghost-class="ghost" @end="onEnd" @start="onStart">
             <transition-group type="transition" :name="!drag ? 'flip-list' : null">
               <server-template
@@ -27,13 +27,11 @@
       </div>
       <div
         class="item material-icons"
-        v-if="currentTab === 1"
         @click="addFriend"
         @mouseenter="localToolTipEvent('Add Friend', $event)"
       >person_add</div>
       <div
         class="item material-icons"
-        v-if="currentTab === 2"
         @click="addServer"
         @mouseenter="localToolTipEvent('Add Server', $event)"
       >add</div>
@@ -83,6 +81,7 @@ export default {
       }
     },
     openServer(serverID) {
+      this.switchTab(2);
       const server = this.servers[serverID];
       const lastSelectedChannel = JSON.parse(
         localStorage.getItem("selectedChannels") || "{}"
@@ -146,7 +145,7 @@ export default {
       if (this.drag) return;
       this.toolTipLocalName = null;
       this.toolTipServerID = serverID;
-      this.toolTipTopPosition = top - this.getTopHeight() + 16;
+      this.toolTipTopPosition = top - this.getTopHeight() + 20;
       this.toolTipShown = true;
     },
     mouseLeaveEvent() {
@@ -324,8 +323,8 @@ export default {
   color: white;
   font-size: 30px;
   align-self: center;
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
   cursor: pointer;
   user-select: none;
   opacity: 0.8;
@@ -398,10 +397,16 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  left: 60px;
+  left: 70px;
   z-index: 99999;
   user-select: none;
   cursor: default;
   transition: 0.2s;
+}
+
+@media (max-width: 600px) {
+  .navigation{
+      background: linear-gradient(#136A8A, #00B4DB);
+  }
 }
 </style>

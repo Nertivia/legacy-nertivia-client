@@ -273,7 +273,7 @@ export default {
 
 <style scoped lang="scss">
 
-$self-message-color: #236b7f;
+$self-message-color: #26778a;
 $message-color: #053746;
 
 .container {

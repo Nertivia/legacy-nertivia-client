@@ -81,6 +81,7 @@ export default {
   display: flex;
   flex-direction: column;
   width: 300px;
+  max-width: calc(100% - 60px);
   height: 100%;
   background: rgba(0, 0, 0, 0.14);
 }

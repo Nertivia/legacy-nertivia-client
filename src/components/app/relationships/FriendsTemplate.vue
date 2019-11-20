@@ -130,6 +130,8 @@ export default {
   position: relative;
   overflow: hidden;
   cursor: pointer;
+    margin: 5px;
+  border-radius: 4px;
 }
 .tree {
   padding-left: 22px;
@@ -156,10 +158,10 @@ export default {
 }
 
 .friend:hover {
-  background: #08616b;
+  background: #053c4c;
 }
 .friend.selected {
-  background: #064c55;
+  background: #053240;
 }
 .profile-picture {
   height: 30px;

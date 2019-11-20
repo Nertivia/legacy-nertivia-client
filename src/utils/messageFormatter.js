@@ -41,7 +41,13 @@ const rules = {
     }),
 
     text: Object.assign({}, SimpleMarkdown.defaultRules.text, {
-        order: order++,
+        order: order++, 
+        match: function(source) {
+          // copied and modified from simple-markdown.js
+          return /^[\s\S][0-9A-Za-z\u00c0-\uffff]*\s?/.exec(source);
+      },
+      parse: SimpleMarkdown.defaultRules.text.parse,
+      html: SimpleMarkdown.defaultRules.text.html,
     }),
 };
 

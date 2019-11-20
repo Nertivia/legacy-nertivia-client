@@ -83,9 +83,10 @@ export default {
   position: relative;
   width: 250px;
   height: 300px;
-  background: rgba(0, 0, 0, 0.479);
+  background: #024253;
   opacity: 0.9;
   margin: 5px;
+  border-radius: 4px;
   flex-shrink: 0;
   transition: 0.3s;
   display: flex;
@@ -157,7 +158,7 @@ export default {
   .bottom {
     display: flex;
     flex-direction: column;
-    background: rgba(0, 0, 0, 0.541);
+    background: #04333F;
     flex: 1;
     height: 100%;
     flex-shrink: 0;
@@ -178,39 +179,37 @@ export default {
       display: flex;
       width: 100%;
       flex-direction: row;
+      margin-bottom: 10px;
     }
     .member-count {
       display: flex;
       align-items: center;
       align-content: center;
+      padding-left: 5px;
+      padding-right: 5px;
       margin-left: 10px;
       margin-top: 0px;
-      width: 100%;
+      border-radius: 4px;
+      margin-right: 10px;
+      flex: 1;
+      background: #022730;
       .material-icons {
         margin-right: 5px;
       }
     }
     .button {
       display: flex;
-      align-content: center;
       align-items: center;
-      flex-direction: column;
       justify-content: center;
-      flex-shrink: 0;
-      background: rgba(40, 140, 255, 0.8);
-      align-self: flex-end;
-      flex-shrink: 0;
-      margin: auto;
+      width: 100%;
+      height: 40px;
+      border-radius: 4px;
+      background: rgba(0, 179, 219, 0.8);
+      transition: 0.2s;
       margin-right: 10px;
-      margin-left: 0;
-      margin-bottom: 10px;
-      padding: 7px;
-      transition: 0.3s;
-      width: 80px;
-      height: 20px;
       cursor: pointer;
       &:hover {
-        background: rgb(40, 140, 255);
+        background: #00B4DB;
       }
       &.selected {
         background: grey;
