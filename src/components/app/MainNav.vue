@@ -282,6 +282,7 @@ export default {
   flex-shrink: 0;
   height: 60px;
   width: 100%;
+  position: relative;
 }
 .container {
   display: flex;
