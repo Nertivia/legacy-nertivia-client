@@ -28,10 +28,10 @@
 	display: flex;
 	flex-direction: column;
 	user-select: none;
-  background-image: url("../../../../assets/leftPanelBackground.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  overflow: hidden;
+  box-shadow: 0px 0px 20px 5px #151515bd;
+  background-color: #044050;
+  border-radius: 4px;
 }
 .material-icons{
 	font-size: 80px;

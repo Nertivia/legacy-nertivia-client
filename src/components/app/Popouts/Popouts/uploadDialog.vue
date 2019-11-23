@@ -215,7 +215,7 @@ export default {
   position: relative;
   overflow: hidden;
   box-shadow: 0px 0px 20px 5px #151515bd;
-  background: linear-gradient(#0B4155, #01677E);
+  background-color: #01677E;
   border-radius: 4px;
 }
 .info {
@@ -300,7 +300,7 @@ export default {
 }
 .chat-input {
   font-family: "Roboto", sans-serif;
-  background: #032d38;
+  background: #014655;
   color: white;
   width: 100%;
   height: 20px;
