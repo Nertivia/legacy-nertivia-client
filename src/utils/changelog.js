@@ -18,7 +18,7 @@ const config = [
     new: [
       "A new and better designed Nertivia! Thanks to skull."
     ],
-    bugs: [
+    fix: [
       "Some bugs have been fixed"
     ]
   },
