@@ -144,6 +144,5 @@ export default {
   width: 100%;
   height: 100%;
   flex-direction: column;
-  background:#09464f;
 }
 </style>

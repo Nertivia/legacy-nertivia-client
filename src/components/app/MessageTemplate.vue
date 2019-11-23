@@ -28,7 +28,7 @@
           </div>
           <div class="information">
             <div class="info">{{ getFile.fileName }}</div>
-            <a :href="getFile.url" target="_blank">
+            <a :href="getFile.url" download target="_blank">
               <div class="download-button">Download</div>
             </a>
           </div>
@@ -273,8 +273,8 @@ export default {
 
 <style scoped lang="scss">
 
-$self-message-color: #26778a;
-$message-color: #053746;
+$self-message-color: #053746;
+$message-color: #03222b;
 
 .container {
   position: relative;
@@ -364,7 +364,7 @@ $message-color: #053746;
 
 .file-content {
   display: flex;
-  background: #5b7377;
+  background: #ffffff21;
   padding: 10px;
   margin-top: 5px;
   &.music {
@@ -443,7 +443,7 @@ $message-color: #053746;
 .image-content {
   margin-top: 10px;
   padding: 5px;
-  background: #1d2c2e;
+  background: #ffffff21;
   display: -ms-flexbox;
   display: flex;
   flex-direction: column;

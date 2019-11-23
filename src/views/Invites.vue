@@ -131,7 +131,7 @@ body {
   flex-direction: column;
   color: white;
   height: 100%;
-  background: #173d42;
+  background: linear-gradient(#0B4155, #01677E);
 }
 .app-content {
   display: flex;
@@ -160,9 +160,7 @@ body {
   justify-content: center;
   z-index: 9999;
   padding-bottom: 20px;
-  background-image: url("../assets/leftPanelBackground.jpg");
-  background-position: center;
-  background-size: cover;
+  background: #044050;
 }
 .server {
   display: flex;

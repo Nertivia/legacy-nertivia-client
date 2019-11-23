@@ -303,7 +303,7 @@ export default {
   .header {
     background: #063443;
     padding-left: 10px;
-    height: 64px;
+    height: 54px;
     display: flex;
     align-items: center;
     align-content: center;

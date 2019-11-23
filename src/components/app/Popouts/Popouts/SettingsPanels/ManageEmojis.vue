@@ -249,7 +249,7 @@ input:focus {
 .emojis-list {
   display: flex;
   flex-direction: column;
-  background-color: #06454d;
+  background-color: #00000024;
   overflow-y: auto;
   overflow-x: hidden;
   height: 100%;
@@ -269,7 +269,7 @@ input:focus {
   flex-shrink: 0;
 }
 .emoji:hover {
-  background: #0a3f46;
+  background: #052e3b;
 }
 .emoji-name {
   margin: auto;
@@ -280,14 +280,15 @@ input:focus {
   display: inline-block;
   width: inherit;
   padding: 10px;
-  background: #05353b;
+  background: #063443;
   margin-bottom: 10px;
   margin-left: 20px;
   user-select: none;
   transition: 0.3s;
+  cursor: pointer;
 }
 .button:hover {
-  background: #0f292c;
+  background: #052631;
 }
 .button .material-icons {
   vertical-align: -6px;

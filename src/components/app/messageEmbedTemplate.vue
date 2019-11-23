@@ -105,7 +105,7 @@ export default {
 
 <style scoped>
 .embed {
-  background: #1d2b2d;
+  background: #ffffff21;
   padding: 5px;
   display: flex;
   max-width: 500px;

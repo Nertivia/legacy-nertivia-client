@@ -86,7 +86,7 @@ export default {
 
 <style scoped>
 .drop-down {
-  background-color: #06454d;
+  background-color: #044050;
   padding: 10px;
   user-select: none;
   cursor: default;
@@ -97,14 +97,14 @@ export default {
   margin-bottom: 2px;
 }
 .current-select-box {
-  background: #05353b;
+  background: #032d38;
   padding: 5px;
   cursor: pointer;
   display: flex;
   transition: 0.3s;
 }
 .current-select-box:hover {
-  background: #0f292c;
+  background: #02232b;
 }
 .current-select-box div {
   align-self: center;
@@ -123,7 +123,7 @@ export default {
 
 .drop {
   position: absolute;
-  background-color: #06454d;
+  background-color: #044050;
   left: 0;
   right: 0;
   z-index: 11111;
@@ -145,6 +145,7 @@ export default {
   text-overflow: ellipsis;
   white-space: nowrap;
   display: flex;
+  cursor: pointer;
 }
 .item div {
   align-self: center;
@@ -154,10 +155,10 @@ export default {
 }
 
 .item:hover {
-  background: #0f292c;
+  background: #033442;
 }
 .item.selected {
-  background: #021c1f;
+  background: #021c23;
 }
 .material-icons {
   flex-shrink: 0;

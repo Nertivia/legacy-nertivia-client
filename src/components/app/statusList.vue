@@ -65,7 +65,7 @@ export default {
   position: absolute;
   top: 60px;
   right: 5px;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(3, 32, 41, 0.9);
   backdrop-filter: blur(5px);
   width: 180px;
   z-index: 4;
@@ -81,7 +81,7 @@ export default {
 }
 
 .status-list:hover {
-  background: #0000008c;
+  background: #081619;
 }
 
 .status-icon {

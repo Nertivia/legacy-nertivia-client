@@ -217,16 +217,15 @@ export default {
   flex-direction: column;
   color: white;
   overflow: hidden;
-  background-image: url("../../../../assets/leftPanelBackground.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  box-shadow: 0px 0px 20px 5px #151515bd;
+  background: linear-gradient(#0B4155, #01677E);
+  border-radius: 4px;
 }
 .tabs {
   display: flex;
   justify-content: center;
   padding-top: 15px;
-  background: #144a59;
+  background: #05222d;
   flex-shrink: 0;
 }
 .tab {
@@ -284,7 +283,7 @@ export default {
   align-self: center;
   margin-top: 15px;
   margin-bottom: 10px;
-  background-color: #06454d;
+  background-color: #044050;
   padding: 10px;
 }
 
@@ -301,7 +300,7 @@ export default {
 
 .button {
   padding: 5px;
-  background: #05353b;
+  background: #024554;
   user-select: none;
   border: none;
   color: white;
@@ -313,7 +312,7 @@ export default {
   cursor: pointer;
 }
 .button:hover {
-  background: #0f292c;
+  background: #02303c;
 }
 
 .button-clicked {

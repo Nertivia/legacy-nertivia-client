@@ -86,7 +86,7 @@ export default {
   background: rgba(0, 0, 0, 0.14);
 }
 .header {
-  height: 60px;
+  height: 50px;
   width: 100%;
   background: #083A4A;
   display: flex;

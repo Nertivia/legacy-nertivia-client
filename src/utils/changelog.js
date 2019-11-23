@@ -10,11 +10,23 @@ const prototype = {
 
 const config = [
   {
+    version: 8.6,
+    title: "New redesign!",
+    shortTitle: "",
+    date: "23/11/2019",
+    headColor: "#007792",
+    new: [
+      "A new and better designed Nertivia! Thanks to skull."
+    ],
+    bugs: [
+      "Some bugs have been fixed"
+    ]
+  },
+  {
     version: 8.5,
     title: "Format buttons and color text!",
     shortTitle: "",
     date: "18/11/2019",
-    headColor: "#007792",
     new: [
       "Enter will now create new lines on mobile.",
       "You can now easily format your messages using the format buttons above.",

@@ -84,7 +84,7 @@ export default {
   overflow: auto;
   .member {
     display: flex;
-    background: #06454d;
+    background: #052935;
     height: 30px;
     margin: 5px;
     padding: 5px;

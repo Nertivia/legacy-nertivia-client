@@ -182,7 +182,7 @@ export default {
   position: relative;
 }
 .channels-list {
-  background: #082326;
+  background: #00000050;
   height: 100%;
   width: 165px;
   flex-shrink: 0;
@@ -207,10 +207,10 @@ export default {
   align-self: center;
 }
 .channel:hover {
-  background: #06454d;
+  background: #04232d;
 }
 .channel.selected {
-  background: #064c55;
+  background: #03191f;
 }
 .add-channel-button {
   background: rgba(17, 148, 255, 0.692);
@@ -226,7 +226,7 @@ export default {
   overflow: hidden;
 }
 .button {
-  background: #05353b;
+  background: #024554;
   padding: 10px;
   align-self: center;
   margin: 5px;
@@ -235,7 +235,7 @@ export default {
   transition: 0.3s;
 }
 .button:hover {
-  background: #0f292c;
+  background: #02303c;
 }
 .button.warn {
   background: rgba(255, 17, 17, 0.692);
@@ -266,7 +266,7 @@ export default {
 .input {
   display: flex;
   flex-direction: column;
-  background-color: #06454d;
+  background-color: #044050;
   padding: 10px;
   margin: 10px;
 }

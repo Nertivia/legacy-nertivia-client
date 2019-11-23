@@ -96,7 +96,7 @@ export default {
   position: relative;
   flex-shrink: 0;
   align-items: center;
-  height: 60px;
+  height: 50px;
   transition: 0.3s;
   background-color: #083A4A
 }

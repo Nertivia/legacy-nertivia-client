@@ -63,7 +63,7 @@ export default {
 .heading {
   background: #073240;
   margin-bottom: 0;
-  height: 60px;
+  height: 50px;
   display: flex;
   flex-shrink: 0;
   padding-left: 10px;

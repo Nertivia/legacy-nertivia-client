@@ -198,7 +198,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .edit-profile {
   display: flex;
   flex-direction: column;
@@ -221,11 +221,17 @@ export default {
 .change-avatar-container {
   display: flex;
   flex-direction: column;
-  background-color: #06454d;
+  background-color: #044050;
   width: 150px;
   align-self: center;
   padding: 20px;
   margin-top: 10px;
+  .button {
+    background: #033442;
+    &:hover {
+      background: #032b36;
+    }
+  }
 }
 .avatar {
   margin-bottom: 10px;
@@ -235,7 +241,7 @@ export default {
   display: none;
 }
 .button {
-  background: #05353b;
+  background: #024554;
   padding: 10px;
   text-align: center;
   display: inline-block;
@@ -244,7 +250,7 @@ export default {
   transition: 0.3s;
 }
 .button:hover {
-  background: #0f292c;
+  background: #02303c;
 }
 .button.disabled {
   background: grey;
@@ -259,7 +265,7 @@ export default {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background-color: #06454d;
+  background-color: #044050;
   padding: 10px;
   margin: 10px;
   margin-left: 30px;

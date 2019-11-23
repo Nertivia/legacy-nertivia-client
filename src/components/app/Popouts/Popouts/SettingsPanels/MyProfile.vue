@@ -119,7 +119,7 @@ export default {
 .tabs{
   z-index: 999999;
   display: flex;
-  background: #04383d;
+  background: #073444;
   justify-content: center;
 }
 .tabs .tab {

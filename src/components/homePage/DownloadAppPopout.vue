@@ -64,7 +64,7 @@ export default {
     margin: auto;
     background: rgb(39, 39, 39);
     flex-direction: column;
-    border-radius: 10px;
+    border-radius: 4px;
     overflow: hidden;
 
   }

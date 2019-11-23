@@ -226,7 +226,7 @@ export default {
 }
 .survey .button {
   color: white;
-  background: #05353b;
+  background: #024554;
   padding-top: 10px;
   padding-bottom: 10px;
   width: 100%;
@@ -236,7 +236,7 @@ export default {
   cursor: pointer;
 }
 .survey .button:hover {
-  background: #0f292c;
+  background: #02303c;
 }
 
 .title {
@@ -256,7 +256,7 @@ export default {
 .input {
   display: flex;
   flex-direction: column;
-  background-color: #06454d;
+  background-color: #044050;
   padding: 10px;
   margin: 10px;
   margin-left: 30px;
@@ -266,15 +266,14 @@ export default {
 .input input {
   width: initial;
   margin-top: 2px;
-  background: #05353b;
+  background: #032d38;
 }
 textarea {
   padding: 10px;
   resize: none;
-  background: #05353b;
+  background: #032d38;
   border: none;
   outline: none;
-  border-radius: 5px;
   color: white;
   height: 100px;
   margin-bottom: 10px;

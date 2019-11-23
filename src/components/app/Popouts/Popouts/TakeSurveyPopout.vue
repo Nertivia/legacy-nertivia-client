@@ -74,10 +74,10 @@ export default {
   margin: auto;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.507);
   padding: 10px;
-  background-image: url("../../../../assets/leftPanelBackground.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  overflow: hidden;
+  box-shadow: 0px 0px 20px 5px #151515bd;
+  background: linear-gradient(#0B4155, #01677E);
+  border-radius: 4px;
 }
 .survay-icon .material-icons{
   color: white;
@@ -99,16 +99,16 @@ export default {
 .button {
   padding: 10px;
   margin: 3px;
-  background: #05353b;
+  background: #014656;
   transition: 0.3s;
   user-select: none;
   cursor: pointer;
 }
 .valid {
-  background: #05353b;
+  background: #014656;
 }
 .valid:hover{
-  background: #0f292c;
+  background: #02303c;
 }
 .warning {
   background: rgba(255, 27, 27, 0.589)

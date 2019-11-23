@@ -107,10 +107,10 @@ export default {
   color: white;
   overflow: hidden;
   position: relative;
-  background-image: url("../../../../../assets/leftPanelBackground.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  overflow: hidden;
+  box-shadow: 0px 0px 20px 5px #151515bd;
+  background: linear-gradient(#0B4155, #01677E);
+  border-radius: 4px;
 }
 
 .content {
@@ -123,7 +123,7 @@ export default {
 .tabs {
   display: flex;
   flex-direction: column;
-  background: #144a59;
+  background: #00000033;
   height: 100%;
   width: 180px;
   flex-shrink: 0;
@@ -149,16 +149,16 @@ export default {
   align-self: center;
 }
 .tab:hover {
-  background: #103a45;
+  background: #072935;
 }
 .critical {
   color: red;
 }
 .tab.selected {
-  background: #0c2c35;
+  background: #051f28;
 }
 .header {
-  background: #063e45;
+  background: #05222d;
   display: flex;
   height: 50px;
   flex-shrink: 0;
