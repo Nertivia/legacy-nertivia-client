@@ -26,7 +26,7 @@
 	}
 
 	.codeblock {
-		background-color: #233538;
+		background-color: #ffffff1a;
 		padding: 5px;
 		word-wrap: break-word;
 		word-break: break-word;

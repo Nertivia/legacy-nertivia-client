@@ -3,38 +3,68 @@
     <div
       class="tool-tip"
       ref="toolTip"
-      :style="{top: toolTipTopPosition + 'px'}"
+      :style="{ left: toolTipLeftPosition + 'px' }"
       v-if="toolTipShown"
-    >{{toolTipLocalName || servers[toolTipServerID].name}}</div>
+    >
+      {{ toolTipLocalName || servers[toolTipServerID].name }}
+    </div>
     <div class="container" @mouseleave="mouseLeaveEvent">
-      <div class="scrollable">
-
-        <div class="server-items">
-          <draggable v-model="serversArr" :animation="200" :delay="mobile ? 400 : 0" ghost-class="ghost" @end="onEnd" @start="onStart">
-            <transition-group type="transition" :name="!drag ? 'flip-list' : null">
-              <server-template
-                class="sortable"
-                v-for="(data) in serversArr"
-                :serverData="data"
-                @click.native="openServer(data.server_id)"
-                :key="data.server_id"
-              />
-            </transition-group>
-          </draggable>
-
+      <div class="navigation-items">
+        <div
+          class="item material-icons"
+          :class="{ selected: currentTab == 0 }"
+          @click="switchTab(0)"
+          @mouseenter="localToolTipEvent('Explore', $event)"
+        >
+          explore
         </div>
-
+        <div
+          class="item material-icons"
+          :class="{
+            selected: currentTab == 1,
+            notifyAnimation: DMNotification || friendRequestExists
+          }"
+          @click="switchTab(1)"
+          @mouseenter="localToolTipEvent('Direct Message', $event)"
+        >
+          chat
+        </div>
+        <div
+          class="item material-icons"
+          :class="{
+            selected: currentTab == 2,
+            notifyAnimation: serverNotification
+          }"
+          @click="switchTab(2)"
+          @mouseenter="localToolTipEvent('Servers', $event)"
+        >
+          forum
+        </div>
+        <div
+          class="item material-icons"
+          :class="{ selected: currentTab == 3 }"
+          @click="switchTab(3)"
+          @mouseenter="localToolTipEvent('Changelog', $event)"
+        >
+          import_contacts
+        </div>
+        <div
+          v-if="!user.survey_completed"
+          class="item material-icons"
+          @click="openSurvey"
+          @mouseenter="localToolTipEvent('Click Me', $event)"
+        >
+          error
+        </div>
       </div>
-      <div
-        class="item material-icons"
-        @click="addFriend"
-        @mouseenter="localToolTipEvent('Add Friend', $event)"
-      >person_add</div>
-      <div
-        class="item material-icons"
-        @click="addServer"
-        @mouseenter="localToolTipEvent('Add Server', $event)"
-      >add</div>
+    </div>
+    <div
+      class="item material-icons"
+      @click="openSettings"
+      @mouseleave="mouseLeaveEvent"
+      @mouseenter="localToolTipEvent('Settings', $event)"
+    >
+      settings
     </div>
   </div>
 </template>
@@ -42,22 +72,19 @@
 <script>
 import { bus } from "@/main.js";
 import config from "@/config.js";
-import settingsService from '@/services/settingsService';
-import ServerTemplate from "@/components/app/ServerTemplate/ServerTemplate";
-import draggable from 'vuedraggable'
+import settingsService from "@/services/settingsService";
 import { isMobile } from "@/utils/Mobile";
 export default {
-  components: { ServerTemplate, draggable },
   data() {
     return {
       avatarDomain: config.domain + "/avatars",
       toolTipShown: false,
-      toolTipTopPosition: 0,
+      toolTipLeftPosition: 0,
       toolTipServerID: null,
       toolTipLocalName: null,
       mobile: isMobile(),
 
-      drag: false,
+      drag: false
     };
   },
   methods: {
@@ -69,7 +96,7 @@ export default {
     onStart() {
       this.toolTipShown = false;
       this.drag = true;
-      this.$store.dispatch("setAllPopout", {show: false});
+      this.$store.dispatch("setAllPopout", { show: false });
     },
     dismissNotification(channelID) {
       const notifications = this.$store.getters.notifications.find(function(e) {
@@ -81,7 +108,6 @@ export default {
       }
     },
     openServer(serverID) {
-      this.switchTab(2);
       const server = this.servers[serverID];
       const lastSelectedChannel = JSON.parse(
         localStorage.getItem("selectedChannels") || "{}"
@@ -136,25 +162,21 @@ export default {
       });
     },
     localToolTipEvent(name, event) {
-      const rect = event.target.getBoundingClientRect();
       this.toolTipLocalName = name;
-      this.toolTipTopPosition = rect.top - this.getTopHeight() + 16;
       this.toolTipShown = true;
+
+      this.$nextTick(() => {
+        const width = window.innerWidth;
+        const tooltipWidth = this.$refs.toolTip.clientWidth;
+        const rect = event.target.getBoundingClientRect();
+        this.toolTipLeftPosition = rect.left - tooltipWidth / 2 + 25;
+      });
     },
-    serverToolTipEvent({ serverID, top }) {
-      if (this.drag) return;
-      this.toolTipLocalName = null;
-      this.toolTipServerID = serverID;
-      this.toolTipTopPosition = top - this.getTopHeight() + 20;
-      this.toolTipShown = true;
-    },
+
     mouseLeaveEvent() {
       this.toolTipShown = false;
       this.toolTipServerID = null;
       this.toolTipLocalName = null;
-    },
-    getTopHeight() {
-      return window.innerHeight - this.$refs["navigation"].offsetHeight;
     },
     addServer() {
       this.$store.dispatch("setPopoutVisibility", {
@@ -189,13 +211,13 @@ export default {
       get() {
         const data = this.servers;
         return Object.keys(data)
-        .map(key => {
-          return data[key];
-        })
-        .reverse();
+          .map(key => {
+            return data[key];
+          })
+          .reverse();
       },
       set(value) {
-        const reversedServers = value.reverse()
+        const reversedServers = value.reverse();
         // convert array to json
         const json = {};
         for (let index = 0; index < reversedServers.length; index++) {
@@ -249,69 +271,32 @@ export default {
       });
       return result.find(friend => friend.status === 1);
     }
-  },
-  mounted() {
-    bus.$on("server-tool-tip", this.serverToolTipEvent);
-  },
-  destroyed() {
-    bus.$off("server-tool-tip", this.serverToolTipEvent);
   }
 };
 </script>
 
-
 <style lang="scss" scoped>
-
-.flip-list-move {
-  transition: 0.3s;
-}
-.sortable-drag {
-  opacity: 0;
-}
-.ghost::before {
-  content: '';
-  position: absolute;
-  background: white;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 3px;
-}
-
 .navigation {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex-shrink: 0;
-  height: 100%;
-  width: 70px;
+  height: 60px;
+  width: 100%;
 }
-
 .container {
   display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
+  flex-direction: row;
   height: 100%;
-  width: 70px;
+  width: 100%;
 }
 .navigation-items {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   width: 100%;
+  height: 100%;
   align-self: flex-start;
   align-content: center;
   flex-shrink: 0;
-}
-.scrollable {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  overflow-y: auto;
-  scrollbar-width: none;
-  height: 100%;
-  align-self: center;
-  &::-webkit-scrollbar {
-    width: 0px;
-  }
 }
 .item {
   position: relative;
@@ -323,31 +308,20 @@ export default {
   color: white;
   font-size: 30px;
   align-self: center;
-  width: 70px;
-  height: 70px;
+  width: 50px;
+  height: 50px;
+  margin-left: 10px;
+  border-radius: 50%;
   cursor: pointer;
   user-select: none;
   opacity: 0.8;
   transition: 0.2s;
   &:hover {
-    background: #074447;
+    background: #093b4b;
   }
   &.selected {
-    background: #042a2b;
+    background: #072c38;
   }
-}
-
-.server-items {
-  display: flex;
-  flex-direction: column;
-}
-
-.seperater {
-  background-color: #d8d8d8;
-  flex-shrink: 0;
-  align-self: center;
-  width: calc(100% - 10px);
-  height: 2px;
 }
 
 .notifyAnimation:before {
@@ -397,16 +371,10 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  left: 70px;
+  top: 60px;
   z-index: 99999;
   user-select: none;
   cursor: default;
   transition: 0.2s;
-}
-
-@media (max-width: 600px) {
-  .navigation{
-      background: linear-gradient(#136A8A, #00B4DB);
-  }
 }
 </style>

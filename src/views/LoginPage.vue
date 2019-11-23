@@ -197,7 +197,7 @@ body {
   flex-direction: column;
   color: white;
   height: 100%;
-  background: #173d42;
+  background: linear-gradient(#0B4155, #01677E);
 }
 .app-content {
   display: flex;
@@ -224,9 +224,7 @@ body {
   align-items: center;
   z-index: 9999;
   padding-bottom: 20px;
-  background-image: url("../assets/leftPanelBackground.jpg");
-  background-position: center;
-  background-size: cover;
+  background: #043b4a;
 }
 .box .title {
   text-align: center;
@@ -258,7 +256,7 @@ form {
   margin: 10px;
   width: 80%;
   align-self: center;
-  background: #074d57;
+  background: #032b35;
   padding: 10px;
 }
 .input-text {
@@ -269,7 +267,7 @@ input {
   outline: none;
   padding: 10px;
   border: none;
-  background: #03262b;
+  background: #021b21;
   color: white;
 }
 .buttons {

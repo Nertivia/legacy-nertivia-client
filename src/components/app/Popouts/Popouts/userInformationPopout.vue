@@ -231,11 +231,10 @@ export default {
   display: flex;
   flex-direction: row;
   position: relative;
-  box-shadow: 0px 0px 20px 11px #151515c4;
-  background-image: url("../../../../assets/leftPanelBackground.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  box-shadow: 0px 0px 20px 5px #151515bd;
+  background: linear-gradient(#0B4155, #01677E);
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .spinner {
@@ -269,7 +268,7 @@ export default {
   align-content: center;
   padding-bottom: 10px;
   flex-shrink: 0;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.5);
   padding-top: 30px;
 }
 

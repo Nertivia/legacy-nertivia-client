@@ -98,15 +98,14 @@ export default {
   position: relative;
   margin: auto;
   overflow: hidden;
-  background-image: url("../../../../assets/leftPanelBackground.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  box-shadow: 0px 0px 20px 5px #151515bd;
+  background: linear-gradient(#0B4155, #01677E);
+  border-radius: 4px;
 }
 .header {
   display: flex;
   flex-shrink: 0;
-  background-color: #085053;
+  background-color: #05222d;
   color: white;
   height: 50px;
   align-content: center;
@@ -142,10 +141,10 @@ export default {
   align-self: center;
   color: white;
   width: initial;
-  background: #05353b;
+  background: #024554;
   cursor: pointer;
   &:hover {
-    background: #0f292c;
+    background: #02303c;
   }
 }
 

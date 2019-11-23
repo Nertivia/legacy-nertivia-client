@@ -81,16 +81,14 @@ export default {
   display: flex;
   flex-direction: column;
   width: 300px;
+  max-width: calc(100% - 60px);
   height: 100%;
-  background-image: url("../../assets/leftPanelBackground.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  background: rgba(0, 0, 0, 0.14);
 }
 .header {
   height: 50px;
   width: 100%;
-  background: rgba(0, 0, 0, 0.438);
+  background: #083A4A;
   display: flex;
   flex-shrink: 0;
 }
@@ -103,12 +101,12 @@ export default {
   overflow: auto;
 }
 .tab {
-  background: #095a5c;
   padding: 5px;
   user-select: none;
   cursor: default;
-  color: #cce4e3;
+  color: #b5c4ca;
   font-size: 15px;
+  margin-left: 10px;
 }
 </style>
 

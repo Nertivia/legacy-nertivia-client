@@ -125,7 +125,7 @@ export default {
 
 .message-example{
   padding: 10px;
-  background: #173d42;
+ background: linear-gradient(#0B4155, #01677E);
 }
 .title{
   font-size: 20px;
@@ -145,7 +145,7 @@ export default {
 }
 
 .options {
-  background-color: #06454d;
+  background-color: #023643;
   padding-top: 5px;
 }
 

@@ -41,7 +41,6 @@
       </div>
 
       <edit-panel v-if="editMessage" :data="editMessage" />
-      <div class="seperater" />
       <div class="markdown-buttons" style="color: white;" v-if="sendMessagePermission === true || editMessage">
         <div class="material-icons markdown-icon" @click="addFormat('**')" title="Bold">format_bold</div>
         <div class="material-icons markdown-icon" @click="addFormat('_')" title="Italic">format_italic</div>
@@ -78,7 +77,7 @@
           @paste="onPaste"
         ></textarea>
         <button class="emojis-button" @click="showEmojiPanel = !showEmojiPanel">
-          <i class="material-icons">face</i>
+          <i class="material-icons">tag_faces</i>
         </button>
         <button
           class="send-button"
@@ -146,6 +145,7 @@ export default {
   methods: {
     messageColorChange(e) {
       const hexColor = e.target.value;
+      e.target.value = ""
       this.customColor = hexColor;
     },
     addFormat(type, customEnding, customPos) {
@@ -734,26 +734,25 @@ export default {
 .chat-input-area {
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px;
+  padding-bottom: 10px;
   position: relative;
+  background: #014757;
 }
 
 .attachment-button {
   width: 50px;
-  background: rgba(255, 255, 255, 0.07);
   margin-right: 2px;
-  margin-left: 10px;
   display: flex;
   flex-shrink: 0;
+  color: #a5bec4;
   cursor: pointer;
   user-select: none;
   transition: 0.3s;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.13);
+    color: white;
   }
   .material-icons {
-    color: white;
     margin: auto;
   }
 }
@@ -784,7 +783,7 @@ export default {
 
 .chat-input {
   font-family: "Roboto", sans-serif;
-  background: rgba(255, 255, 255, 0.07);
+  background: transparent;
   color: white;
   width: 100%;
   min-height: 20px;
@@ -799,23 +798,17 @@ export default {
   overflow: hidden;
   max-height: 30vh;
   overflow-y: auto;
-  &:hover {
-    background: rgba(255, 255, 255, 0.1);
-  }
-
-  &:focus {
-    background: rgba(255, 255, 255, 0.13);
+  &::placeholder{
+    color: #597981;
   }
 }
 
 .send-button {
   font-size: 20px;
-  color: white;
-  background: rgba(255, 255, 255, 0.07);
+  color: #a5bec4;
+  background: transparent;
   border: none;
   outline: none;
-  margin-left: 2px;
-  margin-right: 10px;
   min-height: 40px;
   width: 50px;
   transition: 0.3s;
@@ -830,7 +823,7 @@ export default {
     margin: auto;
   }
   &:hover {
-    background: rgba(255, 255, 255, 0.13);
+    color: white;
   }
 }
 
@@ -843,8 +836,8 @@ export default {
 
 .emojis-button {
   font-size: 20px;
-  color: white;
-  background: rgba(255, 255, 255, 0.07);
+  color: #a5bec4;
+  background: transparent;
   border: none;
   outline: none;
   margin-left: 2px;
@@ -859,17 +852,17 @@ export default {
     margin: auto;
   }
   &:hover {
-    background: rgba(255, 255, 255, 0.13);
+  color: white;
   }
 }
 
 .back-to-bottom-button {
   &:hover {
-    background: #748b8e;
-    box-shadow: 0px 0px 15px 0px #0000008a;
+  background: rgba(0, 0, 0, 0.90);
   }
   transition: 0.2s;
-  background: #516e72;
+  background: rgba(0, 0, 0, 0.80);
+  border-radius: 100px;
   color: white;
   position: absolute;
   bottom: 15px;
@@ -879,7 +872,7 @@ export default {
   display: flex;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0px 0px 7px 0px #0000008a;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.20);
   align-content: center;
   align-items: center;
   padding-left: 10px;
@@ -905,9 +898,12 @@ export default {
   height: 35px;
   align-items: center;
   align-content: center;
-  margin-left: 10px;
+  margin-left: 2px;
+  margin-bottom: 10px;
   flex-shrink: 0;
+  background: #024B5C;
   .markdown-icon {
+    font-size: 21px;
     flex-shrink: 0;
     display: flex;
     align-content: center;
@@ -916,10 +912,10 @@ export default {
     user-select: none;
     cursor: pointer;
     height: 100%;
-    width: 35px;
-    margin-left: 2px;
+    width: 30px;
+    margin-left: 0px;
     transition: 0.2s;
-    color: #d5dcdd;
+    color: #a5bec4;
     &:hover {
       color: white;
     }
@@ -940,16 +936,17 @@ export default {
     background: rgb(231, 231, 231);
     flex-shrink: 0;
     cursor: pointer;
+    border-radius: 3px;
   }
   .reset-button {
+    color: #a5bec4;
     user-select: none;
     cursor: pointer;
     margin-left: 5px;
     transition: 0.2s;
-    opacity: 0.6;
     flex-shrink: 0;
     &:hover {
-      opacity: 1; 
+      color: white;
     }
   }
 }

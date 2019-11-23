@@ -1,5 +1,5 @@
 <template>
-  <div class="explore-tab">
+  <div class="explore-tab" :class="{darken: showLeftPanel}">
     <transition name="slidein">
       <div
         class="left-panel"
@@ -8,6 +8,7 @@
       >
         <navigation />
         <div class="content">
+          <MyMiniInformation />
           <div class="header">
             <div class="icon">
               <i class="material-icons">explore</i>
@@ -73,8 +74,9 @@ import { bus } from "@/main";
 import Servers from "./Explore/servers";
 import ServerService from "@/services/ServerService";
 import Navigation from "@/components/app/Navigation";
+import MyMiniInformation from "@/components/app/MyMiniInformation.vue";
 export default {
-  components: { Servers, Navigation },
+  components: { Servers, Navigation, MyMiniInformation },
   data() {
     return {
       showLeftPanel: false,
@@ -142,17 +144,18 @@ export default {
 .left-panel {
   display: flex;
   flex-direction: row;
-  width: 300px;
+  width: 340px;
+  max-width: calc(100% - 60px);
   flex-shrink: 0;
   z-index: 2;
-  background-image: url("../../../assets/leftPanelBackground.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+
   .content {
     display: flex;
     flex-direction: column;
     height: 100%;
+    background: rgba(0, 0, 0, 0.14);
+    border-top-left-radius: 10px;
+    overflow: hidden;
   }
   .items {
     user-select: none;
@@ -169,20 +172,22 @@ export default {
       align-content: center;
       align-items: center;
       padding: 10px;
+      margin: 5px;
+      border-radius: 4px;
       cursor: pointer;
       transition: 0.3s;
       &:hover {
-        background: #08616b;
+        background: #053c4c;
       }
       &.selected {
-        background: #064c55;
+        background: #053240;
       }
     }
   }
   .header {
     display: flex;
     height: 100px;
-    background: #086974;
+    background: rgba(0, 0, 0, 0.3);
     user-select: none;
     flex-shrink: 0;
     .icon {
@@ -296,8 +301,9 @@ export default {
 
 .right-panel {
   .header {
-    background: rgba(0, 0, 0, 0.448);
-    padding: 10px;
+    background: #063443;
+    padding-left: 10px;
+    height: 54px;
     display: flex;
     align-items: center;
     align-content: center;
@@ -327,7 +333,7 @@ export default {
 }
 .slidein-enter, .slidein-leave-to /* .fade-leave-active below version 2.1.8 */ {
   /* margin-left: -300px; */
-  transform: translateX(-300px);
+  transform: translateX(-340px);
 }
 
 @media (max-width: 600px) {
@@ -337,8 +343,19 @@ export default {
   .left-panel {
     position: absolute;
     bottom: 0;
-    height: calc(100% - 44px);
     z-index: 2;
+    background: rgba(19, 107, 139, 0.9);
+    height: 100%;
+  }
+  .darken::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.4);
   }
 }
 </style>

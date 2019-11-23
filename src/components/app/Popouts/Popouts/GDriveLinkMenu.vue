@@ -94,11 +94,10 @@ export default {
   display: flex;
   flex-direction: column;
   color: white;
-  border-radius: 3px;
-  background-image: url("../../../../assets/leftPanelBackground.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  overflow: hidden;
+  box-shadow: 0px 0px 20px 5px #151515bd;
+  background: linear-gradient(#0B4155, #01677E);
+  border-radius: 4px;
 }
 .text {
   color: white;

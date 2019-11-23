@@ -39,11 +39,18 @@ export default {
 }
 .upload {
   color: white;
-  background: #3a585c;
+  background: #26778a;
   margin: 10px;
   margin-left: 10px;
   display: flex;
   padding: 10px;
+}
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
+  flex-shrink: 0;
 }
 .icon .material-icons {
   font-size: 40px;
@@ -61,7 +68,7 @@ export default {
 }
 .size {
   font-size: 15px;
-  color: rgb(207, 207, 207);
+  color: #d5e3e6;
 }
 .progress {
   display: flex;

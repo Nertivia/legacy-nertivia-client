@@ -198,7 +198,7 @@ export default {
 
 <style scoped>
 .dark-background {
-  background: rgba(0, 0, 0, 0.877);
+  background: rgba(0, 0, 0, 0.4);
   position: absolute;
   top: 0;
   bottom: 0;
@@ -213,10 +213,10 @@ export default {
   width: 500px;
   flex-direction: column;
   position: relative;
-  background-image: url("../../../../assets/leftPanelBackground.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  overflow: hidden;
+  box-shadow: 0px 0px 20px 5px #151515bd;
+  background-color: #01677E;
+  border-radius: 4px;
 }
 .info {
   display: flex;
@@ -273,14 +273,14 @@ export default {
   display: flex;
   align-content: center;
   align-items: center;
-  background: #05353b;
+  background: #024554;
   padding: 5px;
   cursor: pointer;
   user-select: none;
   transition: 0.3s;
 }
 .button:hover {
-  background: #0f292c;
+  background: #02303c;
 }
 .button .text {
   margin-left: 5px;
@@ -300,7 +300,7 @@ export default {
 }
 .chat-input {
   font-family: "Roboto", sans-serif;
-  background: #45939e;
+  background: #014655;
   color: white;
   width: 100%;
   height: 20px;

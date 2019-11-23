@@ -221,10 +221,7 @@ body {
   flex-shrink: 0;
   border: 10px;
   position: relative;
-  background-image: url("../assets/leftPanelBackground.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+  background: #072834;
 }
 .logo {
   background-image: url("../assets/logo.png");
@@ -250,7 +247,7 @@ body {
   width: 100%;
   height: 100%;
   transition: 0.5s;
-  background-color: #173d42;
+  background: linear-gradient(#0B4155, #01677E);
 }
 .content {
   position: fixed;
@@ -324,7 +321,7 @@ body {
   justify-content: center;
 }
 .feature {
-  background: #102a2e;
+  background: #024352;
   color: white;
   margin: 10px;
   padding: 2px;
@@ -353,7 +350,7 @@ body {
 }
 .link {
   padding: 10px;
-  background: rgba(0, 0, 0, 0.219);
+  background: #25424d;
   user-select: none;
   margin-left: 5px;
   transition: 0.3s;

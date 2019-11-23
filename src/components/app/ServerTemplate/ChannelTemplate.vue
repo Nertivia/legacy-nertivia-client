@@ -70,12 +70,14 @@ export default {
   overflow: hidden;
   padding-right: 10px;
   padding-left: 10px;
+  margin: 5px;
+  border-radius: 4px;
 }
 .channel:hover {
-  background: #08616b;
+  background: #053c4c;
 }
 .channel.selected {
-  background: #064c55;
+  background: #053240;
 }
 
 .channel-name {

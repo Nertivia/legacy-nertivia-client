@@ -80,6 +80,7 @@ export default {
 }
 .inner-profile-picture {
   background-color: rgba(0, 0, 0, 0.315);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.20);
   border-radius: 50%;
   background-position: center;
   background-size: cover;

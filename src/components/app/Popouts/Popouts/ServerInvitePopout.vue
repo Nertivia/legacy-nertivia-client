@@ -110,10 +110,9 @@ export default {
   flex-direction: column;
   color: white;
   overflow: hidden;
-  background-image: url("../../../../assets/leftPanelBackground.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  box-shadow: 0px 0px 20px 5px #151515bd;
+  background: linear-gradient(#0B4155, #01677E);
+  border-radius: 4px;
 }
 .top {
   display: flex;
@@ -125,14 +124,14 @@ export default {
 
 .button {
   padding: 10px;
-  background: #05353b;
+  background: #062c3a;
   margin: auto;
   transition: 0.3s;
   user-select: none;
   cursor:pointer;
 }
 .button:hover {
-  background: #0f292c;
+  background: #041e27;
 }
 
 .bottom {

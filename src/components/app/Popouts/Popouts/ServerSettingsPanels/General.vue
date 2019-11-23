@@ -220,7 +220,7 @@ export default {
   align-self: center;
   margin-top: 10px;
   justify-content: center;
-  background-color: #06454d;
+  background-color: #044050;
   flex-shrink: 0;
 
   .avatar {
@@ -233,7 +233,7 @@ export default {
       margin-top: 35px;
     }
     .button {
-      margin-bottom: 10px;
+      margin-bottom: 16px;
     }
   }
   .banner {
@@ -247,11 +247,13 @@ export default {
     margin-left: 2px;
     .banner-image {
       position: relative;
-      width: 240px;
-      height: 150px;
+      width: 250px;
+      height: 130px;
       background: rgba(0, 0, 0, 0.4);
       background-position: center;
       background-size: cover;
+      border-radius: 4px;
+      box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.13);
       .banner-text {
         position: absolute;
         bottom: 0;
@@ -259,7 +261,6 @@ export default {
         right: 0;
         width: 100%;
         height: 35px;
-        backdrop-filter: blur(15px);
         background: rgba(0, 0, 0, 0.5);
       }
     }
@@ -287,7 +288,7 @@ export default {
 .input {
   display: flex;
   flex-direction: column;
-  background-color: #06454d;
+  background-color: #044050;;
   padding: 10px;
   align-self: center;
   margin: 10px;
@@ -297,10 +298,10 @@ export default {
   margin-top: 2px;
   margin-bottom: 0;
   width: 190px;
-  background: #05353b;
+
 }
 .button {
-  background: #05353b;
+  background: #033442;
   padding: 10px;
   align-self: center;
   margin: 5px;
@@ -309,7 +310,7 @@ export default {
   transition: 0.3s;
 }
 .button:hover {
-  background: #0f292c;
+  background: #022831;
 }
 .save-button {
   margin-top: 10px;

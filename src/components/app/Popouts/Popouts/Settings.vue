@@ -127,10 +127,9 @@ export default {
   display: flex;
   margin: auto;
   overflow: hidden;
-  background-image: url("../../../../assets/leftPanelBackground.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  box-shadow: 0px 0px 20px 5px #151515bd;
+  background: linear-gradient(#0B4155, #01677E);
+  border-radius: 4px;
 }
 .tabs {
   height: 100%;
@@ -140,7 +139,7 @@ export default {
   overflow-x: hidden;
   flex-shrink: 0;
   position: relative;
-  background: #02292c;
+  background: #00000033;
 }
 .panel {
   display: flex;
@@ -161,11 +160,11 @@ export default {
 }
 
 .tab:hover {
-  background: #08616b;
+  background: #072935;
 }
 
 .tab.selected {
-  background: #064c55;
+  background: #051f28;
 }
 
 
@@ -182,7 +181,7 @@ export default {
   display: flex;
   padding: 10px;
   font-size: 25px;
-  background: #02292c;
+  background: #05222d;
 }
 .title .material-icons {
   font-size: 40px;
@@ -204,7 +203,7 @@ export default {
   transition: 0.3s;
 }
 .close-button:hover {
-  background: #064f56;
+  background: #03181f;
 }
 .close-button .material-icons {
   margin: auto;

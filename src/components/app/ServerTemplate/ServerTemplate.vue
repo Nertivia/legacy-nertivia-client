@@ -9,6 +9,7 @@
   >
     <profile-picture
       size="45px"
+      class="avatar"
       :url="`${avatarDomain}/${serverData.avatar}${hover ? '' : '?type=png'}`"
     />
   </div>
@@ -85,8 +86,8 @@ export default {
   z-index: 1;
   display: flex;
   align-self: center;
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
   flex-shrink: 0;
   justify-content: center;
   align-content: center;
@@ -94,14 +95,25 @@ export default {
   user-select: none;
   transition: background 0.2s;
   cursor: pointer;
-  &:hover {
-    background: #074447;
+  &:hover::before {
+    content: "";
+    position: absolute;
+    top: 15px;
+    bottom: 15px;
+    left: 0;
+    width: 3px;
+    background: #ffffff5e;
   }
-  &.selected {
-    background: #042a2b;
+  &.selected::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    left: 0;
+    width: 3px;
+    background: #ffffffc5;
   }
 }
-
 .notifyAnimation:before {
   content: "!";
   color: white;

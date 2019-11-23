@@ -10,6 +10,7 @@
             <electron-frame-buttons />
           </div>
         </div>
+        <main-nav/>
         <div class="panel-layout">
           <news v-if="currentTab == 3" />
           <direct-message v-if="currentTab == 1" />
@@ -29,6 +30,7 @@ import windowProperties from "@/utils/windowProperties";
 import changelog from "@/utils/changelog.js";
 import ConnectingScreen from "./../components/app/ConnectingScreen.vue";
 import Spinner from "./../components/Spinner.vue";
+import MainNav from "./../components/app/MainNav.vue";
 
 const ElectronFrameButtons = () =>
   import("@/components/ElectronJS/FrameButtons.vue");
@@ -63,7 +65,8 @@ export default {
     Popouts,
     News,
     ElectronFrameButtons,
-    Explore
+    Explore,
+    MainNav
   },
   data() {
     return {
@@ -355,7 +358,7 @@ textarea {
   z-index: -1;
   width: 100%;
   height: 100%;
-  background-color: #173d42;
+  background: linear-gradient(#0B4155, #01677E);
 }
 
 .panel-layout {
