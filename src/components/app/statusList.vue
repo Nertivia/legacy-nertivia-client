@@ -58,14 +58,14 @@ export default {
 .show-status-list-enter,
 .show-status-list-leave-to {
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(-20px);
 }
 
 .status-popout {
   position: absolute;
-  bottom: 66px;
+  top: 60px;
   right: 5px;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(5px);
   width: 180px;
   z-index: 4;
@@ -81,7 +81,7 @@ export default {
 }
 
 .status-list:hover {
-  background: #042f33;
+  background: #0000008c;
 }
 
 .status-icon {
