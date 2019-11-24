@@ -33,13 +33,18 @@
         Options
       </div>  
       <div class="switches">
-        <div
-          class="checkbox"
-          @click="toggleAppearance"
-        >
+        <div class="checkbox"
+          @click="toggleAppearance">
           <div :class="`checkbox-box ${apperance && apperance.own_message_right && apperance.own_message_right === true ? 'selected' : '' }`" />
           <div class="checkbox-name">
             Show my messages on the right side.
+          </div>
+        </div>
+        <div class="checkbox"
+          @click="toggleTime">
+          <div :class="`checkbox-box ${apperance && apperance['12h_time'] && apperance['12h_time'] === true ? 'selected' : '' }`" />
+          <div class="checkbox-name">
+            Show time in 12 hour.
           </div>
         </div>
       </div>
@@ -74,6 +79,14 @@ export default {
     }
   },
   methods: {
+    toggleTime() {
+      if (!this.apperance || !this.apperance['12h_time'] || this.apperance['12h_time'] === false) {
+        this.$store.dispatch('settingsModule/setApperance', {"12h_time": true})
+        return SettingsService.setApperance("12h_time", true)
+      }
+      this.$store.dispatch('settingsModule/setApperance', {"12h_time": false})
+      SettingsService.setApperance("12h_time", false)
+    },
     toggleAppearance() {
       if (!this.apperance || !this.apperance.own_message_right || this.apperance.own_message_right === false) {
         this.$store.dispatch('settingsModule/setApperance', {"own_message_right": true})
@@ -93,6 +106,7 @@ export default {
   margin: 20px;
   user-select: none;
   flex-shrink: 0;
+  flex-wrap: wrap;
 }
 
 .checkbox {
@@ -106,6 +120,7 @@ export default {
   margin: auto;
   margin-right: 10px;
   transition: 0.3s;
+  flex-shrink: 0;
 }
 
 .checkbox-box.selected {
@@ -121,6 +136,8 @@ export default {
 }
 .checkbox-name {
   max-width: 200px;
+  display: flex;
+  align-items: center;
 }
 
 .message-example{

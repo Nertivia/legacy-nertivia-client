@@ -249,10 +249,11 @@ export default {
       return file;
     },
     getDate() {
-      return friendlyDate(this.$props.date);
+
+      return friendlyDate(this.$props.date, this.apperance && this.apperance['12h_time'] ? '12h' : false);
     },
     getEditedDate() {
-      return friendlyDate(this.timeEdited);
+      return friendlyDate(this.timeEdited, this.apperance && this.apperance['12h_time'] ? '12h' : false);
     },
     userAvatar() {
       return config.domain + "/avatars/" + this.$props.avatar;

@@ -1,14 +1,14 @@
-export default (miliseconds) => {
+export default (miliseconds, type) => {
     let friendlyDate = "";
     const now = new Date();
     const messageDate = new Date(miliseconds);
     
     if (sameDay(now, messageDate)) {
-        friendlyDate = `Today at ${getFullTime(messageDate)}`
+        friendlyDate = `Today at ${getFullTime(messageDate, type)}`
     } else if (yesterDay(now, messageDate)) {
-        friendlyDate = `Yesterday at ${getFullTime(messageDate)}`
+        friendlyDate = `Yesterday at ${getFullTime(messageDate, type)}`
     } else {
-        friendlyDate = getFullDateWithTime(messageDate)
+        friendlyDate = getFullDateWithTime(messageDate, type)
     }
     return friendlyDate;
 }
@@ -24,7 +24,10 @@ function yesterDay(d1, d2) {
     (d1.getDate() - d2.getDate()) == 1
 }
 
-function getFullTime(date){
+function getFullTime(date, type){
+    if (type === "12h") {
+        return formatAMPM(date);
+    }
     let finalTime = ""
     let hours = date.getHours();
     let minutes = date.getMinutes()
@@ -43,11 +46,22 @@ function getFullTime(date){
     return finalTime;
 }
 
-function getFullDateWithTime(date) {
+function getFullDateWithTime(date, type) {
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const dayName = days[date.getDay()];
     const monthName = months[date.getMonth()];
-    return `${dayName} ${date.getDate()} ${monthName} ${date.getFullYear()} at ${getFullTime(date)}`
+    return `${dayName} ${date.getDate()} ${monthName} ${date.getFullYear()} at ${getFullTime(date, type)}`
     
 }
+
+function formatAMPM(date) {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return strTime;
+  }
