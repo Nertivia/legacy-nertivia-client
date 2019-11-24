@@ -10,11 +10,21 @@ const prototype = {
 
 const config = [
   {
+    version: 8.7,
+    title: "12 hour clock mode",
+    shortTitle: "",
+    date: "24/11/2019",
+    headColor: "#007792",
+    new: [
+      "Added 12 hour clock mode."
+    ],
+
+  },
+  {
     version: 8.6,
     title: "New redesign!",
     shortTitle: "",
     date: "23/11/2019",
-    headColor: "#007792",
     new: [
       "A new and better designed Nertivia! Thanks to skull."
     ],
