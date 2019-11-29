@@ -10,11 +10,21 @@ const prototype = {
 
 const config = [
   {
+    version: 8.8,
+    title: "Themes!",
+    shortTitle: "",
+    date: "29/11/2019",
+    headColor: "#007792",
+    new: [
+      "You can now create your own themes in the settings popout using css! (You cannot share themes for now, that feature is coming soon though!)",
+    ],
+
+  },
+  {
     version: 8.7,
     title: "12 hour clock mode",
     shortTitle: "",
     date: "24/11/2019",
-    headColor: "#007792",
     new: [
       "Added 12 hour clock mode."
     ],

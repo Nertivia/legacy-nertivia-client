@@ -23,6 +23,7 @@
     "v-clipboard": "^2.2.2",
     "validator": "^11.1.0",
     "vue": "^2.5.17",
+    "vue-codemirror": "^4.0.6",
     "vue-headful": "^2.0.1",
     "vue-mq": "^1.0.1",
     "vue-recaptcha": "^1.1.1",

@@ -38,6 +38,7 @@ import isElectron from '@/utils/ElectronJS/isElectron';
 const MyProfile = () => import("./SettingsPanels/MyProfile.vue");
 const ManageEmojis = () => import("./SettingsPanels/ManageEmojis.vue");
 const MessageDesign = () => import("./SettingsPanels/MessageDesign.vue");
+const MyThemes = () => import("./SettingsPanels/MyThemes.vue");
 const Notifications = () => import("./SettingsPanels/Notifications.vue");
 const AppSettings = () => import("./SettingsPanels/appSettings");
 
@@ -47,6 +48,7 @@ export default {
     MyProfile,
     ManageEmojis,
     MessageDesign,
+    MyThemes,
     Notifications,
     AppSettings
   },
@@ -65,6 +67,12 @@ export default {
           tabName: "Message Design",
           icon: "palette",
           component: "message-design"
+        },
+        {
+          name: "My Themes",
+          tabName: "My Themes BETA",
+          icon: "palette",
+          component: "my-themes"
         },
         {
           name: "Manage Emojis",
