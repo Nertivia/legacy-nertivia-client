@@ -1,6 +1,7 @@
 <template>
   <div
     class="server"
+    :data-servername="serverData.name" 
     :class="{selected: selectedServerID === serverData.server_id, notifyAnimation: notification }"
     @contextmenu.prevent="contextEvent"
     @mouseenter="hoverEvent"

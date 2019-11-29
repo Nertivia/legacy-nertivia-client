@@ -132,6 +132,7 @@ export default {
       if (!ok) { return; }
       const styleEl = document.createElement('style');
       styleEl.id = "theme"
+      styleEl.classList.add('theme-' + result.data.id)
       styleEl.innerHTML = result.data.css
       document.head.innerHTML += styleEl.outerHTML;
     }

@@ -10,13 +10,12 @@
         />
         <div class="button" @click="saveButton">
           <div class="material-icons">save</div>
-          Save
+          Save & Apply
         </div>
         <div class="button" @click="closeButton">
           <div class="material-icons">clear</div>
           Close
         </div>
-        <div class="button end" @click="applyButton">Apply</div>
       </div>
       <!-- <prism-editor class="editor" v-model="code" language="css"></prism-editor> -->
       <codemirror
@@ -97,6 +96,7 @@ export default {
   },
   data() {
     return {
+      saving: false,
       selectedThemeID: null,
       themes: null,
       editing: null,
@@ -143,30 +143,37 @@ export default {
       });
     },
     async saveButton() {
+      if (this.saving) {return}
+      this.saving = true;
       const css = this.code;
       const name = this.name;
       if (typeof this.editing === 'string'){
         const response = await ThemeService.update({ name, css }, this.editing);
+        this.applyButton(this.editing)
       } else {
         const response = await ThemeService.save({ name, css });
+        this.editing = response.result.data.id;
+        this.applyButton(response.result.data.id)
       }
+      this.saving = false;
     },
     async applyButton(id) {
-      if (id) {
-        const {ok, result, error} = await ThemeService.getTheme(id);
-        if (ok) {
-          this.code = result.data.css;
-        }
-        // save to local storage.
-        localStorage.setItem('appliedThemeId', id);
+      const {ok, result, error} = await ThemeService.getTheme(id);
+      if (ok) {
+        this.code = result.data.css;
       }
+      // save to local storage.
+      localStorage.setItem('appliedThemeId', id);
+
+      const styleEl = document.createElement("style");
+      styleEl.classList.add('theme-' + id);
+      styleEl.id = "theme";
+      styleEl.innerHTML = this.code;
+
       const currentStyle = document.getElementById("theme");
       if (currentStyle) {
-        currentStyle.innerHTML = this.code;
+        currentStyle.outerHTML = styleEl.outerHTML;
       } else {
-        const styleEl = document.createElement("style");
-        styleEl.id = "theme";
-        styleEl.innerHTML = this.code;
         document.head.innerHTML += styleEl.outerHTML;
       }
     },
@@ -181,6 +188,11 @@ export default {
       }
     },
     async deleteButton (id) {
+      localStorage.removeItem('appliedThemeId');
+      const themeEl = document.getElementById('theme');
+      if (themeEl && themeEl.classList.contains('theme-' + id)) {
+        document.getElementById('theme').outerHTML = ''
+      }
       const {ok, result, error} = await ThemeService.delete(id);
       if (ok) {
         this.themes = this.themes.filter(t => t.id !== id);
@@ -242,6 +254,8 @@ export default {
     margin: 0;
   }
   .editor {
+    display: flex;
+    flex-direction: column;
     height: 100%;
   }
   .notice {
