@@ -63,6 +63,7 @@
       </div>
     </div>
     <div
+      data-name="Settings" 
       class="item material-icons"
       @click="openSettings"
       @mouseleave="mouseLeaveEvent"
