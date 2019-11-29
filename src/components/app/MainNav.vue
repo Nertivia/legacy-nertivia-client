@@ -11,6 +11,7 @@
     <div class="container" @mouseleave="mouseLeaveEvent">
       <div class="navigation-items">
         <div
+          data-name="Explore" 
           class="item material-icons"
           :class="{ selected: currentTab == 0 }"
           @click="switchTab(0)"
@@ -19,6 +20,7 @@
           explore
         </div>
         <div
+          data-name="Direct Message" 
           class="item material-icons"
           :class="{
             selected: currentTab == 1,
@@ -30,6 +32,7 @@
           chat
         </div>
         <div
+          data-name="Servers" 
           class="item material-icons"
           :class="{
             selected: currentTab == 2,
@@ -41,6 +44,7 @@
           forum
         </div>
         <div
+          data-name="Changelog" 
           class="item material-icons"
           :class="{ selected: currentTab == 3 }"
           @click="switchTab(3)"

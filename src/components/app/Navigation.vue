@@ -26,11 +26,13 @@
 
       </div>
       <div
+        data-name="Add Friend" 
         class="item material-icons"
         @click="addFriend"
         @mouseenter="localToolTipEvent('Add Friend', $event)"
       >person_add</div>
       <div
+        data-name="Add Server" 
         class="item material-icons"
         @click="addServer"
         @mouseenter="localToolTipEvent('Add Server', $event)"
