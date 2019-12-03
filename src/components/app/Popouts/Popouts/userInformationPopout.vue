@@ -190,7 +190,16 @@ export default {
           arr.push(item);
         }
       }
-      return arr;
+      // remove fields that have custom names ( example: country: lol)
+      return arr.filter(a => {
+        if (a.key.toLowerCase() === "constants") {return;}
+        const fieldName = this.surveyItems.constants[a.key.toLowerCase()];
+        if (fieldName && !this.surveyItems[fieldName].find(f => f.name === a.name )) {
+          return false;
+        } else {
+          return true;
+        }
+      });
     },
     filteredBadges() {
       if (!this.user.badges) return;
