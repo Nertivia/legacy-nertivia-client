@@ -58,7 +58,7 @@
         <i class="material-icons">{{tabs[selectedTab].icon}}</i>
         {{tabs[selectedTab].name}}
       </div>
-      <div class="coming-soon" v-if="selectedTab > 0">
+      <div class="coming-soon" v-if="selectedTab > 1">
         <div class="icon">
           <i class="material-icons">explore</i>
         </div>
@@ -72,20 +72,21 @@
 <script>
 import { bus } from "@/main";
 import Servers from "./Explore/servers";
+import Themes from "./Explore/themes";
 import ServerService from "@/services/ServerService";
 import Navigation from "@/components/app/Navigation";
 import MyMiniInformation from "@/components/app/MyMiniInformation.vue";
 export default {
-  components: { Servers, Navigation, MyMiniInformation },
+  components: { Servers, Themes, Navigation, MyMiniInformation },
   data() {
     return {
       showLeftPanel: false,
       selectedTab: 0,
       tabs: [
         // {icon: "home", name: "home", component: ""},
-        { icon: "rss_feed", name: "Servers", component: "servers" },
+        { icon: "rss_feed", name: "Servers", component: "Servers" },
+        { icon: "brush", name: "Themes", component: "Themes" },
         { icon: "face", name: "Emoji Packs", component: "" },
-        { icon: "brush", name: "Themes", component: "" },
         { icon: "message", name: "Message Styles", component: "" }
       ],
       nertiviaServerID: "6572915451527958528",
@@ -168,6 +169,7 @@ export default {
       .material-icons {
         margin-right: 5px;
       }
+      position: relative;
       display: flex;
       align-content: center;
       align-items: center;
@@ -182,6 +184,15 @@ export default {
       &.selected {
         background: #053240;
       }
+    }
+    .item:nth-child(2)::before {
+      content: 'NEW';
+      font-size: 14px;
+      background: rgb(255, 55, 55);
+      border-radius: 2px;
+      padding: 2px;
+      position: absolute;
+      right: 10px;
     }
   }
   .header {

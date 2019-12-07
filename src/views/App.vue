@@ -32,6 +32,7 @@ import ConnectingScreen from "./../components/app/ConnectingScreen.vue";
 import Spinner from "./../components/Spinner.vue";
 import MainNav from "./../components/app/MainNav.vue";
 import ThemeService from '../services/ThemeService';
+import ExploreService from '../services/exploreService';
 
 const ElectronFrameButtons = () =>
   import("@/components/ElectronJS/FrameButtons.vue");
@@ -128,12 +129,26 @@ export default {
       
 
       if (!themeAppliedID) {return;}
-      const {ok, result, error} = await ThemeService.getTheme(themeAppliedID);
-      if (!ok) { return; }
+      let exploreThemes = await ExploreService.applyTheme(themeAppliedID);
+      let privateThemes;
+      if (!exploreThemes.ok) { 
+        privateThemes = await ThemeService.getTheme(themeAppliedID);
+      }
+      let id;
+      let css;
+      if (exploreThemes.ok) {
+        css = exploreThemes.result.data.css;
+        id = exploreThemes.result.data.id;
+      }
+      if (privateThemes) {
+        css = privateThemes.result.data.css;
+        id = privateThemes.result.data.id;
+      }
+      if (!id && !css) {return}
       const styleEl = document.createElement('style');
       styleEl.id = "theme"
-      styleEl.classList.add('theme-' + result.data.id)
-      styleEl.innerHTML = result.data.css
+      styleEl.classList.add('theme-' + id)
+      styleEl.innerHTML = css
       document.head.innerHTML += styleEl.outerHTML;
     }
   },

@@ -104,6 +104,7 @@ export default {
     left: 0;
     width: 3px;
     background: #ffffff5e;
+    transition: 0.2s;
   }
   &.selected::before {
     content: "";

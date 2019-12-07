@@ -10,11 +10,21 @@ const prototype = {
 
 const config = [
   {
+    version: 8.9,
+    title: "Public Themes!",
+    shortTitle: "",
+    date: "7/21/2019",
+    headColor: "#007792",
+    new: [
+      "You can now make your themes public! Note: Making your theme public will require reviewing which may take few hours or days.",
+    ],
+
+  },
+  {
     version: 8.8,
     title: "Themes!",
     shortTitle: "",
     date: "29/11/2019",
-    headColor: "#007792",
     new: [
       "You can now create your own themes in the settings popout using css! (You cannot share themes for now, that feature is coming soon though!)",
     ],

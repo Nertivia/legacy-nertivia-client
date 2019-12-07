@@ -166,9 +166,6 @@ export default {
       this.changed = true;
     }
   },
-  mounted() {
-    console.log(this.server);
-  },
   computed: {
     googleDriveLinked() {
       return this.$store.getters["settingsModule/settings"].GDriveLinked;
