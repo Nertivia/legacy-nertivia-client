@@ -199,7 +199,7 @@ export default {
 }
 
 .notify {
-  background: rgba(255, 0, 0, 0.568);
+  background: #ee3e34;
 }
 
 
