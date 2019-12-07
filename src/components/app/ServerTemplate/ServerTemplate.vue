@@ -132,7 +132,7 @@ export default {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: rgba(255, 23, 23, 0.753);
+  background: #ee3e34;
 }
 
 </style>

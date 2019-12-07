@@ -352,25 +352,6 @@ export default {
   height: 2px;
 }
 
-.notifyAnimation:before {
-  content: "!";
-  color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  align-content: center;
-  font-size: 15px;
-  position: absolute;
-  z-index: 115651;
-  top: 5px;
-  right: 5px;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: rgba(255, 23, 23, 0.753);
-  flex-shrink: 0;
-}
-
 
 .tool-tip {
   color: white;

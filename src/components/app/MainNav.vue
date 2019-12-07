@@ -320,7 +320,6 @@ export default {
   border-radius: 50%;
   cursor: pointer;
   user-select: none;
-  opacity: 0.8;
   transition: 0.2s;
   &:hover {
     background: #093b4b;
@@ -345,7 +344,7 @@ export default {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: rgba(255, 23, 23, 0.753);
+  background: #ee3e34;
   flex-shrink: 0;
 }
 

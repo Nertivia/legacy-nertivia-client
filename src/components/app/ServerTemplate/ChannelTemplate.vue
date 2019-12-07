@@ -1,10 +1,13 @@
 <template>
   <div
     class="channel"
-    :class="{notify: hasNotifications, selected: selectedChannelID === channelData.channelID}"
+    :class="{selected: selectedChannelID === channelData.channelID}"
   >
     <i class="material-icons">storage</i>
     <div class="channel-name">{{ channelData.name }}</div>
+    <div class="notification" v-if="hasNotifications">
+      {{hasNotifications.count}}
+    </div>
   </div>
 </template>
 
@@ -24,7 +27,6 @@ export default {
       ) {
         return false;
       }
-
       const find = notifications.find(
         n => n.channelID === this.channelData.channelID
       );
@@ -37,7 +39,7 @@ export default {
 
 <style scoped>
 .notify {
-  background: rgba(255, 0, 0, 0.411);
+  background: rgba(255, 0, 0, 0.411) !important;
 }
 
 .channel {
@@ -68,5 +70,21 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   margin-left: 5px;
+}
+.notification {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  text-align: center;
+  justify-content: center;
+  background: #ee3e34;
+  height: 34px;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  min-width: 40px;
+  max-width: 70px;
+  border-radius: 1px;
 }
 </style>
