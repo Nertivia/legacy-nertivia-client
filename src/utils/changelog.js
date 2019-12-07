@@ -13,7 +13,7 @@ const config = [
     version: 8.9,
     title: "Public Themes!",
     shortTitle: "",
-    date: "7/21/2019",
+    date: "7/12/2019",
     headColor: "#007792",
     new: [
       "You can now make your themes public! Note: Making your theme public will require reviewing which may take few hours or days.",

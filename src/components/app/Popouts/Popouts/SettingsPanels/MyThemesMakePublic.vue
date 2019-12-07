@@ -257,6 +257,7 @@ export default {
   max-width: 300px;
   margin: 5px;
   padding: 10px;
+  flex-shrink: 0;
 }
 .buttons {
   display: flex;
