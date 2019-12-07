@@ -1,7 +1,7 @@
 <template>
   <div
     class="channel"
-    :class="{notifyAnimation: hasNotifications, selected: selectedChannelID === channelData.channelID}"
+    :class="{notify: hasNotifications, selected: selectedChannelID === channelData.channelID}"
   >
     <i class="material-icons">storage</i>
     <div class="channel-name">{{ channelData.name }}</div>
@@ -36,25 +36,8 @@ export default {
 
 
 <style scoped>
-.notifyAnimation {
-  animation: notifyAnime;
-  animation-duration: 1s;
-  animation-iteration-count: infinite;
-  animation-fill-mode: forwards;
-}
-@keyframes notifyAnime {
-  0% {
-    background: rgba(255, 0, 0, 0.198);
-  }
-  40% {
-    background: rgba(255, 0, 0, 0.411);
-  }
-  60% {
-    background: rgba(255, 0, 0, 0.411);
-  }
-  100% {
-    background: rgba(255, 0, 0, 0.198);
-  }
+.notify {
+  background: rgba(255, 0, 0, 0.411);
 }
 
 .channel {

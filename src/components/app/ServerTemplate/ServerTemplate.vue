@@ -116,7 +116,7 @@ export default {
     background: #ffffffc5;
   }
 }
-.notifyAnimation:before {
+.notifyAnimation:after {
   content: "!";
   color: white;
   display: flex;
@@ -131,25 +131,8 @@ export default {
   right: 5px;
   width: 20px;
   height: 20px;
-  animation: notifyAnime;
-  animation-duration: 1s;
-  animation-iteration-count: infinite;
-  animation-fill-mode: forwards;
   border-radius: 50%;
   background: rgba(255, 23, 23, 0.753);
 }
-@keyframes notifyAnime {
-  0% {
-    opacity: 1;
-  }
-  40% {
-    opacity: 0.9;
-  }
-  60% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0.2;
-  }
-}
+
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div
     class="friend"
-    :class="{selected: uniqueIDSelected, notifyAnimation: (notifications && notifications > 0), tree }"
+    :class="{selected: uniqueIDSelected, notify: (notifications && notifications > 0), tree }"
     @click="openChat"
     @mouseover="hover = true"
     @mouseleave="hover = false"
@@ -136,26 +136,10 @@ export default {
 .tree {
   padding-left: 22px;
 }
-.notifyAnimation {
-  animation: notifyAnime;
-  animation-duration: 1s;
-  animation-iteration-count: infinite;
-  animation-fill-mode: forwards;
+.notify {
+  background: rgba(255, 0, 0, 0.411);
 }
-@keyframes notifyAnime {
-  0% {
-    background: rgba(255, 0, 0, 0.198);
-  }
-  40% {
-    background: rgba(255, 0, 0, 0.411);
-  }
-  60% {
-    background: rgba(255, 0, 0, 0.411);
-  }
-  100% {
-    background: rgba(255, 0, 0, 0.198);
-  }
-}
+
 
 .friend:hover {
   background: #053c4c;

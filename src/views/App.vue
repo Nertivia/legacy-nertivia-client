@@ -1,5 +1,5 @@
 <template>
-  <div id="app" ref="app">
+  <div id="app" ref="app" :class="{desktop: isElectron}">
     <vue-headful :title="title" description="Nertivia Chat Client" />
     <div class="background-image"></div>
     <transition name="fade-between-two" appear>
@@ -238,32 +238,13 @@ export default {
   height: 100%;
 }
 
-.notifyAnimation {
-  animation: notifyAnime;
-  animation-duration: 1s;
-  animation-iteration-count: infinite;
-  animation-fill-mode: forwards;
-}
 .box {
   display: flex;
   flex-direction: column;
   height: 100%;
   width: 100%;
 }
-@keyframes notifyAnime {
-  0% {
-    background: rgba(121, 3, 3, 0.541);
-  }
-  40% {
-    background: rgba(255, 0, 0, 0.568);
-  }
-  60% {
-    background: rgba(255, 0, 0, 0.568);
-  }
-  100% {
-    background: rgba(121, 3, 3, 0.541);
-  }
-}
+
 
 .coming-soon {
   display: flex;

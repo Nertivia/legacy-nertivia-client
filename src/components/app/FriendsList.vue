@@ -6,12 +6,12 @@
       <div class="tabs">
         <div
           class="tab"
-          :class="{notifyAnimation: friendRequestExists, selected: currentTab === 0}"
+          :class="{notify: friendRequestExists, selected: currentTab === 0}"
           @click="currentTab = 0"
         ><div class="material-icons">group</div>Friends</div>
         <div
           class="tab"
-          :class="{notifyAnimation: DMNotification, selected: currentTab === 1 }"
+          :class="{notify: DMNotification, selected: currentTab === 1 }"
           @click="currentTab = 1"
         ><div class="material-icons">access_time</div>Recents</div>
       </div>
@@ -198,26 +198,10 @@ export default {
   flex-shrink: 0;
 }
 
-.notifyAnimation {
-  animation: notifyAnime;
-  animation-duration: 1s;
-  animation-iteration-count: infinite;
-  animation-fill-mode: forwards;
+.notify {
+  background: rgba(255, 0, 0, 0.568);
 }
-@keyframes notifyAnime {
-  0% {
-    background: rgba(121, 3, 3, 0.541);
-  }
-  40% {
-    background: rgba(255, 0, 0, 0.568);
-  }
-  60% {
-    background: rgba(255, 0, 0, 0.568);
-  }
-  100% {
-    background: rgba(121, 3, 3, 0.541);
-  }
-}
+
 
 @media (max-width: 600px) {
   .content{
