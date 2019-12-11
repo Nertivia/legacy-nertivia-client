@@ -70,7 +70,7 @@
           <div class="about-me">
             <div class="title">Profile</div>
             <div
-              class="about-item"
+              class="about-item-container"
               v-for="(aboutItem) of aboutMe"
               :key="aboutItem.name"
               :class="{infoAboutMe: aboutItem.key === 'About me'}"
