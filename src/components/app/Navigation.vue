@@ -98,27 +98,7 @@ export default {
       this.dismissNotification(channel.channelID);
       this.$store.dispatch("servers/setSelectedServerID", serverID);
       this.$store.dispatch("openChannel", channel);
-    },
-    switchChannel(isServer) {
-      const serverChannelID = this.$store.state.channelModule.serverChannelID;
-      const DMChannelID = this.$store.state.channelModule.DMChannelID;
-
-      if (isServer) {
-        this.$store.dispatch("selectedChannelID", serverChannelID);
-        const channel = this.$store.state.channelModule.channels[
-          serverChannelID
-        ];
-        this.$store.dispatch("setChannelName", channel ? channel.name : "");
-        this.dismissNotification(serverChannelID);
-      } else {
-        const channel = this.$store.state.channelModule.channels[DMChannelID];
-        this.$store.dispatch(
-          "setChannelName",
-          channel ? channel.recipients[0].username : ""
-        );
-        this.$store.dispatch("selectedChannelID", DMChannelID);
-        this.dismissNotification(DMChannelID);
-      }
+      this.$store.dispatch("selectedChannelID", channel.channelID);
     },
     switchTab(index) {
       bus.$emit('tab:switch', index)

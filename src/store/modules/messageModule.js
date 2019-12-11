@@ -161,6 +161,9 @@ async function getMessages(context, channelID, isServerChannel) {
       channelID: result.data.channelID,
       messages: result.data.messages.reverse()
     });
+    if (isServerChannel) {
+      context.commit("setServerChannelID", result.data.channelID);
+    }
   } else {
     // TODO handle this
     console.log(error.response);

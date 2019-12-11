@@ -60,6 +60,7 @@ export default {
       
       bus.$emit('closeLeftMenu');
       this.$store.dispatch('openChannel', channel)
+      this.$store.dispatch("selectedChannelID", channel.channelID);
     }
   },
   async beforeMount() {
