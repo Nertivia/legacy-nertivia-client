@@ -13,13 +13,12 @@
 </template>
 
 <script>
-import searchHeader from "./searchHeader";
 import themeTemplate from './themesTemplate';
 import exploreService from '@/services/exploreService';
 import Spinner from "@/components/Spinner";
 
 export default {
-  components: { searchHeader, themeTemplate, Spinner },
+  components: {themeTemplate, Spinner },
   data() {
     return {
       publicThemes: null,

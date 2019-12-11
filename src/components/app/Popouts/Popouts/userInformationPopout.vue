@@ -70,16 +70,17 @@
           <div class="about-me">
             <div class="title">Profile</div>
             <div
-              v-if="aboutMe"
               class="about-item"
               v-for="(aboutItem) of aboutMe"
               :key="aboutItem.name"
               :class="{infoAboutMe: aboutItem.key === 'About me'}"
             >
+            <div class="about-item" v-if="aboutMe">
               <div class="key">{{aboutItem.key}}:</div>
               <div class="emoji" v-if="aboutItem.emoji" v-html="aboutItem.emoji"></div>
               <SimpleMarkdown class="name" v-if="aboutItem.key === 'About me'" :message="aboutItem.name" />
               <div class="name" v-else>{{aboutItem.name}}</div>
+            </div>
             </div>
             <div class="about-item">
               <div class="key">Joined:</div>
