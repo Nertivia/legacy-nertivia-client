@@ -11,7 +11,7 @@
     />
     <div class="managing" v-else>
       <div class="bar">
-        <div class="button">
+        <div class="button" @click="exploreButton">
           <div class="material-icons">explore</div>
           Explore
         </div>
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import {bus} from '@/main'
 import ThemeTemplate from "./MyThemeTemplate";
 import Editor from "./themesEditor";
 import MakePublic from "./MyThemesMakePublic";
@@ -155,6 +156,13 @@ export default {
     },
     makePublicButton() {
       this.showMakePublic = true;
+    },
+    exploreButton() {
+      this.$store.dispatch("setPopoutVisibility", {
+        name: "settings",
+        visibility: false
+      });
+      bus.$emit('tab:switch', 0)
     }
   },
   async mounted() {

@@ -16,6 +16,7 @@
       <server-member-context  key="smc" v-if="popouts.serverMemberContext.uniqueID"/>
       <server-context  key="sc" v-if="popouts.allPopout.type === 'SERVER' && popouts.allPopout.show"/>
       <add-friend  key="af" v-if="popouts.allPopout.type === 'ADD_FRIEND' && popouts.allPopout.show"/>
+      <admin-css-editor key="ace" v-if="popouts.allPopout.type === 'ADMIN_CSS_EDITOR'" />
     </transition-group>
   </div>
 </template>
@@ -42,6 +43,7 @@
   const ServerInvitePopout = () => import('./Popouts/ServerInvitePopout.vue');
   const ServerSettings = () => import('./Popouts/ServerSettingsPanels/ServerSettings.vue');
   const GenericPopout = () => import('./Popouts/GenericPopout');
+  const AdminCssEditor = () => import('./Popouts/AdminEditorPopout');
 
 
 
@@ -61,7 +63,8 @@ export default {
     messageContextMenu,
     ServerMemberContext,
     ServerContext,
-    AddFriend
+    AddFriend,
+    AdminCssEditor
     
   },
   data() {

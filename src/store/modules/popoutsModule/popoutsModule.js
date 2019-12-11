@@ -49,6 +49,7 @@ const state = {
     serverID: null,
     uniqueID: null,
     creatorUniqueID: null,
+    id: null,
     x: null,
     y: null
   }

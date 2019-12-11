@@ -121,15 +121,7 @@ export default {
       }
     },
     switchTab(index) {
-      localStorage.setItem("currentTab", index);
-      this.$store.dispatch("setCurrentTab", index);
-      if (index == 1) {
-        //1: direct message tab.
-        this.switchChannel(false);
-      } else if (index === 2) {
-        //2: server tab
-        this.switchChannel(true);
-      }
+      bus.$emit('tab:switch', index)
     },
     openSettings() {
       this.$store.dispatch("setPopoutVisibility", {

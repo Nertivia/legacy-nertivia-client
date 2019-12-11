@@ -53,12 +53,22 @@
           import_contacts
         </div>
         <div
+          data-name="Click Me"
           v-if="!user.survey_completed"
           class="item material-icons"
           @click="openSurvey"
           @mouseenter="localToolTipEvent('Click Me', $event)"
         >
           error
+        </div>
+        <div
+          v-if="isAdmin"
+          class="item material-icons"
+          :class="{ selected: currentTab == 4 }"
+          @click="switchTab(4)"
+          @mouseenter="localToolTipEvent('Admin Panel', $event)"
+        >
+          security
         </div>
       </div>
     </div>
@@ -128,37 +138,8 @@ export default {
       this.$store.dispatch("servers/setSelectedServerID", serverID);
       this.$store.dispatch("openChannel", channel);
     },
-    switchChannel(isServer) {
-      const serverChannelID = this.$store.state.channelModule.serverChannelID;
-      const DMChannelID = this.$store.state.channelModule.DMChannelID;
-
-      if (isServer) {
-        this.$store.dispatch("selectedChannelID", serverChannelID);
-        const channel = this.$store.state.channelModule.channels[
-          serverChannelID
-        ];
-        this.$store.dispatch("setChannelName", channel ? channel.name : "");
-        this.dismissNotification(serverChannelID);
-      } else {
-        const channel = this.$store.state.channelModule.channels[DMChannelID];
-        this.$store.dispatch(
-          "setChannelName",
-          channel ? channel.recipients[0].username : ""
-        );
-        this.$store.dispatch("selectedChannelID", DMChannelID);
-        this.dismissNotification(DMChannelID);
-      }
-    },
     switchTab(index) {
-      localStorage.setItem("currentTab", index);
-      this.$store.dispatch("setCurrentTab", index);
-      if (index == 1) {
-        //1: direct message tab.
-        this.switchChannel(false);
-      } else if (index === 2) {
-        //2: server tab
-        this.switchChannel(true);
-      }
+      bus.$emit('tab:switch', index)
     },
     openSettings() {
       this.$store.dispatch("setPopoutVisibility", {
@@ -177,7 +158,6 @@ export default {
         this.toolTipLeftPosition = rect.left - tooltipWidth / 2 + 25;
       });
     },
-
     mouseLeaveEvent() {
       this.toolTipShown = false;
       this.toolTipServerID = null;
@@ -206,31 +186,11 @@ export default {
     user() {
       return this.$store.getters.user;
     },
+    isAdmin() {
+      return this.user.admin === 3 || this.user.admin === 4;
+    },
     currentTab() {
       return this.$store.getters.currentTab;
-    },
-    servers() {
-      return this.$store.getters["servers/servers"];
-    },
-    serversArr: {
-      get() {
-        const data = this.servers;
-        return Object.keys(data)
-          .map(key => {
-            return data[key];
-          })
-          .reverse();
-      },
-      set(value) {
-        const reversedServers = value.reverse();
-        // convert array to json
-        const json = {};
-        for (let index = 0; index < reversedServers.length; index++) {
-          const element = reversedServers[index];
-          json[element.server_id] = element;
-        }
-        this.$store.dispatch("servers/setServers", json);
-      }
     },
     selectedServerID() {
       return this.$store.getters["servers/selectedServerID"];

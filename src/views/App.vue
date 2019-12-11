@@ -16,6 +16,7 @@
           <direct-message v-if="currentTab == 1" />
           <servers v-if="currentTab == 2" />
           <explore v-if="currentTab == 0" />
+          <admin-panel v-if="currentTab == 4" />
         </div>
       </div>
     </transition>
@@ -57,6 +58,11 @@ const Explore = () => ({
   loading: Spinner,
   delay: 0
 });
+const AdminPanel = () => ({
+  component: import("./../components/app/Tabs/AdminPanel.vue"),
+  loading: Spinner,
+  delay: 0
+});
 
 export default {
   name: "app",
@@ -66,6 +72,7 @@ export default {
     ConnectingScreen,
     Popouts,
     News,
+    AdminPanel,
     ElectronFrameButtons,
     Explore,
     MainNav
@@ -140,7 +147,7 @@ export default {
         css = exploreThemes.result.data.css;
         id = exploreThemes.result.data.id;
       }
-      if (privateThemes) {
+      if (privateThemes.ok) {
         css = privateThemes.result.data.css;
         id = privateThemes.result.data.id;
       }
@@ -171,6 +178,9 @@ export default {
     localStorage.setItem("changelog-version-seen", changelog[0].version);
     bus.$on("title:change", title => {
       this.title = title;
+    });
+    bus.$on("tab:switch", tab => {
+      this.switchTab(tab);
     });
     this.setTheme();
 
