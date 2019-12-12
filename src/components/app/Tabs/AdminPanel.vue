@@ -1,28 +1,27 @@
 <template>
   <div class="admin-panel-tab">
-   <users-panel />
-   <online-users-panel />
-   <themes-panel />
+    <users-panel />
+    <online-users-panel />
+    <themes-panel />
   </div>
 </template>
 
 <script>
 import { bus } from "@/main";
 
-import UsersPanel from './AdminPanel/UsersPanel';
-import OnlineUsersPanel from './AdminPanel/OnlineUsersPanel';
-import ThemesPanel from './AdminPanel/ThemesPanel';
+import UsersPanel from "./AdminPanel/UsersPanel";
+import OnlineUsersPanel from "./AdminPanel/OnlineUsersPanel";
+import ThemesPanel from "./AdminPanel/ThemesPanel";
 
 export default {
   components: { UsersPanel, OnlineUsersPanel, ThemesPanel },
   data() {
-    return {}
+    return {};
   },
-  methods: {
-  },
+  methods: {},
   mounted() {
     if (!this.isAdmin) {
-      bus.$emit('tab:switch', 0)
+      bus.$emit("tab:switch", 0);
     }
   },
   computed: {
@@ -35,7 +34,6 @@ export default {
   }
 };
 </script>
-
 
 <style lang="scss" scoped>
 .admin-panel-tab {

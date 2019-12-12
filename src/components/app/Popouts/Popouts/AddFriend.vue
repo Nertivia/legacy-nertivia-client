@@ -7,27 +7,40 @@
       </div>
       <div class="content">
         <div class="container">
-          <div class="description">Add friends by using their username and tag.</div>
-          <input class="tag" v-model="input" type="text" placeholder="pancake@time" />
-          <input class="button" @click="addButton" type="button" :value="requestSent ? 'Adding...' :'Add Friend'" />
+          <div class="description">
+            Add friends by using their username and tag.
+          </div>
+          <input
+            class="tag"
+            v-model="input"
+            type="text"
+            placeholder="pancake@time"
+          />
+          <input
+            class="button"
+            @click="addButton"
+            type="button"
+            :value="requestSent ? 'Adding...' : 'Add Friend'"
+          />
         </div>
       </div>
-      <div class="alerts" :class="{success, error}" v-if="error || success">{{error || success || ""}}</div>
+      <div class="alerts" :class="{ success, error }" v-if="error || success">
+        {{ error || success || "" }}
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import RelationshipService from '@/services/RelationshipService.js'
+import RelationshipService from "@/services/RelationshipService.js";
 
 export default {
-
   data() {
     return {
       input: "",
       requestSent: false,
       error: null,
-      success: null,
+      success: null
     };
   },
   computed: {},
@@ -51,7 +64,12 @@ export default {
 
       const split = this.input.trim().split("@");
       // validation
-      if ( split.length <2 || split.length >2  || split[1] === "" || split[1].length !== 4){
+      if (
+        split.length < 2 ||
+        split.length > 2 ||
+        split[1] === "" ||
+        split[1].length !== 4
+      ) {
         this.requestSent = false;
         this.error = "Invalid username or tag.";
         return;
@@ -59,23 +77,24 @@ export default {
       const username = split[0];
       const tag = split[1];
 
-      const {ok, error, result} = await RelationshipService.post({username, tag})
+      const { ok, error, result } = await RelationshipService.post({
+        username,
+        tag
+      });
       this.requestSent = false;
-      if ( ok ) {
-        this.success = result.data.message
+      if (ok) {
+        this.success = result.data.message;
       } else {
         if (error.response === undefined) {
           this.error = "Can't connect to server.";
-          return
+          return;
         }
         this.error = error.response.data.errors[0].msg;
       }
-
     }
   }
 };
 </script>
-
 
 <style scoped lang="scss">
 .dark-background {
@@ -99,7 +118,7 @@ export default {
   margin: auto;
   overflow: hidden;
   box-shadow: 0px 0px 20px 5px #151515bd;
-  background: linear-gradient(#0B4155, #01677E);
+  background: linear-gradient(#0b4155, #01677e);
   border-radius: 4px;
 }
 .header {
@@ -123,7 +142,6 @@ export default {
   height: 100%;
   width: 100%;
   color: rgb(255, 255, 255);
-  
 }
 .container {
   display: flex;
@@ -168,4 +186,3 @@ export default {
   }
 }
 </style>
-

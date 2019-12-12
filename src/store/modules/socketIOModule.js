@@ -1,12 +1,9 @@
 import config from "@/config";
 import { bus } from "../../main";
 import { router } from "./../../router";
-import Vue from "vue";
 import DesktopNotification from "@/utils/ElectronJS/DesktopNotification";
 import isElectron from "@/utils/ElectronJS/isElectron";
 import { isMobile } from "@/utils/Mobile";
-
-const state = {};
 
 const actions = {
   socket_authErr(context) {
@@ -14,7 +11,7 @@ const actions = {
     router.push({ path: "/" });
   },
   socket_connect() {
-    this._vm.$socket.emit("authentication", {
+    this._vm.$socket.client.emit("authentication", {
       token: localStorage.getItem("hauthid")
     });
   },
@@ -27,7 +24,6 @@ const actions = {
   },
   socket_success(context, data) {
     const {
-      message,
       user,
       serverMembers,
       dms,
@@ -35,7 +31,6 @@ const actions = {
       currentFriendStatus,
       settings
     } = data;
-
 
     const friendsArr = user.friends;
 
@@ -89,11 +84,11 @@ const actions = {
 
       for (let index = 0; index < settings.server_position.length; index++) {
         const server_id = settings.server_position[index];
-        const findIndex = tempServers.findIndex((s) => s.server_id == server_id );
+        const findIndex = tempServers.findIndex(s => s.server_id == server_id);
         if (tempServers[findIndex]) {
           sortedServers = [...sortedServers, ...[tempServers[findIndex]]];
-          tempServers.splice(findIndex, 1)
-        }      
+          tempServers.splice(findIndex, 1);
+        }
       }
 
       servers = [...sortedServers.reverse(), ...tempServers];
@@ -104,15 +99,20 @@ const actions = {
 
     // sort server channels by user order.
     servers.map(s => {
-      if(!s.channel_position) return s;
+      if (!s.channel_position) return s;
       let tempServerChannels = [...s.channels];
       let sortedServerChannels = [];
       for (let index = 0; index < s.channel_position.length; index++) {
         const channelID = s.channel_position[index];
-        const findIndex = tempServerChannels.findIndex((c) => c.channelID == channelID );
+        const findIndex = tempServerChannels.findIndex(
+          c => c.channelID == channelID
+        );
         if (tempServerChannels[findIndex]) {
-          sortedServerChannels = [...sortedServerChannels, ...[tempServerChannels[findIndex]]];
-          tempServerChannels.splice(findIndex, 1)
+          sortedServerChannels = [
+            ...sortedServerChannels,
+            ...[tempServerChannels[findIndex]]
+          ];
+          tempServerChannels.splice(findIndex, 1);
         }
       }
       s.channels = [...sortedServerChannels, ...tempServerChannels];
@@ -120,7 +120,7 @@ const actions = {
       sortedServerChannels = null;
       delete s.channel_position;
       return s;
-    })
+    });
 
     //convert array to object for servers
     servers = servers.reduce((obj, item) => {
@@ -192,9 +192,9 @@ const actions = {
   },
   socket_receiveMessage(context, data) {
     if (data.message.type === 1) {
-     if (context.getters.user.uniqueID === data.message.creator.uniqueID){
-       return;
-     }
+      if (context.getters.user.uniqueID === data.message.creator.uniqueID) {
+        return;
+      }
     }
     if (context.getters.channels[data.message.channelID]) {
       context.dispatch("updateChannelLastMessage", data.message.channelID);
@@ -213,7 +213,7 @@ const actions = {
       document.hasFocus() &&
       (currentTab === 1 || currentTab === 2)
     ) {
-      this._vm.$socket.emit("notification:dismiss", {
+      this._vm.$socket.client.emit("notification:dismiss", {
         channelID: data.message.channelID
       });
     } else {
@@ -326,17 +326,21 @@ const actions = {
 
     let channels = server.channels;
 
-
     // sort server channels by order
-    if(server.channel_position) {
+    if (server.channel_position) {
       let tempServerChannels = [...channels];
       let sortedServerChannels = [];
       for (let index = 0; index < server.channel_position.length; index++) {
         const channelID = server.channel_position[index];
-        const findIndex = tempServerChannels.findIndex((c) => c.channelID == channelID );
+        const findIndex = tempServerChannels.findIndex(
+          c => c.channelID == channelID
+        );
         if (tempServerChannels[findIndex]) {
-          sortedServerChannels = [...sortedServerChannels, ...[tempServerChannels[findIndex]]];
-          tempServerChannels.splice(findIndex, 1)
+          sortedServerChannels = [
+            ...sortedServerChannels,
+            ...[tempServerChannels[findIndex]]
+          ];
+          tempServerChannels.splice(findIndex, 1);
         }
       }
       channels = [...sortedServerChannels, ...tempServerChannels];
@@ -344,8 +348,6 @@ const actions = {
       sortedServerChannels = null;
       delete server.channel_position;
     }
-
-
 
     for (let index = 0; index < channels.length; index++) {
       const element = channels[index];
@@ -359,7 +361,7 @@ const actions = {
     }
 
     if (!server.socketID) return;
-    if (this._vm.$socket.id !== server.socketID) return;
+    if (this._vm.$socket.client.id !== server.socketID) return;
     const defaultChannel = channels.find(
       c => c.channelID === server.default_channel_id
     );
@@ -471,18 +473,23 @@ const actions = {
   ["socket_deleteMessage"](context, { channelID, messageID }) {
     context.dispatch("deleteMessage", { channelID, messageID });
   },
-  ["socket_self:serverPosition"](context, {server_position}) {
-    const servers = context.rootGetters['servers/servers'];
+  ["socket_self:serverPosition"](context, { server_position }) {
+    const servers = context.rootGetters["servers/servers"];
     let serverSorted = {};
     for (let index = 0; index < server_position.length; index++) {
       const server_id = server_position[index];
-      serverSorted = { ...{[server_id]: servers[server_id]}, ...serverSorted};
+      serverSorted = {
+        ...{ [server_id]: servers[server_id] },
+        ...serverSorted
+      };
     }
     context.dispatch("servers/setServers", serverSorted);
-    
   },
-  ["socket_server:channelPosition"](context, {serverID, channel_position}) {
-    context.dispatch("servers/setChannelIDs", {serverID, channelIDs: channel_position})
+  ["socket_server:channelPosition"](context, { serverID, channel_position }) {
+    context.dispatch("servers/setChannelIDs", {
+      serverID,
+      channelIDs: channel_position
+    });
   }
 };
 

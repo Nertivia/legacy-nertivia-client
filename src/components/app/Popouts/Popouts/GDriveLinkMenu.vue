@@ -1,13 +1,9 @@
 <template>
-  <div
-    class="dark-background"
-    @click="backgroundClick"
-  >
+  <div class="dark-background" @click="backgroundClick">
     <div class="inner">
-      <div
-        class="text"
-      >
-        To upload files, images or set avatars, You must link your Google Drive account with your Nertivia account.
+      <div class="text">
+        To upload files, images or set avatars, You must link your Google Drive
+        account with your Nertivia account.
       </div>
       <div class="images">
         <div class="image GDrive-img" />
@@ -17,25 +13,17 @@
         <div class="image nertivia-img" />
       </div>
       <div class="text">
-        If you would like to see Nertivia grow, and have its own storage CDN, donations would be appreciated.
+        If you would like to see Nertivia grow, and have its own storage CDN,
+        donations would be appreciated.
       </div>
       <div class="buttons">
-        <div
-          class="button donate"
-          @click="donateButton"
-        >
+        <div class="button donate" @click="donateButton">
           Donate
         </div>
-        <div
-          class="button deny"
-          @click="closeMenu"
-        >
+        <div class="button deny" @click="closeMenu">
           No thanks
         </div>
-        <div
-          class="button"
-          @click="link"
-        >
+        <div class="button" @click="link">
           Link me
         </div>
       </div>
@@ -44,7 +32,6 @@
 </template>
 
 <script>
-import { bus } from "@/main";
 import settingsService from "@/services/settingsService";
 
 export default {
@@ -61,19 +48,18 @@ export default {
       }
     },
     async link() {
-      const { ok, error, result } = await settingsService.GDriveURL();
+      const { ok, result } = await settingsService.GDriveURL();
       if (ok) {
         const { url } = result.data;
-        window.open(url,'_blank');
+        window.open(url, "_blank");
       }
     },
     donateButton() {
-      window.open('https://www.patreon.com/nertivia', '_blank');
+      window.open("https://www.patreon.com/nertivia", "_blank");
     }
   }
 };
 </script>
-
 
 <style scoped>
 .dark-background {
@@ -96,7 +82,7 @@ export default {
   color: white;
   overflow: hidden;
   box-shadow: 0px 0px 20px 5px #151515bd;
-  background: linear-gradient(#0B4155, #01677E);
+  background: linear-gradient(#0b4155, #01677e);
   border-radius: 4px;
 }
 .text {
@@ -119,7 +105,7 @@ export default {
   height: 120px;
   background-position: center;
   background-size: 100%;
-	}
+}
 .nertivia-img {
   background-image: url(./../../../../assets/logo.png);
   border-radius: 50%;
@@ -166,4 +152,3 @@ export default {
   background: rgb(255, 53, 53);
 }
 </style>
-

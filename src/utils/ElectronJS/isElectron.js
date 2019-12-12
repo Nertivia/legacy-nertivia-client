@@ -1,1 +1,1 @@
-export default window && window.process && window.process.type
+export default window && window.process && window.process.type;

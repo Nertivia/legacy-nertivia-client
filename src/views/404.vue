@@ -65,7 +65,7 @@ body {
   display: flex;
   flex-direction: column;
   color: white;
-  background: linear-gradient(#0B4155, #01677E);
+  background: linear-gradient(#0b4155, #01677e);
 }
 .app-content {
   display: flex;

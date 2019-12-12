@@ -15,7 +15,10 @@
               <img
                 v-lazyload
                 class="panel emoji"
-                :data-url=" getCustomEmoji(recentEmoji) || emojiShortcodeToPath(':' + recentEmoji + ':')"
+                :data-url="
+                  getCustomEmoji(recentEmoji) ||
+                    emojiShortcodeToPath(':' + recentEmoji + ':')
+                "
               />
             </div>
           </div>
@@ -31,7 +34,11 @@
               class="emoji-item"
               @click="customEmojiClickEvent(customEmoji)"
             >
-              <img v-lazyload class="panel emoji" :data-url="customEmojiPath + customEmoji.emojiID" />
+              <img
+                v-lazyload
+                class="panel emoji"
+                :data-url="customEmojiPath + customEmoji.emojiID"
+              />
             </div>
           </div>
         </div>
@@ -46,7 +53,11 @@
               class="emoji-item"
               @click="emojiClickEvent(emojiSorted.shortcodes[0])"
             >
-              <img v-lazyload class="panel emoji" :data-url="parseEmojiPath(emojiSorted.unicode)" />
+              <img
+                v-lazyload
+                class="panel emoji"
+                :data-url="parseEmojiPath(emojiSorted.unicode)"
+              />
             </div>
           </div>
         </div>
@@ -393,7 +404,6 @@ export default {
 };
 </script>
 
-
 <style scoped>
 .emoji-panel {
   position: absolute;
@@ -530,7 +540,6 @@ export default {
   width: 3px;
   height: 3px;
 }
-
 </style>
 <style>
 img.panel.emoji {

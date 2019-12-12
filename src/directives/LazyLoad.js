@@ -1,7 +1,7 @@
 export default {
   inserted: el => {
     function loadImage() {
-      const imageElement = el
+      const imageElement = el;
       if (imageElement) {
         imageElement.addEventListener("load", () => {
           setTimeout(() => el.classList.add("loaded"), 100);

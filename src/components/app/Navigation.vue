@@ -3,40 +3,53 @@
     <div
       class="tool-tip"
       ref="toolTip"
-      :style="{top: toolTipTopPosition + 'px'}"
+      :style="{ top: toolTipTopPosition + 'px' }"
       v-if="toolTipShown"
-    >{{toolTipLocalName || servers[toolTipServerID].name}}</div>
+    >
+      {{ toolTipLocalName || servers[toolTipServerID].name }}
+    </div>
     <div class="container" @mouseleave="mouseLeaveEvent">
       <div class="scrollable">
-
         <div class="server-items">
-          <draggable v-model="serversArr" :animation="200" :delay="mobile ? 400 : 0" ghost-class="ghost" @end="onEnd" @start="onStart">
-            <transition-group type="transition" :name="!drag ? 'flip-list' : null">
+          <draggable
+            v-model="serversArr"
+            :animation="200"
+            :delay="mobile ? 400 : 0"
+            ghost-class="ghost"
+            @end="onEnd"
+            @start="onStart"
+          >
+            <transition-group
+              type="transition"
+              :name="!drag ? 'flip-list' : null"
+            >
               <server-template
                 class="sortable"
-                v-for="(data) in serversArr"
+                v-for="data in serversArr"
                 :serverData="data"
                 @click.native="openServer(data.server_id)"
                 :key="data.server_id"
               />
             </transition-group>
           </draggable>
-
         </div>
-
       </div>
       <div
-        data-name="Add Friend" 
+        data-name="Add Friend"
         class="item material-icons"
         @click="addFriend"
         @mouseenter="localToolTipEvent('Add Friend', $event)"
-      >person_add</div>
+      >
+        person_add
+      </div>
       <div
-        data-name="Add Server" 
+        data-name="Add Server"
         class="item material-icons"
         @click="addServer"
         @mouseenter="localToolTipEvent('Add Server', $event)"
-      >add</div>
+      >
+        add
+      </div>
     </div>
   </div>
 </template>
@@ -44,9 +57,9 @@
 <script>
 import { bus } from "@/main.js";
 import config from "@/config.js";
-import settingsService from '@/services/settingsService';
+import settingsService from "@/services/settingsService";
 import ServerTemplate from "@/components/app/ServerTemplate/ServerTemplate";
-import draggable from 'vuedraggable'
+import draggable from "vuedraggable";
 import { isMobile } from "@/utils/Mobile";
 export default {
   components: { ServerTemplate, draggable },
@@ -59,7 +72,7 @@ export default {
       toolTipLocalName: null,
       mobile: isMobile(),
 
-      drag: false,
+      drag: false
     };
   },
   methods: {
@@ -71,7 +84,7 @@ export default {
     onStart() {
       this.toolTipShown = false;
       this.drag = true;
-      this.$store.dispatch("setAllPopout", {show: false});
+      this.$store.dispatch("setAllPopout", { show: false });
     },
     dismissNotification(channelID) {
       const notifications = this.$store.getters.notifications.find(function(e) {
@@ -79,7 +92,7 @@ export default {
       });
 
       if (notifications && notifications.count >= 1 && document.hasFocus()) {
-        this.$socket.emit("notification:dismiss", { channelID });
+        this.$socket.client.emit("notification:dismiss", { channelID });
       }
     },
     openServer(serverID) {
@@ -101,7 +114,7 @@ export default {
       this.$store.dispatch("selectedChannelID", channel.channelID);
     },
     switchTab(index) {
-      bus.$emit('tab:switch', index)
+      bus.$emit("tab:switch", index);
     },
     openSettings() {
       this.$store.dispatch("setPopoutVisibility", {
@@ -163,13 +176,13 @@ export default {
       get() {
         const data = this.servers;
         return Object.keys(data)
-        .map(key => {
-          return data[key];
-        })
-        .reverse();
+          .map(key => {
+            return data[key];
+          })
+          .reverse();
       },
       set(value) {
-        const reversedServers = value.reverse()
+        const reversedServers = value.reverse();
         // convert array to json
         const json = {};
         for (let index = 0; index < reversedServers.length; index++) {
@@ -233,9 +246,7 @@ export default {
 };
 </script>
 
-
 <style lang="scss" scoped>
-
 .flip-list-move {
   transition: 0.3s;
 }
@@ -243,7 +254,7 @@ export default {
   opacity: 0;
 }
 .ghost::before {
-  content: '';
+  content: "";
   position: absolute;
   background: white;
   top: 0;
@@ -324,7 +335,6 @@ export default {
   height: 2px;
 }
 
-
 .tool-tip {
   color: white;
   position: absolute;
@@ -343,8 +353,8 @@ export default {
 }
 
 @media (max-width: 600px) {
-  .navigation{
-      background: linear-gradient(#136A8A, #00B4DB);
+  .navigation {
+    background: linear-gradient(#136a8a, #00b4db);
   }
 }
 </style>

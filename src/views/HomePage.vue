@@ -10,7 +10,11 @@
           <div class="links">
             <div v-if="!loggedIn" class="link" @click="signupPage">Sign up</div>
             <div v-if="!loggedIn" class="link" @click="loginPage">Login</div>
-            <spinner v-if="loggedIn && !user" class="spinner-profile" :size="50" />
+            <spinner
+              v-if="loggedIn && !user"
+              class="spinner-profile"
+              :size="50"
+            />
             <profile-picture
               v-if="loggedIn && user"
               class="avatar"
@@ -34,28 +38,37 @@
       </transition>
       <transition name="side-in" appear>
         <div class="inner-content">
-          <div
-            class="title"
-          >The best chat client that won't restrict you from important and fun features.</div>
+          <div class="title">
+            The best chat client that won't restrict you from important and fun
+            features.
+          </div>
           <img class="graphic" src="@/assets/graphics/HomeGraphics.png" />
           <div class="buttons">
             <div class="button" @click="openApp">Open In Browser</div>
-            <div class="button download" @click="showDownloadsPopout = true">Download App</div>
+            <div class="button download" @click="showDownloadsPopout = true">
+              Download App
+            </div>
           </div>
           <div class="features-list">
             <div class="title">Things you can do in Nertivia</div>
             <div class="list">
               <div class="feature">
                 <i class="material-icons">insert_drive_file</i>
-                <div class="description">Link Nertivia with Google Drive to upload large files.</div>
+                <div class="description">
+                  Link Nertivia with Google Drive to upload large files.
+                </div>
               </div>
               <div class="feature">
                 <i class="material-icons">face</i>
-                <div class="description">Free custom gif emojis and profile picture.</div>
+                <div class="description">
+                  Free custom gif emojis and profile picture.
+                </div>
               </div>
               <div class="feature">
                 <i class="material-icons">storage</i>
-                <div class="description">Make your own servers with channels.</div>
+                <div class="description">
+                  Make your own servers with channels.
+                </div>
               </div>
             </div>
           </div>
@@ -64,7 +77,10 @@
     </div>
     <div class="popouts">
       <transition name="fade">
-        <download-app-popout v-if="showDownloadsPopout" @close="showDownloadsPopout = false" />
+        <download-app-popout
+          v-if="showDownloadsPopout"
+          @close="showDownloadsPopout = false"
+        />
       </transition>
     </div>
   </div>
@@ -129,7 +145,6 @@ export default {
   }
 };
 </script>
-
 
 <style scoped>
 .fade-enter-active,
@@ -247,7 +262,7 @@ body {
   width: 100%;
   height: 100%;
   transition: 0.5s;
-  background: linear-gradient(#0B4155, #01677E);
+  background: linear-gradient(#0b4155, #01677e);
 }
 .content {
   position: fixed;

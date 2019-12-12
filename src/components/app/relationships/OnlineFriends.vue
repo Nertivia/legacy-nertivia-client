@@ -58,7 +58,8 @@ export default {
       return result.filter(
         friend =>
           friend.status == 2 &&
-          (presences[friend.uniqueID] && presences[friend.uniqueID] > 0)
+          presences[friend.uniqueID] &&
+          presences[friend.uniqueID] > 0
       );
     }
   },
@@ -90,5 +91,3 @@ export default {
   background: #053240;
 }
 </style>
-
-

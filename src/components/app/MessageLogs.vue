@@ -1,13 +1,25 @@
 <template>
-  <div ref="msg-logs" class="message-logs" @scroll.passive="scrollEvent" @resize="onResize">
-    <div class="load-more-button" v-if="loadMoreTop.show && selectedChannelMessages.length >= 50">
+  <div
+    ref="msg-logs"
+    class="message-logs"
+    @scroll.passive="scrollEvent"
+    @resize="onResize"
+  >
+    <div
+      class="load-more-button"
+      v-if="loadMoreTop.show && selectedChannelMessages.length >= 50"
+    >
       <spinner :size="30" v-if="loadMoreTop.loading" />
-      <div class="text" v-if="!loadMoreTop.loading" @click="loadMoreMessages">Load more</div>
+      <div class="text" v-if="!loadMoreTop.loading" @click="loadMoreMessages">
+        Load more
+      </div>
     </div>
     <message
       class="message-container"
       v-for="(msg, index) in selectedChannelMessages"
-      :class="{'show-message-animation': index === selectedChannelMessages.length - 1}"
+      :class="{
+        'show-message-animation': index === selectedChannelMessages.length - 1
+      }"
       :key="msg.tempID || msg.messageID"
       :date="msg.created"
       :admin="msg.creator.admin"
@@ -31,7 +43,13 @@
       v-if="loadMoreBottom.show && selectedChannelMessages.length >= 50"
     >
       <spinner :size="30" v-if="loadMoreBottom.loading" />
-      <div class="text" v-if="!loadMoreBottom.loading" @click="loadBottomMessages">Load more</div>
+      <div
+        class="text"
+        v-if="!loadMoreBottom.loading"
+        @click="loadBottomMessages"
+      >
+        Load more
+      </div>
     </div>
   </div>
 </template>
@@ -111,18 +129,17 @@ export default {
         });
       }
     },
-    onResize(dimentions) {
+    onResize() {
       this.scrollDown();
     },
     async loadMoreMessages() {
       if (this.loadMoreTop.loading) return;
       const msgLogs = this.$refs["msg-logs"];
-      const scrollTop = msgLogs.scrollTop;
       const scrollHeight = msgLogs.scrollHeight;
 
       const continueMessageID = this.selectedChannelMessages[0].messageID;
       this.$set(this.loadMoreTop, "loading", true);
-      const { ok, result, error } = await messagesService.get(
+      const { ok, result } = await messagesService.get(
         this.selectedChannelID,
         continueMessageID
       );
@@ -133,7 +150,7 @@ export default {
           return;
         }
         this.$store.dispatch("addMessages", result.data.messages);
-        this.$nextTick(_ => {
+        this.$nextTick(() => {
           this.$set(this.loadMoreTop, "loading", false);
           msgLogs.scrollTop = msgLogs.scrollHeight - scrollHeight;
         });
@@ -143,14 +160,13 @@ export default {
       if (this.loadMoreBottom.loading) return;
       const msgLogs = this.$refs["msg-logs"];
       const scrollTop = msgLogs.scrollTop;
-      const scrollHeight = msgLogs.scrollHeight;
       const channelID = this.selectedChannelID;
 
       const beforeMessageID = this.selectedChannelMessages[
         this.selectedChannelMessages.length - 1
       ].messageID;
       this.$set(this.loadMoreBottom, "loading", true);
-      const { ok, result, error } = await messagesService.get(
+      const { ok, result } = await messagesService.get(
         channelID,
         null,
         beforeMessageID
@@ -167,7 +183,7 @@ export default {
         }
         this.$store.dispatch("addMessagesBefore", result.data.messages);
 
-        this.$nextTick(_ => {
+        this.$nextTick(() => {
           this.$set(this.loadMoreBottom, "loading", false);
           this.scrolledDown = false;
           msgLogs.scrollTop = scrollTop;
@@ -178,12 +194,10 @@ export default {
     scrolledUpEvent() {
       this.unloadBottomMessages();
       const msgLogs = this.$refs["msg-logs"];
-      const scrollTop = msgLogs.scrollTop;
-      const scrollHeight = msgLogs.scrollHeight;
 
       this.$set(this.loadMoreBottom, "show", true);
 
-      this.$nextTick(_ => {
+      this.$nextTick(() => {
         msgLogs.scrollTop = 0;
         if (this.loadMoreTop.show) this.loadMoreMessages();
       });
@@ -191,7 +205,7 @@ export default {
     scrolledDownEvent() {
       this.unloadTopMessages();
       this.$set(this.loadMoreTop, "show", true);
-      this.$nextTick(_ => {
+      this.$nextTick(() => {
         if (this.loadMoreBottom.show) this.loadBottomMessages();
       });
     },
@@ -205,9 +219,7 @@ export default {
         return;
       }
       this.backToBottomLoading = true;
-      const { ok, result, error } = await messagesService.get(
-        this.selectedChannelID
-      );
+      const { ok, result } = await messagesService.get(this.selectedChannelID);
       if (ok) {
         this.$store.dispatch("messages", {
           messages: result.data.messages.reverse(),
@@ -218,7 +230,7 @@ export default {
           channelID,
           status: false
         });
-        this.$nextTick(_ => {
+        this.$nextTick(() => {
           this.scrollDown({ force: true });
         });
       }
@@ -236,7 +248,7 @@ export default {
     if (this.bottomUnloaded) {
       this.$set(this.loadMoreBottom, "show", true);
     }
-    this.$nextTick(_ => {
+    this.$nextTick(() => {
       this.scrollDown({ force: pos, pos: pos });
     });
   },
@@ -252,9 +264,8 @@ export default {
   },
 
   watch: {
-    selectedChannelMessages(newMessages, oldMessages) {
+    selectedChannelMessages() {
       this.$set(this.loadMoreTop, "show", true);
-      const msgLogs = this.$refs["msg-logs"];
       this.$nextTick(function() {
         this.scrollDown();
       });
@@ -264,7 +275,7 @@ export default {
         this.scrollDown({ force: true });
       });
     },
-    getWindowWidth(dimentions) {
+    getWindowWidth() {
       this.onResize();
     },
     scrolledTop(scrolledTop) {

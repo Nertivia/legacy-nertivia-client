@@ -8,26 +8,46 @@
         v-if="adminType"
         class="emote"
         :src="adminType.emotePath"
-        :style="`width: ${$props.emoteSize || '20px'}; height: ${$props.emoteSize ||'20px'}`"
-      >
+        :style="
+          `width: ${$props.emoteSize || '20px'}; height: ${$props.emoteSize ||
+            '20px'}`
+        "
+      />
       <div
         :class="`inner-profile-picture ${$props.hover ? 'hoverable' : ''}`"
-        :style="`${status || status === 0 ? 'border: solid 3px ' + statusColor.statusColor : ''}; height: ${$props.size}; width: ${$props.size}; background-image: url(${$props.url})`"
+        :style="
+          `${
+            status || status === 0
+              ? 'border: solid 3px ' + statusColor.statusColor
+              : ''
+          }; height: ${$props.size}; width: ${
+            $props.size
+          }; background-image: url(${$props.url})`
+        "
       />
     </div>
   </div>
 </template>
 
 <script>
-import statuses from '@/utils/statuses';
+import statuses from "@/utils/statuses";
 export default {
-  props: ["url", "size", "emoteSize", "admin", "hover", "animationPadding", "status", "uniqueID"],
+  props: [
+    "url",
+    "size",
+    "emoteSize",
+    "admin",
+    "hover",
+    "animationPadding",
+    "status",
+    "uniqueID"
+  ],
   data() {
     return {
-      crown: require("twemoji/2/svg/1f451.svg"),
-      flower: require("twemoji/2/svg/1f33a.svg"),
-      heart: require("twemoji/2/svg/2764.svg"),
-      developer: require("twemoji/2/svg/2728.svg"),
+      crown: require("../assets/twemoji/1f451.svg"),
+      flower: require("../assets/twemoji/1f33a.svg"),
+      heart: require("../assets/twemoji/2764.svg"),
+      developer: require("../assets/twemoji/2728.svg")
     };
   },
   computed: {
@@ -52,7 +72,7 @@ export default {
           name: "developer",
           emotePath: this.developer
         };
-      return ""
+      return "";
     },
     statusColor() {
       let status = this.status;
@@ -61,15 +81,14 @@ export default {
         statusURL: statuses[parseInt(status)].url,
         statusColor: statuses[parseInt(status)].color,
         bgColor: statuses[parseInt(status)].bgColor
-      }
+      };
     }
   }
 };
 </script>
 
-
 <style scoped>
-.outer-profile-picture{
+.outer-profile-picture {
   z-index: 999;
   user-select: none;
 }
@@ -80,13 +99,14 @@ export default {
 }
 .inner-profile-picture {
   background-color: rgba(0, 0, 0, 0.315);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.20);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   border-radius: 50%;
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
   display: flex;
   transition: 0.2s;
+  backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   -webkit-transform: translateZ(0) scale(1, 1);
   transform: translateZ(0);
@@ -137,7 +157,7 @@ export default {
 }
 
 .developer {
-  background: linear-gradient(30deg, #6853b9, rgba(254, 94, 189, .8));
+  background: linear-gradient(30deg, #6853b9, rgba(254, 94, 189, 0.8));
 }
 .developer .emote {
   z-index: 999;

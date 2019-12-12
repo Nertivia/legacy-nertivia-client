@@ -49,7 +49,6 @@ export default {
 };
 </script>
 
-
 <style scoped>
 .show-status-list-enter-active,
 .show-status-list-leave-active {
@@ -103,4 +102,3 @@ export default {
   padding-right: 5px;
 }
 </style>
-

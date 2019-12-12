@@ -1,8 +1,11 @@
 <template>
-  <div class="direct-message-tab" :class="{darken: (showLeftPanel || showMembersPanel) }">
+  <div
+    class="direct-message-tab"
+    :class="{ darken: showLeftPanel || showMembersPanel }"
+  >
     <transition name="slide-left">
       <server-list
-        v-if="$mq === 'mobile' && showLeftPanel || ($mq !== 'mobile')"
+        v-if="($mq === 'mobile' && showLeftPanel) || $mq !== 'mobile'"
         v-click-outside="hideLeftPanel"
         class="left-panel"
       />
@@ -10,7 +13,12 @@
     <message-panel :type="1" />
     <transition :name="$mq !== 'desktop' ? 'slide-right' : 'none'">
       <members-list
-        v-if="selectedServerID && (($mq === 'members_panel' || $mq === 'mobile') && showMembersPanel || ($mq === 'desktop'))"
+        v-if="
+          selectedServerID &&
+            ((($mq === 'members_panel' || $mq === 'mobile') &&
+              showMembersPanel) ||
+              $mq === 'desktop')
+        "
         v-click-outside="hideMembersPanel"
         class="members-panel"
       />
@@ -114,7 +122,7 @@ export default {
     background: rgba(19, 107, 139, 0.9);
   }
   .darken::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;

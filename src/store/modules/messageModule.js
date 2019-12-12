@@ -1,5 +1,4 @@
 import { bus } from "../../main";
-import { router } from "../../router";
 import Vue from "vue";
 import channelService from "@/services/channelService";
 import messagesService from "@/services/messagesService";

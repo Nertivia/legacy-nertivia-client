@@ -1,14 +1,22 @@
 <template>
   <div class="theme" v-if="!approved">
-    <div class="screenshot" @click="screenshotClicked" :style="{backgroundImage: `url(${screenshot})`}"></div>
+    <div
+      class="screenshot"
+      @click="screenshotClicked"
+      :style="{ backgroundImage: `url(${screenshot})` }"
+    ></div>
     <div class="details">
-      <div class="name"><strong>Name:</strong> {{theme.theme.name}}</div>
-      <strong>Description:</strong> 
-      <div class="description">{{theme.description}}</div>
+      <div class="name"><strong>Name:</strong> {{ theme.theme.name }}</div>
+      <strong>Description:</strong>
+      <div class="description">{{ theme.description }}</div>
       <div class="buttons">
-        <div class="button" v-if="theme.approved" @click="openEditor">Compare</div>
+        <div class="button" v-if="theme.approved" @click="openEditor">
+          Compare
+        </div>
         <div class="button" v-else @click="openEditor">View code</div>
-        <div class="button" v-if="theme.approved" @click="approveButton">Update</div>
+        <div class="button" v-if="theme.approved" @click="approveButton">
+          Update
+        </div>
         <div class="button" v-else @click="approveButton">Approve</div>
         <div class="button">Decline</div>
       </div>
@@ -17,28 +25,24 @@
 </template>
 
 <script>
-
 import config from "@/config.js";
-import adminService from '@/services/adminService';
+import adminService from "@/services/adminService";
 
 export default {
-  props: ['theme'],
+  props: ["theme"],
   data() {
     return {
-      approved: false,
-    }
+      approved: false
+    };
   },
   computed: {
     screenshot() {
       return config.domain + "/media/" + this.theme.screenshot;
-    }, 
+    }
   },
   methods: {
     screenshotClicked() {
-      this.$store.dispatch(
-        "setImagePreviewURL",
-        this.screenshot
-      );
+      this.$store.dispatch("setImagePreviewURL", this.screenshot);
     },
     openEditor() {
       this.$store.dispatch("setAllPopout", {
@@ -48,14 +52,13 @@ export default {
       });
     },
     async approveButton() {
-      const {ok, result, error} = await adminService.approveTheme(this.theme.id);
+      const { ok } = await adminService.approveTheme(this.theme.id);
       if (ok) {
         this.approved = true;
-
       }
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -66,7 +69,6 @@ export default {
   padding: 5px;
   align-items: center;
   border-radius: 4px;
-  
 }
 .screenshot {
   width: 100%;
@@ -85,7 +87,6 @@ export default {
 .description {
   max-height: 100px;
   overflow: auto;
-
 }
 .buttons {
   margin-top: 10px;

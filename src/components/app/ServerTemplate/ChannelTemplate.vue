@@ -1,12 +1,12 @@
 <template>
   <div
     class="channel"
-    :class="{selected: selectedChannelID === channelData.channelID}"
+    :class="{ selected: selectedChannelID === channelData.channelID }"
   >
     <i class="material-icons">storage</i>
     <div class="channel-name">{{ channelData.name }}</div>
     <div class="notification" v-if="hasNotifications">
-      {{hasNotifications.count}}
+      {{ hasNotifications.count }}
     </div>
   </div>
 </template>
@@ -35,7 +35,6 @@ export default {
   }
 };
 </script>
-
 
 <style scoped>
 .notify {

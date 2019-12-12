@@ -11,8 +11,12 @@
         <div class="block">
           Theme Status
           <div v-if="details === false"><strong>Not published</strong></div>
-          <div class="warn" v-else-if="details.updatedCss"><strong>Update Getting Reviewed.</strong></div>
-          <div class="warn" v-else-if="details.approved === false"><strong>Getting Reviewed.</strong></div>
+          <div class="warn" v-else-if="details.updatedCss">
+            <strong>Update Getting Reviewed.</strong>
+          </div>
+          <div class="warn" v-else-if="details.approved === false">
+            <strong>Getting Reviewed.</strong>
+          </div>
           <div class="valid" v-else><strong>Theme is public!</strong></div>
         </div>
         <div class="block">
@@ -26,7 +30,8 @@
           <div
             class="preview"
             :style="{
-              backgroundImage: `url(${update.screenshot || (details ? `${screenshotDomain}${details.screenshot}` : '')})`
+              backgroundImage: `url(${update.screenshot ||
+                (details ? `${screenshotDomain}${details.screenshot}` : '')})`
             }"
           />
           <div class="button" @click="$refs.screenshotBrowser.click()">
@@ -41,27 +46,38 @@
           />
         </div>
         <div class="input">
-          <div class="title" v-if="update.description === undefined && !details">
+          <div
+            class="title"
+            v-if="update.description === undefined && !details"
+          >
             Description (0/150)
           </div>
           <div class="title" v-if="update.description !== undefined">
-            Description (<span :class="{ warn: update.description.length > 150}">{{
-              update.description.length
-            }}</span
+            Description (<span
+              :class="{ warn: update.description.length > 150 }"
+              >{{ update.description.length }}</span
             >/150)
           </div>
           <div class="title" v-if="update.description === undefined && details">
-            Description (<span :class="{ warn: details.description.length > 150}">{{
-              details.description.length
-            }}</span
+            Description (<span
+              :class="{ warn: details.description.length > 150 }"
+              >{{ details.description.length }}</span
             >/150)
           </div>
-          <textarea placeholder="Description" :default-value.prop="details.description || ''" @input="descriptionInput" ></textarea>
+          <textarea
+            placeholder="Description"
+            :default-value.prop="details.description || ''"
+            @input="descriptionInput"
+          ></textarea>
         </div>
         <div class="buttons">
           <div class="button" @click="backButton">Back</div>
-          <div class="button" v-if="details" @click="updateButton">{{submitClicked ? 'Updating...' : 'Update'}}</div>
-          <div class="button" @click="sendForReviewButton" v-else>{{submitClicked ? 'Sending...' : 'Send For Review'}}</div>
+          <div class="button" v-if="details" @click="updateButton">
+            {{ submitClicked ? "Updating..." : "Update" }}
+          </div>
+          <div class="button" @click="sendForReviewButton" v-else>
+            {{ submitClicked ? "Sending..." : "Send For Review" }}
+          </div>
         </div>
       </div>
     </div>
@@ -70,7 +86,7 @@
 
 <script>
 import Spinner from "@/components/Spinner";
-import ErrorList from '@/components/app/errorsListTemplate';
+import ErrorList from "@/components/app/errorsListTemplate";
 import path from "path";
 import config from "@/config.js";
 import exploreService from "@/services/exploreService";
@@ -84,7 +100,7 @@ export default {
       success: null,
       details: null,
       screenshotDomain: config.domain + "/media/",
-      submitClicked: false,
+      submitClicked: false
     };
   },
   methods: {
@@ -93,10 +109,13 @@ export default {
       if (this.submitClicked === true) return;
       this.submitClicked = true;
 
-      const {result, ok, error} = await exploreService.updateTheme(this.themeID, this.update);
+      const { result, ok, error } = await exploreService.updateTheme(
+        this.themeID,
+        this.update
+      );
       if (!ok) {
         if (error.response.data.message) {
-          this.errors = [{msg: error.response.data.message}];
+          this.errors = [{ msg: error.response.data.message }];
         } else {
           this.errors = error.response.data.errors;
         }
@@ -104,18 +123,20 @@ export default {
         this.details = result.data;
       }
       this.submitClicked = false;
-      this.$refs.scroll.scrollTo({ top: 0, behavior: 'smooth' });      
-
+      this.$refs.scroll.scrollTo({ top: 0, behavior: "smooth" });
     },
     async sendForReviewButton() {
       this.errors = null;
       if (this.submitClicked === true) return;
       this.submitClicked = true;
 
-      const {result, ok, error} = await exploreService.addTheme(this.themeID, this.update);
+      const { result, ok, error } = await exploreService.addTheme(
+        this.themeID,
+        this.update
+      );
       if (!ok) {
         if (error.response.data.message) {
-          this.errors = [{msg: error.response.data.message}];
+          this.errors = [{ msg: error.response.data.message }];
         } else {
           this.errors = error.response.data.errors;
         }
@@ -123,8 +144,7 @@ export default {
         this.details = result.data;
       }
       this.submitClicked = false;
-      this.$refs.scroll.scrollTo({ top: 0, behavior: 'smooth' });
-
+      this.$refs.scroll.scrollTo({ top: 0, behavior: "smooth" });
     },
     screenshotBrowseChange(event) {
       if (!this.googleDriveLinked) {
@@ -170,18 +190,18 @@ export default {
       this.$emit("back");
     },
     async fetchDetails() {
-      const {ok, error, result} = await exploreService.getTheme(this.themeID);
+      const { ok, error, result } = await exploreService.getTheme(this.themeID);
       if (!ok && !error.response) {
         return;
       }
-      if (error){
+      if (error) {
         this.details = false;
         return;
       }
       this.details = result.data;
     },
     descriptionInput(event) {
-      this.$set(this.update, 'description', event.target.value);
+      this.$set(this.update, "description", event.target.value);
     }
   },
   async mounted() {

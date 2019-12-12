@@ -7,10 +7,12 @@
           <div
             class="item"
             v-for="(filter, index) in filters"
-            :class="{selected: filterSelected === index}"
+            :class="{ selected: filterSelected === index }"
             :key="filter.name"
             @click="filterSelected = index"
-          >{{filter.name}}</div>
+          >
+            {{ filter.name }}
+          </div>
         </div>
       </div>
       <div class="filter">
@@ -19,10 +21,12 @@
           <div
             class="item"
             v-for="(sortBy, index) in sortBys"
-            :class="{selected: sortSelected === index}"
+            :class="{ selected: sortSelected === index }"
             :key="sortBy.name"
             @click="sortSelected = index"
-          >{{sortBy.name}}</div>
+          >
+            {{ sortBy.name }}
+          </div>
         </div>
       </div>
     </div>

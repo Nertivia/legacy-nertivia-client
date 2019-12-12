@@ -2,15 +2,8 @@
   <div class="dark-background">
     <div class="inner">
       <div class="info">
-        <div
-          v-show="image"
-          ref="preview-image"
-          class="preview-image"
-        />
-        <div
-          v-if="!image"
-          class="file-icon"
-        >
+        <div v-show="image" ref="preview-image" class="preview-image" />
+        <div v-if="!image" class="file-icon">
           <i class="material-icons">insert_drive_file</i>
         </div>
         <div class="data">
@@ -33,19 +26,13 @@
         />
       </div>
       <div class="bottom-panel">
-        <div
-          class="close-button button"
-          @click="closeButton"
-        >
+        <div class="close-button button" @click="closeButton">
           <i class="material-icons">close</i>
           <div class="text">
             Cancel
           </div>
         </div>
-        <div
-          class="send-button button"
-          @click="send"
-        >
+        <div class="send-button button" @click="send">
           <i class="material-icons">send</i>
           <div class="text">
             Send
@@ -60,8 +47,7 @@
 import filesize from "filesize";
 import emojiParser from "@/utils/emojiParser.js";
 import messagesService from "@/services/messagesService";
-import { bus } from "@/main";
-import {mapState} from 'vuex';
+import { mapState } from "vuex";
 export default {
   props: ["file"],
   data() {
@@ -91,7 +77,7 @@ export default {
     }
   },
   mounted() {
-    this.$refs['messageInput'].focus();
+    this.$refs["messageInput"].focus();
     (this.name = this.popouts.fileToUpload.name),
       (this.size = filesize(this.popouts.fileToUpload.size)),
       this.loadFileInfo(this.popouts.fileToUpload);
@@ -151,7 +137,7 @@ export default {
         created: new Date()
       });
 
-      const { ok, error, result } = await messagesService.post(
+      const { ok } = await messagesService.post(
         this.selectedChannelID,
         formData,
         percent => {
@@ -184,7 +170,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('settingsModule', ['GDriveLinked']),
+    ...mapState("settingsModule", ["GDriveLinked"]),
     selectedChannelID() {
       return this.$store.getters.selectedChannelID;
     },
@@ -215,7 +201,7 @@ export default {
   position: relative;
   overflow: hidden;
   box-shadow: 0px 0px 20px 5px #151515bd;
-  background-color: #01677E;
+  background-color: #01677e;
   border-radius: 4px;
 }
 .info {
@@ -322,15 +308,15 @@ export default {
     align-self: center;
   }
   .info {
-    flex-direction:column;
+    flex-direction: column;
     margin-bottom: 20px;
     align-content: center;
     align-items: center;
     align-self: center;
   }
-  .data{
+  .data {
     display: flex;
-    flex-direction:column;
+    flex-direction: column;
     align-content: center;
     align-items: center;
     align-self: center;
@@ -346,4 +332,3 @@ export default {
   }
 }
 </style>
-

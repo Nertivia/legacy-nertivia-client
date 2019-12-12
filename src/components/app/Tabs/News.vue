@@ -6,7 +6,9 @@
         <div v-for="(change, index) in changelog" :key="index" class="change">
           <div
             class="heading"
-            :style="change.headColor ? `background-color: ${change.headColor}` : ``"
+            :style="
+              change.headColor ? `background-color: ${change.headColor}` : ``
+            "
           >
             <div class="date">{{ change.date }}</div>
             <div class="changes-title">{{ change.title }}</div>
@@ -16,27 +18,41 @@
               <strong>What's new?</strong>
               <br />
               <ul>
-                <li v-for="(wnew, index) in change.new" :key="index" v-html="wnew" />
+                <li
+                  v-for="(wnew, index) in change.new"
+                  :key="index"
+                  v-html="wnew"
+                />
               </ul>
             </div>
             <div v-if="change.fix">
               <strong>Issues fixed</strong>
               <br />
               <ul>
-                <li v-for="(wfix, index) in change.fix" :key="index" v-html="wfix" />
+                <li
+                  v-for="(wfix, index) in change.fix"
+                  :key="index"
+                  v-html="wfix"
+                />
               </ul>
             </div>
             <div v-if="change.next">
               <strong>Up next</strong>
               <br />
               <ul>
-                <li v-for="(wnext, index) in change.next" :key="index" v-html="wnext" />
+                <li
+                  v-for="(wnext, index) in change.next"
+                  :key="index"
+                  v-html="wnext"
+                />
               </ul>
             </div>
             <div v-if="change.msg" v-html="change.msg" />
           </div>
         </div>
-        <div class="see-all-button" v-if="!showAll" @click="showAll = true">View older changes</div>
+        <div class="see-all-button" v-if="!showAll" @click="showAll = true">
+          View older changes
+        </div>
       </div>
     </div>
   </div>
@@ -50,7 +66,7 @@ export default {
   components: { Navigation },
   data() {
     return {
-      showAll: false,
+      showAll: false
     };
   },
   computed: {
@@ -63,7 +79,6 @@ export default {
   }
 };
 </script>
-
 
 <style scoped>
 .news {
@@ -149,7 +164,6 @@ export default {
   user-select: none;
   cursor: pointer;
   transition: 0.2s;
-  
 }
 .see-all-button:hover {
   background: #0b1415;

@@ -1,64 +1,76 @@
 <template>
   <div class="content-inner" v-if="server && loaded">
-    <errors-template class="errors" v-if="errors" :errors="errors"/>
-    <div class="details">Making your server visibility public means that your server will be shown publicly in the Nertivia's "Explore" tab.</div>
+    <errors-template class="errors" v-if="errors" :errors="errors" />
+    <div class="details">
+      Making your server visibility public means that your server will be shown
+      publicly in the Nertivia's "Explore" tab.
+    </div>
     <div class="content">
       <div class="toggle">
         <div class="title">Server Visibility</div>
         <div class="item" @click="privateServer = true">
-          <div class="box" :class="{selected: privateServer}"></div>Private
+          <div class="box" :class="{ selected: privateServer }"></div>
+          Private
         </div>
         <div class="item" @click="privateServer = false">
-          <div class="box" :class="{selected: !privateServer}"></div>Public
+          <div class="box" :class="{ selected: !privateServer }"></div>
+          Public
         </div>
       </div>
       <div class="public-settings" v-if="!privateServer">
         <div class="input">
           <div class="title">
-            Description (<span :class="{warn: description.length > 150}">{{description.length}}</span>/150)
+            Description (<span :class="{ warn: description.length > 150 }">{{
+              description.length
+            }}</span
+            >/150)
           </div>
           <textarea placeholder="Description" v-model="description"></textarea>
         </div>
       </div>
       <div
         class="button"
-        :class="{disabled: saving}"
+        :class="{ disabled: saving }"
         v-if="showSaveButton && privateServer"
         @click="deleteButton"
-      >{{saving ? 'Deleting...' : 'Delete'}}</div>
+      >
+        {{ saving ? "Deleting..." : "Delete" }}
+      </div>
       <div
         class="button"
-        :class="{disabled: saving}"
+        :class="{ disabled: saving }"
         v-if="alreadyPublic && showSaveButton && !privateServer"
         @click="updateButton"
-      >{{saving ? 'Updating...' : 'Update'}}</div>
+      >
+        {{ saving ? "Updating..." : "Update" }}
+      </div>
       <div
         class="button"
-        :class="{disabled: saving}"
+        :class="{ disabled: saving }"
         v-if="!alreadyPublic && showSaveButton && !privateServer"
         @click="saveButton"
-      >{{saving ? 'Saving...' : 'Save'}}</div>
+      >
+        {{ saving ? "Saving..." : "Save" }}
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import config from "@/config.js";
-import { bus } from "@/main";
-import exploreService from '../../../../../services/exploreService';
-import ErrorsTemplate from '@/components/app/errorsListTemplate';
+import exploreService from "../../../../../services/exploreService";
+import ErrorsTemplate from "@/components/app/errorsListTemplate";
 
 export default {
-  components: {ErrorsTemplate},
+  components: { ErrorsTemplate },
   data() {
     return {
       privateServer: true,
-      description: '',
+      description: "",
       showSaveButton: false,
       saving: false,
       errors: null,
       loaded: false,
-      alreadyPublic: false,
+      alreadyPublic: false
     };
   },
   methods: {
@@ -69,18 +81,18 @@ export default {
 
       const data = {
         server_id: this.server.server_id,
-        description: this.description,
-      }
-      const {ok, result, error} = await exploreService.addServersList(data)
+        description: this.description
+      };
+      const { ok, error } = await exploreService.addServersList(data);
       if (!ok) {
         this.saving = false;
         if (error.response === undefined) {
-          this.errors = { message: 'Cant connect to server' }
+          this.errors = { message: "Cant connect to server" };
           return;
         }
         const data = error.response.data;
         if (data.message) {
-          this.errors = [{msg: data.message}];
+          this.errors = [{ msg: data.message }];
           return;
         }
         this.errors = data.errors;
@@ -95,16 +107,18 @@ export default {
       if (this.saving) return;
       this.saving = true;
       this.errors = null;
-      const {ok, result, error} = await exploreService.deleteServer(this.server.server_id);
+      const { ok, error } = await exploreService.deleteServer(
+        this.server.server_id
+      );
       if (!ok) {
         this.saving = false;
         if (error.response === undefined) {
-          this.errors = { message: 'Cant connect to server' }
+          this.errors = { message: "Cant connect to server" };
           return;
         }
         const data = error.response.data;
         if (data.message) {
-          this.errors = [{msg: data.message}];
+          this.errors = [{ msg: data.message }];
           return;
         }
         this.errors = data.errors;
@@ -119,16 +133,19 @@ export default {
       if (this.saving) return;
       this.saving = true;
       this.errors = null;
-      const {ok, result, error} = await exploreService.updateServer(this.server.server_id, {description: this.description});
+      const { ok, error } = await exploreService.updateServer(
+        this.server.server_id,
+        { description: this.description }
+      );
       if (!ok) {
         this.saving = false;
         if (error.response === undefined) {
-          this.errors = { message: 'Cant connect to server' }
+          this.errors = { message: "Cant connect to server" };
           return;
         }
         const data = error.response.data;
         if (data.message) {
-          this.errors = [{msg: data.message}];
+          this.errors = [{ msg: data.message }];
           return;
         }
         this.errors = data.errors;
@@ -138,23 +155,23 @@ export default {
         this.showSaveButton = false;
         this.alreadyPublic = true;
       }
-    },
+    }
   },
   watch: {
     description() {
-      if (this.loaded)
-        this.showSaveButton = true;
+      if (this.loaded) this.showSaveButton = true;
     },
     privateServer() {
-      if (this.loaded)
-        this.showSaveButton = true;
+      if (this.loaded) this.showSaveButton = true;
     }
   },
   async mounted() {
-    const {result, ok, error} = await exploreService.getServer(this.server.server_id);
+    const { result, ok } = await exploreService.getServer(
+      this.server.server_id
+    );
     if (ok) {
       this.privateServer = false;
-      this.description = result.data.description
+      this.description = result.data.description;
       this.alreadyPublic = true;
     }
     this.loaded = true;
@@ -228,7 +245,7 @@ export default {
     margin-bottom: 5px;
   }
   textarea {
-  background: #032d38;
+    background: #032d38;
     resize: none;
     outline: none;
     margin-top: 2px;
@@ -269,5 +286,3 @@ export default {
   margin: 10px;
 }
 </style>
-
-

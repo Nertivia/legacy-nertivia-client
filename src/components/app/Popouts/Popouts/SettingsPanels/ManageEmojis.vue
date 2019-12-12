@@ -1,41 +1,27 @@
 <template>
   <div class="manage-emoji-panel">
     <div class="info">
-      <div
-        class="title"
-      >
-        Upload your own pretty emojis for free! Emojis must be 1MB or less. (png, jpg, gif)
+      <div class="title">
+        Upload your own pretty emojis for free! Emojis must be 1MB or less.
+        (png, jpg, gif)
       </div>
-      <div
-        class="button"
-        @click="addEmojiBtn"
-      >
+      <div class="button" @click="addEmojiBtn">
         <i class="material-icons">add_box</i>Add Emoji
       </div>
     </div>
 
     <div class="emojis-list">
-      <div
-        v-for="emoji in customEmojis"
-        :key="emoji.emojiID"
-        class="emoji"
-      >
-        <img
-          class="preview"
-          :src="`${domain}${emoji.emojiID}`"
-        >
+      <div v-for="emoji in customEmojis" :key="emoji.emojiID" class="emoji">
+        <img class="preview" :src="`${domain}${emoji.emojiID}`" />
         <div class="emoji-name">
           <input
             type="text"
             :value="emoji.name"
             @keydown="keyDownEvent"
             @blur="blurEvent(emoji.emojiID, $event)"
-          >
+          />
         </div>
-        <div
-          class="delete-button"
-          @click="removeEmoji(emoji.emojiID)"
-        >
+        <div class="delete-button" @click="removeEmoji(emoji.emojiID)">
           <div class="material-icons">
             close
           </div>
@@ -49,13 +35,10 @@
       accept="image/*"
       class="hidden"
       @change="emojiBrowse"
-    >
+    />
     <!-- <div class="option" @click="changePassword">Change Password</div> -->
 
-    <div
-      v-if="alert.show"
-      class="alert-outer"
-    >
+    <div v-if="alert.show" class="alert-outer">
       <div class="alert">
         <div class="alert-title">
           Error
@@ -64,10 +47,7 @@
           {{ alert.content }}
         </div>
         <div class="alert-buttons">
-          <div
-            class="alert-button"
-            @click="alert.show = false"
-          >
+          <div class="alert-button" @click="alert.show = false">
             Okay
           </div>
         </div>
@@ -77,10 +57,8 @@
 </template>
 
 <script>
-import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
 import customEmoji from "@/services/customEmoji.js";
 import config from "@/config.js";
-import { bus } from "@/main";
 import path from "path";
 import { mapState } from "vuex";
 import emojiParser from "@/utils/emojiParser.js";
@@ -105,7 +83,10 @@ export default {
     },
     async blurEvent(emojiID, event) {
       // send put request
-      const { ok, error, result } = await customEmoji.put({emojiID, name: event.target.value});
+      const { ok, error } = await customEmoji.put({
+        emojiID,
+        name: event.target.value
+      });
       if (!ok) {
         this.alert.content =
           "Upload failed - " + error.response.data.message ||
@@ -150,10 +131,7 @@ export default {
           `${fileName.substring(0, 30)}${path.extname(file.name)}`
         );
       }
-      const { ok, error, result } = await customEmoji.post(
-        formData,
-        this.onProgress
-      );
+      const { ok, error } = await customEmoji.post(formData, this.onProgress);
       if (!ok) {
         this.alert.content =
           "Upload failed - " + error.response.data.message ||
@@ -171,8 +149,7 @@ export default {
       this.$refs.emojiBrowser.click();
     },
     async removeEmoji(emojiID) {
-
-      const { ok, error, result } = await customEmoji.delete(emojiID);
+      const { ok, error } = await customEmoji.delete(emojiID);
       if (!ok) {
         this.alert.content =
           "Upload failed - " + error.response.data.message ||
@@ -186,7 +163,6 @@ export default {
   }
 };
 </script>
-
 
 <style scoped>
 input {
@@ -225,7 +201,6 @@ input:focus {
   margin-right: 10px;
   z-index: 999;
 }
-
 
 .preview {
   margin-left: 10px;

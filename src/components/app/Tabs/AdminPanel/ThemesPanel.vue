@@ -7,25 +7,24 @@
   </div>
 </template>
 
-
 <script>
-import ThemeTemplate from './ThemeTemplate';
-import adminService from '@/services/adminService';
+import ThemeTemplate from "./ThemeTemplate";
+import adminService from "@/services/adminService";
 
 export default {
-  components: {ThemeTemplate},
+  components: { ThemeTemplate },
   data() {
     return {
-      themes: null,
-    }
+      themes: null
+    };
   },
   async mounted() {
-    const {ok, error, result} = await adminService.fetchWaitingThemes();
+    const { ok, error, result } = await adminService.fetchWaitingThemes();
     if (ok) {
       this.themes = result.data;
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

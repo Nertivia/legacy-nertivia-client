@@ -1,14 +1,16 @@
 <template>
   <div class="drop-down">
-    <div class="title">{{name}}</div>
+    <div class="title">{{ name }}</div>
     <div class="current-select-box" ref="dropDown" @click="dropped = !dropped">
-      <div class="name" v-if="noneSelect && selectedItem || !noneSelect">
+      <div class="name" v-if="(noneSelect && selectedItem) || !noneSelect">
         <div
           class="emoji"
           v-if="selectedItemSorted.emoji || items[0].emoji"
           v-html="selectedItem ? selectedItemSorted.emoji : items[0].emoji"
         ></div>
-        <div class="item-name">{{selectedItem ? selectedItemSorted.name : items[0].name}}</div>
+        <div class="item-name">
+          {{ selectedItem ? selectedItemSorted.name : items[0].name }}
+        </div>
       </div>
       <div class="name" v-if="noneSelect && !selectedItem">Select</div>
       <div class="material-icons">expand_more</div>
@@ -20,11 +22,11 @@
           v-for="(item, index) of itemEmojified"
           :key="index"
           class="item"
-          :class="{selected: selectedItemSorted === item}"
+          :class="{ selected: selectedItemSorted === item }"
           @click="itemClick(item)"
         >
           <div class="emoji" v-if="item.emoji" v-html="item.emoji"></div>
-          <div class="name">{{item.name}}</div>
+          <div class="name">{{ item.name }}</div>
         </div>
       </div>
     </div>

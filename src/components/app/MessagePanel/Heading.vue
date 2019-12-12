@@ -6,10 +6,17 @@
     <div
       v-if="type === 1"
       class="user-status"
-      :style="`box-shadow: 0px 0px 14px 3px ${userStatusColor}; background-color: ${userStatusColor};`"
+      :style="
+        `box-shadow: 0px 0px 14px 3px ${userStatusColor}; background-color: ${userStatusColor};`
+      "
     />
     <div class="information">
-      <div :class="{name: true, clickable: !!uniqueID }" @click="openUserInfoPanel">{{ name }}</div>
+      <div
+        :class="{ name: true, clickable: !!uniqueID }"
+        @click="openUserInfoPanel"
+      >
+        {{ name }}
+      </div>
     </div>
     <div
       v-if="type === 2 && selectedServerID"

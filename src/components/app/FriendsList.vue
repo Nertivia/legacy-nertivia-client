@@ -6,14 +6,20 @@
       <div class="tabs">
         <div
           class="tab"
-          :class="{notify: friendRequestExists, selected: currentTab === 0}"
+          :class="{ notify: friendRequestExists, selected: currentTab === 0 }"
           @click="currentTab = 0"
-        ><div class="material-icons">group</div>Friends</div>
+        >
+          <div class="material-icons">group</div>
+          Friends
+        </div>
         <div
           class="tab"
-          :class="{notify: DMNotification, selected: currentTab === 1 }"
+          :class="{ notify: DMNotification, selected: currentTab === 1 }"
           @click="currentTab = 1"
-        ><div class="material-icons">access_time</div>Recents</div>
+        >
+          <div class="material-icons">access_time</div>
+          Recents
+        </div>
       </div>
       <div v-if="currentTab === 0" class="list">
         <pending-friends />
@@ -108,7 +114,6 @@ export default {
   overflow: hidden;
   background: rgba(0, 0, 0, 0.14);
   border-top-left-radius: 10px;
-
 }
 .list {
   flex: 1;
@@ -141,7 +146,7 @@ export default {
   margin-right: 5px;
 }
 .tab:hover::before {
-  content: '';
+  content: "";
   position: absolute;
   height: 3px;
   left: 0;
@@ -150,7 +155,7 @@ export default {
   background: rgb(177, 177, 177);
 }
 .tab::before {
-  content: '';
+  content: "";
   position: absolute;
   height: 3px;
   left: 0;
@@ -160,7 +165,7 @@ export default {
   transition: 0.2s;
 }
 .tab.selected::before {
-  content: '';
+  content: "";
   position: absolute;
   height: 3px;
   left: 0;
@@ -202,9 +207,8 @@ export default {
   background: #ee3e34;
 }
 
-
 @media (max-width: 600px) {
-  .content{
+  .content {
     border-radius: 0;
   }
 }

@@ -20,7 +20,6 @@
   </div>
 </template>
 
-
 <script>
 import ProfilePicture from "@/components/ProfilePictureTemplate";
 import config from "@/config";
@@ -63,7 +62,6 @@ export default {
   }
 };
 </script>
-
 
 <style scoped>
 .member {

@@ -1,38 +1,43 @@
 <template>
   <div class="user" @click="openUserInformation">
-    <div class="profile-picture" :style="{backgroundImage: `url(${avatar})`}"></div>
+    <div
+      class="profile-picture"
+      :style="{ backgroundImage: `url(${avatar})` }"
+    ></div>
     <div class="details">
-      <div class="username-tag">{{user.username}}<span class="tag">@{{user.tag}}</span></div>
-      <div class="date" v-if="!presence">{{date}}</div>
-      <div class="presence" v-if="presence">{{presence}}</div>
+      <div class="username-tag">
+        {{ user.username }}<span class="tag">@{{ user.tag }}</span>
+      </div>
+      <div class="date" v-if="!presence">{{ date }}</div>
+      <div class="presence" v-if="presence">{{ presence }}</div>
     </div>
   </div>
 </template>
 
 <script>
-import friendlyDate from '@/utils/date';
+import friendlyDate from "@/utils/date";
 import config from "@/config.js";
-import statuses from '@/utils/statuses';
+import statuses from "@/utils/statuses";
 export default {
-  props: ['user'],
+  props: ["user"],
   computed: {
     date() {
-      return friendlyDate(this.user.created)
+      return friendlyDate(this.user.created);
     },
     avatar() {
       return config.domain + "/avatars/" + this.user.avatar;
     },
     presence() {
       if (this.user.status === undefined) return null;
-      return statuses[this.user.status].name
+      return statuses[this.user.status].name;
     }
   },
   methods: {
     openUserInformation() {
       this.$store.dispatch("setUserInformationPopout", this.user.uniqueID);
-    },
+    }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

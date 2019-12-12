@@ -7,21 +7,26 @@
         class="server-banner"
         @mouseenter="bannerHover = true"
         @mouseleave="bannerHover = false"
-        :class="{extendBanner: server && server.banner}"
+        :class="{ extendBanner: server && server.banner }"
         v-if="selectedServerID"
       >
         <div
           class="banner-image"
           @click="bannerImageClicked"
           v-if="server && server.banner"
-          :style="{backgroundImage: `url(${bannerDomain}${server.banner}${bannerHover ? '' : '?type=png'})`}"
+          :style="{
+            backgroundImage: `url(${bannerDomain}${server.banner}${
+              bannerHover ? '' : '?type=png'
+            })`
+          }"
         />
         <div class="sub-banner">
-          <div
-            class="text"
-            :title="servers[selectedServerID].name"
-          >{{servers[selectedServerID].name}}</div>
-          <div class="options-button material-icons" @click="openServerContext">more_vert</div>
+          <div class="text" :title="servers[selectedServerID].name">
+            {{ servers[selectedServerID].name }}
+          </div>
+          <div class="options-button material-icons" @click="openServerContext">
+            more_vert
+          </div>
         </div>
       </div>
       <div class="channels-list">
@@ -117,7 +122,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss" >
+<style scoped lang="scss">
 .left-panel {
   height: 100%;
   width: 340px;
@@ -216,9 +221,8 @@ export default {
 }
 
 @media (max-width: 600px) {
-  .right{
+  .right {
     border-radius: 0;
   }
 }
-
 </style>

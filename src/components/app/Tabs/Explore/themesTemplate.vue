@@ -2,24 +2,31 @@
   <div class="item">
     <div class="top">
       <div
-      @click="bannerImageClicked"
+        @click="bannerImageClicked"
         class="background-dark"
-        :style="{backgroundImage: `url(${bannerDomain + theme.screenshot}${'?type=png'})`}"
+        :style="{
+          backgroundImage: `url(${bannerDomain +
+            theme.screenshot}${'?type=png'})`
+        }"
       />
     </div>
     <div class="bottom">
       <div class="name">
         <div class="name-container">
-          <span class="inner-name">{{theme.theme.name}}</span>
+          <span class="inner-name">{{ theme.theme.name }}</span>
         </div>
       </div>
-      <div class="description">{{theme.description}}</div>
+      <div class="description">{{ theme.description }}</div>
       <div class="buttons">
         <!-- <div class="stars-button">
           <div class="material-icons">star</div>
           {{theme.stars}}
         </div> -->
-        <div class="button un-apply" v-if="appliedTheme === theme.id" @click="unApplyButton">
+        <div
+          class="button un-apply"
+          v-if="appliedTheme === theme.id"
+          @click="unApplyButton"
+        >
           <span>Unapply</span>
         </div>
         <div v-else class="button" @click="applyButton">
@@ -31,23 +38,21 @@
 </template>
 
 <script>
-import { bus } from "@/main";
-import Spinner from "@/components/Spinner";
 import config from "@/config.js";
-import exploreService from '@/services/exploreService';
+import exploreService from "@/services/exploreService";
 export default {
   props: ["theme"],
   data() {
     return {
       joinClicked: false,
       bannerDomain: config.domain + "/media/",
-      appliedTheme: null,
+      appliedTheme: null
     };
   },
   methods: {
     async applyButton() {
       // get css
-      const {ok, error, result} = await exploreService.applyTheme(this.theme.id);
+      const { ok, result } = await exploreService.applyTheme(this.theme.id);
       if (ok) {
         const css = result.data.css;
         const id = result.data.id;
@@ -71,21 +76,19 @@ export default {
     bannerImageClicked() {
       this.$store.dispatch(
         "setImagePreviewURL",
-        this.bannerDomain + this.theme.screenshot + '?type=png'
+        this.bannerDomain + this.theme.screenshot + "?type=png"
       );
     },
-    unApplyButton () {
+    unApplyButton() {
       this.appliedTheme = null;
       localStorage.removeItem("appliedThemeId");
-      document.getElementById("theme").outerHTML = ''
+      document.getElementById("theme").outerHTML = "";
     }
   },
   mounted() {
     this.appliedTheme = localStorage.getItem("appliedThemeId");
   },
-  computed: {
-
-  }
+  computed: {}
 };
 </script>
 
@@ -139,7 +142,7 @@ export default {
   .bottom {
     display: flex;
     flex-direction: column;
-    background: #04333F;
+    background: #04333f;
     flex: 1;
     height: 100%;
     flex-shrink: 0;
@@ -221,17 +224,17 @@ export default {
 
       cursor: pointer;
       &:hover {
-        background: #00B4DB;
+        background: #00b4db;
       }
       &.selected {
         background: grey;
       }
       &.un-apply {
-      background: rgba(255, 53, 53, 0.808);
-      &:hover {
-        background:rgb(255, 53, 53);
+        background: rgba(255, 53, 53, 0.808);
+        &:hover {
+          background: rgb(255, 53, 53);
+        }
       }
-    }
     }
   }
 }

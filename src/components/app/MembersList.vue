@@ -4,7 +4,9 @@
       <div class="title">Members ({{ members.length }})</div>
     </div>
     <div class="members">
-      <div class="tab" v-if="onlineMembers.length">Online ({{onlineMembers.length}})</div>
+      <div class="tab" v-if="onlineMembers.length">
+        Online ({{ onlineMembers.length }})
+      </div>
       <member-template
         v-for="member in onlineMembers"
         :key="member.member.uniqueID"
@@ -12,7 +14,9 @@
         :avatar="member.member.avatar"
         :user="member.member"
       />
-      <div class="tab" v-if="offlineMembers.length">Offline ({{offlineMembers.length}})</div>
+      <div class="tab" v-if="offlineMembers.length">
+        Offline ({{ offlineMembers.length }})
+      </div>
 
       <member-template
         v-for="member in offlineMembers"
@@ -74,7 +78,6 @@ export default {
 };
 </script>
 
-
 <style scoped>
 .members-list {
   color: white;
@@ -88,7 +91,7 @@ export default {
 .header {
   height: 50px;
   width: 100%;
-  background: #083A4A;
+  background: #083a4a;
   display: flex;
   flex-shrink: 0;
 }
@@ -109,4 +112,3 @@ export default {
   margin-left: 10px;
 }
 </style>
-

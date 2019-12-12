@@ -9,23 +9,18 @@
       <div class="username">
         {{ $props.username }}
       </div>
-      <div class="tag">
-        @{{ $props.tag }}
-      </div>
+      <div class="tag">@{{ $props.tag }}</div>
     </div>
     <div class="buttons">
       <div
-        :class="{button: true, accept: true, hide: $props.status == 0}"
+        :class="{ button: true, accept: true, hide: $props.status == 0 }"
         @click="accept"
       >
         <i class="material-icons">
           check
         </i>
       </div>
-      <div
-        class="button decline"
-        @click="deny"
-      >
+      <div class="button decline" @click="deny">
         <i class="material-icons">
           not_interested
         </i>
@@ -35,36 +30,35 @@
 </template>
 
 <script>
-import RelationshipService from '@/services/RelationshipService.js'
-import config from '@/config.js'
+import RelationshipService from "@/services/RelationshipService.js";
+import config from "@/config.js";
 
 export default {
-  props: ['username', 'tag', 'status', 'uniqueID'],
+  props: ["username", "tag", "status", "uniqueID"],
   computed: {
     user() {
       return this.$store.getters.user.friends[this.$props.uniqueID].recipient;
     },
     userAvatar() {
-      return config.domain + "/avatars/" + this.user.avatar
-    },
+      return config.domain + "/avatars/" + this.user.avatar;
+    }
   },
   methods: {
     deny() {
-      RelationshipService.delete(this.$props.uniqueID)
+      RelationshipService.delete(this.$props.uniqueID);
     },
     accept() {
-      RelationshipService.put(this.$props.uniqueID)
+      RelationshipService.put(this.$props.uniqueID);
     },
     openUserInformation() {
-      this.$store.dispatch('setUserInformationPopout', this.uniqueID)
+      this.$store.dispatch("setUserInformationPopout", this.uniqueID);
     }
   }
-}
+};
 </script>
 
-
 <style scoped>
-.username{
+.username {
   width: 80px;
   overflow: hidden;
   white-space: nowrap;
@@ -80,10 +74,10 @@ export default {
 }
 
 .pending-friend:hover {
-    background-color: rgba(0, 0, 0, 0.246);
+  background-color: rgba(0, 0, 0, 0.246);
 }
 
-.profile-picture{
+.profile-picture {
   height: 30px;
   width: 30px;
   background-color: rgba(0, 0, 0, 0.425);
@@ -95,18 +89,18 @@ export default {
   background-repeat: no-repeat;
   flex-shrink: 0;
 }
-.information{
+.information {
   margin: auto;
   margin-left: 5px;
   margin-right: 5px;
   flex: 1;
 }
-.tag{
+.tag {
   color: rgb(173, 173, 173);
   font-size: 15px;
 }
 
-.buttons{
+.buttons {
   display: flex;
   margin: auto;
   margin-right: 5px;
@@ -124,15 +118,14 @@ export default {
 .hide {
   display: none;
 }
-.button:hover{
-    background-color: rgba(0, 255, 0, 0.281);
+.button:hover {
+  background-color: rgba(0, 255, 0, 0.281);
 }
-.button .material-icons{
+.button .material-icons {
   margin: auto;
   color: rgba(255, 255, 255, 0.747);
 }
-.button.decline:hover{
-      background-color: rgba(255, 0, 0, 0.281);
+.button.decline:hover {
+  background-color: rgba(255, 0, 0, 0.281);
 }
 </style>
-

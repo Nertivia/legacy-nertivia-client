@@ -1,10 +1,7 @@
 <template>
-  <div
-    ref="background"
-    class="drop-background"
-  >
+  <div ref="background" class="drop-background">
     <div class="img-outer">
-      <img :src="$store.getters.popouts.ImagePreviewURL">
+      <img :src="$store.getters.popouts.ImagePreviewURL" />
     </div>
   </div>
 </template>
@@ -24,8 +21,11 @@ export default {
   },
   methods: {
     backgroundClickEvent(event) {
-      if(event.target.matches('.img-outer') || event.target.matches('.drop-background')){
-        this.$store.dispatch('setImagePreviewURL', event.target.src)
+      if (
+        event.target.matches(".img-outer") ||
+        event.target.matches(".drop-background")
+      ) {
+        this.$store.dispatch("setImagePreviewURL", event.target.src);
       }
     }
   }
@@ -46,7 +46,7 @@ export default {
   user-select: none;
 }
 
-.img-outer{
+.img-outer {
   margin: auto;
   height: 90%;
   width: 90%;
@@ -61,4 +61,3 @@ img {
   user-select: none;
 }
 </style>
-

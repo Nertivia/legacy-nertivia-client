@@ -1,10 +1,10 @@
 <template>
   <div class="survey">
     <div class="inner-content">
-      <div class="title">
-        <i class="material-icons">error</i>Take Survey
+      <div class="title"><i class="material-icons">error</i>Take Survey</div>
+      <div class="notice">
+        Note: Everyone will be able to see your survey in your profile.
       </div>
-      <div class="notice">Note: Everyone will be able to see your survey in your profile.</div>
       <spinner v-if="!loaded" />
       <div class="survey-inner" v-if="loaded">
         <div class="survey-content">
@@ -60,14 +60,21 @@
             <!-- About me -->
             <div class="input">
               <div class="input-title">About me</div>
-              <textarea placeholder="I like cats and dogs." v-model="items.about_me" />
+              <textarea
+                placeholder="I like cats and dogs."
+                v-model="items.about_me"
+              />
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="survey-warning" v-if="surveyErrorMessage">{{ surveyErrorMessage }}</div>
-    <div class="survey-valid" v-if="surveyValidMessage">{{ surveyValidMessage }}</div>
+    <div class="survey-warning" v-if="surveyErrorMessage">
+      {{ surveyErrorMessage }}
+    </div>
+    <div class="survey-valid" v-if="surveyValidMessage">
+      {{ surveyValidMessage }}
+    </div>
     <div class="button" v-if="loaded" @click="surveySubmitButton">Save</div>
   </div>
 </template>

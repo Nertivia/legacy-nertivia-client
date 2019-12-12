@@ -1,9 +1,9 @@
 <template>
-  <div class="explore-tab" :class="{darken: showLeftPanel}">
+  <div class="explore-tab" :class="{ darken: showLeftPanel }">
     <transition name="slidein">
       <div
         class="left-panel"
-        v-show="$mq === 'mobile' && showLeftPanel || ($mq !== 'mobile')"
+        v-show="($mq === 'mobile' && showLeftPanel) || $mq !== 'mobile'"
         v-click-outside="hideLeftPanel"
       >
         <navigation />
@@ -23,25 +23,36 @@
               class="item"
               v-for="(tab, index) in tabs"
               :key="index"
-              :class="{selected: selectedTab === index}"
-              @click="selectedTab = index; showLeftPanel = false;"
+              :class="{ selected: selectedTab === index }"
+              @click="
+                selectedTab = index;
+                showLeftPanel = false;
+              "
             >
-              <i class="material-icons">{{tab.icon}}</i>
-              {{tab.name}}
+              <i class="material-icons">{{ tab.icon }}</i>
+              {{ tab.name }}
             </div>
-            <div class="card self-promo" v-if="nertiviaServerHide !== true && !nertiviaServer">
-              <div class="material-icons close-btn" @click="hideSelfPromo">close</div>
+            <div
+              class="card self-promo"
+              v-if="nertiviaServerHide !== true && !nertiviaServer"
+            >
+              <div class="material-icons close-btn" @click="hideSelfPromo">
+                close
+              </div>
               <div class="logo" />
               <div class="title">Join the official Nertivia server</div>
               <div class="button" @click="joinNertiviaServer">Join</div>
             </div>
 
             <div class="card donate-paypal" v-if="donateHide !== true">
-              <div class="material-icons close-btn" @click="hideDonatePaypal">close</div>
+              <div class="material-icons close-btn" @click="hideDonatePaypal">
+                close
+              </div>
               <div class="material-icons heart">favorite</div>
-              <div
-                class="title"
-              >Support Nertivia by donating any amount of money. You will get a supporter badge and more features in the future.</div>
+              <div class="title">
+                Support Nertivia by donating any amount of money. You will get a
+                supporter badge and more features in the future.
+              </div>
               <div class="button" @click="donateButton">Donate</div>
             </div>
           </div>
@@ -54,9 +65,11 @@
         <div
           class="material-icons left-menu-show-button"
           @click="showLeftPanel = !showLeftPanel"
-        >view_list</div>
-        <i class="material-icons">{{tabs[selectedTab].icon}}</i>
-        {{tabs[selectedTab].name}}
+        >
+          view_list
+        </div>
+        <i class="material-icons">{{ tabs[selectedTab].icon }}</i>
+        {{ tabs[selectedTab].name }}
       </div>
       <div class="coming-soon" v-if="selectedTab > 1">
         <div class="icon">
@@ -116,7 +129,7 @@ export default {
       const { ok, error, result } = await ServerService.joinServerById(
         this.nertiviaServerID,
         {
-          socketID: this.$socket.id
+          socketID: this.$socket.client.id
         }
       );
     },
@@ -132,7 +145,6 @@ export default {
   }
 };
 </script>
-
 
 <style lang="scss" scoped>
 .explore-tab {
@@ -186,7 +198,7 @@ export default {
       }
     }
     .item:nth-child(2)::before {
-      content: 'NEW';
+      content: "NEW";
       font-size: 14px;
       background: rgb(255, 55, 55);
       border-radius: 2px;
@@ -359,7 +371,7 @@ export default {
     height: 100%;
   }
   .darken::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;

@@ -1,19 +1,19 @@
-import {instance, wrapper} from './Api';
+import { instance, wrapper } from "./Api";
 
 export default {
-  getTheme (id) {
+  getTheme(id) {
     return wrapper(instance().get(`themes/${id}`));
   },
-  getThemes () {
-    return wrapper(instance().get('themes/'));
+  getThemes() {
+    return wrapper(instance().get("themes/"));
   },
-  save (data) {
+  save(data) {
     return wrapper(instance().post(`themes/`, data));
   },
-  update (data, id) {
+  update(data, id) {
     return wrapper(instance().patch(`themes/${id}`, data));
   },
-  delete (id) {
+  delete(id) {
     return wrapper(instance().delete(`themes/${id}`));
-  },
-}
+  }
+};

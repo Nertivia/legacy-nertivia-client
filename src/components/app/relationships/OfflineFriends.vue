@@ -74,5 +74,3 @@ export default {
   background: #053240;
 }
 </style>
-
-

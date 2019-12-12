@@ -1,8 +1,11 @@
 <template>
   <div
     class="server"
-    :data-servername="serverData.name" 
-    :class="{selected: selectedServerID === serverData.server_id, notifyAnimation: notification }"
+    :data-servername="serverData.name"
+    :class="{
+      selected: selectedServerID === serverData.server_id,
+      notifyAnimation: notification
+    }"
     @contextmenu.prevent="contextEvent"
     @mouseenter="hoverEvent"
     @mouseover="hover = true"
@@ -134,5 +137,4 @@ export default {
   border-radius: 50%;
   background: #ee3e34;
 }
-
 </style>

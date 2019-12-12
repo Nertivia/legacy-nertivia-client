@@ -23,11 +23,11 @@
   background: rgba(0, 0, 0, 0.76);
   color: white;
 }
-.center-box{
+.center-box {
   margin: auto;
 }
 
-.cat-face{
+.cat-face {
   height: 300px;
   width: 300px;
   background-position: center;
@@ -41,15 +41,19 @@
   height: 280px;
   width: 280px;
   border: 16px solid #3498db;
-  border-top: 16px solid white; 
+  border-top: 16px solid white;
   border-radius: 50%;
   animation: spin 2s linear infinite;
   flex-shrink: 0;
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .eyes {
@@ -63,7 +67,8 @@
   animation-iteration-count: infinite;
 }
 @keyframes blink {
-  20%, 100% {
+  20%,
+  100% {
     height: 0px;
   }
   0% {
@@ -74,8 +79,7 @@
   }
 }
 
-
-.message{
+.message {
   text-align: center;
   margin-top: 20px;
   font-size: 20px;

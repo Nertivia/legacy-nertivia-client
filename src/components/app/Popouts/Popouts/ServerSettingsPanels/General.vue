@@ -9,7 +9,9 @@
             size="100px"
             :url="update.avatar || `${avatarDomain}/${server.avatar}`"
           />
-          <div class="button" @click="$refs.avatarBrowser.click()">Edit Avatar</div>
+          <div class="button" @click="$refs.avatarBrowser.click()">
+            Edit Avatar
+          </div>
           <input
             ref="avatarBrowser"
             type="file"
@@ -21,11 +23,16 @@
         <div class="banner">
           <div
             class="banner-image"
-            :style="{backgroundImage: `url(${update.banner || `${bannerDomain}${server.banner}` })`}"
+            :style="{
+              backgroundImage: `url(${update.banner ||
+                `${bannerDomain}${server.banner}`})`
+            }"
           >
             <div class="banner-text"></div>
           </div>
-          <div class="button" @click="$refs.bannerBrowser.click()">Edit Banner</div>
+          <div class="button" @click="$refs.bannerBrowser.click()">
+            Edit Banner
+          </div>
           <input
             ref="bannerBrowser"
             type="file"
@@ -56,10 +63,12 @@
         </div>
         <div
           class="button save-button"
-          :class="{disabled: requestSent}"
+          :class="{ disabled: requestSent }"
           v-if="changed"
           @click="updateServer()"
-        >{{requestSent ? 'Saving...' : 'Save Changes'}}</div>
+        >
+          {{ requestSent ? "Saving..." : "Save Changes" }}
+        </div>
       </div>
     </div>
   </div>
@@ -285,7 +294,7 @@ export default {
 .input {
   display: flex;
   flex-direction: column;
-  background-color: #044050;;
+  background-color: #044050;
   padding: 10px;
   align-self: center;
   margin: 10px;
@@ -295,7 +304,6 @@ export default {
   margin-top: 2px;
   margin-bottom: 0;
   width: 190px;
-
 }
 .button {
   background: #033442;
@@ -328,6 +336,3 @@ export default {
   }
 }
 </style>
-
-
-

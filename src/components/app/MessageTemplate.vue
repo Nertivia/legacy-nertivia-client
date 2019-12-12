@@ -2,7 +2,14 @@
   <div class="container" @mouseover="hover = true" @mouseleave="hover = false">
     <div
       v-if="!type || type === 0"
-      :class="{message: true, ownMessage: user.uniqueID === $props.uniqueID, ownMessageLeft: user.uniqueID === $props.uniqueID && (apperance && apperance.own_message_right === true)} "
+      :class="{
+        message: true,
+        ownMessage: user.uniqueID === $props.uniqueID,
+        ownMessageLeft:
+          user.uniqueID === $props.uniqueID &&
+          apperance &&
+          apperance.own_message_right === true
+      }"
     >
       <div class="avatar">
         <profile-picture
@@ -18,11 +25,20 @@
       </div>
       <div class="content" @dblclick="contentDoubleClickEvent">
         <div class="user-info">
-          <div class="username" @click="openUserInformation">{{ this.$props.username }}</div>
+          <div class="username" @click="openUserInformation">
+            {{ this.$props.username }}
+          </div>
           <div class="date">{{ getDate }}</div>
         </div>
-        <SimpleMarkdown class="content-message" :style="[color && color !== -2 ? {color: color}: '']" :message="message" />
-        <div class="file-content" v-if="getFile && !getFile.fileName.endsWith('.mp3')">
+        <SimpleMarkdown
+          class="content-message"
+          :style="[color && color !== -2 ? { color: color } : '']"
+          :message="message"
+        />
+        <div
+          class="file-content"
+          v-if="getFile && !getFile.fileName.endsWith('.mp3')"
+        >
           <div class="icon">
             <i class="material-icons">insert_drive_file</i>
           </div>
@@ -33,20 +49,30 @@
             </a>
           </div>
         </div>
-        <div v-if="getFile && getFile.fileName.endsWith('.mp3')" class="file-content music">
+        <div
+          v-if="getFile && getFile.fileName.endsWith('.mp3')"
+          class="file-content music"
+        >
           <div class="info">{{ getFile.fileName }}</div>
           <audio controls>
-            <source :src="getFile.url" type="audio/mp3">
+            <source :src="getFile.url" type="audio/mp3" />
           </audio>
         </div>
 
         <div class="image-content" ref="image" v-if="getImage">
           <img :src="getImage" @click="imageClicked" />
         </div>
-        <message-embed-template v-if="embed && Object.keys(embed).length" :embed="embed" />
+        <message-embed-template
+          v-if="embed && Object.keys(embed).length"
+          :embed="embed"
+        />
       </div>
       <div class="other-information">
-        <div class="drop-down-button" ref="drop-down-button" @click="openContextMenu">
+        <div
+          class="drop-down-button"
+          ref="drop-down-button"
+          @click="openContextMenu"
+        >
           <i class="material-icons">more_vert</i>
         </div>
         <div
@@ -70,11 +96,18 @@
     <div
       v-if="type && (type === 1 || type === 2 || type === 3 || type === 4)"
       class="presence-message"
-      :class="{join: type === 1, leave: type === 2, kick: type === 3, ban: type === 4}"
+      :class="{
+        join: type === 1,
+        leave: type === 2,
+        kick: type === 3,
+        ban: type === 4
+      }"
     >
       <div class="presense-contain">
         <span>
-          <span class="username" @click="openUserInformation">{{ this.$props.username }}</span>
+          <span class="username" @click="openUserInformation">{{
+            this.$props.username
+          }}</span>
           <span v-if="type === 1" class="text">has joined the server!</span>
           <span v-if="type === 2" class="text">has left the server.</span>
           <span v-if="type === 3" class="text">has been kicked.</span>
@@ -82,13 +115,16 @@
           <span class="date">{{ getDate }}</span>
         </span>
       </div>
-      <div class="drop-down-button" ref="drop-down-button" @click="openContextMenu">
+      <div
+        class="drop-down-button"
+        ref="drop-down-button"
+        @click="openContextMenu"
+      >
         <i class="material-icons">more_vert</i>
       </div>
     </div>
   </div>
 </template>
-
 
 <script>
 import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
@@ -157,7 +193,7 @@ export default {
         channelID: this.channelID,
         messageID: this.messageID,
         message: this.message,
-        color: this.color,
+        color: this.color
       });
     },
     contentDoubleClickEvent(event) {
@@ -249,11 +285,16 @@ export default {
       return file;
     },
     getDate() {
-
-      return friendlyDate(this.$props.date, this.apperance && this.apperance['12h_time'] ? '12h' : false);
+      return friendlyDate(
+        this.$props.date,
+        this.apperance && this.apperance["12h_time"] ? "12h" : false
+      );
     },
     getEditedDate() {
-      return friendlyDate(this.timeEdited, this.apperance && this.apperance['12h_time'] ? '12h' : false);
+      return friendlyDate(
+        this.timeEdited,
+        this.apperance && this.apperance["12h_time"] ? "12h" : false
+      );
     },
     userAvatar() {
       return config.domain + "/avatars/" + this.$props.avatar;
@@ -271,9 +312,7 @@ export default {
 };
 </script>
 
-
 <style scoped lang="scss">
-
 $self-message-color: #053746;
 $message-color: #03222b;
 
@@ -369,13 +408,12 @@ $message-color: #03222b;
   padding: 10px;
   margin-top: 5px;
   &.music {
-   .info  {
-     margin-bottom: 5px;
-   }
+    .info {
+      margin-bottom: 5px;
+    }
     flex-direction: column;
   }
 }
-
 
 .file-content .material-icons {
   font-size: 40px;

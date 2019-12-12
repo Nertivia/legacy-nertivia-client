@@ -4,14 +4,16 @@
       <div class="checkbox" @click="toggleNotificationSounds">
         <div
           class="checkbox-box"
-          :class="{selected: !notificationSettings.disableNotificationSound}"
+          :class="{ selected: !notificationSettings.disableNotificationSound }"
         />
         <div class="checkbox-name">Notification Sounds</div>
       </div>
       <div class="checkbox" @click="toggleNotification()">
         <div
           class="checkbox-box"
-          :class="{selected: !notificationSettings.disableDesktopNotification}"
+          :class="{
+            selected: !notificationSettings.disableDesktopNotification
+          }"
         />
         <div class="checkbox-name">Desktop Notifications</div>
       </div>

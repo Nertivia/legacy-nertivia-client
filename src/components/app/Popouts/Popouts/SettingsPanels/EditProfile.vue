@@ -40,7 +40,9 @@
               @input="inputEvent('password', $event)"
             />
           </div>
-          <div class="link" v-if="!resetPassword" @click="resetPassword = true">Reset Password</div>
+          <div class="link" v-if="!resetPassword" @click="resetPassword = true">
+            Reset Password
+          </div>
           <div class="outer-input" v-if="resetPassword">
             <div class="title">New Password</div>
             <input
@@ -63,7 +65,9 @@
             emote-size="30px"
             animation-padding="5px"
           />
-          <div class="button" @click="$refs.avatarBrowser.click()">Change Avatar</div>
+          <div class="button" @click="$refs.avatarBrowser.click()">
+            Change Avatar
+          </div>
           <input
             ref="avatarBrowser"
             type="file"
@@ -76,10 +80,12 @@
     </div>
     <div
       class="button save-button"
-      :class="{disabled: requestSent}"
+      :class="{ disabled: requestSent }"
       @click="updateProfile"
       v-if="changed"
-    >{{requestSent ? 'Saving...' : 'Update'}}</div>
+    >
+      {{ requestSent ? "Saving..." : "Update" }}
+    </div>
   </div>
 </template>
 

@@ -6,17 +6,17 @@
           class="tab"
           v-for="(tab, _index) in tabs"
           :key="_index"
-          :class="{selected: index === _index, critical: tab.critical}"
+          :class="{ selected: index === _index, critical: tab.critical }"
           @click="index = _index"
         >
-          <div class="material-icons">{{tab.icon}}</div>
-          <div>{{tab.title}}</div>
+          <div class="material-icons">{{ tab.icon }}</div>
+          <div>{{ tab.title }}</div>
         </div>
       </div>
       <div class="content">
-        <div class="header" :class="{critical: tabs[index].critical}">
-          <div class="material-icons">{{tabs[index].icon}}</div>
-          <div>{{tabs[index].title}}</div>
+        <div class="header" :class="{ critical: tabs[index].critical }">
+          <div class="material-icons">{{ tabs[index].icon }}</div>
+          <div>{{ tabs[index].title }}</div>
           <div class="close-button" @click="closeMenu">
             <div class="material-icons">close</div>
           </div>
@@ -32,11 +32,6 @@
 </template>
 
 <script>
-import config from "@/config.js";
-import { bus } from "@/main";
-import ServerService from "@/services/ServerService";
-import { mapState } from "vuex";
-
 // panels
 import General from "./General.vue";
 import DeleteServer from "./DeleteServer.vue";
@@ -86,7 +81,6 @@ export default {
 };
 </script>
 
-
 <style scoped lang="scss">
 .dark-background {
   position: absolute;
@@ -109,7 +103,7 @@ export default {
   position: relative;
   overflow: hidden;
   box-shadow: 0px 0px 20px 5px #151515bd;
-  background: linear-gradient(#0B4155, #01677E);
+  background: linear-gradient(#0b4155, #01677e);
   border-radius: 4px;
 }
 

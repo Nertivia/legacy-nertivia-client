@@ -11,7 +11,7 @@
     <div class="container" @mouseleave="mouseLeaveEvent">
       <div class="navigation-items">
         <div
-          data-name="Explore" 
+          data-name="Explore"
           class="item material-icons"
           :class="{ selected: currentTab == 0 }"
           @click="switchTab(0)"
@@ -20,7 +20,7 @@
           explore
         </div>
         <div
-          data-name="Direct Message" 
+          data-name="Direct Message"
           class="item material-icons"
           :class="{
             selected: currentTab == 1,
@@ -32,7 +32,7 @@
           chat
         </div>
         <div
-          data-name="Servers" 
+          data-name="Servers"
           class="item material-icons"
           :class="{
             selected: currentTab == 2,
@@ -44,7 +44,7 @@
           forum
         </div>
         <div
-          data-name="Changelog" 
+          data-name="Changelog"
           class="item material-icons"
           :class="{ selected: currentTab == 3 }"
           @click="switchTab(3)"
@@ -73,7 +73,7 @@
       </div>
     </div>
     <div
-      data-name="Settings" 
+      data-name="Settings"
       class="item material-icons"
       @click="openSettings"
       @mouseleave="mouseLeaveEvent"
@@ -119,7 +119,7 @@ export default {
       });
 
       if (notifications && notifications.count >= 1 && document.hasFocus()) {
-        this.$socket.emit("notification:dismiss", { channelID });
+        this.$socket.client.client.emit("notification:dismiss", { channelID });
       }
     },
     openServer(serverID) {
@@ -139,7 +139,7 @@ export default {
       this.$store.dispatch("openChannel", channel);
     },
     switchTab(index) {
-      bus.$emit('tab:switch', index)
+      bus.$emit("tab:switch", index);
     },
     openSettings() {
       this.$store.dispatch("setPopoutVisibility", {
@@ -307,7 +307,6 @@ export default {
   background: #ee3e34;
   flex-shrink: 0;
 }
-
 
 .tool-tip {
   color: white;

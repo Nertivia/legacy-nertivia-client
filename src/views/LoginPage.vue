@@ -20,14 +20,18 @@
               <div class="input">
                 <div class="input-text">
                   Email
-                  <span v-if="email.alert" class="error">- {{ email.alert }}</span>
+                  <span v-if="email.alert" class="error"
+                    >- {{ email.alert }}</span
+                  >
                 </div>
                 <input v-model="email.value" type="email" placeholder="Email" />
               </div>
               <div class="input">
                 <div class="input-text">
                   Password
-                  <span v-if="password.alert" class="error">- {{ password.alert }}</span>
+                  <span v-if="password.alert" class="error"
+                    >- {{ password.alert }}</span
+                  >
                 </div>
                 <input
                   v-model="password.value"
@@ -37,17 +41,34 @@
                 />
               </div>
 
-              <span v-if="otherError" class="error" style="text-align: center;">{{ otherError }}</span>
+              <span
+                v-if="otherError"
+                class="error"
+                style="text-align: center;"
+                >{{ otherError }}</span
+              >
               <div class="buttons">
-                <button class="button register-button" @click.prevent="registerButton">I'm new!</button>
-                <button type="submit" :class="{button: true, deactive: deactive}">Login</button>
+                <button
+                  class="button register-button"
+                  @click.prevent="registerButton"
+                >
+                  I'm new!
+                </button>
+                <button
+                  type="submit"
+                  :class="{ button: true, deactive: deactive }"
+                >
+                  Login
+                </button>
               </div>
             </form>
             <div v-if="showCaptcha" class="captcha-box">
               <div class="input captcha-input">
                 <div class="input-text">
                   Beep Boop
-                  <span v-if="reCaptcha.alert" class="error">- {{ reCaptcha.alert }}</span>
+                  <span v-if="reCaptcha.alert" class="error"
+                    >- {{ reCaptcha.alert }}</span
+                  >
                 </div>
                 <div class="captcha">
                   <Recaptcha ref="recaptcha" @verify="captchaSubmit" />
@@ -126,7 +147,7 @@ export default {
       if (ok) {
         this.visible = false;
         this.$store.dispatch("token", result.data.token);
-        setTimeout(_ => {
+        setTimeout(() => {
           const { to, id } = this.$route.query;
           if (to) {
             return (window.location.href = `/${to}/${id}`);
@@ -197,7 +218,7 @@ body {
   flex-direction: column;
   color: white;
   height: 100%;
-  background: linear-gradient(#0B4155, #01677E);
+  background: linear-gradient(#0b4155, #01677e);
 }
 .app-content {
   display: flex;

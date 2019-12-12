@@ -9,7 +9,7 @@
       />
       <div class="button" @click="saveButton">
         <div class="material-icons">save</div>
-        {{savingStatus ? 'Saving...' : 'Save & Apply'}}
+        {{ savingStatus ? "Saving..." : "Save & Apply" }}
       </div>
       <div class="button" @click="closeButton">
         <div class="material-icons">clear</div>
@@ -45,10 +45,10 @@ import { codemirror } from "vue-codemirror";
 
 export default {
   components: { codemirror },
-  props: ['themeName', 'themeCode', 'savingStatus'],
+  props: ["themeName", "themeCode", "savingStatus"],
   data() {
     return {
-      name: '',
+      name: "",
       code: `/* Start writing your styles*/\n`,
       cmOptions: {
         // codemirror options
@@ -65,7 +65,7 @@ export default {
       this.name = this.themeName;
     }
     if (this.themeCode) {
-      this.code = this.themeCode
+      this.code = this.themeCode;
     }
   },
   methods: {
@@ -75,7 +75,7 @@ export default {
       });
     },
     saveButton() {
-      this.$emit("save", {name: this.name, css: this.code});
+      this.$emit("save", { name: this.name, css: this.code });
     },
     closeButton() {
       this.$emit("close");

@@ -4,8 +4,7 @@ const config = [
     name: "Offline",
     url: require("@/assets/status/0.svg"),
     color: "#919191",
-    bgColor: "rgba(145, 145, 145, 0.19)",
-     
+    bgColor: "rgba(145, 145, 145, 0.19)"
   },
   //Online
   {
@@ -19,7 +18,7 @@ const config = [
     name: "Away",
     url: require("@/assets/status/2.svg"),
     color: "#ffdd1e",
-    bgColor: "rgb(255, 221, 30, 0.19)",
+    bgColor: "rgb(255, 221, 30, 0.19)"
   },
   //Busy
   {
@@ -33,9 +32,8 @@ const config = [
     name: "Looking to play",
     url: require("@/assets/status/4.svg"),
     color: "#9a3dd3",
-    bgColor: "rgb(154, 61, 211, 0.19)",
+    bgColor: "rgb(154, 61, 211, 0.19)"
   }
-]
-
+];
 
 export default config;

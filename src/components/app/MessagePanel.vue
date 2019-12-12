@@ -1,9 +1,19 @@
 <template>
   <div class="right-panel">
     <heading
-      :uniqueID="recipients && recipients.length ? recipients[0].uniqueID : undefined"
-      :type="selectedChannelID && channel && !channel.server_id ? 1 : channel && channel.server_id ? 2 : 0"
-      :name="selectedChannelID ? channelName : `Welcome back, ${user.username}!` "
+      :uniqueID="
+        recipients && recipients.length ? recipients[0].uniqueID : undefined
+      "
+      :type="
+        selectedChannelID && channel && !channel.server_id
+          ? 1
+          : channel && channel.server_id
+          ? 2
+          : 0
+      "
+      :name="
+        selectedChannelID ? channelName : `Welcome back, ${user.username}!`
+      "
     />
     <div class="loading" v-if="selectedChannelID && !selectedChannelMessages">
       <spinner />
@@ -13,10 +23,18 @@
       :key="selectedChannelID"
     />
     <div class="no-channel-selected" v-if="!selectedChannelID">
-      <div class="material-icons">{{type === 0 ? 'chat' : type === 1 ? 'forum' : 'question'}}</div>
-      <div
-        class="message"
-      >{{type === 0 ? 'Select a person to message!' : type === 1 ?'Select a server!' : "wot"}}</div>
+      <div class="material-icons">
+        {{ type === 0 ? "chat" : type === 1 ? "forum" : "question" }}
+      </div>
+      <div class="message">
+        {{
+          type === 0
+            ? "Select a person to message!"
+            : type === 1
+            ? "Select a server!"
+            : "wot"
+        }}
+      </div>
     </div>
     <div class="typing-outer">
       <typing-status
@@ -41,15 +59,59 @@
       </div>
 
       <edit-panel v-if="editMessage" :data="editMessage" />
-      <div class="markdown-buttons" style="color: white;" v-if="sendMessagePermission === true || editMessage">
-        <div class="material-icons markdown-icon" @click="addFormat('**')" title="Bold">format_bold</div>
-        <div class="material-icons markdown-icon" @click="addFormat('_')" title="Italic">format_italic</div>
-        <div class="material-icons markdown-icon" @click="addFormat('__')" title="Underline">format_underlined</div>
-        <div class="material-icons markdown-icon" @click="addFormat('```\n', '\n```', 4)" title="Code block">code</div>
+      <div
+        class="markdown-buttons"
+        style="color: white;"
+        v-if="sendMessagePermission === true || editMessage"
+      >
+        <div
+          class="material-icons markdown-icon"
+          @click="addFormat('**')"
+          title="Bold"
+        >
+          format_bold
+        </div>
+        <div
+          class="material-icons markdown-icon"
+          @click="addFormat('_')"
+          title="Italic"
+        >
+          format_italic
+        </div>
+        <div
+          class="material-icons markdown-icon"
+          @click="addFormat('__')"
+          title="Underline"
+        >
+          format_underlined
+        </div>
+        <div
+          class="material-icons markdown-icon"
+          @click="addFormat('```\n', '\n```', 4)"
+          title="Code block"
+        >
+          code
+        </div>
         <div class="color-picker" title="Message color">
-          <input type="color" ref="colorPic" style="display: none" @change="messageColorChange" value="#e7e7e7">
-          <div class="color" :style="{background:  customColor}" @click="$refs.colorPic.click()"></div>
-          <div class="reset-button" @click="customColor = null" v-if="customColor">Reset</div>
+          <input
+            type="color"
+            ref="colorPic"
+            style="display: none"
+            @change="messageColorChange"
+            value="#e7e7e7"
+          />
+          <div
+            class="color"
+            :style="{ background: customColor }"
+            @click="$refs.colorPic.click()"
+          ></div>
+          <div
+            class="reset-button"
+            @click="customColor = null"
+            v-if="customColor"
+          >
+            Reset
+          </div>
         </div>
       </div>
       <!-- <div class="info">
@@ -59,8 +121,16 @@
           :class="{'message-count': true, 'error-info': messageLength > 5000 }"
         >{{messageLength}}/5000</div>
       </div>-->
-      <div class="message-area" v-if="sendMessagePermission === true || editMessage">
-        <input type="file" ref="sendFileBrowse" @change="attachmentChange" class="hidden" />
+      <div
+        class="message-area"
+        v-if="sendMessagePermission === true || editMessage"
+      >
+        <input
+          type="file"
+          ref="sendFileBrowse"
+          @change="attachmentChange"
+          class="hidden"
+        />
         <div class="attachment-button" @click="attachmentButton">
           <i class="material-icons">attach_file</i>
         </div>
@@ -81,21 +151,28 @@
         </button>
         <button
           class="send-button"
-          :class="{'error-send-button': messageLength > 5000}"
+          :class="{ 'error-send-button': messageLength > 5000 }"
           @click="editMessage ? updateMessage() : sendMessage()"
         >
-          <i class="material-icons">{{editMessage ? 'edit' : 'send'}}</i>
+          <i class="material-icons">{{ editMessage ? "edit" : "send" }}</i>
           <div
-            v-if=" messageLength >= 4500 && (sendMessagePermission === true || editMessage)"
-            :class="{'message-count': true, 'error-info': messageLength > 5000 }"
-          >{{messageLength}} / 5000</div>
+            v-if="
+              messageLength >= 4500 &&
+                (sendMessagePermission === true || editMessage)
+            "
+            :class="{
+              'message-count': true,
+              'error-info': messageLength > 5000
+            }"
+          >
+            {{ messageLength }} / 5000
+          </div>
         </button>
       </div>
     </div>
-    <div
-      class="no-message-permission"
-      v-if="sendMessagePermission === false"
-    >You don't have permission to send messages in this channel.</div>
+    <div class="no-message-permission" v-if="sendMessagePermission === false">
+      You don't have permission to send messages in this channel.
+    </div>
   </div>
 </template>
 
@@ -103,7 +180,6 @@
 import messagesService from "@/services/messagesService";
 import typingService from "@/services/TypingService";
 import { bus } from "../../main";
-import JQuery from "jquery";
 import Spinner from "@/components/Spinner.vue";
 import heading from "@/components/app/MessagePanel/Heading.vue";
 import emojiSuggestions from "@/components/app/EmojiPanels/emojiSuggestions.vue";
@@ -111,7 +187,7 @@ import MessageLogs from "@/components/app/MessageLogs.vue";
 import emojiParser from "@/utils/emojiParser.js";
 import windowProperties from "@/utils/windowProperties";
 import TypingStatus from "@/components/app/TypingStatus.vue";
-import { isMobile } from '../../utils/Mobile';
+import { isMobile } from "../../utils/Mobile";
 
 const emojiPanel = () => import("@/components/app/EmojiPanels/emojiPanel.vue");
 const EditPanel = () => import("@/components/app/EditPanel.vue");
@@ -139,39 +215,50 @@ export default {
 
       customColor: null,
       scrolledDown: true,
-      mobile: isMobile(),
+      mobile: isMobile()
     };
   },
   methods: {
     messageColorChange(e) {
       const hexColor = e.target.value;
-      e.target.value = ""
+      e.target.value = "";
       this.customColor = hexColor;
     },
     addFormat(type, customEnding, customPos) {
-      const msgBox = this.$refs['input-box'];
-      msgBox.focus()
+      const msgBox = this.$refs["input-box"];
+      msgBox.focus();
       const startPos = msgBox.selectionStart;
-      const endPos =  msgBox.selectionEnd;
+      const endPos = msgBox.selectionEnd;
 
       const selection = window.getSelection();
       const selected = selection.toString();
-      console.log(selected)
+      console.log(selected);
 
-      if (selected === ""){
-        this.message = [this.message.slice(0, endPos), type+ (customEnding||type ), this.message.slice(endPos)].join('');
+      if (selected === "") {
+        this.message = [
+          this.message.slice(0, endPos),
+          type + (customEnding || type),
+          this.message.slice(endPos)
+        ].join("");
         this.$nextTick(() => {
-          const offsetCursorPos = customPos || type.length
-          msgBox.focus()
-          msgBox.setSelectionRange(endPos+ offsetCursorPos, endPos+ offsetCursorPos);
-        })
+          const offsetCursorPos = customPos || type.length;
+          msgBox.focus();
+          msgBox.setSelectionRange(
+            endPos + offsetCursorPos,
+            endPos + offsetCursorPos
+          );
+        });
         return;
       }
-      this.message = [this.message.slice(0, startPos), type + selected + (customEnding||type ), this.message.slice(endPos)].join('');
+      this.message = [
+        this.message.slice(0, startPos),
+        type + selected + (customEnding || type),
+        this.message.slice(endPos)
+      ].join("");
       this.$nextTick(() => {
-        msgBox.focus()
+        msgBox.focus();
         msgBox.setSelectionRange(startPos + type.length, endPos + type.length);
-      })
+      });
     },
     generateNum(n) {
       var add = 1,
@@ -224,7 +311,7 @@ export default {
         {
           message: msg,
           color: this.customColor,
-          socketID: this.$socket.id,
+          socketID: this.$socket.client.id,
           tempID
         }
       );
@@ -244,7 +331,10 @@ export default {
       const editMessage = this.editMessage;
       this.$refs["input-box"].focus();
       this.message = this.message.trim();
-      if (this.message === this.editMessage.message && (this.customColor || undefined) === (this.editMessage.color)) {
+      if (
+        this.message === this.editMessage.message &&
+        (this.customColor || undefined) === this.editMessage.color
+      ) {
         this.$store.dispatch("setEditMessage", null);
         this.message = "";
         return;
@@ -410,7 +500,9 @@ export default {
       this.emojiSwitchKey(event);
       // when enter is press
       if (event.keyCode == 13) {
-        if (this.mobile) {return}
+        if (this.mobile) {
+          return;
+        }
         // and the shift key is not held
         if (!event.shiftKey) {
           event.preventDefault();
@@ -441,7 +533,7 @@ export default {
           messageID: lastMessage.messageID,
           channelID: lastMessage.channelID,
           message: lastMessage.message,
-          color: lastMessage.color,
+          color: lastMessage.color
         });
       }
     },
@@ -510,7 +602,7 @@ export default {
         return notification.channelID === this.$store.getters.selectedChannelID;
       });
       if (find && find.count >= 1) {
-        this.$socket.emit("notification:dismiss", {
+        this.$socket.client.emit("notification:dismiss", {
           channelID: this.$store.getters.selectedChannelID
         });
       }
@@ -522,8 +614,7 @@ export default {
       this.message = editMessage
         ? emojiParser.emojiToShortcode(editMessage.message)
         : "";
-      if (editMessage)
-        this.customColor = editMessage.color || null;
+      if (editMessage) this.customColor = editMessage.color || null;
     },
     onBlur() {
       clearTimeout(this.postTimerID);
@@ -798,7 +889,7 @@ export default {
   overflow: hidden;
   max-height: 30vh;
   overflow-y: auto;
-  &::placeholder{
+  &::placeholder {
     color: #597981;
   }
 }
@@ -852,16 +943,16 @@ export default {
     margin: auto;
   }
   &:hover {
-  color: white;
+    color: white;
   }
 }
 
 .back-to-bottom-button {
   &:hover {
-  background: rgba(0, 0, 0, 0.90);
+    background: rgba(0, 0, 0, 0.9);
   }
   transition: 0.2s;
-  background: rgba(0, 0, 0, 0.80);
+  background: rgba(0, 0, 0, 0.8);
   border-radius: 100px;
   color: white;
   position: absolute;
@@ -872,7 +963,7 @@ export default {
   display: flex;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.20);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   align-content: center;
   align-items: center;
   padding-left: 10px;
@@ -901,7 +992,7 @@ export default {
   margin-left: 2px;
   margin-bottom: 10px;
   flex-shrink: 0;
-  background: #024B5C;
+  background: #024b5c;
   .markdown-icon {
     font-size: 21px;
     flex-shrink: 0;

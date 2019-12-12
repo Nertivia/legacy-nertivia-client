@@ -4,24 +4,31 @@
       <div
         class="background-dark"
         v-if="server.server.banner"
-        :style="{backgroundImage: `url(${bannerDomain + server.server.banner}${hover ? '' : '?type=png'})`}"
+        :style="{
+          backgroundImage: `url(${bannerDomain + server.server.banner}${
+            hover ? '' : '?type=png'
+          })`
+        }"
       />
-      <profile-picture size="90px" :url="`${avatarDomain}/${server.server.avatar}`" />
+      <profile-picture
+        size="90px"
+        :url="`${avatarDomain}/${server.server.avatar}`"
+      />
       <div class="name">
         <div class="name-container">
-          <span class="inner-name">{{server.server.name}}</span>
+          <span class="inner-name">{{ server.server.name }}</span>
           <span class="material-icons" v-if="server.verified">check</span>
         </div>
       </div>
     </div>
     <div class="bottom">
-      <div class="description">{{server.description}}</div>
+      <div class="description">{{ server.description }}</div>
       <div class="buttons">
         <div class="member-count">
           <div class="material-icons">account_box</div>
-          {{server.total_members}}
+          {{ server.total_members }}
         </div>
-        <div class="button" :class="{selected: joined}" @click="joinButton">
+        <div class="button" :class="{ selected: joined }" @click="joinButton">
           <span v-if="joined">Joined</span>
           <spinner v-else-if="joinClicked" :size="30" />
           <span v-else-if="!joinClicked">Join Server</span>
@@ -32,7 +39,6 @@
 </template>
 
 <script>
-import { bus } from "@/main";
 import Spinner from "@/components/Spinner";
 import ServerService from "@/services/ServerService";
 import config from "@/config.js";
@@ -50,14 +56,14 @@ export default {
     };
   },
   methods: {
-    async joinButton(event) {
+    async joinButton() {
       if (this.joinClicked || this.joined) return;
       this.joinClicked = true;
 
-      const { ok, error, result } = await ServerService.joinServerById(
+      const { ok } = await ServerService.joinServerById(
         this.server.server.server_id,
         {
-          socketID: this.$socket.id
+          socketID: this.$socket.client.id
         }
       );
       if (ok) {
@@ -158,7 +164,7 @@ export default {
   .bottom {
     display: flex;
     flex-direction: column;
-    background: #04333F;
+    background: #04333f;
     flex: 1;
     height: 100%;
     flex-shrink: 0;
@@ -209,7 +215,7 @@ export default {
       margin-right: 10px;
       cursor: pointer;
       &:hover {
-        background: #00B4DB;
+        background: #00b4db;
       }
       &.selected {
         background: grey;

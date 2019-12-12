@@ -1,51 +1,68 @@
 <template>
   <div class="popouts">
     <transition-group name="show" mode="out-in">
-      <settings key="settings" v-if="popouts.settings"/>
-      <upload-dialog key="upload-dialog" v-if="popouts.uploadDialog"/>
-      <GDriveLinkMenu key="GDriveLinkMenu" v-if="popouts.GDLinkMenu"/>
-      <image-large-preview key="ilp" v-if="popouts.ImagePreviewURL"/>
-      <drag-drop-file-upload-dialog key="ddfud" v-if="showUploadDrapDrop"/>
-      <user-information-popout key="uip" v-if="popouts.userInformationPopoutID"/>
-      <take-survey-popout key="tsp" v-if="popouts.surveyPopout"/>
-      <add-server key="as" v-if="popouts.addServer"/>
+      <settings key="settings" v-if="popouts.settings" />
+      <upload-dialog key="upload-dialog" v-if="popouts.uploadDialog" />
+      <GDriveLinkMenu key="GDriveLinkMenu" v-if="popouts.GDLinkMenu" />
+      <image-large-preview key="ilp" v-if="popouts.ImagePreviewURL" />
+      <drag-drop-file-upload-dialog key="ddfud" v-if="showUploadDrapDrop" />
+      <user-information-popout
+        key="uip"
+        v-if="popouts.userInformationPopoutID"
+      />
+      <take-survey-popout key="tsp" v-if="popouts.surveyPopout" />
+      <add-server key="as" v-if="popouts.addServer" />
       <server-invite key="sip" v-if="popouts.showServerInviteMenu" />
-      <server-settings key="ss" v-if="popouts.serverSettings.serverID"/>
-      <GenericPopout  key="gp" v-if="popouts.genericMessage"/>
-      <message-context-menu  key="mcm" v-if="popouts.messageContextMenu.messageID"/>
-      <server-member-context  key="smc" v-if="popouts.serverMemberContext.uniqueID"/>
-      <server-context  key="sc" v-if="popouts.allPopout.type === 'SERVER' && popouts.allPopout.show"/>
-      <add-friend  key="af" v-if="popouts.allPopout.type === 'ADD_FRIEND' && popouts.allPopout.show"/>
-      <admin-css-editor key="ace" v-if="popouts.allPopout.type === 'ADMIN_CSS_EDITOR'" />
+      <server-settings key="ss" v-if="popouts.serverSettings.serverID" />
+      <GenericPopout key="gp" v-if="popouts.genericMessage" />
+      <message-context-menu
+        key="mcm"
+        v-if="popouts.messageContextMenu.messageID"
+      />
+      <server-member-context
+        key="smc"
+        v-if="popouts.serverMemberContext.uniqueID"
+      />
+      <server-context
+        key="sc"
+        v-if="popouts.allPopout.type === 'SERVER' && popouts.allPopout.show"
+      />
+      <add-friend
+        key="af"
+        v-if="popouts.allPopout.type === 'ADD_FRIEND' && popouts.allPopout.show"
+      />
+      <admin-css-editor
+        key="ace"
+        v-if="popouts.allPopout.type === 'ADMIN_CSS_EDITOR'"
+      />
     </transition-group>
   </div>
 </template>
 
 <script>
-
 //popouts
-  const userInformationPopout = () => import('./Popouts/userInformationPopout.vue');
+const userInformationPopout = () =>
+  import("./Popouts/userInformationPopout.vue");
 
-  // context menus
-  const messageContextMenu = () => import('./Popouts/messageContextMenu');
-  const ServerMemberContext = () => import('./Popouts/ServerMemberContext');
-  const ServerContext = () => import('./Popouts/ServerContextMenu.vue');
+// context menus
+const messageContextMenu = () => import("./Popouts/messageContextMenu");
+const ServerMemberContext = () => import("./Popouts/ServerMemberContext");
+const ServerContext = () => import("./Popouts/ServerContextMenu.vue");
 
-
-  const AddServer = () => import('./Popouts/AddServer.vue');
-  const AddFriend = () => import('./Popouts/AddFriend');
-  const Settings = () => import('./Popouts/Settings.vue');
-  const TakeSurveyPopout = () => import('./Popouts/TakeSurveyPopout.vue');
-  const uploadDialog = () => import('./Popouts/uploadDialog.vue');
-  const GDriveLinkMenu = () => import('./Popouts/GDriveLinkMenu.vue');
-  const imageLargePreview = () => import('./Popouts/imageLargePreview.vue');
-  const DragDropFileUploadDialog = () => import('./Popouts/DragDropFileUploadDialog.vue');
-  const ServerInvitePopout = () => import('./Popouts/ServerInvitePopout.vue');
-  const ServerSettings = () => import('./Popouts/ServerSettingsPanels/ServerSettings.vue');
-  const GenericPopout = () => import('./Popouts/GenericPopout');
-  const AdminCssEditor = () => import('./Popouts/AdminEditorPopout');
-
-
+const AddServer = () => import("./Popouts/AddServer.vue");
+const AddFriend = () => import("./Popouts/AddFriend");
+const Settings = () => import("./Popouts/Settings.vue");
+const TakeSurveyPopout = () => import("./Popouts/TakeSurveyPopout.vue");
+const uploadDialog = () => import("./Popouts/uploadDialog.vue");
+const GDriveLinkMenu = () => import("./Popouts/GDriveLinkMenu.vue");
+const imageLargePreview = () => import("./Popouts/imageLargePreview.vue");
+const DragDropFileUploadDialog = () =>
+  import("./Popouts/DragDropFileUploadDialog.vue");
+const ServerInvitePopout = () => import("./Popouts/ServerInvitePopout.vue");
+const ServerSettings = () =>
+  import("./Popouts/ServerSettingsPanels/ServerSettings.vue");
+const GenericPopout = () => import("./Popouts/GenericPopout");
+const AdminCssEditor = () => import("./Popouts/AdminEditorPopout");
 
 export default {
   components: {
@@ -65,7 +82,6 @@ export default {
     ServerContext,
     AddFriend,
     AdminCssEditor
-    
   },
   data() {
     return {
@@ -142,6 +158,5 @@ export default {
 }
 .show-enter, .show-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
-
 }
 </style>

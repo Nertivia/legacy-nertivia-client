@@ -20,17 +20,16 @@
 <script>
 import "codemirror/mode/css/css.js";
 
-import 'codemirror/addon/merge/merge.js'
+import "codemirror/addon/merge/merge.js";
 // merge css
-import 'codemirror/addon/merge/merge.css'
+import "codemirror/addon/merge/merge.css";
 // google DiffMatchPatch
-import DiffMatchPatch from 'diff-match-patch'
+import DiffMatchPatch from "diff-match-patch";
 
-
-window.diff_match_patch = DiffMatchPatch
-window.DIFF_DELETE = -1
-window.DIFF_INSERT = 1
-window.DIFF_EQUAL = 0
+window.diff_match_patch = DiffMatchPatch;
+window.DIFF_DELETE = -1;
+window.DIFF_INSERT = 1;
+window.DIFF_EQUAL = 0;
 
 // theme css
 import "codemirror/theme/base16-dark.css";
@@ -89,8 +88,6 @@ export default {
       } else {
         document.head.innerHTML += styleEl.outerHTML;
       }
-
-
     }
   },
   async mounted() {

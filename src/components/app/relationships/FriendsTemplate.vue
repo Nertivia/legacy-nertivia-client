@@ -1,23 +1,30 @@
 <template>
   <div
     class="friend"
-    :class="{selected: uniqueIDSelected, tree }"
+    :class="{ selected: uniqueIDSelected, tree }"
     @click="openChat"
     @mouseover="hover = true"
     @mouseleave="hover = false"
   >
     <div
       class="profile-picture"
-      :style="`border-color: ${status.statusColor}; background-image: url(${userAvatar}${hover ? '' : '?type=png'})`"
+      :style="
+        `border-color: ${
+          status.statusColor
+        }; background-image: url(${userAvatar}${hover ? '' : '?type=png'})`
+      "
       @click="openUserInformation"
     >
-      <div class="status" :style="`background-image: url(${status.statusURL})`" />
+      <div
+        class="status"
+        :style="`background-image: url(${status.statusURL})`"
+      />
     </div>
     <div class="information">
       <div class="username">{{ recipient.username }}</div>
       <div class="status-name">{{ status.statusName }}</div>
     </div>
-    <div v-if="notifications && notifications >0" class="notification">
+    <div v-if="notifications && notifications > 0" class="notification">
       <div class="notification-inner">{{ notifications }}</div>
     </div>
     <!-- doesnt work properly. if both channels closed, the chat gets wiped. -->
@@ -29,14 +36,21 @@
 
 <script>
 import channelService from "@/services/channelService";
-import messagesService from "@/services/messagesService";
 import config from "@/config.js";
 import statuses from "@/utils/statuses";
 import { bus } from "@/main";
 
 export default {
   // tree will add padding to the left.
-  props: ["username", "tag", "channelID", "uniqueID", "recipient", "tree", "recents"],
+  props: [
+    "username",
+    "tag",
+    "channelID",
+    "uniqueID",
+    "recipient",
+    "tree",
+    "recents"
+  ],
   data() {
     return {
       hover: false
@@ -83,12 +97,16 @@ export default {
     }
   },
   methods: {
-    async closeChannel(event) {
-      this.channelID
-      await channelService.delete(this.channelID)
+    async closeChannel() {
+      this.channelID;
+      await channelService.delete(this.channelID);
     },
     async openChat(event) {
-      if (event.target.closest(".profile-picture") || event.target.closest(".close-button")) return;
+      if (
+        event.target.closest(".profile-picture") ||
+        event.target.closest(".close-button")
+      )
+        return;
       bus.$emit("closeLeftMenu");
       // dismiss notification if exists
       // TODO move this into openchat or something :/
@@ -97,7 +115,7 @@ export default {
         this.notifications >= 1 &&
         document.hasFocus()
       ) {
-        this.$socket.emit("notification:dismiss", {
+        this.$socket.client.emit("notification:dismiss", {
           channelID: this.channelID
         });
       }
@@ -114,7 +132,6 @@ export default {
 };
 </script>
 
-
 <style scoped>
 .username {
   width: 150px;
@@ -130,13 +147,12 @@ export default {
   position: relative;
   overflow: hidden;
   cursor: pointer;
-    margin: 5px;
+  margin: 5px;
   border-radius: 4px;
 }
 .tree {
   padding-left: 22px;
 }
-
 
 .friend:hover {
   background: #053c4c;
@@ -229,4 +245,3 @@ export default {
   display: flex;
 }
 </style>
-

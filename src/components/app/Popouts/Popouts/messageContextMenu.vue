@@ -1,11 +1,14 @@
 <template>
   <div class="drop-down-menu" v-click-outside="outsideClick">
     <div class="item" @click="copyMessage" v-if="!isPrecense">Copy</div>
-    <div class="item" @click="editMessage" v-if="showEditOption && !isPrecense">Edit</div>
-    <div class="item warn" @click="deleteMessage" v-if="showDeleteOption">Delete</div>
+    <div class="item" @click="editMessage" v-if="showEditOption && !isPrecense">
+      Edit
+    </div>
+    <div class="item warn" @click="deleteMessage" v-if="showDeleteOption">
+      Delete
+    </div>
   </div>
 </template>
-
 
 <script>
 import messagesService from "@/services/messagesService";
@@ -31,7 +34,7 @@ export default {
         channelID: this.contextDetails.channelID,
         messageID: this.contextDetails.messageID,
         message: this.contextDetails.message,
-        color: this.contextDetails.color,
+        color: this.contextDetails.color
       });
       this.closeMenu();
     },
@@ -124,7 +127,6 @@ export default {
   }
 };
 </script>
-
 
 <style lang="scss" scoped>
 .drop-down-menu {

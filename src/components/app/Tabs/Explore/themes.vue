@@ -3,9 +3,13 @@
     <div class="items-main-container">
       <div class="note">Themes below are safe and manually reviewed.</div>
       <div class="items-container">
-          <spinner class="spinner" v-if="!publicThemes" :size="80"/>
+        <spinner class="spinner" v-if="!publicThemes" :size="80" />
         <div class="items">
-          <theme-template v-for="theme in publicThemes" :key="theme.id" :theme="theme"/>  
+          <theme-template
+            v-for="theme in publicThemes"
+            :key="theme.id"
+            :theme="theme"
+          />
         </div>
       </div>
     </div>
@@ -13,26 +17,26 @@
 </template>
 
 <script>
-import themeTemplate from './themesTemplate';
-import exploreService from '@/services/exploreService';
+import themeTemplate from "./themesTemplate";
+import exploreService from "@/services/exploreService";
 import Spinner from "@/components/Spinner";
 
 export default {
-  components: {themeTemplate, Spinner },
+  components: { themeTemplate, Spinner },
   data() {
     return {
       publicThemes: null,
-      params: '?verified=true'
-    }
+      params: "?verified=true"
+    };
   },
   methods: {
     async getThemesList() {
       this.publicThemes = null;
-      const {ok, result, error} = await exploreService.getThemes();
+      const { ok, result } = await exploreService.getThemes();
       if (ok) {
-        this.publicThemes =  result.data;
+        this.publicThemes = result.data;
       }
-    },
+    }
   },
   mounted() {
     this.getThemesList();
@@ -52,8 +56,6 @@ export default {
   display: flex;
   flex-direction: column;
   overflow: auto;
-
-
 }
 .items-container {
   display: block;
@@ -82,5 +84,4 @@ export default {
   padding: 5px;
   text-align: center;
 }
-
 </style>

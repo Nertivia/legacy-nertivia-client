@@ -1,8 +1,8 @@
 <template>
-  <div class="direct-message-tab" :class="{darken: showLeftPanel}">
+  <div class="direct-message-tab" :class="{ darken: showLeftPanel }">
     <transition name="slidein">
       <friends-list
-        v-show="$mq === 'mobile' && showLeftPanel || ($mq !== 'mobile')"
+        v-show="($mq === 'mobile' && showLeftPanel) || $mq !== 'mobile'"
         v-click-outside="hideLeftPanel"
         class="left-panel"
       />
@@ -72,7 +72,7 @@ export default {
     background: rgba(19, 107, 139, 0.9);
   }
   .darken::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;

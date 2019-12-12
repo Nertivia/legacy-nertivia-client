@@ -7,24 +7,29 @@ import io from "socket.io-client";
 import config from "./config.js";
 import VueMq from "vue-mq";
 
-// import MainApp from '../src/views/App.vue'
-//import HomePage from '../src/views/HomePage.vue'
-//import GDriveCallback from '../src/views/GDriveCallback.vue';
-//import LoginPage from '../src/views/LoginPage.vue';
-//import RegisterPage from '../src/views/RegisterPage.vue';
-
-const MainApp = () => import(/* webpackChunkName: "MainApp" */ "../src/views/App.vue");
-const HomePage = () => import(/* webpackChunkName: "HomePage" */ "../src/views/HomePage.vue");
-const GDriveCallback = () => import(/* webpackChunkName: "GDriveCallback" */ "../src/views/GDriveCallback.vue");
-const LoginPage = () => import(/* webpackChunkName: "LoginPage" */ "../src/views/LoginPage.vue");
-const InvitesPage = () => import(/* webpackChunkName: "Invites" */ "../src/views/Invites.vue");
-const RegisterPage = () => import(/* webpackChunkName: "RegisterPage" */ "../src/views/RegisterPage.vue");
-const PageNotFound = () => import(/* webpackChunkName: "404" */ "../src/views/404.vue");
+const MainApp = () =>
+  import(/* webpackChunkName: "MainApp" */ "../src/views/App.vue");
+const HomePage = () =>
+  import(/* webpackChunkName: "HomePage" */ "../src/views/HomePage.vue");
+const GDriveCallback = () =>
+  import(
+    /* webpackChunkName: "GDriveCallback" */ "../src/views/GDriveCallback.vue"
+  );
+const LoginPage = () =>
+  import(/* webpackChunkName: "LoginPage" */ "../src/views/LoginPage.vue");
+const InvitesPage = () =>
+  import(/* webpackChunkName: "Invites" */ "../src/views/Invites.vue");
+const RegisterPage = () =>
+  import(
+    /* webpackChunkName: "RegisterPage" */ "../src/views/RegisterPage.vue"
+  );
+const PageNotFound = () =>
+  import(/* webpackChunkName: "404" */ "../src/views/404.vue");
 
 export const router = new VueRouter({
   mode: "history",
   routes: [
-    { name: "404", path: '*', component: PageNotFound },  
+    { name: "404", path: "*", component: PageNotFound },
     {
       path: "/",
       name: "HomePage",
@@ -61,13 +66,9 @@ export const router = new VueRouter({
           return router.push({ path: "/login" });
         }
 
-        Vue.use(
-          VueSocketio,
-          io(config.socketIP),
-          { store }
-          );
-          Vue.use(VueMq, {
-            breakpoints: {
+        Vue.use(VueSocketio, io(config.socketIP), { store });
+        Vue.use(VueMq, {
+          breakpoints: {
             mobile: 600,
             members_panel: 950,
             desktop: Infinity
@@ -84,7 +85,7 @@ export const router = new VueRouter({
     {
       path: "/invites/:invite_id",
       name: "invites",
-      component: InvitesPage,
-    }, 
+      component: InvitesPage
+    }
   ]
 });

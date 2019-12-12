@@ -2,11 +2,24 @@
   <div class="dark-background" @mousedown="backgroundClick">
     <div class="inner">
       <div class="tabs">
-        <div :class="{tab: true, selected: tab == 0}" @click="tab = 0; slideBack(); ">Create</div>
         <div
-          :class="{tab: true, selected: tab == 1 || tab == 2}"
-          @click="tab = 1; slideForward();"
-        >Join</div>
+          :class="{ tab: true, selected: tab == 0 }"
+          @click="
+            tab = 0;
+            slideBack();
+          "
+        >
+          Create
+        </div>
+        <div
+          :class="{ tab: true, selected: tab == 1 || tab == 2 }"
+          @click="
+            tab = 1;
+            slideForward();
+          "
+        >
+          Join
+        </div>
       </div>
       <transition-group tag="div" class="slider" :name="slideInDirection">
         <div class="content" v-if="tab == 0" key="add-server">
@@ -14,13 +27,25 @@
 
           <div class="inner-content">
             <div class="add-server">
-              <profile-picture class="avatar" size="90px" :url="avatar + 'default'" />
+              <profile-picture
+                class="avatar"
+                size="90px"
+                :url="avatar + 'default'"
+              />
               <div class="input">
                 <div class="input-name">Server Name</div>
-                <input v-model="serverName" type="text" placeholder="Server Name" />
+                <input
+                  v-model="serverName"
+                  type="text"
+                  placeholder="Server Name"
+                />
               </div>
-              <span v-if="serverNameError" class="warn">{{ serverNameError }}</span>
-              <div class="button create-button" @click="createButton">Create</div>
+              <span v-if="serverNameError" class="warn">{{
+                serverNameError
+              }}</span>
+              <div class="button create-button" @click="createButton">
+                Create
+              </div>
             </div>
           </div>
         </div>
@@ -30,27 +55,46 @@
           <div class="input">
             <div class="input-name">
               Invite Code
-              <span v-if="inviteCodeError" class="warn">- {{ inviteCodeError }}</span>
+              <span v-if="inviteCodeError" class="warn"
+                >- {{ inviteCodeError }}</span
+              >
             </div>
             <input v-model="inviteCode" type="text" placeholder="Invite code" />
           </div>
           <div class="button check-button" @click="checkInviteCode">Check</div>
         </div>
         <div v-if="tab == 2" key="join-server" class="content server">
-          <profile-picture class="avatar found" size="100px" :url="avatar + server.avatar" />
+          <profile-picture
+            class="avatar found"
+            size="100px"
+            :url="avatar + server.avatar"
+          />
           <div class="server-name">{{ server.name }}</div>
           <div class="buttons">
             <div
               class="button cancel-button"
-              @click="server = null; inviteCode = ''; tab = 1; slideBack();"
-            >Cancel</div>
+              @click="
+                server = null;
+                inviteCode = '';
+                tab = 1;
+                slideBack();
+              "
+            >
+              Cancel
+            </div>
             <div
               v-if="!servers[server.server_id]"
               class="button join-button"
               @click="joinButton"
-            >Join</div>
-            <div v-if="servers[server.server_id]" class="button join-button button-clicked">Joined</div>
-
+            >
+              Join
+            </div>
+            <div
+              v-if="servers[server.server_id]"
+              class="button join-button button-clicked"
+            >
+              Joined
+            </div>
           </div>
         </div>
       </transition-group>
@@ -156,7 +200,7 @@ export default {
       const { ok, error, result } = await ServerService.joinServer(
         this.inviteCode,
         {
-          socketID: this.$socket.id
+          socketID: this.$socket.client.id
         }
       );
       if (ok) {
@@ -166,7 +210,6 @@ export default {
   }
 };
 </script>
-
 
 <style scoped>
 .slide-forward-enter-active,
@@ -218,7 +261,7 @@ export default {
   color: white;
   overflow: hidden;
   box-shadow: 0px 0px 20px 5px #151515bd;
-  background: linear-gradient(#0B4155, #01677E);
+  background: linear-gradient(#0b4155, #01677e);
   border-radius: 4px;
 }
 .tabs {
@@ -317,7 +360,6 @@ export default {
 
 .button-clicked {
   background: rgb(126, 126, 126) !important;
-
 }
 
 .create-button {
@@ -377,4 +419,3 @@ export default {
   margin-top: 70px;
 }
 </style>
-

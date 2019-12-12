@@ -7,25 +7,24 @@
   </div>
 </template>
 
-
 <script>
-import UserTemplate from './UserTemplate';
-import adminService from '@/services/adminService';
+import UserTemplate from "./UserTemplate";
+import adminService from "@/services/adminService";
 
 export default {
-  components: {UserTemplate},
+  components: { UserTemplate },
   data() {
     return {
-      users: null,
-    }
+      users: null
+    };
   },
   async mounted() {
-    const {ok, error, result} = await adminService.fetchOnlineUsers();
+    const { ok, error, result } = await adminService.fetchOnlineUsers();
     if (ok) {
       this.users = result.data;
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

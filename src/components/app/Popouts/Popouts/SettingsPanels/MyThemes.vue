@@ -1,6 +1,11 @@
 <template>
   <div class="container">
-    <make-public v-if="showMakePublic" @back="closeButton" :name="name" :themeID="selectedThemeID" />
+    <make-public
+      v-if="showMakePublic"
+      @back="closeButton"
+      :name="name"
+      :themeID="selectedThemeID"
+    />
     <Editor
       v-else-if="editing"
       :themeName="name"
@@ -39,20 +44,19 @@
 </template>
 
 <script>
-import {bus} from '@/main'
+import { bus } from "@/main";
 import ThemeTemplate from "./MyThemeTemplate";
 import Editor from "./themesEditor";
 import MakePublic from "./MyThemesMakePublic";
 import Spinner from "@/components/Spinner";
 
-import config from "@/config.js";
 import ThemeService from "@/services/ThemeService";
 export default {
   components: {
     Spinner,
     Editor,
     ThemeTemplate,
-    MakePublic,
+    MakePublic
   },
   data() {
     return {
@@ -62,14 +66,14 @@ export default {
       selectedThemeID: null,
       themes: null,
       editing: null,
-      showMakePublic: false,
+      showMakePublic: false
     };
   },
   methods: {
     async fetchThemes() {
       this.themes = null;
       // fetch themes
-      const { ok, result, error } = await ThemeService.getThemes();
+      const { ok, result } = await ThemeService.getThemes();
       if (ok) {
         this.themes = result.data;
       }
@@ -100,7 +104,7 @@ export default {
       this.saving = true;
       this.name = name;
       if (typeof this.editing === "string") {
-        const response = await ThemeService.update({ name, css }, this.editing);
+        await ThemeService.update({ name, css }, this.editing);
         this.applyButton(this.editing);
       } else {
         const response = await ThemeService.save({ name, css });
@@ -113,7 +117,7 @@ export default {
       if (css) {
         this.code = css;
       } else {
-        const { ok, result, error } = await ThemeService.getTheme(id);
+        const { ok, result } = await ThemeService.getTheme(id);
         if (ok) {
           this.code = result.data.css;
         }
@@ -135,7 +139,7 @@ export default {
     },
     async editButton(id) {
       // fetch theme
-      const { ok, result, error } = await ThemeService.getTheme(id);
+      const { ok, result } = await ThemeService.getTheme(id);
       if (ok) {
         const { name, css } = result.data;
         this.name = name;
@@ -149,7 +153,7 @@ export default {
       if (themeEl && themeEl.classList.contains("theme-" + id)) {
         document.getElementById("theme").outerHTML = "";
       }
-      const { ok, result, error } = await ThemeService.delete(id);
+      const { ok } = await ThemeService.delete(id);
       if (ok) {
         this.themes = this.themes.filter(t => t.id !== id);
       }
@@ -162,7 +166,7 @@ export default {
         name: "settings",
         visibility: false
       });
-      bus.$emit('tab:switch', 0)
+      bus.$emit("tab:switch", 0);
     }
   },
   async mounted() {

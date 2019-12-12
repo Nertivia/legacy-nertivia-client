@@ -7,21 +7,33 @@
       <spinner class="spinner" v-if="!user" />
       <div class="inner" v-if="user">
         <div class="profile">
-          <profile-picture class="avatar" size="120px" :url="`${avatarDomain}${user.avatar}`" />
+          <profile-picture
+            class="avatar"
+            size="120px"
+            :url="`${avatarDomain}${user.avatar}`"
+          />
           <div class="uesrname-tag">
-            <div class="username">{{user.username}}</div>
-            <div class="tag">@{{user.tag}}</div>
+            <div class="username">{{ user.username }}</div>
+            <div class="tag">@{{ user.tag }}</div>
           </div>
           <!-- <div class="details">
               Pancake • Male • 17-19 • United Kingdom
           </div>-->
           <div class="actions" v-if="uniqueID !== selfUniqueID">
             <div class="action-buttons">
-              <div class="button" v-if="this.relationshipStatus === null" @click="AddFriendButton">
+              <div
+                class="button"
+                v-if="this.relationshipStatus === null"
+                @click="AddFriendButton"
+              >
                 <div class="material-icons">person_add</div>
                 <div>Add Friend</div>
               </div>
-              <div class="button" v-if="this.relationshipStatus === 0" @click="RemoveFriendButton">
+              <div
+                class="button"
+                v-if="this.relationshipStatus === 0"
+                @click="RemoveFriendButton"
+              >
                 <div class="material-icons">hourglass_empty</div>
                 <div>Request Sent</div>
               </div>
@@ -63,7 +75,7 @@
                 :key="index"
               >
                 <img class="icon" :src="badges[badge].icon" />
-                <div class="name">{{badges[badge].name}}</div>
+                <div class="name">{{ badges[badge].name }}</div>
               </div>
             </div>
           </div>
@@ -71,19 +83,31 @@
             <div class="title">Profile</div>
             <div
               class="about-item-container"
-              v-for="(aboutItem) of aboutMe"
+              v-for="aboutItem of aboutMe"
               :key="aboutItem.name"
             >
-            <div class="about-item" v-if="aboutMe" :class="{infoAboutMe: aboutItem.key === 'About me'}">
-              <div class="key">{{aboutItem.key}}:</div>
-              <div class="emoji" v-if="aboutItem.emoji" v-html="aboutItem.emoji"></div>
-              <SimpleMarkdown class="name" v-if="aboutItem.key === 'About me'" :message="aboutItem.name" />
-              <div class="name" v-else>{{aboutItem.name}}</div>
-            </div>
+              <div
+                class="about-item"
+                v-if="aboutMe"
+                :class="{ infoAboutMe: aboutItem.key === 'About me' }"
+              >
+                <div class="key">{{ aboutItem.key }}:</div>
+                <div
+                  class="emoji"
+                  v-if="aboutItem.emoji"
+                  v-html="aboutItem.emoji"
+                ></div>
+                <SimpleMarkdown
+                  class="name"
+                  v-if="aboutItem.key === 'About me'"
+                  :message="aboutItem.name"
+                />
+                <div class="name" v-else>{{ aboutItem.name }}</div>
+              </div>
             </div>
             <div class="about-item">
               <div class="key">Joined:</div>
-              <div class="name">{{joinedDate}}</div>
+              <div class="name">{{ joinedDate }}</div>
             </div>
           </div>
         </div>
@@ -92,7 +116,6 @@
   </div>
 </template>
 <script>
-import { bus } from "@/main";
 import config from "@/config.js";
 import Spinner from "@/components/Spinner.vue";
 import profilePicture from "@/components/ProfilePictureTemplate.vue";
@@ -125,20 +148,16 @@ export default {
       }
     },
     async AddFriendButton() {
-      const { ok, error, result } = await relationshipService.post({
+      await relationshipService.post({
         username: this.user.username,
         tag: this.user.tag
       });
     },
     async AcceptFriendButton() {
-      const { ok, error, result } = await relationshipService.put(
-        this.uniqueID
-      );
+      await relationshipService.put(this.uniqueID);
     },
     async RemoveFriendButton() {
-      const { ok, error, result } = await relationshipService.delete(
-        this.uniqueID
-      );
+      await relationshipService.delete(this.uniqueID);
     },
     openChat() {
       this.$store.dispatch("setCurrentTab", 1);
@@ -161,7 +180,7 @@ export default {
     }
   },
   async mounted() {
-    const { ok, error, result } = await userService.get(this.uniqueID);
+    const { ok, result } = await userService.get(this.uniqueID);
     if (ok) {
       this.user = result.data.user;
     }
@@ -192,9 +211,14 @@ export default {
       }
       // remove fields that have custom names ( example: country: lol)
       return arr.filter(a => {
-        if (a.key.toLowerCase() === "constants") {return;}
+        if (a.key.toLowerCase() === "constants") {
+          return;
+        }
         const fieldName = this.surveyItems.constants[a.key.toLowerCase()];
-        if (fieldName && !this.surveyItems[fieldName].find(f => f.name === a.name )) {
+        if (
+          fieldName &&
+          !this.surveyItems[fieldName].find(f => f.name === a.name)
+        ) {
           return false;
         } else {
           return true;
@@ -241,7 +265,7 @@ export default {
   flex-direction: row;
   position: relative;
   box-shadow: 0px 0px 20px 5px #151515bd;
-  background: linear-gradient(#0B4155, #01677E);
+  background: linear-gradient(#0b4155, #01677e);
   border-radius: 4px;
   overflow: hidden;
 }

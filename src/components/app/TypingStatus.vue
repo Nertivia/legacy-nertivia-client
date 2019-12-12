@@ -1,18 +1,8 @@
 <template>
   <transition name="typing-animate">
-    <div
-      v-if="formatedRecipients"
-      class="typing-status"
-    >
-      <object
-        class="animation"
-        type="image/svg+xml"
-        :data="animation"
-      />
-      <div
-        class="text"
-        v-html="formatedRecipients"
-      />
+    <div v-if="formatedRecipients" class="typing-status">
+      <object class="animation" type="image/svg+xml" :data="animation" />
+      <div class="text" v-html="formatedRecipients" />
     </div>
   </transition>
 </template>
@@ -70,7 +60,6 @@ export default {
 </script>
 
 <style scoped>
-
 .typing-animate-enter-active {
   transition: 0.1s;
 }
