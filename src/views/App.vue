@@ -148,7 +148,7 @@ export default {
         css = exploreThemes.result.data.css;
         id = exploreThemes.result.data.id;
       }
-      if (privateThemes.ok) {
+      if (privateThemes && privateThemes.ok) {
         css = privateThemes.result.data.css;
         id = privateThemes.result.data.id;
       }
