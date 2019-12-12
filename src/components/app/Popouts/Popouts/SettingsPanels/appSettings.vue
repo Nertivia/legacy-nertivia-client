@@ -18,8 +18,6 @@
 </template>
 
 <script>
-import isElectron from "@/utils/ElectronJS/isElectron";
-import config from "@/config.js";
 const { ipcRenderer, remote } = window.require("electron");
 const Store = remote.require("electron-store");
 const store = new Store();
@@ -86,8 +84,6 @@ export default {
 
 .checkbox-box:hover {
   background: rgba(88, 88, 88, 0.94);
-}
-.checkbox-name {
 }
 
 .message-example {

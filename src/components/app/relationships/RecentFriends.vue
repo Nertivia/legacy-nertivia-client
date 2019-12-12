@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import Tab from "./Tab.vue";
 import FriendsTemplate from "./FriendsTemplate.vue";
 export default {
   components: {

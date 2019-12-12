@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <vue-headful title="Nertivia" description="Nertivia Chat Client" />
-    <div ref="backgroundImage" class="background-image" />
+    <div ref="backgroundImage" class="background" />
     <div class="content">
       <transition name="fall-down" appear>
         <div class="header">
@@ -239,13 +239,13 @@ body {
   background: #072834;
 }
 .logo {
-  background-image: url("../assets/logo.png");
+  background: url("../assets/logo.png");
   background-size: 100%;
   height: 50px;
   width: 50px;
   margin-top: auto;
   margin-bottom: auto;
-  margin-left: 10px;
+  margin-left: 20px;
   background-repeat: no-repeat;
 }
 .name {
@@ -256,7 +256,7 @@ body {
   color: white;
 }
 
-.background-image {
+.background {
   z-index: -1;
   position: fixed;
   width: 100%;
@@ -291,7 +291,8 @@ body {
   margin-bottom: 0;
   user-select: none;
   flex-shrink: 0;
-  border: solid 5px #0f272a;
+  border: solid 2px #0f272a;
+  border-radius: 4px;
 }
 .title {
   font-size: 25px;
@@ -314,6 +315,7 @@ body {
   transition: 0.3s;
   margin: 10px;
   cursor: pointer;
+  border-radius: 4px;
 }
 
 .button:hover {
@@ -348,6 +350,7 @@ body {
   height: 200px;
   width: 200px;
   flex-shrink: 0;
+  border-radius: 4px;
   transition: 0.3s;
 }
 .feature .description {
@@ -370,6 +373,7 @@ body {
   margin-left: 5px;
   transition: 0.3s;
   cursor: pointer;
+  border-radius: 4px;
 }
 .link:hover {
   background: rgba(255, 255, 255, 0.26);

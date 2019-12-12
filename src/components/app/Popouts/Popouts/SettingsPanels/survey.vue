@@ -135,7 +135,7 @@ export default {
         return;
       }
 
-      const { ok, error, result } = await userService.setSurvey(this.items);
+      const { ok, error } = await userService.setSurvey(this.items);
       if (ok) {
         this.surveyValidMessage = "Saved!";
       } else {

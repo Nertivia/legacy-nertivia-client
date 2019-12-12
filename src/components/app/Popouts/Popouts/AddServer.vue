@@ -104,10 +104,9 @@
 
 <script>
 import config from "@/config.js";
-import { bus } from "@/main";
+
 import ServerService from "@/services/ServerService";
 import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
-import serversModule from "../../../../store/modules/serversModule";
 import ErrorsListTemplate from "@/components/app/errorsListTemplate";
 
 export default {
@@ -157,7 +156,7 @@ export default {
         return;
       }
       event.target.classList.add("button-clicked");
-      const { ok, error, result } = await ServerService.post({ name });
+      const { ok, error } = await ServerService.post({ name });
       if (ok) {
         this.closeMenu();
       } else {
@@ -197,12 +196,9 @@ export default {
     async joinButton(event) {
       if (event.target.classList.contains("button-clicked")) return;
       event.target.classList.add("button-clicked");
-      const { ok, error, result } = await ServerService.joinServer(
-        this.inviteCode,
-        {
-          socketID: this.$socket.client.id
-        }
-      );
+      const { ok } = await ServerService.joinServer(this.inviteCode, {
+        socketID: this.$socket.client.id
+      });
       if (ok) {
         this.closeMenu();
       }

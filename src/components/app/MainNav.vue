@@ -103,7 +103,7 @@ export default {
     };
   },
   methods: {
-    async onEnd(event) {
+    async onEnd() {
       this.drag = false;
       const serverIDArr = this.serversArr.map(s => s.server_id);
       await settingsService.setServerPositions(serverIDArr);
@@ -152,7 +152,6 @@ export default {
       this.toolTipShown = true;
 
       this.$nextTick(() => {
-        const width = window.innerWidth;
         const tooltipWidth = this.$refs.toolTip.clientWidth;
         const rect = event.target.getBoundingClientRect();
         this.toolTipLeftPosition = rect.left - tooltipWidth / 2 + 25;

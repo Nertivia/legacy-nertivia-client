@@ -36,9 +36,6 @@ import "codemirror/theme/base16-dark.css";
 import "codemirror/lib/codemirror.css";
 import { codemirror } from "vue-codemirror";
 
-import config from "@/config.js";
-import { bus } from "@/main";
-import Spinner from "@/components/Spinner.vue";
 import AdminService from "@/services/adminService";
 
 export default {
@@ -91,9 +88,7 @@ export default {
     }
   },
   async mounted() {
-    const { ok, result, error } = await AdminService.fetchTheme(
-      this.popoutDetails.id
-    );
+    const { ok, result } = await AdminService.fetchTheme(this.popoutDetails.id);
     if (ok) {
       this.cmOptions.orig = result.data.css;
       this.cmOptions.value = result.data.updatedCss;

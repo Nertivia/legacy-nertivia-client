@@ -56,7 +56,7 @@ export default {
         this.closeMenu();
       }
     },
-    async addButton(e) {
+    async addButton() {
       if (this.requestSent) return;
       this.error = null;
       this.success = null;

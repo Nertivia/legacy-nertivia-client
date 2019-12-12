@@ -76,12 +76,10 @@
 
 <script>
 import config from "@/config.js";
-import { bus } from "@/main";
 import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
 import ErrorsListTemplate from "@/components/app/errorsListTemplate";
 import ServerService from "@/services/ServerService";
 import DropDown from "./DropDownMenu";
-import { mapState } from "vuex";
 import path from "path";
 
 export default {
@@ -107,7 +105,7 @@ export default {
     async updateServer() {
       if (this.requestSent) return;
       this.requestSent = true;
-      const { ok, error, result } = await ServerService.updateServer(
+      const { ok, error } = await ServerService.updateServer(
         this.server.server_id,
         this.update
       );
@@ -127,7 +125,7 @@ export default {
       this.requestSent = false;
     },
     //type: avatar || banner
-    imageChangeEvent(type, e) {
+    imageChangeEvent(type) {
       if (!this.googleDriveLinked) {
         event.target.value = "";
         return this.$store.dispatch("setPopoutVisibility", {

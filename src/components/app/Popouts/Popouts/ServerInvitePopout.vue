@@ -26,8 +26,6 @@
 </template>
 
 <script>
-import config from "@/config.js";
-import { bus } from "@/main";
 import Spinner from "@/components/Spinner.vue";
 import ServerService from "@/services/ServerService";
 
@@ -40,7 +38,7 @@ export default {
   },
   async mounted() {
     // get invites created by you
-    const { ok, error, result } = await ServerService.getInvites(this.serverID);
+    const { ok, result } = await ServerService.getInvites(this.serverID);
     if (ok) {
       let invites = [];
       for (let invite of result.data) {
@@ -66,9 +64,7 @@ export default {
         console.log("Server ID is not defined");
         return;
       }
-      const { ok, error, result } = await ServerService.postInvite(
-        this.serverID
-      );
+      const { ok, result } = await ServerService.postInvite(this.serverID);
       if (ok) {
         this.invites.push(result.data.invite_code);
       }

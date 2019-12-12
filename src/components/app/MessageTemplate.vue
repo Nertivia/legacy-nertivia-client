@@ -136,7 +136,6 @@ import path from "path";
 import windowProperties from "@/utils/windowProperties";
 
 import { mapState } from "vuex";
-import messagesService from "../../services/messagesService";
 
 export default {
   props: [
@@ -247,7 +246,7 @@ export default {
       imageTag.style.height =
         this.clamp(newDimentions.height, 0, srcHeight) + "px";
     },
-    onResize(dimentions) {
+    onResize() {
       this.imageSize();
     }
   },

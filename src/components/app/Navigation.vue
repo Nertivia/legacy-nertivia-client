@@ -76,7 +76,7 @@ export default {
     };
   },
   methods: {
-    async onEnd(event) {
+    async onEnd() {
       this.drag = false;
       const serverIDArr = this.serversArr.map(s => s.server_id);
       await settingsService.setServerPositions(serverIDArr);

@@ -48,7 +48,6 @@ export default {
       if (this.embed.type !== "article" && this.embed.type !== "video.other")
         return undefined;
 
-      const embed = this.$refs["embed"];
       const messageLog = document.querySelector(".message-logs");
       const w = messageLog.offsetWidth;
       const h = messageLog.offsetHeight;
@@ -76,7 +75,7 @@ export default {
       imageTag.style.height =
         this.clamp(newDimentions.height, 0, srcHeight) + "px";
     },
-    onResize(dimensions) {
+    onResize() {
       this.articleSize();
     }
   },

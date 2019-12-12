@@ -11,7 +11,6 @@
 </template>
 
 <script>
-import messagesService from "@/services/messagesService";
 import ServerService from "../../../../services/ServerService";
 export default {
   data() {
@@ -41,7 +40,7 @@ export default {
         serverID: this.contextDetails.serverID
       });
     },
-    createInvite(serverID) {
+    createInvite() {
       this.closeMenu();
       this.$store.dispatch("setPopoutVisibility", {
         name: "showServerInviteMenu",
@@ -50,9 +49,7 @@ export default {
     },
     async leaveServer() {
       this.closeMenu();
-      const { ok, error, result } = await ServerService.leaveServer(
-        this.contextDetails.serverID
-      );
+      await ServerService.leaveServer(this.contextDetails.serverID);
     }
   },
   mounted() {

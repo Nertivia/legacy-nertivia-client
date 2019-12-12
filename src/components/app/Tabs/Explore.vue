@@ -83,7 +83,6 @@
 </template>
 
 <script>
-import { bus } from "@/main";
 import Servers from "./Explore/servers";
 import Themes from "./Explore/themes";
 import ServerService from "@/services/ServerService";
@@ -126,12 +125,9 @@ export default {
       this.donateHide = true;
     },
     async joinNertiviaServer() {
-      const { ok, error, result } = await ServerService.joinServerById(
-        this.nertiviaServerID,
-        {
-          socketID: this.$socket.client.id
-        }
-      );
+      await ServerService.joinServerById(this.nertiviaServerID, {
+        socketID: this.$socket.client.id
+      });
     },
     donateButton() {
       window.open("https://www.paypal.me/DiscordDevHelp", "_blank");

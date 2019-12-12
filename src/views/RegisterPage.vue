@@ -254,6 +254,7 @@ body {
   z-index: 9999;
   padding-bottom: 20px;
   background: #043b4a;
+  border-radius: 4px;
 }
 .box .title {
   text-align: center;
@@ -318,6 +319,7 @@ input {
   font-size: 17px;
   outline: none;
   transition: 0.2s;
+  border-radius: 4px;
   cursor: pointer;
 }
 .button:hover {

@@ -46,10 +46,7 @@ export default {
     async onEnd() {
       this.drag = false;
       const channelIDs = this.serverChannels.map(s => s.channelID);
-      const update = await ServerService.channelPosition(
-        this.serverID,
-        channelIDs
-      );
+      await ServerService.channelPosition(this.serverID, channelIDs);
     },
     openChannel(channel) {
       // add to local storage

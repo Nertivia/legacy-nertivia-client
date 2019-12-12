@@ -11,11 +11,7 @@
 </template>
 
 <script>
-import config from "@/config.js";
-import { bus } from "@/main";
 import ServerService from "@/services/ServerService";
-import { mapState } from "vuex";
-
 export default {
   components: {},
   data() {
@@ -28,9 +24,7 @@ export default {
       if (!this.confirmed) {
         return (this.confirmed = true);
       }
-      const { ok, error, result } = await ServerService.leaveServer(
-        this.server.server_id
-      );
+      const { ok } = await ServerService.leaveServer(this.server.server_id);
       if (ok) {
         this.$store.dispatch("setServerSettings", { serverID: null });
       }

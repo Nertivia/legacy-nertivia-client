@@ -32,8 +32,6 @@
 </template>
 
 <script>
-import { bus } from "@/main";
-
 import { isMobile } from "@/utils/Mobile";
 import isElectron from "@/utils/ElectronJS/isElectron";
 

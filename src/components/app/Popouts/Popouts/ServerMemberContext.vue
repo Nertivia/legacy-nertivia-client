@@ -11,7 +11,6 @@
 </template>
 
 <script>
-import messagesService from "@/services/messagesService";
 import ServerService from "../../../../services/ServerService";
 export default {
   data() {
@@ -26,7 +25,7 @@ export default {
         y: null
       });
     },
-    outsideClick(event) {
+    outsideClick() {
       this.closeMenu();
     },
     viewProfile() {
@@ -51,19 +50,13 @@ export default {
       const serverID = this.contextDetails.serverID;
       const uniqueID = this.contextDetails.uniqueID;
       this.closeMenu();
-      const { ok, error, result } = await ServerService.kickMember(
-        serverID,
-        uniqueID
-      );
+      await ServerService.kickMember(serverID, uniqueID);
     },
     async banMember() {
       const serverID = this.contextDetails.serverID;
       const uniqueID = this.contextDetails.uniqueID;
       this.closeMenu();
-      const { ok, error, result } = await ServerService.banMember(
-        serverID,
-        uniqueID
-      );
+      await ServerService.banMember(serverID, uniqueID);
     },
     setPosition() {
       const y = this.contextDetails.y;

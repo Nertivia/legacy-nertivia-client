@@ -19,7 +19,7 @@ export default {
     };
   },
   async mounted() {
-    const { ok, error, result } = await adminService.fetchRecentCreatedUsers();
+    const { ok, result } = await adminService.fetchRecentCreatedUsers();
     if (ok) {
       this.users = result.data;
     }

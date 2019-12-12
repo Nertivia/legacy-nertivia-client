@@ -41,7 +41,6 @@ import MyMiniInformation from "@/components/app/MyMiniInformation.vue";
 import ChannelsList from "@/components/app/ServerTemplate/ChannelsList.vue";
 import Navigation from "@/components/app/Navigation.vue";
 import config from "@/config";
-import { bus } from "@/main";
 
 export default {
   components: {
@@ -63,7 +62,7 @@ export default {
         visibility: true
       });
     },
-    clickServer(serverID, event) {
+    clickServer(serverID) {
       this.openedServer = serverID;
       this.$store.dispatch("servers/setSelectedServerID", serverID);
     },

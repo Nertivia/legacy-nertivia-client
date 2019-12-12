@@ -155,7 +155,7 @@ export default {
       if (this.requestSent) return;
       this.errors = null;
       this.requestSent = true;
-      const { ok, result, error } = await userService.update(this.update);
+      const { ok, error } = await userService.update(this.update);
       if (!ok) {
         if (error.response === undefined) {
           this.errors = { message: "Cant connect to server" };

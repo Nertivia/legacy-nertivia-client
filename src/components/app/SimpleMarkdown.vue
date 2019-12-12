@@ -3,7 +3,6 @@
 </template>
 
 <script>
-import Vue from "vue";
 import messageFormatter from "@/utils/messageFormatter";
 
 export default {

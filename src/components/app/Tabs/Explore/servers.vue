@@ -33,9 +33,7 @@ export default {
   methods: {
     async getServersList() {
       this.publicServers = null;
-      const { ok, result, error } = await exploreService.getServersList(
-        this.params
-      );
+      const { ok, result } = await exploreService.getServersList(this.params);
       if (ok) {
         this.publicServers = result.data;
       }

@@ -23,7 +23,6 @@
 import { bus } from "../../../main.js";
 import config from "@/config.js";
 import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
-import ServerService from "@/services/ServerService";
 
 export default {
   components: { ProfilePicture },

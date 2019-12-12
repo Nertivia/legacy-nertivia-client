@@ -354,7 +354,7 @@ export default {
       this.$store.dispatch("setEditMessage", null);
       this.message = "";
 
-      const { ok, error, result } = await messagesService.update(
+      const { ok } = await messagesService.update(
         editMessage.messageID,
         editMessage.channelID,
         {
@@ -419,7 +419,6 @@ export default {
       }
     },
     ReturnWord(text, caretPos) {
-      var index = text.indexOf(caretPos);
       var preText = text.substring(0, caretPos);
       if (preText.indexOf(" ") > 0) {
         var words = preText.split(" ");
@@ -590,7 +589,7 @@ export default {
         }
       }
     },
-    async onFocus(event) {
+    async onFocus() {
       if (this.message.trim() !== "") {
         await typingService.post(this.selectedChannelID);
         this.postTimer();

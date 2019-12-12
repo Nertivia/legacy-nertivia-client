@@ -22,10 +22,6 @@
 </template>
 
 <script>
-import config from "@/config.js";
-
-import SettingsService from "@/services/settingsService.js";
-
 export default {
   data() {
     return {

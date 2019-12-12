@@ -19,7 +19,7 @@ export default {
     };
   },
   async mounted() {
-    const { ok, error, result } = await adminService.fetchWaitingThemes();
+    const { ok, result } = await adminService.fetchWaitingThemes();
     if (ok) {
       this.themes = result.data;
     }

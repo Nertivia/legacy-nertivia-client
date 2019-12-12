@@ -59,7 +59,6 @@
 </template>
 
 <script>
-import Spinner from "@/components/Spinner.vue";
 import Navigation from "@/components/app/Navigation";
 import changelog from "@/utils/changelog.js";
 export default {
