@@ -26,6 +26,7 @@ const actions = {
     const {
       user,
       serverMembers,
+      serverRoles,
       dms,
       notifications,
       currentFriendStatus,
@@ -55,26 +56,6 @@ const actions = {
     context.dispatch("members/addPresences", presence);
 
     context.dispatch("members/addMembers", memberObj);
-
-    // const friendsArray = user.friends;
-    // const friendObject = {};
-
-    // // convert array into object and add online status.
-    // if(friendsArray !== undefined && friendsArray.length >=1) {
-    //   for (let index = 0; index < friendsArray.length; index++) {
-    //     const element = friendsArray[index];
-    //     if (element.recipient) {
-    //       friendObject[element.recipient.uniqueID] = element;
-    //       for (let currentFriendStatus of currentFriendStatus){
-    //         console.log(currentFriendStatus[0], currentFriendStatus[1])
-    //         if(currentFriendStatus[0] == element.recipient.uniqueID){
-    //           friendObject[element.recipient.uniqueID].recipient.status = currentFriendStatus[1]
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
-
     let servers = user.servers || [];
 
     if (settings.server_position) {
@@ -158,6 +139,16 @@ const actions = {
       serverMembersArr.push(serverMember);
       membersObj[member.uniqueID] = member;
     }
+    const serverRolesSorted = {};
+    for (let index = 0; index < serverRoles.length; index++) {
+      const role = serverRoles[index];
+      if (!serverRolesSorted[role.server_id]) {
+        serverRolesSorted[role.server_id] = [role];
+      } else {
+        serverRolesSorted[role.server_id].push(role);
+      }
+    }
+    context.dispatch("servers/setAllRoles", serverRolesSorted);
     context.dispatch("members/addMembers", membersObj);
     context.dispatch("servers/addServerMembers", serverMembersArr);
 
@@ -490,6 +481,23 @@ const actions = {
       serverID,
       channelIDs: channel_position
     });
+  },
+  ["socket_server:createRole"](context, role) {
+    context.dispatch("servers/addRole", role);
+  },
+  ["socket_server:updateRole"](context, updatedDetails) {
+    context.dispatch("servers/updateRole", updatedDetails);
+  },
+  ["socket_server:deleteRole"](context, { role_id, server_id }) {
+    context.dispatch("servers/deleteRole", { role_id, server_id });
+  },
+  ["socket_serverMember:addRole"](context, { role_id, uniqueID, server_id }) {
+    context.dispatch("servers/addMemberRole", { role_id, uniqueID, server_id });
+  },
+  // eslint-disable-next-line prettier/prettier
+  ["socket_serverMember:removeRole"](context, { role_id, uniqueID, server_id }) {
+    // eslint-disable-next-line prettier/prettier
+    context.dispatch("servers/removeMemberRole", { role_id, uniqueID, server_id });
   }
 };
 

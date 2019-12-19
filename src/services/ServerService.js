@@ -68,5 +68,34 @@ export default {
   },
   memberBans(serverID) {
     return wrapper(instance().get(`/servers/${serverID}/bans`));
+  },
+
+  // roles
+  createRole(serverID, data) {
+    return wrapper(instance().post(`/servers/${serverID}/roles`, data));
+  },
+  // roles
+  deleteRole(serverID, roleID) {
+    return wrapper(instance().delete(`/servers/${serverID}/roles/${roleID}`));
+  },
+  // roles
+  updateRole(serverID, roleID, data) {
+    return wrapper(
+      instance().patch(`/servers/${serverID}/roles/${roleID}`, data)
+    );
+  },
+  applyRoleToMember(serverID, roleID, memberID) {
+    return wrapper(
+      instance().patch(
+        `/servers/${serverID}/members/${memberID}/roles/${roleID}`
+      )
+    );
+  },
+  removeRoleFromMember(serverID, roleID, memberID) {
+    return wrapper(
+      instance().delete(
+        `/servers/${serverID}/members/${memberID}/roles/${roleID}`
+      )
+    );
   }
 };

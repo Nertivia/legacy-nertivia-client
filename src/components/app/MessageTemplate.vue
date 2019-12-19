@@ -25,7 +25,11 @@
       </div>
       <div class="content" @dblclick="contentDoubleClickEvent">
         <div class="user-info">
-          <div class="username" @click="openUserInformation">
+          <div
+            class="username"
+            :style="{ color: roleColor }"
+            @click="openUserInformation"
+          >
             {{ this.$props.username }}
           </div>
           <div class="date">{{ getDate }}</div>
@@ -152,7 +156,8 @@ export default {
     "messageID",
     "channelID",
     "timeEdited",
-    "color"
+    "color",
+    "isServer"
   ],
   components: {
     ProfilePicture,
@@ -306,6 +311,28 @@ export default {
         width: windowProperties.resizeWidth,
         height: windowProperties.resizeHeight
       };
+    },
+    roles() {
+      return this.$store.getters["servers/roles"][
+        this.$store.getters["servers/selectedServerID"]
+      ];
+    },
+    serverMember() {
+      const serverMembers = this.$store.getters["servers/serverMembers"];
+      return serverMembers.find(
+        m =>
+          m.uniqueID === this.uniqueID &&
+          m.server_id === this.$store.getters["servers/selectedServerID"]
+      );
+    },
+    roleColor() {
+      if (!this.isServer) return undefined;
+      if (!this.serverMember || !this.serverMember.roles) return undefined;
+      const filtered = this.roles.filter(r =>
+        this.serverMember.roles.includes(r.id)
+      );
+      if (!filtered.length) return undefined;
+      return filtered[0].color;
     }
   }
 };

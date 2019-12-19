@@ -14,7 +14,9 @@
       :status="presense"
     />
     <div class="information">
-      <div class="username">{{ user.username }}</div>
+      <div class="username" :style="{ color: roleColor }">
+        {{ user.username }}
+      </div>
     </div>
     <div v-if="type === 'OWNER'" class="type-box">Owner</div>
   </div>
@@ -25,13 +27,16 @@ import ProfilePicture from "@/components/ProfilePictureTemplate";
 import config from "@/config";
 export default {
   components: { ProfilePicture },
-  props: ["user", "avatar", "type"],
+  props: ["user", "avatar", "type", "member"],
   data() {
     return {
       hover: false
     };
   },
   computed: {
+    serverID() {
+      return this.$store.getters["servers/selectedServerID"];
+    },
     userAvatar() {
       return config.domain + "/avatars/" + this.avatar;
     },
@@ -43,6 +48,17 @@ export default {
       const presences = this.$store.getters["members/presences"];
       const userPresense = presences[this.user.uniqueID];
       return userPresense || 0;
+    },
+    roleColor() {
+      if (!this.member || !this.member.roles) return undefined;
+      const roles = this.$store.getters["servers/roles"][this.serverID];
+      if (!roles) return undefined;
+
+      const filter = roles.filter(r => this.member.roles.includes(r.id));
+      if (!filter.length) {
+        return null;
+      }
+      return filter[0].color;
     }
   },
   methods: {
@@ -53,7 +69,7 @@ export default {
       const x = event.clientX;
       const y = event.clientY;
       this.$store.dispatch("setServerMemberContext", {
-        serverID: this.$store.getters["servers/selectedServerID"],
+        serverID: this.serverID,
         uniqueID: this.user.uniqueID,
         x,
         y

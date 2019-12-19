@@ -23,9 +23,10 @@
         </div>
         <general v-if="index === 0" />
         <manage-channels v-if="index === 1" />
-        <manage-bans v-if="index === 2" />
-        <server-visibility v-if="index === 3" />
-        <delete-server v-if="index === 4" />
+        <manage-roles v-if="index === 2" />
+        <manage-bans v-if="index === 3" />
+        <server-visibility v-if="index === 4" />
+        <delete-server v-if="index === 5" />
       </div>
     </div>
   </div>
@@ -36,6 +37,7 @@
 import General from "./General.vue";
 import DeleteServer from "./DeleteServer.vue";
 import ManageChannels from "./ManageChannels.vue";
+import ManageRoles from "./ManageRoles.vue";
 import ManageBans from "./ManageBans.vue";
 import ServerVisibility from "./ServerVisibility.vue";
 export default {
@@ -44,14 +46,16 @@ export default {
     DeleteServer,
     ManageChannels,
     ServerVisibility,
-    ManageBans
+    ManageBans,
+    ManageRoles
   },
   data() {
     return {
       index: 0,
       tabs: [
         { title: "General", icon: "info" },
-        { title: "Manage Channels", icon: "storage" },
+        { title: "Channels", icon: "storage" },
+        { title: "Roles", icon: "extension" },
         // {title: "Manage Invites", icon: "local_post_office"},
         { title: "Banned Members", icon: "lock" },
         { title: "Server Visibility", icon: "visibility" },

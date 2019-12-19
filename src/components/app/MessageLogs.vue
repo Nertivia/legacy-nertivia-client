@@ -35,6 +35,7 @@
       :type="msg.type"
       :timeEdited="msg.timeEdited"
       :color="msg.color"
+      :isServer="isServer"
     />
 
     <uploadsQueue v-if="uploadQueue !== undefined" :queue="uploadQueue" />
@@ -287,6 +288,9 @@ export default {
     }
   },
   computed: {
+    isServer() {
+      return this.$store.getters.currentTab === 2;
+    },
     uploadQueue() {
       const allUploads = this.$store.getters.getAllUploads;
       const selectedChannelID = this.$store.getters.selectedChannelID;

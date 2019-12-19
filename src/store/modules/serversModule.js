@@ -4,12 +4,16 @@ const state = {
   selectedServerID: null,
   servers: {},
   channelsIDs: {},
-  serverMembers: []
+  serverMembers: [],
+  roles: {}
 };
 
 const getters = {
   servers(state) {
     return state.servers;
+  },
+  roles(state) {
+    return state.roles;
   },
   channelsIDs(state) {
     return state.channelsIDs;
@@ -44,6 +48,81 @@ const actions = {
   },
   addServerMembers(context, serverMembersArr) {
     context.commit("ADD_SERVER_MEMBERS", serverMembersArr);
+  },
+  // Roles
+  addRole({ commit, state }, role) {
+    const serverRoles = [...state.roles[role.server_id]];
+    serverRoles.push(role);
+
+    commit("UPDATE_SERVER_ROLES", {
+      roles: serverRoles,
+      server_id: role.server_id
+    });
+  },
+  deleteRole({ commit, state }, { server_id, role_id }) {
+    const serverRoles = [...state.roles[server_id]].filter(
+      r => r.id !== role_id
+    );
+
+    commit("UPDATE_SERVER_ROLES", {
+      roles: serverRoles,
+      server_id: server_id
+    });
+  },
+  updateRole({ commit, state }, roleUpdates) {
+    const updatedRoles = state.roles[roleUpdates.server_id].map(r => {
+      if (r.id === roleUpdates.id) {
+        return Object.assign({}, r, roleUpdates);
+      } else {
+        return r;
+      }
+    });
+
+    commit("UPDATE_SERVER_ROLES", {
+      roles: updatedRoles,
+      server_id: roleUpdates.server_id
+    });
+  },
+  setAllRoles(context, rolesArr) {
+    context.commit("SET_ALL_ROLES", rolesArr);
+  },
+  addMemberRole({ commit, state }, { role_id, uniqueID, server_id }) {
+    const serverMemberIndex = state.serverMembers.findIndex(
+      sm => sm.uniqueID === uniqueID && sm.server_id === server_id
+    );
+    if (!serverMemberIndex) return;
+
+    const serverMemberNew = { ...state.serverMembers[serverMemberIndex] };
+    if (!serverMemberNew.roles) {
+      serverMemberNew.roles = [role_id];
+    } else {
+      if (serverMemberNew.roles.includes(role_id)) {
+        return;
+      }
+      serverMemberNew.roles.push(role_id);
+    }
+
+    commit("SET_MEMBER", {
+      serverMember: serverMemberNew,
+      index: serverMemberIndex
+    });
+  },
+  removeMemberRole({ commit, state }, { role_id, uniqueID, server_id }) {
+    const serverMemberIndex = state.serverMembers.findIndex(
+      sm => sm.uniqueID === uniqueID && sm.server_id === server_id
+    );
+    if (!serverMemberIndex) return;
+
+    let serverMemberNew = { ...state.serverMembers[serverMemberIndex] };
+    if (!serverMemberNew.roles || !serverMemberNew.roles.includes(role_id))
+      return;
+
+    serverMemberNew.roles = serverMemberNew.roles.filter(r => r != role_id);
+
+    commit("SET_MEMBER", {
+      serverMember: serverMemberNew,
+      index: serverMemberIndex
+    });
   },
   removeServerMember(context, { uniqueID, server_id }) {
     context.commit("REMOVE_SERVER_MEMBER", { uniqueID, server_id });
@@ -99,6 +178,9 @@ const actions = {
 };
 
 const mutations = {
+  SET_MEMBER(state, { serverMember, index }) {
+    Vue.set(state.serverMembers, index, serverMember);
+  },
   SET_CHANNEL_IDs(state, { serverID, channelIDs }) {
     Vue.set(state.channelsIDs, serverID, channelIDs);
   },
@@ -141,6 +223,12 @@ const mutations = {
     );
     if (exists) return;
     state.serverMembers.push(serverMember);
+  },
+  SET_ALL_ROLES(state, rolesArr) {
+    Vue.set(state, "roles", rolesArr);
+  },
+  UPDATE_SERVER_ROLES(state, { roles, server_id }) {
+    Vue.set(state.roles, server_id, roles);
   },
   REMOVE_SERVER_MEMBER(state, { uniqueID, server_id }) {
     state.serverMembers = state.serverMembers.filter(

@@ -7,6 +7,9 @@
     <div class="item warn" v-if="!checkServerCreator" @click="leaveServer">
       Leave Server
     </div>
+    <div class="item" @click="copyServerID">
+      Copy Server ID
+    </div>
   </div>
 </template>
 
@@ -50,6 +53,10 @@ export default {
     async leaveServer() {
       this.closeMenu();
       await ServerService.leaveServer(this.contextDetails.serverID);
+    },
+    copyServerID() {
+      this.closeMenu();
+      this.$clipboard(this.contextDetails.serverID);
     }
   },
   mounted() {

@@ -13,6 +13,7 @@
         :type="member.type"
         :avatar="member.member.avatar"
         :user="member.member"
+        :member="member"
       />
       <div class="tab" v-if="offlineMembers.length">
         Offline ({{ offlineMembers.length }})
@@ -24,6 +25,7 @@
         :type="member.type"
         :avatar="member.member.avatar"
         :user="member.member"
+        :member="member"
       />
     </div>
   </div>

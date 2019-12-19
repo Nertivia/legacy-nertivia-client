@@ -52,7 +52,8 @@
       "@vue/prettier"
     ],
     "rules": {
-      "no-console": 0
+      "no-console": 0,
+      "no-unreachable": 0
     },
     "parserOptions": {
       "parser": "babel-eslint"
