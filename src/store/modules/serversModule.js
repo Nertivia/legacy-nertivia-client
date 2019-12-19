@@ -51,7 +51,10 @@ const actions = {
   },
   // Roles
   addRole({ commit, state }, role) {
-    const serverRoles = [...state.roles[role.server_id]];
+    let serverRoles = [];
+    if (state.roles && state.roles[role.server_id]) {
+      serverRoles = [...state.roles[role.server_id]];
+    }
     serverRoles.push(role);
 
     commit("UPDATE_SERVER_ROLES", {
