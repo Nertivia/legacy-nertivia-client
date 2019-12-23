@@ -1,10 +1,19 @@
 const config = [
   {
+    version: 9.1,
+    title: "Roles!",
+    shortTitle: "",
+    date: "23/12/2019",
+    headColor: "#007792",
+    new: [
+      "You can now create roles and then see them in the members list. This feature is not finished yet but seems to be bug free for now :D"
+    ]
+  },
+  {
     version: 8.9,
     title: "Public Themes!",
     shortTitle: "",
     date: "7/12/2019",
-    headColor: "#007792",
     new: [
       "You can now make your themes public! Note: Making your theme public will require reviewing which may take few hours or days."
     ]
