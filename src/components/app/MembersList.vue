@@ -116,6 +116,7 @@ export default {
       const roles = this.$store.getters["servers/roles"][this.selectedServerID];
       let newRolesWithMembers = [];
 
+      if (!roles) return undefined;
       // loop through server roles
       for (let index = 0; index < roles.length; index++) {
         const role = { ...roles[index] };
