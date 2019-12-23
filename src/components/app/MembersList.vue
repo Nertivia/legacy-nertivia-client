@@ -4,21 +4,39 @@
       <div class="title">Members ({{ members.length }})</div>
     </div>
     <div class="members">
-      <div class="tab" v-if="onlineMembers.length">
-        Online ({{ onlineMembers.length }})
+      <div class="roles" v-for="role in serverRoles" :key="role.id">
+        <div
+          class="tab"
+          v-if="serverRoles.length"
+          :style="{ color: role.color }"
+        >
+          {{ role.name }} ({{ role.members.length }})
+        </div>
+        <member-template
+          v-for="member in role.members"
+          :key="member.member.uniqueID"
+          :type="member.type"
+          :avatar="member.member.avatar"
+          :user="member.member"
+          :member="member"
+        />
+      </div>
+
+      <div class="tab" v-if="noneRoleOnlineMembers.length">
+        Online ({{ noneRoleOnlineMembers.length }})
       </div>
       <member-template
-        v-for="member in onlineMembers"
+        v-for="member in noneRoleOnlineMembers"
         :key="member.member.uniqueID"
         :type="member.type"
         :avatar="member.member.avatar"
         :user="member.member"
         :member="member"
       />
+
       <div class="tab" v-if="offlineMembers.length">
         Offline ({{ offlineMembers.length }})
       </div>
-
       <member-template
         v-for="member in offlineMembers"
         :key="member.member.uniqueID"
@@ -36,14 +54,17 @@ import MemberTemplate from "@/components/app/MemberTemplate";
 export default {
   components: { MemberTemplate },
   computed: {
+    selectedServerID() {
+      return this.$store.getters["servers/selectedServerID"];
+    },
     members() {
       const members = this.$store.getters["members/members"];
       const serverMembers = this.$store.getters["servers/serverMembers"];
-      const selectedServerID = this.$store.getters["servers/selectedServerID"];
+
       const presences = this.$store.getters["members/presences"];
 
       let filteredSM = serverMembers.filter(
-        sm => sm.server_id === selectedServerID
+        sm => sm.server_id === this.selectedServerID
       );
 
       let getMember = filteredSM.map(sm => {
@@ -72,6 +93,45 @@ export default {
     },
     onlineMembers() {
       return this.members.filter(sm => sm.presense >= 1);
+    },
+    roleMembers() {
+      let roleMembers = this.onlineMembers.filter(
+        sm => sm.roles && sm.roles.length
+      );
+      return roleMembers;
+    },
+    noneRoleOnlineMembers() {
+      const roles = this.$store.getters["servers/roles"][this.selectedServerID];
+      return this.onlineMembers.filter(sm => {
+        if (!sm.roles || !sm.roles.length) {
+          return sm;
+        }
+        if (!roles.find(r => sm.roles.includes(r.id))) {
+          return sm;
+        }
+        return false;
+      });
+    },
+    serverRoles() {
+      const roles = this.$store.getters["servers/roles"][this.selectedServerID];
+      let newRolesWithMembers = [];
+
+      // loop through server roles
+      for (let index = 0; index < roles.length; index++) {
+        const role = { ...roles[index] };
+
+        // filter role members
+        const members = this.roleMembers.filter(rm => {
+          const filteredRoles = roles.filter(r => rm.roles.includes(r.id));
+          return filteredRoles.length && filteredRoles[0].id === role.id;
+        });
+
+        if (members.length) {
+          role.members = members;
+          newRolesWithMembers.push(role);
+        }
+      }
+      return newRolesWithMembers;
     },
     offlineMembers() {
       return this.members.filter(sm => sm.presense == 0);
@@ -111,6 +171,6 @@ export default {
   cursor: default;
   color: #b5c4ca;
   font-size: 15px;
-  margin-left: 10px;
+  margin-left: 5px;
 }
 </style>
