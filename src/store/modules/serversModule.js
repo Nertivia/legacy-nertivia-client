@@ -23,6 +23,13 @@ const getters = {
   },
   selectedServerID(state) {
     return state.selectedServerID;
+  },
+  selectedServerRoles() {
+    const serverRoles = state.roles[state.selectedServerID];
+    if (!serverRoles) return [];
+    return serverRoles.sort((a, b) => {
+      return a.order - b.order;
+    });
   }
 };
 
@@ -60,6 +67,12 @@ const actions = {
     commit("UPDATE_SERVER_ROLES", {
       roles: serverRoles,
       server_id: role.server_id
+    });
+  },
+  setServerRoles({ commit }, rolesArr) {
+    commit("UPDATE_SERVER_ROLES", {
+      roles: rolesArr,
+      server_id: rolesArr[0].server_id
     });
   },
   deleteRole({ commit, state }, { server_id, role_id }) {

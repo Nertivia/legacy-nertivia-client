@@ -11,15 +11,25 @@
           <div class="material-icons">add</div>
           <div>Add Role</div>
         </div>
-        <div
-          class="role"
-          v-for="(role, index) in roles"
-          :key="role.id"
-          :class="{ selected: index === selectedRoleIndex }"
-          @click="roleClick($event, index)"
+        <draggable
+          v-model="roles"
+          :animation="200"
+          :delay="mobile ? 400 : 0"
+          ghost-class="ghost"
+          @end="onEnd"
         >
-          <div class="name" :style="{ color: role.color }">{{ role.name }}</div>
-        </div>
+          <div
+            class="role"
+            v-for="(role, index) in roles"
+            :key="role.id"
+            :class="{ selected: index === selectedRoleIndex }"
+            @click="roleClick($event, index)"
+          >
+            <div class="name" :style="{ color: role.color }">
+              {{ role.name }}
+            </div>
+          </div>
+        </draggable>
       </div>
       <div class="details" v-if="roles && roles[selectedRoleIndex]">
         <div class="input role-input">
@@ -86,20 +96,30 @@
 <script>
 import ServerService from "@/services/ServerService";
 import ErrorsListTemplate from "@/components/app/errorsListTemplate";
+import { isMobile } from "@/utils/Mobile";
+import draggable from "vuedraggable";
+
 export default {
-  components: { ErrorsListTemplate },
+  components: { ErrorsListTemplate, draggable },
   data() {
     return {
       deleteButtonConfirmed: false,
       deleteClicked: false,
       selectedRoleIndex: 0,
       errors: null,
+      mobile: isMobile(),
       update: {
         name: null
       }
     };
   },
   methods: {
+    async onEnd(test) {
+      const newIndex = test.newIndex;
+      const role = this.roles[newIndex];
+      const sendObj = { roleID: role.id, order: newIndex };
+      await ServerService.updateRolesPosition(this.server.server_id, sendObj);
+    },
     async addRole() {
       await ServerService.createRole(this.server.server_id, {});
     },
@@ -172,8 +192,23 @@ export default {
       const serverID = this.$store.state.popoutsModule.serverSettings.serverID;
       return this.$store.getters["servers/servers"][serverID];
     },
-    roles() {
-      return this.$store.getters["servers/roles"][this.server.server_id];
+    roles: {
+      get() {
+        const roles = this.$store.getters["servers/roles"][
+          this.server.server_id
+        ];
+        return [...roles].sort((a, b) => {
+          return a.order - b.order;
+        });
+      },
+      set(value) {
+        this.$store.dispatch(
+          "servers/setServerRoles",
+          value.map((v, i) => {
+            return { ...v, ...{ order: i } };
+          })
+        );
+      }
     },
     channels() {
       const serverID = this.$store.state.popoutsModule.serverSettings.serverID;
@@ -199,6 +234,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.sortable-drag {
+  opacity: 0;
+}
+.ghost::before {
+  content: "";
+  position: absolute;
+  background: white;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 3px;
+}
 .server-avatar {
   background: grey;
   height: 90px;
@@ -218,10 +265,11 @@ export default {
   overflow: auto;
 }
 .role {
+  position: relative;
   padding: 5px;
   user-select: none;
   cursor: pointer;
-  transition: 0.3s;
+  transition: background 0.3s;
   display: flex;
   overflow: hidden;
   text-overflow: ellipsis;

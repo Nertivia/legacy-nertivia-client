@@ -313,9 +313,7 @@ export default {
       };
     },
     roles() {
-      return this.$store.getters["servers/roles"][
-        this.$store.getters["servers/selectedServerID"]
-      ];
+      return this.$store.getters["servers/selectedServerRoles"];
     },
     serverMember() {
       const serverMembers = this.$store.getters["servers/serverMembers"];

@@ -101,7 +101,7 @@ export default {
       return roleMembers;
     },
     noneRoleOnlineMembers() {
-      const roles = this.$store.getters["servers/roles"][this.selectedServerID];
+      const roles = this.$store.getters["servers/selectedServerRoles"];
       return this.onlineMembers.filter(sm => {
         if (!sm.roles || !sm.roles.length) {
           return sm;
@@ -113,7 +113,7 @@ export default {
       });
     },
     serverRoles() {
-      const roles = this.$store.getters["servers/roles"][this.selectedServerID];
+      const roles = this.$store.getters["servers/selectedServerRoles"];
       let newRolesWithMembers = [];
 
       if (!roles) return undefined;

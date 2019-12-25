@@ -51,7 +51,7 @@ export default {
     },
     roleColor() {
       if (!this.member || !this.member.roles) return undefined;
-      const roles = this.$store.getters["servers/roles"][this.serverID];
+      const roles = this.$store.getters["servers/selectedServerRoles"];
       if (!roles) return undefined;
 
       const filter = roles.filter(r => this.member.roles.includes(r.id));

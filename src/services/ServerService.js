@@ -84,6 +84,9 @@ export default {
       instance().patch(`/servers/${serverID}/roles/${roleID}`, data)
     );
   },
+  updateRolesPosition(serverID, data) {
+    return wrapper(instance().patch(`/servers/${serverID}/roles`, data));
+  },
   applyRoleToMember(serverID, roleID, memberID) {
     return wrapper(
       instance().patch(

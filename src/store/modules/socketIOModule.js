@@ -498,6 +498,10 @@ const actions = {
   ["socket_serverMember:removeRole"](context, { role_id, uniqueID, server_id }) {
     // eslint-disable-next-line prettier/prettier
     context.dispatch("servers/removeMemberRole", { role_id, uniqueID, server_id });
+  },
+  ["socket_server:updateRoles"](context, { roles }) {
+    // eslint-disable-next-line prettier/prettier
+    context.dispatch("servers/setServerRoles", roles);
   }
 };
 
