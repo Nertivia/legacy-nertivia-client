@@ -1,6 +1,7 @@
 import axios from "axios";
 import Vue from "vue";
 import NotificationSounds from "@/utils/notificationSound";
+import AuthenticationService from "@/services/AuthenticationService";
 
 const state = {
   token: localStorage.getItem("hauthid") || null,
@@ -27,8 +28,9 @@ const actions = {
   user(context, user) {
     context.commit("user", user);
   },
-  logout(context) {
+  async logout(context) {
     axios.defaults.headers.common["authorization"] = "";
+    await AuthenticationService.logout();
     localStorage.clear();
     context.commit("logout");
   },

@@ -99,9 +99,11 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch("logout");
-      isElectron
-        ? (window.location.href = "/login")
-        : (window.location.href = "/");
+      setTimeout(() => {
+        isElectron
+          ? (window.location.href = "/login")
+          : (window.location.href = "/");
+      }, 1000);
     },
     close() {
       this.$store.dispatch("setPopoutVisibility", {
