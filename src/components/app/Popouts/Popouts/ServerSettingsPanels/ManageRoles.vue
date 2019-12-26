@@ -59,13 +59,19 @@
             />
           </div>
         </div>
-        <!-- <div class="input">
+
+        <div class="input">
           <div class="input-title">Permissions</div>
-          <div class="check-box" @click="updatePermissions('send_message')">
-            <div class="box" :class="{ checked: sendMessagePermission }" />
-            <div class="name">Send Messages</div>
+          <div
+            class="check-box"
+            @click="updatePermissions(perm.value)"
+            v-for="(perm, index) in perms"
+            :key="index"
+          >
+            <div class="box" :class="{ checked: perm.hasPerm }" />
+            <div class="name">{{ perm.name }}</div>
           </div>
-        </div> -->
+        </div>
 
         <div
           class="button"
@@ -84,7 +90,7 @@
           class="button warn delete-server"
           :class="{ disabled: deleteClicked }"
           v-if="roles[selectedRoleIndex].deletable"
-          @click="deleteChannel"
+          @click="deleteRole"
         >
           {{ deleteButtonConfirmed ? "ARE YOU SURE?" : "Delete Role" }}
         </div>
@@ -98,6 +104,12 @@ import ServerService from "@/services/ServerService";
 import ErrorsListTemplate from "@/components/app/errorsListTemplate";
 import { isMobile } from "@/utils/Mobile";
 import draggable from "vuedraggable";
+import {
+  permissions,
+  addPerm,
+  containsPerm,
+  removePerm
+} from "@/utils/RolePermissions";
 
 export default {
   components: { ErrorsListTemplate, draggable },
@@ -151,7 +163,7 @@ export default {
         }
       }
     },
-    async deleteChannel() {
+    async deleteRole() {
       if (this.deleteClicked) return;
       if (!this.deleteButtonConfirmed) {
         return (this.deleteButtonConfirmed = true);
@@ -176,9 +188,22 @@ export default {
         this.deleteButtonConfirmed = false;
       });
     },
-    updatePermissions(permissionName) {
-      const permissions = this.update.permissions || {};
-      permissions[permissionName] = !this.sendMessagePermission;
+    updatePermissions(value) {
+      const updatePerm = this.update.permissions;
+      const rolePerm = this.roles[this.selectedRoleIndex].permissions;
+
+      let permissions;
+
+      if (updatePerm != undefined) {
+        permissions = updatePerm;
+      } else {
+        permissions = rolePerm;
+      }
+      if (containsPerm(permissions, value)) {
+        permissions = removePerm(permissions, value);
+      } else {
+        permissions = addPerm(permissions, value);
+      }
       this.$set(this.update, "permissions", permissions);
     },
     colorChangeEvent(e) {
@@ -209,6 +234,17 @@ export default {
           })
         );
       }
+    },
+    perms() {
+      return Object.values(permissions).map(p => {
+        const updatePerm = this.update.permissions;
+        const rolePerm = this.roles[this.selectedRoleIndex].permissions;
+        if (updatePerm != undefined) {
+          return { ...p, ...{ hasPerm: containsPerm(updatePerm, p.value) } };
+        } else {
+          return { ...p, ...{ hasPerm: containsPerm(rolePerm, p.value) } };
+        }
+      });
     },
     channels() {
       const serverID = this.$store.state.popoutsModule.serverSettings.serverID;

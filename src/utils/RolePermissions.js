@@ -1,11 +1,20 @@
-const permissions = {
+export const permissions = {
   ADMIN: {
     name: "Admin",
-    value: 2
+    value: 1
   },
   SEND_MESSAGE: {
     name: "Send Message",
     value: 2
   }
 };
-export default permissions;
+
+export function removePerm(perms, flag) {
+  return (perms &= ~flag);
+}
+export function addPerm(perms, flag) {
+  return perms | flag;
+}
+export function containsPerm(perms, flag) {
+  return perms & flag;
+}
