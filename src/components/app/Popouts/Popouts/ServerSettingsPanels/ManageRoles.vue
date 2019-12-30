@@ -69,27 +69,40 @@
             :key="index"
           >
             <div class="box" :class="{ checked: perm.hasPerm }" />
-            <div class="name">{{ perm.name }}</div>
+            <div>
+              <div class="name">{{ perm.name }}</div>
+              <div class="info">{{ perm.info }}</div>
+            </div>
           </div>
         </div>
 
         <div
           class="button"
-          v-if="update.name || update.permissions || update.color"
+          v-if="update.name || update.permissions !== undefined || update.color"
           @click="updateRole"
         >
           Save Changes
         </div>
         <div
           class="button warn delete-server disabled"
-          v-if="!roles[selectedRoleIndex].deletable"
+          v-if="
+            !roles[selectedRoleIndex].deletable ||
+              roles[selectedRoleIndex].default
+          "
         >
-          Cannot delete this role.
+          {{
+            roles[selectedRoleIndex].default
+              ? "Cannot delete default role."
+              : "Cannot delete this role."
+          }}
         </div>
         <div
           class="button warn delete-server"
           :class="{ disabled: deleteClicked }"
-          v-if="roles[selectedRoleIndex].deletable"
+          v-if="
+            roles[selectedRoleIndex].deletable &&
+              !roles[selectedRoleIndex].default === true
+          "
           @click="deleteRole"
         >
           {{ deleteButtonConfirmed ? "ARE YOU SURE?" : "Delete Role" }}
@@ -222,7 +235,13 @@ export default {
         const roles = this.$store.getters["servers/roles"][
           this.server.server_id
         ];
+        if (!roles) {
+          return [];
+        }
         return [...roles].sort((a, b) => {
+          if (b.default) {
+            return -1;
+          }
           return a.order - b.order;
         });
       },
@@ -425,15 +444,20 @@ export default {
   user-select: none;
   cursor: pointer;
   .box {
-    height: 20px;
-    width: 20px;
+    height: 30px;
+    width: 30px;
     flex-shrink: 0;
-    background-color: rgb(255, 31, 31);
+    background-color: rgb(95, 95, 95);
     margin-right: 5px;
     border-radius: 2px;
     &.checked {
       background-color: rgb(31, 154, 255);
     }
+  }
+  .info {
+    color: rgb(255, 255, 255);
+    opacity: 0.7;
+    font-size: 15px;
   }
 }
 </style>

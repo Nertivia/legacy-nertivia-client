@@ -145,6 +145,7 @@ export default {
     background: #04333f;
     flex: 1;
     height: 100%;
+    overflow: auto;
     flex-shrink: 0;
     .name {
       margin-top: 9px;

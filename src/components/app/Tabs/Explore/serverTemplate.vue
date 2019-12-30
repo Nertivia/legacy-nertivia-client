@@ -168,6 +168,7 @@ export default {
     flex: 1;
     height: 100%;
     flex-shrink: 0;
+    overflow: auto;
 
     .description {
       margin: 10px;

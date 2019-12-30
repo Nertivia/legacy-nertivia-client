@@ -85,6 +85,12 @@ const actions = {
       server_id: server_id
     });
   },
+  removeAllRoles({ commit }, server_id) {
+    commit("UPDATE_SERVER_ROLES", {
+      roles: [],
+      server_id: server_id
+    });
+  },
   updateRole({ commit, state }, roleUpdates) {
     const updatedRoles = state.roles[roleUpdates.server_id].map(r => {
       if (r.id === roleUpdates.id) {

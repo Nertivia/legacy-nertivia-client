@@ -1,11 +1,13 @@
 export const permissions = {
   ADMIN: {
     name: "Admin",
-    value: 1
+    value: 1,
+    info: "Enables ALL permissions"
   },
-  SEND_MESSAGE: {
-    name: "Send Message",
-    value: 2
+  SEND_MESSAGES: {
+    name: "Send Messages",
+    value: 2,
+    info: "Send messages to server channels"
   }
 };
 

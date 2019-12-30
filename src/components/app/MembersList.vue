@@ -22,8 +22,12 @@
         />
       </div>
 
-      <div class="tab" v-if="noneRoleOnlineMembers.length">
-        Online ({{ noneRoleOnlineMembers.length }})
+      <div
+        class="tab"
+        v-if="noneRoleOnlineMembers.length"
+        :style="{ color: defaultRole.color }"
+      >
+        {{ defaultRole.name }} ({{ noneRoleOnlineMembers.length }})
       </div>
       <member-template
         v-for="member in noneRoleOnlineMembers"
@@ -133,6 +137,10 @@ export default {
         }
       }
       return newRolesWithMembers;
+    },
+    defaultRole() {
+      const roles = this.$store.getters["servers/selectedServerRoles"];
+      return roles.find(r => r.default);
     },
     offlineMembers() {
       return this.members.filter(sm => sm.presense == 0);

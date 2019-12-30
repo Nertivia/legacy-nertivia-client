@@ -392,6 +392,7 @@ const actions = {
     context.dispatch("servers/removePresences", server_id);
     context.dispatch("servers/removeServer", server_id);
     context.dispatch("servers/removeNotifications", server_id);
+    context.dispatch("servers/removeAllRoles", server_id);
     context.dispatch("servers/removeAllServerChannels", server_id);
     context.dispatch("deleteAllMessages", serverChannelIDs);
   },
@@ -501,6 +502,9 @@ const actions = {
   },
   ["socket_server:updateRoles"](context, { roles }) {
     // eslint-disable-next-line prettier/prettier
+    context.dispatch("servers/setServerRoles", roles);
+  },
+  ["socket_server:roles"](context, { roles }) {
     context.dispatch("servers/setServerRoles", roles);
   }
 };

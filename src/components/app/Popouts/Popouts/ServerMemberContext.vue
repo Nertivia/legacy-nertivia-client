@@ -139,13 +139,17 @@ export default {
       const roles = this.$store.getters["servers/roles"][
         this.contextDetails.serverID
       ];
-
-      const map = roles.map(r => {
-        if (this.serverMember.roles && this.serverMember.roles.includes(r.id)) {
-          return Object.assign({}, r, { hasRole: true });
-        }
-        return r;
-      });
+      const map = roles
+        .filter(r => !r.default)
+        .map(r => {
+          if (
+            this.serverMember.roles &&
+            this.serverMember.roles.includes(r.id)
+          ) {
+            return Object.assign({}, r, { hasRole: true });
+          }
+          return r;
+        });
 
       return map;
     }
