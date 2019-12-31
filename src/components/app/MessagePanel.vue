@@ -62,7 +62,11 @@
       <div
         class="markdown-buttons"
         style="color: white;"
-        v-if="sendMessagePermission === true || editMessage"
+        v-if="
+          (sendChannelMessagePermission === true &&
+            roleSendMessagePermission) ||
+            editMessage
+        "
       >
         <div
           class="material-icons markdown-icon"
@@ -114,16 +118,13 @@
           </div>
         </div>
       </div>
-      <!-- <div class="info">
-
-        <div
-          v-if=" messageLength >= 4500 && (sendMessagePermission === true || editMessage)"
-          :class="{'message-count': true, 'error-info': messageLength > 5000 }"
-        >{{messageLength}}/5000</div>
-      </div>-->
       <div
         class="message-area"
-        v-if="sendMessagePermission === true || editMessage"
+        v-if="
+          (sendChannelMessagePermission === true &&
+            roleSendMessagePermission) ||
+            editMessage
+        "
       >
         <input
           type="file"
@@ -158,7 +159,9 @@
           <div
             v-if="
               messageLength >= 4500 &&
-                (sendMessagePermission === true || editMessage)
+                ((sendChannelMessagePermission === true &&
+                  roleSendMessagePermission) ||
+                  editMessage)
             "
             :class="{
               'message-count': true,
@@ -170,7 +173,12 @@
         </button>
       </div>
     </div>
-    <div class="no-message-permission" v-if="sendMessagePermission === false">
+    <div
+      class="no-message-permission"
+      v-if="
+        sendChannelMessagePermission === false || !roleSendMessagePermission
+      "
+    >
       You don't have permission to send messages in this channel.
     </div>
   </div>
@@ -188,6 +196,7 @@ import emojiParser from "@/utils/emojiParser.js";
 import windowProperties from "@/utils/windowProperties";
 import TypingStatus from "@/components/app/TypingStatus.vue";
 import { isMobile } from "../../utils/Mobile";
+import { permissions, containsPerm } from "@/utils/RolePermissions";
 
 const emojiPanel = () => import("@/components/app/EmojiPanels/emojiPanel.vue");
 const EditPanel = () => import("@/components/app/EditPanel.vue");
@@ -712,7 +721,37 @@ export default {
         undefined
       );
     },
-    sendMessagePermission() {
+    serverMember() {
+      return this.$store.getters["servers/serverMembers"].find(
+        sm =>
+          sm.server_id === this.server.server_id &&
+          sm.uniqueID === this.user.uniqueID
+      );
+    },
+    myRolePermissions() {
+      if (!this.serverMember) return;
+      const roles = this.$store.getters["servers/selectedServerRoles"];
+      if (!roles || !this.serverMember.roles) return undefined;
+
+      let perms = 0;
+
+      for (let index = 0; index < roles.length; index++) {
+        const role = roles[index];
+        if (this.serverMember.roles.includes(role.id)) {
+          perms = perms | (role.permissions || 0);
+        }
+      }
+      const defaultRole = roles.find(r => r.default);
+      perms = perms | defaultRole.permissions;
+      return perms;
+    },
+    roleSendMessagePermission() {
+      return containsPerm(
+        this.myRolePermissions || 0,
+        permissions.SEND_MESSAGES.value
+      );
+    },
+    sendChannelMessagePermission() {
       if (this.type !== 1) return true;
       if (!this.channel) return null;
 
