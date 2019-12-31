@@ -1,8 +1,5 @@
 <template>
-  <transition
-    name="fade-in"
-    appear
-  >
+  <transition name="fade-in" appear>
     <div class="header">
       <div class="cat">
         <div class="eyes" />
@@ -22,7 +19,7 @@ export default {
     };
   },
   mounted() {
-    setInterval(_ => {
+    setInterval(() => {
       if (this.isDay) {
         this.$emit("isDay", false);
         this.isDay = false;
@@ -36,28 +33,25 @@ export default {
 </script>
 
 <style scoped>
-
 .fade-in-enter-active {
   opacity: 0;
-  animation: bounce-in .5s;
+  animation: bounce-in 0.5s;
   animation-delay: 0.5s;
 }
-
 
 @keyframes bounce-in {
   0% {
     transform: translateY(-20px);
     opacity: 0;
   }
-  50%{
-    transform: translateY(10px);  
+  50% {
+    transform: translateY(10px);
   }
   100% {
     transform: translateY(0);
     opacity: 1;
   }
 }
-
 
 /* .fade-in-enter-active, .fade-in-leave-active {
   transition: .5s;
@@ -101,7 +95,8 @@ export default {
   animation-iteration-count: infinite;
 }
 @keyframes blink {
-  20%, 100% {
+  20%,
+  100% {
     height: 0px;
   }
   0% {
@@ -111,7 +106,6 @@ export default {
     height: 33px;
   }
 }
-
 
 .night {
   background: rgb(0, 48, 73);
@@ -124,4 +118,3 @@ export default {
   margin-top: 10px;
 }
 </style>
-

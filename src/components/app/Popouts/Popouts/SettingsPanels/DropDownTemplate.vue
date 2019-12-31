@@ -3,24 +3,18 @@
     <div class="main-name">
       {{ name }}
     </div>
-    <div
-      class="box"
-      @click="opened = !opened"
-    >
+    <div class="box" @click="opened = !opened">
       <div class="selected">
         <div
           v-if="selected !== null && updateItems[selected]"
           class="emoji"
           v-html="updateItems[selected].emoji || ''"
         />
-        {{ selected === null ? 'Select One' : updateItems[selected].name }}
+        {{ selected === null ? "Select One" : updateItems[selected].name }}
       </div>
       <i class="material-icons">expand_more</i>
     </div>
-    <div
-      v-if="opened"
-      class="drop-down-menu"
-    >
+    <div v-if="opened" class="drop-down-menu">
       <div
         v-for="(item, index) in updateItems"
         :key="index"
@@ -28,10 +22,7 @@
         @click="itemClickEvent(index)"
       >
         <div class="content">
-          <div
-            class="emoji"
-            v-html="item.emoji"
-          />
+          <div class="emoji" v-html="item.emoji" />
           <div class="name">
             {{ item.name }}
           </div>
@@ -167,4 +158,3 @@ export default {
   width: 20px !important;
 }
 </style>
- 

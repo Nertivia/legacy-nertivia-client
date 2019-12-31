@@ -1,5 +1,3 @@
-import { bus } from "../../main";
-import { router } from "./../../router";
 import Vue from "vue";
 
 const state = {
@@ -30,19 +28,22 @@ const actions = {
   channel(context, channel) {
     context.commit("channel", channel);
   },
-  removeChannel(context, {channelID}) {
-    context.commit('removeChannel', channelID)
+  removeChannel(context, { channelID }) {
+    context.commit("removeChannel", channelID);
   },
-  removeChannels(context, channelsArr){
+  removeChannels(context, channelsArr) {
     for (let index = 0; index < channelsArr.length; index++) {
       const element = channelsArr[index];
-      context.commit('removeChannel', element)
-      
+      context.commit("removeChannel", element);
     }
   },
   updateChannel(context, data) {
-    const update = Object.assign({}, context.state.channels[data.channelID], data);
-    context.commit('channel', update)
+    const update = Object.assign(
+      {},
+      context.state.channels[data.channelID],
+      data
+    );
+    context.commit("channel", update);
   },
   selectedChannelID(context, channelID) {
     context.commit("selectedChannelID", channelID);

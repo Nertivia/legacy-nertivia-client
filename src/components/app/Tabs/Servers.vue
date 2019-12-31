@@ -1,8 +1,11 @@
 <template>
-  <div class="direct-message-tab">
+  <div
+    class="direct-message-tab"
+    :class="{ darken: showLeftPanel || showMembersPanel }"
+  >
     <transition name="slide-left">
       <server-list
-        v-if="$mq === 'mobile' && showLeftPanel || ($mq !== 'mobile')"
+        v-if="($mq === 'mobile' && showLeftPanel) || $mq !== 'mobile'"
         v-click-outside="hideLeftPanel"
         class="left-panel"
       />
@@ -10,7 +13,12 @@
     <message-panel :type="1" />
     <transition :name="$mq !== 'desktop' ? 'slide-right' : 'none'">
       <members-list
-        v-if="selectedServerID && (($mq === 'members_panel' || $mq === 'mobile') && showMembersPanel || ($mq === 'desktop'))"
+        v-if="
+          selectedServerID &&
+            ((($mq === 'members_panel' || $mq === 'mobile') &&
+              showMembersPanel) ||
+              $mq === 'desktop')
+        "
         v-click-outside="hideMembersPanel"
         class="members-panel"
       />
@@ -85,7 +93,7 @@ export default {
   transition: 0.5s;
 }
 .slide-left-enter, .slide-left-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  transform: translateX(-300px);
+  transform: translateX(-340px);
 }
 
 .slide-right-enter-active,
@@ -101,8 +109,8 @@ export default {
     position: absolute;
     right: 0;
     bottom: 0;
-    height: calc(100% - 50px);
-    z-index: 1;
+    z-index: 2;
+    background: rgba(19, 107, 139, 0.9);
   }
 }
 
@@ -110,8 +118,18 @@ export default {
   .left-panel {
     position: absolute;
     bottom: 0;
-    height: calc(100% - 50px);
     z-index: 2;
+    background: rgba(19, 107, 139, 0.9);
+  }
+  .darken::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.4);
   }
 }
 </style>

@@ -1,27 +1,19 @@
 <template>
   <div class="emoji-suggetions-list">
     <div
-      v-for="(emoji, index) in $props.emojiArray.slice(0,10)"
+      v-for="(emoji, index) in $props.emojiArray.slice(0, 10)"
       :key="emoji.hexcode || emoji.emojiID"
-      :class="{emojiItem: true, selected: index === emojiIndex}"
+      :class="{ emojiItem: true, selected: index === emojiIndex }"
       @mouseenter="hoverEvent"
       @click="clickEvent"
     >
       <div class="preview">
-        <span
-          v-if="emoji.unicode"
-          v-html="emojiParser(emoji.unicode)"
-        />
+        <span v-if="emoji.unicode" v-html="emojiParser(emoji.unicode)" />
         <span v-else>
-          <img
-            class="emoji"
-            :src="customEmojiPath + emoji.emojiID"
-          >
+          <img class="emoji" :src="customEmojiPath + emoji.emojiID" />
         </span>
       </div>
-      <div class="short-code">
-        :{{ emoji.name || emoji.shortcodes[0] }}:
-      </div>
+      <div class="short-code">:{{ emoji.name || emoji.shortcodes[0] }}:</div>
     </div>
   </div>
 </template>
@@ -32,10 +24,10 @@ import emojiParser from "@/utils/emojiParser.js";
 import config from "@/config.js";
 export default {
   props: ["emojiArray"],
-  data(){
+  data() {
     return {
       customEmojiPath: config.domain + "/media/"
-    }
+    };
   },
   computed: {
     emojiIndex() {
@@ -82,12 +74,11 @@ export default {
       }
     },
     clickEvent() {
-      bus.$emit('emojiSuggestions:Selected')
+      bus.$emit("emojiSuggestions:Selected");
     }
   }
 };
 </script>
-
 
 <style scoped>
 .selected {

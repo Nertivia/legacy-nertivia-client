@@ -5,22 +5,17 @@
         <i class="material-icons">error</i>
       </div>
       <div class="text">
-        There is a survey you can complete about yourself. Would you like to take it?
+        There is a survey you can complete about yourself. Would you like to
+        take it?
       </div>
       <div class="text">
         You can always take the survey again by going to settings.
       </div>
       <div class="buttons">
-        <div
-          class="button warning"
-          @click="laterButtonClickEvent"
-        >
+        <div class="button warning" @click="laterButtonClickEvent">
           Later
         </div>
-        <div
-          class="button valid"
-          @click="TakeThereClickEvent"
-        >
+        <div class="button valid" @click="TakeThereClickEvent">
           Take Me There
         </div>
       </div>
@@ -39,20 +34,22 @@ export default {
         visibility: false
       });
     },
-    laterButtonClickEvent(){
-      userService.skipSurvey()
-      this.$store.dispatch('surveyCompleted')
+    laterButtonClickEvent() {
+      userService.skipSurvey();
+      this.$store.dispatch("surveyCompleted");
       this.close();
     },
-    TakeThereClickEvent(){
+    TakeThereClickEvent() {
       this.close();
-      this.$store.dispatch('surveyCompleted')
-      this.$store.dispatch('setPopoutVisibility', {name: 'settings', visibility: true})
+      this.$store.dispatch("surveyCompleted");
+      this.$store.dispatch("setPopoutVisibility", {
+        name: "settings",
+        visibility: true
+      });
     }
   }
 };
 </script>
-
 
 <style scoped>
 .darken-background {
@@ -74,12 +71,12 @@ export default {
   margin: auto;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.507);
   padding: 10px;
-  background-image: url("../../../../assets/leftPanelBackground.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  overflow: hidden;
+  box-shadow: 0px 0px 20px 5px #151515bd;
+  background: linear-gradient(#0b4155, #01677e);
+  border-radius: 4px;
 }
-.survay-icon .material-icons{
+.survay-icon .material-icons {
   color: white;
   font-size: 120px;
 }
@@ -99,22 +96,21 @@ export default {
 .button {
   padding: 10px;
   margin: 3px;
-  background: #05353b;
+  background: #014656;
   transition: 0.3s;
   user-select: none;
   cursor: pointer;
 }
 .valid {
-  background: #05353b;
+  background: #014656;
 }
-.valid:hover{
-  background: #0f292c;
+.valid:hover {
+  background: #02303c;
 }
 .warning {
-  background: rgba(255, 27, 27, 0.589)
+  background: rgba(255, 27, 27, 0.589);
 }
-.warning:hover{
-  background: rgb(255, 27, 27)
+.warning:hover {
+  background: rgb(255, 27, 27);
 }
 </style>
-

@@ -10,11 +10,16 @@
               <div class="text">Linking...</div>
             </div>
             <div class="loading" v-if="showSuccess">
-              <div class="text">Your Google Drive has been linked with your Nertivia account!</div>
+              <div class="text">
+                Your Google Drive has been linked with your Nertivia account!
+              </div>
               <div class="text">You may close this tab.</div>
             </div>
             <div class="loading" v-if="error">
-              <div class="text">Something went wrong while linking your Google Drive with Nertivia.</div>
+              <div class="text">
+                Something went wrong while linking your Google Drive with
+                Nertivia.
+              </div>
               <div class="text">Please try again later.</div>
             </div>
           </div>
@@ -42,7 +47,7 @@ export default {
     const url = new URL(location.href);
     const token = url.searchParams.get("state");
     const code = url.searchParams.get("code");
-    const { ok, error, result } = await settingsService.GDriveAuth(code, token);
+    const { ok } = await settingsService.GDriveAuth(code, token);
     if (!ok) {
       this.showSpinner = false;
       this.error = true;
@@ -90,7 +95,8 @@ body {
   flex-direction: column;
   color: white;
   height: 100%;
-  background: #173d42;
+  overflow: hidden;
+  background: linear-gradient(#0b4155, #01677e);
 }
 .app-content {
   display: flex;
@@ -129,9 +135,7 @@ body {
   justify-content: center;
   z-index: 9999;
   padding: 20px;
-  background-image: url("../assets/leftPanelBackground.jpg");
-  background-position: center;
-  background-size: cover;
+  background: #044050;
 }
 
 .loading {

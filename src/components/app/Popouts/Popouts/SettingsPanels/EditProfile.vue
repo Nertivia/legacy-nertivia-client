@@ -40,7 +40,9 @@
               @input="inputEvent('password', $event)"
             />
           </div>
-          <div class="link" v-if="!resetPassword" @click="resetPassword = true">Reset Password</div>
+          <div class="link" v-if="!resetPassword" @click="resetPassword = true">
+            Reset Password
+          </div>
           <div class="outer-input" v-if="resetPassword">
             <div class="title">New Password</div>
             <input
@@ -63,7 +65,9 @@
             emote-size="30px"
             animation-padding="5px"
           />
-          <div class="button" @click="$refs.avatarBrowser.click()">Change Avatar</div>
+          <div class="button" @click="$refs.avatarBrowser.click()">
+            Change Avatar
+          </div>
           <input
             ref="avatarBrowser"
             type="file"
@@ -76,10 +80,12 @@
     </div>
     <div
       class="button save-button"
-      :class="{disabled: requestSent}"
+      :class="{ disabled: requestSent }"
       @click="updateProfile"
       v-if="changed"
-    >{{requestSent ? 'Saving...' : 'Update'}}</div>
+    >
+      {{ requestSent ? "Saving..." : "Update" }}
+    </div>
   </div>
 </template>
 
@@ -149,7 +155,7 @@ export default {
       if (this.requestSent) return;
       this.errors = null;
       this.requestSent = true;
-      const { ok, result, error } = await userService.update(this.update);
+      const { ok, error } = await userService.update(this.update);
       if (!ok) {
         if (error.response === undefined) {
           this.errors = { message: "Cant connect to server" };
@@ -198,7 +204,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .edit-profile {
   display: flex;
   flex-direction: column;
@@ -221,11 +227,17 @@ export default {
 .change-avatar-container {
   display: flex;
   flex-direction: column;
-  background-color: #06454d;
+  background-color: #044050;
   width: 150px;
   align-self: center;
   padding: 20px;
   margin-top: 10px;
+  .button {
+    background: #033442;
+    &:hover {
+      background: #032b36;
+    }
+  }
 }
 .avatar {
   margin-bottom: 10px;
@@ -235,7 +247,7 @@ export default {
   display: none;
 }
 .button {
-  background: #05353b;
+  background: #024554;
   padding: 10px;
   text-align: center;
   display: inline-block;
@@ -244,7 +256,7 @@ export default {
   transition: 0.3s;
 }
 .button:hover {
-  background: #0f292c;
+  background: #02303c;
 }
 .button.disabled {
   background: grey;
@@ -259,7 +271,7 @@ export default {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background-color: #06454d;
+  background-color: #044050;
   padding: 10px;
   margin: 10px;
   margin-left: 30px;

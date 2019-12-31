@@ -11,37 +11,36 @@ import messageFormatter from "@/utils/messageFormatter.js";
 import { bus } from "../../main";
 
 export default {
-  props: ['data'],
+  props: ["data"],
   methods: {
     close() {
       this.$store.dispatch("setEditMessage", null);
     },
     keyDownEvent(event) {
-      if(event.keyCode !== 27) return; // 27 = escape
+      if (event.keyCode !== 27) return; // 27 = escape
       this.close();
     }
   },
   mounted() {
-    bus.$emit('scrollDown')
+    bus.$emit("scrollDown");
   },
   created() {
-    document.addEventListener('keydown', this.keyDownEvent)
+    document.addEventListener("keydown", this.keyDownEvent);
   },
   destroyed() {
     this.$store.dispatch("setEditMessage", null);
-    document.removeEventListener('keydown', this.keyDownEvent)
+    document.removeEventListener("keydown", this.keyDownEvent);
   },
   computed: {
     message() {
-      return messageFormatter(this.data.message)
+      return messageFormatter(this.data.message);
     },
     selectedChannelID() {
       return this.$store.getters.selectedChannelID;
-    },
+    }
   }
-}
+};
 </script>
-
 
 <style scoped>
 .edit-panel {
@@ -50,10 +49,10 @@ export default {
   background: #0f272a;
   display: flex;
   flex-direction: column;
-  z-index:1;
+  z-index: 1;
   margin-bottom: 0;
 }
-.top{
+.top {
   display: flex;
 }
 .title {
@@ -73,13 +72,11 @@ export default {
 }
 .message {
   color: rgb(214, 214, 214);
-  white-space: nowrap; 
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  
 }
 </style>
-
 
 <style>
 .edit-panel img.emoji {

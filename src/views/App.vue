@@ -1,5 +1,5 @@
 <template>
-  <div id="app" ref="app">
+  <div id="app" ref="app" :class="{ desktop: isElectron }">
     <vue-headful :title="title" description="Nertivia Chat Client" />
     <div class="background-image"></div>
     <transition name="fade-between-two" appear>
@@ -10,11 +10,13 @@
             <electron-frame-buttons />
           </div>
         </div>
+        <main-nav />
         <div class="panel-layout">
           <news v-if="currentTab == 3" />
           <direct-message v-if="currentTab == 1" />
           <servers v-if="currentTab == 2" />
           <explore v-if="currentTab == 0" />
+          <admin-panel v-if="currentTab == 4" />
         </div>
       </div>
     </transition>
@@ -29,6 +31,9 @@ import windowProperties from "@/utils/windowProperties";
 import changelog from "@/utils/changelog.js";
 import ConnectingScreen from "./../components/app/ConnectingScreen.vue";
 import Spinner from "./../components/Spinner.vue";
+import MainNav from "./../components/app/MainNav.vue";
+import ThemeService from "../services/ThemeService";
+import ExploreService from "../services/exploreService";
 
 const ElectronFrameButtons = () =>
   import("@/components/ElectronJS/FrameButtons.vue");
@@ -53,6 +58,11 @@ const Explore = () => ({
   loading: Spinner,
   delay: 0
 });
+const AdminPanel = () => ({
+  component: import("./../components/app/Tabs/AdminPanel.vue"),
+  loading: Spinner,
+  delay: 0
+});
 
 export default {
   name: "app",
@@ -62,8 +72,10 @@ export default {
     ConnectingScreen,
     Popouts,
     News,
+    AdminPanel,
     ElectronFrameButtons,
-    Explore
+    Explore,
+    MainNav
   },
   data() {
     return {
@@ -78,7 +90,7 @@ export default {
       });
 
       if (notifications && notifications.count >= 1 && document.hasFocus()) {
-        this.$socket.emit("notification:dismiss", { channelID });
+        this.$socket.client.emit("notification:dismiss", { channelID });
       }
     },
     switchChannel(isServer) {
@@ -118,6 +130,36 @@ export default {
       const height = dimensions.height;
       this.$refs.app.style.height = height + "px";
       this.$refs.app.style.width = width + "px";
+    },
+    async setTheme() {
+      const themeAppliedID = localStorage.getItem("appliedThemeId");
+
+      if (!themeAppliedID) {
+        return;
+      }
+      let exploreThemes = await ExploreService.applyTheme(themeAppliedID);
+      let privateThemes;
+      if (!exploreThemes.ok) {
+        privateThemes = await ThemeService.getTheme(themeAppliedID);
+      }
+      let id;
+      let css;
+      if (exploreThemes.ok) {
+        css = exploreThemes.result.data.css;
+        id = exploreThemes.result.data.id;
+      }
+      if (privateThemes && privateThemes.ok) {
+        css = privateThemes.result.data.css;
+        id = privateThemes.result.data.id;
+      }
+      if (!id && !css) {
+        return;
+      }
+      const styleEl = document.createElement("style");
+      styleEl.id = "theme";
+      styleEl.classList.add("theme-" + id);
+      styleEl.innerHTML = css;
+      document.head.innerHTML += styleEl.outerHTML;
     }
   },
   watch: {
@@ -125,7 +167,7 @@ export default {
       this.resizeEvent(dimensions);
     }
   },
-  mounted() {
+  async mounted() {
     const currentTab = localStorage.getItem("currentTab");
     if (currentTab) {
       this.$store.dispatch("setCurrentTab", parseInt(currentTab));
@@ -140,6 +182,10 @@ export default {
     bus.$on("title:change", title => {
       this.title = title;
     });
+    bus.$on("tab:switch", tab => {
+      this.switchTab(tab);
+    });
+    this.setTheme();
   },
 
   computed: {
@@ -196,7 +242,6 @@ export default {
 };
 </script>
 
-
 <style scoped>
 #app {
   position: fixed;
@@ -204,31 +249,11 @@ export default {
   height: 100%;
 }
 
-.notifyAnimation {
-  animation: notifyAnime;
-  animation-duration: 1s;
-  animation-iteration-count: infinite;
-  animation-fill-mode: forwards;
-}
 .box {
   display: flex;
   flex-direction: column;
   height: 100%;
   width: 100%;
-}
-@keyframes notifyAnime {
-  0% {
-    background: rgba(121, 3, 3, 0.541);
-  }
-  40% {
-    background: rgba(255, 0, 0, 0.568);
-  }
-  60% {
-    background: rgba(255, 0, 0, 0.568);
-  }
-  100% {
-    background: rgba(121, 3, 3, 0.541);
-  }
 }
 
 .coming-soon {
@@ -258,7 +283,7 @@ export default {
   -webkit-app-region: drag;
   flex-shrink: 0;
   height: 25px;
-  background: #0a6f7b;
+  background: #00000038;
 }
 
 .window-buttons {
@@ -343,8 +368,6 @@ export default {
 }
 </style>
 
-
-
 <style>
 textarea {
   font-family: "Roboto", sans-serif;
@@ -355,7 +378,7 @@ textarea {
   z-index: -1;
   width: 100%;
   height: 100%;
-  background-color: #173d42;
+  background: linear-gradient(#0b4155, #01677e);
 }
 
 .panel-layout {
@@ -384,4 +407,3 @@ input:focus {
   background: rgba(0, 0, 0, 0.603);
 }
 </style>
-

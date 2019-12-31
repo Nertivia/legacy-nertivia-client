@@ -1,53 +1,62 @@
 <template>
   <div class="drop-down-menu" v-click-outside="outsideClick">
-    <div class="item" @click="createInvite" >Manage Invites</div>
-    <div class="item" v-if="checkServerCreator" @click="showSettings" >Server Settings</div>
-    <div class="item warn" v-if="!checkServerCreator" @click="leaveServer">Leave Server</div>
+    <div class="item" @click="createInvite">Manage Invites</div>
+    <div class="item" v-if="checkServerCreator" @click="showSettings">
+      Server Settings
+    </div>
+    <div class="item warn" v-if="!checkServerCreator" @click="leaveServer">
+      Leave Server
+    </div>
+    <div class="item" @click="copyServerID">
+      Copy Server ID
+    </div>
   </div>
 </template>
 
-
 <script>
-import messagesService from '@/services/messagesService';
-import ServerService from '../../../../services/ServerService';
+import ServerService from "../../../../services/ServerService";
 export default {
   data() {
-    return {
-
-    };
+    return {};
   },
   methods: {
     closeMenu() {
-      this.$store.dispatch('setAllPopout', {
+      this.$store.dispatch("setAllPopout", {
         show: false,
-        type: null,
-      })
+        type: null
+      });
     },
     outsideClick(event) {
-      if (event.target.classList.contains('options-button')) return;
+      if (event.target.classList.contains("options-button")) return;
       this.closeMenu();
     },
     setPosition() {
       const y = this.contextDetails.y;
       const x = this.contextDetails.x;
 
-      this.$el.style.top = y  + "px";
+      this.$el.style.top = y + "px";
       this.$el.style.left = x + "px";
     },
     showSettings() {
-      this.closeMenu()
-      this.$store.dispatch('setServerSettings', {serverID: this.contextDetails.serverID})
+      this.closeMenu();
+      this.$store.dispatch("setServerSettings", {
+        serverID: this.contextDetails.serverID
+      });
     },
-    createInvite(serverID) {
-      this.closeMenu()
+    createInvite() {
+      this.closeMenu();
       this.$store.dispatch("setPopoutVisibility", {
         name: "showServerInviteMenu",
         visibility: true
       });
     },
     async leaveServer() {
-      this.closeMenu()
-      const {ok, error, result} = await ServerService.leaveServer(this.contextDetails.serverID);
+      this.closeMenu();
+      await ServerService.leaveServer(this.contextDetails.serverID);
+    },
+    copyServerID() {
+      this.closeMenu();
+      this.$clipboard(this.contextDetails.serverID);
     }
   },
   mounted() {
@@ -60,19 +69,17 @@ export default {
   },
   computed: {
     contextDetails() {
-      return this.$store.getters.popouts.allPopout
+      return this.$store.getters.popouts.allPopout;
     },
     user() {
       return this.$store.getters.user;
     },
     checkServerCreator() {
-      return this.contextDetails.creatorUniqueID === this.user.uniqueID
+      return this.contextDetails.creatorUniqueID === this.user.uniqueID;
     }
-  },
-
+  }
 };
 </script>
-
 
 <style lang="scss" scoped>
 .drop-down-menu {
@@ -98,5 +105,4 @@ export default {
     color: rgb(255, 59, 59);
   }
 }
-
 </style>

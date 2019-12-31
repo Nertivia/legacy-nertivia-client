@@ -1,43 +1,43 @@
 <template>
-    <div class="content-inner" v-if="server">
-      <div class="warning">Are you sure you want to delete <strong>{{server.name}}</strong>? This cannot be <strong>UNDONE!</strong></div>
-      <div class="button" @click="deleteServer()">{{confirmed ? 'ARE YOU SURE?' : 'DELETE SERVER'}}</div>
+  <div class="content-inner" v-if="server">
+    <div class="warning">
+      Are you sure you want to delete <strong>{{ server.name }}</strong
+      >? This cannot be <strong>UNDONE!</strong>
     </div>
+    <div class="button" @click="deleteServer()">
+      {{ confirmed ? "ARE YOU SURE?" : "DELETE SERVER" }}
+    </div>
+  </div>
 </template>
 
 <script>
-import config from "@/config.js";
-import { bus } from "@/main";
 import ServerService from "@/services/ServerService";
-import { mapState } from "vuex";
-
 export default {
   components: {},
   data() {
     return {
       confirmed: false
-    }
+    };
   },
   methods: {
-    async deleteServer(){
+    async deleteServer() {
       if (!this.confirmed) {
-        return this.confirmed = true;
+        return (this.confirmed = true);
       }
-      const {ok, error, result} = await ServerService.leaveServer(this.server.server_id);
+      const { ok } = await ServerService.leaveServer(this.server.server_id);
       if (ok) {
-        this.$store.dispatch('setServerSettings', {serverID: null})
+        this.$store.dispatch("setServerSettings", { serverID: null });
       }
     }
   },
   computed: {
     server() {
-      const serverID = this.$store.state.popoutsModule.serverSettings.serverID
-      return this.$store.getters['servers/servers'][serverID]
+      const serverID = this.$store.state.popoutsModule.serverSettings.serverID;
+      return this.$store.getters["servers/servers"][serverID];
     }
   }
 };
 </script>
-
 
 <style scoped>
 .content-inner {
@@ -61,5 +61,3 @@ export default {
   background: rgb(255, 0, 0);
 }
 </style>
-
-

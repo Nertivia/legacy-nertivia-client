@@ -1,22 +1,16 @@
 <template>
-  <div
-    class="dark-background"
-    @mousedown="backgroundClick"
-  >
+  <div class="dark-background" @mousedown="backgroundClick">
     <div class="inner">
-      <div class="text">{{message}}</div>
-     <div class="button" @click="closeMenu()">Okay</div>
+      <div class="text">{{ message }}</div>
+      <div class="button" @click="closeMenu()">Okay</div>
     </div>
   </div>
 </template>
 
 <script>
-
 export default {
   data() {
-    return {
-
-    };
+    return {};
   },
 
   methods: {
@@ -27,19 +21,17 @@ export default {
       if (e.target.classList.contains("dark-background")) {
         this.closeMenu();
       }
-    },
+    }
   },
   computed: {
     message() {
-      return this.$store.getters.popouts.genericMessage
+      return this.$store.getters.popouts.genericMessage;
     }
   }
 };
 </script>
 
-
 <style scoped>
-
 .dark-background {
   position: absolute;
   top: 0;
@@ -78,6 +70,4 @@ export default {
   margin: auto;
   margin-top: 10px;
 }
-
 </style>
-

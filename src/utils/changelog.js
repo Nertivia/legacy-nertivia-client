@@ -1,26 +1,58 @@
-const prototype = {
-  version: 4,
-  title: "",
-  shortTitle: "",
-  date: "1/06/2019",
-  headColor: "rgba(155, 244, 66, 0.77)",
-  new: ["", ""],
-  next: [""]
-};
-
 const config = [
+  {
+    version: 9.1,
+    title: "Roles!",
+    shortTitle: "",
+    date: "23/12/2019",
+    headColor: "#007792",
+    new: [
+      "You can now create roles and then see them in the members list. This feature is not finished yet but seems to be bug free for now :D"
+    ]
+  },
+  {
+    version: 8.9,
+    title: "Public Themes!",
+    shortTitle: "",
+    date: "7/12/2019",
+    new: [
+      "You can now make your themes public! Note: Making your theme public will require reviewing which may take few hours or days."
+    ]
+  },
+  {
+    version: 8.8,
+    title: "Themes!",
+    shortTitle: "",
+    date: "29/11/2019",
+    new: [
+      "You can now create your own themes in the settings popout using css! (You cannot share themes for now, that feature is coming soon though!)"
+    ]
+  },
+  {
+    version: 8.7,
+    title: "12 hour clock mode",
+    shortTitle: "",
+    date: "24/11/2019",
+    new: ["Added 12 hour clock mode."]
+  },
+  {
+    version: 8.6,
+    title: "New redesign!",
+    shortTitle: "",
+    date: "23/11/2019",
+    new: ["A new and better designed Nertivia! Thanks to skull."],
+    fix: ["Some bugs have been fixed"]
+  },
   {
     version: 8.5,
     title: "Format buttons and color text!",
     shortTitle: "",
     date: "18/11/2019",
-    headColor: "#0c7b7f",
     new: [
       "Enter will now create new lines on mobile.",
       "You can now easily format your messages using the format buttons above.",
       "You can now color your messages! <font color='pink'>WOO!</font>",
       "Changelog will now only show the newest changelog, you can view all of the changelog by clicking on the button"
-    ],
+    ]
   },
   {
     version: 8.4,
@@ -30,20 +62,16 @@ const config = [
 
     new: [
       "You can now play mp3 files within nertivia! (mp4 coming soon)",
-      "Redesigned some components such as file upload, edit messages and more.",
+      "Redesigned some components such as file upload, edit messages and more."
     ],
-    fix: [
-      "Some bugs have been fixed."
-    ]
+    fix: ["Some bugs have been fixed."]
   },
   {
     version: 8.3,
     title: "Better formatter + better performance.",
     shortTitle: "",
     date: "15/11/2019",
-    new: [
-      "Made design more consistent throughout the app"
-    ],
+    new: ["Made design more consistent throughout the app"]
   },
   {
     version: 8.2,
@@ -52,32 +80,26 @@ const config = [
     date: "13/11/2019",
     new: [
       "We have changed the markdown formatter from markdown-it to simple-markdown. This has also improved the performance. (Thanks bree!)"
-    ],
+    ]
   },
   {
     version: 8.1,
     title: "Move server channels",
     shortTitle: "",
     date: "12/11/2019",
-    new: [
-      "You can now move channels to make it more organized."
-    ],
+    new: ["You can now move channels to make it more organized."],
     fix: [
       "Fixed a bug where the notification sound would sometimes not work.",
       "Fixed a bug where join message would send twice."
-    ],
+    ]
   },
   {
     version: 8.0,
     title: "Move servers",
     shortTitle: "",
     date: "08/11/2019",
-    new: [
-      "You can now move servers to make your list more organized."
-    ],
-    fix: [
-      "Fixed some bugs behind the scenes"
-    ],
+    new: ["You can now move servers to make your list more organized."],
+    fix: ["Fixed some bugs behind the scenes"],
     msg: "Disabled custom emojis due to an xss vulnerability 🤦‍♂️"
   },
   {

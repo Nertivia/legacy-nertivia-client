@@ -4,24 +4,31 @@
       <div
         class="background-dark"
         v-if="server.server.banner"
-        :style="{backgroundImage: `url(${bannerDomain + server.server.banner}${hover ? '' : '?type=png'})`}"
+        :style="{
+          backgroundImage: `url(${bannerDomain + server.server.banner}${
+            hover ? '' : '?type=png'
+          })`
+        }"
       />
-      <profile-picture size="90px" :url="`${avatarDomain}/${server.server.avatar}`" />
+      <profile-picture
+        size="90px"
+        :url="`${avatarDomain}/${server.server.avatar}`"
+      />
       <div class="name">
         <div class="name-container">
-          <span class="inner-name">{{server.server.name}}</span>
+          <span class="inner-name">{{ server.server.name }}</span>
           <span class="material-icons" v-if="server.verified">check</span>
         </div>
       </div>
     </div>
     <div class="bottom">
-      <div class="description">{{server.description}}</div>
+      <div class="description">{{ server.description }}</div>
       <div class="buttons">
         <div class="member-count">
           <div class="material-icons">account_box</div>
-          {{server.total_members}}
+          {{ server.total_members }}
         </div>
-        <div class="button" :class="{selected: joined}" @click="joinButton">
+        <div class="button" :class="{ selected: joined }" @click="joinButton">
           <span v-if="joined">Joined</span>
           <spinner v-else-if="joinClicked" :size="30" />
           <span v-else-if="!joinClicked">Join Server</span>
@@ -32,7 +39,6 @@
 </template>
 
 <script>
-import { bus } from "@/main";
 import Spinner from "@/components/Spinner";
 import ServerService from "@/services/ServerService";
 import config from "@/config.js";
@@ -50,14 +56,14 @@ export default {
     };
   },
   methods: {
-    async joinButton(event) {
+    async joinButton() {
       if (this.joinClicked || this.joined) return;
       this.joinClicked = true;
 
-      const { ok, error, result } = await ServerService.joinServerById(
+      const { ok } = await ServerService.joinServerById(
         this.server.server.server_id,
         {
-          socketID: this.$socket.id
+          socketID: this.$socket.client.id
         }
       );
       if (ok) {
@@ -83,9 +89,10 @@ export default {
   position: relative;
   width: 250px;
   height: 300px;
-  background: rgba(0, 0, 0, 0.479);
+  background: #024253;
   opacity: 0.9;
   margin: 5px;
+  border-radius: 4px;
   flex-shrink: 0;
   transition: 0.3s;
   display: flex;
@@ -157,10 +164,11 @@ export default {
   .bottom {
     display: flex;
     flex-direction: column;
-    background: rgba(0, 0, 0, 0.541);
+    background: #04333f;
     flex: 1;
     height: 100%;
     flex-shrink: 0;
+    overflow: auto;
 
     .description {
       margin: 10px;
@@ -178,39 +186,37 @@ export default {
       display: flex;
       width: 100%;
       flex-direction: row;
+      margin-bottom: 10px;
     }
     .member-count {
       display: flex;
       align-items: center;
       align-content: center;
+      padding-left: 5px;
+      padding-right: 5px;
       margin-left: 10px;
       margin-top: 0px;
-      width: 100%;
+      border-radius: 4px;
+      margin-right: 10px;
+      flex: 1;
+      background: #022730;
       .material-icons {
         margin-right: 5px;
       }
     }
     .button {
       display: flex;
-      align-content: center;
       align-items: center;
-      flex-direction: column;
       justify-content: center;
-      flex-shrink: 0;
-      background: rgba(40, 140, 255, 0.8);
-      align-self: flex-end;
-      flex-shrink: 0;
-      margin: auto;
+      width: 100%;
+      height: 40px;
+      border-radius: 4px;
+      background: rgba(0, 179, 219, 0.8);
+      transition: 0.2s;
       margin-right: 10px;
-      margin-left: 0;
-      margin-bottom: 10px;
-      padding: 7px;
-      transition: 0.3s;
-      width: 80px;
-      height: 20px;
       cursor: pointer;
       &:hover {
-        background: rgb(40, 140, 255);
+        background: #00b4db;
       }
       &.selected {
         background: grey;

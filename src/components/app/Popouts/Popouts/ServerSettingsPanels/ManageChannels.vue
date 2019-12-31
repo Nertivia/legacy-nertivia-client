@@ -2,11 +2,10 @@
   <div class="content">
     <errors-list-template :errors="errors" v-if="errors" />
     <div class="content-inner">
-
       <div class="channels-list">
         <div
           class="channel add-channel-button"
-          :class="{warn: Object.keys(channels).length === 50}"
+          :class="{ warn: Object.keys(channels).length === 50 }"
           @click="createChannel()"
         >
           <div class="material-icons">add</div>
@@ -16,10 +15,10 @@
           class="channel"
           v-for="(channel, index) in channels"
           :key="channel.channelID"
-          :class="{selected: index === selectedChannelIndex}"
+          :class="{ selected: index === selectedChannelIndex }"
           @click="channelClick($event, index)"
         >
-          <div class="name">{{channel.name}}</div>
+          <div class="name">{{ channel.name }}</div>
         </div>
       </div>
       <div class="details" v-if="channels[selectedChannelIndex]">
@@ -36,36 +35,45 @@
         <div class="input">
           <div class="input-title">Permissions</div>
           <div class="check-box" @click="updatePermissions('send_message')">
-            <div 
-              class="box" 
-              :class="{checked: sendMessagePermission}"
-              />
+            <div class="box" :class="{ checked: sendMessagePermission }" />
             <div class="name">Send Messages</div>
           </div>
         </div>
 
-        <div class="button" v-if="update.name || update.permissions" @click="updateChannel">Save Changes</div>
+        <div
+          class="button"
+          v-if="update.name || update.permissions"
+          @click="updateChannel"
+        >
+          Save Changes
+        </div>
         <div
           class="button warn delete-server disabled"
-          v-if="server.default_channel_id === channels[selectedChannelIndex].channelID"
-        >Cannot delete default channel</div>
+          v-if="
+            server.default_channel_id ===
+              channels[selectedChannelIndex].channelID
+          "
+        >
+          Cannot delete default channel
+        </div>
         <div
           class="button warn delete-server"
-          :class="{disabled: deleteClicked}"
-          v-if="server.default_channel_id !== channels[selectedChannelIndex].channelID"
+          :class="{ disabled: deleteClicked }"
+          v-if="
+            server.default_channel_id !==
+              channels[selectedChannelIndex].channelID
+          "
           @click="deleteChannel"
-        >{{deleteButtonConfirmed ? 'ARE YOU SURE?' : 'Delete Channel' }}</div>
+        >
+          {{ deleteButtonConfirmed ? "ARE YOU SURE?" : "Delete Channel" }}
+        </div>
       </div>
-      
     </div>
   </div>
 </template>
 
 <script>
-import config from "@/config.js";
-import { bus } from "@/main";
 import ServerService from "@/services/ServerService";
-import { mapState } from "vuex";
 import ErrorsListTemplate from "@/components/app/errorsListTemplate";
 export default {
   components: { ErrorsListTemplate },
@@ -76,16 +84,13 @@ export default {
       selectedChannelIndex: 0,
       errors: null,
       update: {
-        name: null,
+        name: null
       }
     };
   },
   methods: {
     async createChannel() {
-      const { ok, error, result } = await ServerService.createChannel(
-        this.server.server_id,
-        "New Channel"
-      );
+      await ServerService.createChannel(this.server.server_id, "New Channel");
     },
     async updateChannel() {
       this.errors = null;
@@ -95,13 +100,13 @@ export default {
       if (this.update.permissions) {
         data.permissions = this.update.permissions;
       }
-      const { ok, error, result } = await ServerService.updateChannel(
+      const { ok, error } = await ServerService.updateChannel(
         this.server.server_id,
         this.channels[this.selectedChannelIndex].channelID,
         data
       );
       if (ok) {
-        this.update = {name: null};
+        this.update = { name: null };
       } else {
         if (error.response) {
           if (error.response.data.message)
@@ -118,7 +123,7 @@ export default {
         return (this.deleteButtonConfirmed = true);
       }
       this.deleteClicked = true;
-      const { ok, error, result } = await ServerService.deleteChannel(
+      await ServerService.deleteChannel(
         this.server.server_id,
         this.channels[this.selectedChannelIndex].channelID
       );
@@ -132,13 +137,13 @@ export default {
     channelClick(event, index) {
       this.selectedChannelIndex = index;
       this.$refs["name"].value = this.channels[this.selectedChannelIndex].name;
-      this.update = {name: null};
+      this.update = { name: null };
       this.deleteButtonConfirmed = false;
     },
     updatePermissions(permissionName) {
-      const permissions = this.update.permissions || {}
+      const permissions = this.update.permissions || {};
       permissions[permissionName] = !this.sendMessagePermission;
-      this.$set(this.update, 'permissions', permissions )
+      this.$set(this.update, "permissions", permissions);
     }
   },
   computed: {
@@ -156,14 +161,14 @@ export default {
     },
     sendMessagePermission() {
       const channel = this.channels[this.selectedChannelIndex];
-      const permissions = this.update.permissions || undefined 
+      const permissions = this.update.permissions || undefined;
       if (permissions) {
-        return !!permissions.send_message
+        return !!permissions.send_message;
       }
       if (!channel.permissions) {
-        return true
+        return true;
       }
-      return !!channel.permissions.send_message
+      return !!channel.permissions.send_message;
     }
   }
 };
@@ -182,7 +187,7 @@ export default {
   position: relative;
 }
 .channels-list {
-  background: #082326;
+  background: rgba(0, 0, 0, 0.12);
   height: 100%;
   width: 165px;
   flex-shrink: 0;
@@ -207,10 +212,10 @@ export default {
   align-self: center;
 }
 .channel:hover {
-  background: #06454d;
+  background: #04232d;
 }
 .channel.selected {
-  background: #064c55;
+  background: #03191f;
 }
 .add-channel-button {
   background: rgba(17, 148, 255, 0.692);
@@ -226,7 +231,7 @@ export default {
   overflow: hidden;
 }
 .button {
-  background: #05353b;
+  background: #024554;
   padding: 10px;
   align-self: center;
   margin: 5px;
@@ -235,7 +240,7 @@ export default {
   transition: 0.3s;
 }
 .button:hover {
-  background: #0f292c;
+  background: #02303c;
 }
 .button.warn {
   background: rgba(255, 17, 17, 0.692);
@@ -266,7 +271,7 @@ export default {
 .input {
   display: flex;
   flex-direction: column;
-  background-color: #06454d;
+  background-color: #044050;
   padding: 10px;
   margin: 10px;
 }
@@ -296,6 +301,3 @@ export default {
   }
 }
 </style>
-
-
-

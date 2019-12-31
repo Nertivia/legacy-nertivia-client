@@ -2,13 +2,15 @@
   <div class="settings-darken-background">
     <div class="settings-box">
       <div class="tabs">
-        <div class="tab"
+        <div
+          class="tab"
           v-for="(tab, index) in tabsFiltered"
           :key="index"
-          :class="{selected: currentTab === index}"
-          @click="currentTab = index">
-          <div class="material-icons">{{tab.icon}}</div>
-          <div class="tab-name">{{tab.name}}</div>
+          :class="{ selected: currentTab === index }"
+          @click="currentTab = index"
+        >
+          <div class="material-icons">{{ tab.icon }}</div>
+          <div class="tab-name">{{ tab.name }}</div>
         </div>
         <div class="tab warn" @click="logout">
           <div class="material-icons">exit_to_app</div>
@@ -17,8 +19,8 @@
       </div>
       <div class="panel">
         <div class="title">
-          <div class="material-icons">{{tabs[currentTab].icon}}</div>
-          <div class="in-title">{{tabs[currentTab].tabName}}</div>
+          <div class="material-icons">{{ tabs[currentTab].icon }}</div>
+          <div class="in-title">{{ tabs[currentTab].tabName }}</div>
           <div class="close-button" @click="close">
             <div class="material-icons">close</div>
           </div>
@@ -30,23 +32,22 @@
 </template>
 
 <script>
-import { bus } from "@/main";
-
-import {isMobile} from '@/utils/Mobile';
-import isElectron from '@/utils/ElectronJS/isElectron';
+import { isMobile } from "@/utils/Mobile";
+import isElectron from "@/utils/ElectronJS/isElectron";
 
 const MyProfile = () => import("./SettingsPanels/MyProfile.vue");
 const ManageEmojis = () => import("./SettingsPanels/ManageEmojis.vue");
 const MessageDesign = () => import("./SettingsPanels/MessageDesign.vue");
+const MyThemes = () => import("./SettingsPanels/MyThemes.vue");
 const Notifications = () => import("./SettingsPanels/Notifications.vue");
 const AppSettings = () => import("./SettingsPanels/appSettings");
-
 
 export default {
   components: {
     MyProfile,
     ManageEmojis,
     MessageDesign,
+    MyThemes,
     Notifications,
     AppSettings
   },
@@ -67,6 +68,12 @@ export default {
           component: "message-design"
         },
         {
+          name: "My Themes",
+          tabName: "My Themes BETA",
+          icon: "palette",
+          component: "my-themes"
+        },
+        {
           name: "Manage Emojis",
           tabName: "Manage Emojis",
           icon: "face",
@@ -77,14 +84,14 @@ export default {
           tabName: "Notifications",
           icon: "message",
           component: "notifications",
-          hidden: isMobile(),
+          hidden: isMobile()
         },
         {
           name: "App Settings",
           tabName: "App Settings",
           icon: "desktop_windows",
           component: "app-settings",
-          hidden: !isElectron,
+          hidden: !isElectron
         }
       ]
     };
@@ -92,7 +99,11 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch("logout");
-      isElectron ? window.location.href = '/login' : window.location.href = "/";
+      setTimeout(() => {
+        isElectron
+          ? (window.location.href = "/login")
+          : (window.location.href = "/");
+      }, 1000);
     },
     close() {
       this.$store.dispatch("setPopoutVisibility", {
@@ -103,12 +114,11 @@ export default {
   },
   computed: {
     tabsFiltered() {
-      return this.tabs.filter(t => t.hidden !== true )
+      return this.tabs.filter(t => t.hidden !== true);
     }
   }
 };
 </script>
-
 
 <style scoped>
 .settings-darken-background {
@@ -127,10 +137,9 @@ export default {
   display: flex;
   margin: auto;
   overflow: hidden;
-  background-image: url("../../../../assets/leftPanelBackground.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  box-shadow: 0px 0px 20px 5px #151515bd;
+  background: linear-gradient(#0b4155, #01677e);
+  border-radius: 4px;
 }
 .tabs {
   height: 100%;
@@ -140,7 +149,7 @@ export default {
   overflow-x: hidden;
   flex-shrink: 0;
   position: relative;
-  background: #02292c;
+  background: #00000033;
 }
 .panel {
   display: flex;
@@ -161,16 +170,14 @@ export default {
 }
 
 .tab:hover {
-  background: #08616b;
+  background: #072935;
 }
 
 .tab.selected {
-  background: #064c55;
+  background: #051f28;
 }
 
-
-
-.tab.warn{
+.tab.warn {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -182,7 +189,7 @@ export default {
   display: flex;
   padding: 10px;
   font-size: 25px;
-  background: #02292c;
+  background: #05222d;
 }
 .title .material-icons {
   font-size: 40px;
@@ -204,7 +211,7 @@ export default {
   transition: 0.3s;
 }
 .close-button:hover {
-  background: #064f56;
+  background: #03181f;
 }
 .close-button .material-icons {
   margin: auto;
@@ -245,7 +252,7 @@ export default {
 @media (max-width: 550px) {
   .settings-box {
     flex-direction: column;
-    height:100%;
+    height: 100%;
     border-radius: 0;
   }
   .tabs {
@@ -256,7 +263,7 @@ export default {
     overflow-x: auto;
     flex-shrink: 0;
   }
-  .tab.warn{
+  .tab.warn {
     position: relative;
   }
   .tab {
@@ -267,4 +274,3 @@ export default {
   }
 }
 </style>
-

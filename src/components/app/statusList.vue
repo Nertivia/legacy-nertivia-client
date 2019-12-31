@@ -49,7 +49,6 @@ export default {
 };
 </script>
 
-
 <style scoped>
 .show-status-list-enter-active,
 .show-status-list-leave-active {
@@ -58,14 +57,14 @@ export default {
 .show-status-list-enter,
 .show-status-list-leave-to {
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(-20px);
 }
 
 .status-popout {
   position: absolute;
-  bottom: 66px;
+  top: 60px;
   right: 5px;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(3, 32, 41, 0.9);
   backdrop-filter: blur(5px);
   width: 180px;
   z-index: 4;
@@ -81,7 +80,7 @@ export default {
 }
 
 .status-list:hover {
-  background: #042f33;
+  background: #081619;
 }
 
 .status-icon {
@@ -103,4 +102,3 @@ export default {
   padding-right: 5px;
 }
 </style>
-

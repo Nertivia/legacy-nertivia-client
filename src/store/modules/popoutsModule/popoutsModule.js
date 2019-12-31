@@ -1,8 +1,4 @@
-import axios from "axios";
 import Vue from "vue";
-import { bus } from "@/main";
-import VueRouter from "vue-router";
-import NotificationSounds from "@/utils/notificationSound";
 
 const state = {
   fileToUpload: null,
@@ -49,6 +45,7 @@ const state = {
     serverID: null,
     uniqueID: null,
     creatorUniqueID: null,
+    id: null,
     x: null,
     y: null
   }

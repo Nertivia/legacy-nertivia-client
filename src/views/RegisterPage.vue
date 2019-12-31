@@ -10,7 +10,9 @@
               <i class="material-icons">account_circle</i>
               Register
             </div>
-            <div class="info">Welcome, new user! I Hope you enjoy Nertivia!</div>
+            <div class="info">
+              Welcome, new user! I Hope you enjoy Nertivia!
+            </div>
             <form
               v-if="!showCaptcha"
               action="#"
@@ -20,15 +22,24 @@
               <div class="input">
                 <div class="input-text">
                   Email
-                  <span v-if="email.alert" class="error">- {{ email.alert }}</span>
+                  <span v-if="email.alert" class="error"
+                    >- {{ email.alert }}</span
+                  >
                 </div>
-                <input v-model="email.value" type="email" placeholder="Email" autocomplete="off" />
+                <input
+                  v-model="email.value"
+                  type="email"
+                  placeholder="Email"
+                  autocomplete="off"
+                />
               </div>
 
               <div class="input">
                 <div class="input-text">
                   Username
-                  <span v-if="username.alert" class="error">- {{ username.alert }}</span>
+                  <span v-if="username.alert" class="error"
+                    >- {{ username.alert }}</span
+                  >
                 </div>
                 <input
                   v-model="username.value"
@@ -41,7 +52,9 @@
               <div class="input">
                 <div class="input-text">
                   Password
-                  <span v-if="password.alert" class="error">- {{ password.alert }}</span>
+                  <span v-if="password.alert" class="error"
+                    >- {{ password.alert }}</span
+                  >
                 </div>
                 <input
                   v-model="password.value"
@@ -50,13 +63,25 @@
                   placeholder="Password"
                 />
               </div>
-              <span v-if="otherError" class="error" style="text-align: center;">{{ otherError }}</span>
+              <span
+                v-if="otherError"
+                class="error"
+                style="text-align: center;"
+                >{{ otherError }}</span
+              >
               <div class="buttons">
                 <button
                   class="button register-button"
                   @click.prevent="loginButton"
-                >I'm already a user!</button>
-                <button type="submit" :class="{button: true, deactive: deactive}">Register</button>
+                >
+                  I'm already a user!
+                </button>
+                <button
+                  type="submit"
+                  :class="{ button: true, deactive: deactive }"
+                >
+                  Register
+                </button>
               </div>
             </form>
             <div v-if="showCaptcha" class="captcha-box">
@@ -135,7 +160,7 @@ export default {
       if (ok) {
         this.visible = false;
         this.$store.dispatch("token", result.data.token);
-        setTimeout(_ => {
+        setTimeout(() => {
           window.location.href = "/app";
         }, 1000);
       } else {
@@ -201,7 +226,7 @@ body {
   display: flex;
   flex-direction: column;
   color: white;
-  background: #173d42;
+  background: linear-gradient(#0b4155, #01677e);
 }
 .app-content {
   display: flex;
@@ -228,9 +253,8 @@ body {
   align-items: center;
   z-index: 9999;
   padding-bottom: 20px;
-  background-image: url("../assets/leftPanelBackground.jpg");
-  background-position: center;
-  background-size: cover;
+  background: #043b4a;
+  border-radius: 4px;
 }
 .box .title {
   text-align: center;
@@ -262,7 +286,7 @@ form {
   margin: 10px;
   width: 80%;
   align-self: center;
-  background: #074d57;
+  background: #032b35;
   padding: 10px;
 }
 .input-text {
@@ -274,7 +298,7 @@ input {
   padding: 10px;
   border: none;
   background: none;
-  background: #03262b;
+  background: #021b21;
   color: white;
 }
 .buttons {
@@ -295,6 +319,7 @@ input {
   font-size: 17px;
   outline: none;
   transition: 0.2s;
+  border-radius: 4px;
   cursor: pointer;
 }
 .button:hover {

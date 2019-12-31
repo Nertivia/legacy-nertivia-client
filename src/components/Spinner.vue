@@ -4,10 +4,7 @@
       class="loading-animation"
       :style="`height: ${size}px ; width: ${size}px ;`"
     />
-    <div
-      v-if="msg"
-      class="title"
-    >
+    <div v-if="msg" class="title">
       {{ $props.msg }}
     </div>
   </div>
@@ -21,15 +18,14 @@ export default {
       default: 100
     }
   }
-}
+};
 </script>
 
-
 <style scoped>
-.loading-screen{
+.loading-screen {
   margin: auto;
 }
-.loading-animation{
+.loading-animation {
   background-size: 100%;
   background-image: url(../assets/spinner.svg);
   display: table;

@@ -2,17 +2,24 @@
   <div class="left-panel">
     <navigation />
     <div class="content">
+      <MyMiniInformation />
       <div class="tabs">
         <div
           class="tab"
-          :class="{notifyAnimation: friendRequestExists, selected: currentTab === 0}"
+          :class="{ notify: friendRequestExists, selected: currentTab === 0 }"
           @click="currentTab = 0"
-        ><div class="material-icons">group</div>Friends</div>
+        >
+          <div class="material-icons">group</div>
+          Friends
+        </div>
         <div
           class="tab"
-          :class="{notifyAnimation: DMNotification, selected: currentTab === 1 }"
+          :class="{ notify: DMNotification, selected: currentTab === 1 }"
           @click="currentTab = 1"
-        ><div class="material-icons">access_time</div>Recents</div>
+        >
+          <div class="material-icons">access_time</div>
+          Recents
+        </div>
       </div>
       <div v-if="currentTab === 0" class="list">
         <pending-friends />
@@ -22,8 +29,6 @@
       <div v-else class="list">
         <recent-friends />
       </div>
-      <div class="seperater" />
-      <MyMiniInformation />
     </div>
   </div>
 </template>
@@ -94,15 +99,12 @@ export default {
 <style scoped>
 .left-panel {
   height: 100%;
-  width: 300px;
+  width: 340px;
+  max-width: calc(100% - 60px);
   flex-shrink: 0;
   display: flex;
   flex-direction: row;
   z-index: 1;
-  background-image: url("../../assets/leftPanelBackground.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
 }
 .content {
   display: flex;
@@ -110,6 +112,8 @@ export default {
   flex-shrink: 0;
   flex: 1;
   overflow: hidden;
+  background: rgba(0, 0, 0, 0.14);
+  border-top-left-radius: 10px;
 }
 .list {
   flex: 1;
@@ -136,14 +140,13 @@ export default {
   height: 50px;
   transition: 0.2s;
   cursor: pointer;
-  background: #075e64;
   position: relative;
 }
 .tab .material-icons {
   margin-right: 5px;
 }
 .tab:hover::before {
-  content: '';
+  content: "";
   position: absolute;
   height: 3px;
   left: 0;
@@ -152,7 +155,7 @@ export default {
   background: rgb(177, 177, 177);
 }
 .tab::before {
-  content: '';
+  content: "";
   position: absolute;
   height: 3px;
   left: 0;
@@ -162,7 +165,7 @@ export default {
   transition: 0.2s;
 }
 .tab.selected::before {
-  content: '';
+  content: "";
   position: absolute;
   height: 3px;
   left: 0;
@@ -200,24 +203,13 @@ export default {
   flex-shrink: 0;
 }
 
-.notifyAnimation {
-  animation: notifyAnime;
-  animation-duration: 1s;
-  animation-iteration-count: infinite;
-  animation-fill-mode: forwards;
+.notify {
+  background: #ee3e34;
 }
-@keyframes notifyAnime {
-  0% {
-    background: rgba(121, 3, 3, 0.541);
-  }
-  40% {
-    background: rgba(255, 0, 0, 0.568);
-  }
-  60% {
-    background: rgba(255, 0, 0, 0.568);
-  }
-  100% {
-    background: rgba(121, 3, 3, 0.541);
+
+@media (max-width: 600px) {
+  .content {
+    border-radius: 0;
   }
 }
 </style>

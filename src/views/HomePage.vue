@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <vue-headful title="Nertivia" description="Nertivia Chat Client" />
-    <div ref="backgroundImage" class="background-image" />
+    <div ref="backgroundImage" class="background" />
     <div class="content">
       <transition name="fall-down" appear>
         <div class="header">
@@ -10,7 +10,11 @@
           <div class="links">
             <div v-if="!loggedIn" class="link" @click="signupPage">Sign up</div>
             <div v-if="!loggedIn" class="link" @click="loginPage">Login</div>
-            <spinner v-if="loggedIn && !user" class="spinner-profile" :size="50" />
+            <spinner
+              v-if="loggedIn && !user"
+              class="spinner-profile"
+              :size="50"
+            />
             <profile-picture
               v-if="loggedIn && user"
               class="avatar"
@@ -34,28 +38,37 @@
       </transition>
       <transition name="side-in" appear>
         <div class="inner-content">
-          <div
-            class="title"
-          >The best chat client that won't restrict you from important and fun features.</div>
+          <div class="title">
+            The best chat client that won't restrict you from important and fun
+            features.
+          </div>
           <img class="graphic" src="@/assets/graphics/HomeGraphics.png" />
           <div class="buttons">
             <div class="button" @click="openApp">Open In Browser</div>
-            <div class="button download" @click="showDownloadsPopout = true">Download App</div>
+            <div class="button download" @click="showDownloadsPopout = true">
+              Download App
+            </div>
           </div>
           <div class="features-list">
             <div class="title">Things you can do in Nertivia</div>
             <div class="list">
               <div class="feature">
                 <i class="material-icons">insert_drive_file</i>
-                <div class="description">Link Nertivia with Google Drive to upload large files.</div>
+                <div class="description">
+                  Link Nertivia with Google Drive to upload large files.
+                </div>
               </div>
               <div class="feature">
                 <i class="material-icons">face</i>
-                <div class="description">Free custom gif emojis and profile picture.</div>
+                <div class="description">
+                  Free custom gif emojis and profile picture.
+                </div>
               </div>
               <div class="feature">
                 <i class="material-icons">storage</i>
-                <div class="description">Make your own servers with channels.</div>
+                <div class="description">
+                  Make your own servers with channels.
+                </div>
               </div>
             </div>
           </div>
@@ -64,7 +77,10 @@
     </div>
     <div class="popouts">
       <transition name="fade">
-        <download-app-popout v-if="showDownloadsPopout" @close="showDownloadsPopout = false" />
+        <download-app-popout
+          v-if="showDownloadsPopout"
+          @close="showDownloadsPopout = false"
+        />
       </transition>
     </div>
   </div>
@@ -129,7 +145,6 @@ export default {
   }
 };
 </script>
-
 
 <style scoped>
 .fade-enter-active,
@@ -221,19 +236,16 @@ body {
   flex-shrink: 0;
   border: 10px;
   position: relative;
-  background-image: url("../assets/leftPanelBackground.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+  background: #072834;
 }
 .logo {
-  background-image: url("../assets/logo.png");
+  background: url("../assets/logo.png");
   background-size: 100%;
   height: 50px;
   width: 50px;
   margin-top: auto;
   margin-bottom: auto;
-  margin-left: 10px;
+  margin-left: 20px;
   background-repeat: no-repeat;
 }
 .name {
@@ -244,13 +256,13 @@ body {
   color: white;
 }
 
-.background-image {
+.background {
   z-index: -1;
   position: fixed;
   width: 100%;
   height: 100%;
   transition: 0.5s;
-  background-color: #173d42;
+  background: linear-gradient(#0b4155, #01677e);
 }
 .content {
   position: fixed;
@@ -279,7 +291,8 @@ body {
   margin-bottom: 0;
   user-select: none;
   flex-shrink: 0;
-  border: solid 5px #0f272a;
+  border: solid 2px #0f272a;
+  border-radius: 4px;
 }
 .title {
   font-size: 25px;
@@ -302,6 +315,7 @@ body {
   transition: 0.3s;
   margin: 10px;
   cursor: pointer;
+  border-radius: 4px;
 }
 
 .button:hover {
@@ -324,7 +338,7 @@ body {
   justify-content: center;
 }
 .feature {
-  background: #102a2e;
+  background: #024352;
   color: white;
   margin: 10px;
   padding: 2px;
@@ -336,6 +350,7 @@ body {
   height: 200px;
   width: 200px;
   flex-shrink: 0;
+  border-radius: 4px;
   transition: 0.3s;
 }
 .feature .description {
@@ -353,11 +368,12 @@ body {
 }
 .link {
   padding: 10px;
-  background: rgba(0, 0, 0, 0.219);
+  background: #25424d;
   user-select: none;
   margin-left: 5px;
   transition: 0.3s;
   cursor: pointer;
+  border-radius: 4px;
 }
 .link:hover {
   background: rgba(255, 255, 255, 0.26);

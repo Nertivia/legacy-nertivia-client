@@ -1,24 +1,22 @@
 <template>
   <div class="errors">
     <div class="errors-title">Fix these mistakes:</div>
-    <li class="error" v-for="(error, index) in errors" :key="index">{{error.msg}}</li>
+    <li class="error" v-for="(error, index) in errors" :key="index">
+      {{ error.msg }}
+    </li>
   </div>
 </template>
 
-
 <script>
 export default {
-  props: ['errors']
-}
+  props: ["errors"]
+};
 </script>
 
-
 <style scoped>
-
-.errors{
+.errors {
   background: rgb(255, 62, 62);
   color: white;
   padding: 10px;
 }
-
 </style>

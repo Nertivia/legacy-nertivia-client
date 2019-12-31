@@ -1,4 +1,3 @@
 module.exports = {
-    runtimeCompiler: true,
-    productionSourceMap: false
-}
+  productionSourceMap: false
+};

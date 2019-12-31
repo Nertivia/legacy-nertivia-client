@@ -4,14 +4,16 @@
       <div class="checkbox" @click="toggleNotificationSounds">
         <div
           class="checkbox-box"
-          :class="{selected: !notificationSettings.disableNotificationSound}"
+          :class="{ selected: !notificationSettings.disableNotificationSound }"
         />
         <div class="checkbox-name">Notification Sounds</div>
       </div>
       <div class="checkbox" @click="toggleNotification()">
         <div
           class="checkbox-box"
-          :class="{selected: !notificationSettings.disableDesktopNotification}"
+          :class="{
+            selected: !notificationSettings.disableDesktopNotification
+          }"
         />
         <div class="checkbox-name">Desktop Notifications</div>
       </div>
@@ -20,10 +22,6 @@
 </template>
 
 <script>
-import config from "@/config.js";
-
-import SettingsService from "@/services/settingsService.js";
-
 export default {
   data() {
     return {
@@ -144,6 +142,5 @@ export default {
   width: 100%;
   height: 100%;
   flex-direction: column;
-  background:#09464f;
 }
 </style>

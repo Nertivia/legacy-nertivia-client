@@ -4,16 +4,23 @@
       class="avatar"
       :url="`${avatar}${hover ? '' : '?type=png'}`"
       :admin="user.admin"
-      size="40px"
+      size="35px"
       :hover="true"
       @click.native="openUserInformation"
     />
     <div class="information">
-      <div class="username">{{user.username}}</div>
-      <div class="tag">@{{user.tag}}</div>
+      <div class="username">{{ user.username }}</div>
+      <div class="tag">@{{ user.tag }}</div>
     </div>
-    <div class="status-button" @click="status.isPoppedOut = !status.isPoppedOut">
-      <statusList v-if="status.isPoppedOut" v-click-outside="closeMenus" class="status-popout" />
+    <div
+      class="status-button"
+      @click="status.isPoppedOut = !status.isPoppedOut"
+    >
+      <statusList
+        v-if="status.isPoppedOut"
+        v-click-outside="closeMenus"
+        class="status-popout"
+      />
       <img class="status" :src="getStatus" />
     </div>
   </div>
@@ -79,7 +86,7 @@ export default {
     },
     async changeStatus(status) {
       // emit to server to change their status.
-      const { ok, error, result } = await settingsService.setStatus(status);
+      const { ok, result } = await settingsService.setStatus(status);
       if (ok && result.data.status == true) {
         this.$store.dispatch("changeStatus", result.data.set);
       }
@@ -88,16 +95,15 @@ export default {
 };
 </script>
 
-
-
 <style scoped lang="scss">
 .my-mini-information {
   display: flex;
   position: relative;
   flex-shrink: 0;
   align-items: center;
-  height: 60px;
+  height: 50px;
   transition: 0.3s;
+  background-color: #083a4a;
 }
 
 .avatar {

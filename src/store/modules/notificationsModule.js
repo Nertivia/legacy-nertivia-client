@@ -16,13 +16,14 @@ const actions = {
     context.commit("addAllNotifications", notifications);
   },
   messageCreatedNotification(context, notification) {
-    const { guildID, channelID, lastMessageID, sender } = notification;
+    const { channelID, lastMessageID, sender } = notification;
     const currentTab = context.rootGetters.currentTab;
 
     // dont display a notification if the channel is selected.
     if (
       context.rootState.channelModule.selectedChannelID !== channelID ||
-      (currentTab !== 1 && currentTab !== 2) || !document.hasFocus()
+      (currentTab !== 1 && currentTab !== 2) ||
+      !document.hasFocus()
     ) {
       NotificationSounds.notification();
     }

@@ -6,41 +6,38 @@
           class="tab"
           v-for="(tab, _index) in tabs"
           :key="_index"
-          :class="{selected: index === _index, critical: tab.critical}"
+          :class="{ selected: index === _index, critical: tab.critical }"
           @click="index = _index"
         >
-          <div class="material-icons">{{tab.icon}}</div>
-          <div>{{tab.title}}</div>
+          <div class="material-icons">{{ tab.icon }}</div>
+          <div>{{ tab.title }}</div>
         </div>
       </div>
       <div class="content">
-        <div class="header" :class="{critical: tabs[index].critical}">
-          <div class="material-icons">{{tabs[index].icon}}</div>
-          <div>{{tabs[index].title}}</div>
+        <div class="header" :class="{ critical: tabs[index].critical }">
+          <div class="material-icons">{{ tabs[index].icon }}</div>
+          <div>{{ tabs[index].title }}</div>
           <div class="close-button" @click="closeMenu">
             <div class="material-icons">close</div>
           </div>
         </div>
         <general v-if="index === 0" />
         <manage-channels v-if="index === 1" />
-        <manage-bans v-if="index === 2" />
-        <server-visibility v-if="index === 3" />
-        <delete-server v-if="index === 4" />
+        <manage-roles v-if="index === 2" />
+        <manage-bans v-if="index === 3" />
+        <server-visibility v-if="index === 4" />
+        <delete-server v-if="index === 5" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import config from "@/config.js";
-import { bus } from "@/main";
-import ServerService from "@/services/ServerService";
-import { mapState } from "vuex";
-
 // panels
 import General from "./General.vue";
 import DeleteServer from "./DeleteServer.vue";
 import ManageChannels from "./ManageChannels.vue";
+import ManageRoles from "./ManageRoles.vue";
 import ManageBans from "./ManageBans.vue";
 import ServerVisibility from "./ServerVisibility.vue";
 export default {
@@ -49,14 +46,16 @@ export default {
     DeleteServer,
     ManageChannels,
     ServerVisibility,
-    ManageBans
+    ManageBans,
+    ManageRoles
   },
   data() {
     return {
       index: 0,
       tabs: [
         { title: "General", icon: "info" },
-        { title: "Manage Channels", icon: "storage" },
+        { title: "Channels", icon: "storage" },
+        { title: "Roles", icon: "extension" },
         // {title: "Manage Invites", icon: "local_post_office"},
         { title: "Banned Members", icon: "lock" },
         { title: "Server Visibility", icon: "visibility" },
@@ -86,7 +85,6 @@ export default {
 };
 </script>
 
-
 <style scoped lang="scss">
 .dark-background {
   position: absolute;
@@ -107,10 +105,10 @@ export default {
   color: white;
   overflow: hidden;
   position: relative;
-  background-image: url("../../../../../assets/leftPanelBackground.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  overflow: hidden;
+  box-shadow: 0px 0px 20px 5px #151515bd;
+  background: linear-gradient(#0b4155, #01677e);
+  border-radius: 4px;
 }
 
 .content {
@@ -123,7 +121,7 @@ export default {
 .tabs {
   display: flex;
   flex-direction: column;
-  background: #144a59;
+  background: #00000033;
   height: 100%;
   width: 180px;
   flex-shrink: 0;
@@ -149,16 +147,16 @@ export default {
   align-self: center;
 }
 .tab:hover {
-  background: #103a45;
+  background: #072935;
 }
 .critical {
   color: red;
 }
 .tab.selected {
-  background: #0c2c35;
+  background: #051f28;
 }
 .header {
-  background: #063e45;
+  background: #05222d;
   display: flex;
   height: 50px;
   flex-shrink: 0;

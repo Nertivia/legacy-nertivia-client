@@ -1,7 +1,11 @@
 <template>
   <div
     class="server"
-    :class="{selected: selectedServerID === serverData.server_id, notifyAnimation: notification }"
+    :data-servername="serverData.name"
+    :class="{
+      selected: selectedServerID === serverData.server_id,
+      notifyAnimation: notification
+    }"
     @contextmenu.prevent="contextEvent"
     @mouseenter="hoverEvent"
     @mouseover="hover = true"
@@ -9,6 +13,7 @@
   >
     <profile-picture
       size="45px"
+      class="avatar"
       :url="`${avatarDomain}/${serverData.avatar}${hover ? '' : '?type=png'}`"
     />
   </div>
@@ -18,7 +23,6 @@
 import { bus } from "../../../main.js";
 import config from "@/config.js";
 import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
-import ServerService from "@/services/ServerService";
 
 export default {
   components: { ProfilePicture },
@@ -85,8 +89,8 @@ export default {
   z-index: 1;
   display: flex;
   align-self: center;
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
   flex-shrink: 0;
   justify-content: center;
   align-content: center;
@@ -94,15 +98,27 @@ export default {
   user-select: none;
   transition: background 0.2s;
   cursor: pointer;
-  &:hover {
-    background: #074447;
+  &:hover::before {
+    content: "";
+    position: absolute;
+    top: 15px;
+    bottom: 15px;
+    left: 0;
+    width: 3px;
+    background: #ffffff5e;
+    transition: 0.2s;
   }
-  &.selected {
-    background: #042a2b;
+  &.selected::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    left: 0;
+    width: 3px;
+    background: #ffffffc5;
   }
 }
-
-.notifyAnimation:before {
+.notifyAnimation:after {
   content: "!";
   color: white;
   display: flex;
@@ -117,25 +133,7 @@ export default {
   right: 5px;
   width: 20px;
   height: 20px;
-  animation: notifyAnime;
-  animation-duration: 1s;
-  animation-iteration-count: infinite;
-  animation-fill-mode: forwards;
   border-radius: 50%;
-  background: rgba(255, 23, 23, 0.753);
-}
-@keyframes notifyAnime {
-  0% {
-    opacity: 1;
-  }
-  40% {
-    opacity: 0.9;
-  }
-  60% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0.2;
-  }
+  background: #ee3e34;
 }
 </style>

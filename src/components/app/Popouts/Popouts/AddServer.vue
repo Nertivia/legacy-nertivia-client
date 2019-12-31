@@ -2,11 +2,24 @@
   <div class="dark-background" @mousedown="backgroundClick">
     <div class="inner">
       <div class="tabs">
-        <div :class="{tab: true, selected: tab == 0}" @click="tab = 0; slideBack(); ">Create</div>
         <div
-          :class="{tab: true, selected: tab == 1 || tab == 2}"
-          @click="tab = 1; slideForward();"
-        >Join</div>
+          :class="{ tab: true, selected: tab == 0 }"
+          @click="
+            tab = 0;
+            slideBack();
+          "
+        >
+          Create
+        </div>
+        <div
+          :class="{ tab: true, selected: tab == 1 || tab == 2 }"
+          @click="
+            tab = 1;
+            slideForward();
+          "
+        >
+          Join
+        </div>
       </div>
       <transition-group tag="div" class="slider" :name="slideInDirection">
         <div class="content" v-if="tab == 0" key="add-server">
@@ -14,13 +27,25 @@
 
           <div class="inner-content">
             <div class="add-server">
-              <profile-picture class="avatar" size="90px" :url="avatar + 'default'" />
+              <profile-picture
+                class="avatar"
+                size="90px"
+                :url="avatar + 'default'"
+              />
               <div class="input">
                 <div class="input-name">Server Name</div>
-                <input v-model="serverName" type="text" placeholder="Server Name" />
+                <input
+                  v-model="serverName"
+                  type="text"
+                  placeholder="Server Name"
+                />
               </div>
-              <span v-if="serverNameError" class="warn">{{ serverNameError }}</span>
-              <div class="button create-button" @click="createButton">Create</div>
+              <span v-if="serverNameError" class="warn">{{
+                serverNameError
+              }}</span>
+              <div class="button create-button" @click="createButton">
+                Create
+              </div>
             </div>
           </div>
         </div>
@@ -30,27 +55,46 @@
           <div class="input">
             <div class="input-name">
               Invite Code
-              <span v-if="inviteCodeError" class="warn">- {{ inviteCodeError }}</span>
+              <span v-if="inviteCodeError" class="warn"
+                >- {{ inviteCodeError }}</span
+              >
             </div>
             <input v-model="inviteCode" type="text" placeholder="Invite code" />
           </div>
           <div class="button check-button" @click="checkInviteCode">Check</div>
         </div>
         <div v-if="tab == 2" key="join-server" class="content server">
-          <profile-picture class="avatar found" size="100px" :url="avatar + server.avatar" />
+          <profile-picture
+            class="avatar found"
+            size="100px"
+            :url="avatar + server.avatar"
+          />
           <div class="server-name">{{ server.name }}</div>
           <div class="buttons">
             <div
               class="button cancel-button"
-              @click="server = null; inviteCode = ''; tab = 1; slideBack();"
-            >Cancel</div>
+              @click="
+                server = null;
+                inviteCode = '';
+                tab = 1;
+                slideBack();
+              "
+            >
+              Cancel
+            </div>
             <div
               v-if="!servers[server.server_id]"
               class="button join-button"
               @click="joinButton"
-            >Join</div>
-            <div v-if="servers[server.server_id]" class="button join-button button-clicked">Joined</div>
-
+            >
+              Join
+            </div>
+            <div
+              v-if="servers[server.server_id]"
+              class="button join-button button-clicked"
+            >
+              Joined
+            </div>
           </div>
         </div>
       </transition-group>
@@ -60,10 +104,9 @@
 
 <script>
 import config from "@/config.js";
-import { bus } from "@/main";
+
 import ServerService from "@/services/ServerService";
 import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
-import serversModule from "../../../../store/modules/serversModule";
 import ErrorsListTemplate from "@/components/app/errorsListTemplate";
 
 export default {
@@ -113,7 +156,7 @@ export default {
         return;
       }
       event.target.classList.add("button-clicked");
-      const { ok, error, result } = await ServerService.post({ name });
+      const { ok, error } = await ServerService.post({ name });
       if (ok) {
         this.closeMenu();
       } else {
@@ -153,12 +196,9 @@ export default {
     async joinButton(event) {
       if (event.target.classList.contains("button-clicked")) return;
       event.target.classList.add("button-clicked");
-      const { ok, error, result } = await ServerService.joinServer(
-        this.inviteCode,
-        {
-          socketID: this.$socket.id
-        }
-      );
+      const { ok } = await ServerService.joinServer(this.inviteCode, {
+        socketID: this.$socket.client.id
+      });
       if (ok) {
         this.closeMenu();
       }
@@ -166,7 +206,6 @@ export default {
   }
 };
 </script>
-
 
 <style scoped>
 .slide-forward-enter-active,
@@ -217,16 +256,15 @@ export default {
   flex-direction: column;
   color: white;
   overflow: hidden;
-  background-image: url("../../../../assets/leftPanelBackground.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  box-shadow: 0px 0px 20px 5px #151515bd;
+  background: linear-gradient(#0b4155, #01677e);
+  border-radius: 4px;
 }
 .tabs {
   display: flex;
   justify-content: center;
   padding-top: 15px;
-  background: #144a59;
+  background: #05222d;
   flex-shrink: 0;
 }
 .tab {
@@ -284,7 +322,7 @@ export default {
   align-self: center;
   margin-top: 15px;
   margin-bottom: 10px;
-  background-color: #06454d;
+  background-color: #044050;
   padding: 10px;
 }
 
@@ -301,7 +339,7 @@ export default {
 
 .button {
   padding: 5px;
-  background: #05353b;
+  background: #024554;
   user-select: none;
   border: none;
   color: white;
@@ -313,12 +351,11 @@ export default {
   cursor: pointer;
 }
 .button:hover {
-  background: #0f292c;
+  background: #02303c;
 }
 
 .button-clicked {
   background: rgb(126, 126, 126) !important;
-
 }
 
 .create-button {
@@ -378,4 +415,3 @@ export default {
   margin-top: 70px;
 }
 </style>
-

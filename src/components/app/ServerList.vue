@@ -2,32 +2,36 @@
   <div class="left-panel">
     <navigation />
     <div class="right">
+      <MyMiniInformation />
       <div
         class="server-banner"
         @mouseenter="bannerHover = true"
         @mouseleave="bannerHover = false"
-        :class="{extendBanner: server && server.banner}"
+        :class="{ extendBanner: server && server.banner }"
         v-if="selectedServerID"
       >
         <div
           class="banner-image"
           @click="bannerImageClicked"
           v-if="server && server.banner"
-          :style="{backgroundImage: `url(${bannerDomain}${server.banner}${bannerHover ? '' : '?type=png'})`}"
+          :style="{
+            backgroundImage: `url(${bannerDomain}${server.banner}${
+              bannerHover ? '' : '?type=png'
+            })`
+          }"
         />
         <div class="sub-banner">
-          <div
-            class="text"
-            :title="servers[selectedServerID].name"
-          >{{servers[selectedServerID].name}}</div>
-          <div class="options-button material-icons" @click="openServerContext">more_vert</div>
+          <div class="text" :title="servers[selectedServerID].name">
+            {{ servers[selectedServerID].name }}
+          </div>
+          <div class="options-button material-icons" @click="openServerContext">
+            more_vert
+          </div>
         </div>
       </div>
       <div class="channels-list">
         <channels-list v-if="selectedServerID" :server-i-d="selectedServerID" />
       </div>
-      <div class="seperater" />
-      <MyMiniInformation />
     </div>
   </div>
 </template>
@@ -37,7 +41,6 @@ import MyMiniInformation from "@/components/app/MyMiniInformation.vue";
 import ChannelsList from "@/components/app/ServerTemplate/ChannelsList.vue";
 import Navigation from "@/components/app/Navigation.vue";
 import config from "@/config";
-import { bus } from "@/main";
 
 export default {
   components: {
@@ -59,7 +62,7 @@ export default {
         visibility: true
       });
     },
-    clickServer(serverID, event) {
+    clickServer(serverID) {
       this.openedServer = serverID;
       this.$store.dispatch("servers/setSelectedServerID", serverID);
     },
@@ -118,18 +121,15 @@ export default {
 };
 </script>
 
-<style scoped lang="scss" >
+<style scoped lang="scss">
 .left-panel {
   height: 100%;
-  width: 300px;
+  width: 340px;
+  max-width: calc(100% - 60px);
   flex-shrink: 0;
   display: flex;
   flex-direction: row;
   z-index: 1;
-  background-image: url("../../assets/leftPanelBackground.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
 }
 
 .seperater {
@@ -152,6 +152,8 @@ export default {
   width: 100%;
   height: 100%;
   overflow: hidden;
+  background: rgba(0, 0, 0, 0.14);
+  border-top-left-radius: 10px;
 }
 
 .server-banner {
@@ -161,9 +163,12 @@ export default {
   flex-direction: row;
   background-color: rgba(32, 32, 32, 0.4);
   height: 35px;
+  border-radius: 4px;
+  margin: 10px;
+  box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.13);
 }
 .extendBanner {
-  height: 150px;
+  height: 130px;
   background-color: rgb(32, 32, 32);
 }
 .banner-image {
@@ -186,7 +191,6 @@ export default {
   align-items: center;
   padding-left: 10px;
   position: relative;
-  backdrop-filter: blur(15px);
   z-index: 2;
   user-select: none;
   overflow: hidden;
@@ -212,6 +216,12 @@ export default {
   font-size: 20px;
   &:hover {
     background: rgba(0, 0, 0, 0.322);
+  }
+}
+
+@media (max-width: 600px) {
+  .right {
+    border-radius: 0;
   }
 }
 </style>

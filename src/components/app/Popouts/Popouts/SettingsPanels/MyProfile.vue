@@ -1,17 +1,18 @@
 <template>
   <div class="my-profile-panel">
     <div class="tabs">
-      <div class="tab" :class="{selected: tab == 0}" @click="tab = 0">Edit Profile</div>
-      <div class="tab" :class="{selected: tab == 1}" @click="tab = 1">Survey</div>
+      <div class="tab" :class="{ selected: tab == 0 }" @click="tab = 0">
+        Edit Profile
+      </div>
+      <div class="tab" :class="{ selected: tab == 1 }" @click="tab = 1">
+        Survey
+      </div>
     </div>
     <div class="content">
       <edit-profile v-if="tab === 0" />
-      <survey v-if="tab === 1"/>
+      <survey v-if="tab === 1" />
     </div>
-    <div
-      v-if="alert.show"
-      class="alert-outer"
-    >
+    <div v-if="alert.show" class="alert-outer">
       <div class="alert">
         <div class="alert-title">
           Error
@@ -20,10 +21,7 @@
           {{ alert.content }}
         </div>
         <div class="alert-buttons">
-          <div
-            class="alert-button"
-            @click="alert.show = false"
-          >
+          <div class="alert-button" @click="alert.show = false">
             Okay
           </div>
         </div>
@@ -33,13 +31,11 @@
 </template>
 
 <script>
-
 const Survey = () => import("./survey.vue");
 const EditProfile = () => import("./EditProfile.vue");
 
 import AvatarUpload from "@/services/AvatarUpload.js";
 import config from "@/config.js";
-import { bus } from "@/main";
 import path from "path";
 import { mapState } from "vuex";
 
@@ -58,7 +54,6 @@ export default {
     };
   },
   methods: {
-
     onProgress(percent) {
       //update vue
       console.log("Avatar upload progress: ", percent);
@@ -79,10 +74,7 @@ export default {
       }
       const formData = new FormData();
       formData.append("avatar", file);
-      const { ok, error, result } = await AvatarUpload.uploadAvatar(
-        formData,
-        this.onProgress
-      );
+      const { ok } = await AvatarUpload.uploadAvatar(formData, this.onProgress);
       if (!ok) {
         this.alert.content =
           "Upload failed - Something went wrong. Try again later.";
@@ -115,11 +107,10 @@ export default {
 };
 </script>
 <style scoped>
-
-.tabs{
+.tabs {
   z-index: 999999;
   display: flex;
-  background: #04383d;
+  background: #073444;
   justify-content: center;
 }
 .tabs .tab {
@@ -133,31 +124,28 @@ export default {
 }
 
 .tabs .tab:after {
-  content:'';
-  position:absolute;
-  bottom:0;
-  left:0;
-  right:0;
-  height:5px;
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
   transition: 0.3s;
 }
 
-
-.tabs .tab:hover:after{
+.tabs .tab:hover:after {
   background: rgb(160, 160, 160);
 }
 .tabs .tab.selected:after {
   background: white;
 }
 
-.content{
+.content {
   display: flex;
   width: 100%;
   height: 100%;
   overflow: hidden;
 }
-
-
 
 .hidden {
   display: none;

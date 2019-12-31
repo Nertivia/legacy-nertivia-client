@@ -1,14 +1,16 @@
 <template>
   <div class="drop-down">
-    <div class="title">{{name}}</div>
+    <div class="title">{{ name }}</div>
     <div class="current-select-box" ref="dropDown" @click="dropped = !dropped">
-      <div class="name" v-if="noneSelect && selectedItem || !noneSelect">
+      <div class="name" v-if="(noneSelect && selectedItem) || !noneSelect">
         <div
           class="emoji"
           v-if="selectedItemSorted.emoji || items[0].emoji"
           v-html="selectedItem ? selectedItemSorted.emoji : items[0].emoji"
         ></div>
-        <div class="item-name">{{selectedItem ? selectedItemSorted.name : items[0].name}}</div>
+        <div class="item-name">
+          {{ selectedItem ? selectedItemSorted.name : items[0].name }}
+        </div>
       </div>
       <div class="name" v-if="noneSelect && !selectedItem">Select</div>
       <div class="material-icons">expand_more</div>
@@ -20,11 +22,11 @@
           v-for="(item, index) of itemEmojified"
           :key="index"
           class="item"
-          :class="{selected: selectedItemSorted === item}"
+          :class="{ selected: selectedItemSorted === item }"
           @click="itemClick(item)"
         >
           <div class="emoji" v-if="item.emoji" v-html="item.emoji"></div>
-          <div class="name">{{item.name}}</div>
+          <div class="name">{{ item.name }}</div>
         </div>
       </div>
     </div>
@@ -86,7 +88,7 @@ export default {
 
 <style scoped>
 .drop-down {
-  background-color: #06454d;
+  background-color: #044050;
   padding: 10px;
   user-select: none;
   cursor: default;
@@ -97,14 +99,14 @@ export default {
   margin-bottom: 2px;
 }
 .current-select-box {
-  background: #05353b;
+  background: #032d38;
   padding: 5px;
   cursor: pointer;
   display: flex;
   transition: 0.3s;
 }
 .current-select-box:hover {
-  background: #0f292c;
+  background: #02232b;
 }
 .current-select-box div {
   align-self: center;
@@ -123,7 +125,7 @@ export default {
 
 .drop {
   position: absolute;
-  background-color: #06454d;
+  background-color: #044050;
   left: 0;
   right: 0;
   z-index: 11111;
@@ -145,6 +147,7 @@ export default {
   text-overflow: ellipsis;
   white-space: nowrap;
   display: flex;
+  cursor: pointer;
 }
 .item div {
   align-self: center;
@@ -154,10 +157,10 @@ export default {
 }
 
 .item:hover {
-  background: #0f292c;
+  background: #033442;
 }
 .item.selected {
-  background: #021c1f;
+  background: #021c23;
 }
 .material-icons {
   flex-shrink: 0;

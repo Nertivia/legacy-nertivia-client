@@ -4,21 +4,29 @@
       <header-login />
       <div class="content">
         <transition appear name="fade-up">
-          <div :class="{box: true, red: server === undefined}">
+          <div :class="{ box: true, red: server === undefined }">
             <spinner v-if="server === null" />
             <div v-if="server === undefined">
               <div class="invalid">{{ errorMsg }}</div>
             </div>
             <div v-if="server" class="server">
-              <profile-picture class="avatar" size="100px" :url="domain + server.avatar" />
+              <profile-picture
+                class="avatar"
+                size="100px"
+                :url="domain + server.avatar"
+              />
               <div class="server-name">{{ server.name }}</div>
               <div class="buttons">
                 <div
                   v-if="loggedIn"
                   class="button join-button"
                   @click="joinServerButton"
-                >Join {{ server.name }}</div>
-                <div v-else class="button join-button" @click="loginButton">Login to join</div>
+                >
+                  Join {{ server.name }}
+                </div>
+                <div v-else class="button join-button" @click="loginButton">
+                  Login to join
+                </div>
               </div>
             </div>
           </div>
@@ -67,7 +75,7 @@ export default {
       if (!localStorage.getItem("hauthid")) {
         return (this.loggedIn = undefined);
       }
-      const { ok, error, result } = await ServerService.joinServer(inviteID);
+      const { ok, error } = await ServerService.joinServer(inviteID);
       if (ok) {
         this.$router.push(`/app`);
       } else {
@@ -131,7 +139,7 @@ body {
   flex-direction: column;
   color: white;
   height: 100%;
-  background: #173d42;
+  background: linear-gradient(#0b4155, #01677e);
 }
 .app-content {
   display: flex;
@@ -160,9 +168,7 @@ body {
   justify-content: center;
   z-index: 9999;
   padding-bottom: 20px;
-  background-image: url("../assets/leftPanelBackground.jpg");
-  background-position: center;
-  background-size: cover;
+  background: #044050;
 }
 .server {
   display: flex;

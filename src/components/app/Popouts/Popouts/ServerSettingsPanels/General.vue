@@ -9,7 +9,9 @@
             size="100px"
             :url="update.avatar || `${avatarDomain}/${server.avatar}`"
           />
-          <div class="button" @click="$refs.avatarBrowser.click()">Edit Avatar</div>
+          <div class="button" @click="$refs.avatarBrowser.click()">
+            Edit Avatar
+          </div>
           <input
             ref="avatarBrowser"
             type="file"
@@ -21,11 +23,16 @@
         <div class="banner">
           <div
             class="banner-image"
-            :style="{backgroundImage: `url(${update.banner || `${bannerDomain}${server.banner}` })`}"
+            :style="{
+              backgroundImage: `url(${update.banner ||
+                `${bannerDomain}${server.banner}`})`
+            }"
           >
             <div class="banner-text"></div>
           </div>
-          <div class="button" @click="$refs.bannerBrowser.click()">Edit Banner</div>
+          <div class="button" @click="$refs.bannerBrowser.click()">
+            Edit Banner
+          </div>
           <input
             ref="bannerBrowser"
             type="file"
@@ -56,10 +63,12 @@
         </div>
         <div
           class="button save-button"
-          :class="{disabled: requestSent}"
+          :class="{ disabled: requestSent }"
           v-if="changed"
           @click="updateServer()"
-        >{{requestSent ? 'Saving...' : 'Save Changes'}}</div>
+        >
+          {{ requestSent ? "Saving..." : "Save Changes" }}
+        </div>
       </div>
     </div>
   </div>
@@ -67,12 +76,10 @@
 
 <script>
 import config from "@/config.js";
-import { bus } from "@/main";
 import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
 import ErrorsListTemplate from "@/components/app/errorsListTemplate";
 import ServerService from "@/services/ServerService";
 import DropDown from "./DropDownMenu";
-import { mapState } from "vuex";
 import path from "path";
 
 export default {
@@ -98,7 +105,7 @@ export default {
     async updateServer() {
       if (this.requestSent) return;
       this.requestSent = true;
-      const { ok, error, result } = await ServerService.updateServer(
+      const { ok, error } = await ServerService.updateServer(
         this.server.server_id,
         this.update
       );
@@ -118,7 +125,7 @@ export default {
       this.requestSent = false;
     },
     //type: avatar || banner
-    imageChangeEvent(type, e) {
+    imageChangeEvent(type) {
       if (!this.googleDriveLinked) {
         event.target.value = "";
         return this.$store.dispatch("setPopoutVisibility", {
@@ -165,9 +172,6 @@ export default {
       }
       this.changed = true;
     }
-  },
-  mounted() {
-    console.log(this.server);
   },
   computed: {
     googleDriveLinked() {
@@ -220,7 +224,7 @@ export default {
   align-self: center;
   margin-top: 10px;
   justify-content: center;
-  background-color: #06454d;
+  background-color: #044050;
   flex-shrink: 0;
 
   .avatar {
@@ -233,7 +237,7 @@ export default {
       margin-top: 35px;
     }
     .button {
-      margin-bottom: 10px;
+      margin-bottom: 16px;
     }
   }
   .banner {
@@ -247,11 +251,13 @@ export default {
     margin-left: 2px;
     .banner-image {
       position: relative;
-      width: 240px;
-      height: 150px;
+      width: 250px;
+      height: 130px;
       background: rgba(0, 0, 0, 0.4);
       background-position: center;
       background-size: cover;
+      border-radius: 4px;
+      box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.13);
       .banner-text {
         position: absolute;
         bottom: 0;
@@ -259,7 +265,6 @@ export default {
         right: 0;
         width: 100%;
         height: 35px;
-        backdrop-filter: blur(15px);
         background: rgba(0, 0, 0, 0.5);
       }
     }
@@ -287,7 +292,7 @@ export default {
 .input {
   display: flex;
   flex-direction: column;
-  background-color: #06454d;
+  background-color: #044050;
   padding: 10px;
   align-self: center;
   margin: 10px;
@@ -297,10 +302,9 @@ export default {
   margin-top: 2px;
   margin-bottom: 0;
   width: 190px;
-  background: #05353b;
 }
 .button {
-  background: #05353b;
+  background: #033442;
   padding: 10px;
   align-self: center;
   margin: 5px;
@@ -309,7 +313,7 @@ export default {
   transition: 0.3s;
 }
 .button:hover {
-  background: #0f292c;
+  background: #022831;
 }
 .save-button {
   margin-top: 10px;
@@ -330,6 +334,3 @@ export default {
   }
 }
 </style>
-
-
-

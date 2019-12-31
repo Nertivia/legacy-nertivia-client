@@ -1,5 +1,4 @@
 import { bus } from "../../main";
-import { router } from "../../router";
 import Vue from "vue";
 import channelService from "@/services/channelService";
 import messagesService from "@/services/messagesService";
@@ -161,6 +160,9 @@ async function getMessages(context, channelID, isServerChannel) {
       channelID: result.data.channelID,
       messages: result.data.messages.reverse()
     });
+    if (isServerChannel) {
+      context.commit("setServerChannelID", result.data.channelID);
+    }
   } else {
     // TODO handle this
     console.log(error.response);

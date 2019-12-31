@@ -1,11 +1,15 @@
 <template>
   <div class="servers-tab">
-    <search-header name="servers" @params="filterParamsEvent"/>
+    <search-header name="servers" @params="filterParamsEvent" />
     <div class="items-main-container">
       <div class="items-container">
-          <spinner class="spinner" v-if="!publicServers" :size="80"/>
+        <spinner class="spinner" v-if="!publicServers" :size="80" />
         <div class="items">
-          <server-template v-for="server in publicServers" :key="server.id" :server="server"/>  
+          <server-template
+            v-for="server in publicServers"
+            :key="server.id"
+            :server="server"
+          />
         </div>
       </div>
     </div>
@@ -14,8 +18,8 @@
 
 <script>
 import searchHeader from "./searchHeader";
-import serverTemplate from './serverTemplate';
-import exploreService from '@/services/exploreService';
+import serverTemplate from "./serverTemplate";
+import exploreService from "@/services/exploreService";
 import Spinner from "@/components/Spinner";
 
 export default {
@@ -23,20 +27,20 @@ export default {
   data() {
     return {
       publicServers: null,
-      params: '?verified=true'
-    }
+      params: "?verified=true"
+    };
   },
   methods: {
     async getServersList() {
       this.publicServers = null;
-      const {ok, result, error} = await exploreService.getServersList(this.params);
+      const { ok, result } = await exploreService.getServersList(this.params);
       if (ok) {
-        this.publicServers =  result.data;
+        this.publicServers = result.data;
       }
     },
     filterParamsEvent(params) {
       if (this.params != params) {
-        this.params = params || ''
+        this.params = params || "";
         this.getServersList();
       }
     }
@@ -59,8 +63,6 @@ export default {
   display: flex;
   flex-direction: column;
   overflow: auto;
-
-
 }
 .items-container {
   display: block;
@@ -83,6 +85,4 @@ export default {
 .spinner {
   align-self: center;
 }
-
-
 </style>

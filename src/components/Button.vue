@@ -1,12 +1,6 @@
 <template>
-  <button
-    type="submit"
-    :disabled="$props.loading"
-  >
-    <div
-      v-if="$props.loading"
-      class="loading-icon"
-    />
+  <button type="submit" :disabled="$props.loading">
+    <div v-if="$props.loading" class="loading-icon" />
     <div class="text">
       {{ $props.message }}
     </div>
@@ -15,13 +9,9 @@
 
 <script>
 export default {
-  props: [
-    "loading",
-    "message"
-  ]
-}
+  props: ["loading", "message"]
+};
 </script>
-
 
 <style scoped>
 button {
@@ -52,4 +42,3 @@ button:focus {
   margin-right: 5px;
 }
 </style>
-

@@ -1,26 +1,20 @@
 <template>
   <div class="uploads-queue">
-    <div
-      v-for="(upload, index) in $props.queue"
-      :key="index"
-      class="upload"
-    >
+    <div v-for="(upload, index) in $props.queue" :key="index" class="upload">
       <div class="icon">
         <i class="material-icons">insert_drive_file</i>
       </div>
       <div class="information">
-        <div class="info"> {{ upload.name }} </div>
-        <div class="info size"> {{ upload.size }} </div>
+        <div class="info">{{ upload.name }}</div>
+        <div class="info size">{{ upload.size }}</div>
         <div class="progress">
           <div class="progress-bar">
             <div
               class="progress-bar-inner"
-              :style="{width: `${upload.percent}%`}"
+              :style="{ width: `${upload.percent}%` }"
             />
           </div>
-          <div class="percent">
-            {{ upload.percent }}%
-          </div>
+          <div class="percent">{{ upload.percent }}%</div>
         </div>
       </div>
     </div>
@@ -39,11 +33,18 @@ export default {
 }
 .upload {
   color: white;
-  background: #3a585c;
+  background: #26778a;
   margin: 10px;
   margin-left: 10px;
   display: flex;
   padding: 10px;
+}
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
+  flex-shrink: 0;
 }
 .icon .material-icons {
   font-size: 40px;
@@ -61,7 +62,7 @@ export default {
 }
 .size {
   font-size: 15px;
-  color: rgb(207, 207, 207);
+  color: #d5e3e6;
 }
 .progress {
   display: flex;
@@ -95,4 +96,3 @@ export default {
   }
 }
 </style>
-

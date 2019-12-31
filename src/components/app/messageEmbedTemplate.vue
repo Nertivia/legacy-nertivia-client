@@ -2,19 +2,22 @@
   <div
     class="embed"
     ref="embed"
-    :class="{article: embed.type === 'article' || embed.type === 'video.other', website: embed.type === 'website'}"
+    :class="{
+      article: embed.type === 'article' || embed.type === 'video.other',
+      website: embed.type === 'website'
+    }"
   >
     <div class="right">
       <div class="image" v-if="imageURL" @click="embedImgClicked">
-        <img ref="image" :src="`//images.weserv.nl/?url=${imageURL }`" alt />
+        <img ref="image" :src="`//images.weserv.nl/?url=${imageURL}`" alt />
       </div>
     </div>
     <div class="left">
       <div class="title" v-if="embed.url">
-        <a target="”_blank”" :href="embed.url">{{embed.title}}</a>
+        <a target="”_blank”" :href="embed.url">{{ embed.title }}</a>
       </div>
-      <div class="title" v-else>{{embed.title}}</div>
-      <div class="description">{{embed.description}}</div>
+      <div class="title" v-else>{{ embed.title }}</div>
+      <div class="description">{{ embed.description }}</div>
     </div>
   </div>
 </template>
@@ -45,7 +48,6 @@ export default {
       if (this.embed.type !== "article" && this.embed.type !== "video.other")
         return undefined;
 
-      const embed = this.$refs["embed"];
       const messageLog = document.querySelector(".message-logs");
       const w = messageLog.offsetWidth;
       const h = messageLog.offsetHeight;
@@ -73,7 +75,7 @@ export default {
       imageTag.style.height =
         this.clamp(newDimentions.height, 0, srcHeight) + "px";
     },
-    onResize(dimensions) {
+    onResize() {
       this.articleSize();
     }
   },
@@ -105,7 +107,7 @@ export default {
 
 <style scoped>
 .embed {
-  background: #1d2b2d;
+  background: #ffffff21;
   padding: 5px;
   display: flex;
   max-width: 500px;
@@ -204,4 +206,3 @@ a:hover {
   }
 }
 </style>
-

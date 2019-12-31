@@ -24,26 +24,25 @@
   margin: auto;
   height: 230px;
   width: 300px;
-	color: white;
-	display: flex;
-	flex-direction: column;
-	user-select: none;
-  background-image: url("../../../../assets/leftPanelBackground.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+  overflow: hidden;
+  box-shadow: 0px 0px 20px 5px #151515bd;
+  background-color: #044050;
+  border-radius: 4px;
 }
-.material-icons{
-	font-size: 80px;
-	color: white;
-	margin: auto;
-	margin-top: 50px;
-	margin-bottom: 10px;
+.material-icons {
+  font-size: 80px;
+  color: white;
+  margin: auto;
+  margin-top: 50px;
+  margin-bottom: 10px;
 }
-.info{
-	margin: auto;
-	text-align: center;
-	margin-top: 20px;
+.info {
+  margin: auto;
+  text-align: center;
+  margin-top: 20px;
 }
 </style>
-

@@ -1,9 +1,19 @@
 <template>
   <div class="right-panel">
     <heading
-      :uniqueID="recipients && recipients.length ? recipients[0].uniqueID : undefined"
-      :type="selectedChannelID && channel && !channel.server_id ? 1 : channel && channel.server_id ? 2 : 0"
-      :name="selectedChannelID ? channelName : `Welcome back, ${user.username}!` "
+      :uniqueID="
+        recipients && recipients.length ? recipients[0].uniqueID : undefined
+      "
+      :type="
+        selectedChannelID && channel && !channel.server_id
+          ? 1
+          : channel && channel.server_id
+          ? 2
+          : 0
+      "
+      :name="
+        selectedChannelID ? channelName : `Welcome back, ${user.username}!`
+      "
     />
     <div class="loading" v-if="selectedChannelID && !selectedChannelMessages">
       <spinner />
@@ -13,10 +23,18 @@
       :key="selectedChannelID"
     />
     <div class="no-channel-selected" v-if="!selectedChannelID">
-      <div class="material-icons">{{type === 0 ? 'chat' : type === 1 ? 'forum' : 'question'}}</div>
-      <div
-        class="message"
-      >{{type === 0 ? 'Select a person to message!' : type === 1 ?'Select a server!' : "wot"}}</div>
+      <div class="material-icons">
+        {{ type === 0 ? "chat" : type === 1 ? "forum" : "question" }}
+      </div>
+      <div class="message">
+        {{
+          type === 0
+            ? "Select a person to message!"
+            : type === 1
+            ? "Select a server!"
+            : "wot"
+        }}
+      </div>
     </div>
     <div class="typing-outer">
       <typing-status
@@ -41,27 +59,79 @@
       </div>
 
       <edit-panel v-if="editMessage" :data="editMessage" />
-      <div class="seperater" />
-      <div class="markdown-buttons" style="color: white;" v-if="sendMessagePermission === true || editMessage">
-        <div class="material-icons markdown-icon" @click="addFormat('**')" title="Bold">format_bold</div>
-        <div class="material-icons markdown-icon" @click="addFormat('_')" title="Italic">format_italic</div>
-        <div class="material-icons markdown-icon" @click="addFormat('__')" title="Underline">format_underlined</div>
-        <div class="material-icons markdown-icon" @click="addFormat('```\n', '\n```', 4)" title="Code block">code</div>
+      <div
+        class="markdown-buttons"
+        style="color: white;"
+        v-if="
+          (sendChannelMessagePermission === true &&
+            roleSendMessagePermission) ||
+            editMessage
+        "
+      >
+        <div
+          class="material-icons markdown-icon"
+          @click="addFormat('**')"
+          title="Bold"
+        >
+          format_bold
+        </div>
+        <div
+          class="material-icons markdown-icon"
+          @click="addFormat('_')"
+          title="Italic"
+        >
+          format_italic
+        </div>
+        <div
+          class="material-icons markdown-icon"
+          @click="addFormat('__')"
+          title="Underline"
+        >
+          format_underlined
+        </div>
+        <div
+          class="material-icons markdown-icon"
+          @click="addFormat('```\n', '\n```', 4)"
+          title="Code block"
+        >
+          code
+        </div>
         <div class="color-picker" title="Message color">
-          <input type="color" ref="colorPic" style="display: none" @change="messageColorChange" value="#e7e7e7">
-          <div class="color" :style="{background:  customColor}" @click="$refs.colorPic.click()"></div>
-          <div class="reset-button" @click="customColor = null" v-if="customColor">Reset</div>
+          <input
+            type="color"
+            ref="colorPic"
+            style="display: none"
+            @change="messageColorChange"
+            value="#e7e7e7"
+          />
+          <div
+            class="color"
+            :style="{ background: customColor }"
+            @click="$refs.colorPic.click()"
+          ></div>
+          <div
+            class="reset-button"
+            @click="customColor = null"
+            v-if="customColor"
+          >
+            Reset
+          </div>
         </div>
       </div>
-      <!-- <div class="info">
-
-        <div
-          v-if=" messageLength >= 4500 && (sendMessagePermission === true || editMessage)"
-          :class="{'message-count': true, 'error-info': messageLength > 5000 }"
-        >{{messageLength}}/5000</div>
-      </div>-->
-      <div class="message-area" v-if="sendMessagePermission === true || editMessage">
-        <input type="file" ref="sendFileBrowse" @change="attachmentChange" class="hidden" />
+      <div
+        class="message-area"
+        v-if="
+          (sendChannelMessagePermission === true &&
+            roleSendMessagePermission) ||
+            editMessage
+        "
+      >
+        <input
+          type="file"
+          ref="sendFileBrowse"
+          @change="attachmentChange"
+          class="hidden"
+        />
         <div class="attachment-button" @click="attachmentButton">
           <i class="material-icons">attach_file</i>
         </div>
@@ -78,25 +148,39 @@
           @paste="onPaste"
         ></textarea>
         <button class="emojis-button" @click="showEmojiPanel = !showEmojiPanel">
-          <i class="material-icons">face</i>
+          <i class="material-icons">tag_faces</i>
         </button>
         <button
           class="send-button"
-          :class="{'error-send-button': messageLength > 5000}"
+          :class="{ 'error-send-button': messageLength > 5000 }"
           @click="editMessage ? updateMessage() : sendMessage()"
         >
-          <i class="material-icons">{{editMessage ? 'edit' : 'send'}}</i>
+          <i class="material-icons">{{ editMessage ? "edit" : "send" }}</i>
           <div
-            v-if=" messageLength >= 4500 && (sendMessagePermission === true || editMessage)"
-            :class="{'message-count': true, 'error-info': messageLength > 5000 }"
-          >{{messageLength}} / 5000</div>
+            v-if="
+              messageLength >= 4500 &&
+                ((sendChannelMessagePermission === true &&
+                  roleSendMessagePermission) ||
+                  editMessage)
+            "
+            :class="{
+              'message-count': true,
+              'error-info': messageLength > 5000
+            }"
+          >
+            {{ messageLength }} / 5000
+          </div>
         </button>
       </div>
     </div>
     <div
       class="no-message-permission"
-      v-if="sendMessagePermission === false"
-    >You don't have permission to send messages in this channel.</div>
+      v-if="
+        sendChannelMessagePermission === false || !roleSendMessagePermission
+      "
+    >
+      You don't have permission to send messages in this channel.
+    </div>
   </div>
 </template>
 
@@ -104,7 +188,6 @@
 import messagesService from "@/services/messagesService";
 import typingService from "@/services/TypingService";
 import { bus } from "../../main";
-import JQuery from "jquery";
 import Spinner from "@/components/Spinner.vue";
 import heading from "@/components/app/MessagePanel/Heading.vue";
 import emojiSuggestions from "@/components/app/EmojiPanels/emojiSuggestions.vue";
@@ -112,7 +195,8 @@ import MessageLogs from "@/components/app/MessageLogs.vue";
 import emojiParser from "@/utils/emojiParser.js";
 import windowProperties from "@/utils/windowProperties";
 import TypingStatus from "@/components/app/TypingStatus.vue";
-import { isMobile } from '../../utils/Mobile';
+import { isMobile } from "../../utils/Mobile";
+import { permissions, containsPerm } from "@/utils/RolePermissions";
 
 const emojiPanel = () => import("@/components/app/EmojiPanels/emojiPanel.vue");
 const EditPanel = () => import("@/components/app/EditPanel.vue");
@@ -140,38 +224,50 @@ export default {
 
       customColor: null,
       scrolledDown: true,
-      mobile: isMobile(),
+      mobile: isMobile()
     };
   },
   methods: {
     messageColorChange(e) {
       const hexColor = e.target.value;
+      e.target.value = "";
       this.customColor = hexColor;
     },
     addFormat(type, customEnding, customPos) {
-      const msgBox = this.$refs['input-box'];
-      msgBox.focus()
+      const msgBox = this.$refs["input-box"];
+      msgBox.focus();
       const startPos = msgBox.selectionStart;
-      const endPos =  msgBox.selectionEnd;
+      const endPos = msgBox.selectionEnd;
 
       const selection = window.getSelection();
       const selected = selection.toString();
-      console.log(selected)
+      console.log(selected);
 
-      if (selected === ""){
-        this.message = [this.message.slice(0, endPos), type+ (customEnding||type ), this.message.slice(endPos)].join('');
+      if (selected === "") {
+        this.message = [
+          this.message.slice(0, endPos),
+          type + (customEnding || type),
+          this.message.slice(endPos)
+        ].join("");
         this.$nextTick(() => {
-          const offsetCursorPos = customPos || type.length
-          msgBox.focus()
-          msgBox.setSelectionRange(endPos+ offsetCursorPos, endPos+ offsetCursorPos);
-        })
+          const offsetCursorPos = customPos || type.length;
+          msgBox.focus();
+          msgBox.setSelectionRange(
+            endPos + offsetCursorPos,
+            endPos + offsetCursorPos
+          );
+        });
         return;
       }
-      this.message = [this.message.slice(0, startPos), type + selected + (customEnding||type ), this.message.slice(endPos)].join('');
+      this.message = [
+        this.message.slice(0, startPos),
+        type + selected + (customEnding || type),
+        this.message.slice(endPos)
+      ].join("");
       this.$nextTick(() => {
-        msgBox.focus()
+        msgBox.focus();
         msgBox.setSelectionRange(startPos + type.length, endPos + type.length);
-      })
+      });
     },
     generateNum(n) {
       var add = 1,
@@ -224,7 +320,7 @@ export default {
         {
           message: msg,
           color: this.customColor,
-          socketID: this.$socket.id,
+          socketID: this.$socket.client.id,
           tempID
         }
       );
@@ -244,7 +340,10 @@ export default {
       const editMessage = this.editMessage;
       this.$refs["input-box"].focus();
       this.message = this.message.trim();
-      if (this.message === this.editMessage.message && (this.customColor || undefined) === (this.editMessage.color)) {
+      if (
+        this.message === this.editMessage.message &&
+        (this.customColor || undefined) === this.editMessage.color
+      ) {
         this.$store.dispatch("setEditMessage", null);
         this.message = "";
         return;
@@ -264,7 +363,7 @@ export default {
       this.$store.dispatch("setEditMessage", null);
       this.message = "";
 
-      const { ok, error, result } = await messagesService.update(
+      const { ok } = await messagesService.update(
         editMessage.messageID,
         editMessage.channelID,
         {
@@ -329,7 +428,6 @@ export default {
       }
     },
     ReturnWord(text, caretPos) {
-      var index = text.indexOf(caretPos);
       var preText = text.substring(0, caretPos);
       if (preText.indexOf(" ") > 0) {
         var words = preText.split(" ");
@@ -410,7 +508,9 @@ export default {
       this.emojiSwitchKey(event);
       // when enter is press
       if (event.keyCode == 13) {
-        if (this.mobile) {return}
+        if (this.mobile) {
+          return;
+        }
         // and the shift key is not held
         if (!event.shiftKey) {
           event.preventDefault();
@@ -441,7 +541,7 @@ export default {
           messageID: lastMessage.messageID,
           channelID: lastMessage.channelID,
           message: lastMessage.message,
-          color: lastMessage.color,
+          color: lastMessage.color
         });
       }
     },
@@ -498,7 +598,7 @@ export default {
         }
       }
     },
-    async onFocus(event) {
+    async onFocus() {
       if (this.message.trim() !== "") {
         await typingService.post(this.selectedChannelID);
         this.postTimer();
@@ -510,7 +610,7 @@ export default {
         return notification.channelID === this.$store.getters.selectedChannelID;
       });
       if (find && find.count >= 1) {
-        this.$socket.emit("notification:dismiss", {
+        this.$socket.client.emit("notification:dismiss", {
           channelID: this.$store.getters.selectedChannelID
         });
       }
@@ -522,8 +622,7 @@ export default {
       this.message = editMessage
         ? emojiParser.emojiToShortcode(editMessage.message)
         : "";
-      if (editMessage)
-        this.customColor = editMessage.color || null;
+      if (editMessage) this.customColor = editMessage.color || null;
     },
     onBlur() {
       clearTimeout(this.postTimerID);
@@ -622,7 +721,40 @@ export default {
         undefined
       );
     },
-    sendMessagePermission() {
+    serverMember() {
+      return this.$store.getters["servers/serverMembers"].find(
+        sm =>
+          sm.server_id === this.server.server_id &&
+          sm.uniqueID === this.user.uniqueID
+      );
+    },
+    myRolePermissions() {
+      if (!this.serverMember) return;
+      const roles = this.$store.getters["servers/selectedServerRoles"];
+      if (!roles ) return undefined;
+
+      let perms = 0;
+
+      if (this.serverMember.roles) {
+        for (let index = 0; index < roles.length; index++) {
+          const role = roles[index];
+          if (this.serverMember.roles.includes(role.id)) {
+            perms = perms | (role.permissions || 0);
+          }
+        }
+      }
+
+      const defaultRole = roles.find(r => r.default);
+      perms = perms | defaultRole.permissions;
+      return perms;
+    },
+    roleSendMessagePermission() {
+      return containsPerm(
+        this.myRolePermissions || 0,
+        permissions.SEND_MESSAGES.value
+      );
+    },
+    sendChannelMessagePermission() {
       if (this.type !== 1) return true;
       if (!this.channel) return null;
 
@@ -734,26 +866,25 @@ export default {
 .chat-input-area {
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px;
+  padding-bottom: 10px;
   position: relative;
+  background: #014757;
 }
 
 .attachment-button {
   width: 50px;
-  background: rgba(255, 255, 255, 0.07);
   margin-right: 2px;
-  margin-left: 10px;
   display: flex;
   flex-shrink: 0;
+  color: #a5bec4;
   cursor: pointer;
   user-select: none;
   transition: 0.3s;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.13);
+    color: white;
   }
   .material-icons {
-    color: white;
     margin: auto;
   }
 }
@@ -784,7 +915,7 @@ export default {
 
 .chat-input {
   font-family: "Roboto", sans-serif;
-  background: rgba(255, 255, 255, 0.07);
+  background: transparent;
   color: white;
   width: 100%;
   min-height: 20px;
@@ -799,23 +930,17 @@ export default {
   overflow: hidden;
   max-height: 30vh;
   overflow-y: auto;
-  &:hover {
-    background: rgba(255, 255, 255, 0.1);
-  }
-
-  &:focus {
-    background: rgba(255, 255, 255, 0.13);
+  &::placeholder {
+    color: #597981;
   }
 }
 
 .send-button {
   font-size: 20px;
-  color: white;
-  background: rgba(255, 255, 255, 0.07);
+  color: #a5bec4;
+  background: transparent;
   border: none;
   outline: none;
-  margin-left: 2px;
-  margin-right: 10px;
   min-height: 40px;
   width: 50px;
   transition: 0.3s;
@@ -830,7 +955,7 @@ export default {
     margin: auto;
   }
   &:hover {
-    background: rgba(255, 255, 255, 0.13);
+    color: white;
   }
 }
 
@@ -843,8 +968,8 @@ export default {
 
 .emojis-button {
   font-size: 20px;
-  color: white;
-  background: rgba(255, 255, 255, 0.07);
+  color: #a5bec4;
+  background: transparent;
   border: none;
   outline: none;
   margin-left: 2px;
@@ -859,17 +984,17 @@ export default {
     margin: auto;
   }
   &:hover {
-    background: rgba(255, 255, 255, 0.13);
+    color: white;
   }
 }
 
 .back-to-bottom-button {
   &:hover {
-    background: #748b8e;
-    box-shadow: 0px 0px 15px 0px #0000008a;
+    background: rgba(0, 0, 0, 0.9);
   }
   transition: 0.2s;
-  background: #516e72;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 100px;
   color: white;
   position: absolute;
   bottom: 15px;
@@ -879,7 +1004,7 @@ export default {
   display: flex;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0px 0px 7px 0px #0000008a;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   align-content: center;
   align-items: center;
   padding-left: 10px;
@@ -905,9 +1030,12 @@ export default {
   height: 35px;
   align-items: center;
   align-content: center;
-  margin-left: 10px;
+  margin-left: 2px;
+  margin-bottom: 10px;
   flex-shrink: 0;
+  background: #024b5c;
   .markdown-icon {
+    font-size: 21px;
     flex-shrink: 0;
     display: flex;
     align-content: center;
@@ -916,10 +1044,10 @@ export default {
     user-select: none;
     cursor: pointer;
     height: 100%;
-    width: 35px;
-    margin-left: 2px;
+    width: 30px;
+    margin-left: 0px;
     transition: 0.2s;
-    color: #d5dcdd;
+    color: #a5bec4;
     &:hover {
       color: white;
     }
@@ -940,16 +1068,17 @@ export default {
     background: rgb(231, 231, 231);
     flex-shrink: 0;
     cursor: pointer;
+    border-radius: 3px;
   }
   .reset-button {
+    color: #a5bec4;
     user-select: none;
     cursor: pointer;
     margin-left: 5px;
     transition: 0.2s;
-    opacity: 0.6;
     flex-shrink: 0;
     &:hover {
-      opacity: 1; 
+      color: white;
     }
   }
 }

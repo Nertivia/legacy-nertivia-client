@@ -1,7 +1,6 @@
 .DS_Store
 node_modules
 /dist
-/src/config.js
 
 # local env files
 .env.local
@@ -19,4 +18,6 @@ yarn-error.log*
 *.ntvs*
 *.njsproj
 *.sln
-*.sw*
+*.sw?
+src/assets/twemoji/
+src/config.js

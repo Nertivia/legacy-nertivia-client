@@ -1,10 +1,10 @@
 <template>
   <div class="survey">
     <div class="inner-content">
-      <div class="title">
-        <i class="material-icons">error</i>Take Survey
+      <div class="title"><i class="material-icons">error</i>Take Survey</div>
+      <div class="notice">
+        Note: Everyone will be able to see your survey in your profile.
       </div>
-      <div class="notice">Note: Everyone will be able to see your survey in your profile.</div>
       <spinner v-if="!loaded" />
       <div class="survey-inner" v-if="loaded">
         <div class="survey-content">
@@ -60,14 +60,21 @@
             <!-- About me -->
             <div class="input">
               <div class="input-title">About me</div>
-              <textarea placeholder="I like cats and dogs." v-model="items.about_me" />
+              <textarea
+                placeholder="I like cats and dogs."
+                v-model="items.about_me"
+              />
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="survey-warning" v-if="surveyErrorMessage">{{ surveyErrorMessage }}</div>
-    <div class="survey-valid" v-if="surveyValidMessage">{{ surveyValidMessage }}</div>
+    <div class="survey-warning" v-if="surveyErrorMessage">
+      {{ surveyErrorMessage }}
+    </div>
+    <div class="survey-valid" v-if="surveyValidMessage">
+      {{ surveyValidMessage }}
+    </div>
     <div class="button" v-if="loaded" @click="surveySubmitButton">Save</div>
   </div>
 </template>
@@ -128,7 +135,7 @@ export default {
         return;
       }
 
-      const { ok, error, result } = await userService.setSurvey(this.items);
+      const { ok, error } = await userService.setSurvey(this.items);
       if (ok) {
         this.surveyValidMessage = "Saved!";
       } else {
@@ -226,7 +233,7 @@ export default {
 }
 .survey .button {
   color: white;
-  background: #05353b;
+  background: #024554;
   padding-top: 10px;
   padding-bottom: 10px;
   width: 100%;
@@ -236,7 +243,7 @@ export default {
   cursor: pointer;
 }
 .survey .button:hover {
-  background: #0f292c;
+  background: #02303c;
 }
 
 .title {
@@ -256,7 +263,7 @@ export default {
 .input {
   display: flex;
   flex-direction: column;
-  background-color: #06454d;
+  background-color: #044050;
   padding: 10px;
   margin: 10px;
   margin-left: 30px;
@@ -266,15 +273,14 @@ export default {
 .input input {
   width: initial;
   margin-top: 2px;
-  background: #05353b;
+  background: #032d38;
 }
 textarea {
   padding: 10px;
   resize: none;
-  background: #05353b;
+  background: #032d38;
   border: none;
   outline: none;
-  border-radius: 5px;
   color: white;
   height: 100px;
   margin-bottom: 10px;

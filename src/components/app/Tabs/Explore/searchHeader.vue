@@ -2,27 +2,31 @@
   <div class="search-header">
     <div class="filter-area">
       <div class="filter">
-        <div class="title">Filter:</div>
+        <div class="title">Filter</div>
         <div class="filter-item">
           <div
             class="item"
             v-for="(filter, index) in filters"
-            :class="{selected: filterSelected === index}"
+            :class="{ selected: filterSelected === index }"
             :key="filter.name"
             @click="filterSelected = index"
-          >{{filter.name}}</div>
+          >
+            {{ filter.name }}
+          </div>
         </div>
       </div>
       <div class="filter">
-        <div class="title">Sort By:</div>
+        <div class="title">Sort By</div>
         <div class="filter-item">
           <div
             class="item"
             v-for="(sortBy, index) in sortBys"
-            :class="{selected: sortSelected === index}"
+            :class="{ selected: sortSelected === index }"
             :key="sortBy.name"
             @click="sortSelected = index"
-          >{{sortBy.name}}</div>
+          >
+            {{ sortBy.name }}
+          </div>
         </div>
       </div>
     </div>
@@ -79,9 +83,9 @@ export default {
 <style lang="scss" scoped>
 .search-header {
   display: flex;
-  background: #0a1d20;
+  background: #073847;
   width: 100%;
-  height: 70px;
+  height: 100px;
   flex-shrink: 0;
 }
 .search-area {
@@ -113,11 +117,12 @@ input {
     flex-direction: column;
     flex-wrap: wrap;
     height: 57px;
+    margin-top: 5px;
   }
   .title {
-    font-size: 17px;
+    font-size: 19px;
     color: white;
-    border-bottom: solid 1px rgba(255, 255, 255, 0.575);
+    margin-top: 10px;
     padding-left: 2px;
     padding-right: 5px;
     padding-bottom: 2px;
@@ -127,6 +132,7 @@ input {
     color: white;
     opacity: 0.5;
     cursor: pointer;
+    font-size: 15px;
     margin: 2px;
     transition: 0.3s;
     &.selected {

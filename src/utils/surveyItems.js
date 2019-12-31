@@ -1,20 +1,19 @@
 export default {
   constants: {
-    gender: 'gender',
-    age: 'age',
-    continent: 'continents',
-    country: 'countries'
-
+    gender: "gender",
+    age: "age",
+    continent: "continents",
+    country: "countries"
   },
   gender: [
-    { emoji: "👦🏻", name: "Male", code:"M" },
-    { emoji: "👧🏼", name: "Female", code:"F"},
-    { emoji: "😶", name: "Rather not say", code:"no"}
+    { emoji: "👦🏻", name: "Male", code: "M" },
+    { emoji: "👧🏼", name: "Female", code: "F" },
+    { emoji: "😶", name: "Rather not say", code: "no" }
   ],
   age: [
-    { emoji: "", name: "14-16", code:"14-16"},
-    { emoji: "", name: "17-19", code:"17-19"},
-    { emoji: "", name: "20 or above", code:"20+" },
+    { emoji: "", name: "14-16", code: "14-16" },
+    { emoji: "", name: "17-19", code: "17-19" },
+    { emoji: "", name: "20 or above", code: "20+" },
     { emoji: "😶", name: "Rather not say", code: "no" }
   ],
   continents: [

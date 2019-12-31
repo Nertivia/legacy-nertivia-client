@@ -1,6 +1,6 @@
 <template>
   <div class="tab">
-    <i :class="{'material-icons': true, closed: !$props.expanded}">
+    <i :class="{ 'material-icons': true, closed: !$props.expanded }">
       expand_more
     </i>
     <div class="tab-name">
@@ -11,25 +11,23 @@
 
 <script>
 export default {
-  props: ['tabname', 'expanded']
-}
+  props: ["tabname", "expanded"]
+};
 </script>
 
-
 <style scoped>
-  .tab{
-    display: flex;
-    color: white;
-    cursor: pointer;
-  }
-  .tab-name {
-    padding-top: 3px;
-  }
-  .material-icons{
-    transition: 0.3s;
-  }
-  .closed{
-    transform: rotate(180deg);
-  }
+.tab {
+  display: flex;
+  color: white;
+  cursor: pointer;
+}
+.tab-name {
+  padding-top: 3px;
+}
+.material-icons {
+  transition: 0.3s;
+}
+.closed {
+  transform: rotate(180deg);
+}
 </style>
-

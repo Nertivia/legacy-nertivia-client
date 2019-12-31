@@ -14,25 +14,29 @@
       :status="presense"
     />
     <div class="information">
-      <div class="username">{{ user.username }}</div>
+      <div class="username" :style="{ color: roleColor }">
+        {{ user.username }}
+      </div>
     </div>
     <div v-if="type === 'OWNER'" class="type-box">Owner</div>
   </div>
 </template>
-
 
 <script>
 import ProfilePicture from "@/components/ProfilePictureTemplate";
 import config from "@/config";
 export default {
   components: { ProfilePicture },
-  props: ["user", "avatar", "type"],
+  props: ["user", "avatar", "type", "member"],
   data() {
     return {
       hover: false
     };
   },
   computed: {
+    serverID() {
+      return this.$store.getters["servers/selectedServerID"];
+    },
     userAvatar() {
       return config.domain + "/avatars/" + this.avatar;
     },
@@ -44,6 +48,17 @@ export default {
       const presences = this.$store.getters["members/presences"];
       const userPresense = presences[this.user.uniqueID];
       return userPresense || 0;
+    },
+    roleColor() {
+      if (!this.member || !this.member.roles) return undefined;
+      const roles = this.$store.getters["servers/selectedServerRoles"];
+      if (!roles) return undefined;
+
+      let filter = roles.filter(r => this.member.roles.includes(r.id));
+      if (!filter.length) {
+        filter = [roles.find(r => r.default)];
+      }
+      return filter[0].color;
     }
   },
   methods: {
@@ -54,7 +69,7 @@ export default {
       const x = event.clientX;
       const y = event.clientY;
       this.$store.dispatch("setServerMemberContext", {
-        serverID: this.$store.getters["servers/selectedServerID"],
+        serverID: this.serverID,
         uniqueID: this.user.uniqueID,
         x,
         y
@@ -63,7 +78,6 @@ export default {
   }
 };
 </script>
-
 
 <style scoped>
 .member {
@@ -75,10 +89,13 @@ export default {
   cursor: pointer;
   user-select: none;
   overflow: hidden;
+  border-radius: 4px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .member:hover {
-  background: #064d55;
+  background: #063442;
 }
 
 .information {

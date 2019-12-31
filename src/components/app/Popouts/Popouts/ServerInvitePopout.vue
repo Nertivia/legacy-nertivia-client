@@ -1,14 +1,8 @@
 <template>
-  <div
-    class="dark-background"
-    @mousedown="backgroundClick"
-  >
+  <div class="dark-background" @mousedown="backgroundClick">
     <div class="inner">
       <div class="top">
-        <div
-          class="button"
-          @click="createInviteButton"
-        >
+        <div class="button" @click="createInviteButton">
           Create New Invite
         </div>
       </div>
@@ -17,10 +11,7 @@
           Invites created by you:
         </div>
         <spinner v-if="invites === null" />
-        <div
-          v-if="invites !== null"
-          class="invite-list"
-        >
+        <div v-if="invites !== null" class="invite-list">
           <div
             v-for="invite in invites.slice().reverse()"
             :key="invite"
@@ -35,13 +26,11 @@
 </template>
 
 <script>
-import config from "@/config.js";
-import { bus } from "@/main";
 import Spinner from "@/components/Spinner.vue";
 import ServerService from "@/services/ServerService";
 
 export default {
-  components: {Spinner},
+  components: { Spinner },
   data() {
     return {
       invites: null
@@ -49,12 +38,12 @@ export default {
   },
   async mounted() {
     // get invites created by you
-    const {ok, error, result} = await ServerService.getInvites(this.serverID);
+    const { ok, result } = await ServerService.getInvites(this.serverID);
     if (ok) {
       let invites = [];
       for (let invite of result.data) {
-        invites.push(invite.invite_code)
-      } 
+        invites.push(invite.invite_code);
+      }
       this.invites = invites;
     }
   },
@@ -75,21 +64,19 @@ export default {
         console.log("Server ID is not defined");
         return;
       }
-      const {ok, error, result} = await ServerService.postInvite(this.serverID);
+      const { ok, result } = await ServerService.postInvite(this.serverID);
       if (ok) {
-        this.invites.push(result.data.invite_code)
+        this.invites.push(result.data.invite_code);
       }
-
     }
   },
   computed: {
     serverID() {
-      return this.$store.getters.popouts.allPopout.serverID
-    },
+      return this.$store.getters.popouts.allPopout.serverID;
+    }
   }
 };
 </script>
-
 
 <style scoped>
 .dark-background {
@@ -110,10 +97,9 @@ export default {
   flex-direction: column;
   color: white;
   overflow: hidden;
-  background-image: url("../../../../assets/leftPanelBackground.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  box-shadow: 0px 0px 20px 5px #151515bd;
+  background: linear-gradient(#0b4155, #01677e);
+  border-radius: 4px;
 }
 .top {
   display: flex;
@@ -125,14 +111,14 @@ export default {
 
 .button {
   padding: 10px;
-  background: #05353b;
+  background: #062c3a;
   margin: auto;
   transition: 0.3s;
   user-select: none;
-  cursor:pointer;
+  cursor: pointer;
 }
 .button:hover {
-  background: #0f292c;
+  background: #041e27;
 }
 
 .bottom {
@@ -158,4 +144,3 @@ export default {
   padding: 10px;
 }
 </style>
-

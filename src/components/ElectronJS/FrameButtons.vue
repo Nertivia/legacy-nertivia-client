@@ -1,28 +1,19 @@
 <template>
   <div class="frame-buttons">
-    <div
-      class="button minimize"
-      @click="minimizeWindow()"
-    >
+    <div class="button minimize" @click="minimizeWindow()">
       <i class="material-icons">minimize</i>
     </div>
-    <div
-      class="button res-max"
-      @click="maximizeWindow()"
-    >
+    <div class="button res-max" @click="maximizeWindow()">
       <i class="material-icons">check_box_outline_blank</i>
     </div>
-    <div
-      class="button close"
-      @click="closeWindow()"
-    >
+    <div class="button close" @click="closeWindow()">
       <i class="material-icons">close</i>
     </div>
   </div>
 </template>
 
 <script>
-const {remote} = window.require("electron");
+const { remote } = window.require("electron");
 
 export default {
   methods: {
@@ -44,7 +35,6 @@ export default {
 };
 </script>
 
-
 <style scoped>
 .frame-buttons {
   display: flex;
@@ -60,7 +50,6 @@ export default {
 }
 .button {
   -webkit-app-region: no-drag;
-  
 }
 .frame-buttons div {
   display: flex;
