@@ -731,16 +731,19 @@ export default {
     myRolePermissions() {
       if (!this.serverMember) return;
       const roles = this.$store.getters["servers/selectedServerRoles"];
-      if (!roles || !this.serverMember.roles) return undefined;
+      if (!roles ) return undefined;
 
       let perms = 0;
 
-      for (let index = 0; index < roles.length; index++) {
-        const role = roles[index];
-        if (this.serverMember.roles.includes(role.id)) {
-          perms = perms | (role.permissions || 0);
+      if (this.serverMember.roles) {
+        for (let index = 0; index < roles.length; index++) {
+          const role = roles[index];
+          if (this.serverMember.roles.includes(role.id)) {
+            perms = perms | (role.permissions || 0);
+          }
         }
       }
+
       const defaultRole = roles.find(r => r.default);
       perms = perms | defaultRole.permissions;
       return perms;
