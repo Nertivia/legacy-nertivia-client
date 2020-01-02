@@ -62,7 +62,7 @@ export default {
       if (!filter.length) {
         filter = [this.roles.find(r => r.default)];
       }
-      return filter[0].color;
+      return filter[0].color + " !important";
     },
     isAdmin() {
       if (!this.roles) return false;

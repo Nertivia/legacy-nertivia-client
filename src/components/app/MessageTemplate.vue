@@ -330,7 +330,7 @@ export default {
         this.serverMember.roles.includes(r.id)
       );
       if (!filtered.length) return undefined;
-      return filtered[0].color;
+      return filtered[0].color + " !important";
     }
   }
 };
