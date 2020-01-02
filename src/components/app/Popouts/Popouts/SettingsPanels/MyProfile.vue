@@ -1,5 +1,5 @@
 <template>
-  <div class="my-profile-panel">
+  <div class="my-profile-panel my-profile-popout">
     <div class="tabs">
       <div class="tab" :class="{ selected: tab == 0 }" @click="tab = 0">
         Edit Profile

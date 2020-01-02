@@ -1,5 +1,5 @@
 <template>
-  <div class="drop-down-menu" v-click-outside="outsideClick">
+  <div class="drop-down-menu msg-context-popout" v-click-outside="outsideClick">
     <div class="item" @click="copyMessage" v-if="!isPrecense">Copy</div>
     <div class="item" @click="editMessage" v-if="showEditOption && !isPrecense">
       Edit

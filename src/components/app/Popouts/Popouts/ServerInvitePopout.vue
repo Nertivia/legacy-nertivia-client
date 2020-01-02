@@ -1,5 +1,8 @@
 <template>
-  <div class="dark-background" @mousedown="backgroundClick">
+  <div
+    class="dark-background server-invite-popout"
+    @mousedown="backgroundClick"
+  >
     <div class="inner">
       <div class="top">
         <div class="button" @click="createInviteButton">

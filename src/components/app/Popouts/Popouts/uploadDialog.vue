@@ -1,5 +1,5 @@
 <template>
-  <div class="dark-background">
+  <div class="dark-background upload-dialog-popout">
     <div class="inner">
       <div class="info">
         <div v-show="image" ref="preview-image" class="preview-image" />

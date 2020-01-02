@@ -1,5 +1,5 @@
 <template>
-  <div class="dark-background" @click="backgroundClick">
+  <div class="dark-background GDrive-popout" @click="backgroundClick">
     <div class="inner">
       <div class="text">
         To upload files, images or set avatars, You must link your Google Drive

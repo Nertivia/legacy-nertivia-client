@@ -1,5 +1,5 @@
 <template>
-  <div class="drop-background" @click="backgroundClickEvent">
+  <div class="drop-background user-info-popout" @click="backgroundClickEvent">
     <div class="box">
       <div class="back-button" @click="close">
         <div class="material-icons">keyboard_arrow_left</div>

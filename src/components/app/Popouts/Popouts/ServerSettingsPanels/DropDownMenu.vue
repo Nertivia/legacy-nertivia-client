@@ -1,5 +1,5 @@
 <template>
-  <div class="drop-down">
+  <div class="drop-down drop-down-menu">
     <div class="title">{{ name }}</div>
     <div class="current-select-box" ref="dropDown" @click="dropped = !dropped">
       <div class="name" v-if="(noneSelect && selectedItem) || !noneSelect">

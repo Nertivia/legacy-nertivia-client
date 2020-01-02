@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container my-themes-popout">
     <make-public
       v-if="showMakePublic"
       @back="closeButton"

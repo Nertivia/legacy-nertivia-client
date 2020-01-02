@@ -1,5 +1,5 @@
 <template>
-  <div class="content-inner" v-if="server">
+  <div class="content-inner delete-server-popout" v-if="server">
     <div class="warning">
       Are you sure you want to delete <strong>{{ server.name }}</strong
       >? This cannot be <strong>UNDONE!</strong>

@@ -1,5 +1,5 @@
 <template>
-  <div class="dark-background" @mousedown="backgroundClick">
+  <div class="dark-background add-friend-popout" @mousedown="backgroundClick">
     <div class="add-friend">
       <div class="header">
         <div class="icon material-icons">person_add</div>

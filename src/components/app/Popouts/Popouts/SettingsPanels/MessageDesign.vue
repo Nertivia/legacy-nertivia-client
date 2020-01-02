@@ -1,5 +1,5 @@
 <template>
-  <div class="my-profile-panel">
+  <div class="my-profile-panel message-design">
     <div class="message-example">
       <message-template
         message="Hi"

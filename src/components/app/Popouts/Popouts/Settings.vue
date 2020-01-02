@@ -1,5 +1,5 @@
 <template>
-  <div class="settings-darken-background">
+  <div class="settings-darken-background settings-popout">
     <div class="settings-box">
       <div class="tabs">
         <div

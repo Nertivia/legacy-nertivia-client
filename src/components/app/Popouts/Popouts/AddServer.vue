@@ -1,5 +1,5 @@
 <template>
-  <div class="dark-background" @mousedown="backgroundClick">
+  <div class="dark-background add-server-popout" @mousedown="backgroundClick">
     <div class="inner">
       <div class="tabs">
         <div

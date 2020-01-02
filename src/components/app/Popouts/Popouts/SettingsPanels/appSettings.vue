@@ -1,5 +1,5 @@
 <template>
-  <div class="my-profile-panel">
+  <div class="my-profile-panel app-settings">
     <div class="switches">
       <div class="checkbox" @click="toggleStart">
         <div class="checkbox-box" :class="{ selected: startApp }" />

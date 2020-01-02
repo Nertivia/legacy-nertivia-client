@@ -1,5 +1,5 @@
 <template>
-  <div class="darken-background">
+  <div class="darken-background take-survey-popout">
     <div class="box">
       <div class="survay-icon">
         <i class="material-icons">error</i>

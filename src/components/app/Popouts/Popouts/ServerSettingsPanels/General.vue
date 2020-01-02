@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content server-general">
     <errors-list-template :errors="errors" v-if="errors" />
     <div class="content-inner" :key="key">
       <div class="top">

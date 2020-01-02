@@ -1,5 +1,5 @@
 <template>
-  <div ref="background" class="drop-background">
+  <div ref="background" class="drop-background preview-popout">
     <div class="img-outer">
       <img :src="$store.getters.popouts.ImagePreviewURL" />
     </div>

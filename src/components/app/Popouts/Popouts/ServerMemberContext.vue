@@ -1,6 +1,6 @@
 <template>
   <div
-    class="drop-down-menu"
+    class="drop-down-menu server-member-context-popout"
     v-click-outside="outsideClick"
     @mouseleave="editRoleHovered = false"
   >

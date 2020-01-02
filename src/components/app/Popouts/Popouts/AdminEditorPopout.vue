@@ -1,5 +1,5 @@
 <template>
-  <div class="dark-background" @mousedown="backgroundClick">
+  <div class="dark-background admin-editor-popout" @mousedown="backgroundClick">
     <div class="inner">
       <div class="details" v-if="details && details.updatedCss">
         <div class="item">Updated</div>

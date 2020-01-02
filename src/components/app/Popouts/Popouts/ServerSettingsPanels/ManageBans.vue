@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content server-bans">
     <div class="content-inner">
       <div class="banned-members-list">
         <spinner v-if="bans === null" />

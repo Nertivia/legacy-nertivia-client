@@ -1,5 +1,5 @@
 <template>
-  <div class="drop-background">
+  <div class="drop-background file-drag-popout">
     <div class="box">
       <i class="material-icons">insert_drive_file</i>
       <div class="info">

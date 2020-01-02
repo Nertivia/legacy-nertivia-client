@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content server-manage-roles">
     <errors-list-template :errors="errors" v-if="errors" />
     <div class="content-inner">
       <div class="roles-list">

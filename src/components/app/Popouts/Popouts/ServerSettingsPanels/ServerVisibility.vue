@@ -1,5 +1,5 @@
 <template>
-  <div class="content-inner" v-if="server && loaded">
+  <div class="content-inner server-visibility" v-if="server && loaded">
     <errors-template class="errors" v-if="errors" :errors="errors" />
     <div class="details">
       Making your server visibility public means that your server will be shown
