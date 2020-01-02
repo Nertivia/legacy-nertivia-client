@@ -15,6 +15,7 @@
         selectedChannelID ? channelName : `Welcome back, ${user.username}!`
       "
     />
+          {{typingRecipients}}
     <div class="loading" v-if="selectedChannelID && !selectedChannelMessages">
       <spinner />
     </div>
@@ -627,10 +628,8 @@ export default {
     onBlur() {
       clearTimeout(this.postTimerID);
       this.postTimerID = null;
-    }
-  },
-  mounted() {
-    this.$options.sockets.typingStatus = data => {
+    },
+    onTyping(data) {
       const { channel_id, user } = data;
       const typingRecipients = this.typingRecipients[channel_id];
 
@@ -657,7 +656,10 @@ export default {
         },
         3500
       );
-    };
+    }
+  },
+  mounted() {
+    this.$socket.client.on("typingStatus", this.onTyping);
 
     bus.$on("newMessage", this.hideTypingStatus);
     bus.$on("emojiSuggestions:Selected", this.enterEmojiSuggestion);
@@ -681,7 +683,7 @@ export default {
     window.removeEventListener("focus", this.onFocus);
     window.removeEventListener("blur", this.onBlur);
 
-    delete this.$options.sockets.typingStatus;
+    this.$socket.client.off("typingStatus", this.onTyping);
   },
   watch: {
     editMessage(editMessage) {
