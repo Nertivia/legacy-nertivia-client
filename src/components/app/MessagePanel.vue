@@ -176,7 +176,7 @@
     <div
       class="no-message-permission"
       v-if="
-        sendChannelMessagePermission === false || !roleSendMessagePermission
+        sendChannelMessagePermission === false || roleSendMessagePermission === false
       "
     >
       You don't have permission to send messages in this channel.
@@ -729,9 +729,9 @@ export default {
       );
     },
     myRolePermissions() {
-      if (!this.serverMember) return;
+      if (!this.serverMember) return undefined;
       const roles = this.$store.getters["servers/selectedServerRoles"];
-      if (!roles ) return undefined;
+      if (!roles) return undefined;
 
       let perms = 0;
 
@@ -749,7 +749,11 @@ export default {
       return perms;
     },
     roleSendMessagePermission() {
-      return containsPerm(
+      if (this.type !== 1) return true;
+      if (!this.channel) return null;
+
+      if (!this.server) return false;
+      return !!containsPerm(
         this.myRolePermissions || 0,
         permissions.SEND_MESSAGES.value
       );
