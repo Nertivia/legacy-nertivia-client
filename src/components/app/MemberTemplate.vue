@@ -19,7 +19,7 @@
       </div>
     </div>
     <div v-if="type === 'OWNER'" class="type-box">Owner</div>
-    <div v-else-if="isAdmin" class="type-box">Admin</div>
+    <div v-else-if="isAdmin" class="type-box admin">Admin</div>
   </div>
 </template>
 
@@ -142,6 +142,9 @@ export default {
   background: rgb(255, 71, 71);
 }
 
+.type-box.admin {
+  background: #ff6947;
+}
 .avatar {
 }
 </style>
