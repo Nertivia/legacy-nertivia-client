@@ -15,7 +15,6 @@
         selectedChannelID ? channelName : `Welcome back, ${user.username}!`
       "
     />
-          {{typingRecipients}}
     <div class="loading" v-if="selectedChannelID && !selectedChannelMessages">
       <spinner />
     </div>
@@ -242,7 +241,6 @@ export default {
 
       const selection = window.getSelection();
       const selected = selection.toString();
-      console.log(selected);
 
       if (selected === "") {
         this.message = [
