@@ -49,16 +49,16 @@
               >
               <div class="buttons">
                 <button
-                  class="button register-button"
-                  @click.prevent="registerButton"
-                >
-                  I'm new!
-                </button>
-                <button
                   type="submit"
                   :class="{ button: true, deactive: deactive }"
                 >
                   Login
+                </button>
+                <button
+                  class="button register-button"
+                  @click.prevent="registerButton"
+                >
+                  I'm new!
                 </button>
               </div>
             </form>

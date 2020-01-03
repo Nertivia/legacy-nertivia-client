@@ -72,17 +72,6 @@
           <div class="server-name">{{ server.name }}</div>
           <div class="buttons">
             <div
-              class="button cancel-button"
-              @click="
-                server = null;
-                inviteCode = '';
-                tab = 1;
-                slideBack();
-              "
-            >
-              Cancel
-            </div>
-            <div
               v-if="!servers[server.server_id]"
               class="button join-button"
               @click="joinButton"
@@ -94,6 +83,17 @@
               class="button join-button button-clicked"
             >
               Joined
+            </div>
+            <div
+              class="button cancel-button"
+              @click="
+                server = null;
+                inviteCode = '';
+                tab = 1;
+                slideBack();
+              "
+            >
+              Cancel
             </div>
           </div>
         </div>
