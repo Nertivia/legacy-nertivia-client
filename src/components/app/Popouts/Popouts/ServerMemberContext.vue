@@ -20,7 +20,11 @@
       <div class="item" @click="viewProfile">View Profile</div>
       <div class="item" @click="copyUserTag">Copy User@Tag</div>
       <div class="item" @click="copyID">Copy ID</div>
-      <div class="item" @mouseenter="editRoleHoverEvent" v-if="isServerMember">
+      <div
+        class="item"
+        @mouseenter="editRoleHoverEvent"
+        v-if="isServerMember || hasManageRolePerm"
+      >
         <div class="material-icons">keyboard_arrow_left</div>
         Edit Roles
       </div>
@@ -36,6 +40,7 @@
 
 <script>
 import ServerService from "../../../../services/ServerService";
+import { containsPerm, permissions } from "../../../../utils/RolePermissions";
 export default {
   data() {
     return {
@@ -208,6 +213,41 @@ export default {
       // Only show kick and ban option if the user is server owner and not us
       if (this.user.uniqueID === this.contextDetails.uniqueID) return false;
       return !!this.isServerMember;
+    },
+    selfServerMember() {
+      return this.$store.getters["servers/serverMembers"].find(
+        sm =>
+          sm.server_id === this.contextDetails.serverID &&
+          sm.uniqueID === this.user.uniqueID
+      );
+    },
+    myRolePermissions() {
+      if (!this.selfServerMember) return undefined;
+      const roles = this.$store.getters["servers/roles"][
+        this.contextDetails.serverID
+      ];
+      if (!roles) return undefined;
+
+      let perms = 0;
+
+      if (this.selfServerMember.roles) {
+        for (let index = 0; index < roles.length; index++) {
+          const role = roles[index];
+          if (this.selfServerMember.roles.includes(role.id)) {
+            perms = perms | (role.permissions || 0);
+          }
+        }
+      }
+
+      const defaultRole = roles.find(r => r.default);
+      perms = perms | defaultRole.permissions;
+      return perms;
+    },
+    hasManageRolePerm() {
+      return containsPerm(
+        this.myRolePermissions,
+        permissions.MANAGE_ROLES.value | permissions.ADMIN.value
+      );
     }
   }
 };

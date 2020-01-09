@@ -1,7 +1,11 @@
 <template>
   <div class="drop-down-menu" v-click-outside="outsideClick">
     <div class="item" @click="createInvite">Manage Invites</div>
-    <div class="item" v-if="checkServerCreator" @click="showSettings">
+    <div
+      class="item"
+      v-if="checkServerCreator || hasAdminRoles"
+      @click="showSettings"
+    >
       Server Settings
     </div>
     <div class="item warn" v-if="!checkServerCreator" @click="leaveServer">
@@ -14,6 +18,7 @@
 </template>
 
 <script>
+import { permissions, containsPerm } from "@/utils/RolePermissions";
 import ServerService from "../../../../services/ServerService";
 export default {
   data() {
@@ -76,6 +81,42 @@ export default {
     },
     checkServerCreator() {
       return this.contextDetails.creatorUniqueID === this.user.uniqueID;
+    },
+    serverMember() {
+      return this.$store.getters["servers/serverMembers"].find(
+        sm =>
+          sm.server_id === this.contextDetails.serverID &&
+          sm.uniqueID === this.user.uniqueID
+      );
+    },
+    myRolePermissions() {
+      if (!this.serverMember) return undefined;
+      const roles = this.$store.getters["servers/roles"][
+        this.contextDetails.serverID
+      ];
+      if (!roles) return undefined;
+
+      let perms = 0;
+
+      if (this.serverMember.roles) {
+        for (let index = 0; index < roles.length; index++) {
+          const role = roles[index];
+          if (this.serverMember.roles.includes(role.id)) {
+            perms = perms | (role.permissions || 0);
+          }
+        }
+      }
+
+      const defaultRole = roles.find(r => r.default);
+      perms = perms | defaultRole.permissions;
+      return perms;
+    },
+    hasAdminRoles() {
+      const adminPermsFlags =
+        permissions.MANAGE_CHANNELS.value |
+        permissions.MANAGE_ROLES.value |
+        permissions.ADMIN.value;
+      return containsPerm(this.myRolePermissions, adminPermsFlags);
     }
   }
 };

@@ -1,10 +1,22 @@
 const config = [
   {
+    version: 9.2,
+    title: "Image cache, more role permissions!",
+    shortTitle: "",
+    date: "08/01/2019",
+    headColor: "#007792",
+    new: [
+      "Image cache has been implimented.",
+      "2 new role permissions have been added: Manage roles, manage channels."
+    ],
+    msg:
+      "Although image cache has been implimented, it might not fix anything :( I need a better storage solution. Also, Happy late new year!"
+  },
+  {
     version: 9.1,
     title: "Roles!",
     shortTitle: "",
     date: "23/12/2019",
-    headColor: "#007792",
     new: [
       "You can now create roles and then see them in the members list. This feature is not finished yet but seems to be bug free for now :D"
     ]

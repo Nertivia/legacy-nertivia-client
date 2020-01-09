@@ -7,10 +7,10 @@
       <div class="tabs">
         <div
           class="tab"
-          v-for="(tab, _index) in tabs"
-          :key="_index"
-          :class="{ selected: index === _index, critical: tab.critical }"
-          @click="index = _index"
+          v-for="tab in tabsFiltered"
+          :key="tab.index"
+          :class="{ selected: index === tab.index, critical: tab.critical }"
+          @click="index = tab.index"
         >
           <div class="material-icons">{{ tab.icon }}</div>
           <div>{{ tab.title }}</div>
@@ -43,6 +43,8 @@ import ManageChannels from "./ManageChannels.vue";
 import ManageRoles from "./ManageRoles.vue";
 import ManageBans from "./ManageBans.vue";
 import ServerVisibility from "./ServerVisibility.vue";
+import { permissions, containsPerm } from "@/utils/RolePermissions";
+
 export default {
   components: {
     General,
@@ -54,16 +56,7 @@ export default {
   },
   data() {
     return {
-      index: 0,
-      tabs: [
-        { title: "General", icon: "info" },
-        { title: "Channels", icon: "storage" },
-        { title: "Roles", icon: "extension" },
-        // {title: "Manage Invites", icon: "local_post_office"},
-        { title: "Banned Members", icon: "lock" },
-        { title: "Server Visibility", icon: "visibility" },
-        { title: "Delete Server", icon: "warning", critical: true }
-      ]
+      index: 0
     };
   },
 
@@ -79,10 +72,99 @@ export default {
       }
     }
   },
+  mounted() {},
   computed: {
     server() {
       const serverID = this.$store.state.popoutsModule.serverSettings.serverID;
       return this.$store.getters["servers/servers"][serverID];
+    },
+    user() {
+      return this.$store.getters.user;
+    },
+    checkServerCreator() {
+      return this.server.creator.uniqueID === this.user.uniqueID;
+    },
+    serverMember() {
+      return this.$store.getters["servers/serverMembers"].find(
+        sm =>
+          sm.server_id === this.server.server_id &&
+          sm.uniqueID === this.user.uniqueID
+      );
+    },
+    myRolePermissions() {
+      if (!this.serverMember) return undefined;
+      const roles = this.$store.getters["servers/roles"][this.server.server_id];
+      if (!roles) return undefined;
+
+      let perms = 0;
+
+      if (this.serverMember.roles) {
+        for (let index = 0; index < roles.length; index++) {
+          const role = roles[index];
+          if (this.serverMember.roles.includes(role.id)) {
+            perms = perms | (role.permissions || 0);
+          }
+        }
+      }
+
+      const defaultRole = roles.find(r => r.default);
+      perms = perms | defaultRole.permissions;
+      return perms;
+    },
+    tabs() {
+      return [
+        {
+          title: "General",
+          icon: "info",
+          index: 0,
+          shown: this.checkServerCreator
+        },
+        {
+          title: "Channels",
+          icon: "storage",
+          index: 1,
+          shown:
+            this.checkServerCreator ||
+            !!containsPerm(
+              this.myRolePermissions,
+              permissions.ADMIN.value | permissions.MANAGE_CHANNELS.value
+            )
+        },
+        {
+          title: "Roles",
+          icon: "extension",
+          index: 2,
+          shown:
+            this.checkServerCreator ||
+            !!containsPerm(
+              this.myRolePermissions,
+              permissions.ADMIN.value | permissions.MANAGE_ROLES.value
+            )
+        },
+        // {title: "Manage Invites", icon: "local_post_office"},
+        {
+          title: "Banned Members",
+          icon: "lock",
+          index: 3,
+          shown: this.checkServerCreator
+        },
+        {
+          title: "Server Visibility",
+          icon: "visibility",
+          index: 4,
+          shown: this.checkServerCreator
+        },
+        {
+          title: "Delete Server",
+          icon: "warning",
+          critical: true,
+          index: 5,
+          shown: this.checkServerCreator
+        }
+      ];
+    },
+    tabsFiltered() {
+      return this.tabs.filter(t => t.shown === true);
     }
   }
 };
