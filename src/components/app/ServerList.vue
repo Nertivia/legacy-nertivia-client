@@ -144,6 +144,7 @@ export default {
   display: flex;
   flex: 1;
   height: 100%;
+  overflow: auto;
 }
 .right {
   display: flex;
@@ -166,6 +167,7 @@ export default {
   border-radius: 4px;
   margin: 10px;
   box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.13);
+  flex-shrink: 0;
 }
 .extendBanner {
   height: 130px;

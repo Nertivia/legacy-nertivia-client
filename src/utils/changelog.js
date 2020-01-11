@@ -3,7 +3,7 @@ const config = [
     version: 9.2,
     title: "Image cache, more role permissions!",
     shortTitle: "",
-    date: "08/01/2019",
+    date: "09/01/2019",
     headColor: "#007792",
     new: [
       "Image cache has been implimented.",
