@@ -3,7 +3,7 @@
     class="friend"
     :class="{ selected: uniqueIDSelected, tree }"
     @click="openChat"
-    @mouseover="hover = true"
+    @mouseover="mouseOverEvent"
     @mouseleave="hover = false"
   >
     <div
@@ -11,7 +11,7 @@
       :style="
         `border-color: ${
           status.statusColor
-        }; background-image: url(${userAvatar}${hover ? '' : '?type=png'})`
+        }; background-image: url(${userAvatar}${hover || !isGif ? '' : '?type=webp'})`
       "
       @click="openUserInformation"
     >
@@ -53,8 +53,12 @@ export default {
   ],
   data() {
     return {
-      hover: false
+      hover: false,
+      isGif: false
     };
+  },
+  mounted() {
+    this.isGif = this.userAvatar.endsWith(".gif");
   },
   computed: {
     notifications() {
@@ -97,6 +101,11 @@ export default {
     }
   },
   methods: {
+    mouseOverEvent() {
+      if (this.isGif) {
+        this.hover = true;
+      }
+    },
     async closeChannel() {
       this.channelID;
       await channelService.delete(this.channelID);

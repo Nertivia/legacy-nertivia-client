@@ -2,10 +2,12 @@
   <div class="my-mini-information">
     <ProfilePicture
       class="avatar"
-      :url="`${avatar}${hover ? '' : '?type=png'}`"
+      :url="`${avatar}${hover ? '' : '?type=webp'}`"
       :admin="user.admin"
       size="35px"
       :hover="true"
+      @mouseenter.native="hover = true"
+      @mouseleave.native="hover = false"
       @click.native="openUserInformation"
     />
     <div class="information">

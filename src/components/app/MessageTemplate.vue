@@ -14,7 +14,7 @@
       <div class="avatar">
         <profile-picture
           :admin="$props.admin"
-          :url="`${userAvatar}${hover ? '' : '?type=png'}`"
+          :url="`${userAvatar}${hover ? '' : '?type=webp'}`"
           size="50px"
           :hover="true"
           @click.native="openUserInformation"

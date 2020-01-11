@@ -14,7 +14,7 @@
     <profile-picture
       size="45px"
       class="avatar"
-      :url="`${avatarDomain}/${serverData.avatar}${hover ? '' : '?type=png'}`"
+      :url="`${avatarDomain}/${serverData.avatar}${hover ? '' : '?type=webp'}`"
     />
   </div>
 </template>

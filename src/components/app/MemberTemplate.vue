@@ -2,13 +2,13 @@
   <div
     class="member"
     @click="openUserInformation()"
-    @mouseover="hover = true"
+    @mouseover="mouseOverEvent"
     @mouseleave="hover = false"
     @contextmenu.prevent="rightClickEvent"
   >
     <Profile-picture
       class="avatar"
-      :url="`${userAvatar}${hover ? '' : '?type=png'}`"
+      :url="`${userAvatar}${hover || !isGif ? '' : '?type=webp'}`"
       size="30px"
       :unique-i-d="user.uniqueID"
       :status="presense"
@@ -32,7 +32,8 @@ export default {
   props: ["user", "avatar", "type", "member"],
   data() {
     return {
-      hover: false
+      hover: false,
+      isGif: false,
     };
   },
   computed: {
@@ -87,6 +88,9 @@ export default {
       return false;
     }
   },
+  mounted() {
+    this.isGif = this.userAvatar.endsWith(".gif");
+  },
   methods: {
     openUserInformation() {
       this.$store.dispatch("setUserInformationPopout", this.user.uniqueID);
@@ -100,6 +104,11 @@ export default {
         x,
         y
       });
+    },
+    mouseOverEvent() {
+      if (this.isGif) {
+        this.hover = true;
+      }
     }
   }
 };

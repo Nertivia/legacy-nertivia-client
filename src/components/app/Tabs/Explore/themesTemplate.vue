@@ -6,7 +6,7 @@
         class="background-dark"
         :style="{
           backgroundImage: `url(${bannerDomain +
-            theme.screenshot}${'?type=png'})`
+            theme.screenshot}${'?type=webp'})`
         }"
       />
     </div>
@@ -76,7 +76,7 @@ export default {
     bannerImageClicked() {
       this.$store.dispatch(
         "setImagePreviewURL",
-        this.bannerDomain + this.theme.screenshot + "?type=png"
+        this.bannerDomain + this.theme.screenshot + "?type=webp"
       );
     },
     unApplyButton() {
