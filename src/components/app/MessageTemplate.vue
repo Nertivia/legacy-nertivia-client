@@ -1,5 +1,9 @@
 <template>
-  <div class="container" @mouseover="hover = true" @mouseleave="hover = false">
+  <div
+    class="container"
+    @mouseover="mouseOverEvent"
+    @mouseleave="hover = false"
+  >
     <div
       v-if="!type || type === 0"
       :class="{
@@ -14,7 +18,7 @@
       <div class="avatar">
         <profile-picture
           :admin="$props.admin"
-          :url="`${userAvatar}${hover ? '' : '?type=webp'}`"
+          :url="`${userAvatar}${hover || !isGif ? '' : '?type=webp'}`"
           size="50px"
           :hover="true"
           @click.native="openUserInformation"
@@ -166,10 +170,16 @@ export default {
   },
   data() {
     return {
-      hover: false
+      hover: false,
+      isGif: false
     };
   },
   methods: {
+    mouseOverEvent() {
+      if (this.isGif) {
+        this.hover = true;
+      }
+    },
     openContextMenu(event) {
       const x = event.clientX;
       const y = event.clientY;
@@ -261,6 +271,7 @@ export default {
     }
   },
   mounted() {
+    this.isGif = this.userAvatar.endsWith(".gif");
     const files = this.files;
     if (!files || files.length === 0 || !files[0].dimensions) return undefined;
     this.imageSize();
