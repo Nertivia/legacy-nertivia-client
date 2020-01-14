@@ -6,7 +6,7 @@
         v-if="server.server.banner"
         :style="{
           backgroundImage: `url(${bannerDomain + server.server.banner}${
-            hover ? '' : '?type=png'
+            hover ? '' : '?type=webp'
           })`
         }"
       />

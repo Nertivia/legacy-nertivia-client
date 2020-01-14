@@ -136,13 +136,13 @@ export default {
       const file = event.target.files[0];
       const _this = this;
       const maxSize = 2092000;
+      event.target.value = "";
       if (file.size > maxSize) {
         return this.$store.dispatch(
           "setGenericMessage",
           "Image is larger than 2MB"
         );
       }
-      event.target.value = "";
       const allowedFormats = [".png", ".jpeg", ".gif", ".jpg"];
       if (!allowedFormats.includes(path.extname(file.name).toLowerCase())) {
         return this.$store.dispatch(

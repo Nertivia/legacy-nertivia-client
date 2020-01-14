@@ -2,7 +2,7 @@
   <div class="manage-emoji-panel">
     <div class="info">
       <div class="title">
-        Upload your own pretty emojis for free! Emojis must be 1MB or less.
+        Upload your own pretty emojis for free! Emojis must be 3MB or less.
         (png, jpg, gif)
       </div>
       <div class="button" @click="addEmojiBtn">
@@ -36,23 +36,6 @@
       class="hidden"
       @change="emojiBrowse"
     />
-    <!-- <div class="option" @click="changePassword">Change Password</div> -->
-
-    <div v-if="alert.show" class="alert-outer">
-      <div class="alert">
-        <div class="alert-title">
-          Error
-        </div>
-        <div class="alert-content">
-          {{ alert.content }}
-        </div>
-        <div class="alert-buttons">
-          <div class="alert-button" @click="alert.show = false">
-            Okay
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -67,14 +50,13 @@ export default {
   components: {},
   data() {
     return {
-      alert: {
-        content: "",
-        show: false
-      },
       domain: config.domain + "/files/"
     };
   },
   methods: {
+    errorBox(msg) {
+      return this.$store.dispatch("setGenericMessage", msg);
+    },
     keyDownEvent(event) {
       const keyCode = event.keyCode;
       if (keyCode == 13) {
@@ -83,61 +65,66 @@ export default {
     },
     async blurEvent(emojiID, event) {
       // send put request
-      const { ok, error } = await customEmoji.put({
+      const { ok } = await customEmoji.put({
         emojiID,
         name: event.target.value
       });
       if (!ok) {
-        this.alert.content =
-          "Upload failed - " + error.response.data.message ||
-          "Something weng wrong. Try again later.";
-        return (this.alert.show = true);
+        this.errorBox("Something weng wrong. Try again later.");
+        return;
       }
-    },
-    onProgress(percent) {
-      //update vue
-      console.log("emoji upload progress: ", percent);
     },
     async emojiBrowse(event) {
       const file = event.target.files[0];
       event.target.value = "";
       const allowedFormats = [".png", ".jpeg", ".gif", ".jpg"];
       if (!allowedFormats.includes(path.extname(file.name).toLowerCase())) {
-        this.alert.content = "Upload failed - Unsupported image file.";
-        return (this.alert.show = true);
-      } else if (file.size >= 1048576) {
-        // 1048576 = 1mb
-        this.alert.content =
-          "Upload failed - Image size must be less than 1 megabytes.";
-        return (this.alert.show = true);
+        this.errorBox("Upload failed - Unsupported image file.");
+        return;
+      } else if (file.size >= 3048576) {
+        // 3048576 = 3mb
+        this.errorBox(
+          "Upload failed - Image size must be less than 1 megabytes."
+        );
+        return;
       }
-      const formData = new FormData();
-      //check if emoji name is already used by twemoji
-      const fileName = path.basename(file.name, path.extname(file.name));
 
-      const emojiExists = emojiParser.allEmojis.find(e =>
-        e.shortcodes.find(ee => ee === fileName.toLowerCase())
-      );
-      if (emojiExists) {
-        formData.append(
-          "emoji",
-          file,
-          `${fileName.substring(0, 28)}-1${path.extname(file.name)}`
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
+      const _this = this;
+      reader.onload = async function() {
+        //check if emoji name is already used by twemoji
+        const fileName = path.basename(file.name, path.extname(file.name));
+
+        const emojiExists = emojiParser.allEmojis.find(e =>
+          e.shortcodes.find(ee => ee === fileName.toLowerCase())
         );
-      } else {
-        formData.append(
-          "emoji",
-          file,
-          `${fileName.substring(0, 30)}${path.extname(file.name)}`
-        );
-      }
-      const { ok, error } = await customEmoji.post(formData, this.onProgress);
-      if (!ok) {
-        this.alert.content =
-          "Upload failed - " + error.response.data.message ||
-          "Something weng wrong. Try again later.";
-        return (this.alert.show = true);
-      }
+
+        let finalEmojiName = () => {
+          if (emojiExists) {
+            return `${fileName.substring(0, 28)}-1`;
+          } else {
+            return fileName.substring(0, 30);
+          }
+        };
+
+        const { ok, error } = await customEmoji.post({
+          name: finalEmojiName(),
+          avatar: reader.result
+        });
+        if (!ok) {
+          if (error.response && error.response.data) {
+            _this.errorBox(error.response.data.message);
+          } else {
+            _this.errorBox("Something went wrong. Try again later.");
+          }
+          return;
+        }
+      };
+      reader.onerror = function(error) {
+        console.log("Error: ", error);
+        _this.errorBox("Something went wrong. Try again later.");
+      };
     },
     addEmojiBtn() {
       if (!this.GDriveLinked) {
@@ -149,17 +136,19 @@ export default {
       this.$refs.emojiBrowser.click();
     },
     async removeEmoji(emojiID) {
-      const { ok, error } = await customEmoji.delete(emojiID);
+      const { ok } = await customEmoji.delete(emojiID);
       if (!ok) {
-        this.alert.content =
-          "Upload failed - " + error.response.data.message ||
-          "Something weng wrong. Try again later.";
-        return (this.alert.show = true);
+        this.errorBox("Something weng wrong. Try again later.");
+        return;
       }
     }
   },
   computed: {
-    ...mapState("settingsModule", ["GDriveLinked", "customEmojis"])
+    ...mapState("settingsModule", ["GDriveLinked"]),
+    customEmojis() {
+      const customEmojis = [...this.$store.state.settingsModule.customEmojis];
+      return customEmojis ? customEmojis.reverse() : [];
+    }
   }
 };
 </script>
@@ -219,6 +208,7 @@ input:focus {
   width: 100%;
   height: 100%;
   margin-bottom: 20px;
+  overflow: hidden;
 }
 
 .emojis-list {

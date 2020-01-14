@@ -34,11 +34,6 @@
 const Survey = () => import("./survey.vue");
 const EditProfile = () => import("./EditProfile.vue");
 
-import AvatarUpload from "@/services/AvatarUpload.js";
-import config from "@/config.js";
-import path from "path";
-import { mapState } from "vuex";
-
 export default {
   components: {
     Survey,
@@ -52,57 +47,6 @@ export default {
         show: false
       }
     };
-  },
-  methods: {
-    onProgress(percent) {
-      //update vue
-      console.log("Avatar upload progress: ", percent);
-    },
-    async avatarBrowse(event) {
-      const file = event.target.files[0];
-      event.target.value = "";
-      const allowedFormats = [".png", ".jpeg", ".gif", ".jpg"];
-
-      if (!allowedFormats.includes(path.extname(file.name).toLowerCase())) {
-        this.alert.content = "Upload failed - Unsupported image file.";
-        return (this.alert.show = true);
-      } else if (file.size >= 2092000) {
-        // 2092000 = 2mb
-        this.alert.content =
-          "Upload failed - Image size must be less than 2 megabytes.";
-        return (this.alert.show = true);
-      }
-      const formData = new FormData();
-      formData.append("avatar", file);
-      const { ok } = await AvatarUpload.uploadAvatar(formData, this.onProgress);
-      if (!ok) {
-        this.alert.content =
-          "Upload failed - Something went wrong. Try again later.";
-        return (this.alert.show = true);
-      }
-    },
-    changePassword() {
-      this.alert.content = "Not implemented yet.";
-      return (this.alert.show = true);
-    },
-    editAvatarBtn() {
-      if (!this.GDriveLinked) {
-        return this.$store.dispatch("setPopoutVisibility", {
-          name: "GDLinkMenu",
-          visibility: true
-        });
-      }
-      this.$refs.avatarBrowser.click();
-    }
-  },
-  computed: {
-    ...mapState("settingsModule", ["GDriveLinked"]),
-    user() {
-      return this.$store.getters.user;
-    },
-    avatar() {
-      return config.domain + "/avatars/" + this.$store.getters.user.avatar;
-    }
   }
 };
 </script>
