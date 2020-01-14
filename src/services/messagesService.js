@@ -1,10 +1,16 @@
 import { instance, wrapper } from "./Api";
+
+const config = require('../config.js');
+
+let domain = "";
+if (config.serverURL) domain = config.serverURL+"/"
+
 export default {
   // TODO: add ?continue=id
   get(channelID, continueMessageID, beforeMessageID) {
     return wrapper(
       instance().get(
-        `messages/channels/${channelID}${
+        domain+`messages/channels/${channelID}${
           continueMessageID
             ? "?continue=" + continueMessageID
             : beforeMessageID
@@ -16,12 +22,12 @@ export default {
   },
   delete(messageID, channelID) {
     return wrapper(
-      instance().delete(`messages/${messageID}/channels/${channelID}`)
+      instance().delete(domain+`messages/${messageID}/channels/${channelID}`)
     );
   },
   update(messageID, channelID, data) {
     return wrapper(
-      instance().patch(`messages/${messageID}/channels/${channelID}`, data)
+      instance().patch(domain+`messages/${messageID}/channels/${channelID}`, data)
     );
   },
 
@@ -43,6 +49,6 @@ export default {
       }
     };
 
-    return wrapper(instance().post(url, data, config));
+    return wrapper(instance().post(domain+url, data, config));
   }
 };
