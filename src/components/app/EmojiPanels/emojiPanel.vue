@@ -3,7 +3,7 @@
     <div class="emoji-panel-inner">
       <div class="emojis-list">
         <!-- Recent Emojis Category  -->
-        <div class="category">
+        <div class="category" v-if="this.recentEmojisList.length>0">
           <div class="category-name">Recent</div>
           <div class="list">
             <div
@@ -25,7 +25,7 @@
         </div>
 
         <!-- Custom Emojis Category  -->
-        <div class="category">
+        <div class="category" v-if="this.customEmojisList.length>0">
           <div class="category-name">Custom Emojis</div>
           <div class="list">
             <div
@@ -63,11 +63,11 @@
         </div>
       </div>
       <div class="tabs">
-        <div class="tab" @click="scrollToCategory(0)">
+        <div class="tab" @click="scrollToCategory(getCategoryScroll('recent'))" v-if="this.recentEmojisList.length>0">
           <i class="material-icons">history</i>
           <div class="tooltip">Recent</div>
         </div>
-        <div class="tab" @click="scrollToCategory(1)">
+        <div class="tab" @click="scrollToCategory(getCategoryScroll('custom'))" v-if="this.customEmojisList.length>0">
           <i class="material-icons">face</i>
           <div class="tooltip">Custom Emojis</div>
         </div>
@@ -76,7 +76,7 @@
           :key="index"
           class="tab"
           @mouseenter="mouseHover(emoji, $event)"
-          @click="scrollToCategory(index + 2)"
+          @click="scrollToCategory(getCategoryScroll('default', index))"
         >
           <img class="panel-emoji" :src="selectRandom(emoji)" />
           <div class="tooltip">{{ groups[index] }}</div>
@@ -389,6 +389,16 @@ export default {
     },
     emojiClickEvent(shortcode) {
       bus.$emit("emojiPanel:Selected", shortcode);
+    },
+    getCategoryScroll(type, ct) {
+        if (type==="recent") return 0;
+        if (type==="custom") return (this.recentEmojisList.length>0&&1)||0;
+        if (type==="default") return (
+            ((this.recentEmojisList.length>0&&1)||0)+
+            ((this.customEmojisList.length>0&&1)||0)+
+            ct);
+
+        return ct;
     },
     mouseHover(emoji, event) {
       event.target.children[0].src = this.selectRandom(emoji);
