@@ -11,7 +11,9 @@
       :style="
         `border-color: ${
           status.statusColor
-        }; background-image: url(${userAvatar}${hover || !isGif ? '' : '?type=webp'})`
+        }; background-image: url(${userAvatar}${
+          hover || !isGif ? '' : '?type=webp'
+        })`
       "
       @click="openUserInformation"
     >

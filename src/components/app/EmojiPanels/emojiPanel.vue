@@ -3,9 +3,12 @@
     <div class="emoji-panel-inner">
       <div class="emojis-list">
         <!-- Recent Emojis Category  -->
-        <div class="category" v-if="this.recentEmojisList.length>0">
+        <div class="category">
           <div class="category-name">Recent</div>
           <div class="list">
+            <div class="emoji-text" v-if="this.recentEmojisList.length===0">
+              You have not used any emojis. Try using one!
+            </div>
             <div
               v-for="(recentEmoji, index) in this.recentEmojisList"
               :key="index"
@@ -25,9 +28,12 @@
         </div>
 
         <!-- Custom Emojis Category  -->
-        <div class="category" v-if="this.customEmojisList.length>0">
+        <div class="category">
           <div class="category-name">Custom Emojis</div>
           <div class="list">
+            <div class="emoji-text" v-if="this.customEmojisList.length===0">
+              You have no custom emojis. Try creating one!
+            </div>
             <div
               v-for="(customEmoji, index) in this.customEmojisList"
               :key="index"
@@ -63,11 +69,11 @@
         </div>
       </div>
       <div class="tabs">
-        <div class="tab" @click="scrollToCategory(getCategoryScroll('recent'))" v-if="this.recentEmojisList.length>0">
+        <div class="tab" @click="scrollToCategory(getCategoryScroll('recent'))">
           <i class="material-icons">history</i>
           <div class="tooltip">Recent</div>
         </div>
-        <div class="tab" @click="scrollToCategory(getCategoryScroll('custom'))" v-if="this.customEmojisList.length>0">
+        <div class="tab" @click="scrollToCategory(getCategoryScroll('custom'))">
           <i class="material-icons">face</i>
           <div class="tooltip">Custom Emojis</div>
         </div>
@@ -391,14 +397,10 @@ export default {
       bus.$emit("emojiPanel:Selected", shortcode);
     },
     getCategoryScroll(type, ct) {
-        if (type==="recent") return 0;
-        if (type==="custom") return (this.recentEmojisList.length>0&&1)||0;
-        if (type==="default") return (
-            ((this.recentEmojisList.length>0&&1)||0)+
-            ((this.customEmojisList.length>0&&1)||0)+
-            ct);
-
-        return ct;
+      if (type === "recent") return 0;
+      if (type === "custom") return 1;
+      if (type === "default") return ct + 2;
+      return ct;
     },
     mouseHover(emoji, event) {
       event.target.children[0].src = this.selectRandom(emoji);
@@ -453,6 +455,9 @@ export default {
   color: rgb(195, 195, 195);
 }
 .list {
+}
+.emoji-text {
+  margin: 6px;
 }
 .emoji-item {
   background: rgba(59, 59, 59, 0.521);

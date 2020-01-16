@@ -33,7 +33,7 @@ export default {
   data() {
     return {
       hover: false,
-      isGif: false,
+      isGif: false
     };
   },
   computed: {

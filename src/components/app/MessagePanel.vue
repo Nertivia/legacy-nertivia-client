@@ -176,7 +176,8 @@
     <div
       class="no-message-permission"
       v-if="
-        sendChannelMessagePermission === false || roleSendMessagePermission === false
+        sendChannelMessagePermission === false ||
+          roleSendMessagePermission === false
       "
     >
       You don't have permission to send messages in this channel.
