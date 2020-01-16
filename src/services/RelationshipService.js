@@ -1,15 +1,20 @@
 import { instance, wrapper } from "./Api";
 
+const config = require('../config.js');
+
+let domain = "";
+if (config.serverURL) domain = config.serverURL+"/"
+
 export default {
   post(friend) {
-    return wrapper(instance().post("/user/relationship", friend));
+    return wrapper(instance().post(domain+"/user/relationship", friend));
   },
   put(uniqueID) {
-    return wrapper(instance().put("/user/relationship", { uniqueID }));
+    return wrapper(instance().put(domain+"/user/relationship", { uniqueID }));
   },
   delete(uniqueID) {
     return wrapper(
-      instance().delete("/user/relationship", {
+      instance().delete(domain+"/user/relationship", {
         data: { uniqueID }
       })
     );
