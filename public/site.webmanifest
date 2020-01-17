@@ -1,7 +1,7 @@
 {
     "name": "Nertivia",
     "short_name": "Nertivia",
-    "start_url": ".",
+    "start_url": "https://supertiger.nertivia.tk/app",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",
