@@ -227,6 +227,7 @@ body {
   width: 100%;
   overflow: auto;
   z-index: 9999;
+  height: 100%;
 }
 
 .content {
