@@ -156,6 +156,7 @@ export default {
   flex-direction: column;
   height: 100%;
   width: 600px;
+  overflow: hidden;
 }
 .tab {
   display: flex;

@@ -241,6 +241,7 @@ export default {
   transition: 0.3s;
   user-select: none;
   cursor: pointer;
+  flex-shrink: 0;
 }
 .survey .button:hover {
   background: #02303c;
