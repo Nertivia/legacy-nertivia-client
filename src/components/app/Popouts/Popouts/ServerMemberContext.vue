@@ -17,9 +17,18 @@
       </div>
     </div>
     <div class="main-menu" ref="main-menu">
-      <div class="item" @click="viewProfile">View Profile</div>
-      <div class="item" @click="copyUserTag">Copy User@Tag</div>
-      <div class="item" @click="copyID">Copy ID</div>
+      <div class="item" @click="viewProfile">
+        <div class="material-icons icon-cat">person</div>
+        <div class="name">View Profile</div>
+      </div>
+      <div class="item" @click="copyUserTag">
+        <div class="material-icons icon-cat">developer_board</div>
+        <div class="name">Copy User@Tag</div>
+      </div>
+      <div class="item" @click="copyID">
+        <div class="material-icons icon-cat">developer_board</div>
+        <div class="name">Copy ID</div>
+      </div>
       <div
         class="item"
         @mouseenter="editRoleHoverEvent"
@@ -29,10 +38,12 @@
         Edit Roles
       </div>
       <div class="item warn" v-if="showKickBanOption" @click="kickMember">
-        Kick
+        <div class="material-icons icon-cat">exit_to_app</div>
+        <div class="name">Kick</div>
       </div>
       <div class="item warn" v-if="showKickBanOption" @click="banMember">
-        Ban
+        <img class="icon-cat" src="../../../../assets/hammer4.0.svg" />
+        <div class="name">Ban</div>
       </div>
     </div>
   </div>
@@ -100,17 +111,20 @@ export default {
 
         rolesMenu.style.top =
           mainMenuY + mainMenu.clientHeight - rolesMenu.clientHeight + "px";
-        rolesMenu.style.left = mainMenuX - mainMenu.clientWidth - 38 + "px";
+        rolesMenu.style.left = mainMenuX - mainMenu.clientWidth - 22 + "px";
       });
     },
     setPosition() {
-      const y = this.contextDetails.y;
+      let y = this.contextDetails.y;
       let x = this.contextDetails.x;
       const mainMenu = this.$refs["main-menu"];
 
       // if context is out of screen
       if (x + mainMenu.clientWidth > window.innerWidth) {
         x = window.innerWidth - mainMenu.clientWidth;
+      }
+      if (y + mainMenu.clientHeight > window.innerHeight) {
+        y = window.innerHeight - mainMenu.clientHeight;
       }
 
       mainMenu.style.top = y + "px";
@@ -265,6 +279,8 @@ export default {
   z-index: 99999;
   top: 0;
   left: 0;
+    overflow: hidden;
+  border-radius: 4px;
 }
 
 .roles-menu {
@@ -279,6 +295,7 @@ export default {
   max-height: 150px;
   width: 150px;
   overflow: auto;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar {
@@ -291,18 +308,27 @@ export default {
   height: 30px;
   padding-left: 10px;
   padding-right: 10px;
+  padding: 5px;
   transition: 0.2s;
   font-size: 13px;
   cursor: pointer;
   .material-icons {
-    margin-left: -10px;
+    font-size: 20px;
+    margin-right: 5px;
+    margin-left: -2px;
+  }
+  .icon-cat {
+    margin-right: 5px;
+    margin-left: 1px;
+    height: 20px;
+    width: 20px;
   }
   .has-role {
-    margin-left: -5px;
+    margin-left: -2px;
     margin-right: 5px;
   }
   &:hover {
-    background: rgba(102, 102, 102, 0.4);
+    background: rgba(255, 255, 255, 0.2);
   }
   &.warn {
     color: rgb(255, 59, 59);

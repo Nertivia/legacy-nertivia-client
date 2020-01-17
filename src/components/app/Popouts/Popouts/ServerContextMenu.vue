@@ -1,18 +1,24 @@
 <template>
   <div class="drop-down-menu" v-click-outside="outsideClick">
-    <div class="item" @click="createInvite">Manage Invites</div>
+    <div class="item" @click="createInvite">
+      <div class="material-icons">settings</div>
+      <div class="name">Manage Invites</div>
+    </div>
     <div
       class="item"
       v-if="checkServerCreator || hasAdminRoles"
       @click="showSettings"
     >
-      Server Settings
+      <div class="material-icons">settings</div>
+      <div class="name">Server Settings</div>
     </div>
     <div class="item warn" v-if="!checkServerCreator" @click="leaveServer">
-      Leave Server
+      <div class="material-icons">exit_to_app</div>
+      <div class="name">Leave Server</div>
     </div>
     <div class="item" @click="copyServerID">
-      Copy Server ID
+      <div class="material-icons">developer_board</div>
+      <div class="name">Copy ID</div>
     </div>
   </div>
 </template>
@@ -132,15 +138,23 @@ export default {
   z-index: 99999;
   user-select: none;
   color: white;
+  overflow: hidden;
+  border-radius: 4px;
 }
 
 .item {
+  display: flex;
+  align-items: center;
   padding: 10px;
-  transition: 0.3s;
+  transition: 0.2s;
   font-size: 13px;
   cursor: pointer;
+  .material-icons {
+    font-size: 20px;
+    margin-right: 5px;
+  }
   &:hover {
-    background: rgba(46, 46, 46, 0.651);
+    background: rgba(255, 255, 255, 0.2);
   }
   &.warn {
     color: rgb(255, 59, 59);

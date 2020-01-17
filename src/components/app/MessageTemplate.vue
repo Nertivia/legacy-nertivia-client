@@ -510,8 +510,11 @@ $message-color: #03222b;
   color: rgb(231, 231, 231);
   margin: auto 0;
   overflow: hidden;
+  border-radius: 4px;
+  border-bottom-left-radius: 0;
 }
 .ownMessageLeft .content {
+  border-radius: 4px;
   border-bottom-right-radius: 0;
 }
 .image-content {
