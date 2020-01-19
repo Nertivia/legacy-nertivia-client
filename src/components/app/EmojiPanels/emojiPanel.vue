@@ -420,7 +420,6 @@ export default {
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(5px);
   border-radius: 4px;
-  overflow: hidden;
   transition: 0.3s;
   z-index: 99999;
 }
