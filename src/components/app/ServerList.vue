@@ -175,7 +175,6 @@ export default {
 }
 .banner-image {
   position: absolute;
-  background-image: url("../../assets/background.jpg");
   background-position: center;
   background-size: cover;
   height: 100%;

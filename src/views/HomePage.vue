@@ -42,7 +42,7 @@
             The best chat client that won't restrict you from important and fun
             features.
           </div>
-          <img class="graphic" src="@/assets/graphics/HomeGraphics.png" />
+          <img class="graphic" src="@/assets/graphics/HomeGraphics.webp" />
           <div class="buttons">
             <div class="button" @click="openApp">Open In Browser</div>
             <div class="button download" @click="showDownloadsPopout = true">

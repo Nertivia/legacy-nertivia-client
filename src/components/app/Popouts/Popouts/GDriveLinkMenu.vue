@@ -55,7 +55,7 @@ export default {
       }
     },
     donateButton() {
-      window.open("https://www.patreon.com/nertivia", "_blank");
+      window.open("https://www.paypal.me/DiscordDevHelp", "_blank");
     }
   }
 };
