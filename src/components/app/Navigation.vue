@@ -315,7 +315,7 @@ export default {
   opacity: 0.8;
   transition: 0.2s;
   &:hover {
-    background: #074447;
+    background: #093b4b;
   }
   &.selected {
     background: #042a2b;
@@ -341,6 +341,7 @@ export default {
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(3px);
   padding: 5px;
+  border-radius: 4px;
   max-width: 150px;
   white-space: nowrap;
   overflow: hidden;

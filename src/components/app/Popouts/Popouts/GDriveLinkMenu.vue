@@ -118,7 +118,7 @@ export default {
   user-select: none;
 }
 .GDrive-img {
-  background-image: url(./../../../../assets/Google_Drive_logo.png);
+  background-image: url(./../../../../assets/Google_Drive_logo.webp);
 }
 .buttons {
   margin: auto;

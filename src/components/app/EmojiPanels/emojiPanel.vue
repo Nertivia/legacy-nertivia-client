@@ -407,7 +407,7 @@ export default {
 <style scoped>
 .emoji-panel {
   position: absolute;
-  bottom: 10px;
+  bottom: -50px;
   right: 20px;
   max-width: 410px;
   width: calc(100% - 50px);
@@ -417,7 +417,10 @@ export default {
 }
 
 .emoji-panel-inner {
-  background: rgb(32, 32, 32);
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  border-radius: 4px;
+  overflow: hidden;
   transition: 0.3s;
   z-index: 99999;
 }
@@ -454,6 +457,7 @@ export default {
   padding: 2px;
   min-width: 30px;
   cursor: pointer;
+  border-radius: 4px;
 }
 .emoji-item:hover {
   background: rgb(59, 59, 59);
@@ -497,6 +501,7 @@ export default {
   justify-content: center;
   flex-shrink: 0;
   cursor: pointer;
+  border-radius: 4px;
 }
 
 .tab:hover {
@@ -520,18 +525,20 @@ export default {
   height: 0;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  border-top: 15px solid rgb(32, 32, 32);
+  border-top: 15px solid #000000ad;
 
   align-self: flex-end;
-  margin-right: 60px;
+  margin-right: 46px;
 }
 .tooltip {
   display: none;
   position: absolute;
   margin: auto;
-  background: rgb(29, 29, 29);
-  padding: 10px;
-  bottom: -20px;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  padding: 5px;
+  border-radius: 4px;
+  bottom: -30px;
   text-transform: capitalize;
   user-select: none;
 }

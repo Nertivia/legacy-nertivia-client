@@ -64,10 +64,12 @@ export default {
   position: absolute;
   top: 60px;
   right: 5px;
-  background: rgba(3, 32, 41, 0.9);
+  background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(5px);
   width: 180px;
   z-index: 4;
+  border-radius: 4px;
+  overflow: hidden;
 }
 .status-list {
   padding: 10px;
@@ -80,7 +82,7 @@ export default {
 }
 
 .status-list:hover {
-  background: #081619;
+  background: rgba(255, 255, 255, 0.2);;
 }
 
 .status-icon {

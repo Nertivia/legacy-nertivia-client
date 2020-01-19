@@ -46,7 +46,7 @@ export default {
 .edit-panel {
   padding: 10px;
   color: white;
-  background: #0f272a;
+  background: #012c36;
   display: flex;
   flex-direction: column;
   z-index: 1;
@@ -66,6 +66,7 @@ export default {
   transition: 0.3s;
   user-select: none;
   cursor: pointer;
+  border-radius: 4px;
 }
 .close-button:hover {
   background: #485b5d;

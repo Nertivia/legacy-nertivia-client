@@ -312,6 +312,7 @@ export default {
   position: absolute;
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(3px);
+  border-radius: 4px;
   padding: 5px;
   max-width: 150px;
   white-space: nowrap;
