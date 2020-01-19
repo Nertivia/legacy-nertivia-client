@@ -82,25 +82,22 @@ export default {
 
 <style scoped>
 .selected {
-  background: rgba(66, 66, 66, 0.89);
+  background: rgba(255, 255, 255, 0.2);
 }
 .emoji-suggetions-list {
   position: absolute;
-  bottom: 0;
-  left: 70px;
+  bottom: -35px;
+  left: 50px;
   max-height: 400px;
   overflow-y: auto;
   z-index: 2;
-
-  background: rgba(32, 32, 32, 0.87);
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  border-radius: 4px;
   color: white;
-  padding: 5px;
   transition: 0.3s;
   user-select: none;
   cursor: default;
-}
-.emoji-suggetions-list:hover {
-  background: rgba(32, 32, 32, 0.966);
 }
 .preview {
   margin-right: 5px;
