@@ -203,6 +203,7 @@ export default {
   align-items: center;
   padding: 5px;
   justify-content: center;
+  flex-shrink: 0;
   background: rgba(0, 0, 0, 0.2);
   cursor: pointer;
   transition: 0.2s;
