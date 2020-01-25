@@ -1,10 +1,18 @@
 const config = [
   {
+    version: 9.3,
+    title: "Saved Notes and bug fixes",
+    shortTitle: "",
+    date: "25/01/2019",
+    headColor: "#007792",
+    new: ["You can now save your own messages in a seperate log."],
+    fix: ["Fixed a bug where some role colors would not show correctly."]
+   },
+  {
     version: 9.2,
     title: "Image cache, more role permissions!",
     shortTitle: "",
     date: "09/01/2019",
-    headColor: "#007792",
     new: [
       "Image cache has been implimented.",
       "2 new role permissions have been added: Manage roles, manage channels."
