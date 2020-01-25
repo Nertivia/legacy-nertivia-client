@@ -29,6 +29,14 @@
       <div v-else class="list">
         <recent-friends />
       </div>
+      <div
+        class="button"
+        :class="{ selected: uniqueIDSelected }"
+        @click="saveNotesBtn"
+      >
+        <div class="material-icons">notes</div>
+        <div class="name">Saved Notes</div>
+      </div>
     </div>
   </div>
 </template>
@@ -60,6 +68,14 @@ export default {
       localStorage.setItem("friendsListTab", tab);
     }
   },
+  methods: {
+    saveNotesBtn() {
+      this.$store.dispatch("openChat", {
+        uniqueID: this.user.uniqueID,
+        channelName: "Saved Notes"
+      });
+    }
+  },
   mounted() {
     const tab = localStorage.getItem("friendsListTab");
     if (tab) {
@@ -67,6 +83,12 @@ export default {
     }
   },
   computed: {
+    user() {
+      return this.$store.getters.user;
+    },
+    uniqueIDSelected() {
+      return this.$store.getters.selectedUserUniqueID === this.user.uniqueID;
+    },
     DMNotification() {
       const notifications = this.$store.getters.notifications;
       const channels = this.$store.getters.channels;
@@ -96,7 +118,7 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
 .left-panel {
   height: 100%;
   width: 340px;
@@ -172,6 +194,27 @@ export default {
   right: 0;
   bottom: 0;
   background: rgb(255, 255, 255);
+}
+
+.button {
+  color: white;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  padding: 5px;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: 0.2s;
+  .material-icons {
+    margin-right: 5px;
+  }
+  &:hover {
+    background: rgba(0, 0, 0, 0.4);
+  }
+  &.selected {
+    background: rgba(0, 0, 0, 0.6);
+  }
 }
 
 /* ------- SCROLL BAR -------*/
