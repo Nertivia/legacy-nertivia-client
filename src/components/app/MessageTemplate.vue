@@ -337,11 +337,19 @@ export default {
     roleColor() {
       if (!this.isServer) return undefined;
       if (!this.serverMember || !this.serverMember.roles) return undefined;
-      const filtered = this.roles.filter(r =>
+
+      const filter = this.roles.filter(r =>
         this.serverMember.roles.includes(r.id)
       );
-      if (!filtered.length) return undefined;
-      return filtered[0].color + " !important";
+      if (filter.length) {
+        if (filter[0].color) {
+          return filter[0].color + " !important";
+        } else {
+          return undefined;
+        }
+      } else {
+        return this.roles.find(r => r.default).color + " !important";
+      }
     }
   }
 };

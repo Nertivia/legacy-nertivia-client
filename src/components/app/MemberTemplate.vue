@@ -60,10 +60,16 @@ export default {
       if (!this.roles) return undefined;
 
       let filter = this.roles.filter(r => this.member.roles.includes(r.id));
-      if (!filter.length) {
-        filter = [this.roles.find(r => r.default)];
+
+      if (filter.length) {
+        if (filter[0].color) {
+          return filter[0].color + " !important";
+        } else {
+          return undefined;
+        }
+      } else {
+        return this.roles.find(r => r.default).color + " !important";
       }
-      return filter[0].color + " !important";
     },
     isAdmin() {
       if (!this.roles) return false;
