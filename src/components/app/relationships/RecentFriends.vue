@@ -21,17 +21,21 @@ export default {
     FriendsTemplate
   },
   computed: {
+    user() {
+      return this.$store.getters.user;
+    },
     channels() {
       const json = this.$store.getters.channels;
       const notifications = this.$store.getters.notifications;
 
       const keys = Object.keys(json);
       let result = [];
-      keys.forEach(function(key) {
+      keys.forEach(key => {
         if (
           json[key].recipients &&
           json[key].recipients.length > 0 &&
-          !json[key].servers
+          !json[key].servers &&
+          json[key].recipients[0].uniqueID !== this.user.uniqueID
         )
           result.push(json[key]);
       });
