@@ -5,9 +5,9 @@ const config = [
     shortTitle: "",
     date: "25/01/2019",
     headColor: "#007792",
-    new: ["You can now save your own messages in a seperate log."],
+    new: ["You can now save your own messages in a separate log."],
     fix: ["Fixed a bug where some role colors would not show correctly."]
-   },
+  },
   {
     version: 9.2,
     title: "Image cache, more role permissions!",
