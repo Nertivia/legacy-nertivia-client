@@ -8,13 +8,13 @@
   >
     <div
       class="profile-picture"
-      :style="
-        `border-color: ${
-          status.statusColor
-        }; background-image: url(${userAvatar}${hover || !isGif ? '' : '?type=webp'})`
-      "
+      :style="`border-color: ${status.statusColor};`"
       @click="openUserInformation"
     >
+      <img
+        class="avatar"
+        :src="`${userAvatar}${hover || !isGif ? '' : '?type=webp'}`"
+      />
       <div
         class="status"
         :style="`background-image: url(${status.statusURL})`"
@@ -179,11 +179,14 @@ export default {
   margin-right: 5px;
   border: solid 2px;
   position: relative;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
   transition: 0.3s;
   flex-shrink: 0;
+}
+.avatar {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 .information {
   margin: auto;
