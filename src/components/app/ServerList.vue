@@ -10,15 +10,13 @@
         :class="{ extendBanner: server && server.banner }"
         v-if="selectedServerID"
       >
-        <div
+        <img
           class="banner-image"
           @click="bannerImageClicked"
           v-if="server && server.banner"
-          :style="{
-            backgroundImage: `url(${bannerDomain}${server.banner}${
-              bannerHover ? '' : '?type=webp'
-            })`
-          }"
+          :src="
+            `${bannerDomain}${server.banner}${bannerHover ? '' : '?type=webp'}`
+          "
         />
         <div class="sub-banner">
           <div class="text" :title="servers[selectedServerID].name">
@@ -175,8 +173,7 @@ export default {
 }
 .banner-image {
   position: absolute;
-  background-position: center;
-  background-size: cover;
+  object-fit: cover;
   height: 100%;
   z-index: 2;
   width: 100%;
