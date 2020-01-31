@@ -1,7 +1,7 @@
 <template>
   <div id="app" ref="app" :class="{ desktop: isElectron }">
     <vue-headful :title="title" description="Nertivia Chat Client" />
-    <div class="background-image"></div>
+    <div class="background-color"></div>
     <transition name="fade-between-two" appear>
       <ConnectingScreen v-if="!loggedIn" />
       <div class="box" v-if="loggedIn">
@@ -370,15 +370,15 @@ export default {
 
 <style>
 textarea {
-  font-family: "Roboto", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
-.background-image {
+.background-color {
   position: fixed;
   z-index: -1;
   width: 100%;
   height: 100%;
-  background: linear-gradient(#0b4155, #01677e);
+  background: linear-gradient(to bottom, #005799 0, #0076d1);
 }
 
 .panel-layout {

@@ -3,10 +3,14 @@
     class="channel"
     :class="{ selected: selectedChannelID === channelData.channelID }"
   >
-    <i class="material-icons">storage</i>
+    <i class="material-icons">arrow_forward_ios</i>
     <div class="channel-name">{{ channelData.name }}</div>
-    <div class="notification" v-if="hasNotifications">
-      {{ hasNotifications.count }}
+    <div
+      class="notification"
+      v-if="hasNotifications"
+      :title="hasNotifications.count"
+    >
+      {{ hasNotifications.count > 99 ? "99+" : hasNotifications.count }}
     </div>
   </div>
 </template>
@@ -45,23 +49,30 @@ export default {
   position: relative;
   display: flex;
   align-items: center;
-  padding: 5px;
-  transition: background 0.3s;
+  padding: 10px;
+  transition: background 0.2s;
   font-size: 14px;
   cursor: pointer;
-  color: white;
+  color: rgba(255, 255, 255, 0.8);
   user-select: none;
   overflow: hidden;
   padding-right: 10px;
   padding-left: 10px;
-  margin: 5px;
+  margin: 2px;
+  margin-left: 10px;
+  margin-right: 10px;
   border-radius: 4px;
 }
+.material-icons {
+  font-size: 11px;
+}
 .channel:hover {
-  background: #053c4c;
+  background: #00477d;
+  color: white;
 }
 .channel.selected {
-  background: #053240;
+  background: #003660;
+  color: white;
 }
 
 .channel-name {
@@ -78,12 +89,13 @@ export default {
   text-align: center;
   justify-content: center;
   background: #ee3e34;
-  height: 34px;
-  right: 0;
-  top: 0;
+  height: 23px;
+  width: 23px;
+  border-radius: 50%;
+  right: 10px;
+  top: 8px;
   bottom: 0;
-  min-width: 40px;
-  max-width: 70px;
-  border-radius: 1px;
+  font-size: 12px;
+  font-weight: bold;
 }
 </style>

@@ -105,7 +105,7 @@ export default {
   align-items: center;
   height: 50px;
   transition: 0.3s;
-  background-color: #083a4a;
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .avatar {

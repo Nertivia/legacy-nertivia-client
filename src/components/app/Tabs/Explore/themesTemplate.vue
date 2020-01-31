@@ -216,8 +216,8 @@ export default {
       align-items: center;
       justify-content: center;
       width: 100%;
-      height: 40px;
-      border-radius: 4px;
+      height: 36px;
+      border-radius: 2px;
       background: rgba(0, 179, 219, 0.8);
       transition: 0.2s;
       margin-right: 10px;

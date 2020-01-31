@@ -156,7 +156,14 @@ export default {
         text-overflow: ellipsis;
       }
       .material-icons {
-        color: #66e0ff;
+        color: #ffffff;
+        width: 12px;
+        height: 12px;
+        background-color: #5dcce8;
+        font-size: 13px;
+        border-radius: 50%;
+        padding: 4px;
+        margin-top: 3px;
         margin-left: 5px;
       }
     }
@@ -209,8 +216,8 @@ export default {
       align-items: center;
       justify-content: center;
       width: 100%;
-      height: 40px;
-      border-radius: 4px;
+      height: 36px;
+      border-radius: 2px;
       background: rgba(0, 179, 219, 0.8);
       transition: 0.2s;
       margin-right: 10px;

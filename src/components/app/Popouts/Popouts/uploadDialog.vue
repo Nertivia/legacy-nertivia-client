@@ -285,7 +285,7 @@ export default {
   display: flex;
 }
 .chat-input {
-  font-family: "Roboto", sans-serif;
+  font-family: "Montserrat", sans-serif;
   background: #014655;
   color: white;
   width: 100%;

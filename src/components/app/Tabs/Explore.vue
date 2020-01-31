@@ -224,18 +224,18 @@ export default {
       &::after {
         content: "BETA";
         position: absolute;
-        background: #ff3333;
-        border-radius: 5px;
-        font-size: 9px;
+        background: #f33;
+        border-radius: 2px;
+        font-size: 10px;
         padding: 2px;
-        bottom: 20px;
+        bottom: 22px;
         z-index: 999;
       }
     }
     .details {
       align-self: center;
       .title {
-        font-size: 20px;
+        font-size: 18px;
         margin-bottom: 5px;
         position: relative;
       }

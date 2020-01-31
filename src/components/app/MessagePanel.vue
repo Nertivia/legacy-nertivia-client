@@ -856,6 +856,7 @@ export default {
   flex-direction: column;
   overflow: hidden;
   position: relative;
+  background: rgba(0, 0, 0, 0.4);
 }
 .message-logs {
   overflow: auto;
@@ -872,7 +873,7 @@ export default {
   flex-direction: column;
   padding-bottom: 10px;
   position: relative;
-  background: #014757;
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .attachment-button {
@@ -918,7 +919,7 @@ export default {
 }
 
 .chat-input {
-  font-family: "Roboto", sans-serif;
+  font-family: "Montserrat", sans-serif;
   background: transparent;
   color: white;
   width: 100%;
@@ -994,16 +995,17 @@ export default {
 
 .back-to-bottom-button {
   &:hover {
-    background: rgba(0, 0, 0, 0.9);
+    background: rgba(0, 0, 0, 0.8);
   }
   transition: 0.2s;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
   border-radius: 100px;
   color: white;
   position: absolute;
   bottom: 15px;
   right: 25px;
-  height: 50px;
+  height: 52px;
   z-index: 2;
   display: flex;
   justify-content: center;
@@ -1011,13 +1013,14 @@ export default {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   align-content: center;
   align-items: center;
-  padding-left: 10px;
+  padding-left: 15px;
+  padding-right: 10px;
   user-select: none;
   cursor: pointer;
   .material-icons {
     align-self: center;
     flex-shrink: 0;
-    font-size: 35px;
+    font-size: 25px;
   }
 }
 
@@ -1037,7 +1040,6 @@ export default {
   margin-left: 2px;
   margin-bottom: 10px;
   flex-shrink: 0;
-  background: #024b5c;
   .markdown-icon {
     font-size: 21px;
     flex-shrink: 0;
