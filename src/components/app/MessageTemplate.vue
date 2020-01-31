@@ -286,7 +286,7 @@ export default {
       const filetypes = /jpeg|jpg|gif|png/;
       const extname = filetypes.test(path.extname(file.fileName).toLowerCase());
       if (!extname) return undefined;
-      return config.domain + "/media/" + file.fileID;
+      return config.domain + "/media/" + file.fileID + "/" + file.fileName;
     },
     getFile() {
       if (!this.$props.files || this.$props.files.length === 0)
@@ -296,7 +296,7 @@ export default {
       const filetypes = /jpeg|jpg|gif|png/;
       const extname = filetypes.test(path.extname(file.fileName).toLowerCase());
       if (extname) return undefined;
-      file.url = config.domain + "/files/" + file.fileID;
+      file.url = config.domain + "/files/" + file.fileID + "/" + file.fileName;
       return file;
     },
     getDate() {
