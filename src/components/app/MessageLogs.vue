@@ -343,6 +343,7 @@ export default {
   overflow: auto;
   flex: 1;
   position: relative;
+  padding-bottom: 23px;
 }
 
 .load-more-button {

@@ -97,8 +97,7 @@ export default {
   position: relative;
   width: 250px;
   height: 350px;
-  background: #024253;
-  opacity: 0.9;
+  background: rgba(0, 0, 0, 0.2);
   margin: 5px;
   border-radius: 4px;
   flex-shrink: 0;
@@ -107,9 +106,6 @@ export default {
   flex-shrink: 0;
   flex-direction: column;
   overflow: hidden;
-  &:hover {
-    opacity: 1;
-  }
   .top {
     display: flex;
     flex-direction: column;
@@ -142,7 +138,7 @@ export default {
   .bottom {
     display: flex;
     flex-direction: column;
-    background: #04333f;
+    background: rgba(0, 0, 0, 0.3);
     flex: 1;
     height: 100%;
     overflow: auto;

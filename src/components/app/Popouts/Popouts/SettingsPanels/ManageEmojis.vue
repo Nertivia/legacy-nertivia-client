@@ -161,10 +161,10 @@ input {
   width: calc(100% - 30px);
 }
 input:hover {
-  background: rgba(26, 26, 26, 0.24);
+  background: rgba(0, 0, 0, 0.2);
 }
 input:focus {
-  background: rgba(26, 26, 26, 0.527);
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .delete-button {
@@ -214,7 +214,7 @@ input:focus {
 .emojis-list {
   display: flex;
   flex-direction: column;
-  background-color: #00000024;
+  background-color: rgba(0, 0, 0, 0.1);
   overflow-y: auto;
   overflow-x: hidden;
   height: 100%;
@@ -234,7 +234,7 @@ input:focus {
   flex-shrink: 0;
 }
 .emoji:hover {
-  background: #052e3b;
+  background: rgba(0, 0, 0, 0.2);
 }
 .emoji-name {
   margin: auto;
@@ -245,15 +245,16 @@ input:focus {
   display: inline-block;
   width: inherit;
   padding: 10px;
-  background: #063443;
+  background: rgba(6, 52, 67, 0.4);
   margin-bottom: 10px;
   margin-left: 20px;
   user-select: none;
   transition: 0.3s;
   cursor: pointer;
+  border-radius: 4px;
 }
 .button:hover {
-  background: #052631;
+  background: rgba(6, 52, 67, 0.6);
 }
 .button .material-icons {
   vertical-align: -6px;

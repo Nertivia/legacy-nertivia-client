@@ -5,7 +5,7 @@
   >
     <transition name="slide-left">
       <server-list
-        v-if="($mq === 'mobile' && showLeftPanel) || $mq !== 'mobile'"
+        v-show="($mq === 'mobile' && showLeftPanel) || $mq !== 'mobile'"
         v-click-outside="hideLeftPanel"
         class="left-panel"
       />
@@ -110,7 +110,7 @@ export default {
     right: 0;
     bottom: 0;
     z-index: 2;
-    background: rgba(19, 107, 139, 0.9);
+    background: linear-gradient(to bottom, #00477e 0, #016dc0);
   }
 }
 
@@ -119,7 +119,7 @@ export default {
     position: absolute;
     bottom: 0;
     z-index: 2;
-    background: rgba(19, 107, 139, 0.9);
+    background: linear-gradient(to bottom, #00477e 0, #016dc0);
   }
   .darken::after {
     content: "";

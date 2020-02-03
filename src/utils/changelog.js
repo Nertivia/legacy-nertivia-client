@@ -4,7 +4,6 @@ const config = [
     title: "Saved Notes and bug fixes",
     shortTitle: "",
     date: "25/01/2019",
-    headColor: "#007792",
     new: ["You can now save your own messages in a separate log."],
     fix: ["Fixed a bug where some role colors would not show correctly."]
   },

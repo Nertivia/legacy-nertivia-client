@@ -36,13 +36,13 @@
         }}
       </div>
     </div>
-    <div class="typing-outer">
-      <typing-status
-        v-if="typingRecipients[selectedChannelID]"
-        :recipients="typingRecipients[selectedChannelID]"
-      />
-    </div>
     <div class="chat-input-area" v-if="selectedChannelID">
+      <div class="typing-outer">
+        <typing-status
+          v-if="typingRecipients[selectedChannelID]"
+          :recipients="typingRecipients[selectedChannelID]"
+        />
+      </div>
       <div style="position: relative;">
         <transition name="show-up">
           <div
@@ -176,7 +176,8 @@
     <div
       class="no-message-permission"
       v-if="
-        sendChannelMessagePermission === false || roleSendMessagePermission === false
+        sendChannelMessagePermission === false ||
+          roleSendMessagePermission === false
       "
     >
       You don't have permission to send messages in this channel.
@@ -835,11 +836,13 @@ export default {
 }
 .typing-outer {
   display: flex;
-  height: 20px;
   margin-bottom: 5px;
-  margin-left: 10px;
+  position: absolute;
+  top: -25px;
+  left: 0;
+  right: 0;
+  z-index: 999999;
 }
-
 .hidden {
   display: none;
 }

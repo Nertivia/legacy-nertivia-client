@@ -88,18 +88,21 @@ export default {
 
 <style scoped>
 .drop-down {
-  background-color: #044050;
+  background-color: rgba(0, 0, 0, 0.4);
   padding: 10px;
   user-select: none;
   cursor: default;
   flex-shrink: 0;
   position: relative;
+  border-radius: 4px;
 }
 .title {
+  font-size: 14px;
+  margin-left: 2px;
   margin-bottom: 2px;
 }
 .current-select-box {
-  background: #032d38;
+  background-color: rgba(0, 0, 0, 0.4);
   padding: 5px;
   cursor: pointer;
   display: flex;

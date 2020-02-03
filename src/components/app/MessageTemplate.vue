@@ -387,6 +387,7 @@ $message-color: rgba(0, 0, 0, 0.3);
   color: white;
   overflow: hidden;
   background: $message-color;
+  border-radius: 4px;
 }
 
 .presence-message .text {

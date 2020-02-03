@@ -103,7 +103,9 @@ export default {
   position: relative;
   flex-shrink: 0;
   align-items: center;
-  height: 50px;
+  height: 65px;
+  padding-left: 5px;
+  padding-right: 5px;
   transition: 0.3s;
   background-color: rgba(0, 0, 0, 0.2);
 }
@@ -129,7 +131,7 @@ export default {
   }
   .tag {
     font-size: 13px;
-    color: #b2d1d9;
+    color: rgba(255, 255, 255, 0.72);
   }
 }
 

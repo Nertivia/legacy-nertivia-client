@@ -54,7 +54,7 @@ export default {
 .tabs {
   z-index: 999999;
   display: flex;
-  background: #073444;
+  background: rgba(0, 0, 0, 0.6);
   justify-content: center;
 }
 .tabs .tab {

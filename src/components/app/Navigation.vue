@@ -355,7 +355,7 @@ export default {
 
 @media (max-width: 600px) {
   .navigation {
-    background: linear-gradient(#136a8a, #00b4db);
+    background: #005a9e;
   }
 }
 </style>

@@ -83,7 +83,7 @@ export default {
 <style lang="scss" scoped>
 .search-header {
   display: flex;
-  background: #073847;
+  background: rgba(0, 0, 0, 0.55);
   width: 100%;
   height: 100px;
   flex-shrink: 0;

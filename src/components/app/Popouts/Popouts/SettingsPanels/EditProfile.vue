@@ -61,9 +61,9 @@
             class="avatar"
             :url="update.avatar || avatar"
             :admin="user.admin"
-            size="100px"
-            emote-size="30px"
-            animation-padding="5px"
+            size="70px"
+            emote-size="24px"
+            animation-padding="4px"
           />
           <div class="button" @click="$refs.avatarBrowser.click()">
             Change Avatar
@@ -208,7 +208,6 @@ export default {
 .edit-profile {
   display: flex;
   flex-direction: column;
-  margin-top: 10px;
   flex: 1;
   overflow: hidden;
 }
@@ -217,6 +216,7 @@ export default {
   flex: 1;
   overflow: auto;
   flex-shrink: 0;
+  padding-top: 20px;
 }
 
 .change-avatar {
@@ -227,19 +227,22 @@ export default {
 .change-avatar-container {
   display: flex;
   flex-direction: column;
-  background-color: #044050;
+  background-color: rgba(0, 0, 0, 0.4);
   width: 150px;
   align-self: center;
   padding: 20px;
   margin-top: 10px;
+  margin-left: 29px;
+  border-radius: 4px;
   .button {
-    background: #033442;
+    background: rgba(0, 0, 0, 0.2);
     &:hover {
-      background: #032b36;
+      background: rgba(0, 0, 0, 0.3);
     }
   }
 }
 .avatar {
+  margin-top: 10px;
   margin-bottom: 10px;
   align-self: center;
 }
@@ -247,16 +250,17 @@ export default {
   display: none;
 }
 .button {
-  background: #024554;
+  background: rgba(0, 0, 0, 0.3);
   padding: 10px;
   text-align: center;
   display: inline-block;
   align-self: center;
   cursor: pointer;
   transition: 0.3s;
+  border-radius: 4px;
 }
 .button:hover {
-  background: #02303c;
+  background: rgba(0, 0, 0, 0.4);
 }
 .button.disabled {
   background: grey;
@@ -271,11 +275,16 @@ export default {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background-color: #044050;
+  background-color: rgba(0, 0, 0, 0.4);
   padding: 10px;
   margin: 10px;
   margin-left: 30px;
   flex-shrink: 0;
+  border-radius: 4px;
+  .title {
+    font-size: 14px;
+    margin-left: 2px;
+  }
 }
 .outer-input .user-tag .username {
   flex: 1;
@@ -290,15 +299,22 @@ export default {
 }
 .outer-input input {
   width: initial;
+  border-radius: 4px;
 }
 
 .save-button {
   z-index: 99999;
-  width: 100%;
-  align-self: initial;
+  width: 120px;
+  align-self: flex-end;
   display: block;
   padding: 10px 0px 10px 0px;
+  background: rgba(0, 0, 0, 0.4);
   margin: 0;
+  margin-bottom: 20px;
+  margin-right: 20px;
+  &:hover {
+    background: rgba(0, 0, 0, 0.6);
+  }
 }
 
 .errors {
@@ -320,6 +336,7 @@ export default {
   }
   .change-avatar-container {
     order: 1;
+    margin-left: 0;
     flex-shrink: 0;
   }
   .change-avatar {

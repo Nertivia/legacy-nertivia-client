@@ -181,5 +181,6 @@ export default {
   color: #b5c4ca;
   font-size: 15px;
   margin-left: 5px;
+  font-weight: bold;
 }
 </style>
