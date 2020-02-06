@@ -286,6 +286,7 @@ export default {
   width: initial;
   margin-top: 2px;
   background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
 }
 textarea {
   padding: 10px;
@@ -298,6 +299,7 @@ textarea {
   margin-bottom: 10px;
   margin-top: 2px;
   transition: 0.3s;
+  border-radius: 4px;
 }
 textarea:hover {
   background: rgba(0, 0, 0, 0.401);
