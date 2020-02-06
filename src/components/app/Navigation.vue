@@ -315,10 +315,10 @@ export default {
   opacity: 0.8;
   transition: 0.2s;
   &:hover {
-    background: #093b4b;
+    background: rgba(0, 0, 0, 0.2);
   }
   &.selected {
-    background: #042a2b;
+    background: rgba(0, 0, 0, 0.2);
   }
 }
 

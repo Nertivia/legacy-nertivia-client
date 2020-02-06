@@ -107,7 +107,8 @@ export default {
 }
 
 .button {
-  background-color: rgba(65, 65, 65, 0.438);
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
   width: 30px;
   height: 30px;
   margin: 5px;

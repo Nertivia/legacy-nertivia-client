@@ -118,13 +118,18 @@ export default {
   margin: auto;
   overflow: hidden;
   box-shadow: 0px 0px 20px 5px #151515bd;
-  background: linear-gradient(#0b4155, #01677e);
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 87, 153, 0.8) 0,
+    rgba(0, 118, 209, 0.8)
+  );
   border-radius: 4px;
+  backdrop-filter: blur(5px);
 }
 .header {
   display: flex;
   flex-shrink: 0;
-  background-color: #05222d;
+  background: rgba(0, 0, 0, 0.4);
   color: white;
   height: 50px;
   align-content: center;
@@ -159,11 +164,15 @@ export default {
   align-self: center;
   color: white;
   width: initial;
-  background: #024554;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
   cursor: pointer;
   &:hover {
-    background: #02303c;
+    background: rgba(0, 0, 0, 0.4);
   }
+}
+input {
+  border-radius: 4px;
 }
 
 .alerts {

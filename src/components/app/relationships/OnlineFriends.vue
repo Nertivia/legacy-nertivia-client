@@ -1,8 +1,10 @@
 <template>
   <div class="friends">
-    <div class="tab" @click="expanded = !expanded">
-      <Tab :expanded="expanded" tabname="Online" />
-    </div>
+    <Tab
+      @click.native="expanded = !expanded"
+      :expanded="expanded"
+      tabname="Online"
+    />
     <transition name="list">
       <div v-if="expanded" class="list">
         <FriendsTemplate
@@ -88,6 +90,6 @@ export default {
   border-radius: 4px;
 }
 .tab:hover {
-  background: #053240;
+  background-color: rgba(0, 0, 0, 0.2);
 }
 </style>

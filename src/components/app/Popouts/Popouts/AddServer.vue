@@ -257,14 +257,19 @@ export default {
   color: white;
   overflow: hidden;
   box-shadow: 0px 0px 20px 5px #151515bd;
-  background: linear-gradient(#0b4155, #01677e);
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 87, 153, 0.8) 0,
+    rgba(0, 118, 209, 0.8)
+  );
   border-radius: 4px;
+  backdrop-filter: blur(5px);
 }
 .tabs {
   display: flex;
   justify-content: center;
   padding-top: 15px;
-  background: #05222d;
+  background: rgba(0, 0, 0, 0.4);
   flex-shrink: 0;
 }
 .tab {
@@ -284,7 +289,7 @@ export default {
   border-bottom: solid 5px white !important;
 }
 .tab:hover {
-  border-bottom: solid 5px rgb(107, 107, 107);
+  border-bottom: solid 5px rgba(255, 255, 255, 0.4);
 }
 
 .content {
@@ -322,8 +327,12 @@ export default {
   align-self: center;
   margin-top: 15px;
   margin-bottom: 10px;
-  background-color: #044050;
+  background-color: rgba(0, 0, 0, 0.4);
   padding: 10px;
+  border-radius: 4px;
+}
+.input input {
+  border-radius: 4px;
 }
 
 .title {
@@ -339,7 +348,7 @@ export default {
 
 .button {
   padding: 5px;
-  background: #024554;
+  background-color: rgba(0, 0, 0, 0.2);
   user-select: none;
   border: none;
   color: white;
@@ -349,9 +358,10 @@ export default {
   align-self: center;
   margin: 5px;
   cursor: pointer;
+  border-radius: 4px;
 }
 .button:hover {
-  background: #02303c;
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .button-clicked {

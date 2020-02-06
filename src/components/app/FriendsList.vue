@@ -147,6 +147,7 @@ export default {
   color: white;
   flex-shrink: 0;
   position: relative;
+  background: rgba(0, 0, 0, 0.2);
 }
 .tab {
   display: flex;
@@ -171,10 +172,10 @@ export default {
   content: "";
   position: absolute;
   height: 3px;
-  left: 0;
-  right: 0;
+  left: 10px;
+  right: 10px;
   bottom: 0;
-  background: rgb(177, 177, 177);
+  background: rgba(255, 255, 255, 0.4);
 }
 .tab::before {
   content: "";
@@ -190,8 +191,8 @@ export default {
   content: "";
   position: absolute;
   height: 3px;
-  left: 0;
-  right: 0;
+  left: 10px;
+  right: 10px;
   bottom: 0;
   background: rgb(255, 255, 255);
 }

@@ -1,8 +1,10 @@
 <template>
   <div class="pending-friends" v-if="friends && friends.length">
-    <div class="tab" @click="expanded = !expanded">
-      <Tab :expanded="expanded" tabname="Pending requests" />
-    </div>
+    <Tab
+      @click.native="expanded = !expanded"
+      :expanded="expanded"
+      tabname="Pending requests"
+    />
     <transition name="list">
       <div v-if="expanded" class="list">
         <PendingTemplate
@@ -62,8 +64,10 @@ export default {
 }
 .tab {
   transition: 0.3s;
+  margin: 4px;
+  border-radius: 4px;
 }
 .tab:hover {
-  background-color: rgba(0, 0, 0, 0.123);
+  background-color: rgba(0, 0, 0, 0.2);
 }
 </style>

@@ -44,8 +44,12 @@
           </div>
           <img class="graphic" src="@/assets/graphics/HomeGraphics.webp" />
           <div class="buttons">
-            <div class="button" @click="openApp">Open In Browser</div>
+            <div class="button" @click="openApp">
+              <div class="material-icons">open_in_browser</div>
+              Open In Browser
+              </div>
             <div class="button download" @click="showDownloadsPopout = true">
+              <div class="material-icons">vertical_align_bottom</div>
               Download App
             </div>
           </div>
@@ -236,7 +240,7 @@ body {
   flex-shrink: 0;
   border: 10px;
   position: relative;
-  background: #072834;
+  background: rgba(0, 0, 0, 0.2);
 }
 .logo {
   background: url("../assets/logo.png");
@@ -262,7 +266,7 @@ body {
   width: 100%;
   height: 100%;
   transition: 0.5s;
-  background: linear-gradient(#0b4155, #01677e);
+  background: linear-gradient(to bottom, #005799 0, #0076d1);
 }
 .content {
   position: fixed;
@@ -309,26 +313,24 @@ body {
 }
 .button {
   padding: 15px;
-  background: rgba(24, 132, 255, 0.733);
+  background: rgba(0, 0, 0, 0.2);
   color: white;
   user-select: none;
   transition: 0.3s;
   margin: 10px;
   cursor: pointer;
   border-radius: 4px;
+  display: flex;
+  align-items: center;
+}
+.button .material-icons {
+  margin-right: 5px;
 }
 
 .button:hover {
-  background: rgb(24, 132, 255);
+  background: rgba(0, 0, 0, 0.4);
 }
 
-.button.download {
-  background: rgba(0, 223, 67, 0.733);
-}
-
-.button.download:hover {
-  background: rgba(0, 223, 67, 0.904);
-}
 
 .features-list {
   margin-top: 20px;
@@ -338,7 +340,7 @@ body {
   justify-content: center;
 }
 .feature {
-  background: #024352;
+  background: rgba(0, 0, 0, 0.4);
   color: white;
   margin: 10px;
   padding: 2px;
@@ -368,7 +370,7 @@ body {
 }
 .link {
   padding: 10px;
-  background: #25424d;
+  background: rgba(0, 0, 0, 0.2);
   user-select: none;
   margin-left: 5px;
   transition: 0.3s;
@@ -376,7 +378,7 @@ body {
   border-radius: 4px;
 }
 .link:hover {
-  background: rgba(255, 255, 255, 0.26);
+  background: rgba(0, 0, 0, 0.4);
 }
 .warn {
   color: red;

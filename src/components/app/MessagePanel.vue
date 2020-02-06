@@ -841,7 +841,7 @@ export default {
   top: -25px;
   left: 0;
   right: 0;
-  z-index: 999999;
+  z-index: 1;
 }
 .hidden {
   display: none;
@@ -1006,7 +1006,7 @@ export default {
   border-radius: 100px;
   color: white;
   position: absolute;
-  bottom: 15px;
+  bottom: 30px;
   right: 25px;
   height: 52px;
   z-index: 2;

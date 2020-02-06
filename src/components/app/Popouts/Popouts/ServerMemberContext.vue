@@ -111,7 +111,7 @@ export default {
 
         rolesMenu.style.top =
           mainMenuY + mainMenu.clientHeight - rolesMenu.clientHeight + "px";
-        rolesMenu.style.left = mainMenuX - mainMenu.clientWidth - 22 + "px";
+        rolesMenu.style.left = mainMenuX - mainMenu.clientWidth - 11 + "px";
       });
     },
     setPosition() {
