@@ -119,14 +119,15 @@ export default {
 
 .button {
   padding: 10px;
-  background: #062c3a;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
   margin: auto;
   transition: 0.3s;
   user-select: none;
   cursor: pointer;
 }
 .button:hover {
-  background: #041e27;
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .bottom {

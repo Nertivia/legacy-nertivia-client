@@ -237,16 +237,16 @@ export default {
   align-self: center;
 }
 .tab:hover {
-  background: #072935;
+  background: rgba(0, 0, 0, 0.4);
 }
 .critical {
   color: red;
 }
 .tab.selected {
-  background: #051f28;
+  background: rgba(0, 0, 0, 0.4);
 }
 .header {
-  background: #05222d;
+  background: rgba(0, 0, 0, 0.4);
   display: flex;
   height: 50px;
   flex-shrink: 0;
