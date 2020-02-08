@@ -1,24 +1,24 @@
 <template>
   <div class="recents">
-    <transition name="list">
-      <div class="list">
-        <FriendsTemplate
-          v-for="(channel, key) of channels"
-          :key="key"
-          :recents="true"
-          :channel-i-d="channel.channelID"
-          :recipient="channel.recipients[0]"
-        />
-      </div>
-    </transition>
+    <virtual-list :size="49" :remain="20">
+      <FriendsTemplate
+        v-for="(channel, key) of channels"
+        :key="key"
+        :recents="true"
+        :channel-i-d="channel.channelID"
+        :recipient="channel.recipients[0]"
+      />
+    </virtual-list>
   </div>
 </template>
 
 <script>
+import VirtualList from "vue-virtual-scroll-list";
 import FriendsTemplate from "./FriendsTemplate.vue";
 export default {
   components: {
-    FriendsTemplate
+    FriendsTemplate,
+    VirtualList
   },
   computed: {
     user() {
@@ -78,21 +78,18 @@ export default {
 };
 </script>
 <style scoped>
-.list-enter-active,
-.list-leave-active {
-  transition: 0.3s;
-}
-.list-enter, .list-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  transform: translateY(-20px);
-  opacity: 0;
-}
+
 
 .recents {
   background-color: rgba(0, 0, 0, 0);
   user-select: none;
-  padding-bottom: 3px;
-  border-radius: 5px;
   transition: 0.3s;
+
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  flex-shrink: 0;
+  overflow: hidden;
 }
 .tab {
   transition: 0.3s;

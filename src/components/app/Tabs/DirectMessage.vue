@@ -24,7 +24,7 @@ export default {
   },
   data() {
     return {
-      showLeftPanel: true
+      showLeftPanel: false
     };
   },
   mounted() {

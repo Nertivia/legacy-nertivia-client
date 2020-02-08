@@ -152,6 +152,7 @@ export default {
   color: white;
   padding: 5px;
   display: flex;
+  height: 34px;
   transition: 0.3s;
   position: relative;
   overflow: hidden;

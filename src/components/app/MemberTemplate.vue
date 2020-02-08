@@ -123,7 +123,6 @@ export default {
 <style scoped>
 .member {
   display: flex;
-  padding: 3px;
   align-items: center;
   align-content: center;
   transition: 0.2s;
@@ -154,7 +153,6 @@ export default {
   padding: 4px;
   border-radius: 2px;
   font-size: 12px;
-  height: 100%;
   margin-right: 10px;
   background: rgb(255, 71, 71);
 }
