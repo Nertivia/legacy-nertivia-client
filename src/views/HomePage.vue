@@ -42,7 +42,7 @@
             The best chat client that won't restrict you from important and fun
             features.
           </div>
-          <img class="graphic" src="@/assets/graphics/HomeGraphics.webp" />
+          <img class="graphic" src="@/assets/graphics/Graphic.webp" />
           <div class="buttons">
             <div class="button" @click="openApp">
               <div class="material-icons">open_in_browser</div>
@@ -399,12 +399,14 @@ body {
   }
 }
 
-@media (max-width: 334px) {
+@media (max-width: 424px) {
   .buttons {
     flex-direction: column;
   }
   .buttons .button {
     text-align: center;
+    align-content: center;
+    justify-content: center;
   }
 }
 

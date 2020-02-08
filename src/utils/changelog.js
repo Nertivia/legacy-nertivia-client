@@ -1,5 +1,15 @@
 const config = [
   {
+    version: 9.5,
+    title: "New design and font!",
+    shortTitle: "",
+    date: "08/02/2019",
+    new: [
+      "New color scheme for Nertivia!",
+      "New font called 'Montserrat'. More font options are coming soon!"
+    ]
+  },
+  {
     version: 9.3,
     title: "Saved Notes and bug fixes",
     shortTitle: "",
