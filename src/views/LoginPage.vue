@@ -218,7 +218,7 @@ body {
   flex-direction: column;
   color: white;
   height: 100%;
-  background: linear-gradient(#0b4155, #01677e);
+  background: linear-gradient(to bottom, #005799 0, #0076d1);
 }
 .app-content {
   display: flex;
@@ -246,7 +246,7 @@ body {
   align-items: center;
   z-index: 9999;
   padding-bottom: 20px;
-  background: #043b4a;
+  background: rgba(0, 0, 0, 0.3);
   border-radius: 4px;
 }
 .box .title {
@@ -279,7 +279,8 @@ form {
   margin: 10px;
   width: 80%;
   align-self: center;
-  background: #032b35;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
   padding: 10px;
 }
 .input-text {
@@ -290,7 +291,8 @@ input {
   outline: none;
   padding: 10px;
   border: none;
-  background: #021b21;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
   color: white;
 }
 .buttons {

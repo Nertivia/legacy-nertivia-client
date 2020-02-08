@@ -33,11 +33,12 @@ export default {
 }
 .upload {
   color: white;
-  background: #26778a;
+  background: rgba(255, 255, 255, 0.2);
   margin: 10px;
   margin-left: 10px;
   display: flex;
   padding: 10px;
+  border-radius: 4px;
 }
 .icon {
   display: flex;

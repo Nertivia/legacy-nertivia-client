@@ -69,7 +69,7 @@ export default {
     position: absolute;
     bottom: 0;
     z-index: 2;
-    background: rgba(19, 107, 139, 0.9);
+    background: linear-gradient(to bottom, #00477e 0, #016dc0);
   }
   .darken::after {
     content: "";

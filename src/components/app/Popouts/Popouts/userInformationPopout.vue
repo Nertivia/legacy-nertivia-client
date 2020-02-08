@@ -265,8 +265,13 @@ export default {
   flex-direction: row;
   position: relative;
   box-shadow: 0px 0px 20px 5px #151515bd;
-  background: linear-gradient(#0b4155, #01677e);
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 87, 153, 0.8) 0,
+    rgba(0, 118, 209, 0.8)
+  );
   border-radius: 4px;
+  backdrop-filter: blur(5px);
   overflow: hidden;
 }
 
@@ -301,7 +306,7 @@ export default {
   align-content: center;
   padding-bottom: 10px;
   flex-shrink: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.4);
   padding-top: 30px;
 }
 
@@ -315,7 +320,7 @@ export default {
   user-select: auto !important;
 }
 .tag {
-  color: #ccdadd;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .button {
@@ -424,12 +429,13 @@ export default {
   flex-shrink: 0;
 }
 .about-item .key {
-  color: #b6dbe1;
+  color: rgba(255, 255, 255, 0.7);
 }
 .about-item .name {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: rgba(255, 255, 255, 0.9);
 }
 .about-item div {
   align-self: center;
@@ -484,16 +490,16 @@ export default {
   cursor: pointer;
   height: 30px;
   width: 30px;
-  border-radius: 50%;
   flex-shrink: 0;
   justify-content: center;
   align-items: center;
   align-content: center;
   transition: 0.2s;
   user-select: none;
+  opacity: 0.7;
 }
 .back-button:hover {
-  background: #0c484e;
+  opacity: 1;
 }
 @media (max-width: 432px) {
   .box {

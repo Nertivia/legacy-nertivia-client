@@ -264,6 +264,10 @@ export default {
   flex-shrink: 0;
 }
 .item {
+  font-size: 24px;
+  width: 48px;
+  height: 48px;
+  margin-left: 14px;
   position: relative;
   display: flex;
   flex-shrink: 0;
@@ -271,20 +275,16 @@ export default {
   align-content: center;
   align-items: center;
   color: white;
-  font-size: 30px;
   align-self: center;
-  width: 50px;
-  height: 50px;
-  margin-left: 10px;
   border-radius: 50%;
   cursor: pointer;
   user-select: none;
   transition: 0.2s;
   &:hover {
-    background: #093b4b;
+    background: rgba(0, 0, 0, 0.3);
   }
   &.selected {
-    background: #072c38;
+    background: rgba(0, 0, 0, 0.3);
   }
 }
 
@@ -295,7 +295,8 @@ export default {
   flex-direction: column;
   align-items: center;
   align-content: center;
-  font-size: 15px;
+  font-size: 14px;
+  font-weight: bold;
   position: absolute;
   z-index: 115651;
   top: 5px;

@@ -170,6 +170,16 @@ export default {
 .extendBanner {
   height: 130px;
   background-color: rgb(32, 32, 32);
+  overflow: hidden;
+  .sub-banner {
+    align-items: flex-end;
+    padding-bottom: 10px;
+    background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
+    height: 70px;
+  }
+  .options-button {
+    margin-bottom: -7px;
+  }
 }
 .banner-image {
   position: absolute;

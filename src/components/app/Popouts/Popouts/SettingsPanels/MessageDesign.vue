@@ -170,7 +170,7 @@ export default {
 
 .message-example {
   padding: 10px;
-  background: linear-gradient(#0b4155, #01677e);
+  background: rgba(0, 0, 0, 0.45);
 }
 .title {
   font-size: 20px;
@@ -190,7 +190,7 @@ export default {
 }
 
 .options {
-  background-color: #023643;
+  background-color: rgba(0, 0, 0, 0.6);
   padding-top: 5px;
 }
 </style>

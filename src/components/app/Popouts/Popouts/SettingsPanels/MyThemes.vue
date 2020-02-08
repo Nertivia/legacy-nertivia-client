@@ -190,7 +190,7 @@ export default {
 .bar {
   display: flex;
   width: 100%;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.3);
   height: 40px;
   flex-shrink: 0;
   .button {

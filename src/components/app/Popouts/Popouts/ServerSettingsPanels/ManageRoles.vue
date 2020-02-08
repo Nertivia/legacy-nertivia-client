@@ -339,10 +339,10 @@ export default {
   align-self: center;
 }
 .role:hover {
-  background: #04232d;
+  background: rgba(0, 0, 0, 0.2);
 }
 .role.selected {
-  background: #03191f;
+  background: rgba(0, 0, 0, 0.4);
 }
 .add-role-button {
   background: rgba(17, 148, 255, 0.692);
@@ -358,16 +358,17 @@ export default {
   overflow: hidden;
 }
 .button {
-  background: #024554;
+  background: rgba(0, 0, 0, 0.4);
   padding: 10px;
   align-self: center;
   margin: 5px;
   cursor: pointer;
   user-select: none;
   transition: 0.3s;
+  border-radius: 4px;
 }
 .button:hover {
-  background: #02303c;
+  background: rgba(0, 0, 0, 0.6);
 }
 .button.warn {
   background: rgba(255, 17, 17, 0.692);
@@ -398,7 +399,8 @@ export default {
 .input {
   display: flex;
   flex-direction: column;
-  background-color: #044050;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.4);
   padding: 10px;
   margin: 10px;
 }
@@ -407,6 +409,7 @@ export default {
   margin-bottom: 0;
   background-color: rgba(0, 0, 0, 0.4);
   margin-top: 0;
+  border-radius: 4px;
 }
 
 .role-name {
@@ -420,6 +423,7 @@ export default {
   background: rgb(255, 255, 255);
   transition: 0.2s;
   margin-top: 5px;
+  border-radius: 4px;
 }
 
 .color-picker {

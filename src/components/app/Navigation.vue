@@ -315,10 +315,10 @@ export default {
   opacity: 0.8;
   transition: 0.2s;
   &:hover {
-    background: #093b4b;
+    background: rgba(0, 0, 0, 0.2);
   }
   &.selected {
-    background: #042a2b;
+    background: rgba(0, 0, 0, 0.2);
   }
 }
 
@@ -355,7 +355,7 @@ export default {
 
 @media (max-width: 600px) {
   .navigation {
-    background: linear-gradient(#136a8a, #00b4db);
+    background: #005a9e;
   }
 }
 </style>

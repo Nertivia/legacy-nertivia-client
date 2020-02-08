@@ -158,7 +158,7 @@ export default {
     },
     keyDownEvent(event) {
       const keyCode = event.keyCode;
-      if (keyCode == 13) {
+      if (keyCode == 13 && !event.shiftKey) {
         return this.send();
       }
       if (keyCode == 27) {
@@ -201,8 +201,13 @@ export default {
   position: relative;
   overflow: hidden;
   box-shadow: 0px 0px 20px 5px #151515bd;
-  background-color: #01677e;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 87, 153, 0.8) 0,
+    rgba(0, 118, 209, 0.8)
+  );
   border-radius: 4px;
+  backdrop-filter: blur(5px);
 }
 .info {
   display: flex;
@@ -259,14 +264,17 @@ export default {
   display: flex;
   align-content: center;
   align-items: center;
-  background: #024554;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
   padding: 5px;
   cursor: pointer;
   user-select: none;
-  transition: 0.3s;
+  transition: 0.2s;
+  color: rgba(255, 255, 255, 0.8);
 }
 .button:hover {
-  background: #02303c;
+  background: rgba(0, 0, 0, 0.4);
+  color: white;
 }
 .button .text {
   margin-left: 5px;
@@ -285,8 +293,9 @@ export default {
   display: flex;
 }
 .chat-input {
-  font-family: "Roboto", sans-serif;
-  background: #014655;
+  font-family: "Montserrat", sans-serif;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
   color: white;
   width: 100%;
   height: 20px;

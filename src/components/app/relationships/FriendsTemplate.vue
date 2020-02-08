@@ -164,10 +164,10 @@ export default {
 }
 
 .friend:hover {
-  background: #053c4c;
+  background-color: rgba(0, 0, 0, 0.2);
 }
 .friend.selected {
-  background: #053240;
+  background-color: rgba(0, 0, 0, 0.4);
 }
 .profile-picture {
   height: 30px;

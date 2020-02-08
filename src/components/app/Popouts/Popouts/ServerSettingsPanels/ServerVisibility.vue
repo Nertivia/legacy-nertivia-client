@@ -206,7 +206,8 @@ export default {
 }
 
 .toggle {
-  background-color: #044050;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
   padding: 10px;
   margin-left: 10px;
   display: flex;
@@ -220,6 +221,7 @@ export default {
       width: 20px;
       height: 20px;
       background: rgb(95, 95, 95);
+      border-radius: 4px;
       margin-right: 5px;
       &.selected {
         background: rgb(34, 156, 255);
@@ -233,7 +235,8 @@ export default {
 }
 
 .input {
-  background-color: #044050;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
   padding: 10px;
   margin: 10px;
   align-self: flex-start;
@@ -245,7 +248,7 @@ export default {
     margin-bottom: 5px;
   }
   textarea {
-    background: #032d38;
+    background-color: rgba(0, 0, 0, 0.4);
     resize: none;
     outline: none;
     margin-top: 2px;
@@ -262,7 +265,8 @@ export default {
 
 .button {
   padding: 10px;
-  background: #024554;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.4);
   -webkit-transition: background 0.3s;
   transition: 0.3s;
   -webkit-user-select: none;
@@ -276,7 +280,7 @@ export default {
 }
 
 .button:hover {
-  background: #02303c;
+  background-color: rgba(0, 0, 0, 0.6);
 }
 .button.disabled {
   background: grey;

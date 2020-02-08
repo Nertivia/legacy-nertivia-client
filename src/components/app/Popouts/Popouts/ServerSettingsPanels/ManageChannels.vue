@@ -212,10 +212,10 @@ export default {
   align-self: center;
 }
 .channel:hover {
-  background: #04232d;
+  background: rgba(0, 0, 0, 0.2);
 }
 .channel.selected {
-  background: #03191f;
+  background: rgba(0, 0, 0, 0.4);
 }
 .add-channel-button {
   background: rgba(17, 148, 255, 0.692);
@@ -231,16 +231,17 @@ export default {
   overflow: hidden;
 }
 .button {
-  background: #024554;
+  background: rgba(0, 0, 0, 0.2);
   padding: 10px;
   align-self: center;
   margin: 5px;
   cursor: pointer;
   user-select: none;
   transition: 0.3s;
+  border-radius: 4px;
 }
 .button:hover {
-  background: #02303c;
+  background: rgba(0, 0, 0, 0.4);
 }
 .button.warn {
   background: rgba(255, 17, 17, 0.692);
@@ -271,16 +272,22 @@ export default {
 .input {
   display: flex;
   flex-direction: column;
-  background-color: #044050;
+  background-color: rgba(0, 0, 0, 0.4);
   padding: 10px;
   margin: 10px;
+  border-radius: 4px;
 }
 .input input {
   width: initial;
   margin-top: 2px;
   margin-bottom: 0;
+  border-radius: 4px;
 }
 
+.input-title {
+  font-size: 14px;
+  margin-left: 2px;
+}
 .check-box {
   display: flex;
   margin: 5px;

@@ -343,6 +343,7 @@ export default {
   overflow: auto;
   flex: 1;
   position: relative;
+  padding-bottom: 23px;
 }
 
 .load-more-button {
@@ -360,35 +361,6 @@ export default {
     color: white;
     cursor: pointer;
     align-self: center;
-  }
-}
-.back-to-bottom-button {
-  &:hover {
-    background: rgb(23, 124, 255);
-    box-shadow: 0px 0px 15px 0px #0000008a;
-  }
-  transition: 0.2s;
-  background: rgba(23, 124, 255, 0.818);
-  color: white;
-  position: absolute;
-  bottom: 15px;
-  right: 25px;
-  border-radius: 10px;
-  height: 50px;
-  z-index: 2;
-  display: flex;
-  justify-content: center;
-  flex-shrink: 0;
-  box-shadow: 0px 0px 7px 0px #0000008a;
-  align-content: center;
-  align-items: center;
-  padding-left: 10px;
-  user-select: none;
-  cursor: pointer;
-  .material-icons {
-    align-self: center;
-    flex-shrink: 0;
-    font-size: 35px;
   }
 }
 

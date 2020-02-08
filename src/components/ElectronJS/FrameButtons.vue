@@ -67,12 +67,12 @@ export default {
   font-size: 15px;
 }
 .frame-buttons .close:hover {
-  background: rgba(255, 0, 0, 0.595);
+  background: rgba(255, 0, 0, 0.3);
 }
 .frame-buttons .minimize:hover {
-  background: rgba(46, 46, 46, 0.595);
+  background: rgba(0, 0, 0, 0.3);
 }
 .frame-buttons .res-max:hover {
-  background: rgba(46, 46, 46, 0.595);
+  background: rgba(0, 0, 0, 0.3);
 }
 </style>

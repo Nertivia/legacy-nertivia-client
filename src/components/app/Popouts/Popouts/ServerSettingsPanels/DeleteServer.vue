@@ -50,6 +50,7 @@ export default {
   margin-bottom: 10px;
 }
 .button {
+  border-radius: 4px;
   padding: 10px;
   background: rgba(255, 0, 0, 0.719);
   margin: auto;

@@ -88,25 +88,29 @@ export default {
 
 <style scoped>
 .drop-down {
-  background-color: #044050;
+  background-color: rgba(0, 0, 0, 0.4);
   padding: 10px;
   user-select: none;
   cursor: default;
   flex-shrink: 0;
   position: relative;
+  border-radius: 4px;
 }
 .title {
+  font-size: 14px;
+  margin-left: 2px;
   margin-bottom: 2px;
 }
 .current-select-box {
-  background: #032d38;
+  background-color: rgba(0, 0, 0, 0.4);
   padding: 5px;
   cursor: pointer;
   display: flex;
   transition: 0.3s;
+  border-radius: 4px;
 }
 .current-select-box:hover {
-  background: #02232b;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 .current-select-box div {
   align-self: center;
@@ -125,13 +129,14 @@ export default {
 
 .drop {
   position: absolute;
-  background-color: #044050;
-  left: 0;
-  right: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  left: 10px;
+  right: 10px;
   z-index: 11111;
   overflow: hidden;
   padding: 2px;
-  margin-top: 5px;
+  margin-top: -2px;
 }
 .drop-container {
   overflow: auto;
@@ -148,6 +153,7 @@ export default {
   white-space: nowrap;
   display: flex;
   cursor: pointer;
+  font-size: 14px;;  
 }
 .item div {
   align-self: center;
@@ -157,10 +163,10 @@ export default {
 }
 
 .item:hover {
-  background: #033442;
+  background: rgba(255, 255, 255, 0.2);
 }
 .item.selected {
-  background: #021c23;
+  background: rgba(255, 255, 255, 0.25);
 }
 .material-icons {
   flex-shrink: 0;

@@ -356,8 +356,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$self-message-color: #053746;
-$message-color: #03222b;
+$self-message-color: rgba(255, 255, 255, 0.1);
+$message-color: rgba(0, 0, 0, 0.3);
 
 .container {
   position: relative;
@@ -387,6 +387,7 @@ $message-color: #03222b;
   color: white;
   overflow: hidden;
   background: $message-color;
+  border-radius: 4px;
 }
 
 .presence-message .text {
@@ -550,6 +551,7 @@ $message-color: #03222b;
   margin: auto 0;
   transition: 0.1s;
   cursor: pointer;
+  font-weight: bold;
 }
 
 .username:hover {

@@ -78,15 +78,22 @@ export default {
   transition: 0.3s;
   flex-shrink: 0;
   flex: 1;
+  padding: 3px;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(5px);
+  align-content: center;
+  align-content: center;
+  height: 20px;
 }
 .animation {
   height: 20px;
   width: 20px;
   display: flex;
+  align-self: center;
 }
 .text {
   margin: auto;
   margin-left: 5px;
-  font-size: 13px;
+  font-size: 12px;
 }
 </style>

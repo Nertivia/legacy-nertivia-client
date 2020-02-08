@@ -186,19 +186,22 @@ export default {
       border-radius: 4px;
       cursor: pointer;
       transition: 0.3s;
+      color: rgba(255, 255, 255, 0.8);
       &:hover {
-        background: #053c4c;
+        background: rgba(0, 0, 0, 0.2);
+        color: white;
       }
       &.selected {
-        background: #053240;
+        color: white;
+        background: rgba(0, 0, 0, 0.4);
       }
     }
     .item:nth-child(2)::before {
       content: "NEW";
-      font-size: 14px;
+      font-size: 9px;
       background: rgb(255, 55, 55);
       border-radius: 2px;
-      padding: 2px;
+      padding: 4px;
       position: absolute;
       right: 10px;
     }
@@ -224,18 +227,18 @@ export default {
       &::after {
         content: "BETA";
         position: absolute;
-        background: #ff3333;
-        border-radius: 5px;
-        font-size: 9px;
+        background: #f33;
+        border-radius: 2px;
+        font-size: 10px;
         padding: 2px;
-        bottom: 20px;
+        bottom: 22px;
         z-index: 999;
       }
     }
     .details {
       align-self: center;
       .title {
-        font-size: 20px;
+        font-size: 18px;
         margin-bottom: 5px;
         position: relative;
       }
@@ -249,8 +252,7 @@ export default {
 
 .card {
   background: black;
-  height: 180px;
-  border-radius: 5px;
+  border-radius: 4px;
   margin: 5px;
   padding: 10px;
   display: flex;
@@ -267,10 +269,12 @@ export default {
     padding: 5px;
     font-size: 17px;
     margin-top: 15px;
+    margin-bottom: 10px;
     flex-shrink: 0;
     cursor: pointer;
     transition: 0.3s;
     color: rgba(255, 255, 255, 0.924);
+    border-radius: 4px;
     &:hover {
       background-color: rgba(0, 0, 0, 0.3);
     }
@@ -302,6 +306,7 @@ export default {
     .heart {
       font-size: 60px;
       margin-bottom: 10px;
+      margin-top: 10px;
     }
   }
 }
@@ -320,7 +325,7 @@ export default {
 
 .right-panel {
   .header {
-    background: #063443;
+    background: rgba(0, 0, 0, 0.4);
     padding-left: 10px;
     height: 54px;
     display: flex;
@@ -362,8 +367,8 @@ export default {
   .left-panel {
     position: absolute;
     bottom: 0;
-    z-index: 2;
-    background: rgba(19, 107, 139, 0.9);
+    z-index: 2222;
+    background: linear-gradient(to bottom, #00477e 0, #016dc0);
     height: 100%;
   }
   .darken::after {

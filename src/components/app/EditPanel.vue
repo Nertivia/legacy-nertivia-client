@@ -46,7 +46,7 @@ export default {
 .edit-panel {
   padding: 10px;
   color: white;
-  background: #012c36;
+  background: #002038;
   display: flex;
   flex-direction: column;
   z-index: 1;
@@ -60,16 +60,13 @@ export default {
 }
 .close-button {
   color: white;
-  background: #304548;
+  background: #0061ad;
   padding: 4px;
   align-self: flex-end;
   transition: 0.3s;
   user-select: none;
   cursor: pointer;
   border-radius: 4px;
-}
-.close-button:hover {
-  background: #485b5d;
 }
 .message {
   color: rgb(214, 214, 214);

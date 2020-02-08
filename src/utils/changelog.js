@@ -1,10 +1,19 @@
 const config = [
   {
+    version: 9.5,
+    title: "New design and font!",
+    shortTitle: "",
+    date: "08/02/2019",
+    new: [
+      "New color scheme for Nertivia!",
+      "New font called 'Montserrat'. More font options are coming soon!"
+    ]
+  },
+  {
     version: 9.3,
     title: "Saved Notes and bug fixes",
     shortTitle: "",
     date: "25/01/2019",
-    headColor: "#007792",
     new: ["You can now save your own messages in a separate log."],
     fix: ["Fixed a bug where some role colors would not show correctly."]
   },

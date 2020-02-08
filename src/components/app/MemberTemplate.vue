@@ -136,7 +136,7 @@ export default {
 }
 
 .member:hover {
-  background: #063442;
+  background: rgba(0, 0, 0, 0.3);
 }
 
 .information {
@@ -151,9 +151,11 @@ export default {
 }
 
 .type-box {
-  padding: 3px;
-  border-radius: 5px;
+  padding: 4px;
+  border-radius: 2px;
+  font-size: 12px;
   height: 100%;
+  margin-right: 10px;
   background: rgb(255, 71, 71);
 }
 

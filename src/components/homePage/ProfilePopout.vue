@@ -60,14 +60,15 @@ export default {
   height: 0;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  border-bottom: 15px solid #0f272a;
+  border-bottom: 15px solid rgba(0, 0, 0, 0.7);
 }
 .inner {
   right: 0;
   top: 15px;
   position: absolute;
   display: flex;
-  background: #0f272a;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
   border-radius: 5px;
   width: 300px;
   height: 60px;
