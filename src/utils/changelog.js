@@ -1,5 +1,14 @@
 const config = [
   {
+    version: 9.6,
+    title: "Performance improvements!",
+    shortTitle: "",
+    date: "08/02/2019",
+    new: [
+      "Implimented recycler view to recents tab and members list. This should improve scrolling performance and hopefully use less memory."
+    ]
+  },
+  {
     version: 9.5,
     title: "New design and font!",
     shortTitle: "",
