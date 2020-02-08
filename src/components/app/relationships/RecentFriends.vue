@@ -34,7 +34,7 @@ export default {
         if (
           json[key].recipients &&
           json[key].recipients.length > 0 &&
-          !json[key].servers &&
+          !json[key].server_id &&
           json[key].recipients[0].uniqueID !== this.user.uniqueID
         )
           result.push(json[key]);
