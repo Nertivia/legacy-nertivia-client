@@ -193,7 +193,9 @@ export default {
   cursor: default;
   color: #b5c4ca;
   font-size: 15px;
-  margin-left: 5px;
+  margin-left: 10px;
   font-weight: bold;
+  display: flex;
+  align-items: center;
 }
 </style>

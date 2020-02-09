@@ -132,6 +132,7 @@ export default {
   border-radius: 4px;
   margin-left: 5px;
   margin-right: 5px;
+  padding-left: 5px;
 }
 
 .member:hover {
