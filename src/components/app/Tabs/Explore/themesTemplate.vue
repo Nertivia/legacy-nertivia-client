@@ -40,6 +40,9 @@
 <script>
 import config from "@/config.js";
 import exploreService from "@/services/exploreService";
+
+const cssZip = () => import("@/utils/cssZip");
+
 export default {
   props: ["theme"],
   data() {
@@ -62,15 +65,18 @@ export default {
         const styleEl = document.createElement("style");
         styleEl.classList.add("theme-" + id);
         styleEl.id = "theme";
-        styleEl.innerHTML = css;
+        cssZip().then(utils => {
+          styleEl.innerHTML = utils.unzip(css) || css;
 
-        const currentStyle = document.getElementById("theme");
-        if (currentStyle) {
-          currentStyle.outerHTML = styleEl.outerHTML;
-        } else {
-          document.head.innerHTML += styleEl.outerHTML;
-        }
-        this.appliedTheme = id;
+          const currentStyle = document.getElementById("theme");
+          if (currentStyle) {
+            currentStyle.outerHTML = styleEl.outerHTML;
+          } else {
+            document.head.innerHTML += styleEl.outerHTML;
+          }
+          this.appliedTheme = id;
+        });
+
       }
     },
     bannerImageClicked() {

@@ -35,6 +35,8 @@ import MainNav from "./../components/app/MainNav.vue";
 import ThemeService from "../services/ThemeService";
 import ExploreService from "../services/exploreService";
 
+const cssZip = () => import("@/utils/cssZip");
+
 const ElectronFrameButtons = () =>
   import("@/components/ElectronJS/FrameButtons.vue");
 
@@ -155,11 +157,15 @@ export default {
       if (!id && !css) {
         return;
       }
-      const styleEl = document.createElement("style");
-      styleEl.id = "theme";
-      styleEl.classList.add("theme-" + id);
-      styleEl.innerHTML = css;
-      document.head.innerHTML += styleEl.outerHTML;
+      cssZip().then(utils => {
+        css = utils.unzip(css) || css;
+
+        const styleEl = document.createElement("style");
+        styleEl.id = "theme";
+        styleEl.classList.add("theme-" + id);
+        styleEl.innerHTML = css;
+        document.head.innerHTML += styleEl.outerHTML;
+      });
     }
   },
   watch: {
