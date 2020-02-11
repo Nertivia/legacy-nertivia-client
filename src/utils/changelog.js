@@ -1,9 +1,19 @@
 const config = [
   {
+    version: 9.7,
+    title: "You have 99 mails!",
+    shortTitle: "",
+    date: "11/02/2020",
+    new: [
+      "Tired of manually reading useless messages just to remove the notification? Introducing the new Mark as read feature! Right click on a server to mark all channels read."
+    ],
+    msg: "I will also make muting channels possible, maybe in the next update."
+  },
+  {
     version: 9.6,
     title: "Performance improvements!",
     shortTitle: "",
-    date: "08/02/2019",
+    date: "08/02/2020",
     new: [
       "Implimented recycler view to recents tab and members list. This should improve scrolling performance and hopefully use less memory."
     ]
@@ -12,7 +22,7 @@ const config = [
     version: 9.5,
     title: "New design and font!",
     shortTitle: "",
-    date: "08/02/2019",
+    date: "08/02/2020",
     new: [
       "New color scheme for Nertivia!",
       "New font called 'Montserrat'. More font options are coming soon!"
@@ -22,7 +32,7 @@ const config = [
     version: 9.3,
     title: "Saved Notes and bug fixes",
     shortTitle: "",
-    date: "25/01/2019",
+    date: "25/01/2020",
     new: ["You can now save your own messages in a separate log."],
     fix: ["Fixed a bug where some role colors would not show correctly."]
   },
@@ -30,7 +40,7 @@ const config = [
     version: 9.2,
     title: "Image cache, more role permissions!",
     shortTitle: "",
-    date: "09/01/2019",
+    date: "09/01/2020",
     new: [
       "Image cache has been implimented.",
       "2 new role permissions have been added: Manage roles, manage channels."
