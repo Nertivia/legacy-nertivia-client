@@ -20,6 +20,14 @@
       <div class="material-icons">developer_board</div>
       <div class="name">Copy ID</div>
     </div>
+    <div
+      class="item"
+      :class="{ disabled: !channelNotifications.length }"
+      @click="markAsReadButton"
+    >
+      <div class="material-icons">markunread_mailbox</div>
+      <div class="name">Mark As Read</div>
+    </div>
   </div>
 </template>
 
@@ -68,6 +76,16 @@ export default {
     copyServerID() {
       this.closeMenu();
       this.$clipboard(this.contextDetails.serverID);
+    },
+    markAsReadButton() {
+      if (!this.channelNotifications.length) return;
+      this.closeMenu();
+      for (let index = 0; index < this.channelNotifications.length; index++) {
+        const notification = this.channelNotifications[index];
+        this.$socket.client.emit("notification:dismiss", {
+          channelID: notification.channelID
+        });
+      }
     }
   },
   mounted() {
@@ -123,6 +141,18 @@ export default {
         permissions.MANAGE_ROLES.value |
         permissions.ADMIN.value;
       return containsPerm(this.myRolePermissions, adminPermsFlags);
+    },
+    serverChannelIds() {
+      const channelIds = this.$store.getters["servers/channelsIDs"][
+        this.contextDetails.serverID
+      ];
+      return channelIds;
+    },
+    channelNotifications() {
+      const notifications = this.$store.getters.notifications;
+      return notifications.filter(n =>
+        this.serverChannelIds.includes(n.channelID)
+      );
     }
   }
 };
@@ -137,7 +167,7 @@ export default {
   backdrop-filter: blur(5px);
   z-index: 99999;
   user-select: none;
-  color: white;
+  color: rgba(255, 255, 255, 0.7);
   overflow: hidden;
   border-radius: 4px;
 }
@@ -155,9 +185,15 @@ export default {
   }
   &:hover {
     background: rgba(255, 255, 255, 0.2);
+    color: white;
   }
   &.warn {
     color: rgb(255, 59, 59);
+  }
+  &.disabled {
+    cursor: default;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.4);
   }
 }
 </style>

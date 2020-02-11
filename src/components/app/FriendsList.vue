@@ -144,7 +144,7 @@ export default {
 
 .tabs {
   display: flex;
-  color: white;
+  color: rgba(255, 255, 255, 0.7);
   flex-shrink: 0;
   position: relative;
   background: rgba(0, 0, 0, 0.2);
@@ -164,6 +164,12 @@ export default {
   transition: 0.2s;
   cursor: pointer;
   position: relative;
+}
+.tab:hover{
+  color: white;
+}
+.tab.selected {
+  color: white;
 }
 .tab .material-icons {
   margin-right: 5px;

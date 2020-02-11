@@ -149,7 +149,7 @@ export default {
   text-overflow: ellipsis;
 }
 .friend {
-  color: white;
+  color: rgba(255, 255, 255, 0.7);
   padding: 5px;
   display: flex;
   height: 34px;
@@ -166,9 +166,11 @@ export default {
 
 .friend:hover {
   background-color: rgba(0, 0, 0, 0.2);
+  color: white;
 }
 .friend.selected {
   background-color: rgba(0, 0, 0, 0.4);
+  color: white;
 }
 .profile-picture {
   height: 30px;
