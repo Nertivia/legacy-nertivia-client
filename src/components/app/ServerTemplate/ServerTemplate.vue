@@ -138,12 +138,12 @@ export default {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #ee3e34;
+  background: #ff6947;
 }
 .mentioned:after {
   content: "@";
   margin-bottom: 10px;
   font-size: 13px;
-  background: #ff6947;
+  background: #ee3e34;
 }
 </style>
