@@ -4,7 +4,8 @@
     :data-servername="serverData.name"
     :class="{
       selected: selectedServerID === serverData.server_id,
-      notifyAnimation: notification
+      notifyAnimation: notification.notification,
+      mentioned: notification.mentioned
     }"
     @contextmenu.prevent="contextEvent"
     @mouseenter="hoverEvent"
@@ -47,7 +48,7 @@ export default {
       const notifications = this.$store.getters.notifications;
 
       const channels = this.$store.getters.channels;
-      const notification = notifications.find(e => {
+      const filteredNotifications = notifications.filter(e => {
         return (
           channels[e.channelID] &&
           channels[e.channelID].server_id &&
@@ -56,7 +57,11 @@ export default {
           (this.selectedChannelID !== e.channelID || !document.hasFocus())
         );
       });
-      return notification;
+      const mentioned = filteredNotifications.find(n => n.mentioned);
+      return {
+        mentioned: !!mentioned,
+        notification: !!filteredNotifications.length
+      };
     }
   },
   methods: {
@@ -125,7 +130,6 @@ export default {
   flex-direction: column;
   align-items: center;
   align-content: center;
-  justify-content: center;
   font-size: 15px;
   position: absolute;
   z-index: 115651;
@@ -135,5 +139,11 @@ export default {
   height: 20px;
   border-radius: 50%;
   background: #ee3e34;
+}
+.mentioned:after {
+  content: "@";
+  margin-bottom: 10px;
+  font-size: 13px;
+  background: #ff6947;
 }
 </style>

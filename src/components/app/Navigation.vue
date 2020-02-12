@@ -194,48 +194,8 @@ export default {
     },
     selectedServerID() {
       return this.$store.getters["servers/selectedServerID"];
-    },
-    serverNotification() {
-      const notifications = this.$store.getters.notifications;
-      const channels = this.$store.getters.channels;
-      const notification = notifications.find(e => {
-        return (
-          channels[e.channelID] &&
-          channels[e.channelID].server_id &&
-          (e.channelID !== this.$store.getters.selectedChannelID ||
-            !document.hasFocus() ||
-            this.currentTab !== 2)
-        );
-      });
-      return notification;
-    },
-    DMNotification() {
-      const notifications = this.$store.getters.notifications;
-      const channels = this.$store.getters.channels;
-      const notification = notifications.find(e => {
-        return (
-          channels[e.channelID] &&
-          !channels[e.channelID].server_id &&
-          (e.channelID !== this.$store.getters.selectedChannelID ||
-            !document.hasFocus() ||
-            this.currentTab !== 1)
-        );
-      });
-      // unopened dm
-      if (!notification) {
-        return notifications.find(e => {
-          return !channels[e.channelID];
-        });
-      }
-      return notification;
-    },
-    friendRequestExists() {
-      const allFriend = this.$store.getters.user.friends;
-      const result = Object.keys(allFriend).map(function(key) {
-        return allFriend[key];
-      });
-      return result.find(friend => friend.status === 1);
     }
+
   },
   mounted() {
     bus.$on("server-tool-tip", this.serverToolTipEvent);

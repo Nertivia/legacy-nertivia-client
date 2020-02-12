@@ -36,7 +36,8 @@
           class="item material-icons"
           :class="{
             selected: currentTab == 2,
-            notifyAnimation: serverNotification
+            notifyAnimation: serverNotification.notification,
+            mentioned: serverNotification.mentioned
           }"
           @click="switchTab(2)"
           @mouseenter="localToolTipEvent('Servers', $event)"
@@ -197,7 +198,7 @@ export default {
     serverNotification() {
       const notifications = this.$store.getters.notifications;
       const channels = this.$store.getters.channels;
-      const notification = notifications.find(e => {
+      const notificationsFiltered = notifications.filter(e => {
         return (
           channels[e.channelID] &&
           channels[e.channelID].server_id &&
@@ -206,7 +207,11 @@ export default {
             this.currentTab !== 2)
         );
       });
-      return notification;
+      const mentioned = notifications.find(m => m.mentioned);
+      return {
+        notification: !!notificationsFiltered.length,
+        mentioned: !!mentioned
+      };
     },
     DMNotification() {
       const notifications = this.$store.getters.notifications;
@@ -307,7 +312,12 @@ export default {
   background: #ee3e34;
   flex-shrink: 0;
 }
-
+.mentioned:before {
+  content: "@";
+  margin-bottom: 10px;
+  font-size: 13px;
+  background: #ff6947;
+}
 .tool-tip {
   color: white;
   position: absolute;
@@ -325,4 +335,5 @@ export default {
   cursor: default;
   transition: 0.2s;
 }
+
 </style>

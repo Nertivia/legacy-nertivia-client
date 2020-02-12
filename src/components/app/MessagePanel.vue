@@ -55,6 +55,7 @@
           </div>
         </transition>
         <emoji-suggestions v-if="emojiArray" :emojiArray="emojiArray" />
+        <mentions-popout v-if="mentionsArray" :list="mentionsArray" />
         <emoji-panel v-if="showEmojiPanel" @close="showEmojiPanel = false" />
       </div>
 
@@ -192,6 +193,7 @@ import { bus } from "../../main";
 import Spinner from "@/components/Spinner.vue";
 import heading from "@/components/app/MessagePanel/Heading.vue";
 import emojiSuggestions from "@/components/app/EmojiPanels/emojiSuggestions.vue";
+import mentionsPopout from "@/components/app/mentionsPopout.vue";
 import MessageLogs from "@/components/app/MessageLogs.vue";
 import emojiParser from "@/utils/emojiParser.js";
 import windowProperties from "@/utils/windowProperties";
@@ -211,7 +213,8 @@ export default {
     heading,
     EditPanel,
     MessageLogs,
-    TypingStatus
+    TypingStatus,
+    mentionsPopout
   },
   data() {
     return {
@@ -283,6 +286,19 @@ export default {
 
       return ("" + number).substring(add);
     },
+    replaceMentions(message) {
+      const regex = /@([\w\d\s_-]+):([\w\d_-]+)/g;
+
+      return message.replace(regex, word => {
+        const [username, tag] = word.split(":");
+        if (tag.length !== 4 || !username || !tag) return word;
+        const member = Object.values(this.members).find(
+          m => "@" + m.username === username && m.tag === tag
+        );
+        if (!member) return word;
+        return `<@${member.uniqueID}>`;
+      });
+    },
     async sendMessage() {
       this.$refs["input-box"].focus();
       this.message = this.message.trim();
@@ -293,7 +309,8 @@ export default {
       clearInterval(this.postTimerID);
       this.postTimerID = null;
 
-      const msg = emojiParser.replaceShortcode(this.message);
+      let msg = emojiParser.replaceShortcode(this.message);
+      msg = this.replaceMentions(msg);
 
       const tempID = this.generateNum(25);
 
@@ -409,6 +426,19 @@ export default {
       }
       bus.$emit("scrollDown");
     },
+    mentionsSwitchKey(event) {
+      if (!this.mentionsArray) return;
+      if (event.keyCode === 38) {
+        bus.$emit("mentions:key", "up");
+        event.preventDefault();
+        return;
+      }
+      if (event.keyCode === 40) {
+        bus.$emit("mentions:key", "down");
+        event.preventDefault();
+        return;
+      }
+    },
     emojiSwitchKey(event) {
       if (!this.emojiArray) return;
 
@@ -438,10 +468,10 @@ export default {
     },
     showEmojiPopout(event) {
       if (event.keyCode == 38 || event.keyCode == 40) return; // up/down
-
+      const message = this.$refs["input-box"].value;
       const cursorPosition = event.target.selectionStart;
-      const cursorWord = this.ReturnWord(this.message, cursorPosition);
-      const cursorLetter = this.message.substring(
+      const cursorWord = this.ReturnWord(message, cursorPosition);
+      const cursorLetter = message.substring(
         cursorPosition - 1,
         cursorPosition
       );
@@ -452,11 +482,49 @@ export default {
       if (!cursorWord.startsWith(":") || cursorWord.length <= 2)
         return this.$store.dispatch("setEmojiArray", null);
 
-      const searchArr = emojiParser.searchEmoji(cursorWord.slice(1, -1));
+      const searchArr = emojiParser.searchEmoji(
+        cursorWord.slice(1, cursorWord.length)
+      );
       if (searchArr.length <= 0)
         return this.$store.dispatch("setEmojiArray", null);
 
-      this.$store.dispatch("setEmojiArray", searchArr);
+      this.$store.dispatch("setEmojiArray", searchArr.slice(0, 10));
+    },
+    showMentionsPopout(event) {
+      if (event.keyCode == 38 || event.keyCode == 40) return; // up/down
+      const message = this.$refs["input-box"].value;
+      const cursorPosition = event.target.selectionStart;
+      const cursorWord = this.ReturnWord(message, cursorPosition);
+
+      if (!cursorWord.startsWith("@")) {
+        this.$store.dispatch("mentionsListModule/setMentionsArray", null);
+        return;
+      }
+      // word without @
+      const wordWithoutBegining = cursorWord
+        .slice(1, cursorWord.length)
+        .toLowerCase();
+
+      let searchedMembers = [];
+
+      for (let index = 0; index < this.serverMembers.length; index++) {
+        const serverMember = this.serverMembers[index];
+        if (serverMember.server_id != this.server.server_id) continue;
+        const member = this.members[serverMember.uniqueID];
+        if (
+          member.username
+            .toLowerCase()
+            .replace(/\s/g, "")
+            .includes(wordWithoutBegining)
+        ) {
+          searchedMembers.push(member);
+        }
+      }
+      searchedMembers = searchedMembers.slice(0, 9);
+      this.$store.dispatch(
+        "mentionsListModule/setMentionsArray",
+        searchedMembers
+      );
     },
     async onInput(event) {
       const value = event.target.value.trim();
@@ -466,7 +534,24 @@ export default {
       }
     },
     keyUp(event) {
-      this.showEmojiPopout(event);
+      setTimeout(() => {
+        this.showMentionsPopout(event);
+        this.showEmojiPopout(event);
+      }, 10);
+    },
+    enterMention() {
+      const member = this.mentionsArray[this.mentionsListIndex];
+      if (!member) return;
+      this.$store.dispatch("mentionsListModule/setMentionsArray", null);
+      const cursorPosition = this.$refs["input-box"].selectionStart;
+      const cursorWord = this.ReturnWord(this.message, cursorPosition);
+      const start = cursorPosition - cursorWord.length;
+      const end = cursorPosition;
+
+      this.message =
+        this.message.substring(0, start) +
+        `@${member.username}:${member.tag} ` +
+        this.message.substring(end);
     },
     enterEmojiSuggestion() {
       const emoji = this.emojiArray[this.emojiIndex];
@@ -505,6 +590,7 @@ export default {
       this.$store.dispatch("settingsModule/addRecentEmoji", shortcode);
     },
     keyDown(event) {
+      this.mentionsSwitchKey(event);
       this.emojiSwitchKey(event);
       // when enter is press
       if (event.keyCode == 13) {
@@ -516,6 +602,13 @@ export default {
           event.preventDefault();
           if (this.emojiArray) {
             this.enterEmojiSuggestion();
+            return;
+          }
+          if (
+            this.mentionsArray &&
+            this.mentionsArray[this.mentionsListIndex]
+          ) {
+            this.enterMention();
             return;
           }
           if (this.editMessage) {
@@ -662,6 +755,7 @@ export default {
 
     bus.$on("newMessage", this.hideTypingStatus);
     bus.$on("emojiSuggestions:Selected", this.enterEmojiSuggestion);
+    bus.$on("mentions:Selected", this.enterMention);
     bus.$on("emojiPanel:Selected", this.enterEmojiPanel);
 
     bus.$on("scrolledDown", scrolledDown => {
@@ -678,7 +772,8 @@ export default {
 
     bus.$off("newMessage", this.hideTypingStatus);
     bus.$off("emojiSuggestions:Selected", this.enterEmojiSuggestion);
-    bus.$on("emojiPanel:Selected", this.enterEmojiPanel);
+    bus.$off("emojiPanel:Selected", this.enterEmojiPanel);
+    bus.$off("mentions:Selected", this.enterMention);
     window.removeEventListener("focus", this.onFocus);
     window.removeEventListener("blur", this.onBlur);
 
@@ -721,6 +816,14 @@ export default {
         this.$store.getters["servers/servers"][this.channel.server_id] ||
         undefined
       );
+    },
+    members() {
+      const members = this.$store.getters["members/members"];
+      return members;
+    },
+    serverMembers() {
+      const serverMembers = this.$store.getters["servers/serverMembers"];
+      return serverMembers.reverse();
     },
     serverMember() {
       return this.$store.getters["servers/serverMembers"].find(
@@ -783,8 +886,14 @@ export default {
     emojiArray() {
       return this.$store.getters.emojiArray;
     },
+    mentionsArray() {
+      return this.$store.getters["mentionsListModule/mentionsArray"];
+    },
     emojiIndex() {
       return this.$store.getters.getEmojiIndex;
+    },
+    mentionsListIndex() {
+      return this.$store.getters["mentionsListModule/getMentionIndex"];
     },
     recipients() {
       const selectedChannel = this.$store.getters.selectedChannelID;

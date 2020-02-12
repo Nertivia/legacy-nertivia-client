@@ -1,5 +1,14 @@
 const config = [
   {
+    version: 9.8,
+    title: "Wake up @Fishie!",
+    shortTitle: "",
+    date: "12/02/2020",
+    new: [
+      "Is someone not responding to you? Wake them up by mentioning them by typing '@' followed by their name in the message input box."
+    ],
+  },
+  {
     version: 9.7,
     title: "You have 99 mails!",
     shortTitle: "",

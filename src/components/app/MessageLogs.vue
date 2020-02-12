@@ -36,6 +36,7 @@
       :timeEdited="msg.timeEdited"
       :color="msg.color"
       :isServer="isServer"
+      :mentions="msg.mentions"
     />
 
     <uploadsQueue v-if="uploadQueue !== undefined" :queue="uploadQueue" />

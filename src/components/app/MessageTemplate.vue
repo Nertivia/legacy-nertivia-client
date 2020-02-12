@@ -37,6 +37,13 @@
             {{ this.$props.username }}
           </div>
           <div class="date">{{ getDate }}</div>
+          <div
+            class="mentioned material-icons"
+            v-if="mentioned"
+            title="You were mentioned"
+          >
+            alternate_email
+          </div>
         </div>
         <SimpleMarkdown
           class="content-message"
@@ -116,8 +123,8 @@
           <span class="username" @click="openUserInformation">{{
             this.$props.username
           }}</span>
-          <span v-if="type === 1" class="text">has joined the server!</span>
-          <span v-if="type === 2" class="text">has left the server.</span>
+          <span v-if="type === 1" class="text">joined the server!</span>
+          <span v-if="type === 2" class="text">left the server.</span>
           <span v-if="type === 3" class="text">has been kicked.</span>
           <span v-if="type === 4" class="text">has been banned.</span>
           <span class="date">{{ getDate }}</span>
@@ -161,7 +168,8 @@ export default {
     "channelID",
     "timeEdited",
     "color",
-    "isServer"
+    "isServer",
+    "mentions"
   ],
   components: {
     ProfilePicture,
@@ -171,7 +179,8 @@ export default {
   data() {
     return {
       hover: false,
-      isGif: false
+      isGif: false,
+      mentioned: false
     };
   },
   methods: {
@@ -263,14 +272,28 @@ export default {
     },
     onResize() {
       this.imageSize();
+    },
+    checkMentioned() {
+      if (
+        this.mentions &&
+        this.mentions.find(u => u.uniqueID === this.user.uniqueID)
+      ) {
+        this.mentioned = true;
+      } else {
+        this.mentioned = false;
+      }
     }
   },
   watch: {
     getWindowWidth(dimentions) {
       this.onResize(dimentions);
+    },
+    mentions() {
+      this.checkMentioned();
     }
   },
   mounted() {
+    this.checkMentioned();
     this.isGif = this.userAvatar.endsWith(".gif");
     const files = this.files;
     if (!files || files.length === 0 || !files[0].dimensions) return undefined;
@@ -603,7 +626,24 @@ $message-color: rgba(0, 0, 0, 0.3);
   cursor: pointer;
   margin-top: 5px;
 }
-
+.mentioned {
+  margin-left: 5px;
+  margin-right: 5px;
+  flex-shrink: 0;
+  color: white;
+  background: rgba(255, 59, 59, 0.9);
+  font-size: 13px;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  margin-top: -2px;
+  padding: 2px;
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  cursor: default;
+}
 @media (max-width: 468px) {
 }
 </style>

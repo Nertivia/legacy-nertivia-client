@@ -1,7 +1,7 @@
 <template>
   <div class="emoji-suggetions-list">
     <div
-      v-for="(emoji, index) in $props.emojiArray.slice(0, 10)"
+      v-for="(emoji, index) in $props.emojiArray"
       :key="emoji.hexcode || emoji.emojiID"
       :class="{ emojiItem: true, selected: index === emojiIndex }"
       @mouseenter="hoverEvent"
@@ -83,6 +83,7 @@ export default {
 <style scoped>
 .selected {
   background: rgba(255, 255, 255, 0.2);
+  color: white;
 }
 .emoji-suggetions-list {
   position: absolute;
@@ -92,9 +93,10 @@ export default {
   overflow-y: auto;
   z-index: 2;
   background: rgba(0, 0, 0, 0.7);
+  box-shadow: 0px 0px 20px 5px #000000bd;
   backdrop-filter: blur(5px);
   border-radius: 4px;
-  color: white;
+  color: rgba(255, 255, 255, 0.7);
   transition: 0.3s;
   user-select: none;
   cursor: default;

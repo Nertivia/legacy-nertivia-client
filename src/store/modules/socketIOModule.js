@@ -217,10 +217,14 @@ const actions = {
       );
       desktopNotification();
     }
+
     const notification = {
       channelID: data.message.channelID,
       lastMessageID: data.message.messageID,
-      sender: data.message.creator
+      sender: data.message.creator,
+      mentioned: !!data.message.mentions.find(
+        m => m.uniqueID === context.rootState.user.user.uniqueID
+      )
     };
     context.dispatch("messageCreatedNotification", notification);
     function desktopNotification() {
@@ -496,9 +500,16 @@ const actions = {
     context.dispatch("servers/addMemberRole", { role_id, uniqueID, server_id });
   },
   // eslint-disable-next-line prettier/prettier
-  ["socket_serverMember:removeRole"](context, { role_id, uniqueID, server_id }) {
+  ["socket_serverMember:removeRole"](
+    context,
+    { role_id, uniqueID, server_id }
+  ) {
     // eslint-disable-next-line prettier/prettier
-    context.dispatch("servers/removeMemberRole", { role_id, uniqueID, server_id });
+    context.dispatch("servers/removeMemberRole", {
+      role_id,
+      uniqueID,
+      server_id
+    });
   },
   ["socket_server:updateRoles"](context, { roles }) {
     // eslint-disable-next-line prettier/prettier
