@@ -1,5 +1,15 @@
 const config = [
   {
+    version: 9.9,
+    title: "New notification sounds!",
+    shortTitle: "",
+    date: "13/02/2020",
+    new: [
+      "New Notification sounds created by Fullipsp@hhrf",
+      "Mention gets it's own notification sound."
+    ],
+  },
+  {
     version: 9.8,
     title: "Wake up @Fishie!",
     shortTitle: "",
