@@ -25,7 +25,7 @@ const actions = {
       (currentTab !== 1 && currentTab !== 2) ||
       !document.hasFocus()
     ) {
-      NotificationSounds.notification();
+      NotificationSounds.notification(mentioned);
     }
     let find = context.state.notifications.find(item => {
       return item.channelID === channelID;

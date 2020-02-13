@@ -1,11 +1,13 @@
-import notificationSound from "@/assets/sounds/Notification.mp3";
+import messageSound from "@/assets/sounds/Message.mp3";
+import mentionSound from "@/assets/sounds/Mention.mp3";
 import newFriendSound from "@/assets/sounds/FriendRequest.mp3";
+
 import { store } from "@/store/index";
 
 export default {
-  notification: () => {
+  notification: mentioned => {
     if (isBusy() || isNotificationDisabled()) return;
-    const audio = new Audio(notificationSound);
+    const audio = new Audio(mentioned ? mentionSound : messageSound);
     audio.play();
   },
   newFriend: () => {
