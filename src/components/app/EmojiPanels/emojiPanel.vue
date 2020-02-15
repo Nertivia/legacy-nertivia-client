@@ -2,84 +2,73 @@
   <div v-click-outside="closePanel" class="emoji-panel">
     <div class="emoji-panel-inner">
       <div class="emojis-list">
-        <!-- Recent Emojis Category  -->
-        <div class="category">
-          <div class="category-name">Recent</div>
-          <div class="list">
-            <div
-              v-for="(recentEmoji, index) in this.recentEmojisList"
-              :key="index"
-              class="emoji-item"
-              @click="emojiClickEvent(recentEmoji)"
-            >
-              <img
-                v-lazyload
-                class="panel emoji"
-                :data-url="
-                  getCustomEmoji(recentEmoji) ||
-                    emojiShortcodeToPath(':' + recentEmoji + ':')
-                "
-              />
-            </div>
-          </div>
-        </div>
+        <virtual-list :size="37" :remain="11" ref="virtualList">
+          <div class="category">Recents</div>
 
-        <!-- Custom Emojis Category  -->
-        <div class="category">
-          <div class="category-name">Custom Emojis</div>
-          <div class="list">
-            <div
-              v-for="(customEmoji, index) in this.customEmojisList"
-              :key="index"
-              class="emoji-item"
-              @click="customEmojiClickEvent(customEmoji)"
-            >
-              <img
-                v-lazyload
-                class="panel emoji"
-                :data-url="customEmojiPath + customEmoji.emojiID"
+          <div
+            class="emoji-row"
+            v-for="(e, i) in allRecentEmojis"
+            :key="i + 'r'"
+          >
+            <div class="wrapper">
+              <emoji-template
+                v-for="(em, ind) in e"
+                :key="ind"
+                :emoji="em"
+                @click.native="emojiClick(em)"
               />
             </div>
           </div>
-        </div>
-
-        <!-- Custom Emojis Category  -->
-        <div v-for="(group, index) in groups" :key="group" class="category">
-          <div class="category-name">{{ group }}</div>
-          <div class="list">
-            <div
-              v-for="emojiSorted in emojiByGroup(index)"
-              :key="emojiSorted.shortcodes[0]"
-              class="emoji-item"
-              @click="emojiClickEvent(emojiSorted.shortcodes[0])"
-            >
-              <img
-                v-lazyload
-                class="panel emoji"
-                :data-url="parseEmojiPath(emojiSorted.unicode)"
+          <div class="category">Custom Emojis</div>
+          <div
+            class="emoji-row"
+            v-for="(e, i) in allCustomEmojis"
+            :key="i + 'c'"
+          >
+            <div class="wrapper">
+              <emoji-template
+                v-for="(em, ind) in e"
+                :key="ind"
+                :emoji="em"
+                @click.native="emojiClick(em)"
               />
             </div>
           </div>
-        </div>
+          <div
+            v-for="(e, i) in emojiWithGroup"
+            :class="`${e.gname ? 'category' : 'emoji-row'}`"
+            :key="i"
+          >
+            <div class="name" v-if="e.gname">{{ e.gname }}</div>
+            <div class="wrapper" v-if="!e.gname">
+              <emoji-template
+                v-for="(em, ind) in e"
+                :key="ind"
+                :emoji="em"
+                @click.native="emojiClick(em)"
+              />
+            </div>
+          </div>
+        </virtual-list>
       </div>
       <div class="tabs">
-        <div class="tab" @click="scrollToCategory(0)">
+        <div class="tab" @click="tabClicked(0)">
           <i class="material-icons">history</i>
-          <div class="tooltip">Recent</div>
         </div>
-        <div class="tab" @click="scrollToCategory(1)">
+        <div class="tab" @click="tabClicked(1)">
           <i class="material-icons">face</i>
-          <div class="tooltip">Custom Emojis</div>
         </div>
         <div
-          v-for="(emoji, index) in groupUnicodes"
-          :key="index"
           class="tab"
-          @mouseenter="mouseHover(emoji, $event)"
-          @click="scrollToCategory(index + 2)"
+          v-for="(e, i) in groupUnicodes"
+          :key="i"
+          @click="tabClicked(i + 2)"
         >
-          <img class="panel-emoji" :src="selectRandom(emoji)" />
-          <div class="tooltip">{{ groups[index] }}</div>
+          <!-- {{ e[0] }} -->
+          <div
+            class="tab-emoji"
+            :style="{ backgroundPosition: findGroupEmojiPos(e[0]) }"
+          />
         </div>
       </div>
     </div>
@@ -88,18 +77,19 @@
 </template>
 
 <script>
-import { bus } from "@/main";
+import EmojiTemplate from "./EmojiTemplate";
+import VirtualList from "vue-virtual-scroll-list";
 import emojiParser from "@/utils/emojiParser.js";
-import lazyLoad from "@/directives/LazyLoad.js";
 import { mapState } from "vuex";
-import config from "@/config.js";
+import { bus } from "@/main";
 
 export default {
-  directives: {
-    lazyload: lazyLoad
-  },
+  components: { VirtualList, EmojiTemplate },
   data() {
     return {
+      emojiWithGroup: [],
+      allRecentEmojis: [],
+      allCustomEmojis: [],
       groupUnicodes: [
         [
           "😀",
@@ -348,54 +338,157 @@ export default {
           "🇮🇳",
           "🇨🇭"
         ]
-      ],
-      emojis: emojiParser.allEmojis,
-      groups: emojiParser.allGroups,
-      recentEmojisList: null,
-      customEmojisList: null,
-      customEmojiPath: config.domain + "/media/"
+      ]
     };
   },
-  beforeMount() {
-    this.recentEmojisList = this.recentEmojis;
-    this.customEmojisList = this.customEmojis;
+
+  mounted() {
+    setTimeout(() => {
+      const z = performance.now();
+      this.allCustomEmojis = this.arrToRows(this.customEmojis);
+      const o = performance.now();
+      console.log("custom emojis took " + Math.round(o - z) + "ms to load.");
+    });
+    setTimeout(() => {
+      const z = performance.now();
+      this.allRecentEmojis = this.arrToRows(this.allRecentEmojisArr());
+      const o = performance.now();
+      console.log("recent emojis took " + Math.round(o - z) + "ms to load.");
+    });
+    setTimeout(() => {
+      const z = performance.now();
+      this.emojiWithGroup = this.emojisWithGroup();
+      const o = performance.now();
+      console.log("emojis took " + Math.round(o - z) + "ms to load.");
+    });
   },
+
   methods: {
-    getCustomEmoji(shortCode) {
-      const customEmoji = emojiParser.getCustomEmojisByShortCode(shortCode);
-      return customEmoji
-        ? this.customEmojiPath + customEmoji.emojiID
-        : undefined;
-    },
-    closePanel(event) {
+    closePanel() {
       if (!event.target.closest(".emojis-button")) this.$emit("close");
     },
-    emojiByGroup(index) {
-      index = parseInt(index);
-      return this.emojis.filter(_emoji => _emoji.group === index);
+    emojisWithGroup() {
+      const emojis = emojiParser.allEmojis;
+      const groups = emojiParser.allGroups;
+      const emojisWithGroups = [];
+      const row = 10;
+      let rowIndex = 0;
+      let rowItemIndex = 0;
+      let currentGroup = 0;
+
+      for (let index = 0; index < emojis.length; index++) {
+        const emoji = emojis[index];
+        let math = rowItemIndex % row;
+        let startNewRow = math === 0;
+        if (index === 0) {
+          emojisWithGroups[rowIndex] = { gname: groups[emoji.group] };
+        }
+
+        if (currentGroup != emoji.group) {
+          currentGroup = emoji.group;
+          rowIndex += 1;
+          emojisWithGroups[rowIndex] = { gname: groups[emoji.group] };
+          startNewRow = true;
+        }
+
+        if (startNewRow) {
+          rowIndex += 1;
+          emojisWithGroups[rowIndex] = [emoji];
+          rowItemIndex = 1;
+        } else {
+          emojisWithGroups[rowIndex].push(emoji);
+          rowItemIndex += 1;
+        }
+      }
+
+      return emojisWithGroups;
     },
-    parseEmojiPath(emoji) {
-      return emojiParser.GetEmojiPath(emoji);
+    allRecentEmojisArr() {
+      const emojis = [];
+      for (let index = 0; index < this.recentEmojis.length; index++) {
+        const shortcode = this.recentEmojis[index];
+
+        const emoji = emojiParser.allEmojis.find(
+          e => e.shortcodes[0] === shortcode
+        );
+
+        if (!emoji) {
+          const cusEmoji = this.customEmojis.find(
+            emoji => emoji.name === shortcode
+          );
+          if (cusEmoji) {
+            emojis.push(cusEmoji);
+          }
+        } else {
+          emojis.push(emoji);
+        }
+      }
+      return emojis;
     },
-    emojiShortcodeToPath(shortcode) {
-      return this.parseEmojiPath(emojiParser.replaceShortcode(shortcode));
+    emojiSpritePos(emojiIndex) {
+      const SIZE = -25;
+      const row = 40;
+      let top = 0;
+      let left = 0;
+
+      for (let index = 0; index < emojiIndex + 1; index++) {
+        if (index != 0) {
+          if (index % row === 0) {
+            top += SIZE;
+            left = 0;
+          } else {
+            left += SIZE;
+          }
+        }
+      }
+      return `${left}px ${top}px`;
     },
-    selectRandom(array) {
-      const randomNum = Math.floor(Math.random() * array.length);
-      return this.parseEmojiPath(array[randomNum]);
+    arrToRows(emojis) {
+      const row = 10;
+      let rowIndex = 0;
+      const newArr = [];
+      for (let index = 0; index < emojis.length; index++) {
+        const emoji = emojis[index];
+
+        if (index === 0) {
+          newArr[rowIndex] = [emoji];
+        } else if (index % row === 0) {
+          rowIndex += 1;
+          newArr[rowIndex] = [emoji];
+        } else {
+          newArr[rowIndex].push(emoji);
+        }
+      }
+      return newArr;
     },
-    customEmojiClickEvent(emoji) {
-      bus.$emit("emojiPanel:Selected", emoji.name);
+    emojiClick(emoji) {
+      if (emoji.emojiID) {
+        bus.$emit("emojiPanel:Selected", emoji.name);
+      } else {
+        bus.$emit("emojiPanel:Selected", emoji.shortcodes[0]);
+      }
     },
-    emojiClickEvent(shortcode) {
-      bus.$emit("emojiPanel:Selected", shortcode);
+    tabClicked(index) {
+      const ROW_SIZE = 37;
+      const recentRows = this.allRecentEmojis.length + 1;
+      const customEmojiRows = this.allCustomEmojis.length + 1;
+      if (index === 0) {
+        this.$refs.virtualList.setScrollTop(0);
+        return;
+      }
+      if (index === 1) {
+        this.$refs.virtualList.setScrollTop(recentRows * ROW_SIZE);
+        return;
+      }
+      const rowIndex = this.emojiWithGroup.findIndex(
+        r => r.find && r.find(e => e.group === index - 2)
+      );
+      this.$refs.virtualList.setScrollTop(
+        (recentRows + customEmojiRows + rowIndex) * ROW_SIZE - ROW_SIZE
+      );
     },
-    mouseHover(emoji, event) {
-      event.target.children[0].src = this.selectRandom(emoji);
-    },
-    scrollToCategory(index) {
-      const elements = document.querySelectorAll(".category-name");
-      elements[index].scrollIntoView();
+    findGroupEmojiPos(unicode) {
+      return emojiParser.allEmojis.find(e => e.unicode === unicode).pos;
     }
   },
   computed: {
@@ -404,121 +497,49 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .emoji-panel {
   position: absolute;
   bottom: -50px;
   right: 20px;
-  max-width: 410px;
-  width: calc(100% - 50px);
+  width: 380px;
   display: flex;
   flex-direction: column;
   z-index: 99999;
 }
 
 .emoji-panel-inner {
+  display: flex;
+  flex-direction: column;
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(5px);
   border-radius: 4px;
   transition: 0.3s;
   z-index: 99999;
-}
-
-.emojis-list {
-  color: white;
-  padding: 5px;
-  user-select: none;
-  cursor: default;
-  height: 300px;
-  overflow-y: auto;
-  transition: 0.32s;
-  z-index: 99999;
-  margin-left: 10px;
-}
-
-.category {
-}
-.category-name {
-  padding: 5px;
-  padding-left: 3px;
-  text-transform: capitalize;
-  color: rgb(195, 195, 195);
-}
-.list {
-}
-.emoji-item {
-  background: rgba(59, 59, 59, 0.521);
-  transition: 0.3s;
-  display: inline-flex;
-  flex-direction: column;
+  height: 350px;
   overflow: hidden;
-  margin: 4px;
-  padding: 2px;
-  min-width: 30px;
-  cursor: pointer;
-  border-radius: 4px;
 }
-.emoji-item:hover {
-  background: rgb(59, 59, 59);
-}
-.tabs {
+.emojis-list {
   display: flex;
-  color: white;
-  align-content: center;
-  align-items: center;
-  align-self: center;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  transition: 0.3s;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
   overflow: auto;
 }
-.tabs img {
-  height: 18px;
-  width: auto;
-  margin: auto;
-  filter: grayscale(100%);
-  transition: 0.1s;
-}
-.tabs .material-icons {
-  margin: auto;
-  color: rgb(185, 185, 185);
-  transition: 0.1s;
-  user-select: none;
-}
-.tab {
-  background: rgba(59, 59, 59, 0.521);
-  margin-left: 3px;
-  margin-right: 3px;
+.category {
   display: flex;
-  flex-direction: column;
-  transition: 0.1s;
-  height: 35px;
-  width: 35px;
-  overflow: hidden;
-  align-content: center;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-.tab:hover {
-  background: rgb(73, 73, 73);
-}
-.tab:hover .tooltip {
-  display: flex;
-}
-.tab:hover img {
-  transform: scale(1.3);
-  filter: grayscale(0);
-}
-
-.tab:hover .material-icons {
-  transform: scale(1.3);
+  height: 37px;
   color: white;
+  padding-left: 10px;
+  align-items: center;
+  align-content: center;
+  background: rgba(255, 255, 255, 0.1);
 }
-
+.emoji-row .wrapper {
+  height: 37px;
+  display: flex;
+  flex-direction: row;
+}
 .triangle {
   width: 0;
   height: 0;
@@ -529,30 +550,38 @@ export default {
   align-self: flex-end;
   margin-right: 46px;
 }
-.tooltip {
-  display: none;
-  position: absolute;
-  margin: auto;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(5px);
-  padding: 5px;
-  border-radius: 4px;
-  bottom: -30px;
-  text-transform: capitalize;
+.tabs {
+  height: 37px;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: rgba(0, 110, 255, 0.8);
+  flex-shrink: 0;
+}
+.tab {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
   user-select: none;
+  height: 37px;
+  width: 37px;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: 0.2s;
+  color: white;
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
 }
-
-::-webkit-scrollbar {
-  width: 3px;
-  height: 3px;
-}
-</style>
-<style>
-img.panel.emoji {
-  margin: auto;
-  padding: 2px;
-  object-fit: contain;
-  height: 1.6em;
-  width: 1.6em;
+.tab .tab-emoji {
+  background-image: url("../../../assets/emojiSprites.png");
+  background-position: 0px 0px;
+  background-repeat: no-repeat;
+  background-size: 1000px;
+  height: 25px;
+  width: 25px;
 }
 </style>

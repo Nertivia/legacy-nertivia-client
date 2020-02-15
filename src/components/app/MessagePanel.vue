@@ -786,6 +786,11 @@ export default {
     message(message) {
       this.messageLength = message.length;
       this.$nextTick(this.resize);
+    },
+    selectedChannelID() {
+      this.$nextTick(() => {
+        this.$refs["input-box"].focus();
+      })
     }
   },
   computed: {

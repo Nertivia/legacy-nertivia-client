@@ -50,7 +50,7 @@ export default {
   components: {},
   data() {
     return {
-      domain: config.domain + "/files/"
+      domain: config.domain + "/media/"
     };
   },
   methods: {
