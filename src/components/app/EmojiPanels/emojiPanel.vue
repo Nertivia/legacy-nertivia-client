@@ -631,5 +631,6 @@ export default {
   color: white;
   user-select: none;
   transition: 0.2s;
+  font-size: 14px;
 }
 </style>
