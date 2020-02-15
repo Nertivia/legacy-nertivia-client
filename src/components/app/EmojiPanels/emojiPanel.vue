@@ -51,11 +51,11 @@
           </div>
         </virtual-list>
       </div>
-      <div class="tabs">
-        <div class="tab" @click="tabClicked(0)">
+      <div class="tabs" @mouseleave="tabLeave">
+        <div class="tab" @click="tabClicked(0)" @mouseenter="tabsHover">
           <i class="material-icons">history</i>
         </div>
-        <div class="tab" @click="tabClicked(1)">
+        <div class="tab" @click="tabClicked(1)" @mouseenter="tabsHover">
           <i class="material-icons">face</i>
         </div>
         <div
@@ -63,6 +63,7 @@
           v-for="(e, i) in groupUnicodes"
           :key="i"
           @click="tabClicked(i + 2)"
+          @mouseenter="tabsHover"
         >
           <!-- {{ e[0] }} -->
           <div
@@ -73,6 +74,14 @@
       </div>
     </div>
     <div class="triangle" />
+    <div
+      class="tool-tip"
+      :class="{ hidden: !this.tabShown }"
+      ref="toolTip"
+      :style="{ left: tabLeftPos }"
+    >
+      Recents
+    </div>
   </div>
 </template>
 
@@ -338,7 +347,9 @@ export default {
           "🇮🇳",
           "🇨🇭"
         ]
-      ]
+      ],
+      tabLeftPos: null,
+      tabShown: false,
     };
   },
 
@@ -489,6 +500,27 @@ export default {
     },
     findGroupEmojiPos(unicode) {
       return emojiParser.allEmojis.find(e => e.unicode === unicode).pos;
+    },
+    tabsHover(event) {
+      const index = Array.from(event.target.parentNode.children).indexOf(
+        event.target
+      );
+      if (index == 0) {
+        this.$refs.toolTip.innerHTML = "Recents";
+      }
+      if (index == 1) {
+        this.$refs.toolTip.innerHTML = "Custom Emojis";
+      }
+      if (index > 1) {
+        this.$refs.toolTip.innerHTML = emojiParser.allGroups[index - 2];
+      }
+      this.tabShown = true;
+      const tabLeftPos = event.target.offsetLeft;
+      const toolTipCenter = this.$refs.toolTip.clientWidth / 2;
+      this.tabLeftPos = tabLeftPos - toolTipCenter + 17 + "px";
+    },
+    tabLeave() {
+      this.tabShown = false;
     }
   },
   computed: {
@@ -525,6 +557,9 @@ export default {
   height: 100%;
   width: 100%;
   overflow: auto;
+}
+.hidden {
+  visibility: hidden;
 }
 .category {
   display: flex;
@@ -570,7 +605,7 @@ export default {
   width: 37px;
   flex-shrink: 0;
   cursor: pointer;
-  transition: 0.2s;
+  transition: 0.1s;
   color: white;
   &:hover {
     background: rgba(255, 255, 255, 0.2);
@@ -583,5 +618,18 @@ export default {
   background-size: 1000px;
   height: 25px;
   width: 25px;
+}
+.tool-tip {
+  position: absolute;
+  border-radius: 4px;
+  padding: 5px;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  bottom: -13px;
+  left: 0;
+  z-index: 999333111;
+  color: white;
+  user-select: none;
+  transition: 0.2s;
 }
 </style>
