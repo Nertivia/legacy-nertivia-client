@@ -545,7 +545,7 @@ export default {
   height: 0;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  border-top: 15px solid #000000ad;
+  border-top: 15px solid #00203a;
 
   align-self: flex-end;
   margin-right: 46px;
@@ -557,7 +557,7 @@ export default {
   align-items: center;
   justify-content: center;
   width: 100%;
-  background: rgba(0, 110, 255, 0.8);
+  background: rgba(0, 56, 100, 0.4);
   flex-shrink: 0;
 }
 .tab {

@@ -1,7 +1,7 @@
 <template>
   <div
     class="container"
-    :class="{ mentioned }"
+    :class="{ 'mentioned-container': mentioned }"
     @mouseover="mouseOverEvent"
     @mouseleave="hover = false"
   >
