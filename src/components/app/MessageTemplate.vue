@@ -6,19 +6,19 @@
     @mouseleave="hover = false"
   >
     <div
-      v-if="!type || type === 0"
+      v-if="!message.type || message.type === 0"
       :class="{
         message: true,
-        ownMessage: user.uniqueID === $props.uniqueID,
-        ownMessageLeft:
-          user.uniqueID === $props.uniqueID &&
+        ownMessage: user.uniqueID === creator.uniqueID,
+        ownMessageRight:
+          user.uniqueID === creator.uniqueID &&
           apperance &&
           apperance.own_message_right === true
       }"
     >
       <div class="avatar">
         <profile-picture
-          :admin="$props.admin"
+          :admin="creator.admin"
           :url="`${userAvatar}${hover || !isGif ? '' : '?type=webp'}`"
           size="50px"
           :hover="true"
@@ -35,7 +35,7 @@
             :style="{ color: roleColor }"
             @click="openUserInformation"
           >
-            {{ this.$props.username }}
+            {{ creator.username }}
           </div>
           <div class="date">{{ getDate }}</div>
           <div
@@ -48,8 +48,12 @@
         </div>
         <SimpleMarkdown
           class="content-message"
-          :style="[color && color !== -2 ? { color: color } : '']"
-          :message="message"
+          :style="[
+            message.color && message.color !== -2
+              ? { color: message.color }
+              : ''
+          ]"
+          :message="message.message"
         />
         <div
           class="file-content"
@@ -79,8 +83,8 @@
           <img :src="getImage" @click="imageClicked" />
         </div>
         <message-embed-template
-          v-if="embed && Object.keys(embed).length"
-          :embed="embed"
+          v-if="message.embed && Object.keys(message.embed).length"
+          :embed="message.embed"
         />
       </div>
       <div class="other-information">
@@ -93,41 +97,33 @@
         </div>
         <div
           class="sending-status"
-          v-if="timeEdited && (status === undefined || status === 1)"
+          v-if="
+            message.timeEdited &&
+              (message.status === undefined || message.status === 1)
+          "
           :title="`Edited ${getEditedDate}`"
         >
           <i class="material-icons">edit</i>
         </div>
-        <div class="sending-status" v-else-if="status === 0">
+        <div class="sending-status" v-else-if="message.status === 0">
           <i class="material-icons">hourglass_full</i>
         </div>
-        <div class="sending-status" v-else-if="status === 1">
+        <div class="sending-status" v-else-if="message.status === 1">
           <i class="material-icons">done</i>
         </div>
-        <div class="sending-status" v-else-if="status === 2">
+        <div class="sending-status" v-else-if="message.status === 2">
           <i class="material-icons">close</i> Failed
         </div>
       </div>
     </div>
-    <div
-      v-if="type && (type === 1 || type === 2 || type === 3 || type === 4)"
-      class="presence-message"
-      :class="{
-        join: type === 1,
-        leave: type === 2,
-        kick: type === 3,
-        ban: type === 4
-      }"
-    >
+    <div v-if="messageType" class="presence-message" :class="messageType[1]">
       <div class="presense-contain">
         <span>
           <span class="username" @click="openUserInformation">{{
-            this.$props.username
+            creator.username
           }}</span>
-          <span v-if="type === 1" class="text">joined the server!</span>
-          <span v-if="type === 2" class="text">left the server.</span>
-          <span v-if="type === 3" class="text">has been kicked.</span>
-          <span v-if="type === 4" class="text">has been banned.</span>
+          <span class="text">{{ messageType[0] }}</span>
+
           <span class="date">{{ getDate }}</span>
         </span>
       </div>
@@ -154,24 +150,7 @@ import windowProperties from "@/utils/windowProperties";
 import { mapState } from "vuex";
 
 export default {
-  props: [
-    "message",
-    "status",
-    "username",
-    "avatar",
-    "date",
-    "uniqueID",
-    "files",
-    "admin",
-    "type",
-    "embed",
-    "messageID",
-    "channelID",
-    "timeEdited",
-    "color",
-    "isServer",
-    "mentions"
-  ],
+  props: ["creator", "message", "isServer"],
   components: {
     ProfilePicture,
     messageEmbedTemplate,
@@ -196,28 +175,28 @@ export default {
       this.$store.dispatch("setMessageContext", {
         x,
         y,
-        channelID: this.channelID,
-        messageID: this.messageID,
-        message: this.message,
-        uniqueID: this.uniqueID,
-        type: this.type,
-        color: this.color
+        channelID: this.message.channelID,
+        messageID: this.message.messageID,
+        message: this.message.message,
+        uniqueID: this.creator.uniqueID,
+        type: this.message.type,
+        color: this.message.color
       });
     },
     openUserInformation() {
-      this.$store.dispatch("setUserInformationPopout", this.uniqueID);
+      this.$store.dispatch("setUserInformationPopout", this.creator.uniqueID);
     },
     imageClicked(event) {
       this.$store.dispatch("setImagePreviewURL", event.target.src);
     },
     editMessage() {
-      if (this.uniqueID !== this.user.uniqueID) return;
+      if (this.creator.uniqueID !== this.user.uniqueID) return;
       this.dropDownVisable = false;
       this.$store.dispatch("setEditMessage", {
-        channelID: this.channelID,
-        messageID: this.messageID,
-        message: this.message,
-        color: this.color
+        channelID: this.message.channelID,
+        messageID: this.message.messageID,
+        message: this.message.message,
+        color: this.message.color
       });
     },
     contentDoubleClickEvent(event) {
@@ -235,7 +214,7 @@ export default {
       return { width: srcWidth * ratio, height: srcHeight * ratio };
     },
     imageSize() {
-      const files = this.$props.files;
+      const files = this.message.files;
       if (!files || files.length === 0 || !files[0].dimensions)
         return undefined;
 
@@ -250,7 +229,7 @@ export default {
         minHeight = h / 1.7;
       }
 
-      const dimensions = this.$props.files[0].dimensions;
+      const dimensions = this.message.files[0].dimensions;
       const srcWidth = dimensions.width;
       const srcHeight = dimensions.height;
 
@@ -276,8 +255,8 @@ export default {
     },
     checkMentioned() {
       if (
-        this.mentions &&
-        this.mentions.find(u => u.uniqueID === this.user.uniqueID)
+        this.message.mentions &&
+        this.message.mentions.find(u => u.uniqueID === this.user.uniqueID)
       ) {
         this.mentioned = true;
       } else {
@@ -289,7 +268,7 @@ export default {
     getWindowWidth(dimentions) {
       this.onResize(dimentions);
     },
-    mentions() {
+    message() {
       this.checkMentioned();
     }
   },
@@ -303,9 +282,9 @@ export default {
   computed: {
     ...mapState("settingsModule", ["apperance"]),
     getImage() {
-      if (!this.$props.files || this.$props.files.length === 0)
+      if (!this.message.files || this.message.files.length === 0)
         return undefined;
-      const file = this.$props.files[0];
+      const file = this.message.files[0];
       if (!file.fileID) return undefined;
       const filetypes = /jpeg|jpg|gif|png/;
       const extname = filetypes.test(path.extname(file.fileName).toLowerCase());
@@ -313,9 +292,9 @@ export default {
       return config.domain + "/media/" + file.fileID + "/" + file.fileName;
     },
     getFile() {
-      if (!this.$props.files || this.$props.files.length === 0)
+      if (!this.message.files || this.message.files.length === 0)
         return undefined;
-      let file = this.$props.files[0];
+      let file = this.message.files[0];
       if (!file.fileID) return undefined;
       const filetypes = /jpeg|jpg|gif|png/;
       const extname = filetypes.test(path.extname(file.fileName).toLowerCase());
@@ -325,18 +304,18 @@ export default {
     },
     getDate() {
       return friendlyDate(
-        this.$props.date,
+        this.message.created,
         this.apperance && this.apperance["12h_time"] ? "12h" : false
       );
     },
     getEditedDate() {
       return friendlyDate(
-        this.timeEdited,
+        this.message.timeEdited,
         this.apperance && this.apperance["12h_time"] ? "12h" : false
       );
     },
     userAvatar() {
-      return config.domain + "/avatars/" + this.$props.avatar;
+      return config.domain + "/avatars/" + this.creator.avatar;
     },
     user() {
       return this.$store.getters.user;
@@ -354,7 +333,7 @@ export default {
       const serverMembers = this.$store.getters["servers/serverMembers"];
       return serverMembers.find(
         m =>
-          m.uniqueID === this.uniqueID &&
+          m.uniqueID === this.creator.uniqueID &&
           m.server_id === this.$store.getters["servers/selectedServerID"]
       );
     },
@@ -373,6 +352,25 @@ export default {
         }
       } else {
         return this.roles.find(r => r.default).color + " !important";
+      }
+    },
+    messageType() {
+      switch (this.message.type) {
+        case 1:
+          return ["joined the server!", "join"];
+          break;
+        case 2:
+          return ["left the server.", "leave"];
+          break;
+        case 3:
+          return ["has been kicked.", "kick"];
+          break;
+        case 4:
+          return ["has been banned.", "ban"];
+          break;
+        default:
+          return null;
+          break;
       }
     }
   }
@@ -435,19 +433,19 @@ $message-color: rgba(0, 0, 0, 0.3);
   color: #d92121;
 }
 
-.ownMessageLeft {
+.ownMessageRight {
   flex-direction: row-reverse;
 }
 
-.ownMessageLeft .triangle-inner {
+.ownMessageRight .triangle-inner {
   border-left: 8px solid $self-message-color;
   border-right: none !important;
 }
 
-.ownMessageLeft .avatar {
+.ownMessageRight .avatar {
   margin-right: 0px;
 }
-.ownMessageLeft .sending-status {
+.ownMessageRight .sending-status {
   margin-left: auto !important;
   margin-right: 4px !important;
 }
@@ -546,7 +544,7 @@ $message-color: rgba(0, 0, 0, 0.3);
   border-radius: 4px;
   border-bottom-left-radius: 0;
 }
-.ownMessageLeft .content {
+.ownMessageRight .content {
   border-radius: 4px;
   border-bottom-right-radius: 0;
 }

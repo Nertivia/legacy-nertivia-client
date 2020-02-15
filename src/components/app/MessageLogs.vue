@@ -21,22 +21,9 @@
         'show-message-animation': index === selectedChannelMessages.length - 1
       }"
       :key="msg.tempID || msg.messageID"
-      :date="msg.created"
-      :admin="msg.creator.admin"
-      :username="msg.creator.username"
-      :uniqueID="msg.creator.uniqueID"
-      :avatar="msg.creator.avatar"
-      :message="msg.message"
-      :embed="msg.embed"
-      :files="msg.files"
-      :status="msg.status"
-      :messageID="msg.messageID"
-      :channelID="msg.channelID"
-      :type="msg.type"
-      :timeEdited="msg.timeEdited"
-      :color="msg.color"
+      :creator="msg.creator"
+      :message="msg"
       :isServer="isServer"
-      :mentions="msg.mentions"
     />
 
     <uploadsQueue v-if="uploadQueue !== undefined" :queue="uploadQueue" />

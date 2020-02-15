@@ -789,7 +789,8 @@ export default {
     },
     selectedChannelID() {
       this.$nextTick(() => {
-        if (!this.mobile) this.$refs["input-box"].focus();
+        if (!this.mobile && this.$refs["input-box"])
+          this.$refs["input-box"].focus();
       });
     }
   },
