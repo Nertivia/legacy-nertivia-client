@@ -1,7 +1,7 @@
 <template>
   <div
-    class="container"
-    :class="{ 'mentioned-message': mentioned }"
+    class="message-container container"
+    :class="{ 'mentioned-message': mentioned, hideAditional }"
     @mouseover="mouseOverEvent"
     @mouseleave="hover = false"
   >
@@ -18,6 +18,7 @@
     >
       <div class="avatar">
         <profile-picture
+          v-if="!hideAditional"
           :admin="creator.admin"
           :url="`${userAvatar}${hover || !isGif ? '' : '?type=webp'}`"
           size="50px"
@@ -26,10 +27,10 @@
         />
       </div>
       <div class="triangle">
-        <div class="triangle-inner" />
+        <div class="triangle-inner" v-if="!hideAditional" />
       </div>
       <div class="content" @dblclick="contentDoubleClickEvent">
-        <div class="user-info">
+        <div class="user-info" v-if="!hideAditional">
           <div
             class="username"
             :style="{ color: roleColor }"
@@ -150,7 +151,7 @@ import windowProperties from "@/utils/windowProperties";
 import { mapState } from "vuex";
 
 export default {
-  props: ["creator", "message", "isServer"],
+  props: ["creator", "message", "isServer", "hideAditional"],
   components: {
     ProfilePicture,
     messageEmbedTemplate,
@@ -385,7 +386,19 @@ $message-color: rgba(0, 0, 0, 0.3);
   position: relative;
   z-index: 1;
 }
-
+.hideAditional {
+  .content {
+    border-radius: 4px;
+  }
+  .avatar {
+    height: 46px;
+    flex-shrink: 0;
+  }
+  .triangle {
+    width: 8px;
+    flex-shrink: 0;
+  }
+}
 .drop-down-button {
   opacity: 0;
   transition: 0.2s;
@@ -513,6 +526,8 @@ $message-color: rgba(0, 0, 0, 0.3);
 
 .avatar {
   margin: auto 0 0 0;
+  height: 56px;
+  width: 56px;
 }
 
 .triangle {

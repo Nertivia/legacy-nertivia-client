@@ -2,30 +2,25 @@
   <div class="my-profile-panel message-design">
     <div class="message-example">
       <message-template
-        message="Hi"
-        :username="user.username"
+        :message="{ message: 'Hi', created: Date.now() }"
+        :creator="user"
         :date="Date.now()"
-        :unique-i-d="user.uniqueID"
         :admin="user.admin"
-        :avatar="user.avatar"
       />
       <message-template
-        message="Hello."
-        username="Cool Dude"
+        :message="{ message: 'Hello.', created: Date.now() }"
+        :creator="dummyUser"
         :date="Date.now()"
       />
       <message-template
-        message="Whaddup"
-        :username="user.username"
+        :message="{ message: 'Whaddup', created: Date.now() }"
+        :creator="user"
         :date="Date.now()"
-        :unique-i-d="user.uniqueID"
         :admin="user.admin"
-        :avatar="user.avatar"
       />
       <message-template
-        message="Nothing, bye."
-        username="Cool Dude"
-        :date="Date.now()"
+        :message="{ message: 'Nothing, bye.', created: Date.now() }"
+        :creator="dummyUser"
       />
     </div>
     <div class="options">
@@ -82,7 +77,12 @@ export default {
     MessageTemplate
   },
   data() {
-    return {};
+    return {
+      dummyUser: {
+        username: "Cool Dude",
+        uniqueID: "dummy"
+      }
+    };
   },
   computed: {
     apperance() {

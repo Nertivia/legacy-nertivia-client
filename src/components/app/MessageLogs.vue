@@ -15,7 +15,6 @@
       </div>
     </div>
     <message
-      class="message-container"
       v-for="(msg, index) in selectedChannelMessages"
       :class="{
         'show-message-animation': index === selectedChannelMessages.length - 1
@@ -24,8 +23,9 @@
       :creator="msg.creator"
       :message="msg"
       :isServer="isServer"
+      :hideAditional="groupedMessages.includes(msg.messageID)"
     />
-
+    <!-- {{ groupedMessages }} -->
     <uploadsQueue v-if="uploadQueue !== undefined" :queue="uploadQueue" />
     <div
       class="load-more-button"
@@ -321,6 +321,32 @@ export default {
       return (
         this.$store.getters.bottomUnloaded[this.selectedChannelID] || false
       );
+    },
+    groupedMessages() {
+      const messages = this.selectedChannelMessages;
+      const grouped = [];
+      let groupLength = 0;
+      let prevMessageCreator = null;
+      for (let index = 0; index < messages.length; index++) {
+        const message = messages[index];
+        if (message.type !== 0 && message.type !== undefined) {
+          groupLength = 0;
+          prevMessageCreator = null;
+          continue;
+        }
+        if (message.creator.uniqueID !== prevMessageCreator) {
+          groupLength = 0;
+          prevMessageCreator = message.creator.uniqueID;
+        } else {
+          if (groupLength > 3) {
+            groupLength = 0;
+            continue;
+          }
+          grouped.push(message.messageID);
+          groupLength += 1;
+        }
+      }
+      return grouped;
     }
   }
 };
