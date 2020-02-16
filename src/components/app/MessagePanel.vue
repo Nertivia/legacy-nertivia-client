@@ -782,6 +782,7 @@ export default {
   watch: {
     editMessage(editMessage) {
       this.editMessageEvent(editMessage);
+      this.$refs["input-box"].focus();
     },
     message(message) {
       this.messageLength = message.length;

@@ -1,7 +1,7 @@
 <template>
   <div
     class="message-container container"
-    :class="{ 'mentioned-message': mentioned, hideAditional }"
+    :class="{ 'mentioned-message': isMentioned, hideAditional }"
     @mouseover="mouseOverEvent"
     @mouseleave="hover = false"
   >
@@ -30,18 +30,19 @@
         <div class="triangle-inner" v-if="!hideAditional" />
       </div>
       <div class="content" @dblclick="contentDoubleClickEvent">
-        <div class="user-info" v-if="!hideAditional">
+        <div class="user-info">
           <div
+            v-if="!hideAditional"
             class="username"
-            :style="{ color: roleColor }"
+            :style="{ color: loaded ? roleColor : null }"
             @click="openUserInformation"
           >
             {{ creator.username }}
           </div>
-          <div class="date">{{ getDate }}</div>
+          <div class="date" v-if="!hideAditional">{{ getDate }}</div>
           <div
             class="mentioned material-icons"
-            v-if="mentioned"
+            v-if="isMentioned"
             title="You were mentioned"
           >
             alternate_email
@@ -161,7 +162,7 @@ export default {
     return {
       hover: false,
       isGif: false,
-      mentioned: false
+      loaded: false
     };
   },
   methods: {
@@ -253,28 +254,15 @@ export default {
     },
     onResize() {
       this.imageSize();
-    },
-    checkMentioned() {
-      if (
-        this.message.mentions &&
-        this.message.mentions.find(u => u.uniqueID === this.user.uniqueID)
-      ) {
-        this.mentioned = true;
-      } else {
-        this.mentioned = false;
-      }
     }
   },
   watch: {
     getWindowWidth(dimentions) {
       this.onResize(dimentions);
-    },
-    message() {
-      this.checkMentioned();
     }
   },
   mounted() {
-    this.checkMentioned();
+    setTimeout(() => (this.loaded = true));
     this.isGif = this.userAvatar.endsWith(".gif");
     const files = this.files;
     if (!files || files.length === 0 || !files[0].dimensions) return undefined;
@@ -342,12 +330,12 @@ export default {
       if (!this.isServer) return undefined;
       if (!this.serverMember || !this.serverMember.roles) return undefined;
 
-      const filter = this.roles.filter(r =>
+      const filter = this.roles.find(r =>
         this.serverMember.roles.includes(r.id)
       );
-      if (filter.length) {
-        if (filter[0].color) {
-          return filter[0].color + " !important";
+      if (filter) {
+        if (filter.color) {
+          return filter.color + " !important";
         } else {
           return undefined;
         }
@@ -373,6 +361,14 @@ export default {
           return null;
           break;
       }
+    },
+    isMentioned() {
+      if (!this.message.mentions) return;
+      const mentions = this.message.mentions;
+      if (mentions.find(u => u.uniqueID === this.user.uniqueID)) {
+        return true;
+      }
+      return false;
     }
   }
 };
@@ -389,9 +385,17 @@ $message-color: rgba(0, 0, 0, 0.3);
 .hideAditional {
   .content {
     border-radius: 4px;
+    flex-direction: row;
+  }
+  .mentioned {
+    margin-top: 0;
+    margin-left: 0;
+  }
+  .user-info {
+    align-items: center;
   }
   .avatar {
-    height: 46px;
+    height: 15px;
     flex-shrink: 0;
   }
   .triangle {
