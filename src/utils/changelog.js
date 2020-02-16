@@ -6,6 +6,9 @@ const config = [
     date: "15/02/2020",
     new: [
       "Messages by the same user should now be grouped. This will make it easier to read messages and save some screen space."
+    ],
+    fix: [
+      "Fixed a bug where message role colors would make the messages load slower."
     ]
   },
   {

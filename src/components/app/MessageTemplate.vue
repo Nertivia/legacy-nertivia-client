@@ -48,46 +48,48 @@
             alternate_email
           </div>
         </div>
-        <SimpleMarkdown
-          class="content-message"
-          :style="[
-            message.color && message.color !== -2
-              ? { color: message.color }
-              : ''
-          ]"
-          :message="message.message"
-        />
-        <div
-          class="file-content"
-          v-if="getFile && !getFile.fileName.endsWith('.mp3')"
-        >
-          <div class="icon">
-            <i class="material-icons">insert_drive_file</i>
+        <div class="inner-content">
+          <SimpleMarkdown
+            class="content-message"
+            :style="[
+              message.color && message.color !== -2
+                ? { color: message.color }
+                : ''
+            ]"
+            :message="message.message"
+          />
+          <div
+            class="file-content"
+            v-if="getFile && !getFile.fileName.endsWith('.mp3')"
+          >
+            <div class="icon">
+              <i class="material-icons">insert_drive_file</i>
+            </div>
+            <div class="information">
+              <div class="info">{{ getFile.fileName }}</div>
+              <a :href="getFile.url" download target="_blank">
+                <div class="download-button">Download</div>
+              </a>
+            </div>
           </div>
-          <div class="information">
+          <div
+            v-if="getFile && getFile.fileName.endsWith('.mp3')"
+            class="file-content music"
+          >
             <div class="info">{{ getFile.fileName }}</div>
-            <a :href="getFile.url" download target="_blank">
-              <div class="download-button">Download</div>
-            </a>
+            <audio controls>
+              <source :src="getFile.url" type="audio/mp3" />
+            </audio>
           </div>
-        </div>
-        <div
-          v-if="getFile && getFile.fileName.endsWith('.mp3')"
-          class="file-content music"
-        >
-          <div class="info">{{ getFile.fileName }}</div>
-          <audio controls>
-            <source :src="getFile.url" type="audio/mp3" />
-          </audio>
-        </div>
 
-        <div class="image-content" ref="image" v-if="getImage">
-          <img :src="getImage" @click="imageClicked" />
+          <div class="image-content" ref="image" v-if="getImage">
+            <img :src="getImage" @click="imageClicked" />
+          </div>
+          <message-embed-template
+            v-if="message.embed && Object.keys(message.embed).length"
+            :embed="message.embed"
+          />
         </div>
-        <message-embed-template
-          v-if="message.embed && Object.keys(message.embed).length"
-          :embed="message.embed"
-        />
       </div>
       <div class="other-information">
         <div
@@ -392,7 +394,7 @@ $message-color: rgba(0, 0, 0, 0.3);
     margin-left: 0;
   }
   .user-info {
-    align-items: center;
+    margin-top: 2px;
   }
   .avatar {
     height: 15px;
@@ -562,6 +564,11 @@ $message-color: rgba(0, 0, 0, 0.3);
   overflow: hidden;
   border-radius: 4px;
   border-bottom-left-radius: 0;
+}
+.inner-content {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 .ownMessageRight .content {
   border-radius: 4px;
