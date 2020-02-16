@@ -1,6 +1,15 @@
 const config = [
   {
-    version: 10.0,
+    version: "1.0.1",
+    title: "Speedy emojis",
+    shortTitle: "",
+    date: "15/02/2020",
+    new: [
+      "Messages by the same user should now be grouped. This will make it easier to read messages and save some screen space."
+    ]
+  },
+  {
+    version: "1.0.0",
     title: "Speedy emojis",
     shortTitle: "",
     date: "15/02/2020",
@@ -8,7 +17,7 @@ const config = [
       "Re-worked on emojji panel. Should be way faster to load now ",
       "When changing channels/dms, focus should change to the inpur area.",
       "mentions class have been added to the message container. (for theme develoeprs)"
-    ],
+    ]
   },
   {
     version: 9.9,
@@ -18,7 +27,7 @@ const config = [
     new: [
       "New Notification sounds created by Fullipsp@hhrf",
       "Mention gets it's own notification sound."
-    ],
+    ]
   },
   {
     version: 9.8,
@@ -27,7 +36,7 @@ const config = [
     date: "12/02/2020",
     new: [
       "Is someone not responding to you? Wake them up by mentioning them by typing '@' followed by their name in the message input box."
-    ],
+    ]
   },
   {
     version: 9.7,
