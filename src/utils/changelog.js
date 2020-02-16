@@ -1,7 +1,7 @@
 const config = [
   {
     version: "1.0.1",
-    title: "Speedy emojis",
+    title: "Grouped messages + message performance",
     shortTitle: "",
     date: "15/02/2020",
     new: [
