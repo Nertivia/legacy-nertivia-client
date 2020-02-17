@@ -1,7 +1,5 @@
 <template>
   <div class="friend-left-panel">
-    <!-- <navigation /> -->
-    <MyMiniInformation />
     <div class="tabs">
       <div
         class="tab"
@@ -20,14 +18,11 @@
         Recents
       </div>
     </div>
-    <div v-if="currentTab === 0" class="list">
-      <!-- <pending-friends />
-      <online-friends />
-      <offline-friends /> -->
-      <friends-tab />
-    </div>
-    <div v-else class="list">
-      <recent-friends-tab />
+    <div class="list">
+      <transition name="fade" mode="out-in">
+        <friends-tab v-if="currentTab === 0" />
+        <recent-friends-tab v-else />
+      </transition>
     </div>
     <div
       class="button"
@@ -41,19 +36,12 @@
 </template>
 
 <script>
-import MyMiniInformation from "../../components/app/MyMiniInformation.vue";
-// import PendingFriends from "./relationships/PendingFriends.vue";
-// import OnlineFriends from "./relationships/OnlineFriends.vue";
-// import OfflineFriends from "./relationships/OfflineFriends.vue";
 import RecentFriendsTab from "./relationships/RecentFriendsTab.vue";
 import FriendsTab from "./relationships/FriendsTab.vue";
 
 export default {
   components: {
-    MyMiniInformation,
-    // PendingFriends,
-    // OnlineFriends,
-    // OfflineFriends,
+
     FriendsTab,
     RecentFriendsTab
   },
@@ -127,9 +115,17 @@ export default {
   z-index: 1;
   flex: 1;
   background: rgba(0, 0, 0, 0.14);
-  border-top-left-radius: 10px;
   overflow: hidden;
 }
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
 .list {
   flex: 1;
   overflow: auto;
@@ -249,11 +245,5 @@ export default {
 
 .notify {
   background: #ee3e34;
-}
-
-@media (max-width: 600px) {
-  .friend-left-panel {
-    border-radius: 0;
-  }
 }
 </style>

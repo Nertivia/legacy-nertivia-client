@@ -136,7 +136,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .username {
   width: 150px;
   white-space: nowrap;
@@ -150,7 +150,7 @@ export default {
   align-items: center;
   width: 100%;
 }
-.wrapper {
+.friend .wrapper {
   color: rgba(255, 255, 255, 0.7);
   display: flex;
   height: 45px;
@@ -163,16 +163,31 @@ export default {
   padding-left: 10px;
   margin-left: 3px;
   margin-right: 3px;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+    color: white;
+  }
+
+  &.selected {
+    background-color: rgba(0, 0, 0, 0.4);
+    color: white;
+  }
+
+  &:hover .status-name {
+    opacity: 1;
+    height: 13px;
+  }
+
+  &:hover .close-button {
+    display: flex;
+  }
+  &:hover .status {
+    opacity: 1;
+    bottom: -4px;
+  }
 }
 
-.wrapper:hover {
-  background-color: rgba(0, 0, 0, 0.2);
-  color: white;
-}
-.wrapper.selected {
-  background-color: rgba(0, 0, 0, 0.4);
-  color: white;
-}
 .profile-picture {
   height: 30px;
   width: 30px;
@@ -228,10 +243,7 @@ export default {
   transition: 0.3s;
 }
 
-.wrapper:hover .status {
-  opacity: 1;
-  bottom: -4px;
-}
+
 
 .status-name {
   opacity: 0;
@@ -239,10 +251,6 @@ export default {
   transition: 0.3s;
   color: #b7cbce;
   height: 0;
-}
-.wrapper:hover .status-name {
-  opacity: 1;
-  height: 13px;
 }
 
 .close-button {
@@ -257,7 +265,5 @@ export default {
 .close-button:hover {
   color: white;
 }
-.wrapper:hover .close-button {
-  display: flex;
-}
+
 </style>

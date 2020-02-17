@@ -10,8 +10,13 @@
         v-click-outside="hideLeftPanel"
       >
         <navigation />
-        <server-list v-if="currentTab === 2" />
-        <friends-list v-if="currentTab === 1" />
+        <div class="wrapper">
+          <MyMiniInformation />
+          <transition name="fade" mode="out-in">
+            <server-list :key="selectedServerID" v-if="currentTab === 2" />
+            <friends-list v-if="currentTab === 1" />
+          </transition>
+        </div>
       </div>
     </transition>
     <message-panel :type="currentTab === 1 ? 0 : currentTab === 2 ? 1 : null" />
@@ -35,6 +40,7 @@
 import { bus } from "@/main";
 import MessagePanel from "@/components/app/MessagePanel.vue";
 import Navigation from "@/components/app/Navigation.vue";
+import MyMiniInformation from "@/components/app/MyMiniInformation.vue";
 
 const FriendsList = () => import("@/components/app/FriendsList.vue");
 const MembersList = () => import("@/components/app/MembersList.vue");
@@ -46,7 +52,8 @@ export default {
     FriendsList,
     MessagePanel,
     MembersList,
-    Navigation
+    Navigation,
+    MyMiniInformation
   },
   data() {
     return {
@@ -108,6 +115,20 @@ export default {
   flex-direction: row;
   z-index: 1;
 }
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-top-left-radius: 10px;
+  overflow: hidden;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 
 .slide-left-enter-active,
 .slide-left-leave-active {
@@ -141,6 +162,9 @@ export default {
     bottom: 0;
     z-index: 2;
     background: linear-gradient(to bottom, #00477e 0, #016dc0);
+  }
+  .wrapper {
+    border-radius: 0;
   }
   .darken::after {
     content: "";

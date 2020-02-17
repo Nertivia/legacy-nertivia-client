@@ -1,7 +1,5 @@
 <template>
   <div class="server-left-panel">
-    <!-- <navigation /> -->
-    <MyMiniInformation />
     <div
       class="server-banner"
       @mouseenter="bannerHover = true"
@@ -28,18 +26,20 @@
     </div>
     <div class="channels-list">
       <channels-list v-if="selectedServerID" :server-i-d="selectedServerID" />
+      <div v-else class="not-selected">
+        <div class="material-icons">dns</div>
+        <div>Select a server</div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import MyMiniInformation from "@/components/app/MyMiniInformation.vue";
 import ChannelsList from "@/components/app/ServerTemplate/ChannelsList.vue";
 import config from "@/config";
 
 export default {
   components: {
-    MyMiniInformation,
     ChannelsList
   },
   data() {
@@ -126,7 +126,6 @@ export default {
   flex: 1;
   background: rgba(0, 0, 0, 0.14);
   overflow: hidden;
-  border-top-left-radius: 10px;
 }
 
 .channels-list {
@@ -190,6 +189,22 @@ export default {
     width: 100%;
   }
 }
+.not-selected {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  color: white;
+  font-size: 20px;
+  .material-icons {
+    font-size: 35px;
+    margin-bottom: 15px;
+  }
+
+}
 .options-button {
   display: flex;
   align-items: center;
@@ -204,12 +219,6 @@ export default {
   font-size: 20px;
   &:hover {
     background: rgba(0, 0, 0, 0.322);
-  }
-}
-
-@media (max-width: 600px) {
-  .server-left-panel {
-    border-radius: 0;
   }
 }
 </style>
