@@ -3,7 +3,7 @@
     class="channel"
     :class="{ selected: selectedChannelID === channelData.channelID }"
   >
-    <i class="material-icons">arrow_forward_ios</i>
+    <div class="dot" />
     <div class="channel-name">{{ channelData.name }}</div>
     <div
       class="notification"
@@ -63,8 +63,12 @@ export default {
   margin-right: 10px;
   border-radius: 4px;
 }
-.material-icons {
-  font-size: 11px;
+.dot {
+  height: 6px;
+  width: 6px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  margin-right: 5px;
 }
 .channel:hover {
   background: #00477d;
