@@ -5,7 +5,7 @@
         v-for="(channel, key) of channels"
         :key="key"
         :recents="true"
-        :friend="channel.channelID"
+        :friend="channel"
         :recipient="channel.recipients[0]"
       />
     </virtual-list>
