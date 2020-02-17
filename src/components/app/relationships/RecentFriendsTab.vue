@@ -1,11 +1,11 @@
 <template>
   <div class="recents">
-    <virtual-list :size="49" :remain="20">
+    <virtual-list :size="50" :remain="20" v-if="loaded" >
       <FriendsTemplate
         v-for="(channel, key) of channels"
         :key="key"
         :recents="true"
-        :channel-i-d="channel.channelID"
+        :friend="channel.channelID"
         :recipient="channel.recipients[0]"
       />
     </virtual-list>
@@ -19,6 +19,14 @@ export default {
   components: {
     FriendsTemplate,
     VirtualList
+  },
+  data() {
+    return {
+      loaded: false
+    };
+  },
+  mounted() {
+    setTimeout(() => (this.loaded = true));
   },
   computed: {
     user() {
@@ -78,8 +86,6 @@ export default {
 };
 </script>
 <style scoped>
-
-
 .recents {
   background-color: rgba(0, 0, 0, 0);
   user-select: none;
@@ -96,5 +102,9 @@ export default {
 }
 .tab:hover {
   background-color: rgba(0, 0, 0, 0.123);
+}
+.spacer {
+  display: flex;
+  height: 5px;
 }
 </style>

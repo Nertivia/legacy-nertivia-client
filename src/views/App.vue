@@ -13,8 +13,8 @@
         <main-nav />
         <div class="panel-layout">
           <news v-if="currentTab == 3" />
-          <direct-message v-if="currentTab == 1" />
-          <servers v-if="currentTab == 2" />
+          <servers v-if="currentTab == 1 || currentTab == 2" />
+          <!-- <servers v-if="currentTab == 2" /> -->
           <explore v-if="currentTab == 0" />
           <admin-panel v-if="currentTab == 4" />
         </div>
@@ -43,14 +43,14 @@ const ElectronFrameButtons = () =>
 const News = () =>
   import(/* webpackChunkName: "News" */ "./../components/app/Tabs/News.vue");
 
-const DirectMessage = () => ({
-  component: import("./../components/app/Tabs/DirectMessage.vue"),
-  loading: Spinner,
-  delay: 0
-});
+// const DirectMessage = () => ({
+//   component: import("./../components/app/Tabs/DirectMessage.vue"),
+//   loading: Spinner,
+//   delay: 0
+// });
 
 const Servers = () => ({
-  component: import("./../components/app/Tabs/Servers.vue"),
+  component: import("./../components/app/Tabs/ServerAndDMTab"),
   loading: Spinner,
   delay: 0
 });
@@ -69,7 +69,7 @@ const AdminPanel = () => ({
 export default {
   name: "app",
   components: {
-    DirectMessage,
+    // DirectMessage,
     Servers,
     ConnectingScreen,
     Popouts,

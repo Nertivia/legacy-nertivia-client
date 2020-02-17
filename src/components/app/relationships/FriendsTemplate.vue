@@ -1,36 +1,38 @@
 <template>
-  <div
-    class="friend"
-    :class="{ selected: uniqueIDSelected, tree }"
-    @click="openChat"
-    @mouseover="mouseOverEvent"
-    @mouseleave="hover = false"
-  >
+  <div class="friend">
     <div
-      class="profile-picture"
-      :style="`border-color: ${status.statusColor};`"
-      @click="openUserInformation"
+      class="wrapper"
+      :class="{ selected: uniqueIDSelected }"
+      @click="openChat"
+      @mouseover="mouseOverEvent"
+      @mouseleave="hover = false"
     >
-      <img
-        class="avatar"
-        :src="`${userAvatar}${hover || !isGif ? '' : '?type=webp'}`"
-      />
       <div
-        class="status"
-        :style="`background-image: url(${status.statusURL})`"
-      />
-    </div>
-    <div class="information">
-      <div class="username">{{ recipient.username }}</div>
-      <div class="status-name">{{ status.statusName }}</div>
-    </div>
-    <div v-if="notifications && notifications > 0" class="notification">
-      <div class="notification-inner">{{ notifications }}</div>
-    </div>
-    <!-- doesnt work properly. if both channels closed, the chat gets wiped. -->
-    <!-- <div v-else-if="recents" class="material-icons close-button" @click="closeChannel">
+        class="profile-picture"
+        :style="`border-color: ${status.statusColor};`"
+        @click="openUserInformation"
+      >
+        <img
+          class="avatar"
+          :src="`${userAvatar}${hover || !isGif ? '' : '?type=webp'}`"
+        />
+        <div
+          class="status"
+          :style="`background-image: url(${status.statusURL})`"
+        />
+      </div>
+      <div class="information">
+        <div class="username">{{ recipient.username }}</div>
+        <div class="status-name">{{ status.statusName }}</div>
+      </div>
+      <div v-if="notifications && notifications > 0" class="notification">
+        <div class="notification-inner">{{ notifications }}</div>
+      </div>
+      <!-- doesnt work properly. if both channels closed, the chat gets wiped. -->
+      <!-- <div v-else-if="recents" class="material-icons close-button" @click="closeChannel">
       close
     </div> -->
+    </div>
   </div>
 </template>
 
@@ -41,16 +43,7 @@ import statuses from "@/utils/statuses";
 import { bus } from "@/main";
 
 export default {
-  // tree will add padding to the left.
-  props: [
-    "username",
-    "tag",
-    "channelID",
-    "uniqueID",
-    "recipient",
-    "tree",
-    "recents"
-  ],
+  props: ["friend", "recents", "recipient"],
   data() {
     return {
       hover: false,
@@ -62,15 +55,18 @@ export default {
   },
   computed: {
     notifications() {
-      const channelID = this.$props.channelID;
       const channels = this.$store.getters.channels;
+      const recipient = this.recipient;
+
       const notifications = this.$store.getters.notifications.find(function(e) {
-        if (channels[e.channelID] && channels[e.channelID].server_id) return;
-        return e.channelID == channelID;
+        const channel = channels[e.channelID];
+        if (channel && channel.server_id) return;
+        return e.sender.uniqueID === recipient.uniqueID;
       });
+
       if (
         !notifications ||
-        (this.$props.channelID === this.$store.getters.selectedChannelID &&
+        (this.friend.channelID === this.$store.getters.selectedChannelID &&
           document.hasFocus())
       )
         return;
@@ -107,8 +103,7 @@ export default {
       }
     },
     async closeChannel() {
-      this.channelID;
-      await channelService.delete(this.channelID);
+      await channelService.delete(this.friend.channelID);
     },
     async openChat(event) {
       if (
@@ -125,12 +120,12 @@ export default {
         document.hasFocus()
       ) {
         this.$socket.client.emit("notification:dismiss", {
-          channelID: this.channelID
+          channelID: this.friend.channelID
         });
       }
       this.$store.dispatch("openChat", {
         uniqueID: this.recipient.uniqueID,
-        channelID: this.channelID,
+        channelID: this.friend.channelID,
         channelName: this.recipient.username
       });
     },
@@ -149,26 +144,32 @@ export default {
   text-overflow: ellipsis;
 }
 .friend {
-  color: rgba(255, 255, 255, 0.7);
-  padding: 5px;
+  height: 50px;
+  flex-shrink: 0;
   display: flex;
-  height: 34px;
+  align-items: center;
+  width: 100%;
+}
+.wrapper {
+  color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  height: 45px;
+  width: 100%;
   transition: 0.3s;
   position: relative;
   overflow: hidden;
   cursor: pointer;
-  margin: 5px;
   border-radius: 4px;
-}
-.tree {
-  padding-left: 22px;
+  padding-left: 10px;
+  margin-left: 3px;
+  margin-right: 3px;
 }
 
-.friend:hover {
+.wrapper:hover {
   background-color: rgba(0, 0, 0, 0.2);
   color: white;
 }
-.friend.selected {
+.wrapper.selected {
   background-color: rgba(0, 0, 0, 0.4);
   color: white;
 }
@@ -227,7 +228,7 @@ export default {
   transition: 0.3s;
 }
 
-.friend:hover .status {
+.wrapper:hover .status {
   opacity: 1;
   bottom: -4px;
 }
@@ -239,7 +240,7 @@ export default {
   color: #b7cbce;
   height: 0;
 }
-.friend:hover .status-name {
+.wrapper:hover .status-name {
   opacity: 1;
   height: 13px;
 }
@@ -256,7 +257,7 @@ export default {
 .close-button:hover {
   color: white;
 }
-.friend:hover .close-button {
+.wrapper:hover .close-button {
   display: flex;
 }
 </style>

@@ -1,62 +1,61 @@
 <template>
-  <div class="left-panel">
-    <navigation />
-    <div class="content">
-      <MyMiniInformation />
-      <div class="tabs">
-        <div
-          class="tab"
-          :class="{ notify: friendRequestExists, selected: currentTab === 0 }"
-          @click="currentTab = 0"
-        >
-          <div class="material-icons">group</div>
-          Friends
-        </div>
-        <div
-          class="tab"
-          :class="{ notify: DMNotification, selected: currentTab === 1 }"
-          @click="currentTab = 1"
-        >
-          <div class="material-icons">access_time</div>
-          Recents
-        </div>
-      </div>
-      <div v-if="currentTab === 0" class="list">
-        <pending-friends />
-        <online-friends />
-        <offline-friends />
-      </div>
-      <div v-else class="list">
-        <recent-friends />
+  <div class="friend-left-panel">
+    <!-- <navigation /> -->
+    <MyMiniInformation />
+    <div class="tabs">
+      <div
+        class="tab"
+        :class="{ notify: friendRequestExists, selected: currentTab === 0 }"
+        @click="currentTab = 0"
+      >
+        <div class="material-icons">group</div>
+        Friends
       </div>
       <div
-        class="button"
-        :class="{ selected: uniqueIDSelected }"
-        @click="saveNotesBtn"
+        class="tab"
+        :class="{ notify: DMNotification, selected: currentTab === 1 }"
+        @click="currentTab = 1"
       >
-        <div class="material-icons">notes</div>
-        <div class="name">Saved Notes</div>
+        <div class="material-icons">access_time</div>
+        Recents
       </div>
+    </div>
+    <div v-if="currentTab === 0" class="list">
+      <!-- <pending-friends />
+      <online-friends />
+      <offline-friends /> -->
+      <friends-tab />
+    </div>
+    <div v-else class="list">
+      <recent-friends-tab />
+    </div>
+    <div
+      class="button"
+      :class="{ selected: uniqueIDSelected }"
+      @click="saveNotesBtn"
+    >
+      <div class="material-icons">notes</div>
+      <div class="name">Saved Notes</div>
     </div>
   </div>
 </template>
 
 <script>
 import MyMiniInformation from "../../components/app/MyMiniInformation.vue";
-import PendingFriends from "./relationships/PendingFriends.vue";
-import OnlineFriends from "./relationships/OnlineFriends.vue";
-import OfflineFriends from "./relationships/OfflineFriends.vue";
-import RecentFriends from "./relationships/RecentFriends.vue";
-import Navigation from "@/components/app/Navigation";
+// import PendingFriends from "./relationships/PendingFriends.vue";
+// import OnlineFriends from "./relationships/OnlineFriends.vue";
+// import OfflineFriends from "./relationships/OfflineFriends.vue";
+import RecentFriendsTab from "./relationships/RecentFriendsTab.vue";
+import FriendsTab from "./relationships/FriendsTab.vue";
 
 export default {
   components: {
     MyMiniInformation,
-    PendingFriends,
-    OnlineFriends,
-    OfflineFriends,
-    RecentFriends,
-    Navigation
+    // PendingFriends,
+    // OnlineFriends,
+    // OfflineFriends,
+    FriendsTab,
+    RecentFriendsTab
   },
   data() {
     return {
@@ -119,23 +118,17 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.left-panel {
+.friend-left-panel {
   height: 100%;
-  width: 340px;
-  max-width: calc(100% - 60px);
+  width: 100%;
   flex-shrink: 0;
-  display: flex;
-  flex-direction: row;
-  z-index: 1;
-}
-.content {
   display: flex;
   flex-direction: column;
-  flex-shrink: 0;
+  z-index: 1;
   flex: 1;
-  overflow: hidden;
   background: rgba(0, 0, 0, 0.14);
   border-top-left-radius: 10px;
+  overflow: hidden;
 }
 .list {
   flex: 1;
@@ -165,7 +158,7 @@ export default {
   cursor: pointer;
   position: relative;
 }
-.tab:hover{
+.tab:hover {
   color: white;
 }
 .tab.selected {
@@ -259,7 +252,7 @@ export default {
 }
 
 @media (max-width: 600px) {
-  .content {
+  .friend-left-panel {
     border-radius: 0;
   }
 }

@@ -1,35 +1,33 @@
 <template>
-  <div class="left-panel">
-    <navigation />
-    <div class="right">
-      <MyMiniInformation />
-      <div
-        class="server-banner"
-        @mouseenter="bannerHover = true"
-        @mouseleave="bannerHover = false"
-        :class="{ extendBanner: server && server.banner }"
-        v-if="selectedServerID"
-      >
-        <img
-          class="banner-image"
-          @click="bannerImageClicked"
-          v-if="server && server.banner"
-          :src="
-            `${bannerDomain}${server.banner}${bannerHover ? '' : '?type=webp'}`
-          "
-        />
-        <div class="sub-banner">
-          <div class="text" :title="servers[selectedServerID].name">
-            {{ servers[selectedServerID].name }}
-          </div>
-          <div class="options-button material-icons" @click="openServerContext">
-            more_vert
-          </div>
+  <div class="server-left-panel">
+    <!-- <navigation /> -->
+    <MyMiniInformation />
+    <div
+      class="server-banner"
+      @mouseenter="bannerHover = true"
+      @mouseleave="bannerHover = false"
+      :class="{ extendBanner: server && server.banner }"
+      v-if="selectedServerID"
+    >
+      <img
+        class="banner-image"
+        @click="bannerImageClicked"
+        v-if="server && server.banner"
+        :src="
+          `${bannerDomain}${server.banner}${bannerHover ? '' : '?type=webp'}`
+        "
+      />
+      <div class="sub-banner">
+        <div class="text" :title="servers[selectedServerID].name">
+          {{ servers[selectedServerID].name }}
+        </div>
+        <div class="options-button material-icons" @click="openServerContext">
+          more_vert
         </div>
       </div>
-      <div class="channels-list">
-        <channels-list v-if="selectedServerID" :server-i-d="selectedServerID" />
-      </div>
+    </div>
+    <div class="channels-list">
+      <channels-list v-if="selectedServerID" :server-i-d="selectedServerID" />
     </div>
   </div>
 </template>
@@ -37,14 +35,12 @@
 <script>
 import MyMiniInformation from "@/components/app/MyMiniInformation.vue";
 import ChannelsList from "@/components/app/ServerTemplate/ChannelsList.vue";
-import Navigation from "@/components/app/Navigation.vue";
 import config from "@/config";
 
 export default {
   components: {
     MyMiniInformation,
-    ChannelsList,
-    Navigation
+    ChannelsList
   },
   data() {
     return {
@@ -120,22 +116,17 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.left-panel {
+.server-left-panel {
   height: 100%;
-  width: 340px;
-  max-width: calc(100% - 60px);
+  width: 100%;
   flex-shrink: 0;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   z-index: 1;
-}
-
-.seperater {
-  height: 1px;
-  width: calc(100% - 10px);
-  align-self: center;
-  background-color: #a0c8d5;
-  flex-shrink: 0;
+  flex: 1;
+  background: rgba(0, 0, 0, 0.14);
+  overflow: hidden;
+  border-top-left-radius: 10px;
 }
 
 .channels-list {
@@ -144,17 +135,6 @@ export default {
   height: 100%;
   overflow: auto;
 }
-.right {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: rgba(0, 0, 0, 0.14);
-  border-top-left-radius: 10px;
-}
-
 .server-banner {
   display: flex;
   overflow: hidden;
@@ -228,7 +208,7 @@ export default {
 }
 
 @media (max-width: 600px) {
-  .right {
+  .server-left-panel {
     border-radius: 0;
   }
 }

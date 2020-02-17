@@ -1,5 +1,5 @@
 <template>
-  <div class="navigation" ref="navigation">
+  <div class="main navigation" ref="navigation">
     <div
       class="tool-tip"
       ref="toolTip"

@@ -371,6 +371,9 @@ export default {
     background: linear-gradient(to bottom, #00477e 0, #016dc0);
     height: 100%;
   }
+  .left-panel .content {
+    border-radius: 0;
+  }
   .darken::after {
     content: "";
     position: absolute;
@@ -382,4 +385,5 @@ export default {
     background: rgba(0, 0, 0, 0.4);
   }
 }
+
 </style>

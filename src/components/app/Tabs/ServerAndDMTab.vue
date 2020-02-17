@@ -3,18 +3,23 @@
     class="direct-message-tab"
     :class="{ darken: showLeftPanel || showMembersPanel }"
   >
-    <transition name="slide-left">
-      <server-list
+    <transition :name="$mq === 'mobile' ? 'slide-left' : null">
+      <div
+        class="left-panel"
         v-show="($mq === 'mobile' && showLeftPanel) || $mq !== 'mobile'"
         v-click-outside="hideLeftPanel"
-        class="left-panel"
-      />
+      >
+        <navigation />
+        <server-list v-if="currentTab === 2" />
+        <friends-list v-if="currentTab === 1" />
+      </div>
     </transition>
-    <message-panel :type="1" />
+    <message-panel :type="currentTab === 1 ? 0 : currentTab === 2 ? 1 : null" />
     <transition :name="$mq !== 'desktop' ? 'slide-right' : 'none'">
       <members-list
         v-if="
           selectedServerID &&
+            currentTab === 2 &&
             ((($mq === 'members_panel' || $mq === 'mobile') &&
               showMembersPanel) ||
               $mq === 'desktop')
@@ -28,16 +33,20 @@
 
 <script>
 import { bus } from "@/main";
-
-import ServerList from "@/components/app/ServerList.vue";
 import MessagePanel from "@/components/app/MessagePanel.vue";
-import MembersList from "@/components/app/MembersList.vue";
+import Navigation from "@/components/app/Navigation.vue";
+
+const FriendsList = () => import("@/components/app/FriendsList.vue");
+const MembersList = () => import("@/components/app/MembersList.vue");
+const ServerList = () => import("@/components/app/ServerList.vue");
 
 export default {
   components: {
     ServerList,
+    FriendsList,
     MessagePanel,
-    MembersList
+    MembersList,
+    Navigation
   },
   data() {
     return {
@@ -59,7 +68,9 @@ export default {
   methods: {
     hideLeftPanel(event) {
       if (this.showLeftPanel) {
-        if (event.target.closest(".show-menu-button") == null) {
+        const closestMenuBtn = event.target.closest(".show-menu-button");
+        const closestNavBtn = event.target.closest(".main.navigation");
+        if (closestMenuBtn === null && closestNavBtn === null) {
           this.showLeftPanel = false;
         }
       }
@@ -73,6 +84,9 @@ export default {
     }
   },
   computed: {
+    currentTab() {
+      return this.$store.getters.currentTab;
+    },
     selectedServerID() {
       return this.$store.getters["servers/selectedServerID"];
     }
@@ -86,6 +100,13 @@ export default {
 }
 .left-panel {
   z-index: 2;
+  height: 100%;
+  width: 340px;
+  max-width: calc(100% - 60px);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  z-index: 1;
 }
 
 .slide-left-enter-active,

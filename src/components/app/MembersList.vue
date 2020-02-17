@@ -167,7 +167,6 @@ export default {
   width: 300px;
   max-width: calc(100% - 60px);
   height: 100%;
-  background: rgba(0, 0, 0, 0.14);
 }
 .header {
   height: 50px;

@@ -1,5 +1,12 @@
 const config = [
   {
+    version: "1.0.2",
+    title: "More performance improvements!",
+    shortTitle: "",
+    date: "17/02/2020",
+    fix: ["Improved performance by making code more efficient."]
+  },
+  {
     version: "1.0.1",
     title: "Grouped messages + message performance",
     shortTitle: "",
