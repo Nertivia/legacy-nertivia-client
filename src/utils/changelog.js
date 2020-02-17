@@ -4,6 +4,7 @@ const config = [
     title: "More performance improvements!",
     shortTitle: "",
     date: "17/02/2020",
+    new: ["Added more fade animations"],
     fix: ["Improved performance by making code more efficient."]
   },
   {
