@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="dark-background server-settings-popout"
-    @mousedown="backgroundClick"
-  >
+  <div class="dark-background server-settings-popout">
     <div class="inner">
       <div class="tabs">
         <div
@@ -65,11 +62,6 @@ export default {
       this.$store.dispatch("setServerSettings", {
         serverID: null
       });
-    },
-    backgroundClick(e) {
-      if (e.target.classList.contains("dark-background")) {
-        this.closeMenu();
-      }
     }
   },
   mounted() {},
