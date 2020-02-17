@@ -29,7 +29,7 @@
           @click="switchTab(1)"
           @mouseenter="localToolTipEvent('Direct Message', $event)"
         >
-          chat
+          forum
         </div>
         <div
           data-name="Servers"
@@ -42,7 +42,7 @@
           @click="switchTab(2)"
           @mouseenter="localToolTipEvent('Servers', $event)"
         >
-          forum
+          dns
         </div>
         <div
           data-name="Changelog"
