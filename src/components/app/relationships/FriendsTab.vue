@@ -1,6 +1,6 @@
 <template>
   <div class="friends">
-    <virtual-list :size="50" :remain="15" v-if="loaded" :variable="true">
+    <virtual-list :size="50" :remain="20" v-if="loaded" :variable="true">
       <div class="tab" v-if="friends[0].length" :style="{ height: '25px' }">
         Pending
       </div>

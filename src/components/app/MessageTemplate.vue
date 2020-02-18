@@ -226,12 +226,8 @@ export default {
       const w = messageLog.offsetWidth;
       const h = messageLog.offsetHeight;
 
-      let minWidth = w / 4;
-      let minHeight = h / 4;
-      if (w <= 800) {
-        minWidth = w / 1.7;
-        minHeight = h / 1.7;
-      }
+      let minWidth = w / 1.7;
+      let minHeight = h / 1.7;
 
       const dimensions = this.message.files[0].dimensions;
       const srcWidth = dimensions.width;
@@ -264,11 +260,11 @@ export default {
     }
   },
   mounted() {
+    this.imageSize();
     setTimeout(() => (this.loaded = true));
     this.isGif = this.userAvatar.endsWith(".gif");
     const files = this.files;
     if (!files || files.length === 0 || !files[0].dimensions) return undefined;
-    this.imageSize();
   },
   computed: {
     ...mapState("settingsModule", ["apperance"]),
