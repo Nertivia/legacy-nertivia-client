@@ -371,7 +371,8 @@ export default {
       clearInterval(this.postTimerID);
       this.postTimerID = null;
 
-      const msg = emojiParser.replaceShortcode(this.message);
+      let msg = emojiParser.replaceShortcode(this.message);
+      msg = this.replaceMentions(msg);
       this.$store.dispatch("updateMessage", {
         channelID: editMessage.channelID,
         messageID: editMessage.messageID,
@@ -715,6 +716,13 @@ export default {
       this.message = editMessage
         ? emojiParser.emojiToShortcode(editMessage.message)
         : "";
+      // replace mention <@1234> with test:owo1
+      this.message = this.message.replace(/<@([\d]+)>/g, test => {
+        const ID = test.slice(2, test.length - 1);
+        const member = this.members[ID];
+        if (!member) return test
+        return `@${member.username}:${member.tag}`
+      })
       if (editMessage) this.customColor = editMessage.color || null;
     },
     onBlur() {
