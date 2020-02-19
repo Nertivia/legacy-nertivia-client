@@ -1042,6 +1042,7 @@ export default {
 .message-area {
   display: flex;
   width: 100%;
+  padding-bottom: 5px;
 }
 
 .chat-input {
