@@ -1,7 +1,7 @@
 <template>
   <div
     class="message-container container"
-    :class="{ 'mentioned-message': isMentioned, hideAditional }"
+    :class="{ 'mentioned-message': isMentioned, hideAdditional }"
     @mouseover="mouseOverEvent"
     @mouseleave="hover = false"
   >
@@ -16,9 +16,9 @@
           apperance.own_message_right === true
       }"
     >
-      <div class="avatar">
+      <div class="small-time" v-if="hideAdditional" :title="getDate">{{ getTime }}</div>
+      <div class="avatar" v-if="!hideAdditional">
         <profile-picture
-          v-if="!hideAditional"
           :admin="creator.admin"
           :url="`${userAvatar}${hover || !isGif ? '' : '?type=webp'}`"
           size="50px"
@@ -27,19 +27,19 @@
         />
       </div>
       <div class="triangle">
-        <div class="triangle-inner" v-if="!hideAditional" />
+        <div class="triangle-inner" v-if="!hideAdditional" />
       </div>
       <div class="content" @dblclick="contentDoubleClickEvent">
         <div class="user-info">
           <div
-            v-if="!hideAditional"
+            v-if="!hideAdditional"
             class="username"
             :style="{ color: loaded ? roleColor : null }"
             @click="openUserInformation"
           >
             {{ creator.username }}
           </div>
-          <div class="date" v-if="!hideAditional">{{ getDate }}</div>
+          <div class="date" v-if="!hideAdditional">{{ getDate }}</div>
           <div
             class="mentioned material-icons"
             v-if="isMentioned"
@@ -147,14 +147,14 @@ import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
 import SimpleMarkdown from "./SimpleMarkdown.vue";
 import messageEmbedTemplate from "./messageEmbedTemplate";
 import config from "@/config.js";
-import friendlyDate from "@/utils/date";
+import friendlyDate, { time } from "@/utils/date";
 import path from "path";
 import windowProperties from "@/utils/windowProperties";
 
 import { mapState } from "vuex";
 
 export default {
-  props: ["creator", "message", "isServer", "hideAditional"],
+  props: ["creator", "message", "isServer", "hideAdditional"],
   components: {
     ProfilePicture,
     messageEmbedTemplate,
@@ -289,6 +289,12 @@ export default {
       file.url = config.domain + "/files/" + file.fileID + "/" + file.fileName;
       return file;
     },
+    getTime() {
+      return time(
+        this.message.created,
+        this.apperance && this.apperance["12h_time"] ? "12h" : false
+      );
+    },
     getDate() {
       return friendlyDate(
         this.message.created,
@@ -380,7 +386,22 @@ $message-color: rgba(0, 0, 0, 0.3);
   position: relative;
   z-index: 1;
 }
-.hideAditional {
+.hideAdditional {
+  .small-time {
+    display: flex;
+    color: white;
+    width: 56px;
+    font-size: 13px;
+    align-self: center;
+    text-align: center;
+    justify-content: center;
+    flex-shrink: 0;
+    opacity: 0;
+    transition: 0.2s;
+  }
+  &:hover .small-time {
+    opacity: 0.8;
+  }
   .content {
     border-radius: 4px;
     flex-direction: row;

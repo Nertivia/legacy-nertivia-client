@@ -13,6 +13,10 @@ export default (miliseconds, type) => {
   return friendlyDate;
 };
 
+export function time(miliseconds, type) {
+  const messageDate = new Date(miliseconds);
+  return getFullTime(messageDate, type);
+}
 function sameDay(d1, d2) {
   return (
     d1.getFullYear() === d2.getFullYear() &&

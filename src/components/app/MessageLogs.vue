@@ -23,7 +23,7 @@
       :creator="msg.creator"
       :message="msg"
       :isServer="isServer"
-      :hideAditional="groupedMessages.includes(msg.messageID)"
+      :hideAdditional="groupedMessages.includes(msg.messageID)"
     />
     <!-- {{ groupedMessages }} -->
     <uploadsQueue v-if="uploadQueue !== undefined" :queue="uploadQueue" />
