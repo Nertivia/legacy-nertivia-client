@@ -998,7 +998,6 @@ export default {
 .chat-input-area {
   display: flex;
   flex-direction: column;
-  padding-bottom: 10px;
   position: relative;
   background: rgba(0, 0, 0, 0.2);
 }
@@ -1165,7 +1164,6 @@ export default {
   align-items: center;
   align-content: center;
   margin-left: 2px;
-  margin-bottom: 10px;
   flex-shrink: 0;
   .markdown-icon {
     font-size: 21px;
