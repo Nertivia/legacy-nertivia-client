@@ -532,7 +532,7 @@ export default {
 <style scoped lang="scss">
 .emoji-panel {
   position: absolute;
-  bottom: -50px;
+  bottom: -37px;
   right: 20px;
   width: 380px;
   display: flex;
