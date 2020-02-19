@@ -24,7 +24,7 @@
     />
     <div class="no-channel-selected" v-if="!selectedChannelID">
       <div class="material-icons">
-        {{ type === 0 ? "chat" : type === 1 ? "forum" : "question" }}
+        {{ type === 0 ? "forum" : type === 1 ? "dns" : "question" }}
       </div>
       <div class="message">
         {{
