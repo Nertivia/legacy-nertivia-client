@@ -50,7 +50,6 @@
             @click="backToTopButton"
             v-if="!scrolledDown && selectedChannelMessages"
           >
-            Back to bottom
             <i class="material-icons">keyboard_arrow_down</i>
           </div>
         </transition>
@@ -1132,7 +1131,8 @@ export default {
   position: absolute;
   bottom: 30px;
   right: 25px;
-  height: 52px;
+  height: 50px;
+  width: 50px;
   z-index: 2;
   display: flex;
   justify-content: center;
@@ -1140,8 +1140,6 @@ export default {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   align-content: center;
   align-items: center;
-  padding-left: 15px;
-  padding-right: 10px;
   user-select: none;
   cursor: pointer;
   .material-icons {
