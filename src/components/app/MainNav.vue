@@ -1,5 +1,5 @@
 <template>
-  <div class="main navigation" ref="navigation">
+  <div class="main navigation" :class="{ mobile: mobileSize }" ref="navigation">
     <div
       class="tool-tip"
       ref="toolTip"
@@ -99,7 +99,6 @@ export default {
       toolTipServerID: null,
       toolTipLocalName: null,
       mobile: isMobile(),
-
       drag: false
     };
   },
@@ -155,7 +154,11 @@ export default {
       this.$nextTick(() => {
         const tooltipWidth = this.$refs.toolTip.clientWidth;
         const rect = event.target.getBoundingClientRect();
-        this.toolTipLeftPosition = rect.left - tooltipWidth / 2 + 25;
+        if (this.mobileSize) {
+          this.toolTipLeftPosition = rect.left - tooltipWidth / 2 + 20;
+        } else {
+          this.toolTipLeftPosition = rect.left - tooltipWidth / 2 + 25;
+        }
       });
     },
     mouseLeaveEvent() {
@@ -183,6 +186,14 @@ export default {
     }
   },
   computed: {
+    mobileSize() {
+      return (
+        this.$mq === "mobile" &&
+        (this.currentTab === 0 ||
+          this.currentTab === 1 ||
+          this.currentTab === 2)
+      );
+    },
     user() {
       return this.$store.getters.user;
     },
@@ -252,6 +263,18 @@ export default {
   height: 60px;
   width: 100%;
   position: relative;
+}
+.mobile {
+  background: #005a9e;
+  padding-left: 10px;
+  width: initial;
+  .item {
+    width: 40px;
+    height: 40px;
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 25px;
+  }
 }
 .container {
   display: flex;
@@ -335,5 +358,4 @@ export default {
   cursor: default;
   transition: 0.2s;
 }
-
 </style>

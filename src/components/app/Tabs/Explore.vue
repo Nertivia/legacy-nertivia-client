@@ -6,54 +6,59 @@
         v-show="($mq === 'mobile' && showLeftPanel) || $mq !== 'mobile'"
         v-click-outside="hideLeftPanel"
       >
-        <navigation />
-        <div class="content">
-          <MyMiniInformation />
-          <div class="header">
-            <div class="icon">
-              <i class="material-icons">explore</i>
-            </div>
-            <div class="details">
-              <div class="title">Explore</div>
-              <div class="description">Find new servers, Emojis and more!</div>
-            </div>
-          </div>
-          <div class="items">
-            <div
-              class="item"
-              v-for="(tab, index) in tabs"
-              :key="index"
-              :class="{ selected: selectedTab === index }"
-              @click="
-                selectedTab = index;
-                showLeftPanel = false;
-              "
-            >
-              <i class="material-icons">{{ tab.icon }}</i>
-              {{ tab.name }}
-            </div>
-            <div
-              class="card self-promo"
-              v-if="nertiviaServerHide !== true && !nertiviaServer"
-            >
-              <div class="material-icons close-btn" @click="hideSelfPromo">
-                close
+        <MainNav v-if="$mq === 'mobile'" />
+        <div class="inner">
+          <navigation />
+          <div class="content">
+            <MyMiniInformation />
+            <div class="header">
+              <div class="icon">
+                <i class="material-icons">explore</i>
               </div>
-              <div class="logo" />
-              <div class="title">Join the official Nertivia server</div>
-              <div class="button" @click="joinNertiviaServer">Join</div>
+              <div class="details">
+                <div class="title">Explore</div>
+                <div class="description">
+                  Find new servers, Emojis and more!
+                </div>
+              </div>
             </div>
+            <div class="items">
+              <div
+                class="item"
+                v-for="(tab, index) in tabs"
+                :key="index"
+                :class="{ selected: selectedTab === index }"
+                @click="
+                  selectedTab = index;
+                  showLeftPanel = false;
+                "
+              >
+                <i class="material-icons">{{ tab.icon }}</i>
+                {{ tab.name }}
+              </div>
+              <div
+                class="card self-promo"
+                v-if="nertiviaServerHide !== true && !nertiviaServer"
+              >
+                <div class="material-icons close-btn" @click="hideSelfPromo">
+                  close
+                </div>
+                <div class="logo" />
+                <div class="title">Join the official Nertivia server</div>
+                <div class="button" @click="joinNertiviaServer">Join</div>
+              </div>
 
-            <div class="card donate-paypal" v-if="donateHide !== true">
-              <div class="material-icons close-btn" @click="hideDonatePaypal">
-                close
+              <div class="card donate-paypal" v-if="donateHide !== true">
+                <div class="material-icons close-btn" @click="hideDonatePaypal">
+                  close
+                </div>
+                <div class="material-icons heart">favorite</div>
+                <div class="title">
+                  Support Nertivia by donating any amount of money. You will get
+                  a supporter badge and more features in the future.
+                </div>
+                <div class="button" @click="donateButton">Donate</div>
               </div>
-              <div class="material-icons heart">favorite</div>
-              <div class="title">
-                Support Nertivia by donating any amount of money. You will get a
-                supporter badge and more features in the future.
-              </div>
-              <div class="button" @click="donateButton">Donate</div>
             </div>
           </div>
         </div>
@@ -88,8 +93,10 @@ import Themes from "./Explore/themes";
 import ServerService from "@/services/ServerService";
 import Navigation from "@/components/app/Navigation";
 import MyMiniInformation from "@/components/app/MyMiniInformation.vue";
+const MainNav = () => import("@/components/app/MainNav.vue");
+
 export default {
-  components: { Servers, Themes, Navigation, MyMiniInformation },
+  components: { Servers, Themes, Navigation, MyMiniInformation, MainNav },
   data() {
     return {
       showLeftPanel: false,
@@ -152,11 +159,18 @@ export default {
 }
 .left-panel {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 340px;
   max-width: calc(100% - 60px);
   flex-shrink: 0;
   z-index: 2;
+
+  .inner {
+    display: flex;
+    flex-direction: row;
+    flex-shrink: 0;
+    z-index: 2;
+  }
 
   .content {
     display: flex;
@@ -385,5 +399,4 @@ export default {
     background: rgba(0, 0, 0, 0.4);
   }
 }
-
 </style>

@@ -10,7 +10,9 @@
             <electron-frame-buttons />
           </div>
         </div>
-        <main-nav />
+        <main-nav
+          v-if="$mq !== 'mobile' || currentTab === 3 || currentTab === 4"
+        />
         <div class="panel-layout">
           <news v-if="currentTab == 3" />
           <servers v-if="currentTab == 1 || currentTab == 2" />

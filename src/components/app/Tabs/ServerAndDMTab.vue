@@ -9,13 +9,16 @@
         v-show="($mq === 'mobile' && showLeftPanel) || $mq !== 'mobile'"
         v-click-outside="hideLeftPanel"
       >
-        <navigation />
-        <div class="wrapper">
-          <MyMiniInformation />
-          <transition name="fade" mode="out-in">
-            <server-list :key="selectedServerID" v-if="currentTab === 2" />
-            <friends-list v-if="currentTab === 1" />
-          </transition>
+        <MainNav v-if="$mq === 'mobile'" />
+        <div class="inner">
+          <navigation />
+          <div class="wrapper">
+            <MyMiniInformation />
+            <transition name="fade" mode="out-in">
+              <server-list :key="selectedServerID" v-if="currentTab === 2" />
+              <friends-list v-if="currentTab === 1" />
+            </transition>
+          </div>
         </div>
       </div>
     </transition>
@@ -45,6 +48,7 @@ import MyMiniInformation from "@/components/app/MyMiniInformation.vue";
 const FriendsList = () => import("@/components/app/FriendsList.vue");
 const MembersList = () => import("@/components/app/MembersList.vue");
 const ServerList = () => import("@/components/app/ServerList.vue");
+const MainNav = () => import("@/components/app/MainNav.vue");
 
 export default {
   components: {
@@ -53,7 +57,8 @@ export default {
     MessagePanel,
     MembersList,
     Navigation,
-    MyMiniInformation
+    MyMiniInformation,
+    MainNav
   },
   data() {
     return {
@@ -110,6 +115,16 @@ export default {
   height: 100%;
   width: 340px;
   max-width: calc(100% - 60px);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+}
+.inner {
+  z-index: 2;
+  height: 100%;
+  width: 340px;
+  max-width: 100%;
   flex-shrink: 0;
   display: flex;
   flex-direction: row;
