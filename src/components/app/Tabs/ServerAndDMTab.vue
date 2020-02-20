@@ -119,6 +119,7 @@ export default {
   display: flex;
   flex-direction: column;
   z-index: 1;
+  overflow: hidden;
 }
 .inner {
   z-index: 2;
@@ -129,6 +130,8 @@ export default {
   display: flex;
   flex-direction: row;
   z-index: 1;
+  flex: 1;
+  overflow: hidden;
 }
 .wrapper {
   display: flex;
@@ -175,6 +178,7 @@ export default {
   .left-panel {
     position: absolute;
     bottom: 0;
+    top: 0;
     z-index: 2;
     background: linear-gradient(to bottom, #00477e 0, #016dc0);
   }

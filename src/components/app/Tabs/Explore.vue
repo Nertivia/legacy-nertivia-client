@@ -161,6 +161,7 @@ export default {
   display: flex;
   flex-direction: column;
   width: 340px;
+  height: 100%;
   max-width: calc(100% - 60px);
   flex-shrink: 0;
   z-index: 2;
@@ -170,6 +171,8 @@ export default {
     flex-direction: row;
     flex-shrink: 0;
     z-index: 2;
+    flex: 1;
+    overflow: hidden;
   }
 
   .content {
@@ -381,6 +384,7 @@ export default {
   .left-panel {
     position: absolute;
     bottom: 0;
+    top: 0;
     z-index: 2222;
     background: linear-gradient(to bottom, #00477e 0, #016dc0);
     height: 100%;
