@@ -9,7 +9,7 @@
         v-show="($mq === 'mobile' && showLeftPanel) || $mq !== 'mobile'"
         v-click-outside="hideLeftPanel"
       >
-        <MainNav v-if="$mq === 'mobile'" />
+
         <div class="inner">
           <navigation />
           <div class="wrapper">
@@ -20,6 +20,7 @@
             </transition>
           </div>
         </div>
+        <MainNav v-if="$mq === 'mobile'" />
       </div>
     </transition>
     <message-panel :type="currentTab === 1 ? 0 : currentTab === 2 ? 1 : null" />
@@ -119,7 +120,6 @@ export default {
   display: flex;
   flex-direction: column;
   z-index: 1;
-  overflow: hidden;
 }
 .inner {
   z-index: 2;

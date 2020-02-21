@@ -265,7 +265,7 @@ export default {
   position: relative;
 }
 .mobile {
-  background: #005a9e;
+  background: rgba(0, 0, 0, 0.4);
   padding-left: 10px;
   width: initial;
   .item {
@@ -274,6 +274,9 @@ export default {
     margin-left: 5px;
     margin-right: 5px;
     font-size: 25px;
+  }
+  .tool-tip { 
+    top: -29px;
   }
 }
 .container {

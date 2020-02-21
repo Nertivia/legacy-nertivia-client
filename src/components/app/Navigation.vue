@@ -1,5 +1,5 @@
 <template>
-  <div class="navigation" ref="navigation">
+  <div class="navigation" :class="{ mobile: mobileSize }" ref="navigation">
     <div
       class="tool-tip"
       ref="toolTip"
@@ -132,7 +132,11 @@ export default {
       if (this.drag) return;
       this.toolTipLocalName = null;
       this.toolTipServerID = serverID;
-      this.toolTipTopPosition = top - this.getTopHeight() + 20;
+      if (this.mobileSize) {
+        this.toolTipTopPosition = top - this.getTopHeight() + 80;
+      } else {
+        this.toolTipTopPosition = top - this.getTopHeight() + 20;
+      }
       this.toolTipShown = true;
     },
     mouseLeaveEvent() {
@@ -163,6 +167,14 @@ export default {
     }
   },
   computed: {
+    mobileSize() {
+      return (
+        this.$mq === "mobile" &&
+        (this.currentTab === 0 ||
+          this.currentTab === 1 ||
+          this.currentTab === 2)
+      );
+    },
     user() {
       return this.$store.getters.user;
     },
@@ -195,7 +207,6 @@ export default {
     selectedServerID() {
       return this.$store.getters["servers/selectedServerID"];
     }
-
   },
   mounted() {
     bus.$on("server-tool-tip", this.serverToolTipEvent);

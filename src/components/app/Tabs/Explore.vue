@@ -6,7 +6,6 @@
         v-show="($mq === 'mobile' && showLeftPanel) || $mq !== 'mobile'"
         v-click-outside="hideLeftPanel"
       >
-        <MainNav v-if="$mq === 'mobile'" />
         <div class="inner">
           <navigation />
           <div class="content">
@@ -62,6 +61,7 @@
             </div>
           </div>
         </div>
+        <MainNav v-if="$mq === 'mobile'" />
       </div>
     </transition>
 
