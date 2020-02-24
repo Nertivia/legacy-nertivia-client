@@ -1,5 +1,15 @@
 const config = [
   {
+    version: "1.0.3",
+    title: "Delete confirmation",
+    shortTitle: "",
+    date: "24/02/2020",
+    new: [
+      "When editing a message, making the box empty will prompt you to delete the message.",
+      "When deleting a message, you get a confirmation message so that you dont accidentally delete something important 👀"
+    ]
+  },
+  {
     version: "1.0.2",
     title: "More performance improvements!",
     shortTitle: "",
