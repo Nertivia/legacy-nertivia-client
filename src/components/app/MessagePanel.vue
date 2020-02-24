@@ -354,8 +354,19 @@ export default {
     },
     async updateMessage() {
       const editMessage = this.editMessage;
-      this.$refs["input-box"].focus();
       this.message = this.message.trim();
+      if (this.message === "") {
+        this.$refs["input-box"].blur();
+        this.$store.dispatch("setAllPopout", {
+          show: true,
+          type: "DELETE_CONFIRM",
+          messageID: editMessage.messageID,
+          channelID: editMessage.channelID
+        });
+        this.$store.dispatch("setEditMessage", null);
+        return;
+      }
+      this.$refs["input-box"].focus();
       if (
         this.message === this.editMessage.message &&
         (this.customColor || undefined) === this.editMessage.color
@@ -789,7 +800,9 @@ export default {
   watch: {
     editMessage(editMessage) {
       this.editMessageEvent(editMessage);
-      this.$refs["input-box"].focus();
+      if (editMessage) {
+        this.$refs["input-box"].focus();
+      }
     },
     message(message) {
       this.messageLength = message.length;

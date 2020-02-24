@@ -16,7 +16,6 @@
 </template>
 
 <script>
-import messagesService from "@/services/messagesService";
 export default {
   data() {
     return {};
@@ -48,10 +47,12 @@ export default {
       this.closeMenu();
     },
     async deleteMessage() {
-      messagesService.delete(
-        this.contextDetails.messageID,
-        this.contextDetails.channelID
-      );
+      this.$store.dispatch("setAllPopout", {
+        show: true,
+        type: "DELETE_CONFIRM",
+        messageID: this.contextDetails.messageID,
+        channelID: this.contextDetails.channelID
+      });
       this.closeMenu();
     },
     setPosition() {
