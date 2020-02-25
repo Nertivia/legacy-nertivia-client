@@ -224,6 +224,14 @@ export default {
         });
       }
       this.backToBottomLoading = false;
+    },
+    dismissNotification(channelID) {
+      const notifications = this.channelNotifications;
+      if (notifications && notifications.count >= 1 && document.hasFocus()) {
+        setTimeout(() => {
+          this.$socket.client.emit("notification:dismiss", { channelID });
+        }, 500);
+      }
     }
   },
 
@@ -253,11 +261,22 @@ export default {
   },
 
   watch: {
-    selectedChannelMessages() {
+    selectedChannelMessages(newVal) {
       this.$set(this.loadMoreTop, "show", true);
       this.$nextTick(function() {
         this.scrollDown();
       });
+
+      const lastMessage = newVal[newVal.length - 1];
+      if (!lastMessage) return;
+      if (!this.selectedChannelID) return;
+      if (lastMessage.creator.uniqueID != this.user.uniqueID) {
+        this.dismissNotification(this.selectedChannelID);
+      }
+    },
+    selectedChannelID(channelID) {
+      if (!channelID) return;
+      this.dismissNotification(channelID);
     },
     uploadQueue() {
       this.$nextTick(function() {
@@ -276,6 +295,11 @@ export default {
     }
   },
   computed: {
+    channelNotifications() {
+      return this.$store.getters.notifications.find(e => {
+        return e.channelID === this.selectedChannelID;
+      });
+    },
     isServer() {
       return this.$store.getters.currentTab === 2;
     },

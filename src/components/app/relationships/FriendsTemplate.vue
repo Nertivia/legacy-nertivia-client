@@ -64,12 +64,20 @@ export default {
         return e.sender.uniqueID === recipient.uniqueID;
       });
 
-      if (
-        !notifications ||
-        (this.friend.channelID === this.$store.getters.selectedChannelID &&
-          document.hasFocus())
-      )
-        return;
+      let isSelectedUser = false;
+      if (this.friend.recipient) {
+        isSelectedUser =
+          this.friend.recipient.uniqueID ===
+          this.$store.getters.selectedUserUniqueID;
+      } else {
+        isSelectedUser =
+          this.friend.recipients[0].uniqueID ===
+          this.$store.getters.selectedUserUniqueID;
+      }
+
+      if (!notifications) return;
+
+      if (isSelectedUser && document.hasFocus()) return;
       return notifications.count;
     },
     userAvatar() {
@@ -112,17 +120,6 @@ export default {
       )
         return;
       bus.$emit("closeLeftMenu");
-      // dismiss notification if exists
-      // TODO move this into openchat or something :/
-      if (
-        this.notifications &&
-        this.notifications >= 1 &&
-        document.hasFocus()
-      ) {
-        this.$socket.client.emit("notification:dismiss", {
-          channelID: this.friend.channelID
-        });
-      }
       this.$store.dispatch("openChat", {
         uniqueID: this.recipient.uniqueID,
         channelID: this.friend.channelID,
@@ -243,8 +240,6 @@ export default {
   transition: 0.3s;
 }
 
-
-
 .status-name {
   opacity: 0;
   font-size: 13px;
@@ -265,5 +260,4 @@ export default {
 .close-button:hover {
   color: white;
 }
-
 </style>

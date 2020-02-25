@@ -686,6 +686,9 @@ $message-color: rgba(0, 0, 0, 0.3);
   border-radius: 50%;
   cursor: default;
 }
-@media (max-width: 468px) {
+@media (max-width: 830px) {
+  audio {
+    width: initial;
+  }
 }
 </style>

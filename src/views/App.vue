@@ -88,15 +88,6 @@ export default {
     };
   },
   methods: {
-    dismissNotification(channelID) {
-      const notifications = this.$store.getters.notifications.find(function(e) {
-        return e.channelID === channelID;
-      });
-
-      if (notifications && notifications.count >= 1 && document.hasFocus()) {
-        this.$socket.client.emit("notification:dismiss", { channelID });
-      }
-    },
     switchChannel(isServer) {
       const serverChannelID = this.$store.state.channelModule.serverChannelID;
       const DMChannelID = this.$store.state.channelModule.DMChannelID;
@@ -107,7 +98,6 @@ export default {
           serverChannelID
         ];
         this.$store.dispatch("setChannelName", channel ? channel.name : "");
-        this.dismissNotification(serverChannelID);
       } else {
         const channel = this.$store.state.channelModule.channels[DMChannelID];
         this.$store.dispatch(
@@ -115,7 +105,6 @@ export default {
           channel ? channel.recipients[0].username : ""
         );
         this.$store.dispatch("selectedChannelID", DMChannelID);
-        this.dismissNotification(DMChannelID);
       }
     },
     switchTab(index) {

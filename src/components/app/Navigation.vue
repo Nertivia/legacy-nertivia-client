@@ -86,15 +86,6 @@ export default {
       this.drag = true;
       this.$store.dispatch("setAllPopout", { show: false });
     },
-    dismissNotification(channelID) {
-      const notifications = this.$store.getters.notifications.find(function(e) {
-        return e.channelID === channelID;
-      });
-
-      if (notifications && notifications.count >= 1 && document.hasFocus()) {
-        this.$socket.client.emit("notification:dismiss", { channelID });
-      }
-    },
     openServer(serverID) {
       this.switchTab(2);
       const server = this.servers[serverID];
@@ -107,8 +98,6 @@ export default {
       if (!channel) {
         channel = channels[defaultChannelID];
       }
-
-      this.dismissNotification(channel.channelID);
       this.$store.dispatch("servers/setSelectedServerID", serverID);
       this.$store.dispatch("openChannel", channel);
       this.$store.dispatch("selectedChannelID", channel.channelID);

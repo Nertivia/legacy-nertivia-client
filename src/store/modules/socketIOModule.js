@@ -198,16 +198,12 @@ const actions = {
       });
     }
     const currentTab = context.rootGetters.currentTab;
-    if (
-      context.rootState.channelModule.selectedChannelID ==
-        data.message.channelID &&
-      document.hasFocus() &&
-      (currentTab === 1 || currentTab === 2)
-    ) {
-      this._vm.$socket.client.emit("notification:dismiss", {
-        channelID: data.message.channelID
-      });
-    } else {
+    const selectedChannelID = context.rootState.channelModule.selectedChannelID;
+
+    const isSelectedChannel = selectedChannelID == data.message.channelID;
+    const isCurrentTabDMOrSrvrs = currentTab === 1 || currentTab === 2;
+
+    if (!isSelectedChannel || !document.hasFocus() || !isCurrentTabDMOrSrvrs) {
       // send notification if other users message the recipient
       if (data.message.creator.uniqueID === context.getters.user.uniqueID)
         return;

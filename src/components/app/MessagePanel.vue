@@ -714,9 +714,11 @@ export default {
         return notification.channelID === this.$store.getters.selectedChannelID;
       });
       if (find && find.count >= 1) {
-        this.$socket.client.emit("notification:dismiss", {
-          channelID: this.$store.getters.selectedChannelID
-        });
+        setTimeout(() => {
+          this.$socket.client.emit("notification:dismiss", {
+            channelID: this.$store.getters.selectedChannelID
+          });
+        }, 500);
       }
     },
     backToTopButton() {
