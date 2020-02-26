@@ -23,7 +23,7 @@
       </div>
       <div class="item" @click="copyUserTag">
         <div class="material-icons icon-cat">developer_board</div>
-        <div class="name">Copy User@Tag</div>
+        <div class="name">Copy User:Tag</div>
       </div>
       <div class="item" @click="copyID">
         <div class="material-icons icon-cat">developer_board</div>
@@ -79,7 +79,7 @@ export default {
       const user = this.$store.getters["members/members"][
         this.contextDetails.uniqueID
       ];
-      const userTag = user.username + "@" + user.tag;
+      const userTag = user.username + ":" + user.tag;
       this.closeMenu();
       this.$clipboard(userTag);
     },
@@ -109,9 +109,9 @@ export default {
         const mainMenuY = parseInt(mainMenu.style.top, 10);
         const mainMenuX = parseInt(mainMenu.style.left, 10);
 
-        rolesMenu.style.top =
-          mainMenuY + mainMenu.clientHeight - rolesMenu.clientHeight + "px";
-        rolesMenu.style.left = mainMenuX - mainMenu.clientWidth - 11 + "px";
+        rolesMenu.style.top = mainMenuY + 120 + "px";
+
+        rolesMenu.style.left = mainMenuX - mainMenu.clientWidth - 21 + "px";
       });
     },
     setPosition() {

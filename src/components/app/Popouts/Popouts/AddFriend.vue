@@ -14,7 +14,7 @@
             class="tag"
             v-model="input"
             type="text"
-            placeholder="pancake@time"
+            placeholder="pancake:time"
           />
           <input
             class="button"
@@ -62,7 +62,7 @@ export default {
       this.success = null;
       this.requestSent = true;
 
-      const split = this.input.trim().split("@");
+      const split = this.input.trim().split(":");
       // validation
       if (
         split.length < 2 ||

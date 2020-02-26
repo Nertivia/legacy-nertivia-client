@@ -133,8 +133,8 @@ export default {
   font-size: 15px;
   position: absolute;
   z-index: 115651;
-  top: 5px;
-  right: 5px;
+  top: 10px;
+  right: 10px;
   width: 20px;
   height: 20px;
   border-radius: 50%;

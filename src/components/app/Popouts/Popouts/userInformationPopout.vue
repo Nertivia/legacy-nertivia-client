@@ -14,7 +14,7 @@
           />
           <div class="uesrname-tag">
             <div class="username">{{ user.username }}</div>
-            <div class="tag">@{{ user.tag }}</div>
+            <div class="tag">:{{ user.tag }}</div>
           </div>
           <!-- <div class="details">
               Pancake • Male • 17-19 • United Kingdom

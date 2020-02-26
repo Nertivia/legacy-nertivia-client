@@ -72,15 +72,30 @@
           security
         </div>
       </div>
-    </div>
-    <div
-      data-name="Settings"
-      class="item material-icons"
-      @click="openSettings"
-      @mouseleave="mouseLeaveEvent"
-      @mouseenter="localToolTipEvent('Settings', $event)"
-    >
-      settings
+      <!-- <div
+        data-name="profile"
+        class="item settings"
+        @click="openSettings"
+        @mouseleave="mouseLeaveEvent"
+        @mouseenter="localToolTipEvent(`${user.username}:${user.tag}`, $event)"
+      >
+        <div
+          class="status-avatar"
+          :style="`border: solid 3px ${getStatusColor}`"
+        >
+          <img class="avatar" :src="avatarDomain + '/' + user.avatar" />
+        </div>
+      </div> -->
+
+      <div
+        data-name="Settings"
+        class="item material-icons settings"
+        @click="openSettings"
+        @mouseleave="mouseLeaveEvent"
+        @mouseenter="localToolTipEvent('Settings', $event)"
+      >
+        settings
+      </div>
     </div>
   </div>
 </template>
@@ -90,6 +105,7 @@ import { bus } from "@/main.js";
 import config from "@/config.js";
 import settingsService from "@/services/settingsService";
 import { isMobile } from "@/utils/Mobile";
+import statuses from "@/utils/statuses";
 export default {
   data() {
     return {
@@ -176,6 +192,10 @@ export default {
     }
   },
   computed: {
+    getStatusColor() {
+      const status = this.$store.getters.user.status || 0;
+      return statuses[parseInt(status)].color;
+    },
     mobileSize() {
       return (
         this.$mq === "mobile" &&
@@ -208,7 +228,7 @@ export default {
             this.currentTab !== 2)
         );
       });
-      const mentioned = notifications.find(m => m.mentioned);
+      const mentioned = notificationsFiltered.find(m => m.mentioned);
       return {
         notification: !!notificationsFiltered.length,
         mentioned: !!mentioned
@@ -256,7 +276,7 @@ export default {
 }
 .mobile {
   background: rgba(0, 0, 0, 0.4);
-  padding-left: 10px;
+
   width: initial;
   .item {
     width: 40px;
@@ -265,16 +285,42 @@ export default {
     margin-right: 5px;
     font-size: 25px;
   }
-  .tool-tip { 
+  .tool-tip {
     top: -29px;
   }
 }
+
+.status-avatar {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  .avatar {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.settings {
+  margin-right: 14px;
+}
+
 .container {
   display: flex;
   flex-direction: row;
   height: 100%;
   width: 100%;
+  overflow: auto;
 }
+.container {
+  scrollbar-width: thin;
+}
+.container::-webkit-scrollbar {
+  height: 3px;
+}
+
 .navigation-items {
   display: flex;
   flex-direction: row;
@@ -282,7 +328,6 @@ export default {
   height: 100%;
   align-self: flex-start;
   align-content: center;
-  flex-shrink: 0;
 }
 .item {
   font-size: 24px;

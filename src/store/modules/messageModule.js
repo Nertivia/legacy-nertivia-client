@@ -109,6 +109,7 @@ const actions = {
   },
   deleteMessage(context, { channelID, messageID }) {
     const messages = context.state.messages[channelID];
+    if (!messages) return;
     messages.find((obj, index) => {
       if (obj.messageID === messageID) {
         context.commit("deleteMessage", { channelID, index });

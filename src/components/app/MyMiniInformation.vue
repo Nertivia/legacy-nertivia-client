@@ -12,7 +12,7 @@
     />
     <div class="information">
       <div class="username">{{ user.username }}</div>
-      <div class="tag">@{{ user.tag }}</div>
+      <div class="tag">:{{ user.tag }}</div>
     </div>
     <div
       class="status-button"

@@ -39,45 +39,20 @@
 
 <script>
 import config from "@/config.js";
-import exploreService from "@/services/exploreService";
-
-const cssZip = () => import("@/utils/cssZip");
 
 export default {
-  props: ["theme"],
+  props: ["theme", "appliedTheme"],
   data() {
     return {
-      joinClicked: false,
-      bannerDomain: config.domain + "/media/",
-      appliedTheme: null
+      bannerDomain: config.domain + "/media/"
     };
   },
   methods: {
     async applyButton() {
-      // get css
-      const { ok, result } = await exploreService.applyTheme(this.theme.id);
-      if (ok) {
-        const css = result.data.css;
-        const id = result.data.id;
-        // save to local storage.
-        localStorage.setItem("appliedThemeId", id);
-
-        const styleEl = document.createElement("style");
-        styleEl.classList.add("theme-" + id);
-        styleEl.id = "theme";
-        cssZip().then(utils => {
-          styleEl.innerHTML = utils.unzip(css) || css;
-
-          const currentStyle = document.getElementById("theme");
-          if (currentStyle) {
-            currentStyle.outerHTML = styleEl.outerHTML;
-          } else {
-            document.head.innerHTML += styleEl.outerHTML;
-          }
-          this.appliedTheme = id;
-        });
-
-      }
+      this.$emit("applyTheme", this.theme.id)
+    },
+    unApplyButton() {
+      this.$emit("unapplyTheme", this.theme.id)
     },
     bannerImageClicked() {
       this.$store.dispatch(
@@ -85,16 +60,7 @@ export default {
         this.bannerDomain + this.theme.screenshot + "?type=webp"
       );
     },
-    unApplyButton() {
-      this.appliedTheme = null;
-      localStorage.removeItem("appliedThemeId");
-      document.getElementById("theme").outerHTML = "";
-    }
-  },
-  mounted() {
-    this.appliedTheme = localStorage.getItem("appliedThemeId");
-  },
-  computed: {}
+  }
 };
 </script>
 
