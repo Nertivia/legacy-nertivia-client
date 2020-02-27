@@ -313,7 +313,7 @@ export default {
 
       const tempID = this.generateNum(25);
 
-      this.$store.dispatch("addMessage", {
+      const addMessage = {
         sender: true,
         channelID: this.selectedChannelID,
         message: {
@@ -323,13 +323,14 @@ export default {
           channelID: this.selectedChannelID,
           created: new Date()
         }
-      });
+      };
+
+      this.$store.dispatch("addMessage", addMessage);
 
       this.message = "";
 
       let input = this.$refs["input-box"];
       input.style.height = "1em";
-
       this.$store.dispatch("updateChannelLastMessage", this.selectedChannelID);
       const { ok, error, result } = await messagesService.post(
         this.selectedChannelID,
@@ -349,7 +350,37 @@ export default {
         });
       } else {
         // TODO: Error handling
-        console.log(error);
+
+        this.$store.dispatch("replaceMessage", {
+          tempID: tempID,
+          message: { ...addMessage.message, status: 2, messageID: "0111" }
+        });
+        let message;
+
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
+          message = error.response.data.message;
+        } else {
+          message = "Something went wrong while sending the message.";
+        }
+        this.$store.dispatch("addMessage", {
+          channelID: this.selectedChannelID,
+          message: {
+            creator: {
+              username: "Whoopsies!",
+              uniqueID: "12345678",
+              avatar: "default.png"
+            },
+            message: message,
+            messageID: Math.floor(Math.random() * 10999 + 0).toString(),
+            color: "#ff4d4d",
+            channelID: this.selectedChannelID,
+            created: new Date()
+          }
+        });
       }
     },
     async updateMessage() {
@@ -732,9 +763,9 @@ export default {
       this.message = this.message.replace(/<@([\d]+)>/g, test => {
         const ID = test.slice(2, test.length - 1);
         const member = this.members[ID];
-        if (!member) return test
-        return `@${member.username}:${member.tag}`
-      })
+        if (!member) return test;
+        return `@${member.username}:${member.tag}`;
+      });
       if (editMessage) this.customColor = editMessage.color || null;
     },
     onBlur() {

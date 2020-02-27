@@ -57,7 +57,15 @@
                 <div class="material-icons">person_add_disabled</div>
                 <div>Remove Friend</div>
               </div>
-              <div class="button warn">
+              <div
+                class="button warn"
+                v-if="isBlocked"
+                @click="unblockFriendButton"
+              >
+                <div class="material-icons">block</div>
+                <div>Unblock</div>
+              </div>
+              <div class="button warn" v-else @click="blockFriendButton">
                 <div class="material-icons">block</div>
                 <div>Block</div>
               </div>
@@ -135,7 +143,8 @@ export default {
       surveyItems: Object.assign({}, surveyItems),
       user: null,
       avatarDomain: config.domain + "/avatars/",
-      badges
+      badges,
+      isBlocked: null
     };
   },
   methods: {
@@ -155,6 +164,18 @@ export default {
     },
     async AcceptFriendButton() {
       await relationshipService.put(this.uniqueID);
+    },
+    async blockFriendButton() {
+      const { ok } = await userService.block(this.uniqueID);
+      if (ok) {
+        this.isBlocked = true;
+      }
+    },
+    async unblockFriendButton() {
+      const { ok } = await userService.unblock(this.uniqueID);
+      if (ok) {
+        this.isBlocked = false;
+      }
     },
     async RemoveFriendButton() {
       await relationshipService.delete(this.uniqueID);
@@ -183,6 +204,7 @@ export default {
     const { ok, result } = await userService.get(this.uniqueID);
     if (ok) {
       this.user = result.data.user;
+      this.isBlocked = result.data.isBlocked;
     }
   },
   computed: {

@@ -1,5 +1,14 @@
 const config = [
   {
+    version: "1.0.4",
+    title: '"Stop DMing me!"',
+    shortTitle: "",
+    date: "27/02/2020",
+    new: [
+      "Got annoying people messaging you? Fear no more, The block button now works and blocks users."
+    ]
+  },
+  {
     version: "1.0.3",
     title: "Delete confirmation",
     shortTitle: "",
