@@ -1,8 +1,8 @@
 <template>
   <div class="recents">
-    <virtual-list :size="50" :remain="20" v-if="loaded" >
+    <virtual-list :size="50" :remain="20" v-if="loaded">
       <FriendsTemplate
-        v-for="(channel, key) of channels"
+        v-for="(channel, key) of recentsArr"
         :key="key"
         :recents="true"
         :friend="channel"
@@ -33,54 +33,57 @@ export default {
       return this.$store.getters.user;
     },
     channels() {
-      const json = this.$store.getters.channels;
+      return this.$store.getters.channels;
+    },
+    sortedChannels() {
+      const channels = Object.values(this.channels).reverse();
+      const sorted = channels
+        .concat()
+        .sort((a, b) => b.lastMessaged - a.lastMessaged);
+      return sorted;
+    },
+    recentsArr() {
       const notifications = this.$store.getters.notifications;
 
-      const keys = Object.keys(json);
-      let result = [];
-      keys.forEach(key => {
-        if (
-          json[key].recipients &&
-          json[key].recipients.length > 0 &&
-          !json[key].server_id &&
-          json[key].recipients[0].uniqueID !== this.user.uniqueID
-        )
-          result.push(json[key]);
-      });
+      const unOpenedDms = [];
+      const highPriority = [];
+      const lowPriority = [];
 
-      result.sort(function(a, b) {
-        const notificationA = notifications.find(item => {
-          return item.channelID === a.channelID;
-        });
-        const notificationB = notifications.find(item => {
-          return item.channelID === b.channelID;
-        });
-        // make notifications more prority.
-        if (notificationA) return -1;
-        if (notificationB) return 1;
-        if (a.lastMessaged === undefined) return 1;
-        if (b.lastMessaged === undefined) return -1;
-        return b.lastMessaged - a.lastMessaged;
-      });
+      for (let index = 0; index < this.sortedChannels.length; index++) {
+        const channel = this.sortedChannels[index];
+        if (channel.server_id) continue;
+        const recipient = channel.recipients[0];
 
-      // gets unopened dms
-      const notificationsFiltered = notifications.filter(item => {
-        if (json[item.channelID] && json[item.channelID].server_id) return;
-        const find = result.find(resFind => {
-          return resFind.channelID === item.channelID;
-        });
-        if (!find) {
-          return true;
+        const notified = notifications.find(
+          n =>
+            n.sender.uniqueID === recipient.uniqueID &&
+            n.channelID === channel.channelID
+        );
+
+        if (notified) {
+          highPriority.push(channel);
+        } else {
+          lowPriority.push(channel);
         }
-      });
-      for (let index in notificationsFiltered) {
-        notificationsFiltered[index].creator = "dummy";
-        notificationsFiltered[index].recipients = [
-          notificationsFiltered[index].sender
-        ];
       }
-      result = notificationsFiltered.concat(result);
-      return result;
+
+      for (let index = 0; index < notifications.length; index++) {
+        const element = notifications[index];
+        if (this.channels[element.channelID]) continue;
+        const recipient = {
+          username: element.sender.username,
+          tag: element.sender.tag,
+          avatar: element.sender.avatar,
+          uniqueID: element.sender.uniqueID
+        };
+        unOpenedDms.push({
+          recipients: [recipient],
+          channelID: element.channelID,
+          lastMessaged: null
+        });
+      }
+
+      return [...unOpenedDms, ...highPriority, ...lowPriority];
     }
   }
 };
