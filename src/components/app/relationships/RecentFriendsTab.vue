@@ -53,6 +53,7 @@ export default {
         const channel = this.sortedChannels[index];
         if (channel.server_id) continue;
         const recipient = channel.recipients[0];
+        if (recipient.uniqueID === this.user.uniqueID) continue;
 
         const notified = notifications.find(
           n =>
