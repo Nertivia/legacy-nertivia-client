@@ -17,10 +17,14 @@ export default order => {
     html: function(node) {
       const member = store.getters["members/members"][node.id];
       if (!member) return node.orig;
-      return SimpleMarkdown.htmlTag("span", "@" + member.username, {
-        class: "mention",
-        id: "mention-" + member.uniqueID
-      });
+      return SimpleMarkdown.htmlTag(
+        "span",
+        "@" + SimpleMarkdown.sanitizeText(member.username),
+        {
+          class: "mention",
+          id: "mention-" + member.uniqueID
+        }
+      );
     }
   };
 };
