@@ -35,6 +35,10 @@
         key="ace"
         v-if="popouts.allPopout.type === 'ADMIN_CSS_EDITOR'"
       />
+      <admin-manage-user
+        key="amu"
+        v-if="popouts.allPopout.type === 'ADMIN_MANAGE_USER'"
+      />
       <DeleteConfirm
         key="delete-confirm"
         v-if="popouts.allPopout.type === 'DELETE_CONFIRM'"
@@ -66,6 +70,7 @@ const ServerInvitePopout = () => import("./Popouts/ServerInvitePopout.vue");
 const ServerSettings = () =>
   import("./Popouts/ServerSettingsPanels/ServerSettings.vue");
 const AdminCssEditor = () => import("./Popouts/AdminEditorPopout");
+const AdminManageUser = () => import("./Popouts/adminManageUserPopout");
 const GenericPopout = () => import("./Popouts/GenericPopout");
 const DeleteConfirm = () => import("./Popouts/DeleteConfirm");
 
@@ -87,6 +92,7 @@ export default {
     ServerContext,
     AddFriend,
     AdminCssEditor,
+    AdminManageUser,
     DeleteConfirm
   },
   data() {

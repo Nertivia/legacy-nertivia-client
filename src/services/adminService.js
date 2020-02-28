@@ -4,6 +4,9 @@ export default {
   fetchRecentCreatedUsers() {
     return wrapper(instance().get(`admin/users/recent`));
   },
+  fetchSearchUsers(search) {
+    return wrapper(instance().get(`admin/users/search/${search}`));
+  },
   fetchOnlineUsers() {
     return wrapper(instance().get(`admin/users/online`));
   },
@@ -15,5 +18,10 @@ export default {
   },
   approveTheme(id) {
     return wrapper(instance().patch(`admin/themes/${id}/approve`));
+  },
+  suspendUser(uniqueID, password) {
+    return wrapper(
+      instance().delete(`admin/users/${uniqueID}`, { data: { password } })
+    );
   }
 };

@@ -8,7 +8,6 @@
 
 <script>
 import { bus } from "@/main";
-
 import UsersPanel from "./AdminPanel/UsersPanel";
 import OnlineUsersPanel from "./AdminPanel/OnlineUsersPanel";
 import ThemesPanel from "./AdminPanel/ThemesPanel";

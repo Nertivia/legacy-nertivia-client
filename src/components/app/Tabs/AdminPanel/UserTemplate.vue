@@ -1,10 +1,11 @@
 <template>
-  <div class="user" @click="openUserInformation">
+  <div class="user">
     <div
+      @click="openUserInformation"
       class="profile-picture"
       :style="{ backgroundImage: `url(${avatar})` }"
     ></div>
-    <div class="details">
+    <div class="details" @click="openManageUser">
       <div class="username-tag">
         {{ user.username }}<span class="tag">@{{ user.tag }}</span>
       </div>
@@ -35,7 +36,14 @@ export default {
   methods: {
     openUserInformation() {
       this.$store.dispatch("setUserInformationPopout", this.user.uniqueID);
-    }
+    },
+    openManageUser() {
+      this.$store.dispatch("setAllPopout", {
+        show: true,
+        type: "ADMIN_MANAGE_USER",
+        uniqueID: this.user.uniqueID
+      });
+    } 
   }
 };
 </script>
