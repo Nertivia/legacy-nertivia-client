@@ -20,7 +20,8 @@
             :key="invite"
             class="invite"
           >
-            {{ invite }}
+            <span class="link">https://nertivia.tk/invites/</span>{{ invite }}
+            <div class="copy-button" @click="copy(invite)">Copy</div>
           </div>
         </div>
       </div>
@@ -71,6 +72,9 @@ export default {
       if (ok) {
         this.invites.push(result.data.invite_code);
       }
+    },
+    copy(invite) {
+      this.$clipboard("https://nertivia.tk/invites/" + invite);
     }
   },
   computed: {
@@ -153,5 +157,21 @@ export default {
   margin-left: 0;
   margin-right: 0;
   padding: 10px;
+}
+.link {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.copy-button {
+  display: flex;
+  margin: auto;
+  margin-right: 0;
+  flex-shrink: 0;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: 0.2s;
+}
+.copy-button:hover {
+  opacity: 1;
 }
 </style>

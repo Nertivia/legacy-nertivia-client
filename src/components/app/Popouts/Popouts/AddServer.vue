@@ -180,9 +180,13 @@ export default {
       }
       event.target.classList.add("button-clicked");
 
-      const { ok, error, result } = await ServerService.getInviteDetail(
-        inviteCode
-      );
+      let code;
+      if (inviteCode.split("/").length >= 2) {
+        code = inviteCode.split("/").pop();
+      } else {
+        code = inviteCode;
+      }
+      const { ok, error, result } = await ServerService.getInviteDetail(code);
 
       if (!ok) {
         event.target.classList.remove("button-clicked");

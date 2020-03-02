@@ -1,12 +1,16 @@
 <template>
   <div class="dark-background admin-editor-popout" @mousedown="backgroundClick">
     <div class="inner">
+      <div>{{ popoutDetails.user.username }}</div>
+      <div>{{ popoutDetails.user.email }}</div>
+      <div>{{ popoutDetails.user.ip }}</div>
       <input
         type="password"
         autocomplete="new-password"
         v-model="password"
         placeholder="Confirm Password"
       />
+      <textarea v-model="reason" placeholder="Suspend Reason"></textarea>
       <div class="button" v-if="!confirmSuspend" @click="suspendUserButton">
         Suspend User
       </div>
@@ -22,7 +26,8 @@ export default {
   data() {
     return {
       confirmSuspend: false,
-      password: ""
+      password: "",
+      reason: ""
     };
   },
   methods: {
@@ -43,10 +48,14 @@ export default {
         this.confirmSuspend = true;
         return;
       }
-      await AdminService.suspendUser(
-        this.popoutDetails.uniqueID,
-        this.password
+      const { ok } = await AdminService.suspendUser(
+        this.popoutDetails.user.uniqueID,
+        this.password,
+        this.reason
       );
+      if (ok) {
+        this.closeMenu();
+      }
     }
   },
   async mounted() {},

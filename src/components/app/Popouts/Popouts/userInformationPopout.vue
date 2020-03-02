@@ -97,7 +97,11 @@
               <div
                 class="about-item"
                 v-if="aboutMe"
-                :class="{ infoAboutMe: aboutItem.key === 'About me' }"
+                :class="{
+                  infoAboutMe:
+                    aboutItem.key === 'About me' ||
+                    aboutItem.key === 'Suspend Reason'
+                }"
               >
                 <div class="key">{{ aboutItem.key }}:</div>
                 <div

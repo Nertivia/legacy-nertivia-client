@@ -11,7 +11,9 @@
       </div>
       <div class="date" v-if="!presence">{{ date }}</div>
       <div class="presence" v-if="presence">{{ presence }}</div>
+      <div class="suspended" v-if="user.banned">Suspended</div>
     </div>
+
   </div>
 </template>
 
@@ -41,7 +43,7 @@ export default {
       this.$store.dispatch("setAllPopout", {
         show: true,
         type: "ADMIN_MANAGE_USER",
-        uniqueID: this.user.uniqueID
+        user: this.user
       });
     } 
   }
@@ -61,6 +63,12 @@ export default {
     background: rgba(0, 0, 0, 0.2);
   }
 }
+.suspended {
+  background: rgb(255, 45, 45);
+  border-radius: 4px;
+  padding: 3px;
+  display: flex;
+}
 .profile-picture {
   width: 40px;
   height: 40px;
@@ -71,6 +79,11 @@ export default {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+}
+.details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 .date {
   font-size: 14px;
