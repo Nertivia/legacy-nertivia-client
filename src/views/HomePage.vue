@@ -243,7 +243,7 @@ body {
   background: rgba(0, 0, 0, 0.2);
 }
 .logo {
-  background: url("../assets/logo.png");
+  background: url("../assets/transparentLogo.svg");
   background-size: 100%;
   height: 50px;
   width: 50px;
