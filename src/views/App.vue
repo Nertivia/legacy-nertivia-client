@@ -4,7 +4,7 @@
     <div class="background-color"></div>
     <transition name="fade-between-two" appear mode="in-out">
       <ConnectingScreen v-if="!ready" />
-      <div class="box" v-if="ready">
+      <div class="box" v-if="loggedIn">
         <div class="frame" v-if="isElectron">
           <div class="window-buttons">
             <electron-frame-buttons />
