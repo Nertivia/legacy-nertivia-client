@@ -2,9 +2,9 @@
   <div id="app" ref="app" :class="{ desktop: isElectron }">
     <vue-headful :title="title" description="Nertivia Chat Client" />
     <div class="background-color"></div>
-    <transition name="fade-between-two" appear>
-      <ConnectingScreen v-if="!loggedIn" />
-      <div class="box" v-if="loggedIn">
+    <transition name="fade-between-two" appear mode="in-out">
+      <ConnectingScreen v-if="!ready" />
+      <div class="box" v-if="ready">
         <div class="frame" v-if="isElectron">
           <div class="window-buttons">
             <electron-frame-buttons />
@@ -84,7 +84,8 @@ export default {
   data() {
     return {
       title: "Nertivia",
-      isElectron: window && window.process && window.process.type
+      isElectron: window && window.process && window.process.type,
+      ready: false,
     };
   },
   methods: {
@@ -162,6 +163,11 @@ export default {
   watch: {
     getWindowWidth(dimensions) {
       this.resizeEvent(dimensions);
+    },
+    loggedIn(val) {
+      setTimeout(() => {
+        this.ready = val;
+      });
     }
   },
   async mounted() {

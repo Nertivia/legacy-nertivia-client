@@ -1,28 +1,36 @@
 import config from "@/config";
 import { bus } from "../../main";
-import { router } from "./../../router";
+//import { router } from "./../../router";
 import DesktopNotification from "@/utils/ElectronJS/DesktopNotification";
 import isElectron from "@/utils/ElectronJS/isElectron";
 import { isMobile } from "@/utils/Mobile";
 
 const actions = {
-  socket_authErr(context) {
-    context.dispatch("logout");
-    router.push({ path: "/" });
+  socket_authErr(context, message) {
+    context.dispatch("setConnectionErrorMessage", message, {
+      root: true
+    });
   },
-  socket_connect() {
+  socket_connect(context) {
+    context.dispatch("setConnectionStatus", 1, { root: true });
     this._vm.$socket.client.emit("authentication", {
       token: localStorage.getItem("hauthid")
     });
   },
+  socket_disconnect(context) {
+    context.dispatch("setConnectionStatus", 0, { root: true });
+    context.commit("user", null);
+  },
   socket_error(context, error) {
-    // if the token is invalid.
-    if (error === "Authentication error") {
-      context.dispatch("logout");
-      router.push({ path: "/" });
-    }
+    console.log(error);
+    context.dispatch(
+      "setConnectionErrorMessage",
+      "Something went wrong. Reload the page.",
+      { root: true }
+    );
   },
   socket_success(context, data) {
+    context.dispatch("setConnectionStatus", 2, { root: true });
     const {
       user,
       serverMembers,
@@ -269,9 +277,6 @@ const actions = {
   },
   socket_multiDeviceStatus(context, data) {
     context.commit("changeStatus", data.status);
-  },
-  socket_disconnect(context) {
-    context.commit("user", null);
   },
   socket_multiDeviceUserAvatarChange(context, data) {
     context.commit("changeAvatar", data.avatarID);

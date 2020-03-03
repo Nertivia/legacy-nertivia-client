@@ -30,14 +30,33 @@ export const store = new Vuex.Store({
     members: membersModule
   },
   state: {
-    currentTab: 0
+    currentTab: 0,
+    // 0 : connecting
+    // 1: connected
+    // 2: authenticated
+    // 3: error
+    connectionStatus: 0,
+    connectionErrorMessage: null
   },
   getters: {
     currentTab(state) {
       return state.currentTab;
+    },
+    connectionStatus(state) {
+      return state.connectionStatus;
+    },
+    connectionErrorMessage(state) {
+      return state.connectionErrorMessage;
     }
   },
   actions: {
+    setConnectionStatus({ commit }, status) {
+      commit("SET_CONNECTION_STATUS", status);
+    },
+    setConnectionErrorMessage({ commit }, message) {
+      commit("SET_CONNECTION_ERROR_MESSAGE", message);
+      commit("SET_CONNECTION_STATUS", 3);
+    },
     setCurrentTab({ commit }, currentTab) {
       localStorage.setItem("currentTab", currentTab);
       commit("SET_CURRENT_TAB", currentTab);
@@ -46,6 +65,12 @@ export const store = new Vuex.Store({
   mutations: {
     SET_CURRENT_TAB(state, currentTab) {
       state.currentTab = currentTab;
+    },
+    SET_CONNECTION_STATUS(state, status) {
+      state.connectionStatus = status;
+    },
+    SET_CONNECTION_ERROR_MESSAGE(state, message) {
+      state.connectionErrorMessage = message;
     }
   }
 });
