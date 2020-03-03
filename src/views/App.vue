@@ -2,9 +2,9 @@
   <div id="app" ref="app" :class="{ desktop: isElectron }">
     <vue-headful :title="title" description="Nertivia Chat Client" />
     <div class="background-color"></div>
-    <transition name="fade-between-two" appear mode="in-out">
-      <ConnectingScreen v-if="!ready" />
-      <div class="box" v-if="loggedIn">
+    <transition-group name="fade-between-two" appear mode="in-out">
+      <ConnectingScreen key="connect-screen" v-if="!ready" />
+      <div class="box" key="content" v-if="loggedIn">
         <div class="frame" v-if="isElectron">
           <div class="window-buttons">
             <electron-frame-buttons />
@@ -21,7 +21,7 @@
           <admin-panel v-if="currentTab == 4" />
         </div>
       </div>
-    </transition>
+    </transition-group>
     <Popouts v-if="loggedIn" />
   </div>
 </template>

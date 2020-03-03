@@ -95,6 +95,9 @@ export default {
 .center-box {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
 }
 .message {
   text-align: center;
