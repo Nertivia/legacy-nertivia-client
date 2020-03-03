@@ -1,5 +1,5 @@
 <template>
-  <div class="dark-background" @mousedown="backgroundClick">
+  <div class="dark-background admin-editor-popout" @mousedown="backgroundClick">
     <div class="inner">
       <div class="details" v-if="details && details.updatedCss">
         <div class="item">Updated</div>
@@ -18,6 +18,9 @@
 </template>
 
 <script>
+
+const cssZip = () => import("@/utils/cssZip");
+
 import "codemirror/mode/css/css.js";
 
 import "codemirror/addon/merge/merge.js";
@@ -90,9 +93,12 @@ export default {
   async mounted() {
     const { ok, result } = await AdminService.fetchTheme(this.popoutDetails.id);
     if (ok) {
-      this.cmOptions.orig = result.data.css;
-      this.cmOptions.value = result.data.updatedCss;
-      this.details = result.data;
+      cssZip().then(utils => {
+        this.cmOptions.orig = utils.unzip(result.data.css) || result.data.css;
+        this.cmOptions.value = utils.unzip(result.data.updatedCss) || result.data.updatedCss;
+        this.details = result.data;
+        this.details.css = utils.unzip(this.details.css) || this.details.css;
+      })
     }
   },
   computed: {

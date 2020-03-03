@@ -68,7 +68,7 @@ export default {
 
 <style scoped>
 .heading {
-  background: #073240;
+  background: rgba(0, 0, 0, 0.2);
   margin-bottom: 0;
   height: 50px;
   display: flex;
@@ -125,16 +125,15 @@ export default {
   margin-right: 10px;
   margin-left: 5px;
   flex-shrink: 0;
-  transition: 0.3s;
+  transition: background-color 0.2s, box-shadow 0.2s;
 }
 .clickable {
-  color: white;
-  transition: 0.3s;
-  cursor: default;
+  color: rgba(255, 255, 255, 0.9);
+  transition: 0.2s;
+  cursor: pointer;
 }
 .clickable:hover {
-  color: rgb(219, 219, 219);
-  text-decoration: underline;
+  color: white;
 }
 
 @media (max-width: 949px) {

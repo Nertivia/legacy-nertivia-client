@@ -8,6 +8,9 @@
           <theme-template
             v-for="theme in publicThemes"
             :key="theme.id"
+            :appliedTheme="appliedTheme"
+            @applyTheme="applyTheme"
+            @unapplyTheme="unapplyTheme"
             :theme="theme"
           />
         </div>
@@ -20,16 +23,48 @@
 import themeTemplate from "./themesTemplate";
 import exploreService from "@/services/exploreService";
 import Spinner from "@/components/Spinner";
+const cssZip = () => import("@/utils/cssZip");
 
 export default {
   components: { themeTemplate, Spinner },
   data() {
     return {
       publicThemes: null,
-      params: "?verified=true"
+      params: "?verified=true",
+      appliedTheme: null
     };
   },
   methods: {
+    async unapplyTheme() {
+      this.appliedTheme = null;
+      localStorage.removeItem("appliedThemeId");
+      document.getElementById("theme").outerHTML = "";
+    },
+    async applyTheme(id) {
+      // get css
+      const { ok, result } = await exploreService.applyTheme(id);
+      if (ok) {
+        const css = result.data.css;
+        const id = result.data.id;
+        // save to local storage.
+        localStorage.setItem("appliedThemeId", id);
+
+        const styleEl = document.createElement("style");
+        styleEl.classList.add("theme-" + id);
+        styleEl.id = "theme";
+        cssZip().then(utils => {
+          styleEl.innerHTML = utils.unzip(css) || css;
+
+          const currentStyle = document.getElementById("theme");
+          if (currentStyle) {
+            currentStyle.outerHTML = styleEl.outerHTML;
+          } else {
+            document.head.innerHTML += styleEl.outerHTML;
+          }
+          this.appliedTheme = id;
+        });
+      }
+    },
     async getThemesList() {
       this.publicThemes = null;
       const { ok, result } = await exploreService.getThemes();
@@ -39,6 +74,7 @@ export default {
     }
   },
   mounted() {
+    this.appliedTheme = localStorage.getItem("appliedThemeId");
     this.getThemesList();
   }
 };

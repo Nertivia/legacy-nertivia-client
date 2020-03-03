@@ -9,7 +9,7 @@
  </g>
  <g>
   <title>Layer 1</title>
-  <ellipse stroke="#919191" ry="171" rx="171" id="svg_1" cy="199" cx="201" stroke-width="33" fill="none"/>
+  <ellipse stroke="#919191" ry="171" rx="171" id="svg_1" cy="199" cx="201" stroke-width="33" fill="#2b2b2b"/>
   <line stroke="#919191" transform="rotate(45 200.0000000000001,199.99999999999997) " stroke-linecap="null" stroke-linejoin="null" id="svg_12" y2="310.075198" x2="199.999992" y1="89.924784" x1="199.999992" fill-opacity="null" stroke-opacity="null" stroke-width="33" fill="none"/>
   <line stroke="#919191" transform="rotate(-45 199.99999999999991,199.99999999999994) " stroke-linecap="null" stroke-linejoin="null" id="svg_13" y2="310.075198" x2="199.999992" y1="89.924784" x1="199.999992" fill-opacity="null" stroke-opacity="null" stroke-width="33" fill="none"/>
  </g>

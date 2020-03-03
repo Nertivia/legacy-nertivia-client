@@ -4,12 +4,7 @@
     <div class="changelog">
       <div class="change-log">
         <div v-for="(change, index) in changelog" :key="index" class="change">
-          <div
-            class="heading"
-            :style="
-              change.headColor ? `background-color: ${change.headColor}` : ``
-            "
-          >
+          <div class="heading" :class="{ 'latest-color': index === 0 }">
             <div class="date">{{ change.date }}</div>
             <div class="changes-title">{{ change.title }}</div>
           </div>
@@ -111,8 +106,11 @@ export default {
 }
 .heading {
   padding: 10px;
-  background: #042f3a;
+  background: rgba(0, 0, 0, 0.4);
   margin-bottom: 10px;
+}
+.latest-color {
+  background: rgb(19, 121, 255);
 }
 .information {
   overflow-wrap: break-word;
@@ -122,11 +120,12 @@ export default {
   background: rgba(38, 139, 255, 0.87);
 }
 .change-log {
-  background: #054151;
+  background: rgba(0, 0, 0, 0.4);
   overflow-y: auto;
   max-width: 700px;
   width: 100%;
   margin: auto;
+  border-radius: 4px;
 }
 .changelog {
   display: flex;
@@ -153,7 +152,7 @@ export default {
   margin-bottom: 10px;
 }
 .see-all-button {
-  background: #172a2c;
+  background: rgba(0, 0, 0, 0.4);
   display: flex;
   flex-shrink: 0;
   justify-content: center;
@@ -165,6 +164,6 @@ export default {
   transition: 0.2s;
 }
 .see-all-button:hover {
-  background: #0b1415;
+  background: rgba(0, 0, 0, 0.6);
 }
 </style>

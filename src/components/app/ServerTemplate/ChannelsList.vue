@@ -58,17 +58,6 @@ export default {
         "selectedChannels",
         JSON.stringify(selectedChannels)
       );
-
-      const notificationExists = this.$store.getters.notifications.find(
-        n => n.channelID === channel.channelID
-      );
-
-      if (notificationExists && document.hasFocus()) {
-        this.$socket.client.emit("notification:dismiss", {
-          channelID: channel.channelID
-        });
-      }
-
       bus.$emit("closeLeftMenu");
       this.$store.dispatch("openChannel", channel);
       this.$store.dispatch("selectedChannelID", channel.channelID);

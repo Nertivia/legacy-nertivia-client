@@ -14,7 +14,7 @@
               Welcome, new user! I Hope you enjoy Nertivia!
             </div>
             <form
-              v-if="!showCaptcha"
+              v-if="currentPage === 0"
               action="#"
               @submit.prevent="formSubmit"
               @keydown="keyDownEvent"
@@ -71,25 +71,42 @@
               >
               <div class="buttons">
                 <button
-                  class="button register-button"
-                  @click.prevent="loginButton"
-                >
-                  I'm already a user!
-                </button>
-                <button
                   type="submit"
                   :class="{ button: true, deactive: deactive }"
                 >
                   Register
                 </button>
+                <button
+                  class="button register-button"
+                  @click.prevent="loginButton"
+                >
+                  I'm already a user!
+                </button>
               </div>
             </form>
-            <div v-if="showCaptcha" class="captcha-box">
+            <div v-if="currentPage === 1" class="captcha-box">
               <div class="input captcha-input">
                 <div class="input-text">Beep Boop</div>
                 <div class="captcha">
                   <Recaptcha ref="recaptcha" @verify="captchaSubmit" />
                 </div>
+              </div>
+            </div>
+            <div v-if="currentPage === 2" class="form">
+              <div class="input">
+                <div class="input-text">
+                  Check your email:
+                  <span v-if="confirm_code.alert" class="error"
+                    >- {{ confirm_code.alert }}</span
+                  >
+                </div>
+                <input
+                  @input="confirmCodeInput"
+                  v-model="confirm_code.value"
+                  type="text"
+                  placeholder="Code"
+                  autocomplete="off"
+                />
               </div>
             </div>
           </div>
@@ -113,8 +130,9 @@ export default {
     return {
       isElectron: window && window.process && window.process.type,
 
-      showCaptcha: false,
+      currentPage: 0,
       visible: true,
+      confirm_code: { value: "", alert: "" },
       email: { value: "", alert: "" },
       username: { value: "", alert: "" },
       password: { value: "", alert: "" },
@@ -137,7 +155,7 @@ export default {
       this.register();
     },
     formSubmit() {
-      this.showCaptcha = true;
+      this.currentPage = 1;
     },
     keyDownEvent(event) {
       if (event.keyCode === 13) {
@@ -151,20 +169,16 @@ export default {
       const username = this.username.value.trim();
       const password = this.password.value.trim();
 
-      const { ok, error, result } = await AuthenticationService.register({
+      const { ok, error } = await AuthenticationService.register({
         email,
         username,
         password,
         token: this.captchaToken
       });
       if (ok) {
-        this.visible = false;
-        this.$store.dispatch("token", result.data.token);
-        setTimeout(() => {
-          window.location.href = "/app";
-        }, 1000);
+        this.currentPage = 2;
       } else {
-        this.showCaptcha = false;
+        this.currentPage = 0;
         this.deactive = false;
         this.captchaToken = null;
         this.$refs.recaptcha.resetRecaptcha();
@@ -186,6 +200,29 @@ export default {
     },
     loginButton() {
       this.$router.push("/login");
+    },
+    async confirmCodeInput(event) {
+      const value = event.target.value;
+      if (value.length === 10) {
+        const { ok, result, error } = await AuthenticationService.confirmEmail(
+          this.email.value,
+          value
+        );
+        if (!ok) {
+          if (error.response === undefined) {
+            this.otherError = "Can't connect to server.";
+            return;
+          }
+          this.confirm_code.alert =
+            error.response.data.error || "Something went wrong.";
+        } else {
+          this.visible = false;
+          this.$store.dispatch("token", result.data.token);
+          setTimeout(() => {
+            window.location.href = "/app";
+          }, 1000);
+        }
+      }
     }
   }
 };
@@ -226,7 +263,7 @@ body {
   display: flex;
   flex-direction: column;
   color: white;
-  background: linear-gradient(#0b4155, #01677e);
+  background: linear-gradient(to bottom, #005799 0, #0076d1);
 }
 .app-content {
   display: flex;
@@ -235,6 +272,7 @@ body {
   width: 100%;
   overflow: auto;
   z-index: 9999;
+  height: 100%;
 }
 
 .content {
@@ -253,7 +291,7 @@ body {
   align-items: center;
   z-index: 9999;
   padding-bottom: 20px;
-  background: #043b4a;
+  background: rgba(0, 0, 0, 0.3);
   border-radius: 4px;
 }
 .box .title {
@@ -275,7 +313,7 @@ body {
   text-align: center;
   margin-bottom: 10px;
 }
-form {
+form, .form {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -286,7 +324,8 @@ form {
   margin: 10px;
   width: 80%;
   align-self: center;
-  background: #032b35;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
   padding: 10px;
 }
 .input-text {
@@ -298,7 +337,8 @@ input {
   padding: 10px;
   border: none;
   background: none;
-  background: #021b21;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
   color: white;
 }
 .buttons {

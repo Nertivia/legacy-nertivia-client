@@ -96,7 +96,7 @@ body {
   color: white;
   height: 100%;
   overflow: hidden;
-  background: linear-gradient(#0b4155, #01677e);
+  background: linear-gradient(to bottom, #005799 0, #0076d1);
 }
 .app-content {
   display: flex;
@@ -135,7 +135,8 @@ body {
   justify-content: center;
   z-index: 9999;
   padding: 20px;
-  background: #044050;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
 }
 
 .loading {

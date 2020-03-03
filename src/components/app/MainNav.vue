@@ -1,5 +1,5 @@
 <template>
-  <div class="navigation" ref="navigation">
+  <div class="main navigation" :class="{ mobile: mobileSize }" ref="navigation">
     <div
       class="tool-tip"
       ref="toolTip"
@@ -29,19 +29,20 @@
           @click="switchTab(1)"
           @mouseenter="localToolTipEvent('Direct Message', $event)"
         >
-          chat
+          forum
         </div>
         <div
           data-name="Servers"
           class="item material-icons"
           :class="{
             selected: currentTab == 2,
-            notifyAnimation: serverNotification
+            notifyAnimation: serverNotification.notification,
+            mentioned: serverNotification.mentioned
           }"
           @click="switchTab(2)"
           @mouseenter="localToolTipEvent('Servers', $event)"
         >
-          forum
+          dns
         </div>
         <div
           data-name="Changelog"
@@ -71,15 +72,30 @@
           security
         </div>
       </div>
-    </div>
-    <div
-      data-name="Settings"
-      class="item material-icons"
-      @click="openSettings"
-      @mouseleave="mouseLeaveEvent"
-      @mouseenter="localToolTipEvent('Settings', $event)"
-    >
-      settings
+      <!-- <div
+        data-name="profile"
+        class="item settings"
+        @click="openSettings"
+        @mouseleave="mouseLeaveEvent"
+        @mouseenter="localToolTipEvent(`${user.username}:${user.tag}`, $event)"
+      >
+        <div
+          class="status-avatar"
+          :style="`border: solid 3px ${getStatusColor}`"
+        >
+          <img class="avatar" :src="avatarDomain + '/' + user.avatar" />
+        </div>
+      </div> -->
+
+      <div
+        data-name="Settings"
+        class="item material-icons settings"
+        @click="openSettings"
+        @mouseleave="mouseLeaveEvent"
+        @mouseenter="localToolTipEvent('Settings', $event)"
+      >
+        settings
+      </div>
     </div>
   </div>
 </template>
@@ -89,6 +105,7 @@ import { bus } from "@/main.js";
 import config from "@/config.js";
 import settingsService from "@/services/settingsService";
 import { isMobile } from "@/utils/Mobile";
+import statuses from "@/utils/statuses";
 export default {
   data() {
     return {
@@ -98,7 +115,6 @@ export default {
       toolTipServerID: null,
       toolTipLocalName: null,
       mobile: isMobile(),
-
       drag: false
     };
   },
@@ -113,15 +129,6 @@ export default {
       this.drag = true;
       this.$store.dispatch("setAllPopout", { show: false });
     },
-    dismissNotification(channelID) {
-      const notifications = this.$store.getters.notifications.find(function(e) {
-        return e.channelID === channelID;
-      });
-
-      if (notifications && notifications.count >= 1 && document.hasFocus()) {
-        this.$socket.client.client.emit("notification:dismiss", { channelID });
-      }
-    },
     openServer(serverID) {
       const server = this.servers[serverID];
       const lastSelectedChannel = JSON.parse(
@@ -134,7 +141,6 @@ export default {
         channel = channels[defaultChannelID];
       }
 
-      this.dismissNotification(channel.channelID);
       this.$store.dispatch("servers/setSelectedServerID", serverID);
       this.$store.dispatch("openChannel", channel);
     },
@@ -154,7 +160,11 @@ export default {
       this.$nextTick(() => {
         const tooltipWidth = this.$refs.toolTip.clientWidth;
         const rect = event.target.getBoundingClientRect();
-        this.toolTipLeftPosition = rect.left - tooltipWidth / 2 + 25;
+        if (this.mobileSize) {
+          this.toolTipLeftPosition = rect.left - tooltipWidth / 2 + 20;
+        } else {
+          this.toolTipLeftPosition = rect.left - tooltipWidth / 2 + 25;
+        }
       });
     },
     mouseLeaveEvent() {
@@ -182,6 +192,18 @@ export default {
     }
   },
   computed: {
+    getStatusColor() {
+      const status = this.$store.getters.user.status || 0;
+      return statuses[parseInt(status)].color;
+    },
+    mobileSize() {
+      return (
+        this.$mq === "mobile" &&
+        (this.currentTab === 0 ||
+          this.currentTab === 1 ||
+          this.currentTab === 2)
+      );
+    },
     user() {
       return this.$store.getters.user;
     },
@@ -197,7 +219,7 @@ export default {
     serverNotification() {
       const notifications = this.$store.getters.notifications;
       const channels = this.$store.getters.channels;
-      const notification = notifications.find(e => {
+      const notificationsFiltered = notifications.filter(e => {
         return (
           channels[e.channelID] &&
           channels[e.channelID].server_id &&
@@ -206,7 +228,11 @@ export default {
             this.currentTab !== 2)
         );
       });
-      return notification;
+      const mentioned = notificationsFiltered.find(m => m.mentioned);
+      return {
+        notification: !!notificationsFiltered.length,
+        mentioned: !!mentioned
+      };
     },
     DMNotification() {
       const notifications = this.$store.getters.notifications;
@@ -248,12 +274,53 @@ export default {
   width: 100%;
   position: relative;
 }
+.mobile {
+  background: rgba(0, 0, 0, 0.4);
+
+  width: initial;
+  .item {
+    width: 40px;
+    height: 40px;
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 25px;
+  }
+  .tool-tip {
+    top: -29px;
+  }
+}
+
+.status-avatar {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  .avatar {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.settings {
+  margin-right: 14px;
+}
+
 .container {
   display: flex;
   flex-direction: row;
   height: 100%;
   width: 100%;
+  overflow: auto;
 }
+.container {
+  scrollbar-width: thin;
+}
+.container::-webkit-scrollbar {
+  height: 3px;
+}
+
 .navigation-items {
   display: flex;
   flex-direction: row;
@@ -261,9 +328,12 @@ export default {
   height: 100%;
   align-self: flex-start;
   align-content: center;
-  flex-shrink: 0;
 }
 .item {
+  font-size: 24px;
+  width: 48px;
+  height: 48px;
+  margin-left: 14px;
   position: relative;
   display: flex;
   flex-shrink: 0;
@@ -271,20 +341,16 @@ export default {
   align-content: center;
   align-items: center;
   color: white;
-  font-size: 30px;
   align-self: center;
-  width: 50px;
-  height: 50px;
-  margin-left: 10px;
   border-radius: 50%;
   cursor: pointer;
   user-select: none;
   transition: 0.2s;
   &:hover {
-    background: #093b4b;
+    background: rgba(0, 0, 0, 0.3);
   }
   &.selected {
-    background: #072c38;
+    background: rgba(0, 0, 0, 0.3);
   }
 }
 
@@ -295,7 +361,8 @@ export default {
   flex-direction: column;
   align-items: center;
   align-content: center;
-  font-size: 15px;
+  font-size: 14px;
+  font-weight: bold;
   position: absolute;
   z-index: 115651;
   top: 5px;
@@ -303,15 +370,21 @@ export default {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #ee3e34;
+  background: #ff6947;
   flex-shrink: 0;
 }
-
+.mentioned:before {
+  content: "@";
+  margin-bottom: 10px;
+  font-size: 13px;
+  background: #ee3e34;
+}
 .tool-tip {
   color: white;
   position: absolute;
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(3px);
+  border-radius: 4px;
   padding: 5px;
   max-width: 150px;
   white-space: nowrap;

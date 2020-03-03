@@ -1,36 +1,38 @@
 <template>
-  <div
-    class="friend"
-    :class="{ selected: uniqueIDSelected, tree }"
-    @click="openChat"
-    @mouseover="hover = true"
-    @mouseleave="hover = false"
-  >
+  <div class="friend">
     <div
-      class="profile-picture"
-      :style="
-        `border-color: ${
-          status.statusColor
-        }; background-image: url(${userAvatar}${hover ? '' : '?type=png'})`
-      "
-      @click="openUserInformation"
+      class="wrapper"
+      :class="{ selected: uniqueIDSelected }"
+      @click="openChat"
+      @mouseover="mouseOverEvent"
+      @mouseleave="hover = false"
     >
       <div
-        class="status"
-        :style="`background-image: url(${status.statusURL})`"
-      />
-    </div>
-    <div class="information">
-      <div class="username">{{ recipient.username }}</div>
-      <div class="status-name">{{ status.statusName }}</div>
-    </div>
-    <div v-if="notifications && notifications > 0" class="notification">
-      <div class="notification-inner">{{ notifications }}</div>
-    </div>
-    <!-- doesnt work properly. if both channels closed, the chat gets wiped. -->
-    <!-- <div v-else-if="recents" class="material-icons close-button" @click="closeChannel">
+        class="profile-picture"
+        :style="`border-color: ${status.statusColor};`"
+        @click="openUserInformation"
+      >
+        <img
+          class="avatar"
+          :src="`${userAvatar}${hover || !isGif ? '' : '?type=webp'}`"
+        />
+        <div
+          class="status"
+          :style="`background-image: url(${status.statusURL})`"
+        />
+      </div>
+      <div class="information">
+        <div class="username">{{ recipient.username }}</div>
+        <div class="status-name">{{ status.statusName }}</div>
+      </div>
+      <div v-if="notifications && notifications > 0" class="notification">
+        <div class="notification-inner">{{ notifications }}</div>
+      </div>
+      <!-- doesnt work properly. if both channels closed, the chat gets wiped. -->
+      <!-- <div v-else-if="recents" class="material-icons close-button" @click="closeChannel">
       close
     </div> -->
+    </div>
   </div>
 </template>
 
@@ -41,35 +43,41 @@ import statuses from "@/utils/statuses";
 import { bus } from "@/main";
 
 export default {
-  // tree will add padding to the left.
-  props: [
-    "username",
-    "tag",
-    "channelID",
-    "uniqueID",
-    "recipient",
-    "tree",
-    "recents"
-  ],
+  props: ["friend", "recents", "recipient"],
   data() {
     return {
-      hover: false
+      hover: false,
+      isGif: false
     };
+  },
+  mounted() {
+    this.isGif = this.userAvatar.endsWith(".gif");
   },
   computed: {
     notifications() {
-      const channelID = this.$props.channelID;
       const channels = this.$store.getters.channels;
+      const recipient = this.recipient;
+
       const notifications = this.$store.getters.notifications.find(function(e) {
-        if (channels[e.channelID] && channels[e.channelID].server_id) return;
-        return e.channelID == channelID;
+        const channel = channels[e.channelID];
+        if (channel && channel.server_id) return;
+        return e.sender.uniqueID === recipient.uniqueID;
       });
-      if (
-        !notifications ||
-        (this.$props.channelID === this.$store.getters.selectedChannelID &&
-          document.hasFocus())
-      )
-        return;
+
+      let isSelectedUser = false;
+      if (this.friend.recipient) {
+        isSelectedUser =
+          this.friend.recipient.uniqueID ===
+          this.$store.getters.selectedUserUniqueID;
+      } else {
+        isSelectedUser =
+          this.friend.recipients[0].uniqueID ===
+          this.$store.getters.selectedUserUniqueID;
+      }
+
+      if (!notifications) return;
+
+      if (isSelectedUser && document.hasFocus()) return;
       return notifications.count;
     },
     userAvatar() {
@@ -97,9 +105,13 @@ export default {
     }
   },
   methods: {
+    mouseOverEvent() {
+      if (this.isGif) {
+        this.hover = true;
+      }
+    },
     async closeChannel() {
-      this.channelID;
-      await channelService.delete(this.channelID);
+      await channelService.delete(this.friend.channelID);
     },
     async openChat(event) {
       if (
@@ -108,20 +120,9 @@ export default {
       )
         return;
       bus.$emit("closeLeftMenu");
-      // dismiss notification if exists
-      // TODO move this into openchat or something :/
-      if (
-        this.notifications &&
-        this.notifications >= 1 &&
-        document.hasFocus()
-      ) {
-        this.$socket.client.emit("notification:dismiss", {
-          channelID: this.channelID
-        });
-      }
       this.$store.dispatch("openChat", {
         uniqueID: this.recipient.uniqueID,
-        channelID: this.channelID,
+        channelID: this.friend.channelID,
         channelName: this.recipient.username
       });
     },
@@ -132,7 +133,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .username {
   width: 150px;
   white-space: nowrap;
@@ -140,26 +141,50 @@ export default {
   text-overflow: ellipsis;
 }
 .friend {
-  color: white;
-  padding: 5px;
+  height: 50px;
+  flex-shrink: 0;
   display: flex;
+  align-items: center;
+  width: 100%;
+}
+.friend .wrapper {
+  color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  height: 45px;
+  width: 100%;
   transition: 0.3s;
   position: relative;
   overflow: hidden;
   cursor: pointer;
-  margin: 5px;
   border-radius: 4px;
-}
-.tree {
-  padding-left: 22px;
+  padding-left: 10px;
+  margin-left: 3px;
+  margin-right: 3px;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+    color: white;
+  }
+
+  &.selected {
+    background-color: rgba(0, 0, 0, 0.4);
+    color: white;
+  }
+
+  &:hover .status-name {
+    opacity: 1;
+    height: 13px;
+  }
+
+  &:hover .close-button {
+    display: flex;
+  }
+  &:hover .status {
+    opacity: 1;
+    bottom: -4px;
+  }
 }
 
-.friend:hover {
-  background: #053c4c;
-}
-.friend.selected {
-  background: #053240;
-}
 .profile-picture {
   height: 30px;
   width: 30px;
@@ -170,11 +195,14 @@ export default {
   margin-right: 5px;
   border: solid 2px;
   position: relative;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
   transition: 0.3s;
   flex-shrink: 0;
+}
+.avatar {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 .information {
   margin: auto;
@@ -212,21 +240,12 @@ export default {
   transition: 0.3s;
 }
 
-.friend:hover .status {
-  opacity: 1;
-  bottom: -4px;
-}
-
 .status-name {
   opacity: 0;
   font-size: 13px;
   transition: 0.3s;
   color: #b7cbce;
   height: 0;
-}
-.friend:hover .status-name {
-  opacity: 1;
-  height: 13px;
 }
 
 .close-button {
@@ -240,8 +259,5 @@ export default {
 }
 .close-button:hover {
   color: white;
-}
-.friend:hover .close-button {
-  display: flex;
 }
 </style>

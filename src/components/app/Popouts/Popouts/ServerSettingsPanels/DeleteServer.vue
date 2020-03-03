@@ -1,5 +1,5 @@
 <template>
-  <div class="content-inner" v-if="server">
+  <div class="content-inner delete-server-popout" v-if="server">
     <div class="warning">
       Are you sure you want to delete <strong>{{ server.name }}</strong
       >? This cannot be <strong>UNDONE!</strong>
@@ -50,6 +50,7 @@ export default {
   margin-bottom: 10px;
 }
 .button {
+  border-radius: 4px;
   padding: 10px;
   background: rgba(255, 0, 0, 0.719);
   margin: auto;

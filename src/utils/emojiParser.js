@@ -54,10 +54,12 @@ export default {
     const customEmojis = store.state["settingsModule"].customEmojis;
     return [
       ...matchSorter(customEmojis, shortCode, {
-        keys: ["name"]
+        keys: ["name"],
+        threshold: matchSorter.rankings.CONTAINS
       }),
       ...matchSorter(emojis, shortCode, {
-        keys: ["shortcodes"]
+        keys: ["shortcodes"],
+        threshold: matchSorter.rankings.CONTAINS
       })
     ];
   },

@@ -1,54 +1,49 @@
 <template>
-  <div class="left-panel">
-    <navigation />
-    <div class="content">
-      <MyMiniInformation />
-      <div class="tabs">
-        <div
-          class="tab"
-          :class="{ notify: friendRequestExists, selected: currentTab === 0 }"
-          @click="currentTab = 0"
-        >
-          <div class="material-icons">group</div>
-          Friends
-        </div>
-        <div
-          class="tab"
-          :class="{ notify: DMNotification, selected: currentTab === 1 }"
-          @click="currentTab = 1"
-        >
-          <div class="material-icons">access_time</div>
-          Recents
-        </div>
+  <div class="friend-left-panel">
+    <div class="tabs">
+      <div
+        class="tab"
+        :class="{ notify: friendRequestExists, selected: currentTab === 0 }"
+        @click="currentTab = 0"
+      >
+        <div class="material-icons">group</div>
+        Friends
       </div>
-      <div v-if="currentTab === 0" class="list">
-        <pending-friends />
-        <online-friends />
-        <offline-friends />
+      <div
+        class="tab"
+        :class="{ notify: DMNotification, selected: currentTab === 1 }"
+        @click="currentTab = 1"
+      >
+        <div class="material-icons">access_time</div>
+        Recents
       </div>
-      <div v-else class="list">
-        <recent-friends />
-      </div>
+    </div>
+    <div class="list">
+      <transition name="fade" mode="out-in">
+        <friends-tab v-if="currentTab === 0" />
+        <recent-friends-tab v-else />
+      </transition>
+    </div>
+    <div
+      class="button"
+      :class="{ selected: uniqueIDSelected }"
+      @click="saveNotesBtn"
+    >
+      <div class="material-icons">notes</div>
+      <div class="name">Saved Notes</div>
     </div>
   </div>
 </template>
 
 <script>
-import MyMiniInformation from "../../components/app/MyMiniInformation.vue";
-import PendingFriends from "./relationships/PendingFriends.vue";
-import OnlineFriends from "./relationships/OnlineFriends.vue";
-import OfflineFriends from "./relationships/OfflineFriends.vue";
-import RecentFriends from "./relationships/RecentFriends.vue";
-import Navigation from "@/components/app/Navigation";
+import RecentFriendsTab from "./relationships/RecentFriendsTab.vue";
+import FriendsTab from "./relationships/FriendsTab.vue";
 
 export default {
   components: {
-    MyMiniInformation,
-    PendingFriends,
-    OnlineFriends,
-    OfflineFriends,
-    RecentFriends,
-    Navigation
+
+    FriendsTab,
+    RecentFriendsTab
   },
   data() {
     return {
@@ -60,6 +55,14 @@ export default {
       localStorage.setItem("friendsListTab", tab);
     }
   },
+  methods: {
+    saveNotesBtn() {
+      this.$store.dispatch("openChat", {
+        uniqueID: this.user.uniqueID,
+        channelName: "Saved Notes"
+      });
+    }
+  },
   mounted() {
     const tab = localStorage.getItem("friendsListTab");
     if (tab) {
@@ -67,6 +70,12 @@ export default {
     }
   },
   computed: {
+    user() {
+      return this.$store.getters.user;
+    },
+    uniqueIDSelected() {
+      return this.$store.getters.selectedUserUniqueID === this.user.uniqueID;
+    },
     DMNotification() {
       const notifications = this.$store.getters.notifications;
       const channels = this.$store.getters.channels;
@@ -96,25 +105,27 @@ export default {
   }
 };
 </script>
-<style scoped>
-.left-panel {
+<style scoped lang="scss">
+.friend-left-panel {
   height: 100%;
-  width: 340px;
-  max-width: calc(100% - 60px);
+  width: 100%;
   flex-shrink: 0;
-  display: flex;
-  flex-direction: row;
-  z-index: 1;
-}
-.content {
   display: flex;
   flex-direction: column;
-  flex-shrink: 0;
+  z-index: 1;
   flex: 1;
-  overflow: hidden;
   background: rgba(0, 0, 0, 0.14);
-  border-top-left-radius: 10px;
+  overflow: hidden;
 }
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
 .list {
   flex: 1;
   overflow: auto;
@@ -122,9 +133,10 @@ export default {
 
 .tabs {
   display: flex;
-  color: white;
+  color: rgba(255, 255, 255, 0.7);
   flex-shrink: 0;
   position: relative;
+  background: rgba(0, 0, 0, 0.2);
 }
 .tab {
   display: flex;
@@ -142,6 +154,12 @@ export default {
   cursor: pointer;
   position: relative;
 }
+.tab:hover {
+  color: white;
+}
+.tab.selected {
+  color: white;
+}
 .tab .material-icons {
   margin-right: 5px;
 }
@@ -149,10 +167,10 @@ export default {
   content: "";
   position: absolute;
   height: 3px;
-  left: 0;
-  right: 0;
+  left: 10px;
+  right: 10px;
   bottom: 0;
-  background: rgb(177, 177, 177);
+  background: rgba(255, 255, 255, 0.4);
 }
 .tab::before {
   content: "";
@@ -168,10 +186,32 @@ export default {
   content: "";
   position: absolute;
   height: 3px;
-  left: 0;
-  right: 0;
+  left: 10px;
+  right: 10px;
   bottom: 0;
   background: rgb(255, 255, 255);
+}
+
+.button {
+  color: white;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  padding: 5px;
+  justify-content: center;
+  flex-shrink: 0;
+  background: rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: 0.2s;
+  .material-icons {
+    margin-right: 5px;
+  }
+  &:hover {
+    background: rgba(0, 0, 0, 0.4);
+  }
+  &.selected {
+    background: rgba(0, 0, 0, 0.6);
+  }
 }
 
 /* ------- SCROLL BAR -------*/
@@ -205,11 +245,5 @@ export default {
 
 .notify {
   background: #ee3e34;
-}
-
-@media (max-width: 600px) {
-  .content {
-    border-radius: 0;
-  }
 }
 </style>

@@ -6,7 +6,7 @@
         class="background-dark"
         :style="{
           backgroundImage: `url(${bannerDomain +
-            theme.screenshot}${'?type=png'})`
+            theme.screenshot}${'?type=webp'})`
         }"
       />
     </div>
@@ -39,56 +39,28 @@
 
 <script>
 import config from "@/config.js";
-import exploreService from "@/services/exploreService";
+
 export default {
-  props: ["theme"],
+  props: ["theme", "appliedTheme"],
   data() {
     return {
-      joinClicked: false,
-      bannerDomain: config.domain + "/media/",
-      appliedTheme: null
+      bannerDomain: config.domain + "/media/"
     };
   },
   methods: {
     async applyButton() {
-      // get css
-      const { ok, result } = await exploreService.applyTheme(this.theme.id);
-      if (ok) {
-        const css = result.data.css;
-        const id = result.data.id;
-        // save to local storage.
-        localStorage.setItem("appliedThemeId", id);
-
-        const styleEl = document.createElement("style");
-        styleEl.classList.add("theme-" + id);
-        styleEl.id = "theme";
-        styleEl.innerHTML = css;
-
-        const currentStyle = document.getElementById("theme");
-        if (currentStyle) {
-          currentStyle.outerHTML = styleEl.outerHTML;
-        } else {
-          document.head.innerHTML += styleEl.outerHTML;
-        }
-        this.appliedTheme = id;
-      }
+      this.$emit("applyTheme", this.theme.id)
+    },
+    unApplyButton() {
+      this.$emit("unapplyTheme", this.theme.id)
     },
     bannerImageClicked() {
       this.$store.dispatch(
         "setImagePreviewURL",
-        this.bannerDomain + this.theme.screenshot + "?type=png"
+        this.bannerDomain + this.theme.screenshot + "?type=webp"
       );
     },
-    unApplyButton() {
-      this.appliedTheme = null;
-      localStorage.removeItem("appliedThemeId");
-      document.getElementById("theme").outerHTML = "";
-    }
-  },
-  mounted() {
-    this.appliedTheme = localStorage.getItem("appliedThemeId");
-  },
-  computed: {}
+  }
 };
 </script>
 
@@ -97,8 +69,7 @@ export default {
   position: relative;
   width: 250px;
   height: 350px;
-  background: #024253;
-  opacity: 0.9;
+  background: rgba(0, 0, 0, 0.2);
   margin: 5px;
   border-radius: 4px;
   flex-shrink: 0;
@@ -107,9 +78,6 @@ export default {
   flex-shrink: 0;
   flex-direction: column;
   overflow: hidden;
-  &:hover {
-    opacity: 1;
-  }
   .top {
     display: flex;
     flex-direction: column;
@@ -142,7 +110,7 @@ export default {
   .bottom {
     display: flex;
     flex-direction: column;
-    background: #04333f;
+    background: rgba(0, 0, 0, 0.3);
     flex: 1;
     height: 100%;
     overflow: auto;
@@ -216,8 +184,8 @@ export default {
       align-items: center;
       justify-content: center;
       width: 100%;
-      height: 40px;
-      border-radius: 4px;
+      height: 36px;
+      border-radius: 2px;
       background: rgba(0, 179, 219, 0.8);
       transition: 0.2s;
       margin-right: 10px;

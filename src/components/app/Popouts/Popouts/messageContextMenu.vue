@@ -1,17 +1,21 @@
 <template>
-  <div class="drop-down-menu" v-click-outside="outsideClick">
-    <div class="item" @click="copyMessage" v-if="!isPrecense">Copy</div>
+  <div class="drop-down-menu msg-context-popout" v-click-outside="outsideClick">
+    <div class="item" @click="copyMessage" v-if="!isPrecense">
+      <div class="material-icons">developer_board</div>
+      <div class="name">Copy</div>
+    </div>
     <div class="item" @click="editMessage" v-if="showEditOption && !isPrecense">
-      Edit
+      <div class="material-icons">edit</div>
+      <div class="name">Edit</div>
     </div>
     <div class="item warn" @click="deleteMessage" v-if="showDeleteOption">
-      Delete
+      <div class="material-icons">delete</div>
+      <div class="name">Delete</div>
     </div>
   </div>
 </template>
 
 <script>
-import messagesService from "@/services/messagesService";
 export default {
   data() {
     return {};
@@ -43,10 +47,12 @@ export default {
       this.closeMenu();
     },
     async deleteMessage() {
-      messagesService.delete(
-        this.contextDetails.messageID,
-        this.contextDetails.channelID
-      );
+      this.$store.dispatch("setAllPopout", {
+        show: true,
+        type: "DELETE_CONFIRM",
+        messageID: this.contextDetails.messageID,
+        channelID: this.contextDetails.channelID
+      });
       this.closeMenu();
     },
     setPosition() {
@@ -138,15 +144,23 @@ export default {
   z-index: 99999;
   user-select: none;
   color: white;
+  overflow: hidden;
+  border-radius: 4px;
 }
 
 .item {
+  display: flex;
+  align-items: center;
   padding: 10px;
-  transition: 0.3s;
+  transition: 0.2s;
   font-size: 13px;
   cursor: pointer;
+  .material-icons {
+    font-size: 20px;
+    margin-right: 5px;
+  }
   &:hover {
-    background: rgba(46, 46, 46, 0.651);
+    background: rgba(255, 255, 255, 0.2);
   }
   &.warn {
     color: rgb(255, 59, 59);

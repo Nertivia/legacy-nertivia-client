@@ -19,5 +19,4 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
-src/assets/twemoji/
 src/config.js

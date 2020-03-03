@@ -162,7 +162,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .notice {
   color: rgb(216, 216, 216);
   font-size: 15px;
@@ -228,22 +228,29 @@ export default {
   margin-bottom: 10px;
 }
 .survey-valid {
-  color: green;
+  color: #54ff54;
   margin-bottom: 10px;
 }
 .survey .button {
   color: white;
-  background: #024554;
+  background: rgba(0, 0, 0, 0.4);
   padding-top: 10px;
   padding-bottom: 10px;
-  width: 100%;
+  z-index: 99999;
+  width: 120px;
   text-align: center;
   transition: 0.3s;
   user-select: none;
   cursor: pointer;
+  flex-shrink: 0;
+  margin: 0;
+  align-self: flex-end;
+  margin-bottom: 20px;
+  margin-right: 20px;
+  border-radius: 4px;
 }
 .survey .button:hover {
-  background: #02303c;
+  background: rgba(0, 0, 0, 0.6);
 }
 
 .title {
@@ -263,22 +270,28 @@ export default {
 .input {
   display: flex;
   flex-direction: column;
-  background-color: #044050;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
   padding: 10px;
   margin: 10px;
   margin-left: 30px;
   margin-right: 30px;
   padding-bottom: 0;
+  .input-title {
+    font-size: 14px;
+    margin-left: 2px;
+  }
 }
 .input input {
   width: initial;
   margin-top: 2px;
-  background: #032d38;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
 }
 textarea {
   padding: 10px;
   resize: none;
-  background: #032d38;
+  background-color: rgba(0, 0, 0, 0.4);
   border: none;
   outline: none;
   color: white;
@@ -286,6 +299,7 @@ textarea {
   margin-bottom: 10px;
   margin-top: 2px;
   transition: 0.3s;
+  border-radius: 4px;
 }
 textarea:hover {
   background: rgba(0, 0, 0, 0.401);

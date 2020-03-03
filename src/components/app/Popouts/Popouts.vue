@@ -35,6 +35,14 @@
         key="ace"
         v-if="popouts.allPopout.type === 'ADMIN_CSS_EDITOR'"
       />
+      <admin-manage-user
+        key="amu"
+        v-if="popouts.allPopout.type === 'ADMIN_MANAGE_USER'"
+      />
+      <DeleteConfirm
+        key="delete-confirm"
+        v-if="popouts.allPopout.type === 'DELETE_CONFIRM'"
+      />
     </transition-group>
   </div>
 </template>
@@ -61,8 +69,10 @@ const DragDropFileUploadDialog = () =>
 const ServerInvitePopout = () => import("./Popouts/ServerInvitePopout.vue");
 const ServerSettings = () =>
   import("./Popouts/ServerSettingsPanels/ServerSettings.vue");
-const GenericPopout = () => import("./Popouts/GenericPopout");
 const AdminCssEditor = () => import("./Popouts/AdminEditorPopout");
+const AdminManageUser = () => import("./Popouts/adminManageUserPopout");
+const GenericPopout = () => import("./Popouts/GenericPopout");
+const DeleteConfirm = () => import("./Popouts/DeleteConfirm");
 
 export default {
   components: {
@@ -81,7 +91,9 @@ export default {
     ServerMemberContext,
     ServerContext,
     AddFriend,
-    AdminCssEditor
+    AdminCssEditor,
+    AdminManageUser,
+    DeleteConfirm
   },
   data() {
     return {

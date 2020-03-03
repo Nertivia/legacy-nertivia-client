@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content server-bans">
     <div class="content-inner">
       <div class="banned-members-list">
         <spinner v-if="bans === null" />
@@ -88,9 +88,8 @@ export default {
   overflow: auto;
   .member {
     display: flex;
-    background: #052935;
+    background: rgba(0, 0, 0, 0.5);
     height: 30px;
-    margin: 5px;
     padding: 5px;
     align-content: center;
     align-items: center;
@@ -122,6 +121,7 @@ export default {
       user-select: none;
       flex-shrink: 0;
       margin-left: 5px;
+      font-weight: bold;
     }
   }
 }

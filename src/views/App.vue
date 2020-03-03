@@ -1,20 +1,22 @@
 <template>
   <div id="app" ref="app" :class="{ desktop: isElectron }">
     <vue-headful :title="title" description="Nertivia Chat Client" />
-    <div class="background-image"></div>
-    <transition name="fade-between-two" appear>
-      <ConnectingScreen v-if="!loggedIn" />
+    <div class="background-color"></div>
+    <transition name="fade-between-two" appear mode="in-out">
+      <ConnectingScreen v-if="!ready" />
       <div class="box" v-if="loggedIn">
         <div class="frame" v-if="isElectron">
           <div class="window-buttons">
             <electron-frame-buttons />
           </div>
         </div>
-        <main-nav />
+        <main-nav
+          v-if="$mq !== 'mobile' || currentTab === 3 || currentTab === 4"
+        />
         <div class="panel-layout">
           <news v-if="currentTab == 3" />
-          <direct-message v-if="currentTab == 1" />
-          <servers v-if="currentTab == 2" />
+          <servers v-if="currentTab == 1 || currentTab == 2" />
+          <!-- <servers v-if="currentTab == 2" /> -->
           <explore v-if="currentTab == 0" />
           <admin-panel v-if="currentTab == 4" />
         </div>
@@ -35,20 +37,22 @@ import MainNav from "./../components/app/MainNav.vue";
 import ThemeService from "../services/ThemeService";
 import ExploreService from "../services/exploreService";
 
+const cssZip = () => import("@/utils/cssZip");
+
 const ElectronFrameButtons = () =>
   import("@/components/ElectronJS/FrameButtons.vue");
 
 const News = () =>
   import(/* webpackChunkName: "News" */ "./../components/app/Tabs/News.vue");
 
-const DirectMessage = () => ({
-  component: import("./../components/app/Tabs/DirectMessage.vue"),
-  loading: Spinner,
-  delay: 0
-});
+// const DirectMessage = () => ({
+//   component: import("./../components/app/Tabs/DirectMessage.vue"),
+//   loading: Spinner,
+//   delay: 0
+// });
 
 const Servers = () => ({
-  component: import("./../components/app/Tabs/Servers.vue"),
+  component: import("./../components/app/Tabs/ServerAndDMTab"),
   loading: Spinner,
   delay: 0
 });
@@ -67,7 +71,7 @@ const AdminPanel = () => ({
 export default {
   name: "app",
   components: {
-    DirectMessage,
+    // DirectMessage,
     Servers,
     ConnectingScreen,
     Popouts,
@@ -80,19 +84,11 @@ export default {
   data() {
     return {
       title: "Nertivia",
-      isElectron: window && window.process && window.process.type
+      isElectron: window && window.process && window.process.type,
+      ready: false,
     };
   },
   methods: {
-    dismissNotification(channelID) {
-      const notifications = this.$store.getters.notifications.find(function(e) {
-        return e.channelID === channelID;
-      });
-
-      if (notifications && notifications.count >= 1 && document.hasFocus()) {
-        this.$socket.client.emit("notification:dismiss", { channelID });
-      }
-    },
     switchChannel(isServer) {
       const serverChannelID = this.$store.state.channelModule.serverChannelID;
       const DMChannelID = this.$store.state.channelModule.DMChannelID;
@@ -103,7 +99,6 @@ export default {
           serverChannelID
         ];
         this.$store.dispatch("setChannelName", channel ? channel.name : "");
-        this.dismissNotification(serverChannelID);
       } else {
         const channel = this.$store.state.channelModule.channels[DMChannelID];
         this.$store.dispatch(
@@ -111,7 +106,6 @@ export default {
           channel ? channel.recipients[0].username : ""
         );
         this.$store.dispatch("selectedChannelID", DMChannelID);
-        this.dismissNotification(DMChannelID);
       }
     },
     switchTab(index) {
@@ -155,16 +149,25 @@ export default {
       if (!id && !css) {
         return;
       }
-      const styleEl = document.createElement("style");
-      styleEl.id = "theme";
-      styleEl.classList.add("theme-" + id);
-      styleEl.innerHTML = css;
-      document.head.innerHTML += styleEl.outerHTML;
+      cssZip().then(utils => {
+        css = utils.unzip(css) || css;
+
+        const styleEl = document.createElement("style");
+        styleEl.id = "theme";
+        styleEl.classList.add("theme-" + id);
+        styleEl.innerHTML = css;
+        document.head.innerHTML += styleEl.outerHTML;
+      });
     }
   },
   watch: {
     getWindowWidth(dimensions) {
       this.resizeEvent(dimensions);
+    },
+    loggedIn(val) {
+      setTimeout(() => {
+        this.ready = val;
+      });
     }
   },
   async mounted() {
@@ -370,15 +373,15 @@ export default {
 
 <style>
 textarea {
-  font-family: "Roboto", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
-.background-image {
+.background-color {
   position: fixed;
   z-index: -1;
   width: 100%;
   height: 100%;
-  background: linear-gradient(#0b4155, #01677e);
+  background: linear-gradient(to bottom, #005799 0, #0076d1);
 }
 
 .panel-layout {

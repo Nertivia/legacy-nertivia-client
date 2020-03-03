@@ -65,7 +65,7 @@ body {
   display: flex;
   flex-direction: column;
   color: white;
-  background: linear-gradient(#0b4155, #01677e);
+  background: linear-gradient(to bottom, #005799 0, #0076d1);
 }
 .app-content {
   display: flex;
@@ -94,7 +94,8 @@ body {
   align-items: center;
   z-index: 9999;
   padding-bottom: 20px;
-  background: #044050;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
 }
 .box .title {
   text-align: center;

@@ -1,5 +1,5 @@
 <template>
-  <div class="drop-background" @click="backgroundClickEvent">
+  <div class="drop-background user-info-popout" @click="backgroundClickEvent">
     <div class="box">
       <div class="back-button" @click="close">
         <div class="material-icons">keyboard_arrow_left</div>
@@ -14,7 +14,7 @@
           />
           <div class="uesrname-tag">
             <div class="username">{{ user.username }}</div>
-            <div class="tag">@{{ user.tag }}</div>
+            <div class="tag">:{{ user.tag }}</div>
           </div>
           <!-- <div class="details">
               Pancake • Male • 17-19 • United Kingdom
@@ -57,7 +57,15 @@
                 <div class="material-icons">person_add_disabled</div>
                 <div>Remove Friend</div>
               </div>
-              <div class="button warn">
+              <div
+                class="button warn"
+                v-if="isBlocked"
+                @click="unblockFriendButton"
+              >
+                <div class="material-icons">block</div>
+                <div>Unblock</div>
+              </div>
+              <div class="button warn" v-else @click="blockFriendButton">
                 <div class="material-icons">block</div>
                 <div>Block</div>
               </div>
@@ -89,7 +97,11 @@
               <div
                 class="about-item"
                 v-if="aboutMe"
-                :class="{ infoAboutMe: aboutItem.key === 'About me' }"
+                :class="{
+                  infoAboutMe:
+                    aboutItem.key === 'About me' ||
+                    aboutItem.key === 'Suspend Reason'
+                }"
               >
                 <div class="key">{{ aboutItem.key }}:</div>
                 <div
@@ -135,7 +147,8 @@ export default {
       surveyItems: Object.assign({}, surveyItems),
       user: null,
       avatarDomain: config.domain + "/avatars/",
-      badges
+      badges,
+      isBlocked: null
     };
   },
   methods: {
@@ -155,6 +168,18 @@ export default {
     },
     async AcceptFriendButton() {
       await relationshipService.put(this.uniqueID);
+    },
+    async blockFriendButton() {
+      const { ok } = await userService.block(this.uniqueID);
+      if (ok) {
+        this.isBlocked = true;
+      }
+    },
+    async unblockFriendButton() {
+      const { ok } = await userService.unblock(this.uniqueID);
+      if (ok) {
+        this.isBlocked = false;
+      }
     },
     async RemoveFriendButton() {
       await relationshipService.delete(this.uniqueID);
@@ -183,6 +208,7 @@ export default {
     const { ok, result } = await userService.get(this.uniqueID);
     if (ok) {
       this.user = result.data.user;
+      this.isBlocked = result.data.isBlocked;
     }
   },
   computed: {
@@ -265,8 +291,13 @@ export default {
   flex-direction: row;
   position: relative;
   box-shadow: 0px 0px 20px 5px #151515bd;
-  background: linear-gradient(#0b4155, #01677e);
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 87, 153, 0.8) 0,
+    rgba(0, 118, 209, 0.8)
+  );
   border-radius: 4px;
+  backdrop-filter: blur(5px);
   overflow: hidden;
 }
 
@@ -301,7 +332,7 @@ export default {
   align-content: center;
   padding-bottom: 10px;
   flex-shrink: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.4);
   padding-top: 30px;
 }
 
@@ -315,7 +346,7 @@ export default {
   user-select: auto !important;
 }
 .tag {
-  color: #ccdadd;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .button {
@@ -424,12 +455,13 @@ export default {
   flex-shrink: 0;
 }
 .about-item .key {
-  color: #b6dbe1;
+  color: rgba(255, 255, 255, 0.7);
 }
 .about-item .name {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: rgba(255, 255, 255, 0.9);
 }
 .about-item div {
   align-self: center;
@@ -484,16 +516,16 @@ export default {
   cursor: pointer;
   height: 30px;
   width: 30px;
-  border-radius: 50%;
   flex-shrink: 0;
   justify-content: center;
   align-items: center;
   align-content: center;
   transition: 0.2s;
   user-select: none;
+  opacity: 0.7;
 }
 .back-button:hover {
-  background: #0c484e;
+  opacity: 1;
 }
 @media (max-width: 432px) {
   .box {

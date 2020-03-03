@@ -12,7 +12,7 @@
             </div>
             <div class="info">Login to access Nertivia</div>
             <form
-              v-if="!showCaptcha"
+              v-if="currentPage === 0"
               action="#"
               @submit.prevent="submitForm"
               @keydown="keyDownEvent"
@@ -49,20 +49,20 @@
               >
               <div class="buttons">
                 <button
-                  class="button register-button"
-                  @click.prevent="registerButton"
-                >
-                  I'm new!
-                </button>
-                <button
                   type="submit"
                   :class="{ button: true, deactive: deactive }"
                 >
                   Login
                 </button>
+                <button
+                  class="button register-button"
+                  @click.prevent="registerButton"
+                >
+                  I'm new!
+                </button>
               </div>
             </form>
-            <div v-if="showCaptcha" class="captcha-box">
+            <div v-if="currentPage === 1" class="captcha-box">
               <div class="input captcha-input">
                 <div class="input-text">
                   Beep Boop
@@ -73,6 +73,23 @@
                 <div class="captcha">
                   <Recaptcha ref="recaptcha" @verify="captchaSubmit" />
                 </div>
+              </div>
+            </div>
+            <div v-if="currentPage === 2" class="form">
+              <div class="input">
+                <div class="input-text">
+                  Check your email:
+                  <span v-if="confirm_code.alert" class="error"
+                    >- {{ confirm_code.alert }}</span
+                  >
+                </div>
+                <input
+                  @input="confirmCodeInput"
+                  v-model="confirm_code.value"
+                  type="text"
+                  placeholder="Code"
+                  autocomplete="off"
+                />
               </div>
             </div>
           </div>
@@ -96,10 +113,11 @@ export default {
     return {
       isElectron: window && window.process && window.process.type,
 
-      showCaptcha: false,
+      currentPage: 0,
       visible: true,
       email: { value: "", alert: "" },
       password: { value: "", alert: "" },
+      confirm_code: { value: "", alert: "" },
       reCaptcha: { alert: "" },
       otherError: "",
 
@@ -121,7 +139,7 @@ export default {
       this.login();
     },
     submitForm() {
-      this.showCaptcha = true;
+      this.currentPage = 1;
     },
     keyDownEvent(event) {
       if (event.keyCode === 13) {
@@ -155,12 +173,16 @@ export default {
           window.location.href = "/app";
         }, 1000);
       } else {
-        this.showCaptcha = false;
+        this.currentPage = 0;
         this.deactive = false;
         this.captchaToken = null;
         this.$refs.recaptcha.resetRecaptcha();
         if (error.response === undefined) {
           this.otherError = "Can't connect to server.";
+          return;
+        }
+        if (error.response.data.code === "CONFIRM_EMAIL") {
+          this.currentPage = 2;
           return;
         }
         const errors = error.response.data.errors;
@@ -177,6 +199,29 @@ export default {
     },
     registerButton() {
       this.$router.push("/register");
+    },
+    async confirmCodeInput(event) {
+      const value = event.target.value;
+      if (value.length === 10) {
+        const { ok, result, error } = await AuthenticationService.confirmEmail(
+          this.email.value,
+          value
+        );
+        if (!ok) {
+          if (error.response === undefined) {
+            this.otherError = "Can't connect to server.";
+            return;
+          }
+          this.confirm_code.alert =
+            error.response.data.error || "Something went wrong.";
+        } else {
+          this.visible = false;
+          this.$store.dispatch("token", result.data.token);
+          setTimeout(() => {
+            window.location.href = "/app";
+          }, 1000);
+        }
+      }
     }
   }
 };
@@ -218,7 +263,7 @@ body {
   flex-direction: column;
   color: white;
   height: 100%;
-  background: linear-gradient(#0b4155, #01677e);
+  background: linear-gradient(to bottom, #005799 0, #0076d1);
 }
 .app-content {
   display: flex;
@@ -227,6 +272,7 @@ body {
   width: 100%;
   overflow: auto;
   z-index: 9999;
+  height: 100%;
 }
 
 .content {
@@ -245,7 +291,7 @@ body {
   align-items: center;
   z-index: 9999;
   padding-bottom: 20px;
-  background: #043b4a;
+  background: rgba(0, 0, 0, 0.3);
   border-radius: 4px;
 }
 .box .title {
@@ -267,7 +313,8 @@ body {
   text-align: center;
   margin-bottom: 10px;
 }
-form {
+form,
+.form {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -278,7 +325,8 @@ form {
   margin: 10px;
   width: 80%;
   align-self: center;
-  background: #032b35;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
   padding: 10px;
 }
 .input-text {
@@ -289,7 +337,8 @@ input {
   outline: none;
   padding: 10px;
   border: none;
-  background: #021b21;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
   color: white;
 }
 .buttons {

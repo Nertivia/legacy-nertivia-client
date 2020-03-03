@@ -6,57 +6,62 @@
         v-show="($mq === 'mobile' && showLeftPanel) || $mq !== 'mobile'"
         v-click-outside="hideLeftPanel"
       >
-        <navigation />
-        <div class="content">
-          <MyMiniInformation />
-          <div class="header">
-            <div class="icon">
-              <i class="material-icons">explore</i>
-            </div>
-            <div class="details">
-              <div class="title">Explore</div>
-              <div class="description">Find new servers, Emojis and more!</div>
-            </div>
-          </div>
-          <div class="items">
-            <div
-              class="item"
-              v-for="(tab, index) in tabs"
-              :key="index"
-              :class="{ selected: selectedTab === index }"
-              @click="
-                selectedTab = index;
-                showLeftPanel = false;
-              "
-            >
-              <i class="material-icons">{{ tab.icon }}</i>
-              {{ tab.name }}
-            </div>
-            <div
-              class="card self-promo"
-              v-if="nertiviaServerHide !== true && !nertiviaServer"
-            >
-              <div class="material-icons close-btn" @click="hideSelfPromo">
-                close
+        <div class="inner">
+          <navigation />
+          <div class="content">
+            <MyMiniInformation />
+            <div class="header">
+              <div class="icon">
+                <i class="material-icons">explore</i>
               </div>
-              <div class="logo" />
-              <div class="title">Join the official Nertivia server</div>
-              <div class="button" @click="joinNertiviaServer">Join</div>
+              <div class="details">
+                <div class="title">Explore</div>
+                <div class="description">
+                  Find new servers, Emojis and more!
+                </div>
+              </div>
             </div>
+            <div class="items">
+              <div
+                class="item"
+                v-for="(tab, index) in tabs"
+                :key="index"
+                :class="{ selected: selectedTab === index }"
+                @click="
+                  selectedTab = index;
+                  showLeftPanel = false;
+                "
+              >
+                <i class="material-icons">{{ tab.icon }}</i>
+                {{ tab.name }}
+              </div>
+              <div
+                class="card self-promo"
+                v-if="nertiviaServerHide !== true && !nertiviaServer"
+              >
+                <div class="material-icons close-btn" @click="hideSelfPromo">
+                  close
+                </div>
+                <div class="logo" />
+                <div class="title">Join the official Nertivia server</div>
+                <div class="button" @click="joinNertiviaServer">Join</div>
+              </div>
 
-            <div class="card donate-paypal" v-if="donateHide !== true">
-              <div class="material-icons close-btn" @click="hideDonatePaypal">
-                close
+              <div class="card donate-paypal" v-if="donateHide !== true">
+                <div class="material-icons close-btn" @click="hideDonatePaypal">
+                  close
+                </div>
+                <div class="material-icons heart">favorite</div>
+                <div class="title">
+                  Support Nertivia by donating any amount of money. You will get
+                  a supporter badge and more features in the future.
+                </div>
+                <div class="button" @click="donateButton">Donate</div>
               </div>
-              <div class="material-icons heart">favorite</div>
-              <div class="title">
-                Support Nertivia by donating any amount of money. You will get a
-                supporter badge and more features in the future.
-              </div>
-              <div class="button" @click="donateButton">Donate</div>
             </div>
           </div>
         </div>
+        <MainNav v-if="$mq === 'mobile'" />
       </div>
     </transition>
 
@@ -88,8 +93,10 @@ import Themes from "./Explore/themes";
 import ServerService from "@/services/ServerService";
 import Navigation from "@/components/app/Navigation";
 import MyMiniInformation from "@/components/app/MyMiniInformation.vue";
+const MainNav = () => import("@/components/app/MainNav.vue");
+
 export default {
-  components: { Servers, Themes, Navigation, MyMiniInformation },
+  components: { Servers, Themes, Navigation, MyMiniInformation, MainNav },
   data() {
     return {
       showLeftPanel: false,
@@ -152,11 +159,21 @@ export default {
 }
 .left-panel {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 340px;
+  height: 100%;
   max-width: calc(100% - 60px);
   flex-shrink: 0;
   z-index: 2;
+
+  .inner {
+    display: flex;
+    flex-direction: row;
+    flex-shrink: 0;
+    z-index: 2;
+    flex: 1;
+    overflow: hidden;
+  }
 
   .content {
     display: flex;
@@ -186,19 +203,22 @@ export default {
       border-radius: 4px;
       cursor: pointer;
       transition: 0.3s;
+      color: rgba(255, 255, 255, 0.8);
       &:hover {
-        background: #053c4c;
+        background: rgba(0, 0, 0, 0.2);
+        color: white;
       }
       &.selected {
-        background: #053240;
+        color: white;
+        background: rgba(0, 0, 0, 0.4);
       }
     }
     .item:nth-child(2)::before {
       content: "NEW";
-      font-size: 14px;
+      font-size: 9px;
       background: rgb(255, 55, 55);
       border-radius: 2px;
-      padding: 2px;
+      padding: 4px;
       position: absolute;
       right: 10px;
     }
@@ -224,18 +244,18 @@ export default {
       &::after {
         content: "BETA";
         position: absolute;
-        background: #ff3333;
-        border-radius: 5px;
-        font-size: 9px;
+        background: #f33;
+        border-radius: 2px;
+        font-size: 10px;
         padding: 2px;
-        bottom: 20px;
+        bottom: 22px;
         z-index: 999;
       }
     }
     .details {
       align-self: center;
       .title {
-        font-size: 20px;
+        font-size: 18px;
         margin-bottom: 5px;
         position: relative;
       }
@@ -249,8 +269,7 @@ export default {
 
 .card {
   background: black;
-  height: 180px;
-  border-radius: 5px;
+  border-radius: 4px;
   margin: 5px;
   padding: 10px;
   display: flex;
@@ -267,10 +286,12 @@ export default {
     padding: 5px;
     font-size: 17px;
     margin-top: 15px;
+    margin-bottom: 10px;
     flex-shrink: 0;
     cursor: pointer;
     transition: 0.3s;
     color: rgba(255, 255, 255, 0.924);
+    border-radius: 4px;
     &:hover {
       background-color: rgba(0, 0, 0, 0.3);
     }
@@ -302,6 +323,7 @@ export default {
     .heart {
       font-size: 60px;
       margin-bottom: 10px;
+      margin-top: 10px;
     }
   }
 }
@@ -320,7 +342,7 @@ export default {
 
 .right-panel {
   .header {
-    background: #063443;
+    background: rgba(0, 0, 0, 0.4);
     padding-left: 10px;
     height: 54px;
     display: flex;
@@ -362,9 +384,13 @@ export default {
   .left-panel {
     position: absolute;
     bottom: 0;
-    z-index: 2;
-    background: rgba(19, 107, 139, 0.9);
+    top: 0;
+    z-index: 2222;
+    background: linear-gradient(to bottom, #00477e 0, #016dc0);
     height: 100%;
+  }
+  .left-panel .content {
+    border-radius: 0;
   }
   .darken::after {
     content: "";

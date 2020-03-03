@@ -1,5 +1,5 @@
 <template>
-  <div class="drop-background">
+  <div class="drop-background file-drag-popout">
     <div class="box">
       <i class="material-icons">insert_drive_file</i>
       <div class="info">
@@ -30,7 +30,8 @@
   user-select: none;
   overflow: hidden;
   box-shadow: 0px 0px 20px 5px #151515bd;
-  background-color: #044050;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
   border-radius: 4px;
 }
 .material-icons {

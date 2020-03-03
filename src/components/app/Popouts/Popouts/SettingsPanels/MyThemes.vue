@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container my-themes-popout">
     <make-public
       v-if="showMakePublic"
       @back="closeButton"
@@ -49,6 +49,7 @@ import ThemeTemplate from "./MyThemeTemplate";
 import Editor from "./themesEditor";
 import MakePublic from "./MyThemesMakePublic";
 import Spinner from "@/components/Spinner";
+import { unzip, zip } from "@/utils/cssZip";
 
 import ThemeService from "@/services/ThemeService";
 export default {
@@ -103,23 +104,25 @@ export default {
       }
       this.saving = true;
       this.name = name;
+      const base64 = zip(css);
+
       if (typeof this.editing === "string") {
-        await ThemeService.update({ name, css }, this.editing);
+        await ThemeService.update({ name, css: base64 }, this.editing);
         this.applyButton(this.editing);
       } else {
-        const response = await ThemeService.save({ name, css });
+        const response = await ThemeService.save({ name, css: base64 });
         this.editing = response.result.data.id;
-        this.applyButton(response.result.data.id, css);
+        this.applyButton(response.result.data.id, base64);
       }
       this.saving = false;
     },
-    async applyButton(id, css) {
-      if (css) {
-        this.code = css;
+    async applyButton(id, base64) {
+      if (base64) {
+        this.code = unzip(base64);
       } else {
         const { ok, result } = await ThemeService.getTheme(id);
         if (ok) {
-          this.code = result.data.css;
+          this.code = unzip(result.data.css) || result.data.css;
         }
       }
       // save to local storage.
@@ -143,7 +146,7 @@ export default {
       if (ok) {
         const { name, css } = result.data;
         this.name = name;
-        this.code = css;
+        this.code = unzip(css) || css;
         this.editing = id;
       }
     },
@@ -190,7 +193,7 @@ export default {
 .bar {
   display: flex;
   width: 100%;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.3);
   height: 40px;
   flex-shrink: 0;
   .button {

@@ -4,59 +4,69 @@
       <div class="title">Members ({{ members.length }})</div>
     </div>
     <div class="members">
-      <div class="roles" v-for="role in serverRoles" :key="role.id">
+      <virtual-list :size="49" :remain="20" :variable="true">
+        <div class="roles" v-for="role in serverRoles" :key="role.id">
+          <div
+            class="tab"
+            v-if="serverRoles.length"
+            :style="{ color: role.color, height: '29' + 'px' }"
+          >
+            {{ role.name }} ({{ role.members.length }})
+          </div>
+          <member-template
+            v-for="member in role.members"
+            :key="member.member.uniqueID"
+            :type="member.type"
+            :avatar="member.member.avatar"
+            :user="member.member"
+            :member="member"
+            :style="{ height: '48' + 'px' }"
+          />
+        </div>
+
         <div
           class="tab"
-          v-if="serverRoles.length"
-          :style="{ color: role.color }"
+          v-if="noneRoleOnlineMembers.length"
+          :style="{ color: defaultRole.color, height: '29' + 'px' }"
         >
-          {{ role.name }} ({{ role.members.length }})
+          {{ defaultRole.name }} ({{ noneRoleOnlineMembers.length }})
         </div>
         <member-template
-          v-for="member in role.members"
+          v-for="member in noneRoleOnlineMembers"
           :key="member.member.uniqueID"
           :type="member.type"
           :avatar="member.member.avatar"
           :user="member.member"
           :member="member"
+          :style="{ height: '48' + 'px' }"
         />
-      </div>
 
-      <div
-        class="tab"
-        v-if="noneRoleOnlineMembers.length"
-        :style="{ color: defaultRole.color }"
-      >
-        {{ defaultRole.name }} ({{ noneRoleOnlineMembers.length }})
-      </div>
-      <member-template
-        v-for="member in noneRoleOnlineMembers"
-        :key="member.member.uniqueID"
-        :type="member.type"
-        :avatar="member.member.avatar"
-        :user="member.member"
-        :member="member"
-      />
-
-      <div class="tab" v-if="offlineMembers.length">
-        Offline ({{ offlineMembers.length }})
-      </div>
-      <member-template
-        v-for="member in offlineMembers"
-        :key="member.member.uniqueID"
-        :type="member.type"
-        :avatar="member.member.avatar"
-        :user="member.member"
-        :member="member"
-      />
+        <div
+          class="tab"
+          v-if="offlineMembers.length"
+          :style="{ height: '29' + 'px' }"
+        >
+          Offline ({{ offlineMembers.length }})
+        </div>
+        <member-template
+          v-for="member in offlineMembers"
+          :key="member.member.uniqueID"
+          :type="member.type"
+          :avatar="member.member.avatar"
+          :user="member.member"
+          :member="member"
+          :style="{ height: '48' + 'px' }"
+        />
+      </virtual-list>
     </div>
   </div>
 </template>
 
 <script>
+import VirtualList from "vue-virtual-scroll-list";
 import MemberTemplate from "@/components/app/MemberTemplate";
 export default {
-  components: { MemberTemplate },
+  components: { MemberTemplate, VirtualList },
   computed: {
     selectedServerID() {
       return this.$store.getters["servers/selectedServerID"];
@@ -157,12 +167,11 @@ export default {
   width: 300px;
   max-width: calc(100% - 60px);
   height: 100%;
-  background: rgba(0, 0, 0, 0.14);
 }
 .header {
   height: 50px;
   width: 100%;
-  background: #083a4a;
+  background: rgba(0, 0, 0, 0.2);
   display: flex;
   flex-shrink: 0;
 }
@@ -172,14 +181,19 @@ export default {
   margin: auto;
 }
 .members {
-  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
 }
 .tab {
-  padding: 5px;
   user-select: none;
   cursor: default;
   color: #b5c4ca;
   font-size: 15px;
-  margin-left: 5px;
+  margin-left: 10px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
 }
 </style>

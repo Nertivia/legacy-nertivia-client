@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content server-general">
     <errors-list-template :errors="errors" v-if="errors" />
     <div class="content-inner" :key="key">
       <div class="top">
@@ -136,13 +136,13 @@ export default {
       const file = event.target.files[0];
       const _this = this;
       const maxSize = 2092000;
+      event.target.value = "";
       if (file.size > maxSize) {
         return this.$store.dispatch(
           "setGenericMessage",
           "Image is larger than 2MB"
         );
       }
-      event.target.value = "";
       const allowedFormats = [".png", ".jpeg", ".gif", ".jpg"];
       if (!allowedFormats.includes(path.extname(file.name).toLowerCase())) {
         return this.$store.dispatch(
@@ -224,7 +224,8 @@ export default {
   align-self: center;
   margin-top: 10px;
   justify-content: center;
-  background-color: #044050;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
   flex-shrink: 0;
 
   .avatar {
@@ -237,6 +238,7 @@ export default {
       margin-top: 35px;
     }
     .button {
+      background: rgba(0, 0, 0, 0.2);
       margin-bottom: 16px;
     }
   }
@@ -249,6 +251,9 @@ export default {
     margin-top: 10px;
     padding: 5px;
     margin-left: 2px;
+    .button {
+        background: rgba(0, 0, 0, 0.2);
+    }
     .banner-image {
       position: relative;
       width: 250px;
@@ -292,7 +297,7 @@ export default {
 .input {
   display: flex;
   flex-direction: column;
-  background-color: #044050;
+  background-color: rgba(0, 0, 0, 0.4);
   padding: 10px;
   align-self: center;
   margin: 10px;
@@ -302,9 +307,16 @@ export default {
   margin-top: 2px;
   margin-bottom: 0;
   width: 190px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+}
+.input-title {
+  font-size: 14px;
+  margin-left: 2px;
 }
 .button {
-  background: #033442;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
   padding: 10px;
   align-self: center;
   margin: 5px;
@@ -313,7 +325,7 @@ export default {
   transition: 0.3s;
 }
 .button:hover {
-  background: #022831;
+  background: rgba(0, 0, 0, 0.5);
 }
 .save-button {
   margin-top: 10px;

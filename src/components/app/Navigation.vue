@@ -1,5 +1,5 @@
 <template>
-  <div class="navigation" ref="navigation">
+  <div class="navigation" :class="{ mobile: mobileSize }" ref="navigation">
     <div
       class="tool-tip"
       ref="toolTip"
@@ -86,15 +86,6 @@ export default {
       this.drag = true;
       this.$store.dispatch("setAllPopout", { show: false });
     },
-    dismissNotification(channelID) {
-      const notifications = this.$store.getters.notifications.find(function(e) {
-        return e.channelID === channelID;
-      });
-
-      if (notifications && notifications.count >= 1 && document.hasFocus()) {
-        this.$socket.client.emit("notification:dismiss", { channelID });
-      }
-    },
     openServer(serverID) {
       this.switchTab(2);
       const server = this.servers[serverID];
@@ -107,8 +98,6 @@ export default {
       if (!channel) {
         channel = channels[defaultChannelID];
       }
-
-      this.dismissNotification(channel.channelID);
       this.$store.dispatch("servers/setSelectedServerID", serverID);
       this.$store.dispatch("openChannel", channel);
       this.$store.dispatch("selectedChannelID", channel.channelID);
@@ -132,7 +121,11 @@ export default {
       if (this.drag) return;
       this.toolTipLocalName = null;
       this.toolTipServerID = serverID;
-      this.toolTipTopPosition = top - this.getTopHeight() + 20;
+      if (this.mobileSize) {
+        this.toolTipTopPosition = top - this.getTopHeight() + 80;
+      } else {
+        this.toolTipTopPosition = top - this.getTopHeight() + 20;
+      }
       this.toolTipShown = true;
     },
     mouseLeaveEvent() {
@@ -163,6 +156,14 @@ export default {
     }
   },
   computed: {
+    mobileSize() {
+      return (
+        this.$mq === "mobile" &&
+        (this.currentTab === 0 ||
+          this.currentTab === 1 ||
+          this.currentTab === 2)
+      );
+    },
     user() {
       return this.$store.getters.user;
     },
@@ -194,47 +195,6 @@ export default {
     },
     selectedServerID() {
       return this.$store.getters["servers/selectedServerID"];
-    },
-    serverNotification() {
-      const notifications = this.$store.getters.notifications;
-      const channels = this.$store.getters.channels;
-      const notification = notifications.find(e => {
-        return (
-          channels[e.channelID] &&
-          channels[e.channelID].server_id &&
-          (e.channelID !== this.$store.getters.selectedChannelID ||
-            !document.hasFocus() ||
-            this.currentTab !== 2)
-        );
-      });
-      return notification;
-    },
-    DMNotification() {
-      const notifications = this.$store.getters.notifications;
-      const channels = this.$store.getters.channels;
-      const notification = notifications.find(e => {
-        return (
-          channels[e.channelID] &&
-          !channels[e.channelID].server_id &&
-          (e.channelID !== this.$store.getters.selectedChannelID ||
-            !document.hasFocus() ||
-            this.currentTab !== 1)
-        );
-      });
-      // unopened dm
-      if (!notification) {
-        return notifications.find(e => {
-          return !channels[e.channelID];
-        });
-      }
-      return notification;
-    },
-    friendRequestExists() {
-      const allFriend = this.$store.getters.user.friends;
-      const result = Object.keys(allFriend).map(function(key) {
-        return allFriend[key];
-      });
-      return result.find(friend => friend.status === 1);
     }
   },
   mounted() {
@@ -315,10 +275,10 @@ export default {
   opacity: 0.8;
   transition: 0.2s;
   &:hover {
-    background: #074447;
+    background: rgba(0, 0, 0, 0.2);
   }
   &.selected {
-    background: #042a2b;
+    background: rgba(0, 0, 0, 0.2);
   }
 }
 
@@ -341,6 +301,7 @@ export default {
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(3px);
   padding: 5px;
+  border-radius: 4px;
   max-width: 150px;
   white-space: nowrap;
   overflow: hidden;
@@ -354,7 +315,7 @@ export default {
 
 @media (max-width: 600px) {
   .navigation {
-    background: linear-gradient(#136a8a, #00b4db);
+    background: #005a9e;
   }
 }
 </style>

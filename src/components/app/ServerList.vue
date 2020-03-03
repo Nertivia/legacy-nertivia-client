@@ -1,52 +1,46 @@
 <template>
-  <div class="left-panel">
-    <navigation />
-    <div class="right">
-      <MyMiniInformation />
-      <div
-        class="server-banner"
-        @mouseenter="bannerHover = true"
-        @mouseleave="bannerHover = false"
-        :class="{ extendBanner: server && server.banner }"
-        v-if="selectedServerID"
-      >
-        <div
-          class="banner-image"
-          @click="bannerImageClicked"
-          v-if="server && server.banner"
-          :style="{
-            backgroundImage: `url(${bannerDomain}${server.banner}${
-              bannerHover ? '' : '?type=png'
-            })`
-          }"
-        />
-        <div class="sub-banner">
-          <div class="text" :title="servers[selectedServerID].name">
-            {{ servers[selectedServerID].name }}
-          </div>
-          <div class="options-button material-icons" @click="openServerContext">
-            more_vert
-          </div>
+  <div class="server-left-panel">
+    <div
+      class="server-banner"
+      @mouseenter="bannerHover = true"
+      @mouseleave="bannerHover = false"
+      :class="{ extendBanner: server && server.banner }"
+      v-if="selectedServerID"
+    >
+      <img
+        class="banner-image"
+        @click="bannerImageClicked"
+        v-if="server && server.banner"
+        :src="
+          `${bannerDomain}${server.banner}${bannerHover ? '' : '?type=webp'}`
+        "
+      />
+      <div class="sub-banner">
+        <div class="text" :title="servers[selectedServerID].name">
+          {{ servers[selectedServerID].name }}
+        </div>
+        <div class="options-button material-icons" @click="openServerContext">
+          more_vert
         </div>
       </div>
-      <div class="channels-list">
-        <channels-list v-if="selectedServerID" :server-i-d="selectedServerID" />
+    </div>
+    <div class="channels-list">
+      <channels-list v-if="selectedServerID" :server-i-d="selectedServerID" />
+      <div v-else class="not-selected">
+        <div class="material-icons">dns</div>
+        <div>Select a server</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import MyMiniInformation from "@/components/app/MyMiniInformation.vue";
 import ChannelsList from "@/components/app/ServerTemplate/ChannelsList.vue";
-import Navigation from "@/components/app/Navigation.vue";
 import config from "@/config";
 
 export default {
   components: {
-    MyMiniInformation,
-    ChannelsList,
-    Navigation
+    ChannelsList
   },
   data() {
     return {
@@ -122,40 +116,24 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.left-panel {
+.server-left-panel {
   height: 100%;
-  width: 340px;
-  max-width: calc(100% - 60px);
+  width: 100%;
   flex-shrink: 0;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   z-index: 1;
-}
-
-.seperater {
-  height: 1px;
-  width: calc(100% - 10px);
-  align-self: center;
-  background-color: #a0c8d5;
-  flex-shrink: 0;
+  flex: 1;
+  background: rgba(0, 0, 0, 0.14);
+  overflow: hidden;
 }
 
 .channels-list {
   display: flex;
   flex: 1;
   height: 100%;
+  overflow: auto;
 }
-.right {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: rgba(0, 0, 0, 0.14);
-  border-top-left-radius: 10px;
-}
-
 .server-banner {
   display: flex;
   overflow: hidden;
@@ -166,16 +144,25 @@ export default {
   border-radius: 4px;
   margin: 10px;
   box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.13);
+  flex-shrink: 0;
 }
 .extendBanner {
   height: 130px;
   background-color: rgb(32, 32, 32);
+  overflow: hidden;
+  .sub-banner {
+    align-items: flex-end;
+    padding-bottom: 10px;
+    background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
+    height: 70px;
+  }
+  .options-button {
+    margin-bottom: -7px;
+  }
 }
 .banner-image {
   position: absolute;
-  background-image: url("../../assets/background.jpg");
-  background-position: center;
-  background-size: cover;
+  object-fit: cover;
   height: 100%;
   z-index: 2;
   width: 100%;
@@ -202,6 +189,22 @@ export default {
     width: 100%;
   }
 }
+.not-selected {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  color: white;
+  font-size: 20px;
+  .material-icons {
+    font-size: 35px;
+    margin-bottom: 15px;
+  }
+
+}
 .options-button {
   display: flex;
   align-items: center;
@@ -216,12 +219,6 @@ export default {
   font-size: 20px;
   &:hover {
     background: rgba(0, 0, 0, 0.322);
-  }
-}
-
-@media (max-width: 600px) {
-  .right {
-    border-radius: 0;
   }
 }
 </style>

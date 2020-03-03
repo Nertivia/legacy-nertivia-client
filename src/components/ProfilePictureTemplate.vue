@@ -13,17 +13,20 @@
             '20px'}`
         "
       />
-      <div
-        :class="`inner-profile-picture ${$props.hover ? 'hoverable' : ''}`"
-        :style="
-          `${
-            status || status === 0
-              ? 'border: solid 3px ' + statusColor.statusColor
-              : ''
-          }; height: ${$props.size}; width: ${
-            $props.size
-          }; background-image: url(${$props.url})`
-        "
+
+      <img
+        class="inner-profile-picture"
+        :class="{ hoverable: $props.hover }"
+        :style="{
+          height: $props.size,
+          width: $props.size,
+          border: `${
+            statusColor === undefined
+              ? undefined
+              : 'solid 3px' + statusColor.statusColor
+          }`
+        }"
+        :src="$props.url"
       />
     </div>
   </div>
@@ -76,6 +79,7 @@ export default {
     },
     statusColor() {
       let status = this.status;
+      if (status === undefined) return undefined;
       return {
         statusName: statuses[parseInt(status)].name,
         statusURL: statuses[parseInt(status)].url,
@@ -101,9 +105,7 @@ export default {
   background-color: rgba(0, 0, 0, 0.315);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   border-radius: 50%;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  object-fit: cover;
   display: flex;
   transition: 0.2s;
   backface-visibility: hidden;

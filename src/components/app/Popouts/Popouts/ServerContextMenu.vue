@@ -1,19 +1,38 @@
 <template>
   <div class="drop-down-menu" v-click-outside="outsideClick">
-    <div class="item" @click="createInvite">Manage Invites</div>
-    <div class="item" v-if="checkServerCreator" @click="showSettings">
-      Server Settings
+    <div class="item" @click="createInvite">
+      <div class="material-icons">settings</div>
+      <div class="name">Manage Invites</div>
+    </div>
+    <div
+      class="item"
+      v-if="checkServerCreator || hasAdminRoles"
+      @click="showSettings"
+    >
+      <div class="material-icons">settings</div>
+      <div class="name">Server Settings</div>
     </div>
     <div class="item warn" v-if="!checkServerCreator" @click="leaveServer">
-      Leave Server
+      <div class="material-icons">exit_to_app</div>
+      <div class="name">Leave Server</div>
     </div>
     <div class="item" @click="copyServerID">
-      Copy Server ID
+      <div class="material-icons">developer_board</div>
+      <div class="name">Copy ID</div>
+    </div>
+    <div
+      class="item"
+      :class="{ disabled: !channelNotifications.length }"
+      @click="markAsReadButton"
+    >
+      <div class="material-icons">markunread_mailbox</div>
+      <div class="name">Mark As Read</div>
     </div>
   </div>
 </template>
 
 <script>
+import { permissions, containsPerm } from "@/utils/RolePermissions";
 import ServerService from "../../../../services/ServerService";
 export default {
   data() {
@@ -57,6 +76,16 @@ export default {
     copyServerID() {
       this.closeMenu();
       this.$clipboard(this.contextDetails.serverID);
+    },
+    markAsReadButton() {
+      if (!this.channelNotifications.length) return;
+      this.closeMenu();
+      for (let index = 0; index < this.channelNotifications.length; index++) {
+        const notification = this.channelNotifications[index];
+        this.$socket.client.emit("notification:dismiss", {
+          channelID: notification.channelID
+        });
+      }
     }
   },
   mounted() {
@@ -76,6 +105,54 @@ export default {
     },
     checkServerCreator() {
       return this.contextDetails.creatorUniqueID === this.user.uniqueID;
+    },
+    serverMember() {
+      return this.$store.getters["servers/serverMembers"].find(
+        sm =>
+          sm.server_id === this.contextDetails.serverID &&
+          sm.uniqueID === this.user.uniqueID
+      );
+    },
+    myRolePermissions() {
+      if (!this.serverMember) return undefined;
+      const roles = this.$store.getters["servers/roles"][
+        this.contextDetails.serverID
+      ];
+      if (!roles) return undefined;
+
+      let perms = 0;
+
+      if (this.serverMember.roles) {
+        for (let index = 0; index < roles.length; index++) {
+          const role = roles[index];
+          if (this.serverMember.roles.includes(role.id)) {
+            perms = perms | (role.permissions || 0);
+          }
+        }
+      }
+
+      const defaultRole = roles.find(r => r.default);
+      perms = perms | defaultRole.permissions;
+      return perms;
+    },
+    hasAdminRoles() {
+      const adminPermsFlags =
+        permissions.MANAGE_CHANNELS.value |
+        permissions.MANAGE_ROLES.value |
+        permissions.ADMIN.value;
+      return containsPerm(this.myRolePermissions, adminPermsFlags);
+    },
+    serverChannelIds() {
+      const channelIds = this.$store.getters["servers/channelsIDs"][
+        this.contextDetails.serverID
+      ];
+      return channelIds;
+    },
+    channelNotifications() {
+      const notifications = this.$store.getters.notifications;
+      return notifications.filter(n =>
+        this.serverChannelIds.includes(n.channelID)
+      );
     }
   }
 };
@@ -90,19 +167,33 @@ export default {
   backdrop-filter: blur(5px);
   z-index: 99999;
   user-select: none;
-  color: white;
+  color: rgba(255, 255, 255, 0.7);
+  overflow: hidden;
+  border-radius: 4px;
 }
 
 .item {
+  display: flex;
+  align-items: center;
   padding: 10px;
-  transition: 0.3s;
+  transition: 0.2s;
   font-size: 13px;
   cursor: pointer;
+  .material-icons {
+    font-size: 20px;
+    margin-right: 5px;
+  }
   &:hover {
-    background: rgba(46, 46, 46, 0.651);
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
   }
   &.warn {
     color: rgb(255, 59, 59);
+  }
+  &.disabled {
+    cursor: default;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.4);
   }
 }
 </style>

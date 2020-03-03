@@ -73,17 +73,17 @@ export default {
     transition: 0.2s;
     &:hover {
       color: white;
-      background: rgba(0, 0, 0, 0.3);
+      background: rgba(0, 0, 0, 0.2);
     }
     &.selected {
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0, 0, 0, 0.4);
       color: white;
     }
   }
 }
 .context {
   display: flex;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.5);
   .button {
     display: flex;
     margin: 5px;

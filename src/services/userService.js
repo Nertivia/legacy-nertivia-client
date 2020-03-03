@@ -1,19 +1,32 @@
 import { instance, wrapper } from "./Api";
 
+const config = require("../config.js");
+
+let domain = "";
+if (config.serverURL) domain = config.serverURL + "/";
+
 export default {
   get(uniqueID) {
-    return wrapper(instance().get(`user/${uniqueID}`));
+    return wrapper(instance().get(domain + `user/${uniqueID}`));
   },
   update(data) {
-    return wrapper(instance().patch(`user`, data));
+    return wrapper(instance().patch(domain + `user`, data));
   },
   getSurvey() {
-    return wrapper(instance().get("/user/survey"));
+    return wrapper(instance().get(domain + "/user/survey"));
   },
   setSurvey(data) {
-    return wrapper(instance().put("/user/survey", data));
+    return wrapper(instance().put(domain + "/user/survey", data));
   },
   skipSurvey() {
-    return wrapper(instance().delete("/user/survey/skip"));
+    return wrapper(instance().delete(domain + "/user/survey/skip"));
+  },
+  block(uniqueID) {
+    return wrapper(instance().post(domain + "/user/block", { uniqueID }));
+  },
+  unblock(uniqueID) {
+    return wrapper(
+      instance().delete(domain + "/user/block", { data: { uniqueID } })
+    );
   }
 };

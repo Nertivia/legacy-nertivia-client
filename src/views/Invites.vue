@@ -139,7 +139,7 @@ body {
   flex-direction: column;
   color: white;
   height: 100%;
-  background: linear-gradient(#0b4155, #01677e);
+  background: linear-gradient(to bottom, #005799 0, #0076d1);
 }
 .app-content {
   display: flex;
@@ -168,7 +168,8 @@ body {
   justify-content: center;
   z-index: 9999;
   padding-bottom: 20px;
-  background: #044050;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
 }
 .server {
   display: flex;
@@ -180,10 +181,11 @@ body {
 }
 .invalid {
   margin-top: 15px;
+  align-items: center;
+  align-content: center;
+  text-align: center;
 }
-.red {
-  background: #9e1a1c;
-}
+
 .avatar {
   align-self: center;
   margin-bottom: 10px;
@@ -208,6 +210,7 @@ body {
   flex-shrink: 0;
   text-align: center;
   cursor: pointer;
+  border-radius: 4px;
 }
 .button:hover {
   background: rgb(25, 151, 255);

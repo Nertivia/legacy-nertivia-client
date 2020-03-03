@@ -1,5 +1,8 @@
 <template>
-  <div class="dark-background" @mousedown="backgroundClick">
+  <div
+    class="dark-background server-invite-popout"
+    @mousedown="backgroundClick"
+  >
     <div class="inner">
       <div class="top">
         <div class="button" @click="createInviteButton">
@@ -17,7 +20,8 @@
             :key="invite"
             class="invite"
           >
-            {{ invite }}
+            <span class="link">https://nertivia.tk/invites/</span>{{ invite }}
+            <div class="copy-button" @click="copy(invite)">Copy</div>
           </div>
         </div>
       </div>
@@ -68,6 +72,9 @@ export default {
       if (ok) {
         this.invites.push(result.data.invite_code);
       }
+    },
+    copy(invite) {
+      this.$clipboard("https://nertivia.tk/invites/" + invite);
     }
   },
   computed: {
@@ -98,8 +105,13 @@ export default {
   color: white;
   overflow: hidden;
   box-shadow: 0px 0px 20px 5px #151515bd;
-  background: linear-gradient(#0b4155, #01677e);
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 87, 153, 0.8) 0,
+    rgba(0, 118, 209, 0.8)
+  );
   border-radius: 4px;
+  backdrop-filter: blur(5px);
 }
 .top {
   display: flex;
@@ -111,14 +123,15 @@ export default {
 
 .button {
   padding: 10px;
-  background: #062c3a;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
   margin: auto;
   transition: 0.3s;
   user-select: none;
   cursor: pointer;
 }
 .button:hover {
-  background: #041e27;
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .bottom {
@@ -140,7 +153,25 @@ export default {
 .invite {
   display: flex;
   background: rgba(0, 0, 0, 0.274);
-  margin: 5px;
+  margin: 1px;
+  margin-left: 0;
+  margin-right: 0;
   padding: 10px;
+}
+.link {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.copy-button {
+  display: flex;
+  margin: auto;
+  margin-right: 0;
+  flex-shrink: 0;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: 0.2s;
+}
+.copy-button:hover {
+  opacity: 1;
 }
 </style>

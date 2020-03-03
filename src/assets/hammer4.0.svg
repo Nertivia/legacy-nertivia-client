@@ -1,0 +1,20 @@
+<svg width="500" height="500" xmlns="http://www.w3.org/2000/svg">
+ <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+ <defs>
+  <filter id="svg_2_blur" x="-50%" y="-50%" width="200%" height="200%">
+   <feGaussianBlur stdDeviation="0"/>
+  </filter>
+ </defs>
+ <g>
+  <title>background</title>
+  <rect x="-1" y="-1" width="502" height="502" id="canvas_background" fill="none"/>
+  <g id="canvasGrid" display="none">
+   <rect id="svg_3" width="100%" height="100%" x="0" y="0" stroke-width="0" fill="url(#gridpattern)"/>
+  </g>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <rect stroke="#000" fill="#ff3b3b" stroke-width="0" x="234.536815" y="24.865021" width="91.926378" height="511.269947" id="svg_1" rx="5" filter="url(#svg_2_blur)" transform="rotate(-45 280.4999999999999,280.49999999999994) "/>
+  <rect stroke="#000" fill="#ff3b3b" stroke-width="0" x="0.811563" y="79.83451" width="271.661204" height="113.615313" id="svg_4" rx="5" filter="url(#svg_2_blur)" transform="rotate(-45 136.6421661376953,136.6421661376953) "/>
+ </g>
+</svg>

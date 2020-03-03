@@ -8,6 +8,16 @@ export const permissions = {
     name: "Send Messages",
     value: 2,
     info: "Send messages to server channels"
+  },
+  MANAGE_ROLES: {
+    name: "Manage Roles",
+    value: 4,
+    info: "Update or delete roles"
+  },
+  MANAGE_CHANNELS: {
+    name: "Manage Channels",
+    value: 8,
+    info: "Update or delete channels"
   }
 };
 

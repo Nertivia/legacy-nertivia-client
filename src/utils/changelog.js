@@ -1,10 +1,127 @@
 const config = [
   {
+    version: "1.0.4",
+    title: '"Stop DMing me!"',
+    shortTitle: "",
+    date: "27/02/2020",
+    new: [
+      "Got annoying people messaging you? Fear no more, The block button now works and blocks users."
+    ]
+  },
+  {
+    version: "1.0.3",
+    title: "Delete confirmation",
+    shortTitle: "",
+    date: "24/02/2020",
+    new: [
+      "When editing a message, making the box empty will prompt you to delete the message.",
+      "When deleting a message, you get a confirmation message so that you dont accidentally delete something important 👀"
+    ]
+  },
+  {
+    version: "1.0.2",
+    title: "More performance improvements!",
+    shortTitle: "",
+    date: "17/02/2020",
+    new: ["Added more fade animations"],
+    fix: ["Improved performance by making code more efficient."]
+  },
+  {
+    version: "1.0.1",
+    title: "Grouped messages + message performance",
+    shortTitle: "",
+    date: "15/02/2020",
+    new: [
+      "Messages by the same user should now be grouped. This will make it easier to read messages and save some screen space."
+    ],
+    fix: [
+      "Fixed a bug where message role colors would make the messages load slower."
+    ]
+  },
+  {
+    version: "1.0.0",
+    title: "Speedy emojis",
+    shortTitle: "",
+    date: "15/02/2020",
+    new: [
+      "Re-worked on emojji panel. Should be way faster to load now ",
+      "When changing channels/dms, focus should change to the inpur area.",
+      "mentions class have been added to the message container. (for theme develoeprs)"
+    ]
+  },
+  {
+    version: 9.9,
+    title: "New notification sounds!",
+    shortTitle: "",
+    date: "13/02/2020",
+    new: [
+      "New Notification sounds created by Fullipsp@hhrf",
+      "Mention gets it's own notification sound."
+    ]
+  },
+  {
+    version: 9.8,
+    title: "Wake up @Fishie!",
+    shortTitle: "",
+    date: "12/02/2020",
+    new: [
+      "Is someone not responding to you? Wake them up by mentioning them by typing '@' followed by their name in the message input box."
+    ]
+  },
+  {
+    version: 9.7,
+    title: "You have 99 mails!",
+    shortTitle: "",
+    date: "11/02/2020",
+    new: [
+      "Tired of manually reading useless messages just to remove the notification? Introducing the new Mark as read feature! Right click on a server to mark all channels read."
+    ],
+    msg: "I will also make muting channels possible, maybe in the next update."
+  },
+  {
+    version: 9.6,
+    title: "Performance improvements!",
+    shortTitle: "",
+    date: "08/02/2020",
+    new: [
+      "Implimented recycler view to recents tab and members list. This should improve scrolling performance and hopefully use less memory."
+    ]
+  },
+  {
+    version: 9.5,
+    title: "New design and font!",
+    shortTitle: "",
+    date: "08/02/2020",
+    new: [
+      "New color scheme for Nertivia!",
+      "New font called 'Montserrat'. More font options are coming soon!"
+    ]
+  },
+  {
+    version: 9.3,
+    title: "Saved Notes and bug fixes",
+    shortTitle: "",
+    date: "25/01/2020",
+    new: ["You can now save your own messages in a separate log."],
+    fix: ["Fixed a bug where some role colors would not show correctly."]
+  },
+  {
+    version: 9.2,
+    title: "Image cache, more role permissions!",
+    shortTitle: "",
+    date: "09/01/2020",
+    new: [
+      "Image cache has been implimented.",
+      "2 new role permissions have been added: Manage roles, manage channels."
+    ],
+    msg:
+      "Although image cache has been implimented, it might not fix anything :( I need a better storage solution. Also, Happy late new year!"
+  },
+  {
     version: 9.1,
     title: "Roles!",
     shortTitle: "",
     date: "23/12/2019",
-    headColor: "#007792",
     new: [
       "You can now create roles and then see them in the members list. This feature is not finished yet but seems to be bug free for now :D"
     ]

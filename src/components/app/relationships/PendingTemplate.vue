@@ -7,13 +7,13 @@
     />
     <div class="information">
       <div class="username">
-        {{ $props.username }}
+        {{ friend.recipient.username }}
       </div>
-      <div class="tag">@{{ $props.tag }}</div>
+      <div class="tag">@{{ friend.recipient.tag }}</div>
     </div>
     <div class="buttons">
       <div
-        :class="{ button: true, accept: true, hide: $props.status == 0 }"
+        :class="{ button: true, accept: true, hide: friend.status == 0 }"
         @click="accept"
       >
         <i class="material-icons">
@@ -34,10 +34,11 @@ import RelationshipService from "@/services/RelationshipService.js";
 import config from "@/config.js";
 
 export default {
-  props: ["username", "tag", "status", "uniqueID"],
+  props: ["friend"],
   computed: {
     user() {
-      return this.$store.getters.user.friends[this.$props.uniqueID].recipient;
+      return this.$store.getters.user.friends[this.friend.recipient.uniqueID]
+        .recipient;
     },
     userAvatar() {
       return config.domain + "/avatars/" + this.user.avatar;
@@ -45,13 +46,16 @@ export default {
   },
   methods: {
     deny() {
-      RelationshipService.delete(this.$props.uniqueID);
+      RelationshipService.delete(this.friend.recipient.uniqueID);
     },
     accept() {
-      RelationshipService.put(this.$props.uniqueID);
+      RelationshipService.put(this.friend.recipient.uniqueID);
     },
     openUserInformation() {
-      this.$store.dispatch("setUserInformationPopout", this.uniqueID);
+      this.$store.dispatch(
+        "setUserInformationPopout",
+        this.friend.recipient.uniqueID
+      );
     }
   }
 };
@@ -59,7 +63,7 @@ export default {
 
 <style scoped>
 .username {
-  width: 80px;
+  width: 119px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -67,14 +71,9 @@ export default {
 }
 .pending-friend {
   color: white;
-  padding: 5px;
-  padding-left: 22px;
+  padding-left: 15px;
   display: flex;
   transition: 0.3s;
-}
-
-.pending-friend:hover {
-  background-color: rgba(0, 0, 0, 0.246);
 }
 
 .profile-picture {
@@ -88,6 +87,7 @@ export default {
   background-size: cover;
   background-repeat: no-repeat;
   flex-shrink: 0;
+  cursor: pointer;
 }
 .information {
   margin: auto;
@@ -96,18 +96,18 @@ export default {
   flex: 1;
 }
 .tag {
-  color: rgb(173, 173, 173);
+  color: rgba(173, 173, 173, 0.8);
   font-size: 15px;
 }
 
 .buttons {
   display: flex;
   margin: auto;
-  margin-right: 5px;
+  margin-right: 10px;
 }
 
 .button {
-  background-color: rgba(65, 65, 65, 0.438);
+  border-radius: 4px;
   width: 30px;
   height: 30px;
   margin: 5px;
@@ -118,14 +118,15 @@ export default {
 .hide {
   display: none;
 }
-.button:hover {
-  background-color: rgba(0, 255, 0, 0.281);
-}
 .button .material-icons {
   margin: auto;
-  color: rgba(255, 255, 255, 0.747);
+  color: rgba(255, 255, 255, 0.7);
+  transition: 0.2s;
 }
-.button.decline:hover {
-  background-color: rgba(255, 0, 0, 0.281);
+.button:hover .material-icons {
+  color: white;
+}
+.button.decline:hover .material-icons {
+  color: rgb(255, 80, 80);
 }
 </style>

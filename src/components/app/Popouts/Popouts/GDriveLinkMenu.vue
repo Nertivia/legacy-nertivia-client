@@ -1,5 +1,5 @@
 <template>
-  <div class="dark-background" @click="backgroundClick">
+  <div class="dark-background GDrive-popout" @click="backgroundClick">
     <div class="inner">
       <div class="text">
         To upload files, images or set avatars, You must link your Google Drive
@@ -55,7 +55,7 @@ export default {
       }
     },
     donateButton() {
-      window.open("https://www.patreon.com/nertivia", "_blank");
+      window.open("https://www.paypal.me/DiscordDevHelp", "_blank");
     }
   }
 };
@@ -82,8 +82,13 @@ export default {
   color: white;
   overflow: hidden;
   box-shadow: 0px 0px 20px 5px #151515bd;
-  background: linear-gradient(#0b4155, #01677e);
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 87, 153, 0.8) 0,
+    rgba(0, 118, 209, 0.8)
+  );
   border-radius: 4px;
+  backdrop-filter: blur(5px);
 }
 .text {
   color: white;
@@ -118,7 +123,7 @@ export default {
   user-select: none;
 }
 .GDrive-img {
-  background-image: url(./../../../../assets/Google_Drive_logo.png);
+  background-image: url(./../../../../assets/Google_Drive_logo.webp);
 }
 .buttons {
   margin: auto;
@@ -134,6 +139,7 @@ export default {
   transition: 0.3s;
   margin-left: 10px;
   margin-right: 10px;
+  border-radius: 4px;
 }
 .donate {
   background: rgb(218, 179, 6);

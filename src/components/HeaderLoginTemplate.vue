@@ -78,7 +78,7 @@ export default {
   background-position: center;
   background-size: 100%;
   background-repeat: no-repeat;
-  background-image: url(./../assets/logo.svg);
+  background-image: url(./../assets/transparentLogo.svg);
   overflow: hidden;
   position: relative;
   margin: auto;
@@ -86,7 +86,7 @@ export default {
 }
 .eyes {
   position: absolute;
-  left: 110px;
+  left: 120px;
   top: 101px;
   height: 0px;
   width: 25px;
@@ -114,7 +114,6 @@ export default {
 
 .header .title {
   color: white;
-  font-size: 40px;
-  margin-top: 10px;
+  font-size: 30px;
 }
 </style>

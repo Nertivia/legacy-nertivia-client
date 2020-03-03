@@ -5,7 +5,7 @@ export default order => {
   return {
     order: order++,
     match: function(source) {
-      return /^ *```(?:(\S+) *)?\n?((?:[^`])+)```/.exec(source);
+      return /^ *```(?:(\S+) *)?\n?([^]+?)```/.exec(source);
     },
 
     parse: function(capture) {

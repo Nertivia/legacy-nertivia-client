@@ -1,75 +1,95 @@
 <template>
-  <div class="container" @mouseover="hover = true" @mouseleave="hover = false">
+  <div
+    class="message-container container"
+    :class="{ 'mentioned-message': isMentioned, hideAdditional }"
+    @mouseover="mouseOverEvent"
+    @mouseleave="hover = false"
+  >
     <div
-      v-if="!type || type === 0"
+      v-if="!message.type || message.type === 0"
       :class="{
         message: true,
-        ownMessage: user.uniqueID === $props.uniqueID,
-        ownMessageLeft:
-          user.uniqueID === $props.uniqueID &&
+        ownMessage: user.uniqueID === creator.uniqueID,
+        ownMessageRight:
+          user.uniqueID === creator.uniqueID &&
           apperance &&
           apperance.own_message_right === true
       }"
     >
-      <div class="avatar">
+      <div class="small-time" v-if="hideAdditional" :title="getDate">{{ getTime }}</div>
+      <div class="avatar" v-if="!hideAdditional">
         <profile-picture
-          :admin="$props.admin"
-          :url="`${userAvatar}${hover ? '' : '?type=png'}`"
+          :admin="creator.admin"
+          :url="`${userAvatar}${hover || !isGif ? '' : '?type=webp'}`"
           size="50px"
           :hover="true"
           @click.native="openUserInformation"
         />
       </div>
       <div class="triangle">
-        <div class="triangle-inner" />
+        <div class="triangle-inner" v-if="!hideAdditional" />
       </div>
       <div class="content" @dblclick="contentDoubleClickEvent">
         <div class="user-info">
           <div
+            v-if="!hideAdditional"
             class="username"
-            :style="{ color: roleColor }"
+            :style="{ color: loaded ? roleColor : null }"
             @click="openUserInformation"
           >
-            {{ this.$props.username }}
+            {{ creator.username }}
           </div>
-          <div class="date">{{ getDate }}</div>
+          <div class="date" v-if="!hideAdditional">{{ getDate }}</div>
+          <div
+            class="mentioned material-icons"
+            v-if="isMentioned"
+            title="You were mentioned"
+          >
+            alternate_email
+          </div>
         </div>
-        <SimpleMarkdown
-          class="content-message"
-          :style="[color && color !== -2 ? { color: color } : '']"
-          :message="message"
-        />
-        <div
-          class="file-content"
-          v-if="getFile && !getFile.fileName.endsWith('.mp3')"
-        >
-          <div class="icon">
-            <i class="material-icons">insert_drive_file</i>
+        <div class="inner-content">
+          <SimpleMarkdown
+            class="content-message"
+            :style="[
+              message.color && message.color !== -2
+                ? { color: message.color }
+                : ''
+            ]"
+            :message="message.message"
+          />
+          <div
+            class="file-content"
+            v-if="getFile && !getFile.fileName.endsWith('.mp3')"
+          >
+            <div class="icon">
+              <i class="material-icons">insert_drive_file</i>
+            </div>
+            <div class="information">
+              <div class="info">{{ getFile.fileName }}</div>
+              <a :href="getFile.url" download target="_blank">
+                <div class="download-button">Download</div>
+              </a>
+            </div>
           </div>
-          <div class="information">
+          <div
+            v-if="getFile && getFile.fileName.endsWith('.mp3')"
+            class="file-content music"
+          >
             <div class="info">{{ getFile.fileName }}</div>
-            <a :href="getFile.url" download target="_blank">
-              <div class="download-button">Download</div>
-            </a>
+            <audio controls>
+              <source :src="getFile.url" type="audio/mp3" />
+            </audio>
           </div>
-        </div>
-        <div
-          v-if="getFile && getFile.fileName.endsWith('.mp3')"
-          class="file-content music"
-        >
-          <div class="info">{{ getFile.fileName }}</div>
-          <audio controls>
-            <source :src="getFile.url" type="audio/mp3" />
-          </audio>
-        </div>
 
-        <div class="image-content" ref="image" v-if="getImage">
-          <img :src="getImage" @click="imageClicked" />
+          <div class="image-content" ref="image" v-if="getImage">
+            <img :src="getImage" @click="imageClicked" />
+          </div>
+          <message-embed-template
+            v-if="message.embed && Object.keys(message.embed).length"
+            :embed="message.embed"
+          />
         </div>
-        <message-embed-template
-          v-if="embed && Object.keys(embed).length"
-          :embed="embed"
-        />
       </div>
       <div class="other-information">
         <div
@@ -81,41 +101,33 @@
         </div>
         <div
           class="sending-status"
-          v-if="timeEdited && (status === undefined || status === 1)"
+          v-if="
+            message.timeEdited &&
+              (message.status === undefined || message.status === 1)
+          "
           :title="`Edited ${getEditedDate}`"
         >
           <i class="material-icons">edit</i>
         </div>
-        <div class="sending-status" v-else-if="status === 0">
+        <div class="sending-status" v-else-if="message.status === 0">
           <i class="material-icons">hourglass_full</i>
         </div>
-        <div class="sending-status" v-else-if="status === 1">
+        <div class="sending-status" v-else-if="message.status === 1">
           <i class="material-icons">done</i>
         </div>
-        <div class="sending-status" v-else-if="status === 2">
+        <div class="sending-status" v-else-if="message.status === 2">
           <i class="material-icons">close</i> Failed
         </div>
       </div>
     </div>
-    <div
-      v-if="type && (type === 1 || type === 2 || type === 3 || type === 4)"
-      class="presence-message"
-      :class="{
-        join: type === 1,
-        leave: type === 2,
-        kick: type === 3,
-        ban: type === 4
-      }"
-    >
+    <div v-if="messageType" class="presence-message" :class="messageType[1]">
       <div class="presense-contain">
         <span>
           <span class="username" @click="openUserInformation">{{
-            this.$props.username
+            creator.username
           }}</span>
-          <span v-if="type === 1" class="text">has joined the server!</span>
-          <span v-if="type === 2" class="text">has left the server.</span>
-          <span v-if="type === 3" class="text">has been kicked.</span>
-          <span v-if="type === 4" class="text">has been banned.</span>
+          <span class="text">{{ messageType[0] }}</span>
+
           <span class="date">{{ getDate }}</span>
         </span>
       </div>
@@ -135,30 +147,14 @@ import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
 import SimpleMarkdown from "./SimpleMarkdown.vue";
 import messageEmbedTemplate from "./messageEmbedTemplate";
 import config from "@/config.js";
-import friendlyDate from "@/utils/date";
+import friendlyDate, { time } from "@/utils/date";
 import path from "path";
 import windowProperties from "@/utils/windowProperties";
 
 import { mapState } from "vuex";
 
 export default {
-  props: [
-    "message",
-    "status",
-    "username",
-    "avatar",
-    "date",
-    "uniqueID",
-    "files",
-    "admin",
-    "type",
-    "embed",
-    "messageID",
-    "channelID",
-    "timeEdited",
-    "color",
-    "isServer"
-  ],
+  props: ["creator", "message", "isServer", "hideAdditional"],
   components: {
     ProfilePicture,
     messageEmbedTemplate,
@@ -166,38 +162,45 @@ export default {
   },
   data() {
     return {
-      hover: false
+      hover: false,
+      isGif: false,
+      loaded: false
     };
   },
   methods: {
+    mouseOverEvent() {
+      if (this.isGif) {
+        this.hover = true;
+      }
+    },
     openContextMenu(event) {
       const x = event.clientX;
       const y = event.clientY;
       this.$store.dispatch("setMessageContext", {
         x,
         y,
-        channelID: this.channelID,
-        messageID: this.messageID,
-        message: this.message,
-        uniqueID: this.uniqueID,
-        type: this.type,
-        color: this.color
+        channelID: this.message.channelID,
+        messageID: this.message.messageID,
+        message: this.message.message,
+        uniqueID: this.creator.uniqueID,
+        type: this.message.type,
+        color: this.message.color
       });
     },
     openUserInformation() {
-      this.$store.dispatch("setUserInformationPopout", this.uniqueID);
+      this.$store.dispatch("setUserInformationPopout", this.creator.uniqueID);
     },
     imageClicked(event) {
       this.$store.dispatch("setImagePreviewURL", event.target.src);
     },
     editMessage() {
-      if (this.uniqueID !== this.user.uniqueID) return;
+      if (this.creator.uniqueID !== this.user.uniqueID) return;
       this.dropDownVisable = false;
       this.$store.dispatch("setEditMessage", {
-        channelID: this.channelID,
-        messageID: this.messageID,
-        message: this.message,
-        color: this.color
+        channelID: this.message.channelID,
+        messageID: this.message.messageID,
+        message: this.message.message,
+        color: this.message.color
       });
     },
     contentDoubleClickEvent(event) {
@@ -215,7 +218,7 @@ export default {
       return { width: srcWidth * ratio, height: srcHeight * ratio };
     },
     imageSize() {
-      const files = this.$props.files;
+      const files = this.message.files;
       if (!files || files.length === 0 || !files[0].dimensions)
         return undefined;
 
@@ -223,14 +226,10 @@ export default {
       const w = messageLog.offsetWidth;
       const h = messageLog.offsetHeight;
 
-      let minWidth = w / 4;
-      let minHeight = h / 4;
-      if (w <= 800) {
-        minWidth = w / 1.7;
-        minHeight = h / 1.7;
-      }
+      let minWidth = w / 1.7;
+      let minHeight = h / 1.7;
 
-      const dimensions = this.$props.files[0].dimensions;
+      const dimensions = this.message.files[0].dimensions;
       const srcWidth = dimensions.width;
       const srcHeight = dimensions.height;
 
@@ -261,47 +260,55 @@ export default {
     }
   },
   mounted() {
+    this.imageSize();
+    setTimeout(() => (this.loaded = true));
+    this.isGif = this.userAvatar.endsWith(".gif");
     const files = this.files;
     if (!files || files.length === 0 || !files[0].dimensions) return undefined;
-    this.imageSize();
   },
   computed: {
     ...mapState("settingsModule", ["apperance"]),
     getImage() {
-      if (!this.$props.files || this.$props.files.length === 0)
+      if (!this.message.files || this.message.files.length === 0)
         return undefined;
-      const file = this.$props.files[0];
+      const file = this.message.files[0];
       if (!file.fileID) return undefined;
       const filetypes = /jpeg|jpg|gif|png/;
       const extname = filetypes.test(path.extname(file.fileName).toLowerCase());
       if (!extname) return undefined;
-      return config.domain + "/media/" + file.fileID;
+      return config.domain + "/media/" + file.fileID + "/" + file.fileName;
     },
     getFile() {
-      if (!this.$props.files || this.$props.files.length === 0)
+      if (!this.message.files || this.message.files.length === 0)
         return undefined;
-      let file = this.$props.files[0];
+      let file = this.message.files[0];
       if (!file.fileID) return undefined;
       const filetypes = /jpeg|jpg|gif|png/;
       const extname = filetypes.test(path.extname(file.fileName).toLowerCase());
       if (extname) return undefined;
-      file.url = config.domain + "/files/" + file.fileID;
+      file.url = config.domain + "/files/" + file.fileID + "/" + file.fileName;
       return file;
+    },
+    getTime() {
+      return time(
+        this.message.created,
+        this.apperance && this.apperance["12h_time"] ? "12h" : false
+      );
     },
     getDate() {
       return friendlyDate(
-        this.$props.date,
+        this.message.created,
         this.apperance && this.apperance["12h_time"] ? "12h" : false
       );
     },
     getEditedDate() {
       return friendlyDate(
-        this.timeEdited,
+        this.message.timeEdited,
         this.apperance && this.apperance["12h_time"] ? "12h" : false
       );
     },
     userAvatar() {
-      return config.domain + "/avatars/" + this.$props.avatar;
+      return config.domain + "/avatars/" + this.creator.avatar;
     },
     user() {
       return this.$store.getters.user;
@@ -319,32 +326,102 @@ export default {
       const serverMembers = this.$store.getters["servers/serverMembers"];
       return serverMembers.find(
         m =>
-          m.uniqueID === this.uniqueID &&
+          m.uniqueID === this.creator.uniqueID &&
           m.server_id === this.$store.getters["servers/selectedServerID"]
       );
     },
     roleColor() {
       if (!this.isServer) return undefined;
       if (!this.serverMember || !this.serverMember.roles) return undefined;
-      const filtered = this.roles.filter(r =>
+
+      const filter = this.roles.find(r =>
         this.serverMember.roles.includes(r.id)
       );
-      if (!filtered.length) return undefined;
-      return filtered[0].color;
+      if (filter) {
+        if (filter.color) {
+          return filter.color + " !important";
+        } else {
+          return undefined;
+        }
+      } else {
+        return this.roles.find(r => r.default).color + " !important";
+      }
+    },
+    messageType() {
+      switch (this.message.type) {
+        case 1:
+          return ["joined the server!", "join"];
+          break;
+        case 2:
+          return ["left the server.", "leave"];
+          break;
+        case 3:
+          return ["has been kicked.", "kick"];
+          break;
+        case 4:
+          return ["has been banned.", "ban"];
+          break;
+        default:
+          return null;
+          break;
+      }
+    },
+    isMentioned() {
+      if (!this.message.mentions) return;
+      const mentions = this.message.mentions;
+      if (mentions.find(u => u.uniqueID === this.user.uniqueID)) {
+        return true;
+      }
+      return false;
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
-$self-message-color: #053746;
-$message-color: #03222b;
+$self-message-color: rgba(255, 255, 255, 0.1);
+$message-color: rgba(0, 0, 0, 0.3);
 
 .container {
   position: relative;
   z-index: 1;
 }
-
+.hideAdditional {
+  .small-time {
+    display: flex;
+    color: white;
+    width: 56px;
+    font-size: 13px;
+    align-self: center;
+    text-align: center;
+    justify-content: center;
+    flex-shrink: 0;
+    opacity: 0;
+    transition: 0.2s;
+  }
+  &:hover .small-time {
+    opacity: 0.8;
+  }
+  .content {
+    border-radius: 4px;
+    flex-direction: row;
+  }
+  .mentioned {
+    margin-top: 0;
+    margin-left: 0;
+  }
+  .user-info {
+    margin-top: 2px;
+  }
+  .avatar {
+    height: 15px;
+    flex-shrink: 0;
+  }
+  .triangle {
+    width: 8px;
+    flex-shrink: 0;
+  }
+}
 .drop-down-button {
   opacity: 0;
   transition: 0.2s;
@@ -368,6 +445,7 @@ $message-color: #03222b;
   color: white;
   overflow: hidden;
   background: $message-color;
+  border-radius: 4px;
 }
 
 .presence-message .text {
@@ -391,19 +469,19 @@ $message-color: #03222b;
   color: #d92121;
 }
 
-.ownMessageLeft {
+.ownMessageRight {
   flex-direction: row-reverse;
 }
 
-.ownMessageLeft .triangle-inner {
+.ownMessageRight .triangle-inner {
   border-left: 8px solid $self-message-color;
   border-right: none !important;
 }
 
-.ownMessageLeft .avatar {
+.ownMessageRight .avatar {
   margin-right: 0px;
 }
-.ownMessageLeft .sending-status {
+.ownMessageRight .sending-status {
   margin-left: auto !important;
   margin-right: 4px !important;
 }
@@ -471,6 +549,8 @@ $message-color: #03222b;
 
 .avatar {
   margin: auto 0 0 0;
+  height: 56px;
+  width: 56px;
 }
 
 .triangle {
@@ -499,8 +579,16 @@ $message-color: #03222b;
   color: rgb(231, 231, 231);
   margin: auto 0;
   overflow: hidden;
+  border-radius: 4px;
+  border-bottom-left-radius: 0;
 }
-.ownMessageLeft .content {
+.inner-content {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.ownMessageRight .content {
+  border-radius: 4px;
   border-bottom-right-radius: 0;
 }
 .image-content {
@@ -528,6 +616,7 @@ $message-color: #03222b;
   margin: auto 0;
   transition: 0.1s;
   cursor: pointer;
+  font-weight: bold;
 }
 
 .username:hover {
@@ -579,7 +668,27 @@ $message-color: #03222b;
   cursor: pointer;
   margin-top: 5px;
 }
-
-@media (max-width: 468px) {
+.mentioned {
+  margin-left: 5px;
+  margin-right: 5px;
+  flex-shrink: 0;
+  color: white;
+  background: rgba(255, 59, 59, 0.9);
+  font-size: 13px;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  margin-top: -2px;
+  padding: 2px;
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  cursor: default;
+}
+@media (max-width: 830px) {
+  audio {
+    width: initial;
+  }
 }
 </style>

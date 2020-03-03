@@ -1,5 +1,5 @@
 <template>
-  <div class="dark-background" @mousedown="backgroundClick">
+  <div class="dark-background generic-popout" @mousedown="backgroundClick">
     <div class="inner">
       <div class="text">{{ message }}</div>
       <div class="button" @click="closeMenu()">Okay</div>

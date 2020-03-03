@@ -24,7 +24,7 @@
     />
     <div class="no-channel-selected" v-if="!selectedChannelID">
       <div class="material-icons">
-        {{ type === 0 ? "chat" : type === 1 ? "forum" : "question" }}
+        {{ type === 0 ? "forum" : type === 1 ? "dns" : "question" }}
       </div>
       <div class="message">
         {{
@@ -36,13 +36,13 @@
         }}
       </div>
     </div>
-    <div class="typing-outer">
-      <typing-status
-        v-if="typingRecipients[selectedChannelID]"
-        :recipients="typingRecipients[selectedChannelID]"
-      />
-    </div>
     <div class="chat-input-area" v-if="selectedChannelID">
+      <div class="typing-outer">
+        <typing-status
+          v-if="typingRecipients[selectedChannelID]"
+          :recipients="typingRecipients[selectedChannelID]"
+        />
+      </div>
       <div style="position: relative;">
         <transition name="show-up">
           <div
@@ -50,11 +50,11 @@
             @click="backToTopButton"
             v-if="!scrolledDown && selectedChannelMessages"
           >
-            Back to bottom
             <i class="material-icons">keyboard_arrow_down</i>
           </div>
         </transition>
         <emoji-suggestions v-if="emojiArray" :emojiArray="emojiArray" />
+        <mentions-popout v-if="mentionsArray" :list="mentionsArray" />
         <emoji-panel v-if="showEmojiPanel" @close="showEmojiPanel = false" />
       </div>
 
@@ -176,7 +176,8 @@
     <div
       class="no-message-permission"
       v-if="
-        sendChannelMessagePermission === false || !roleSendMessagePermission
+        sendChannelMessagePermission === false ||
+          roleSendMessagePermission === false
       "
     >
       You don't have permission to send messages in this channel.
@@ -191,6 +192,7 @@ import { bus } from "../../main";
 import Spinner from "@/components/Spinner.vue";
 import heading from "@/components/app/MessagePanel/Heading.vue";
 import emojiSuggestions from "@/components/app/EmojiPanels/emojiSuggestions.vue";
+import mentionsPopout from "@/components/app/mentionsPopout.vue";
 import MessageLogs from "@/components/app/MessageLogs.vue";
 import emojiParser from "@/utils/emojiParser.js";
 import windowProperties from "@/utils/windowProperties";
@@ -210,7 +212,8 @@ export default {
     heading,
     EditPanel,
     MessageLogs,
-    TypingStatus
+    TypingStatus,
+    mentionsPopout
   },
   data() {
     return {
@@ -241,7 +244,6 @@ export default {
 
       const selection = window.getSelection();
       const selected = selection.toString();
-      console.log(selected);
 
       if (selected === "") {
         this.message = [
@@ -283,6 +285,19 @@ export default {
 
       return ("" + number).substring(add);
     },
+    replaceMentions(message) {
+      const regex = /@([\w\d\s_-]+):([\w\d_-]+)/g;
+
+      return message.replace(regex, word => {
+        const [username, tag] = word.split(":");
+        if (tag.length !== 4 || !username || !tag) return word;
+        const member = Object.values(this.members).find(
+          m => "@" + m.username === username && m.tag === tag
+        );
+        if (!member) return word;
+        return `<@${member.uniqueID}>`;
+      });
+    },
     async sendMessage() {
       this.$refs["input-box"].focus();
       this.message = this.message.trim();
@@ -293,11 +308,12 @@ export default {
       clearInterval(this.postTimerID);
       this.postTimerID = null;
 
-      const msg = emojiParser.replaceShortcode(this.message);
+      let msg = emojiParser.replaceShortcode(this.message);
+      msg = this.replaceMentions(msg);
 
       const tempID = this.generateNum(25);
 
-      this.$store.dispatch("addMessage", {
+      const addMessage = {
         sender: true,
         channelID: this.selectedChannelID,
         message: {
@@ -307,13 +323,14 @@ export default {
           channelID: this.selectedChannelID,
           created: new Date()
         }
-      });
+      };
+
+      this.$store.dispatch("addMessage", addMessage);
 
       this.message = "";
 
       let input = this.$refs["input-box"];
       input.style.height = "1em";
-
       this.$store.dispatch("updateChannelLastMessage", this.selectedChannelID);
       const { ok, error, result } = await messagesService.post(
         this.selectedChannelID,
@@ -333,13 +350,54 @@ export default {
         });
       } else {
         // TODO: Error handling
-        console.log(error);
+
+        this.$store.dispatch("replaceMessage", {
+          tempID: tempID,
+          message: { ...addMessage.message, status: 2, messageID: "0111" }
+        });
+        let message;
+
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
+          message = error.response.data.message;
+        } else {
+          message = "Something went wrong while sending the message.";
+        }
+        this.$store.dispatch("addMessage", {
+          channelID: this.selectedChannelID,
+          message: {
+            creator: {
+              username: "Whoopsies!",
+              uniqueID: "12345678",
+              avatar: "default.png"
+            },
+            message: message,
+            messageID: Math.floor(Math.random() * 10999 + 0).toString(),
+            color: "#ff4d4d",
+            channelID: this.selectedChannelID,
+            created: new Date()
+          }
+        });
       }
     },
     async updateMessage() {
       const editMessage = this.editMessage;
-      this.$refs["input-box"].focus();
       this.message = this.message.trim();
+      if (this.message === "") {
+        this.$refs["input-box"].blur();
+        this.$store.dispatch("setAllPopout", {
+          show: true,
+          type: "DELETE_CONFIRM",
+          messageID: editMessage.messageID,
+          channelID: editMessage.channelID
+        });
+        this.$store.dispatch("setEditMessage", null);
+        return;
+      }
+      this.$refs["input-box"].focus();
       if (
         this.message === this.editMessage.message &&
         (this.customColor || undefined) === this.editMessage.color
@@ -354,7 +412,8 @@ export default {
       clearInterval(this.postTimerID);
       this.postTimerID = null;
 
-      const msg = emojiParser.replaceShortcode(this.message);
+      let msg = emojiParser.replaceShortcode(this.message);
+      msg = this.replaceMentions(msg);
       this.$store.dispatch("updateMessage", {
         channelID: editMessage.channelID,
         messageID: editMessage.messageID,
@@ -409,6 +468,19 @@ export default {
       }
       bus.$emit("scrollDown");
     },
+    mentionsSwitchKey(event) {
+      if (!this.mentionsArray) return;
+      if (event.keyCode === 38) {
+        bus.$emit("mentions:key", "up");
+        event.preventDefault();
+        return;
+      }
+      if (event.keyCode === 40) {
+        bus.$emit("mentions:key", "down");
+        event.preventDefault();
+        return;
+      }
+    },
     emojiSwitchKey(event) {
       if (!this.emojiArray) return;
 
@@ -438,10 +510,10 @@ export default {
     },
     showEmojiPopout(event) {
       if (event.keyCode == 38 || event.keyCode == 40) return; // up/down
-
+      const message = this.$refs["input-box"].value;
       const cursorPosition = event.target.selectionStart;
-      const cursorWord = this.ReturnWord(this.message, cursorPosition);
-      const cursorLetter = this.message.substring(
+      const cursorWord = this.ReturnWord(message, cursorPosition);
+      const cursorLetter = message.substring(
         cursorPosition - 1,
         cursorPosition
       );
@@ -452,11 +524,49 @@ export default {
       if (!cursorWord.startsWith(":") || cursorWord.length <= 2)
         return this.$store.dispatch("setEmojiArray", null);
 
-      const searchArr = emojiParser.searchEmoji(cursorWord.slice(1, -1));
+      const searchArr = emojiParser.searchEmoji(
+        cursorWord.slice(1, cursorWord.length)
+      );
       if (searchArr.length <= 0)
         return this.$store.dispatch("setEmojiArray", null);
 
-      this.$store.dispatch("setEmojiArray", searchArr);
+      this.$store.dispatch("setEmojiArray", searchArr.slice(0, 10));
+    },
+    showMentionsPopout(event) {
+      if (event.keyCode == 38 || event.keyCode == 40) return; // up/down
+      const message = this.$refs["input-box"].value;
+      const cursorPosition = event.target.selectionStart;
+      const cursorWord = this.ReturnWord(message, cursorPosition);
+
+      if (!cursorWord.startsWith("@")) {
+        this.$store.dispatch("mentionsListModule/setMentionsArray", null);
+        return;
+      }
+      // word without @
+      const wordWithoutBegining = cursorWord
+        .slice(1, cursorWord.length)
+        .toLowerCase();
+
+      let searchedMembers = [];
+
+      for (let index = 0; index < this.serverMembers.length; index++) {
+        const serverMember = this.serverMembers[index];
+        if (serverMember.server_id != this.server.server_id) continue;
+        const member = this.members[serverMember.uniqueID];
+        if (
+          member.username
+            .toLowerCase()
+            .replace(/\s/g, "")
+            .includes(wordWithoutBegining)
+        ) {
+          searchedMembers.push(member);
+        }
+      }
+      searchedMembers = searchedMembers.slice(0, 9);
+      this.$store.dispatch(
+        "mentionsListModule/setMentionsArray",
+        searchedMembers
+      );
     },
     async onInput(event) {
       const value = event.target.value.trim();
@@ -466,7 +576,24 @@ export default {
       }
     },
     keyUp(event) {
-      this.showEmojiPopout(event);
+      setTimeout(() => {
+        this.showMentionsPopout(event);
+        this.showEmojiPopout(event);
+      }, 10);
+    },
+    enterMention() {
+      const member = this.mentionsArray[this.mentionsListIndex];
+      if (!member) return;
+      this.$store.dispatch("mentionsListModule/setMentionsArray", null);
+      const cursorPosition = this.$refs["input-box"].selectionStart;
+      const cursorWord = this.ReturnWord(this.message, cursorPosition);
+      const start = cursorPosition - cursorWord.length;
+      const end = cursorPosition;
+
+      this.message =
+        this.message.substring(0, start) +
+        `@${member.username}:${member.tag} ` +
+        this.message.substring(end);
     },
     enterEmojiSuggestion() {
       const emoji = this.emojiArray[this.emojiIndex];
@@ -505,6 +632,7 @@ export default {
       this.$store.dispatch("settingsModule/addRecentEmoji", shortcode);
     },
     keyDown(event) {
+      this.mentionsSwitchKey(event);
       this.emojiSwitchKey(event);
       // when enter is press
       if (event.keyCode == 13) {
@@ -516,6 +644,13 @@ export default {
           event.preventDefault();
           if (this.emojiArray) {
             this.enterEmojiSuggestion();
+            return;
+          }
+          if (
+            this.mentionsArray &&
+            this.mentionsArray[this.mentionsListIndex]
+          ) {
+            this.enterMention();
             return;
           }
           if (this.editMessage) {
@@ -610,9 +745,11 @@ export default {
         return notification.channelID === this.$store.getters.selectedChannelID;
       });
       if (find && find.count >= 1) {
-        this.$socket.client.emit("notification:dismiss", {
-          channelID: this.$store.getters.selectedChannelID
-        });
+        setTimeout(() => {
+          this.$socket.client.emit("notification:dismiss", {
+            channelID: this.$store.getters.selectedChannelID
+          });
+        }, 500);
       }
     },
     backToTopButton() {
@@ -622,15 +759,20 @@ export default {
       this.message = editMessage
         ? emojiParser.emojiToShortcode(editMessage.message)
         : "";
+      // replace mention <@1234> with test:owo1
+      this.message = this.message.replace(/<@([\d]+)>/g, test => {
+        const ID = test.slice(2, test.length - 1);
+        const member = this.members[ID];
+        if (!member) return test;
+        return `@${member.username}:${member.tag}`;
+      });
       if (editMessage) this.customColor = editMessage.color || null;
     },
     onBlur() {
       clearTimeout(this.postTimerID);
       this.postTimerID = null;
-    }
-  },
-  mounted() {
-    this.$options.sockets.typingStatus = data => {
+    },
+    onTyping(data) {
       const { channel_id, user } = data;
       const typingRecipients = this.typingRecipients[channel_id];
 
@@ -657,10 +799,14 @@ export default {
         },
         3500
       );
-    };
+    }
+  },
+  mounted() {
+    this.$socket.client.on("typingStatus", this.onTyping);
 
     bus.$on("newMessage", this.hideTypingStatus);
     bus.$on("emojiSuggestions:Selected", this.enterEmojiSuggestion);
+    bus.$on("mentions:Selected", this.enterMention);
     bus.$on("emojiPanel:Selected", this.enterEmojiPanel);
 
     bus.$on("scrolledDown", scrolledDown => {
@@ -677,19 +823,29 @@ export default {
 
     bus.$off("newMessage", this.hideTypingStatus);
     bus.$off("emojiSuggestions:Selected", this.enterEmojiSuggestion);
-    bus.$on("emojiPanel:Selected", this.enterEmojiPanel);
+    bus.$off("emojiPanel:Selected", this.enterEmojiPanel);
+    bus.$off("mentions:Selected", this.enterMention);
     window.removeEventListener("focus", this.onFocus);
     window.removeEventListener("blur", this.onBlur);
 
-    delete this.$options.sockets.typingStatus;
+    this.$socket.client.off("typingStatus", this.onTyping);
   },
   watch: {
     editMessage(editMessage) {
       this.editMessageEvent(editMessage);
+      if (editMessage) {
+        this.$refs["input-box"].focus();
+      }
     },
     message(message) {
       this.messageLength = message.length;
       this.$nextTick(this.resize);
+    },
+    selectedChannelID() {
+      this.$nextTick(() => {
+        if (!this.mobile && this.$refs["input-box"])
+          this.$refs["input-box"].focus();
+      });
     }
   },
   computed: {
@@ -721,6 +877,14 @@ export default {
         undefined
       );
     },
+    members() {
+      const members = this.$store.getters["members/members"];
+      return members;
+    },
+    serverMembers() {
+      const serverMembers = this.$store.getters["servers/serverMembers"];
+      return serverMembers.reverse();
+    },
     serverMember() {
       return this.$store.getters["servers/serverMembers"].find(
         sm =>
@@ -729,9 +893,9 @@ export default {
       );
     },
     myRolePermissions() {
-      if (!this.serverMember) return;
+      if (!this.serverMember) return undefined;
       const roles = this.$store.getters["servers/selectedServerRoles"];
-      if (!roles ) return undefined;
+      if (!roles) return undefined;
 
       let perms = 0;
 
@@ -749,7 +913,11 @@ export default {
       return perms;
     },
     roleSendMessagePermission() {
-      return containsPerm(
+      if (this.type !== 1) return true;
+      if (!this.channel) return null;
+
+      if (!this.server) return false;
+      return !!containsPerm(
         this.myRolePermissions || 0,
         permissions.SEND_MESSAGES.value
       );
@@ -778,8 +946,14 @@ export default {
     emojiArray() {
       return this.$store.getters.emojiArray;
     },
+    mentionsArray() {
+      return this.$store.getters["mentionsListModule/mentionsArray"];
+    },
     emojiIndex() {
       return this.$store.getters.getEmojiIndex;
+    },
+    mentionsListIndex() {
+      return this.$store.getters["mentionsListModule/getMentionIndex"];
     },
     recipients() {
       const selectedChannel = this.$store.getters.selectedChannelID;
@@ -831,11 +1005,13 @@ export default {
 }
 .typing-outer {
   display: flex;
-  height: 20px;
   margin-bottom: 5px;
-  margin-left: 10px;
+  position: absolute;
+  top: -25px;
+  left: 0;
+  right: 0;
+  z-index: 1;
 }
-
 .hidden {
   display: none;
 }
@@ -852,6 +1028,7 @@ export default {
   flex-direction: column;
   overflow: hidden;
   position: relative;
+  background: rgba(0, 0, 0, 0.4);
 }
 .message-logs {
   overflow: auto;
@@ -866,9 +1043,8 @@ export default {
 .chat-input-area {
   display: flex;
   flex-direction: column;
-  padding-bottom: 10px;
   position: relative;
-  background: #014757;
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .attachment-button {
@@ -911,10 +1087,11 @@ export default {
 .message-area {
   display: flex;
   width: 100%;
+  padding-bottom: 5px;
 }
 
 .chat-input {
-  font-family: "Roboto", sans-serif;
+  font-family: "Montserrat", sans-serif;
   background: transparent;
   color: white;
   width: 100%;
@@ -990,16 +1167,18 @@ export default {
 
 .back-to-bottom-button {
   &:hover {
-    background: rgba(0, 0, 0, 0.9);
+    background: rgba(0, 0, 0, 0.8);
   }
   transition: 0.2s;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
   border-radius: 100px;
   color: white;
   position: absolute;
-  bottom: 15px;
+  bottom: 30px;
   right: 25px;
   height: 50px;
+  width: 50px;
   z-index: 2;
   display: flex;
   justify-content: center;
@@ -1007,13 +1186,12 @@ export default {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   align-content: center;
   align-items: center;
-  padding-left: 10px;
   user-select: none;
   cursor: pointer;
   .material-icons {
     align-self: center;
     flex-shrink: 0;
-    font-size: 35px;
+    font-size: 25px;
   }
 }
 
@@ -1031,9 +1209,7 @@ export default {
   align-items: center;
   align-content: center;
   margin-left: 2px;
-  margin-bottom: 10px;
   flex-shrink: 0;
-  background: #024b5c;
   .markdown-icon {
     font-size: 21px;
     flex-shrink: 0;

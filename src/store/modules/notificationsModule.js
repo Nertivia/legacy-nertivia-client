@@ -16,7 +16,7 @@ const actions = {
     context.commit("addAllNotifications", notifications);
   },
   messageCreatedNotification(context, notification) {
-    const { channelID, lastMessageID, sender } = notification;
+    const { channelID, lastMessageID, sender, mentioned } = notification;
     const currentTab = context.rootGetters.currentTab;
 
     // dont display a notification if the channel is selected.
@@ -25,7 +25,7 @@ const actions = {
       (currentTab !== 1 && currentTab !== 2) ||
       !document.hasFocus()
     ) {
-      NotificationSounds.notification();
+      NotificationSounds.notification(mentioned);
     }
     let find = context.state.notifications.find(item => {
       return item.channelID === channelID;
@@ -33,12 +33,12 @@ const actions = {
     if (find) {
       return context.commit("messageCreatedNotification", {
         exists: true,
-        notification: { channelID, lastMessageID, sender }
+        notification: { channelID, lastMessageID, sender, mentioned }
       });
     }
     context.commit("messageCreatedNotification", {
       exists: false,
-      notification: { channelID, lastMessageID, sender, count: 1 }
+      notification: { channelID, lastMessageID, sender, count: 1, mentioned }
     });
   },
   dismissNotification(context, channelID) {
@@ -66,6 +66,13 @@ const mutations = {
         if (state.notifications[i].channelID === notification.channelID) {
           const count = state.notifications[i].count;
           Vue.set(state.notifications[i], "count", count + 1);
+          if (!state.notifications[i].mentioned) {
+            Vue.set(
+              state.notifications[i],
+              "mentioned",
+              notification.mentioned
+            );
+          }
           Vue.set(
             state.notifications[i],
             "lastMessageID",

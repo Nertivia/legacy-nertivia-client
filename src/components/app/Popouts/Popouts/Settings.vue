@@ -1,5 +1,5 @@
 <template>
-  <div class="settings-darken-background">
+  <div class="settings-darken-background settings-popout">
     <div class="settings-box">
       <div class="tabs">
         <div
@@ -133,13 +133,18 @@ export default {
   color: white;
 }
 .settings-box {
-  height: 600px;
+  height: 630px;
   display: flex;
   margin: auto;
   overflow: hidden;
   box-shadow: 0px 0px 20px 5px #151515bd;
-  background: linear-gradient(#0b4155, #01677e);
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 87, 153, 0.8) 0,
+    rgba(0, 118, 209, 0.8)
+  );
   border-radius: 4px;
+  backdrop-filter: blur(5px);
 }
 .tabs {
   height: 100%;
@@ -156,6 +161,7 @@ export default {
   flex-direction: column;
   height: 100%;
   width: 600px;
+  overflow: hidden;
 }
 .tab {
   display: flex;
@@ -170,11 +176,11 @@ export default {
 }
 
 .tab:hover {
-  background: #072935;
+  background: rgba(0, 0, 0, 0.4);
 }
 
 .tab.selected {
-  background: #051f28;
+  background: rgba(0, 0, 0, 0.4);
 }
 
 .tab.warn {
@@ -188,11 +194,11 @@ export default {
 .title {
   display: flex;
   padding: 10px;
-  font-size: 25px;
-  background: #05222d;
+  font-size: 20px;
+  background: rgba(0, 0, 0, 0.4);
 }
 .title .material-icons {
-  font-size: 40px;
+  font-size: 30px;
 }
 .title div {
   margin: auto;

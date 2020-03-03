@@ -1,5 +1,5 @@
 <template>
-  <div class="darken-background">
+  <div class="darken-background take-survey-popout">
     <div class="box">
       <div class="survay-icon">
         <i class="material-icons">error</i>
@@ -59,7 +59,7 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 99;
+  z-index: 99999999;
   display: flex;
   color: white;
 }
@@ -73,21 +73,28 @@ export default {
   padding: 10px;
   overflow: hidden;
   box-shadow: 0px 0px 20px 5px #151515bd;
-  background: linear-gradient(#0b4155, #01677e);
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 87, 153, 0.8) 0,
+    rgba(0, 118, 209, 0.8)
+  );
   border-radius: 4px;
+  backdrop-filter: blur(5px);
 }
 .survay-icon .material-icons {
   color: white;
-  font-size: 120px;
+  font-size: 70px;
 }
 .survay-icon {
   margin: auto;
   margin-top: 5px;
+  margin-bottom: 10px;
 }
 
 .text {
   margin: auto;
   text-align: center;
+  margin-top: 10px;
 }
 .buttons {
   display: flex;
@@ -96,21 +103,22 @@ export default {
 .button {
   padding: 10px;
   margin: 3px;
-  background: #014656;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
   transition: 0.3s;
   user-select: none;
   cursor: pointer;
 }
 .valid {
-  background: #014656;
+  background: rgba(0, 0, 0, 0.2);
 }
 .valid:hover {
-  background: #02303c;
+  background: rgba(0, 0, 0, 0.4);
 }
 .warning {
-  background: rgba(255, 27, 27, 0.589);
+  background: rgba(255, 67, 67, 0.7);
 }
 .warning:hover {
-  background: rgb(255, 27, 27);
+  background: rgba(255, 67, 67, 0.9);
 }
 </style>

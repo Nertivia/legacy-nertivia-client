@@ -1,5 +1,5 @@
 <template>
-  <div class="editing">
+  <div class="editing theme-editor">
     <div class="bar">
       <input
         class="theme-name"

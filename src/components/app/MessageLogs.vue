@@ -15,29 +15,17 @@
       </div>
     </div>
     <message
-      class="message-container"
       v-for="(msg, index) in selectedChannelMessages"
       :class="{
         'show-message-animation': index === selectedChannelMessages.length - 1
       }"
       :key="msg.tempID || msg.messageID"
-      :date="msg.created"
-      :admin="msg.creator.admin"
-      :username="msg.creator.username"
-      :uniqueID="msg.creator.uniqueID"
-      :avatar="msg.creator.avatar"
-      :message="msg.message"
-      :embed="msg.embed"
-      :files="msg.files"
-      :status="msg.status"
-      :messageID="msg.messageID"
-      :channelID="msg.channelID"
-      :type="msg.type"
-      :timeEdited="msg.timeEdited"
-      :color="msg.color"
+      :creator="msg.creator"
+      :message="msg"
       :isServer="isServer"
+      :hideAdditional="groupedMessages.includes(msg.messageID)"
     />
-
+    <!-- {{ groupedMessages }} -->
     <uploadsQueue v-if="uploadQueue !== undefined" :queue="uploadQueue" />
     <div
       class="load-more-button"
@@ -236,6 +224,14 @@ export default {
         });
       }
       this.backToBottomLoading = false;
+    },
+    dismissNotification(channelID) {
+      const notifications = this.channelNotifications;
+      if (notifications && notifications.count >= 1 && document.hasFocus()) {
+        setTimeout(() => {
+          this.$socket.client.emit("notification:dismiss", { channelID });
+        }, 500);
+      }
     }
   },
 
@@ -265,11 +261,22 @@ export default {
   },
 
   watch: {
-    selectedChannelMessages() {
+    selectedChannelMessages(newVal) {
       this.$set(this.loadMoreTop, "show", true);
       this.$nextTick(function() {
         this.scrollDown();
       });
+
+      const lastMessage = newVal[newVal.length - 1];
+      if (!lastMessage) return;
+      if (!this.selectedChannelID) return;
+      if (lastMessage.creator.uniqueID != this.user.uniqueID) {
+        this.dismissNotification(this.selectedChannelID);
+      }
+    },
+    selectedChannelID(channelID) {
+      if (!channelID) return;
+      this.dismissNotification(channelID);
     },
     uploadQueue() {
       this.$nextTick(function() {
@@ -288,6 +295,11 @@ export default {
     }
   },
   computed: {
+    channelNotifications() {
+      return this.$store.getters.notifications.find(e => {
+        return e.channelID === this.selectedChannelID;
+      });
+    },
     isServer() {
       return this.$store.getters.currentTab === 2;
     },
@@ -333,6 +345,32 @@ export default {
       return (
         this.$store.getters.bottomUnloaded[this.selectedChannelID] || false
       );
+    },
+    groupedMessages() {
+      const messages = this.selectedChannelMessages;
+      const grouped = [];
+      let groupLength = 0;
+      let prevMessageCreator = null;
+      for (let index = 0; index < messages.length; index++) {
+        const message = messages[index];
+        if (message.type !== 0 && message.type !== undefined) {
+          groupLength = 0;
+          prevMessageCreator = null;
+          continue;
+        }
+        if (message.creator.uniqueID !== prevMessageCreator) {
+          groupLength = 0;
+          prevMessageCreator = message.creator.uniqueID;
+        } else {
+          if (groupLength > 3) {
+            groupLength = 0;
+            continue;
+          }
+          grouped.push(message.messageID);
+          groupLength += 1;
+        }
+      }
+      return grouped;
     }
   }
 };
@@ -343,6 +381,7 @@ export default {
   overflow: auto;
   flex: 1;
   position: relative;
+  padding-bottom: 23px;
 }
 
 .load-more-button {
@@ -360,35 +399,6 @@ export default {
     color: white;
     cursor: pointer;
     align-self: center;
-  }
-}
-.back-to-bottom-button {
-  &:hover {
-    background: rgb(23, 124, 255);
-    box-shadow: 0px 0px 15px 0px #0000008a;
-  }
-  transition: 0.2s;
-  background: rgba(23, 124, 255, 0.818);
-  color: white;
-  position: absolute;
-  bottom: 15px;
-  right: 25px;
-  border-radius: 10px;
-  height: 50px;
-  z-index: 2;
-  display: flex;
-  justify-content: center;
-  flex-shrink: 0;
-  box-shadow: 0px 0px 7px 0px #0000008a;
-  align-content: center;
-  align-items: center;
-  padding-left: 10px;
-  user-select: none;
-  cursor: pointer;
-  .material-icons {
-    align-self: center;
-    flex-shrink: 0;
-    font-size: 35px;
   }
 }
 

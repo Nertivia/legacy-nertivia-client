@@ -2,15 +2,17 @@
   <div class="my-mini-information">
     <ProfilePicture
       class="avatar"
-      :url="`${avatar}${hover ? '' : '?type=png'}`"
+      :url="`${avatar}${hover ? '' : '?type=webp'}`"
       :admin="user.admin"
       size="35px"
       :hover="true"
+      @mouseenter.native="hover = true"
+      @mouseleave.native="hover = false"
       @click.native="openUserInformation"
     />
     <div class="information">
       <div class="username">{{ user.username }}</div>
-      <div class="tag">@{{ user.tag }}</div>
+      <div class="tag">:{{ user.tag }}</div>
     </div>
     <div
       class="status-button"
@@ -101,9 +103,11 @@ export default {
   position: relative;
   flex-shrink: 0;
   align-items: center;
-  height: 50px;
+  height: 65px;
+  padding-left: 5px;
+  padding-right: 5px;
   transition: 0.3s;
-  background-color: #083a4a;
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .avatar {
@@ -127,7 +131,7 @@ export default {
   }
   .tag {
     font-size: 13px;
-    color: #b2d1d9;
+    color: rgba(255, 255, 255, 0.72);
   }
 }
 
