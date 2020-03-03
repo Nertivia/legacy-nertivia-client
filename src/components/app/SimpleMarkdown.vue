@@ -37,7 +37,8 @@ pre {
 }
 
 .codeblock {
-  background-color: #ffffff1a;
+  background-color: rgba(0, 0, 0, 0.46);
+  border-radius: 4px;
   padding: 5px;
   word-wrap: break-word;
   word-break: break-word;
@@ -54,7 +55,7 @@ pre {
 }
 
 .inline-code {
-  background: #273c3e;
+  background: rgba(0, 0, 0, 0.46);
 }
 
 .link {
