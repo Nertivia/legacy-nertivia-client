@@ -15,27 +15,30 @@
         selectedChannelID ? channelName : `Welcome back, ${user.username}!`
       "
     />
-    <div class="loading" v-if="selectedChannelID && !selectedChannelMessages">
-      <spinner />
-    </div>
-    <message-logs
-      v-else-if="selectedChannelID && selectedChannelMessages"
-      :key="selectedChannelID"
-    />
-    <div class="no-channel-selected" v-if="!selectedChannelID">
-      <div class="material-icons">
-        {{ type === 0 ? "forum" : type === 1 ? "dns" : "question" }}
+    <transition name="fade" mode="out-in">
+      <div class="loading" v-if="selectedChannelID && !selectedChannelMessages">
+        <spinner />
       </div>
-      <div class="message">
-        {{
-          type === 0
-            ? "Select a person to message!"
-            : type === 1
-            ? "Select a server!"
-            : "wot"
-        }}
+      <message-logs
+        v-else-if="selectedChannelID && selectedChannelMessages"
+        :key="selectedChannelID"
+      />
+
+      <div class="no-channel-selected" v-if="!selectedChannelID">
+        <div class="material-icons">
+          {{ type === 0 ? "forum" : type === 1 ? "dns" : "question" }}
+        </div>
+        <div class="message">
+          {{
+            type === 0
+              ? "Select a person to message!"
+              : type === 1
+              ? "Select a server!"
+              : "wot"
+          }}
+        </div>
       </div>
-    </div>
+    </transition>
     <div class="chat-input-area" v-if="selectedChannelID">
       <div class="typing-outer">
         <typing-status
@@ -1143,6 +1146,13 @@ export default {
   }
 }
 
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.1s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 .emojis-button {
   font-size: 20px;
   color: #a5bec4;

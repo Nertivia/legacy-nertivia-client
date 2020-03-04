@@ -9,7 +9,11 @@
   >
     <div class="right">
       <div class="image" v-if="imageURL" @click="embedImgClicked">
-        <img ref="image" :src="`//images.weserv.nl/?url=${imageURL}`" alt />
+        <img
+          ref="image"
+          :src="`//proxi.bree.workers.dev/cdn/${encodeURIComponent(imageURL)}`"
+          alt
+        />
       </div>
     </div>
     <div class="left">
@@ -31,7 +35,7 @@ export default {
     embedImgClicked() {
       this.$store.dispatch(
         "setImagePreviewURL",
-        "//images.weserv.nl/?url=" + this.imageURL
+        `//proxi.bree.workers.dev/cdn/${encodeURIComponent(this.imageURL)}`
       );
     },
     clamp(num, min, max) {
