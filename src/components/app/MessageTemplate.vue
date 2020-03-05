@@ -574,12 +574,11 @@ $message-color: rgba(0, 0, 0, 0.3);
   justify-content: center;
   flex-direction: column;
   // border-radius: 10px;
-  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
   color: rgb(231, 231, 231);
   margin: auto 0;
   overflow: hidden;
   border-radius: 4px;
-  border-bottom-left-radius: 0;
 }
 .inner-content {
   display: flex;
@@ -588,7 +587,7 @@ $message-color: rgba(0, 0, 0, 0.3);
 }
 .ownMessageRight .content {
   border-radius: 4px;
-  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
 }
 .image-content {
   margin-top: 10px;
