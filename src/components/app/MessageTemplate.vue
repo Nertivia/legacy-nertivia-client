@@ -573,12 +573,11 @@ $message-color: rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
   flex-direction: column;
-  // border-radius: 10px;
-  border-top-left-radius: 0;
   color: rgb(231, 231, 231);
   margin: auto 0;
   overflow: hidden;
   border-radius: 4px;
+  border-top-left-radius: 0;
 }
 .inner-content {
   display: flex;
