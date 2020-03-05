@@ -3,6 +3,9 @@ import LinkifyIt from "linkify-it";
 
 const linkify = LinkifyIt();
 
+linkify.add("ftp:", null);
+linkify.add("//", null);
+
 export default order => {
   return {
     order: order++,
