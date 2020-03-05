@@ -548,7 +548,7 @@ $message-color: rgba(0, 0, 0, 0.3);
 }
 
 .avatar {
-  margin: auto 0 0 0;
+  margin: 0;
   height: 56px;
   width: 56px;
 }
