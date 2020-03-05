@@ -557,14 +557,13 @@ $message-color: rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: bottom;
   flex-direction: column;
-  margin: auto 0 0 0;
 }
 
 .triangle-inner {
   width: 0;
   height: 0;
-  border-top: 9px solid transparent;
-  border-bottom: 0px solid transparent;
+  border-top: 0 solid transparent;
+  border-bottom: 9px solid transparent;
   border-right: 8px solid $message-color;
 }
 
