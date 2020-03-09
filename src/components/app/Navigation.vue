@@ -210,17 +210,9 @@ export default {
 .flip-list-move {
   transition: 0.3s;
 }
-.sortable-drag {
+
+.ghost {
   opacity: 0;
-}
-.ghost::before {
-  content: "";
-  position: absolute;
-  background: white;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 3px;
 }
 
 .navigation {

@@ -122,17 +122,8 @@ export default {
 </script>
 
 <style scoped>
-.sortable-drag {
+.ghost {
   opacity: 0;
-}
-.ghost::before {
-  content: "";
-  position: absolute;
-  background: white;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 3px;
 }
 
 .channels-list {
