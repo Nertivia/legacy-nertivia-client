@@ -24,20 +24,17 @@
     </transition>
     <message-panel :type="currentTab === 1 ? 0 : currentTab === 2 ? 1 : null" />
     <transition :name="$mq !== 'desktop' ? 'slide-right' : 'none'">
-      <transition name="fade" mode="out-in">
-        <members-list
-          v-if="
-            selectedServerID &&
-              currentTab === 2 &&
-              ((($mq === 'members_panel' || $mq === 'mobile') &&
-                showMembersPanel) ||
-                $mq === 'desktop')
-          "
-          :key="selectedServerID"
-          v-click-outside="hideMembersPanel"
-          class="members-panel"
-        />
-      </transition>
+      <members-list
+        v-if="
+          selectedServerID &&
+            currentTab === 2 &&
+            ((($mq === 'members_panel' || $mq === 'mobile') &&
+              showMembersPanel) ||
+              $mq === 'desktop')
+        "
+        v-click-outside="hideMembersPanel"
+        class="members-panel"
+      />
     </transition>
   </div>
 </template>

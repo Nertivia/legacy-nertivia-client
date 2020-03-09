@@ -3,18 +3,42 @@
     <div class="header">
       <div class="title">Members ({{ members.length }})</div>
     </div>
-    <div class="members">
-      <virtual-list :size="49" :remain="20" :variable="true">
-        <div class="roles" v-for="role in serverRoles" :key="role.id">
+    <transition name="fade" mode="out-in">
+      <div class="members" :key="selectedServerID" ref="members-list">
+        <virtual-list
+          :size="49"
+          :key="remain"
+          :remain="remain"
+          :variable="true"
+        >
+          <div class="roles" v-for="role in serverRoles" :key="role.id">
+            <div
+              class="tab"
+              v-if="serverRoles.length"
+              :style="{ color: role.color, height: '29' + 'px' }"
+            >
+              {{ role.name }} ({{ role.members.length }})
+            </div>
+            <member-template
+              v-for="member in role.members"
+              :key="member.member.uniqueID"
+              :type="member.type"
+              :avatar="member.member.avatar"
+              :user="member.member"
+              :member="member"
+              :style="{ height: '48' + 'px' }"
+            />
+          </div>
+
           <div
             class="tab"
-            v-if="serverRoles.length"
-            :style="{ color: role.color, height: '29' + 'px' }"
+            v-if="noneRoleOnlineMembers.length"
+            :style="{ color: defaultRole.color, height: '29' + 'px' }"
           >
-            {{ role.name }} ({{ role.members.length }})
+            {{ defaultRole.name }} ({{ noneRoleOnlineMembers.length }})
           </div>
           <member-template
-            v-for="member in role.members"
+            v-for="member in noneRoleOnlineMembers"
             :key="member.member.uniqueID"
             :type="member.type"
             :avatar="member.member.avatar"
@@ -22,52 +46,56 @@
             :member="member"
             :style="{ height: '48' + 'px' }"
           />
-        </div>
 
-        <div
-          class="tab"
-          v-if="noneRoleOnlineMembers.length"
-          :style="{ color: defaultRole.color, height: '29' + 'px' }"
-        >
-          {{ defaultRole.name }} ({{ noneRoleOnlineMembers.length }})
-        </div>
-        <member-template
-          v-for="member in noneRoleOnlineMembers"
-          :key="member.member.uniqueID"
-          :type="member.type"
-          :avatar="member.member.avatar"
-          :user="member.member"
-          :member="member"
-          :style="{ height: '48' + 'px' }"
-        />
-
-        <div
-          class="tab"
-          v-if="offlineMembers.length"
-          :style="{ height: '29' + 'px' }"
-        >
-          Offline ({{ offlineMembers.length }})
-        </div>
-        <member-template
-          v-for="member in offlineMembers"
-          :key="member.member.uniqueID"
-          :type="member.type"
-          :avatar="member.member.avatar"
-          :user="member.member"
-          :member="member"
-          :style="{ height: '48' + 'px' }"
-        />
-      </virtual-list>
-    </div>
+          <div
+            class="tab"
+            v-if="offlineMembers.length"
+            :style="{ height: '29' + 'px' }"
+          >
+            Offline ({{ offlineMembers.length }})
+          </div>
+          <member-template
+            v-for="member in offlineMembers"
+            :key="member.member.uniqueID"
+            :type="member.type"
+            :avatar="member.member.avatar"
+            :user="member.member"
+            :member="member"
+            :style="{ height: '48' + 'px' }"
+          />
+        </virtual-list>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
 import VirtualList from "vue-virtual-scroll-list";
 import MemberTemplate from "@/components/app/MemberTemplate";
+import windowProperties from "@/utils/windowProperties";
+
 export default {
   components: { MemberTemplate, VirtualList },
+  data() {
+    return {
+      remain: 20
+    };
+  },
+  watch: {
+    windowSize() {
+      const memberListHeight = this.$refs["members-list"].clientHeight;
+      const memberTemplateHeight = 48;
+      this.remain = memberListHeight / memberTemplateHeight;
+      console.log(this.remain);
+    }
+  },
   computed: {
+    windowSize() {
+      return {
+        width: windowProperties.resizeWidth,
+        height: windowProperties.resizeHeight
+      };
+    },
     selectedServerID() {
       return this.$store.getters["servers/selectedServerID"];
     },
@@ -195,5 +223,13 @@ export default {
   font-weight: bold;
   display: flex;
   align-items: center;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>
