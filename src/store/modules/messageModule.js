@@ -127,6 +127,7 @@ const actions = {
   },
   updateMessage(context, { channelID, messageID, message }) {
     const messages = context.state.messages[channelID];
+    if (!messages) return;
     messages.find((obj, index) => {
       if (obj.messageID === messageID) {
         const newObj = Object.assign({}, obj, message);
