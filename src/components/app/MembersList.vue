@@ -86,7 +86,6 @@ export default {
       const memberListHeight = this.$refs["members-list"].clientHeight;
       const memberTemplateHeight = 48;
       this.remain = memberListHeight / memberTemplateHeight;
-      console.log(this.remain);
     }
   },
   computed: {
