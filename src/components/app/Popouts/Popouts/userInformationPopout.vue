@@ -123,7 +123,10 @@
       </div>
     </div>
     <div class="second-box">
-      <div class="second-box-inner roles-box" v-if="selectedServerID">
+      <div
+        class="second-box-inner roles-box"
+        v-if="selectedServerID && serverMember"
+      >
         <div class="title">Server Roles</div>
         <div class="roles-list" v-if="memberRoles && memberRoles.length">
           <div
