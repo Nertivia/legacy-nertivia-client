@@ -1,5 +1,16 @@
 const config = [
   {
+    version: "1.0.5",
+    title: "Mutual Friends, servers and more!",
+    shortTitle: "",
+    date: "10/03/2020",
+    new: [
+      "You can now view mutual friends and servers for a user when clicking on their profile.",
+      "You can now view the users roles when clicking on their profile while being in the server.",
+    ],
+    msg: "Note: These new features only work on desktop view."
+  },
+  {
     version: "1.0.4",
     title: '"Stop DMing me!"',
     shortTitle: "",

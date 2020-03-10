@@ -67,6 +67,7 @@
   console.log("%cPasting code is dangerous and could cause your account to be hacked.", "background: black; color: white; font-weight: bold;");
   console.log("%cPasting code is dangerous and could cause your account to be hacked.", "background: black; color: white; font-weight: bold;");
   console.log("%cPasting code is dangerous and could cause your account to be hacked.", "background: black; color: white; font-weight: bold;");
+  window.onerror = function(message, source, lineno, colno, error) { console.log("error happen") }
 </script>
 
 </head>

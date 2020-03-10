@@ -171,6 +171,9 @@ export default {
     }
   },
   async mounted() {
+    if (this.loggedIn) {
+      this.ready = true;
+    }
     const currentTab = localStorage.getItem("currentTab");
     if (currentTab) {
       this.$store.dispatch("setCurrentTab", parseInt(currentTab));

@@ -199,9 +199,11 @@ export default {
   },
   mounted() {
     bus.$on("server-tool-tip", this.serverToolTipEvent);
+    bus.$on("openServer", this.openServer);
   },
   destroyed() {
     bus.$off("server-tool-tip", this.serverToolTipEvent);
+    bus.$off("openServer", this.openServer);
   }
 };
 </script>

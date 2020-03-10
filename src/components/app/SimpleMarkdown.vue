@@ -46,7 +46,7 @@ pre {
   overflow-wrap: anywhere;
 }
 
-.content-message img.emoji {
+img.emoji {
   object-fit: contain;
   height: 2em;
   width: 2em;
@@ -65,10 +65,13 @@ pre {
   background: rgba(0, 0, 0, 0.3);
   color: rgb(94, 164, 255);
   font-weight: bold;
-  border-radius: 7px;
+  border-radius: 4px;
   padding: 3px;
   cursor: pointer;
   transition: 0.2s;
+  display: inline-block;
+  margin-top: 3px;
+  margin-bottom: 3px;
 }
 .mention:hover {
   background: rgba(0, 0, 0, 0.6);
