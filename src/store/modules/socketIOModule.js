@@ -255,14 +255,27 @@ const actions = {
             channelName: channel.name,
             username: data.message.creator.username,
             avatarURL: config.domain + "/avatars/" + server.avatar,
-            message: data.message.message
+            message: data.message.message,
+            serverID: channel.server_id,
+            bus: bus
           });
         } else {
           DesktopNotification.directMessage({
             username: data.message.creator.username,
             avatarURL:
               config.domain + "/avatars/" + data.message.creator.avatar,
-            message: data.message.message
+            message: data.message.message,
+            open: function() {
+              context.dispatch("setCurrentTab", 1, { root: true });
+              context.dispatch(
+                "openChat",
+                {
+                  uniqueID: data.message.creator.uniqueID,
+                  channelName: data.message.creator.username
+                },
+                { root: true }
+              );
+            }
           });
         }
       }

@@ -14,7 +14,6 @@
 
 <script>
 const { remote } = window.require("electron");
-
 export default {
   methods: {
     closeWindow() {

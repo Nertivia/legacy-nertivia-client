@@ -57,7 +57,7 @@
                 <div class="material-icons">check</div>
                 <div>Accept Friend</div>
               </div>
-              <div class="button" @click="openChat">
+              <div class="button" @click="openChat()">
                 <div class="material-icons">message</div>
                 <div>Message</div>
               </div>
