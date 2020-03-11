@@ -636,6 +636,7 @@ $message-color: rgba(0, 0, 0, 0.3);
   max-width: 100%;
   color: white;
   margin-top: 3px;
+  padding-right: 2px;
 }
 .other-information {
   display: flex;
