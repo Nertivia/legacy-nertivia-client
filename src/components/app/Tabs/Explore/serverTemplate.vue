@@ -34,6 +34,10 @@
           <span v-else-if="!joinClicked">Join Server</span>
         </div>
       </div>
+      <div class="created-by">
+        Created by
+        <span @click="openUserInformation">{{ server.creator.username }}</span>
+      </div>
     </div>
   </div>
 </template>
@@ -56,6 +60,12 @@ export default {
     };
   },
   methods: {
+    openUserInformation() {
+      this.$store.dispatch(
+        "setUserInformationPopout",
+        this.server.creator.uniqueID
+      );
+    },
     async joinButton() {
       if (this.joinClicked || this.joined) return;
       this.joinClicked = true;
@@ -224,6 +234,22 @@ export default {
       &.selected {
         background: grey;
       }
+    }
+  }
+}
+.created-by {
+  margin-left: 5px;
+  margin-bottom: 5px;
+  color: rgba(255, 255, 255, 0.7);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  span {
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    transition: 0.2s;
+    &:hover {
+      color: white;
     }
   }
 }
