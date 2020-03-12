@@ -3,7 +3,7 @@
     <spinner v-if="channels === undefined" size="40" />
     <div v-if="channels" class="wrapper">
       <draggable
-        :disabled="!isServerCreator"
+        :disabled="!canManageChannels"
         v-model="serverChannels"
         :animation="200"
         :delay="mobile ? 400 : 0"
@@ -28,7 +28,7 @@ import ServerService from "@/services/ServerService.js";
 import draggable from "vuedraggable";
 import { isMobile } from "@/utils/Mobile";
 import { bus } from "@/main.js";
-
+import { permissions, containsPerm } from "@/utils/RolePermissions";
 export default {
   components: { draggable, ChannelTemplate, Spinner },
   props: ["serverID"],
@@ -89,10 +89,44 @@ export default {
     user() {
       return this.$store.getters.user;
     },
-    isServerCreator() {
-      return (
+    serverMember() {
+      return this.$store.getters["servers/serverMembers"].find(
+        sm =>
+          sm.server_id === this.serverID && sm.uniqueID === this.user.uniqueID
+      );
+    },
+    myRolePermissions() {
+      if (!this.serverMember) return undefined;
+      const roles = this.$store.getters["servers/roles"][this.serverID];
+      if (!roles) return undefined;
+
+      let perms = 0;
+
+      if (this.serverMember.roles) {
+        for (let index = 0; index < roles.length; index++) {
+          const role = roles[index];
+          if (this.serverMember.roles.includes(role.id)) {
+            perms = perms | (role.permissions || 0);
+          }
+        }
+      }
+
+      const defaultRole = roles.find(r => r.default);
+      perms = perms | defaultRole.permissions;
+      return perms;
+    },
+    canManageChannels() {
+      console.log(this.myRolePermissions);
+      const isServerOwner =
         this.$store.getters["servers/servers"][this.serverID].creator
-          .uniqueID === this.user.uniqueID
+          .uniqueID === this.user.uniqueID;
+
+      return (
+        isServerOwner ||
+        containsPerm(
+          this.myRolePermissions,
+          permissions.ADMIN.value | permissions.MANAGE_CHANNELS.value
+        )
       );
     },
     channels() {
