@@ -238,7 +238,7 @@ export default {
   }
 }
 .created-by {
-  margin-left: 5px;
+  margin-left: 10px;
   margin-bottom: 5px;
   color: rgba(255, 255, 255, 0.7);
   white-space: nowrap;

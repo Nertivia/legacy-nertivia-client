@@ -1,12 +1,19 @@
 const config = [
   {
+    version: "1.0.6",
+    title: "Always credit the artist 👌",
+    shortTitle: "",
+    date: "12/03/2020",
+    new: ["You can now see who created a theme/server under the description. This could help developers of themes to get feedback easier."]
+  },
+  {
     version: "1.0.5",
     title: "Mutual Friends, servers and more!",
     shortTitle: "",
     date: "10/03/2020",
     new: [
       "You can now view mutual friends and servers for a user when clicking on their profile.",
-      "You can now view the users roles when clicking on their profile while being in the server.",
+      "You can now view the users roles when clicking on their profile while being in the server."
     ],
     msg: "Note: These new features only work on desktop view."
   },
