@@ -1,10 +1,21 @@
 const config = [
   {
+    version: "1.0.7",
+    title: "Stop DMing me 2.0!",
+    shortTitle: "",
+    date: "17/03/2020",
+    new: ["You can now mute server channels by right clicking on them."],
+    msg:
+      "Note: When muting a channel, android app push notifications will also be muted for that channel."
+  },
+  {
     version: "1.0.6",
     title: "Always credit the artist 👌",
     shortTitle: "",
     date: "12/03/2020",
-    new: ["You can now see who created a theme/server under the description. This could help developers of themes to get feedback easier."]
+    new: [
+      "You can now see who created a theme/server under the description. This could help developers of themes to get feedback easier."
+    ]
   },
   {
     version: "1.0.5",

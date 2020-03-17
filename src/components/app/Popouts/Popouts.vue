@@ -43,6 +43,10 @@
         key="delete-confirm"
         v-if="popouts.allPopout.type === 'DELETE_CONFIRM'"
       />
+      <ChannelContextMenu
+        key="ccm"
+        v-if="popouts.allPopout.type === 'CHANNEL_CONTEXT'"
+      />
     </transition-group>
   </div>
 </template>
@@ -56,6 +60,7 @@ const userInformationPopout = () =>
 const messageContextMenu = () => import("./Popouts/messageContextMenu");
 const ServerMemberContext = () => import("./Popouts/ServerMemberContext");
 const ServerContext = () => import("./Popouts/ServerContextMenu.vue");
+const ChannelContextMenu = () => import("./Popouts/ChannelContextMenu.vue");
 
 const AddServer = () => import("./Popouts/AddServer.vue");
 const AddFriend = () => import("./Popouts/AddFriend");
@@ -93,7 +98,8 @@ export default {
     AddFriend,
     AdminCssEditor,
     AdminManageUser,
-    DeleteConfirm
+    DeleteConfirm,
+    ChannelContextMenu
   },
   data() {
     return {

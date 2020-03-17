@@ -16,6 +16,7 @@
           :key="channel.channelID"
           :channel-data="channel"
           @click.native="openChannel(channel)"
+          @contextmenu.prevent.native="contextEvent($event, channel)"
         />
       </draggable>
     </div>
@@ -61,7 +62,17 @@ export default {
       bus.$emit("closeLeftMenu");
       this.$store.dispatch("openChannel", channel);
       this.$store.dispatch("selectedChannelID", channel.channelID);
-    }
+    },
+    contextEvent(event, channel) {
+      this.$store.dispatch("setAllPopout", {
+        show: true,
+        type: "CHANNEL_CONTEXT",
+        serverID: channel.server_id,
+        channelID: channel.channelID,
+        x: event.clientX,
+        y: event.clientY
+      });
+    },
   },
   async beforeMount() {
     if (this.channels !== undefined) return;
@@ -116,7 +127,6 @@ export default {
       return perms;
     },
     canManageChannels() {
-      console.log(this.myRolePermissions);
       const isServerOwner =
         this.$store.getters["servers/servers"][this.serverID].creator
           .uniqueID === this.user.uniqueID;
