@@ -16,9 +16,10 @@
             <div class="username">{{ user.username }}</div>
             <div class="tag">:{{ user.tag }}</div>
           </div>
-          <!-- <div class="details">
-              Pancake • Male • 17-19 • United Kingdom
-          </div>-->
+          <div class="online-status">
+            <div class="status" :style="{ background: status.color }"></div>
+            <div>{{ status.name }}</div>
+          </div>
           <div class="badges-list">
             <div
               class="badge"
@@ -174,6 +175,7 @@
 <script>
 import { bus } from "@/main";
 import config from "@/config.js";
+import statuses from "@/utils/statuses";
 import Spinner from "@/components/Spinner.vue";
 import profilePicture from "@/components/ProfilePictureTemplate.vue";
 import userService from "@/services/userService.js";
@@ -265,6 +267,15 @@ export default {
     }
   },
   computed: {
+    status() {
+      let status;
+      if (this.uniqueID === this.$store.getters.user.uniqueID) {
+        status = this.$store.getters.user.status;
+      } else {
+        status = this.$store.getters["members/presences"][this.uniqueID];
+      }
+      return status ? statuses[status] : statuses[0];
+    },
     commonFriendsArr() {
       if (!this.commonFriendsIDArr) return;
       const members = Object.values(this.$store.getters["members/members"]);
@@ -409,6 +420,23 @@ export default {
   display: flex;
   flex-direction: column;
   overflow: auto;
+}
+.online-status {
+  display: flex;
+  flex-shrink: 0;
+  align-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  .status {
+    background: gray;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    align-self: center;
+    flex-shrink: 0;
+    margin-right: 5px;
+  }
 }
 .item {
   display: flex;

@@ -1,5 +1,12 @@
 const config = [
   {
+    version: "1.0.8",
+    title: "R u online?",
+    shortTitle: "",
+    date: "18/03/2020",
+    new: ["You can now see who's online by viewing someone's profile page."]
+  },
+  {
     version: "1.0.7",
     title: "Stop DMing me 2.0!",
     shortTitle: "",
