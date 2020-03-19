@@ -4,15 +4,33 @@
     ref="embed"
     :class="{
       article: embed.type === 'article' || embed.type === 'video.other',
-      website: embed.type === 'website'
+      website: embed.type === 'website',
+      youtubeEmbed: youtubeLink
     }"
   >
     <div class="right">
       <div class="image" v-if="imageURL" @click="embedImgClicked">
+        <div class="play-icon material-icons" v-if="!playVideo && youtubeLink">
+          play_arrow
+        </div>
         <img
+          v-if="!playVideo"
           ref="image"
           :src="`//proxi.bree.workers.dev/cdn/${encodeURIComponent(imageURL)}`"
           alt
+        />
+        <iframe
+          v-if="playVideo"
+          class="video"
+          ref="video"
+          width="100%"
+          height="100%"
+          :src="
+            `https://www.youtube.com/embed/${youtubeLink}?autoplay=1&vq=hd360`
+          "
+          frameborder="0"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
         />
       </div>
     </div>
@@ -31,8 +49,25 @@ import windowProperties from "@/utils/windowProperties";
 
 export default {
   props: ["embed"],
+  data() {
+    return {
+      playVideo: false
+    };
+  },
   methods: {
+    youtube_parser(url) {
+      var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+      var match = url.match(regExp);
+      return match && match[7].length == 11 ? match[7] : false;
+    },
     embedImgClicked() {
+      if (this.youtubeLink) {
+        this.playVideo = true;
+        this.$nextTick(() => {
+          this.resizeImage();
+        });
+        return;
+      }
       this.$store.dispatch(
         "setImagePreviewURL",
         `//proxi.bree.workers.dev/cdn/${encodeURIComponent(this.imageURL)}`
@@ -45,7 +80,13 @@ export default {
       let ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
       return { width: srcWidth * ratio, height: srcHeight * ratio };
     },
-    articleSize() {
+    resizeImage() {
+      let size;
+      if (this.youtubeLink) {
+        size = 500;
+      } else {
+        size = 200;
+      }
       const image = this.embed.image;
       if (!image || !image.dimensions) return undefined;
 
@@ -56,7 +97,7 @@ export default {
       const w = messageLog.offsetWidth;
       const h = messageLog.offsetHeight;
 
-      const minWidth = this.clamp(w / 2, 0, 200);
+      const minWidth = this.clamp(w / 2, 0, size);
       const minHeight = h / 2;
 
       const dimensions = image.dimensions;
@@ -70,7 +111,7 @@ export default {
         minHeight
       );
 
-      const imageTag = this.$refs["image"];
+      const imageTag = this.$refs["image"] || this.$refs["video"];
 
       //embed.style.width = this.clamp(newDimentions.width, 0, srcWidth) + "px"
 
@@ -80,11 +121,11 @@ export default {
         this.clamp(newDimentions.height, 0, srcHeight) + "px";
     },
     onResize() {
-      this.articleSize();
+      this.resizeImage();
     }
   },
   mounted() {
-    this.articleSize();
+    this.resizeImage();
   },
   watch: {
     getWindowWidth(dimensions) {
@@ -92,6 +133,15 @@ export default {
     }
   },
   computed: {
+    youtubeLink() {
+      if (
+        this.embed.url &&
+        this.embed.url.startsWith("https://www.youtube.com/watch")
+      ) {
+        return this.youtube_parser(this.embed.url);
+      }
+      return false;
+    },
     getWindowWidth() {
       return {
         width: windowProperties.resizeWidth,
@@ -109,7 +159,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .embed {
   background: #ffffff21;
   padding: 5px;
@@ -120,7 +170,18 @@ export default {
   text-overflow: ellipsis;
   overflow: hidden;
 }
-
+.play-icon {
+  color: rgba(255, 255, 255, 0.7);
+  z-index: 9999999;
+  position: absolute;
+  top: calc(50% - 30px);
+  left: calc(50% - 30px);
+  font-size: 50px;
+  transition: 0.3s;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 4px;
+}
 .embed.website {
   height: 100px;
 }
@@ -146,7 +207,23 @@ export default {
   margin-top: 5px;
   align-self: center;
 }
-
+.youtubeEmbed {
+  flex-direction: column;
+  .video {
+    height: 100%;
+    width: 100%;
+    z-index: 9999999;
+  }
+  .image:after {
+    background: rgba(0, 0, 0, 0.3);
+  }
+  &:hover .play-icon {
+    color: white;
+  }
+  .image:hover:after {
+    background: rgba(0, 0, 0, 0.3);
+  }
+}
 .right {
   display: flex;
 }

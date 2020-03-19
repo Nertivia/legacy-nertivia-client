@@ -1,5 +1,12 @@
 const config = [
   {
+    version: "1.0.9",
+    title: "YouTube Video Embed",
+    shortTitle: "",
+    date: "19/03/2020",
+    new: ["You can now embed YouTube Videos!"]
+  },
+  {
     version: "1.0.8",
     title: "R u online?",
     shortTitle: "",
