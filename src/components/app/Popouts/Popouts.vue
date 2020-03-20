@@ -47,6 +47,10 @@
         key="ccm"
         v-if="popouts.allPopout.type === 'CHANNEL_CONTEXT'"
       />
+      <ImageContextMenu
+        key="icm"
+        v-if="popouts.allPopout.type === 'IMAGE_CONTEXT'"
+      />
     </transition-group>
   </div>
 </template>
@@ -61,6 +65,7 @@ const messageContextMenu = () => import("./Popouts/messageContextMenu");
 const ServerMemberContext = () => import("./Popouts/ServerMemberContext");
 const ServerContext = () => import("./Popouts/ServerContextMenu.vue");
 const ChannelContextMenu = () => import("./Popouts/ChannelContextMenu.vue");
+const ImageContextMenu = () => import("./Popouts/ImageContextMenu.vue");
 
 const AddServer = () => import("./Popouts/AddServer.vue");
 const AddFriend = () => import("./Popouts/AddFriend");
@@ -99,7 +104,8 @@ export default {
     AdminCssEditor,
     AdminManageUser,
     DeleteConfirm,
-    ChannelContextMenu
+    ChannelContextMenu,
+    ImageContextMenu
   },
   data() {
     return {

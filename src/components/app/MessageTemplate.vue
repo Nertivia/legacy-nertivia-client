@@ -16,7 +16,9 @@
           apperance.own_message_right === true
       }"
     >
-      <div class="small-time" v-if="hideAdditional" :title="getDate">{{ getTime }}</div>
+      <div class="small-time" v-if="hideAdditional" :title="getDate">
+        {{ getTime }}
+      </div>
       <div class="avatar" v-if="!hideAdditional">
         <profile-picture
           :admin="creator.admin"
@@ -82,7 +84,12 @@
             </audio>
           </div>
 
-          <div class="image-content" ref="image" v-if="getImage">
+          <div
+            class="image-content"
+            ref="image"
+            v-if="getImage"
+            @contextmenu.prevent="imageContextEvent"
+          >
             <img :src="getImage" @click="imageClicked" />
           </div>
           <message-embed-template
@@ -252,6 +259,15 @@ export default {
     },
     onResize() {
       this.imageSize();
+    },
+    imageContextEvent(event) {
+      this.$store.dispatch("setAllPopout", {
+        show: true,
+        type: "IMAGE_CONTEXT",
+        url: this.getImage,
+        x: event.clientX,
+        y: event.clientY
+      });
     }
   },
   watch: {

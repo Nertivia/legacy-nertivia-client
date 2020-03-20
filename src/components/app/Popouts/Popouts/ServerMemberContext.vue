@@ -268,8 +268,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.drop-down-menu {
-}
 .main-menu {
   position: absolute;
   background: rgba(0, 0, 0, 0.7);
@@ -279,7 +277,7 @@ export default {
   z-index: 99999;
   top: 0;
   left: 0;
-    overflow: hidden;
+  overflow: hidden;
   border-radius: 4px;
 }
 

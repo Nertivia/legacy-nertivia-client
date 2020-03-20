@@ -159,41 +159,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.drop-down-menu {
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(5px);
-  z-index: 99999;
-  user-select: none;
-  color: rgba(255, 255, 255, 0.7);
-  overflow: hidden;
-  border-radius: 4px;
-}
-
-.item {
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  transition: 0.2s;
-  font-size: 13px;
-  cursor: pointer;
-  .material-icons {
-    font-size: 20px;
-    margin-right: 5px;
-  }
-  &:hover {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-  }
-  &.warn {
-    color: rgb(255, 59, 59);
-  }
-  &.disabled {
-    cursor: default;
-    background: transparent;
-    color: rgba(255, 255, 255, 0.4);
-  }
-}
+@import "./ContextMenu.scss";
 </style>

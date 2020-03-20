@@ -1,6 +1,6 @@
 <template>
   <div ref="background" class="drop-background preview-popout">
-    <div class="img-outer">
+    <div class="img-outer" @contextmenu.prevent="imageContextEvent">
       <img :src="$store.getters.popouts.ImagePreviewURL" />
     </div>
   </div>
@@ -27,6 +27,15 @@ export default {
       ) {
         this.$store.dispatch("setImagePreviewURL", event.target.src);
       }
+    },
+    imageContextEvent(event) {
+      this.$store.dispatch("setAllPopout", {
+        show: true,
+        type: "IMAGE_CONTEXT",
+        url: this.$store.getters.popouts.ImagePreviewURL,
+        x: event.clientX,
+        y: event.clientY
+      });
     }
   }
 };

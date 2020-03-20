@@ -28,7 +28,6 @@
 
 <script>
 import serverService from "@/services/ServerService";
-import { permissions, containsPerm } from "@/utils/RolePermissions";
 export default {
   data() {
     return {};
@@ -64,12 +63,6 @@ export default {
       this.closeMenu();
       this.$socket.client.emit("notification:dismiss", {
         channelID: this.contextDetails.channelID
-      });
-    },
-    showSettings() {
-            this.closeMenu();
-      this.$store.dispatch("setServerSettings", {
-        serverID: this.contextDetails.serverID
       });
     },
     async muteServer() {
@@ -110,44 +103,12 @@ export default {
     user() {
       return this.$store.getters.user;
     },
-    checkServerCreator() {
-      return this.contextDetails.creatorUniqueID === this.user.uniqueID;
-    },
     serverMember() {
       return this.$store.getters["servers/serverMembers"].find(
         sm =>
           sm.server_id === this.contextDetails.serverID &&
           sm.uniqueID === this.user.uniqueID
       );
-    },
-    myRolePermissions() {
-      if (!this.serverMember) return undefined;
-      const roles = this.$store.getters["servers/roles"][
-        this.contextDetails.serverID
-      ];
-      if (!roles) return undefined;
-
-      let perms = 0;
-
-      if (this.serverMember.roles) {
-        for (let index = 0; index < roles.length; index++) {
-          const role = roles[index];
-          if (this.serverMember.roles.includes(role.id)) {
-            perms = perms | (role.permissions || 0);
-          }
-        }
-      }
-
-      const defaultRole = roles.find(r => r.default);
-      perms = perms | defaultRole.permissions;
-      return perms;
-    },
-    hasAdminRoles() {
-      const adminPermsFlags =
-        permissions.MANAGE_CHANNELS.value |
-        permissions.MANAGE_ROLES.value |
-        permissions.ADMIN.value;
-      return containsPerm(this.myRolePermissions, adminPermsFlags);
     },
     notificationsExist() {
       const notifications = this.$store.getters.notifications;
@@ -160,41 +121,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.drop-down-menu {
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(5px);
-  z-index: 99999;
-  user-select: none;
-  color: rgba(255, 255, 255, 0.7);
-  overflow: hidden;
-  border-radius: 4px;
-}
-
-.item {
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  transition: 0.2s;
-  font-size: 13px;
-  cursor: pointer;
-  .material-icons {
-    font-size: 20px;
-    margin-right: 5px;
-  }
-  &:hover {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-  }
-  &.warn {
-    color: rgb(255, 59, 59);
-  }
-  &.disabled {
-    cursor: default;
-    background: transparent;
-    color: rgba(255, 255, 255, 0.4);
-  }
-}
+@import "./ContextMenu.scss";
 </style>

@@ -9,7 +9,12 @@
     }"
   >
     <div class="right">
-      <div class="image" v-if="imageURL" @click="embedImgClicked">
+      <div
+        class="image"
+        @contextmenu.prevent="imageContextEvent"
+        v-if="imageURL"
+        @click="embedImgClicked"
+      >
         <div class="play-icon material-icons" v-if="!playVideo && youtubeLink">
           play_arrow
         </div>
@@ -70,7 +75,7 @@ export default {
       }
       this.$store.dispatch(
         "setImagePreviewURL",
-        `//proxi.bree.workers.dev/cdn/${encodeURIComponent(this.imageURL)}`
+        `https://proxi.bree.workers.dev/cdn/${encodeURIComponent(this.imageURL)}`
       );
     },
     clamp(num, min, max) {
@@ -122,6 +127,17 @@ export default {
     },
     onResize() {
       this.resizeImage();
+    },
+    imageContextEvent(event) {
+      this.$store.dispatch("setAllPopout", {
+        show: true,
+        type: "IMAGE_CONTEXT",
+        url: `https://proxi.bree.workers.dev/cdn/${encodeURIComponent(
+          this.imageURL
+        )}`,
+        x: event.clientX,
+        y: event.clientY
+      });
     }
   },
   mounted() {
@@ -179,7 +195,8 @@ export default {
   font-size: 50px;
   transition: 0.3s;
   padding: 10px;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
   border-radius: 4px;
 }
 .embed.website {
@@ -215,13 +232,13 @@ export default {
     z-index: 9999999;
   }
   .image:after {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0);
   }
   &:hover .play-icon {
     color: white;
   }
   .image:hover:after {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0);
   }
 }
 .right {
