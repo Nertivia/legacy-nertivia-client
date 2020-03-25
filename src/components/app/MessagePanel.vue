@@ -135,7 +135,11 @@
           @change="attachmentChange"
           class="hidden"
         />
-        <div class="attachment-button" @click="attachmentButton">
+        <div
+          class="attachment-button"
+          title="Attach File"
+          @click="attachmentButton"
+        >
           <i class="material-icons">attach_file</i>
         </div>
         <textarea
@@ -150,11 +154,19 @@
           v-model="message"
           @paste="onPaste"
         ></textarea>
-        <button class="emojis-button" @click="showEmojiPanel = !showEmojiPanel">
+        <button class="emojis-button" title="Draw" @click="showDraw">
+          <i class="material-icons">brush</i>
+        </button>
+        <button
+          class="emojis-button"
+          title="Emojis"
+          @click="showEmojiPanel = !showEmojiPanel"
+        >
           <i class="material-icons">tag_faces</i>
         </button>
         <button
           class="send-button"
+          title="Send Message"
           :class="{ 'error-send-button': messageLength > 5000 }"
           @click="editMessage ? updateMessage() : sendMessage()"
         >
@@ -220,7 +232,6 @@ export default {
   },
   data() {
     return {
-      message: "",
       messageLength: 0,
       postTimerID: null,
       typingTimer: null,
@@ -802,6 +813,13 @@ export default {
         },
         3500
       );
+    },
+    showDraw() {
+      const shown = !!this.$store.getters.popouts.allPopout.unclosableType;
+      this.$store.dispatch("setAllPopout", {
+        show: true,
+        unclosableType: shown ? undefined : "DRAW_POPOUT"
+      });
     }
   },
   mounted() {
@@ -852,6 +870,14 @@ export default {
     }
   },
   computed: {
+    message: {
+      get: function() {
+        return this.$store.getters.message;
+      },
+      set: function(value) {
+        this.$store.dispatch("setMessage", value);
+      }
+    },
     uploadQueue() {
       const allUploads = this.$store.getters.getAllUploads;
       const selectedChannelID = this.$store.getters.selectedChannelID;

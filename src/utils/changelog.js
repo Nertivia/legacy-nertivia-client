@@ -1,5 +1,15 @@
 const config = [
   {
+    version: "1.1.0",
+    title: "Draw A Cat 😸",
+    shortTitle: "",
+    date: "22/03/2020",
+    new: [
+      "You can now draw pictures inside Nertivia! (Thanks to Bree's 'doodlepad' package)"
+    ],
+    fix: ["When connection is lost, your message will be retained."]
+  },
+  {
     version: "1.0.9",
     title: "YouTube Video Embed",
     shortTitle: "",

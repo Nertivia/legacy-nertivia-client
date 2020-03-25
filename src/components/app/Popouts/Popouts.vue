@@ -51,6 +51,11 @@
         key="icm"
         v-if="popouts.allPopout.type === 'IMAGE_CONTEXT'"
       />
+
+      <DrawPopout
+        key="dp"
+        v-if="popouts.allPopout.unclosableType === 'DRAW_POPOUT'"
+      />
     </transition-group>
   </div>
 </template>
@@ -84,6 +89,8 @@ const AdminManageUser = () => import("./Popouts/adminManageUserPopout");
 const GenericPopout = () => import("./Popouts/GenericPopout");
 const DeleteConfirm = () => import("./Popouts/DeleteConfirm");
 
+const DrawPopout = () => import("./Popouts/DrawPopout");
+
 export default {
   components: {
     Settings,
@@ -105,7 +112,8 @@ export default {
     AdminManageUser,
     DeleteConfirm,
     ChannelContextMenu,
-    ImageContextMenu
+    ImageContextMenu,
+    DrawPopout
   },
   data() {
     return {
