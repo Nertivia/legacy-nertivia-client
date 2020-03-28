@@ -183,14 +183,16 @@ export default {
     openContextMenu(event) {
       const x = event.clientX;
       const y = event.clientY;
-      this.$store.dispatch("setMessageContext", {
+      this.$store.dispatch("setAllPopout", {
+        show: true,
+        type: "MESSAGE_CONTEXT",
         x,
         y,
         channelID: this.message.channelID,
         messageID: this.message.messageID,
         message: this.message.message,
         uniqueID: this.creator.uniqueID,
-        type: this.message.type,
+        messageType: this.message.type,
         color: this.message.color
       });
     },

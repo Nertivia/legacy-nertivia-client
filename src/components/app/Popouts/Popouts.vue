@@ -17,7 +17,9 @@
       <GenericPopout key="gp" v-if="popouts.genericMessage" />
       <message-context-menu
         key="mcm"
-        v-if="popouts.messageContextMenu.messageID"
+        v-if="
+          popouts.allPopout.type === 'MESSAGE_CONTEXT' && popouts.allPopout.show
+        "
       />
       <server-member-context
         key="smc"

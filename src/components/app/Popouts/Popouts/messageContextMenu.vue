@@ -1,5 +1,18 @@
 <template>
-  <div class="drop-down-menu msg-context-popout" v-click-outside="outsideClick">
+  <div
+    class="drop-down-menu msg-context-popout"
+    v-click-outside="outsideClick"
+    ref="mainMenu"
+  >
+    <div class="item" @click="showProfile" v-if="!serverMember">
+      <div class="material-icons">account_circle</div>
+      <div class="name">View Profile</div>
+    </div>
+    <div class="item" @click="showMemberContext" v-if="serverMember">
+      <div class="material-icons">account_circle</div>
+      <div class="name">User ></div>
+    </div>
+
     <div class="item" @click="copyMessage" v-if="!isPrecense">
       <div class="material-icons">developer_board</div>
       <div class="name">Copy</div>
@@ -22,10 +35,9 @@ export default {
   },
   methods: {
     closeMenu() {
-      this.$store.dispatch("setMessageContext", {
-        messageID: null,
-        x: null,
-        y: null
+      this.$store.dispatch("setAllPopout", {
+        show: false,
+        type: "MESSAGE_CONTEXT"
       });
     },
     outsideClick(event) {
@@ -56,11 +68,42 @@ export default {
       this.closeMenu();
     },
     setPosition() {
-      const y = this.contextDetails.y + 20;
-      const x = this.contextDetails.x - 20;
+      let y = this.contextDetails.y + 20;
+      let x = this.contextDetails.x - 20;
+      const mainMenu = this.$refs["mainMenu"];
+
+      if (x + mainMenu.clientWidth > window.innerWidth) {
+        x = window.innerWidth - mainMenu.clientWidth;
+      }
+      if (y + mainMenu.clientHeight > window.innerHeight) {
+        y = window.innerHeight - mainMenu.clientHeight;
+      }
 
       this.$el.style.top = y + "px";
       this.$el.style.left = x + "px";
+    },
+    showProfile() {
+      let uniqueID;
+      if (this.serverMember) {
+        uniqueID = this.serverMember.uniqueID;
+      } else {
+        uniqueID = this.contextDetails.uniqueID;
+      }
+      this.$store.dispatch("setUserInformationPopout", uniqueID);
+      this.closeMenu();
+    },
+    showMemberContext() {
+      const details = {
+        serverID: this.serverMember.server_id,
+        uniqueID: this.serverMember.uniqueID,
+        x: this.contextDetails.x,
+        y: this.contextDetails.y
+      };
+      this.closeMenu();
+
+      setTimeout(() => {
+        this.$store.dispatch("setServerMemberContext", details);
+      }, 100);
     }
   },
   mounted() {
@@ -72,27 +115,24 @@ export default {
     }
   },
   computed: {
+    serverMember() {
+      const serverMembers = this.$store.getters["servers/serverMembers"];
+      if (this.currentTab !== 2) return undefined;
+
+      return serverMembers.find(
+        sm =>
+          sm.uniqueID === this.contextDetails.uniqueID &&
+          sm.server_id === this.selectedServerID
+      );
+    },
+    selectedServerID() {
+      return this.$store.getters["servers/selectedServerID"];
+    },
+    currentTab() {
+      return this.$store.getters.currentTab;
+    },
     contextDetails() {
-      const {
-        x,
-        y,
-        messageID,
-        message,
-        channelID,
-        uniqueID,
-        type,
-        color
-      } = this.$store.getters.popouts.messageContextMenu;
-      return {
-        x,
-        y,
-        messageID,
-        message,
-        channelID,
-        uniqueID,
-        type,
-        color
-      };
+      return this.$store.getters.popouts.allPopout;
     },
     serverID() {
       const serverChannelIDs = Object.entries(
@@ -103,7 +143,7 @@ export default {
       });
       return find ? find[0] : undefined;
     },
-    serverMember() {
+    isSelfServerOwner() {
       const serverMembers = this.$store.getters["servers/serverMembers"];
       return serverMembers.find(
         m =>
@@ -115,9 +155,9 @@ export default {
     user() {
       return this.$store.getters.user;
     },
-    //if precense
+    //if precense message (join /ban/leave/kick)
     isPrecense() {
-      return this.contextDetails.type >= 1;
+      return this.contextDetails.messageType >= 1;
     },
     showEditOption() {
       // Only show edit option if the user is us.
@@ -128,7 +168,7 @@ export default {
       if (this.user.uniqueID === this.contextDetails.uniqueID) {
         return true;
       }
-      return !!this.serverMember;
+      return !!this.isSelfServerOwner;
     }
   }
 };

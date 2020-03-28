@@ -106,12 +106,16 @@ export default {
       this.$nextTick(() => {
         const rolesMenu = this.$refs["roles-menu"];
 
-        const mainMenuY = parseInt(mainMenu.style.top, 10);
-        const mainMenuX = parseInt(mainMenu.style.left, 10);
+        let y = parseInt(mainMenu.style.top, 10) + 120;
+        let x = parseInt(mainMenu.style.left, 10) - mainMenu.clientWidth - 21;
 
-        rolesMenu.style.top = mainMenuY + 120 + "px";
 
-        rolesMenu.style.left = mainMenuX - mainMenu.clientWidth - 21 + "px";
+        if (y + rolesMenu.clientHeight > window.innerHeight) {
+          y = window.innerHeight - rolesMenu.clientHeight;
+        }
+        rolesMenu.style.top = y + "px";
+
+        rolesMenu.style.left = x + "px";
       });
     },
     setPosition() {
