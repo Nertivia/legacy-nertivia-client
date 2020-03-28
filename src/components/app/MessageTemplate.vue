@@ -26,6 +26,7 @@
           size="50px"
           :hover="true"
           @click.native="openUserInformation"
+          @contextmenu.native.prevent="openMemberContext"
         />
       </div>
       <div class="triangle">
@@ -38,6 +39,7 @@
             class="username"
             :style="{ color: loaded ? roleColor : null }"
             @click="openUserInformation"
+            @contextmenu.prevent="openMemberContext"
           >
             {{ creator.username }}
           </div>
@@ -130,9 +132,12 @@
     <div v-if="messageType" class="presence-message" :class="messageType[1]">
       <div class="presense-contain">
         <span>
-          <span class="username" @click="openUserInformation">{{
-            creator.username
-          }}</span>
+          <span
+            class="username"
+            @click="openUserInformation"
+            @contextmenu.prevent="openMemberContext"
+            >{{ creator.username }}</span
+          >
           <span class="text">{{ messageType[0] }}</span>
 
           <span class="date">{{ getDate }}</span>
@@ -175,6 +180,18 @@ export default {
     };
   },
   methods: {
+    openMemberContext(event) {
+      if (!this.isServer) return;
+      if (!this.serverMember) return;
+      const x = event.clientX;
+      const y = event.clientY;
+      this.$store.dispatch("setServerMemberContext", {
+        serverID: this.$store.getters["servers/selectedServerID"],
+        uniqueID: this.creator.uniqueID,
+        x,
+        y
+      });
+    },
     mouseOverEvent() {
       if (this.isGif) {
         this.hover = true;
