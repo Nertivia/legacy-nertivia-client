@@ -4,6 +4,11 @@
     v-click-outside="outsideClick"
     ref="mainMenu"
   >
+      <div class="item" @click="copyMessage" v-if="!isPrecense && highlightedText">
+      <div class="material-icons">developer_board</div>
+      <div class="name">Copy</div>
+    </div>
+
     <div class="item" @click="showProfile" v-if="!serverMember">
       <div class="material-icons">account_circle</div>
       <div class="name">View Profile</div>
@@ -13,7 +18,7 @@
       <div class="name">User ></div>
     </div>
 
-    <div class="item" @click="copyMessage" v-if="!isPrecense">
+    <div class="item" @click="copyMessage" v-if="!isPrecense && !highlightedText">
       <div class="material-icons">developer_board</div>
       <div class="name">Copy</div>
     </div>
@@ -55,8 +60,12 @@ export default {
       this.closeMenu();
     },
     copyMessage() {
-      this.$clipboard(this.contextDetails.message);
       this.closeMenu();
+      if (this.highlightedText) {
+        document.execCommand("copy")
+        return;
+      }
+      this.$clipboard(this.contextDetails.message);
     },
     async deleteMessage() {
       this.$store.dispatch("setAllPopout", {
@@ -115,6 +124,9 @@ export default {
     }
   },
   computed: {
+    highlightedText() {
+      return window.getSelection().type === "Range"
+    },
     serverMember() {
       const serverMembers = this.$store.getters["servers/serverMembers"];
       if (this.currentTab !== 2) return undefined;

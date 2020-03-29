@@ -52,7 +52,7 @@
             alternate_email
           </div>
         </div>
-        <div class="inner-content">
+        <div class="inner-content" @contextmenu="openContextMenu($event, true)">
           <SimpleMarkdown
             class="content-message"
             :style="[
@@ -164,6 +164,7 @@ import path from "path";
 import windowProperties from "@/utils/windowProperties";
 
 import { mapState } from "vuex";
+import isElectron from '../../utils/ElectronJS/isElectron';
 
 export default {
   props: ["creator", "message", "isServer", "hideAdditional"],
@@ -197,7 +198,12 @@ export default {
         this.hover = true;
       }
     },
-    openContextMenu(event) {
+    openContextMenu(event, text) {
+      if (text && isElectron) {
+        event.preventDefault(true);
+      } else if (text && !isElectron) {
+        return;
+      }
       const x = event.clientX;
       const y = event.clientY;
       this.$store.dispatch("setAllPopout", {

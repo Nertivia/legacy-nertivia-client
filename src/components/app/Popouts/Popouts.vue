@@ -53,6 +53,10 @@
         key="icm"
         v-if="popouts.allPopout.type === 'IMAGE_CONTEXT'"
       />
+      <TextAreaContext
+        key="tac"
+        v-if="popouts.allPopout.type === 'TEXT_AREA_CONTEXT'"
+      />
 
       <DrawPopout
         key="dp"
@@ -73,6 +77,7 @@ const ServerMemberContext = () => import("./Popouts/ServerMemberContext");
 const ServerContext = () => import("./Popouts/ServerContextMenu.vue");
 const ChannelContextMenu = () => import("./Popouts/ChannelContextMenu.vue");
 const ImageContextMenu = () => import("./Popouts/ImageContextMenu.vue");
+const TextAreaContext = () => import("./Popouts/TextAreaContext.vue");
 
 const AddServer = () => import("./Popouts/AddServer.vue");
 const AddFriend = () => import("./Popouts/AddFriend");
@@ -115,7 +120,8 @@ export default {
     DeleteConfirm,
     ChannelContextMenu,
     ImageContextMenu,
-    DrawPopout
+    DrawPopout,
+    TextAreaContext
   },
   data() {
     return {

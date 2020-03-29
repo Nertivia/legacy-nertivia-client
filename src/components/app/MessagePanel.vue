@@ -151,6 +151,7 @@
           @keyup="keyUp"
           @change="resize"
           @input="onInput"
+          @contextmenu="openTextAreaContext"
           v-model="message"
           @paste="onPaste"
         ></textarea>
@@ -212,6 +213,7 @@ import MessageLogs from "@/components/app/MessageLogs.vue";
 import emojiParser from "@/utils/emojiParser.js";
 import windowProperties from "@/utils/windowProperties";
 import TypingStatus from "@/components/app/TypingStatus.vue";
+import isElectron from "../../utils/ElectronJS/isElectron";
 import { isMobile } from "../../utils/Mobile";
 import { permissions, containsPerm } from "@/utils/RolePermissions";
 
@@ -245,6 +247,20 @@ export default {
     };
   },
   methods: {
+    openTextAreaContext(event) {
+      if (isElectron) {
+        event.preventDefault(true);
+        const x = event.clientX;
+        const y = event.clientY;
+        this.$store.dispatch("setAllPopout", {
+          show: true,
+          type: "TEXT_AREA_CONTEXT",
+          x,
+          y,
+          input: this.$refs["input-box"]
+        });
+      }
+    },
     messageColorChange(e) {
       const hexColor = e.target.value;
       e.target.value = "";
