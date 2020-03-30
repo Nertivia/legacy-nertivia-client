@@ -27,6 +27,7 @@ export default {
     setEmojiSize() {
       if (!this.$refs.content) return false;
       const nodes = this.$refs.content.childNodes;
+      console.log(nodes)
       // make emoji size big if theres nothing else
       let containsOtherType = false;
       let emojiCount = 0;
@@ -42,6 +43,8 @@ export default {
         if (element.classList.contains("emoji")) {
           containsOtherType = false;
           emojiCount += 1;
+        } else {
+          containsOtherType = true;
         }
       }
       if (!containsOtherType) {
