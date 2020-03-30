@@ -71,7 +71,7 @@ function emojiExists(shortCode) {
   for (const emoji of emojis) {
     for (const emojiShortCode of emoji.shortcodes) {
       if (shortCode === emojiShortCode) {
-        return emojiShortCode;
+        return emoji;
       }
     }
   }
