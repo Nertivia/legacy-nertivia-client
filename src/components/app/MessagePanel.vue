@@ -320,7 +320,7 @@ export default {
 
       return message.replace(regex, word => {
         const [username, tag] = word.split(":");
-        if (tag.length !== 4 || !username || !tag) return word;
+        if (!username || !tag) return word;
         const member = Object.values(this.members).find(
           m => "@" + m.username === username && m.tag === tag
         );
