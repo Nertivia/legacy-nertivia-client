@@ -1,5 +1,15 @@
 const config = [
   {
+    version: "1.1.1",
+    title: "Embed your server!",
+    shortTitle: "",
+    date: "30/03/2020",
+    new: [
+      "You can now embed your own servers in chats by sending the url (nertivia.tk/invites/{invite_code})"
+    ],
+    fix: ["Fixed a bug where when deleting a message would do nothing."]
+  },
+  {
     version: "1.1.0",
     title: "Draw A Cat 😸",
     shortTitle: "",

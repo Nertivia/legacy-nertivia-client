@@ -62,42 +62,32 @@
             ]"
             :message="message.message"
           />
-          <div
-            class="file-content"
+
+          <FileMessage
             v-if="getFile && !getFile.fileName.endsWith('.mp3')"
-          >
-            <div class="icon">
-              <i class="material-icons">insert_drive_file</i>
-            </div>
-            <div class="information">
-              <div class="info">{{ getFile.fileName }}</div>
-              <a :href="getFile.url" download target="_blank">
-                <div class="download-button">Download</div>
-              </a>
-            </div>
-          </div>
-          <div
-            v-if="getFile && getFile.fileName.endsWith('.mp3')"
-            class="file-content music"
-          >
-            <div class="info">{{ getFile.fileName }}</div>
-            <audio controls>
-              <source :src="getFile.url" type="audio/mp3" />
-            </audio>
-          </div>
+            :file="getFile"
+          />
+          <MusicMessage
+            v-else-if="getFile && getFile.fileName.endsWith('.mp3')"
+            :file="getFile"
+          />
+
+          <InviteMessage v-else-if="inviteEmbed" :invite="inviteEmbed" />
+
+          <message-embed-template
+            v-else-if="message.embed && Object.keys(message.embed).length"
+            :embed="message.embed"
+          />
 
           <div
             class="image-content"
             ref="image"
             v-if="getImage"
-            @contextmenu.prevent="imageContextEvent"
+            @contextmenu="imageContextEvent"
           >
             <img :src="getImage" @click="imageClicked" />
           </div>
-          <message-embed-template
-            v-if="message.embed && Object.keys(message.embed).length"
-            :embed="message.embed"
-          />
+
         </div>
       </div>
       <div class="other-information">
@@ -129,33 +119,24 @@
         </div>
       </div>
     </div>
-    <div v-if="messageType" class="presence-message" :class="messageType[1]">
-      <div class="presense-contain">
-        <span>
-          <span
-            class="username"
-            @click="openUserInformation"
-            @contextmenu.prevent="openMemberContext"
-            >{{ creator.username }}</span
-          >
-          <span class="text">{{ messageType[0] }}</span>
-
-          <span class="date">{{ getDate }}</span>
-        </span>
-      </div>
-      <div
-        class="drop-down-button"
-        ref="drop-down-button"
-        @click="openContextMenu"
-      >
-        <i class="material-icons">more_vert</i>
-      </div>
-    </div>
+    <PresenceMessage
+      v-if="message.type > 0 && message.type < 5"
+      :type="message.type"
+      :creator="creator"
+      :date="getDate"
+      @openContext="openContextMenu"
+      @openUserInformation="openUserInformation"
+      @openMemberContext="openMemberContext"
+    />
   </div>
 </template>
 
 <script>
 import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
+import PresenceMessage from "./PresenceMessage.vue";
+import FileMessage from "./FileMessage.vue";
+import InviteMessage from "./InviteMessage.vue";
+import MusicMessage from "./MusicMessage.vue";
 import SimpleMarkdown from "./SimpleMarkdown.vue";
 import messageEmbedTemplate from "./messageEmbedTemplate";
 import config from "@/config.js";
@@ -164,14 +145,18 @@ import path from "path";
 import windowProperties from "@/utils/windowProperties";
 
 import { mapState } from "vuex";
-import isElectron from '../../utils/ElectronJS/isElectron';
+import isElectron from "../../utils/ElectronJS/isElectron";
 
 export default {
   props: ["creator", "message", "isServer", "hideAdditional"],
   components: {
     ProfilePicture,
     messageEmbedTemplate,
-    SimpleMarkdown
+    SimpleMarkdown,
+    PresenceMessage,
+    FileMessage,
+    MusicMessage,
+    InviteMessage
   },
   data() {
     return {
@@ -286,6 +271,11 @@ export default {
       this.imageSize();
     },
     imageContextEvent(event) {
+      if (isElectron) {
+        event.preventDefault(true);
+      } else {
+        return;
+      }
       this.$store.dispatch("setAllPopout", {
         show: true,
         type: "IMAGE_CONTEXT",
@@ -388,25 +378,6 @@ export default {
         return this.roles.find(r => r.default).color + " !important";
       }
     },
-    messageType() {
-      switch (this.message.type) {
-        case 1:
-          return ["joined the server!", "join"];
-          break;
-        case 2:
-          return ["left the server.", "leave"];
-          break;
-        case 3:
-          return ["has been kicked.", "kick"];
-          break;
-        case 4:
-          return ["has been banned.", "ban"];
-          break;
-        default:
-          return null;
-          break;
-      }
-    },
     isMentioned() {
       if (!this.message.mentions) return;
       const mentions = this.message.mentions;
@@ -414,6 +385,11 @@ export default {
         return true;
       }
       return false;
+    },
+    inviteEmbed() {
+      const regex = /nertivia\.tk\/invites\/([\w]+)/;
+      if (!this.message.message) return null;
+      return this.message.message.match(regex);
     }
   }
 };
@@ -473,42 +449,6 @@ $message-color: rgba(0, 0, 0, 0.3);
 .container:hover .drop-down-button {
   opacity: 1;
 }
-.presence-message {
-  margin: 10px;
-  display: flex;
-  color: white;
-  overflow: hidden;
-}
-
-.presense-contain {
-  padding: 10px;
-  display: table;
-  color: white;
-  overflow: hidden;
-  background: $message-color;
-  border-radius: 4px;
-}
-
-.presence-message .text {
-  margin-left: 5px;
-  font-size: 15px;
-}
-.presence-message .username {
-  font-size: 15px;
-  font-weight: bold;
-}
-.presence-message.join .text {
-  color: #29bf12;
-}
-.presence-message.leave .text {
-  color: rgb(150, 139, 139);
-}
-.presence-message.kick .text {
-  color: #ff9914;
-}
-.presence-message.ban .text {
-  color: #d92121;
-}
 
 .ownMessageRight {
   flex-direction: row-reverse;
@@ -543,49 +483,6 @@ $message-color: rgba(0, 0, 0, 0.3);
 
 .ownMessage .date {
   color: #d5e3e6;
-}
-
-.file-content {
-  display: flex;
-  background: #ffffff21;
-  padding: 10px;
-  margin-top: 5px;
-  &.music {
-    .info {
-      margin-bottom: 5px;
-    }
-    flex-direction: column;
-  }
-}
-
-.file-content .material-icons {
-  font-size: 40px;
-}
-.file-content .download-button {
-  font-size: 14px;
-  background: rgba(0, 0, 0, 0.158);
-  padding: 3px;
-  text-align: center;
-  display: inline-block;
-  margin-top: 3px;
-  transition: 0.3s;
-  user-select: none;
-  cursor: pointer;
-  color: white;
-}
-.file-content .download-button:hover {
-  background: rgba(0, 0, 0, 0.329);
-}
-.file-content .info {
-  word-wrap: break-word;
-  word-break: break-word;
-  white-space: pre-wrap;
-  font-size: 14px;
-  overflow: hidden;
-  max-width: 100%;
-  color: white;
-  overflow-wrap: anywhere;
-  margin-top: 3px;
 }
 
 .avatar {
@@ -724,10 +621,5 @@ $message-color: rgba(0, 0, 0, 0.3);
   width: 15px;
   border-radius: 50%;
   cursor: default;
-}
-@media (max-width: 830px) {
-  audio {
-    width: initial;
-  }
 }
 </style>

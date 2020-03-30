@@ -1,11 +1,12 @@
 <template>
   <div ref="background" class="drop-background preview-popout">
-    <div class="img-outer" @contextmenu.prevent="imageContextEvent">
+    <div class="img-outer" @contextmenu="imageContextEvent">
       <img :src="$store.getters.popouts.ImagePreviewURL" />
     </div>
   </div>
 </template>
 <script>
+import isElectron from "../../../../utils/ElectronJS/isElectron";
 export default {
   mounted() {
     this.$refs["background"].addEventListener(
@@ -29,6 +30,11 @@ export default {
       }
     },
     imageContextEvent(event) {
+      if (isElectron) {
+        event.preventDefault(true);
+      } else {
+        return;
+      }
       this.$store.dispatch("setAllPopout", {
         show: true,
         type: "IMAGE_CONTEXT",

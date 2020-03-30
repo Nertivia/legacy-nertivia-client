@@ -11,7 +11,7 @@
     <div class="right">
       <div
         class="image"
-        @contextmenu.prevent="imageContextEvent"
+        @contextmenu="imageContextEvent"
         v-if="imageURL"
         @click="embedImgClicked"
       >
@@ -51,6 +51,7 @@
 
 <script>
 import windowProperties from "@/utils/windowProperties";
+import isElectron from "../../utils/ElectronJS/isElectron";
 
 export default {
   props: ["embed"],
@@ -75,7 +76,9 @@ export default {
       }
       this.$store.dispatch(
         "setImagePreviewURL",
-        `https://proxi.bree.workers.dev/cdn/${encodeURIComponent(this.imageURL)}`
+        `https://proxi.bree.workers.dev/cdn/${encodeURIComponent(
+          this.imageURL
+        )}`
       );
     },
     clamp(num, min, max) {
@@ -129,6 +132,11 @@ export default {
       this.resizeImage();
     },
     imageContextEvent(event) {
+      if (isElectron) {
+        event.preventDefault(true);
+      } else {
+        return;
+      }
       this.$store.dispatch("setAllPopout", {
         show: true,
         type: "IMAGE_CONTEXT",

@@ -68,13 +68,13 @@ export default {
       this.$clipboard(this.contextDetails.message);
     },
     async deleteMessage() {
+      this.closeMenu();
       this.$store.dispatch("setAllPopout", {
         show: true,
         type: "DELETE_CONFIRM",
         messageID: this.contextDetails.messageID,
         channelID: this.contextDetails.channelID
       });
-      this.closeMenu();
     },
     setPosition() {
       let y = this.contextDetails.y + 20;
