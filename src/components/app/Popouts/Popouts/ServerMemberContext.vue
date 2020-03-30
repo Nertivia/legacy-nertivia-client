@@ -37,11 +37,19 @@
         <div class="material-icons">keyboard_arrow_left</div>
         Edit Roles
       </div>
-      <div class="item warn" v-if="showKickBanOption" @click="kickMember">
+      <div
+        class="item warn"
+        v-if="showKickBanOption && hasKickPermission"
+        @click="kickMember"
+      >
         <div class="material-icons icon-cat">exit_to_app</div>
         <div class="name">Kick</div>
       </div>
-      <div class="item warn" v-if="showKickBanOption" @click="banMember">
+      <div
+        class="item warn"
+        v-if="showKickBanOption && hasBanPermission"
+        @click="banMember"
+      >
         <img class="icon-cat" src="../../../../assets/hammer4.0.svg" />
         <div class="name">Ban</div>
       </div>
@@ -108,7 +116,6 @@ export default {
 
         let y = parseInt(mainMenu.style.top, 10) + 120;
         let x = parseInt(mainMenu.style.left, 10) - mainMenu.clientWidth - 21;
-
 
         if (y + rolesMenu.clientHeight > window.innerHeight) {
           y = window.innerHeight - rolesMenu.clientHeight;
@@ -224,13 +231,14 @@ export default {
     showKickBanOption() {
       // Dont show kick and ban option for Fishie and Fullipsp :P
       if (
-        this.contextDetails.uniqueID === "763085765093499318" ||
+        this.contextDetails.uniqueID === "763085765093499319" ||
         this.contextDetails.uniqueID === "825242960222351869"
       )
-        return;
+        return false;
+        console.log("tf")
       // Only show kick and ban option if the user is server owner and not us
       if (this.user.uniqueID === this.contextDetails.uniqueID) return false;
-      return !!this.isServerMember;
+      return true;
     },
     selfServerMember() {
       return this.$store.getters["servers/serverMembers"].find(
@@ -265,6 +273,22 @@ export default {
       return containsPerm(
         this.myRolePermissions,
         permissions.MANAGE_ROLES.value | permissions.ADMIN.value
+      );
+    },
+    hasKickPermission() {
+      if (this.selfServerMember.type === "OWNER") return true;
+      if (this.serverMember.type === "OWNER") return false;
+      return containsPerm(
+        this.myRolePermissions,
+        permissions.KICK_USER.value | permissions.ADMIN.value
+      );
+    },
+    hasBanPermission() {
+      if (this.selfServerMember.type === "OWNER") return true;
+      if (this.serverMember.type === "OWNER") return false;
+      return containsPerm(
+        this.myRolePermissions,
+        permissions.BAN_USER.value | permissions.ADMIN.value
       );
     }
   }

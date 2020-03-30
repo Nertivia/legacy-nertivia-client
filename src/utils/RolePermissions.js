@@ -18,6 +18,16 @@ export const permissions = {
     name: "Manage Channels",
     value: 8,
     info: "Update or delete channels"
+  },
+  KICK_USER: {
+    name: "Kick",
+    value: 16,
+    info: "Kick a user"
+  },
+  BAN_USER: {
+    name: "Ban",
+    value: 32,
+    info: "Kick & restrict a user from joining"
   }
 };
 

@@ -386,6 +386,7 @@ export default {
   align-self: initial;
   border-radius: 0;
   text-align: center;
+  flex-shrink: 0;
 }
 .input {
   display: flex;
@@ -394,6 +395,7 @@ export default {
   background-color: rgba(0, 0, 0, 0.4);
   padding: 10px;
   margin: 10px;
+  overflow: auto;
 }
 .input input {
   width: 100%;
@@ -401,6 +403,10 @@ export default {
   background-color: rgba(0, 0, 0, 0.4);
   margin-top: 0;
   border-radius: 4px;
+}
+.role-input {
+  overflow: initial;
+  flex-shrink: 0;
 }
 
 .role-name {
