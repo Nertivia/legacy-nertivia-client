@@ -68,11 +68,7 @@ export default {
 };
 
 function emojiExists(shortCode) {
-  for (const emoji of emojis) {
-    for (const emojiShortCode of emoji.shortcodes) {
-      if (shortCode === emojiShortCode) {
-        return emoji;
-      }
-    }
-  }
+  return emojis.find(emoji =>
+    emoji.shortcodes.find(emojiShortCode => shortCode === emojiShortCode)
+  );
 }
