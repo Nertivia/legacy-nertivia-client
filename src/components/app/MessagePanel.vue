@@ -316,7 +316,7 @@ export default {
       return ("" + number).substring(add);
     },
     replaceMentions(message) {
-      const regex = /@(.+?(?=:)):([\w\pL_]*)/g;
+      const regex = /@(.+?(?=:)):([\w]*)/g;
 
       return message.replace(regex, word => {
         const [username, tag] = word.split(":");
