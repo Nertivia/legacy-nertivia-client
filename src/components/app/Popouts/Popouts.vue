@@ -7,7 +7,7 @@
       <image-large-preview key="ilp" v-if="popouts.ImagePreviewURL" />
       <drag-drop-file-upload-dialog key="ddfud" v-if="showUploadDrapDrop" />
       <user-information-popout
-        key="uip"
+        :key="`uip-${popouts.userInformationPopoutID}`"
         v-if="popouts.userInformationPopoutID"
       />
       <take-survey-popout key="tsp" v-if="popouts.surveyPopout" />

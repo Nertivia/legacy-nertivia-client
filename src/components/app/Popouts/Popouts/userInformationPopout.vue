@@ -58,7 +58,7 @@
                 <div class="material-icons">check</div>
                 <div>Accept Friend</div>
               </div>
-              <div class="button" @click="openChat()">
+              <div class="button" @click="openChat">
                 <div class="material-icons">message</div>
                 <div>Message</div>
               </div>
@@ -146,7 +146,7 @@
         <div class="list">
           <div
             class="item"
-            @click="openChat(user.uniqueID, user.username)"
+            @click="switchUser(user.uniqueID)"
             v-for="user in commonFriendsArr"
             :key="user.uniqueID"
           >
@@ -233,11 +233,14 @@ export default {
     async RemoveFriendButton() {
       await relationshipService.delete(this.uniqueID);
     },
-    openChat(uniqueID, username) {
+    switchUser(uniqueID) {
+      this.$store.dispatch("setUserInformationPopout", uniqueID);
+    },
+    openChat() {
       this.$store.dispatch("setCurrentTab", 1);
       this.$store.dispatch("openChat", {
-        uniqueID: uniqueID || this.uniqueID,
-        channelName: username || this.user.username
+        uniqueID: this.uniqueID,
+        channelName: this.user.username
       });
       this.$store.dispatch("setUserInformationPopout", null);
     },
