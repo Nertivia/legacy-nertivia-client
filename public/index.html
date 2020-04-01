@@ -60,6 +60,16 @@
   </script>
 
 <script async>
+
+  function isInternetExplorer() {
+    var ua = window.navigator.userAgent;
+    var msie = ua.indexOf("MSIE ");
+    if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) {
+      document.write("<h1><font color='white'>Old browsers are not supported. Please Update to <a href='https://chrome.com/'>Chrome</a> or <a href='https://firefox.com/'>Firefox</a>.</font><h1>")
+    }
+  }
+  isInternetExplorer()
+
   console.log("%cIMPORTANT:", "background: red; color: yellow; font-size: x-large");
   console.log("%cPasting code is dangerous and could cause your account to be hacked.", "background: black; color: white; font-weight: bold;");
   console.log("%cPasting code is dangerous and could cause your account to be hacked.", "background: black; color: white; font-weight: bold;");
