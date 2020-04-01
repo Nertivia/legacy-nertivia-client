@@ -5,7 +5,7 @@ export default (miliseconds, type) => {
 
   if (sameDay(now, messageDate)) {
     friendlyDate = `Today at ${getFullTime(messageDate, type)}`;
-  } else if (yesterDay(now, messageDate)) {
+  } else if (yesterDay(messageDate)) {
     friendlyDate = `Yesterday at ${getFullTime(messageDate, type)}`;
   } else {
     friendlyDate = getFullDateWithTime(messageDate, type);
@@ -24,12 +24,10 @@ function sameDay(d1, d2) {
     d1.getDate() === d2.getDate()
   );
 }
-function yesterDay(d1, d2) {
-  return (
-    d1.getFullYear() === d2.getFullYear() &&
-    d1.getMonth() === d2.getMonth() &&
-    d1.getDate() - d2.getDate() == 1
-  );
+function yesterDay(date) {
+  var yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  return sameDay(yesterday, date)
 }
 
 function getFullTime(date, type) {
