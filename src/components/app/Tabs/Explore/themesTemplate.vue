@@ -12,7 +12,7 @@
     </div>
     <div class="bottom">
       <div class="name">
-        <div class="name-container">
+        <div class="name-container" :title="theme.theme.name">
           <span class="inner-name">{{ theme.theme.name }}</span>
         </div>
       </div>

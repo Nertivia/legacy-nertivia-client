@@ -15,7 +15,7 @@
         :url="`${avatarDomain}/${server.server.avatar}`"
       />
       <div class="name">
-        <div class="name-container">
+        <div class="name-container" :title="server.server.name ">
           <span class="inner-name">{{ server.server.name }}</span>
           <span class="material-icons" v-if="server.verified">check</span>
         </div>
