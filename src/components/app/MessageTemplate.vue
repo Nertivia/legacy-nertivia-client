@@ -52,8 +52,9 @@
             alternate_email
           </div>
         </div>
-        <div class="inner-content" @contextmenu="openContextMenu($event, true)">
+        <div class="inner-content">
           <SimpleMarkdown
+            @contextmenu="openContextMenu($event, true)"
             class="content-message"
             :style="[
               message.color && message.color !== -2
