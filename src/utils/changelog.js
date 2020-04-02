@@ -1,14 +1,14 @@
 const config = [
   {
     version: "1.1.2",
-    title: "Embed your server!",
+    title: "Improvements + reset data",
     shortTitle: "Improvements + reset data",
     date: "02/04/2020",
     new: ["You can now close Recent DMs."],
     fix: [
+      "All of your friends and messages are removed.",
       "Moved server locations closer to each other. this should make Nertivia much faster at sending messages.",
       "Changed the way notifications were being sent, This should also make nertivia work faster.",
-      "All of your friends and messages are removed."
     ],
     msg: "April fools! Your data will not be deleted 😅"
   },
