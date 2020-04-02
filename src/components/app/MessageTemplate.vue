@@ -54,7 +54,7 @@
         </div>
         <div class="inner-content">
           <SimpleMarkdown
-            @contextmenu="openContextMenu($event, true)"
+            @contextmenu.native="openContextMenu($event, true)"
             class="content-message"
             :style="[
               message.color && message.color !== -2
