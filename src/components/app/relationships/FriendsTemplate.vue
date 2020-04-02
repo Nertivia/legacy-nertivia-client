@@ -28,10 +28,13 @@
       <div v-if="notifications && notifications > 0" class="notification">
         <div class="notification-inner">{{ notifications }}</div>
       </div>
-      <!-- doesnt work properly. if both channels closed, the chat gets wiped. -->
-      <!-- <div v-else-if="recents" class="material-icons close-button" @click="closeChannel">
-      close
-    </div> -->
+      <div
+        v-else-if="recents"
+        class="material-icons close-button"
+        @click="closeChannel"
+      >
+        close
+      </div>
     </div>
   </div>
 </template>
@@ -177,7 +180,7 @@ export default {
   }
 
   &:hover .close-button {
-    display: flex;
+    opacity: 1;
   }
   &:hover .status {
     opacity: 1;
@@ -249,13 +252,17 @@ export default {
 }
 
 .close-button {
+  display: flex;
   flex-shrink: 0;
   height: 100%;
-  display: none;
+  opacity: 0;
   align-self: center;
   color: rgb(207, 207, 207);
   transition: 0.2s;
-  font-size: 18px;
+  font-size: 22px;
+  margin-right: 15px;
+  align-content: center;
+  align-items: center;
 }
 .close-button:hover {
   color: white;

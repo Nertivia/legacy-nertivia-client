@@ -42,7 +42,6 @@ const actions = {
       settings
     } = data;
 
-
     const friendsArr = user.friends;
 
     const presence = {};
@@ -64,7 +63,6 @@ const actions = {
     }
 
     context.dispatch("members/addPresences", presence);
-
 
     context.dispatch("members/addMembers", memberObj);
     let servers = user.servers || [];
@@ -211,8 +209,9 @@ const actions = {
     }
 
     // muted channel
-    if (context.rootGetters.mutedChannels.includes(data.message.channelID)) return;
-    
+    if (context.rootGetters.mutedChannels.includes(data.message.channelID))
+      return;
+
     const currentTab = context.rootGetters.currentTab;
     const selectedChannelID = context.rootState.channelModule.selectedChannelID;
 
@@ -314,6 +313,14 @@ const actions = {
     const { channel } = data;
     // rename to 'channel' to setChannel
     context.dispatch("channel", channel);
+  },
+  ["socket_channel:remove"](context, { channelID }) {
+    const selectedChannelID = context.rootState.channelModule.selectedChannelID;
+    if (selectedChannelID === channelID) {
+      context.dispatch("selectedUserUniqueID", undefined);
+      context.dispatch("selectedChannelID", undefined);
+    } 
+    context.dispatch("removeChannel", { channelID });
   },
   ["socket_notification:dismiss"](context, data) {
     const { channelID } = data;
@@ -540,10 +547,10 @@ const actions = {
   ["socket_server:roles"](context, { roles }) {
     context.dispatch("servers/setServerRoles", roles);
   },
-  ["socket_channel:mute"](context, {channelID}) {
+  ["socket_channel:mute"](context, { channelID }) {
     context.dispatch("addMutedChannel", channelID);
   },
-  ["socket_channel:unmute"](context, {channelID}) {
+  ["socket_channel:unmute"](context, { channelID }) {
     context.dispatch("removeMutedChannel", channelID);
   }
 };
