@@ -209,6 +209,10 @@ export default {
         this.close();
       }
     },
+    keyDownEvent(event) {
+      if (event.keyCode !== 27) return; // 27 = escape
+      this.close();
+    },
     async AddFriendButton() {
       await relationshipService.post({
         username: this.user.username,
@@ -370,6 +374,12 @@ export default {
       if (!allFriend[userUniqueID]) return null;
       return allFriend[userUniqueID].status;
     }
+  },
+  created() {
+    document.addEventListener("keydown", this.keyDownEvent);
+  },
+  destroyed() {
+    document.removeEventListener("keydown", this.keyDownEvent);
   }
 };
 </script>

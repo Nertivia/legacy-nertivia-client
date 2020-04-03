@@ -141,6 +141,10 @@ export default {
         this.closeMenu();
       }
     },
+    keyDownEvent(event) {
+      if (event.keyCode !== 27) return; // 27 = escape
+      this.closeMenu();
+    },
     slideForward() {
       this.slideInDirection = "slide-forward";
     },
@@ -213,6 +217,12 @@ export default {
         this.closeMenu();
       }
     }
+  },
+  created() {
+    document.addEventListener("keydown", this.keyDownEvent);
+  },
+  destroyed() {
+    document.removeEventListener("keydown", this.keyDownEvent);
   }
 };
 </script>

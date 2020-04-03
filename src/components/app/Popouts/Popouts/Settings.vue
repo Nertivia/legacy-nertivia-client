@@ -125,7 +125,17 @@ export default {
         name: "settings",
         visibility: false
       });
+    },
+    keyDownEvent(event) {
+      if (event.keyCode !== 27) return; // 27 = escape
+      this.close();
     }
+  },
+  created() {
+    document.addEventListener("keydown", this.keyDownEvent);
+  },
+  destroyed() {
+    document.removeEventListener("keydown", this.keyDownEvent);
   },
   computed: {
     tabsFiltered() {
