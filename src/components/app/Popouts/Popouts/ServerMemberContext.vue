@@ -235,7 +235,6 @@ export default {
         this.contextDetails.uniqueID === "825242960222351869"
       )
         return false;
-        console.log("tf")
       // Only show kick and ban option if the user is server owner and not us
       if (this.user.uniqueID === this.contextDetails.uniqueID) return false;
       return true;

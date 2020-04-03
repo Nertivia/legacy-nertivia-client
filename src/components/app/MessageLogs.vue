@@ -381,6 +381,11 @@ export default {
   overflow: auto;
   flex: 1;
   position: relative;
+}
+
+.message-logs:after {
+  content: "";
+  display: block;
   padding-bottom: 23px;
 }
 
