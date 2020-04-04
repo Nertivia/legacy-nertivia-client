@@ -178,7 +178,7 @@ export default {
     position: absolute;
     bottom: 0;
     top: 0;
-    z-index: 2;
+    z-index: 3;
     background: linear-gradient(to bottom, #00477e 0, #016dc0);
   }
   .wrapper {

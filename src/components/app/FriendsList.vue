@@ -136,7 +136,6 @@ export default {
   color: rgba(255, 255, 255, 0.7);
   flex-shrink: 0;
   position: relative;
-  background: rgba(0, 0, 0, 0.2);
 }
 .tab {
   display: flex;

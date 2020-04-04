@@ -1,9 +1,21 @@
 <template>
-  <div
+  <!-- <div
     ref="msg-logs"
     class="message-logs"
     @scroll.passive="scrollEvent"
     @resize="onResize"
+  > -->
+  <CustomScroller
+    ref="customScroller"
+    class="message-logs"
+    height="100%"
+    width="100%"
+    spacingTop="50px"
+    spacingBottom="26px"
+    scrollbarTop="50px"
+    :scrollbarBottom="
+      isTyping && Object.values(isTyping).length ? '26px' : '0px'
+    "
   >
     <div
       class="load-more-button"
@@ -17,7 +29,7 @@
     <message
       v-for="(msg, index) in selectedChannelMessages"
       :class="{
-        'show-message-animation': index === selectedChannelMessages.length - 1
+        'show-message-animation': index === selectedChannelMessages.length - 1,
       }"
       :key="msg.tempID || msg.messageID"
       :creator="msg.creator"
@@ -40,11 +52,13 @@
         Load more
       </div>
     </div>
-  </div>
+  </CustomScroller>
+  <!-- </div> -->
 </template>
 
 <script>
 import messagesService from "@/services/messagesService";
+import CustomScroller from "@/components/CustomScroller";
 import { bus } from "../../main";
 import Message from "../../components/app/MessageTemplate.vue";
 import Spinner from "@/components/Spinner.vue";
@@ -54,10 +68,12 @@ import debounce from "lodash/debounce";
 import windowProperties from "@/utils/windowProperties";
 
 export default {
+  props: ["isTyping"],
   components: {
     Message,
     Spinner,
-    uploadsQueue
+    uploadsQueue,
+    CustomScroller,
   },
   data() {
     return {
@@ -66,21 +82,22 @@ export default {
 
       loadMoreTop: {
         show: true,
-        loading: false
+        loading: false,
       },
       loadMoreBottom: {
         show: false,
-        loading: false
+        loading: false,
       },
       selectedChannelID: null,
       currentScrollTopPos: null,
-      backToBottomLoading: false
+      backToBottomLoading: false,
+      scrollEl: null,
     };
   },
   methods: {
     scrollEvent: debounce(function(event) {
       const {
-        target: { scrollTop, clientHeight, scrollHeight }
+        target: { scrollTop, clientHeight, scrollHeight },
       } = event;
       this.scrolledDown =
         Math.abs(scrollHeight - scrollTop - clientHeight) <= 3.0;
@@ -88,7 +105,7 @@ export default {
       this.currentScrollTopPos = scrollTop;
     }, 20),
     scrollDown(data) {
-      const element = this.$refs["msg-logs"];
+      const element = this.scrollEl;
       const force = data && data.force ? data.force : false;
       const pos = data && data.pos ? data.pos : undefined;
       if (!force && !this.scrolledDown) return;
@@ -101,7 +118,7 @@ export default {
         this.selectedChannelMessages.length >= 100
       )
         this.$store.dispatch("unloadTopMessages", {
-          channelID: this.selectedChannelID
+          channelID: this.selectedChannelID,
         });
     },
     unloadBottomMessages() {
@@ -111,10 +128,10 @@ export default {
       ) {
         this.$store.dispatch("setBottomUnloadStatus", {
           channelID: this.selectedChannelID,
-          status: true
+          status: true,
         });
         this.$store.dispatch("unloadBottomMessages", {
-          channelID: this.selectedChannelID
+          channelID: this.selectedChannelID,
         });
       }
     },
@@ -123,7 +140,7 @@ export default {
     },
     async loadMoreMessages() {
       if (this.loadMoreTop.loading) return;
-      const msgLogs = this.$refs["msg-logs"];
+      const msgLogs = this.scrollEl;
       const scrollHeight = msgLogs.scrollHeight;
 
       const continueMessageID = this.selectedChannelMessages[0].messageID;
@@ -147,7 +164,7 @@ export default {
     },
     async loadBottomMessages() {
       if (this.loadMoreBottom.loading) return;
-      const msgLogs = this.$refs["msg-logs"];
+      const msgLogs = this.scrollEl;
       const scrollTop = msgLogs.scrollTop;
       const channelID = this.selectedChannelID;
 
@@ -164,7 +181,7 @@ export default {
         if (!result.data.messages.length) {
           this.$store.dispatch("setBottomUnloadStatus", {
             channelID,
-            status: false
+            status: false,
           });
           this.$set(this.loadMoreBottom, "loading", false);
           this.$set(this.loadMoreBottom, "show", false);
@@ -182,7 +199,7 @@ export default {
     },
     scrolledUpEvent() {
       this.unloadBottomMessages();
-      const msgLogs = this.$refs["msg-logs"];
+      const msgLogs = this.scrollEl;
 
       this.$set(this.loadMoreBottom, "show", true);
 
@@ -212,12 +229,12 @@ export default {
       if (ok) {
         this.$store.dispatch("messages", {
           messages: result.data.messages.reverse(),
-          channelID
+          channelID,
         });
         this.$set(this.loadMoreBottom, "show", false);
         this.$store.dispatch("setBottomUnloadStatus", {
           channelID,
-          status: false
+          status: false,
         });
         this.$nextTick(() => {
           this.scrollDown({ force: true });
@@ -232,10 +249,12 @@ export default {
           this.$socket.client.emit("notification:dismiss", { channelID });
         }, 500);
       }
-    }
+    },
   },
 
   mounted() {
+    this.scrollEl = this.$refs.customScroller.$el.children[0];
+    this.scrollEl.addEventListener("scroll", this.scrollEvent);
     this.selectedChannelID = this.$store.getters.selectedChannelID;
     const pos = this.$store.getters.scrollPosition[this.selectedChannelID];
     bus.$on("backToBottom", this.backToBottomEvent);
@@ -251,10 +270,11 @@ export default {
   },
 
   beforeDestroy() {
+    this.scrollEl.removeEventListener("scroll", this.scrollEvent);
     this.$store.dispatch("setEditMessage", null);
     this.$store.dispatch("changeScrollPosition", {
       channelID: this.selectedChannelID,
-      pos: !this.scrolledDown ? this.currentScrollTopPos : null
+      pos: !this.scrolledDown ? this.currentScrollTopPos : null,
     });
     bus.$off("backToBottom", this.backToBottomEvent);
     bus.$off("scrollDown", this.scrollDown);
@@ -292,11 +312,11 @@ export default {
     scrolledDown(scrolledDown) {
       bus.$emit("scrolledDown", scrolledDown);
       if (scrolledDown) this.scrolledDownEvent();
-    }
+    },
   },
   computed: {
     channelNotifications() {
-      return this.$store.getters.notifications.find(e => {
+      return this.$store.getters.notifications.find((e) => {
         return e.channelID === this.selectedChannelID;
       });
     },
@@ -335,7 +355,7 @@ export default {
     getWindowWidth() {
       return {
         width: windowProperties.resizeWidth,
-        height: windowProperties.resizeHeight
+        height: windowProperties.resizeHeight,
       };
     },
     scrollPosition() {
@@ -371,14 +391,13 @@ export default {
         }
       }
       return grouped;
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .message-logs {
-  overflow: auto;
   flex: 1;
   position: relative;
 }

@@ -35,7 +35,7 @@ export default {
   props: [
     "type", // 0: without online status; 1: with online status; 2: server.
     "name",
-    "uniqueID"
+    "uniqueID",
   ],
 
   methods: {
@@ -48,7 +48,7 @@ export default {
     },
     toggleMembersPanel() {
       bus.$emit("toggleMembersPanel");
-    }
+    },
   },
   computed: {
     selectedServerID() {
@@ -61,20 +61,33 @@ export default {
 
       let status = presences[channel.recipients[0].uniqueID] || 0;
       return statuses[status].color;
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped>
 .heading {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
   margin-bottom: 0;
   height: 50px;
   display: flex;
   flex-shrink: 0;
   padding-left: 10px;
   align-items: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 2;
+}
+@supports (
+  (-webkit-backdrop-filter: blur(4px)) or (backdrop-filter: blur(4px))
+) {
+  .heading {
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(4px);
+  }
 }
 .show-menu-button {
   display: inline-block;

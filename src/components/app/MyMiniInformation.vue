@@ -107,7 +107,7 @@ export default {
   padding-left: 5px;
   padding-right: 5px;
   transition: 0.3s;
-  background-color: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.14);
 }
 
 .avatar {

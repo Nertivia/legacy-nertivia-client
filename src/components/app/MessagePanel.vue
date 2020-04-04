@@ -22,6 +22,7 @@
       <message-logs
         v-else-if="selectedChannelID && selectedChannelMessages"
         :key="selectedChannelID"
+        :isTyping="typingRecipients[selectedChannelID]"
       />
 
       <div class="no-channel-selected" v-if="!selectedChannelID">
@@ -1052,7 +1053,7 @@ export default {
   display: flex;
   margin-bottom: 5px;
   position: absolute;
-  top: -25px;
+  top: -26px;
   left: 0;
   right: 0;
   z-index: 1;
@@ -1076,7 +1077,6 @@ export default {
   background: rgba(0, 0, 0, 0.4);
 }
 .message-logs {
-  overflow: auto;
   flex: 1;
   position: relative;
 }
