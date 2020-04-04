@@ -92,10 +92,10 @@ export default {
     trackClick(e) {
       const content = this.$refs.content;
       const scrollBar = this.$refs.scrollBar;
-      //const handle = this.$refs.handle;
+      const handle = this.$refs.handle;
 
       const maxScroll = scrollBar.clientHeight;
-      const currentScroll = e.clientY - scrollBar.offsetTop;
+      const currentScroll = (e.clientY - scrollBar.offsetTop ) - handle.clientHeight / 2 ;
       content.scroll({
         top:
           (currentScroll / maxScroll) *
