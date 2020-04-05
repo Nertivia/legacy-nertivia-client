@@ -9,6 +9,7 @@
 
 <script>
 import messageFormatter from "@/utils/messageFormatter";
+import { bus } from '../../main';
 
 export default {
   props: {
@@ -21,8 +22,17 @@ export default {
     textClicked(event) {
       if (event.target.classList[0] === "mention") {
         const id = event.target.id.split("-")[1];
-        this.$store.dispatch("setUserInformationPopout", id);
+        if (event.target.classList.contains("channel")) {
+          this.channelClicked(id)
+        } else {
+          this.$store.dispatch("setUserInformationPopout", id);
+        }
       }
+    },
+    channelClicked(id) {
+      const channel = this.$store.getters.channels[id];
+      if (!channel) return;
+      bus.$emit("openServer", channel.server_id, id);
     },
     setEmojiSize() {
       if (!this.$refs.content) return false;
@@ -114,6 +124,9 @@ img.emoji {
   display: inline-block;
 }
 .mention:hover {
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.5);
+}
+.mention.channel {
+  color: rgba(255, 255, 255, 0.9);
 }
 </style>

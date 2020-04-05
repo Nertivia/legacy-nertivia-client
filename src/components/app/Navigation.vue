@@ -86,7 +86,7 @@ export default {
       this.drag = true;
       this.$store.dispatch("setAllPopout", { show: false });
     },
-    openServer(serverID) {
+    openServer(serverID, channelID) {
       this.switchTab(2);
       const server = this.servers[serverID];
       const lastSelectedChannel = JSON.parse(
@@ -94,7 +94,7 @@ export default {
       )[serverID];
       const defaultChannelID = server.default_channel_id;
       const channels = this.$store.getters.channels;
-      let channel = channels[lastSelectedChannel || defaultChannelID];
+      let channel = channels[channelID || lastSelectedChannel || defaultChannelID];
       if (!channel) {
         channel = channels[defaultChannelID];
       }

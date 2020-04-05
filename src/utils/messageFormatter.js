@@ -9,6 +9,7 @@ import inlineCodeblock from "./markdown-rules/inlineCodeblock";
 import link from "./markdown-rules/link";
 import customEmoji from "./markdown-rules/customEmoji";
 import mentions from "./markdown-rules/mentions";
+import channelMentions from "./markdown-rules/channelMentions";
 
 let order = 0; // order the below rules as declared below rather than by the original defaultRules order:
 
@@ -19,6 +20,7 @@ const rules = {
   strikeout: strikeout(order++),
   link: link(order++),
   mentions: mentions(order++),
+  channelMentions: channelMentions(order++),
   customEmoji: customEmoji(order++),
 
   strong: Object.assign({}, SimpleMarkdown.defaultRules.strong, {
