@@ -88,19 +88,6 @@ export default {
         data.message.creator.uniqueID
       );
     },
-    uploadFile(file) {
-      // 1073741824 = 1GB || 1024GB
-      const sizeLimit = 1073741824;
-      if (file.size >= sizeLimit) {
-        //show a warning.
-        return;
-      }
-      this.$store.dispatch("setFile", file);
-      this.$store.dispatch("setPopoutVisibility", {
-        name: "uploadDialog",
-        visibility: true,
-      });
-    },
     async onFocus() {
       bus.$emit("title:change", "Nertivia");
       if (!this.$store.getters.currentChannelID) return;

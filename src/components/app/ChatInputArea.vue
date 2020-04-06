@@ -302,6 +302,19 @@ export default {
 
       return ("" + number).substring(add);
     },
+    uploadFile(file) {
+      // 1073741824 = 1GB || 1024GB
+      const sizeLimit = 1073741824;
+      if (file.size >= sizeLimit) {
+        //show a warning.
+        return;
+      }
+      this.$store.dispatch("setFile", file);
+      this.$store.dispatch("setPopoutVisibility", {
+        name: "uploadDialog",
+        visibility: true,
+      });
+    },
     async sendMessage() {
       this.$refs["input-box"].focus();
       this.message = this.message.trim();
@@ -489,7 +502,6 @@ export default {
         return preText;
       }
     },
-
     showEmojiPopout(event) {
       if (event.keyCode == 38 || event.keyCode == 40) return; // up/down
       const message = this.$refs["input-box"].value;
