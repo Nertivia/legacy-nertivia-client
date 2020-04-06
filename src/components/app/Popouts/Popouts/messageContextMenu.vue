@@ -134,11 +134,11 @@ export default {
       return serverMembers.find(
         sm =>
           sm.uniqueID === this.contextDetails.uniqueID &&
-          sm.server_id === this.selectedServerID
+          sm.server_id === this.currentServerID
       );
     },
-    selectedServerID() {
-      return this.$store.getters["servers/selectedServerID"];
+    currentServerID() {
+      return this.$store.getters["servers/currentServerID"];
     },
     currentTab() {
       return this.$store.getters.currentTab;

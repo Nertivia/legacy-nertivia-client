@@ -23,7 +23,7 @@
   </div>
 </template>
 <script>
-import Spinner from "@/components/Spinner.vue";
+import Spinner from "@/components/global/Spinner.vue";
 import ChannelTemplate from "@/components/app/ServerTemplate/ChannelTemplate.vue";
 import ServerService from "@/services/ServerService.js";
 import draggable from "vuedraggable";
@@ -51,17 +51,17 @@ export default {
     },
     openChannel(channel) {
       // add to local storage
-      const selectedChannels = JSON.parse(
-        localStorage.getItem("selectedChannels") || "{}"
+      const currentChannels = JSON.parse(
+        localStorage.getItem("currentChannels") || "{}"
       );
-      selectedChannels[this.serverID] = channel.channelID;
+      currentChannels[this.serverID] = channel.channelID;
       localStorage.setItem(
-        "selectedChannels",
-        JSON.stringify(selectedChannels)
+        "currentChannels",
+        JSON.stringify(currentChannels)
       );
       bus.$emit("closeLeftMenu");
       this.$store.dispatch("openChannel", channel);
-      this.$store.dispatch("selectedChannelID", channel.channelID);
+      this.$store.dispatch("currentChannelID", channel.channelID);
     },
     contextEvent(event, channel) {
       this.$store.dispatch("setAllPopout", {

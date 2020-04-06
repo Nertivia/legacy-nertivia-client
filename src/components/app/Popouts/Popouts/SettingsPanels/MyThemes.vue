@@ -48,7 +48,7 @@ import { bus } from "@/main";
 import ThemeTemplate from "./MyThemeTemplate";
 import Editor from "./themesEditor";
 import MakePublic from "./MyThemesMakePublic";
-import Spinner from "@/components/Spinner";
+import Spinner from "@/components/global/Spinner";
 import { unzip, zip } from "@/utils/cssZip";
 
 import ThemeService from "@/services/ThemeService";

@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
+import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
 import config from "@/config.js";
 
 export default {

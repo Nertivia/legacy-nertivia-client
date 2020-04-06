@@ -19,7 +19,7 @@
       </div>
     </div>
     <div
-      v-if="type === 2 && selectedServerID"
+      v-if="type === 2 && currentServerID"
       class="show-members-button"
       @click="toggleMembersPanel"
     >
@@ -51,12 +51,12 @@ export default {
     },
   },
   computed: {
-    selectedServerID() {
-      return this.$store.getters["servers/selectedServerID"];
+    currentServerID() {
+      return this.$store.getters["servers/currentServerID"];
     },
     userStatusColor() {
-      const selectedChannel = this.$store.getters.selectedChannelID;
-      const channel = this.$store.getters.channels[selectedChannel];
+      const currentChannel = this.$store.getters.currentChannelID;
+      const channel = this.$store.getters.channels[currentChannel];
       const presences = this.$store.getters["members/presences"];
 
       let status = presences[channel.recipients[0].uniqueID] || 0;

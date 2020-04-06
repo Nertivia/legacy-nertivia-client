@@ -34,7 +34,7 @@ const actions = {
 
     // dont display a notification if the channel is selected.
     if (
-      context.rootState.channelModule.selectedChannelID !== channelID ||
+      context.rootState.channelModule.currentChannelID !== channelID ||
       (currentTab !== 1 && currentTab !== 2) ||
       !document.hasFocus()
     ) {

@@ -1,5 +1,5 @@
 <template>
-  <div class="edit-panel" v-if="selectedChannelID === data.channelID">
+  <div class="edit-panel" v-if="currentChannelID === data.channelID">
     <div class="title">Edit Message:</div>
     <div class="message" v-html="message"></div>
     <div class="close-button" @click="close">Cancel</div>
@@ -35,8 +35,8 @@ export default {
     message() {
       return messageFormatter(this.data.message);
     },
-    selectedChannelID() {
-      return this.$store.getters.selectedChannelID;
+    currentChannelID() {
+      return this.$store.getters.currentChannelID;
     }
   }
 };

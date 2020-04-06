@@ -129,7 +129,7 @@ export default {
         visibility: false
       });
       this.$store.dispatch("addUpload", {
-        channelID: this.selectedChannelID,
+        channelID: this.currentChannelID,
         tempID,
         name: this.popouts.fileToUpload.name,
         size: filesize(this.popouts.fileToUpload.size),
@@ -138,7 +138,7 @@ export default {
       });
 
       const { ok } = await messagesService.post(
-        this.selectedChannelID,
+        this.currentChannelID,
         formData,
         percent => {
           this.$store.dispatch("updatePercentUpload", {
@@ -171,8 +171,8 @@ export default {
   },
   computed: {
     ...mapState("settingsModule", ["GDriveLinked"]),
-    selectedChannelID() {
-      return this.$store.getters.selectedChannelID;
+    currentChannelID() {
+      return this.$store.getters.currentChannelID;
     },
 
     popouts() {

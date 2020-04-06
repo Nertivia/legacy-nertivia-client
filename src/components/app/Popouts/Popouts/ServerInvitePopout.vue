@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import Spinner from "@/components/Spinner.vue";
+import Spinner from "@/components/global/Spinner.vue";
 import ServerService from "@/services/ServerService";
 
 export default {

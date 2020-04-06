@@ -33,7 +33,7 @@ import { bus } from "../../main";
 import config from "@/config.js";
 import statusList from "../../components/app/statusList.vue";
 import settingsService from "@/services/settingsService";
-import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
+import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
 import statuses from "@/utils/statuses";
 
 export default {

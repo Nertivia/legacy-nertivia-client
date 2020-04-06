@@ -72,8 +72,8 @@
       <div
         class="button material-icons"
         @click="sendButton"
-        :title="selectedChannelID ? 'Send' : 'Select a channel to send'"
-        :class="{ disabled: !selectedChannelID }"
+        :title="currentChannelID ? 'Send' : 'Select a channel to send'"
+        :class="{ disabled: !currentChannelID }"
       >
         send
       </div>
@@ -110,7 +110,7 @@ export default {
       this.doodlePad.render();
     },
     sendButton() {
-      if (!this.selectedChannelID) return;
+      if (!this.currentChannelID) return;
       if (!this.doodlePad.strokes.length) return;
       this.$refs.canvas.toBlob(blob => {
         let file = new File([blob], "drawing.png", {
@@ -205,10 +205,10 @@ export default {
     details() {
       return this.$store.getters.popouts.allPopout;
     },
-    selectedChannelID() {
+    currentChannelID() {
       const currentTab = this.$store.getters.currentTab;
       if (currentTab === 1 || currentTab === 2) {
-        return this.$store.getters.selectedChannelID;
+        return this.$store.getters.currentChannelID;
       }
       return undefined;
     }

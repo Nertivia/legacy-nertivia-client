@@ -19,7 +19,7 @@
   >
     <div
       class="load-more-button"
-      v-if="loadMoreTop.show && selectedChannelMessages.length >= 50"
+      v-if="loadMoreTop.show && currentChannelMessages.length >= 50"
     >
       <spinner :size="30" v-if="loadMoreTop.loading" />
       <div class="text" v-if="!loadMoreTop.loading" @click="loadMoreMessages">
@@ -27,9 +27,9 @@
       </div>
     </div>
     <message
-      v-for="(msg, index) in selectedChannelMessages"
+      v-for="(msg, index) in currentChannelMessages"
       :class="{
-        'show-message-animation': index === selectedChannelMessages.length - 1,
+        'show-message-animation': index === currentChannelMessages.length - 1,
       }"
       :key="msg.tempID || msg.messageID"
       :creator="msg.creator"
@@ -41,7 +41,7 @@
     <uploadsQueue v-if="uploadQueue !== undefined" :queue="uploadQueue" />
     <div
       class="load-more-button"
-      v-if="loadMoreBottom.show && selectedChannelMessages.length >= 50"
+      v-if="loadMoreBottom.show && currentChannelMessages.length >= 50"
     >
       <spinner :size="30" v-if="loadMoreBottom.loading" />
       <div
@@ -58,10 +58,10 @@
 
 <script>
 import messagesService from "@/services/messagesService";
-import CustomScroller from "@/components/CustomScroller";
+import CustomScroller from "@/components/global/CustomScroller";
 import { bus } from "../../main";
 import Message from "../../components/app/MessageTemplate.vue";
-import Spinner from "@/components/Spinner.vue";
+import Spinner from "@/components/global/Spinner.vue";
 import uploadsQueue from "@/components/app/uploadsQueue.vue";
 import debounce from "lodash/debounce";
 
@@ -88,7 +88,7 @@ export default {
         show: false,
         loading: false,
       },
-      selectedChannelID: null,
+      currentChannelID: null,
       currentScrollTopPos: null,
       backToBottomLoading: false,
       scrollEl: null,
@@ -114,24 +114,24 @@ export default {
     },
     unloadTopMessages() {
       if (
-        this.selectedChannelMessages &&
-        this.selectedChannelMessages.length >= 100
+        this.currentChannelMessages &&
+        this.currentChannelMessages.length >= 100
       )
         this.$store.dispatch("unloadTopMessages", {
-          channelID: this.selectedChannelID,
+          channelID: this.currentChannelID,
         });
     },
     unloadBottomMessages() {
       if (
-        this.selectedChannelMessages &&
-        this.selectedChannelMessages.length >= 100
+        this.currentChannelMessages &&
+        this.currentChannelMessages.length >= 100
       ) {
         this.$store.dispatch("setBottomUnloadStatus", {
-          channelID: this.selectedChannelID,
+          channelID: this.currentChannelID,
           status: true,
         });
         this.$store.dispatch("unloadBottomMessages", {
-          channelID: this.selectedChannelID,
+          channelID: this.currentChannelID,
         });
       }
     },
@@ -143,10 +143,10 @@ export default {
       const msgLogs = this.scrollEl;
       const scrollHeight = msgLogs.scrollHeight;
 
-      const continueMessageID = this.selectedChannelMessages[0].messageID;
+      const continueMessageID = this.currentChannelMessages[0].messageID;
       this.$set(this.loadMoreTop, "loading", true);
       const { ok, result } = await messagesService.get(
-        this.selectedChannelID,
+        this.currentChannelID,
         continueMessageID
       );
       if (ok) {
@@ -166,10 +166,10 @@ export default {
       if (this.loadMoreBottom.loading) return;
       const msgLogs = this.scrollEl;
       const scrollTop = msgLogs.scrollTop;
-      const channelID = this.selectedChannelID;
+      const channelID = this.currentChannelID;
 
-      const beforeMessageID = this.selectedChannelMessages[
-        this.selectedChannelMessages.length - 1
+      const beforeMessageID = this.currentChannelMessages[
+        this.currentChannelMessages.length - 1
       ].messageID;
       this.$set(this.loadMoreBottom, "loading", true);
       const { ok, result } = await messagesService.get(
@@ -217,7 +217,7 @@ export default {
     },
     async backToBottomEvent() {
       if (this.backToBottomLoading) return;
-      const channelID = this.selectedChannelID;
+      const channelID = this.currentChannelID;
       const bottomUnloaded = this.bottomUnloaded;
       if (!bottomUnloaded) {
         this.scrollDown({ force: true });
@@ -225,7 +225,7 @@ export default {
         return;
       }
       this.backToBottomLoading = true;
-      const { ok, result } = await messagesService.get(this.selectedChannelID);
+      const { ok, result } = await messagesService.get(this.currentChannelID);
       if (ok) {
         this.$store.dispatch("messages", {
           messages: result.data.messages.reverse(),
@@ -255,8 +255,8 @@ export default {
   mounted() {
     this.scrollEl = this.$refs.customScroller.$el.children[0];
     this.scrollEl.addEventListener("scroll", this.scrollEvent);
-    this.selectedChannelID = this.$store.getters.selectedChannelID;
-    const pos = this.$store.getters.scrollPosition[this.selectedChannelID];
+    this.currentChannelID = this.$store.getters.currentChannelID;
+    const pos = this.$store.getters.scrollPosition[this.currentChannelID];
     bus.$on("backToBottom", this.backToBottomEvent);
     bus.$on("scrollDown", this.scrollDown);
     bus.$emit("scrolledDown", this.scrolledDown);
@@ -273,7 +273,7 @@ export default {
     this.scrollEl.removeEventListener("scroll", this.scrollEvent);
     this.$store.dispatch("setEditMessage", null);
     this.$store.dispatch("changeScrollPosition", {
-      channelID: this.selectedChannelID,
+      channelID: this.currentChannelID,
       pos: !this.scrolledDown ? this.currentScrollTopPos : null,
     });
     bus.$off("backToBottom", this.backToBottomEvent);
@@ -281,7 +281,7 @@ export default {
   },
 
   watch: {
-    selectedChannelMessages(newVal) {
+    currentChannelMessages(newVal) {
       this.$set(this.loadMoreTop, "show", true);
       this.$nextTick(function() {
         this.scrollDown();
@@ -289,12 +289,12 @@ export default {
 
       const lastMessage = newVal[newVal.length - 1];
       if (!lastMessage) return;
-      if (!this.selectedChannelID) return;
+      if (!this.currentChannelID) return;
       if (lastMessage.creator.uniqueID != this.user.uniqueID) {
-        this.dismissNotification(this.selectedChannelID);
+        this.dismissNotification(this.currentChannelID);
       }
     },
-    selectedChannelID(channelID) {
+    currentChannelID(channelID) {
       if (!channelID) return;
       this.dismissNotification(channelID);
     },
@@ -317,7 +317,7 @@ export default {
   computed: {
     channelNotifications() {
       return this.$store.getters.notifications.find((e) => {
-        return e.channelID === this.selectedChannelID;
+        return e.channelID === this.currentChannelID;
       });
     },
     isServer() {
@@ -325,12 +325,12 @@ export default {
     },
     uploadQueue() {
       const allUploads = this.$store.getters.getAllUploads;
-      const selectedChannelID = this.$store.getters.selectedChannelID;
+      const currentChannelID = this.$store.getters.currentChannelID;
 
       const filteredArray = [];
 
       for (let upload in allUploads) {
-        if (allUploads[upload].channelID === selectedChannelID) {
+        if (allUploads[upload].channelID === currentChannelID) {
           filteredArray.push(allUploads[upload]);
         }
       }
@@ -341,11 +341,11 @@ export default {
       return this.$store.getters.user;
     },
     channel() {
-      return this.$store.getters.channels[this.selectedChannelID];
+      return this.$store.getters.channels[this.currentChannelID];
     },
-    selectedChannelMessages() {
-      const selectedChannel = this.$store.getters.selectedChannelID;
-      return this.$store.getters.messages[selectedChannel];
+    currentChannelMessages() {
+      const currentChannel = this.$store.getters.currentChannelID;
+      return this.$store.getters.messages[currentChannel];
     },
     editMessage() {
       let editMessage = this.$store.getters.popouts.editMessage;
@@ -363,11 +363,11 @@ export default {
     },
     bottomUnloaded() {
       return (
-        this.$store.getters.bottomUnloaded[this.selectedChannelID] || false
+        this.$store.getters.bottomUnloaded[this.currentChannelID] || false
       );
     },
     groupedMessages() {
-      const messages = this.selectedChannelMessages;
+      const messages = this.currentChannelMessages;
       const grouped = [];
       let groupLength = 0;
       let prevMessageCreator = null;

@@ -213,12 +213,12 @@ const actions = {
       return;
 
     const currentTab = context.rootGetters.currentTab;
-    const selectedChannelID = context.rootState.channelModule.selectedChannelID;
+    const currentChannelID = context.rootState.channelModule.currentChannelID;
 
-    const isSelectedChannel = selectedChannelID == data.message.channelID;
+    const iscurrentChannel = currentChannelID == data.message.channelID;
     const isCurrentTabDMOrSrvrs = currentTab === 1 || currentTab === 2;
 
-    if (!isSelectedChannel || !document.hasFocus() || !isCurrentTabDMOrSrvrs) {
+    if (!iscurrentChannel || !document.hasFocus() || !isCurrentTabDMOrSrvrs) {
       // send notification if other users message the recipient
       if (data.message.creator.uniqueID === context.getters.user.uniqueID)
         return;
@@ -315,10 +315,10 @@ const actions = {
     context.dispatch("channel", channel);
   },
   ["socket_channel:remove"](context, { channelID }) {
-    const selectedChannelID = context.rootState.channelModule.selectedChannelID;
-    if (selectedChannelID === channelID) {
+    const currentChannelID = context.rootState.channelModule.currentChannelID;
+    if (currentChannelID === channelID) {
       context.dispatch("selectedUserUniqueID", undefined);
-      context.dispatch("selectedChannelID", undefined);
+      context.dispatch("currentChannelID", undefined);
     } 
     context.dispatch("removeChannel", { channelID });
   },
@@ -390,37 +390,37 @@ const actions = {
       c => c.channelID === server.default_channel_id
     );
     context.dispatch("setCurrentTab", 2, { root: true });
-    context.dispatch("servers/setSelectedServerID", server.server_id, {
+    context.dispatch("servers/setcurrentServerID", server.server_id, {
       root: true
     });
     context.dispatch("openChannel", defaultChannel, { root: true });
   },
   ["socket_server:leave"](context, { server_id }) {
-    const lastSelectedChannel = JSON.parse(
-      localStorage.getItem("selectedChannels") || "{}"
+    const lastcurrentChannel = JSON.parse(
+      localStorage.getItem("currentChannels") || "{}"
     );
-    if (lastSelectedChannel[server_id]) {
-      delete lastSelectedChannel[server_id];
+    if (lastcurrentChannel[server_id]) {
+      delete lastcurrentChannel[server_id];
       localStorage.setItem(
-        "selectedChannels",
-        JSON.stringify(lastSelectedChannel)
+        "currentChannels",
+        JSON.stringify(lastcurrentChannel)
       );
     }
     // check if server channel selected
     const serverChannelIDs = context.rootState.servers.channelsIDs[server_id];
 
-    const selectedChannelID = context.rootState.channelModule.selectedChannelID;
+    const currentChannelID = context.rootState.channelModule.currentChannelID;
     const serverChannelID = context.rootState.channelModule.serverChannelID;
-    const serverID = context.rootState.servers.selectedServerID;
+    const serverID = context.rootState.servers.currentServerID;
 
-    if (serverChannelIDs.includes(selectedChannelID)) {
-      context.dispatch("selectedChannelID", null);
+    if (serverChannelIDs.includes(currentChannelID)) {
+      context.dispatch("currentChannelID", null);
     }
     if (serverChannelIDs.includes(serverChannelID)) {
       context.dispatch("setServerChannelID", null);
     }
     if (serverID === server_id) {
-      context.dispatch("servers/setSelectedServerID", null);
+      context.dispatch("servers/setcurrentServerID", null);
     }
     context.dispatch("servers/removePresences", server_id);
     context.dispatch("servers/removeServer", server_id);

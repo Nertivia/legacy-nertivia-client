@@ -133,7 +133,7 @@
 </template>
 
 <script>
-import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
+import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
 import PresenceMessage from "./PresenceMessage.vue";
 import FileMessage from "./FileMessage.vue";
 import InviteMessage from "./InviteMessage.vue";
@@ -173,7 +173,7 @@ export default {
       const x = event.clientX;
       const y = event.clientY;
       this.$store.dispatch("setServerMemberContext", {
-        serverID: this.$store.getters["servers/selectedServerID"],
+        serverID: this.$store.getters["servers/currentServerID"],
         uniqueID: this.creator.uniqueID,
         x,
         y
@@ -352,14 +352,14 @@ export default {
       };
     },
     roles() {
-      return this.$store.getters["servers/selectedServerRoles"];
+      return this.$store.getters["servers/currentServerRoles"];
     },
     serverMember() {
       const serverMembers = this.$store.getters["servers/serverMembers"];
       return serverMembers.find(
         m =>
           m.uniqueID === this.creator.uniqueID &&
-          m.server_id === this.$store.getters["servers/selectedServerID"]
+          m.server_id === this.$store.getters["servers/currentServerID"]
       );
     },
     roleColor() {

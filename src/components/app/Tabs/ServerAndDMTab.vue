@@ -14,7 +14,7 @@
           <div class="wrapper">
             <MyMiniInformation />
             <transition name="fade" mode="out-in">
-              <server-list :key="selectedServerID" v-if="currentTab === 2" />
+              <server-list :key="currentServerID" v-if="currentTab === 2" />
               <friends-list v-if="currentTab === 1" />
             </transition>
           </div>
@@ -26,7 +26,7 @@
     <transition :name="$mq !== 'desktop' ? 'slide-right' : 'none'">
       <members-list
         v-if="
-          selectedServerID &&
+          currentServerID &&
             currentTab === 2 &&
             ((($mq === 'members_panel' || $mq === 'mobile') &&
               showMembersPanel) ||
@@ -99,8 +99,8 @@ export default {
     currentTab() {
       return this.$store.getters.currentTab;
     },
-    selectedServerID() {
-      return this.$store.getters["servers/selectedServerID"];
+    currentServerID() {
+      return this.$store.getters["servers/currentServerID"];
     }
   }
 };

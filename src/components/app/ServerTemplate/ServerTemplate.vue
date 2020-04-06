@@ -3,7 +3,7 @@
     class="server"
     :data-servername="serverData.name"
     :class="{
-      selected: selectedServerID === serverData.server_id,
+      selected: currentServerID === serverData.server_id,
       notifyAnimation: notification.notification,
       mentioned: notification.mentioned
     }"
@@ -23,7 +23,7 @@
 <script>
 import { bus } from "../../../main.js";
 import config from "@/config.js";
-import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
+import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
 
 export default {
   components: { ProfilePicture },
@@ -38,11 +38,11 @@ export default {
     user() {
       return this.$store.getters.user;
     },
-    selectedServerID() {
-      return this.$store.getters["servers/selectedServerID"];
+    currentServerID() {
+      return this.$store.getters["servers/currentServerID"];
     },
-    selectedChannelID() {
-      return this.$store.getters.selectedChannelID;
+    currentChannelID() {
+      return this.$store.getters.currentChannelID;
     },
     notification() {
       const notifications = this.$store.getters.notifications;
@@ -54,7 +54,7 @@ export default {
           channels[e.channelID].server_id &&
           this.serverData &&
           channels[e.channelID].server_id === this.serverData.server_id &&
-          (this.selectedChannelID !== e.channelID || !document.hasFocus())
+          (this.currentChannelID !== e.channelID || !document.hasFocus())
         );
       });
       const mentioned = filteredNotifications.find(n => n.mentioned);

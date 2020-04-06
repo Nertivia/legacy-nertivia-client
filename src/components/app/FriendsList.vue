@@ -83,7 +83,7 @@ export default {
         return (
           channels[e.channelID] &&
           !channels[e.channelID].server_id &&
-          (e.channelID !== this.$store.getters.selectedChannelID ||
+          (e.channelID !== this.$store.getters.currentChannelID ||
             !document.hasFocus())
         );
       });

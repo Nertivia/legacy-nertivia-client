@@ -1,7 +1,7 @@
 <template>
   <div
     class="channel"
-    :class="{ selected: selectedChannelID === channelData.channelID }"
+    :class="{ selected: currentChannelID === channelData.channelID }"
   >
     <div class="dot" v-if="!isMuted" />
     <div class="mute-icon material-icons" v-else>notifications_off</div>
@@ -20,15 +20,15 @@
 export default {
   props: ["channelData"],
   computed: {
-    selectedChannelID() {
-      return this.$store.getters.selectedChannelID;
+    currentChannelID() {
+      return this.$store.getters.currentChannelID;
     },
     hasNotifications() {
       const notifications = this.$store.getters.notifications;
 
       if (
         document.hasFocus() &&
-        this.selectedChannelID === this.channelData.channelID
+        this.currentChannelID === this.channelData.channelID
       ) {
         return false;
       }

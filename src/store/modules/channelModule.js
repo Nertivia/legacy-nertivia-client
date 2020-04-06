@@ -1,7 +1,7 @@
 import Vue from "vue";
 
 const state = {
-  selectedChannelID: null,
+  currentChannelID: null,
   selectedUserUniqueID: null,
   DMChannelID: null,
   serverChannelID: null,
@@ -10,8 +10,8 @@ const state = {
 };
 
 const getters = {
-  selectedChannelID(state) {
-    return state.selectedChannelID;
+  currentChannelID(state) {
+    return state.currentChannelID;
   },
   selectedUserUniqueID(state) {
     return state.selectedUserUniqueID;
@@ -45,8 +45,8 @@ const actions = {
     );
     context.commit("channel", update);
   },
-  selectedChannelID(context, channelID) {
-    context.commit("selectedChannelID", channelID);
+  currentChannelID(context, channelID) {
+    context.commit("currentChannelID", channelID);
   },
   selectedUserUniqueID(context, uniqueID) {
     context.commit("selectedUserUniqueID", uniqueID);
@@ -79,8 +79,8 @@ const mutations = {
   channel(state, channel) {
     Vue.set(state.channels, channel.channelID, channel);
   },
-  selectedChannelID(state, channelID) {
-    state.selectedChannelID = channelID;
+  currentChannelID(state, channelID) {
+    state.currentChannelID = channelID;
   },
   selectedUserUniqueID(state, uniqueID) {
     state.selectedUserUniqueID = uniqueID;

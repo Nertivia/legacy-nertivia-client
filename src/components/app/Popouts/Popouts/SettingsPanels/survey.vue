@@ -83,7 +83,7 @@
 import DropDown from "./../ServerSettingsPanels/DropDownMenu";
 import surveyItems from "@/utils/surveyItems.js";
 import userService from "@/services/userService.js";
-import Spinner from "@/components/Spinner";
+import Spinner from "@/components/global/Spinner";
 export default {
   components: { DropDown, Spinner },
   data() {

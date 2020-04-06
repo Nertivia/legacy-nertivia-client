@@ -30,8 +30,8 @@
 </template>
 
 <script>
-import HeaderLogin from "@/components/HeaderLoginTemplate.vue";
-import Spinner from "@/components/Spinner.vue";
+import HeaderLogin from "@/components/global/HeaderLoginTemplate.vue";
+import Spinner from "@/components/global/Spinner.vue";
 import settingsService from "../services/settingsService.js";
 
 export default {

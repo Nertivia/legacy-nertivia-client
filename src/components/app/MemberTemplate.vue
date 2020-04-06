@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import ProfilePicture from "@/components/ProfilePictureTemplate";
+import ProfilePicture from "@/components/global/ProfilePictureTemplate";
 import config from "@/config";
 import { containsPerm, permissions } from "../../utils/RolePermissions";
 export default {
@@ -38,7 +38,7 @@ export default {
   },
   computed: {
     serverID() {
-      return this.$store.getters["servers/selectedServerID"];
+      return this.$store.getters["servers/currentServerID"];
     },
     userAvatar() {
       return config.domain + "/avatars/" + this.avatar;
@@ -53,7 +53,7 @@ export default {
       return userPresense || 0;
     },
     roles() {
-      return this.$store.getters["servers/selectedServerRoles"];
+      return this.$store.getters["servers/currentServerRoles"];
     },
     roleColor() {
       if (!this.member || !this.member.roles) return undefined;

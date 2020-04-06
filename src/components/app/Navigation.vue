@@ -89,18 +89,18 @@ export default {
     openServer(serverID, channelID) {
       this.switchTab(2);
       const server = this.servers[serverID];
-      const lastSelectedChannel = JSON.parse(
-        localStorage.getItem("selectedChannels") || "{}"
+      const lastcurrentChannel = JSON.parse(
+        localStorage.getItem("currentChannels") || "{}"
       )[serverID];
       const defaultChannelID = server.default_channel_id;
       const channels = this.$store.getters.channels;
-      let channel = channels[channelID || lastSelectedChannel || defaultChannelID];
+      let channel = channels[channelID || lastcurrentChannel || defaultChannelID];
       if (!channel) {
         channel = channels[defaultChannelID];
       }
-      this.$store.dispatch("servers/setSelectedServerID", serverID);
+      this.$store.dispatch("servers/setcurrentServerID", serverID);
       this.$store.dispatch("openChannel", channel);
-      this.$store.dispatch("selectedChannelID", channel.channelID);
+      this.$store.dispatch("currentChannelID", channel.channelID);
     },
     switchTab(index) {
       bus.$emit("tab:switch", index);
@@ -193,8 +193,8 @@ export default {
         this.$store.dispatch("servers/setServers", json);
       }
     },
-    selectedServerID() {
-      return this.$store.getters["servers/selectedServerID"];
+    currentServerID() {
+      return this.$store.getters["servers/currentServerID"];
     }
   },
   mounted() {

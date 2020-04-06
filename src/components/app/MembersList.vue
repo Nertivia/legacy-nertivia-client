@@ -4,7 +4,7 @@
       <div class="title">Members ({{ members.length }})</div>
     </div>
     <transition name="fade" mode="out-in">
-      <div class="members" :key="selectedServerID" ref="members-list">
+      <div class="members" :key="currentServerID" ref="members-list">
         <virtual-list
           :size="49"
           :key="remain"
@@ -95,8 +95,8 @@ export default {
         height: windowProperties.resizeHeight
       };
     },
-    selectedServerID() {
-      return this.$store.getters["servers/selectedServerID"];
+    currentServerID() {
+      return this.$store.getters["servers/currentServerID"];
     },
     members() {
       const members = this.$store.getters["members/members"];
@@ -105,7 +105,7 @@ export default {
       const presences = this.$store.getters["members/presences"];
 
       let filteredSM = serverMembers.filter(
-        sm => sm.server_id === this.selectedServerID
+        sm => sm.server_id === this.currentServerID
       );
 
       let getMember = filteredSM.map(sm => {
@@ -142,7 +142,7 @@ export default {
       return roleMembers;
     },
     noneRoleOnlineMembers() {
-      const roles = this.$store.getters["servers/selectedServerRoles"];
+      const roles = this.$store.getters["servers/currentServerRoles"];
       return this.onlineMembers.filter(sm => {
         if (!sm.roles || !sm.roles.length) {
           return sm;
@@ -154,7 +154,7 @@ export default {
       });
     },
     serverRoles() {
-      const roles = this.$store.getters["servers/selectedServerRoles"];
+      const roles = this.$store.getters["servers/currentServerRoles"];
       let newRolesWithMembers = [];
 
       if (!roles) return undefined;
@@ -176,7 +176,7 @@ export default {
       return newRolesWithMembers;
     },
     defaultRole() {
-      const roles = this.$store.getters["servers/selectedServerRoles"];
+      const roles = this.$store.getters["servers/currentServerRoles"];
       return roles.find(r => r.default);
     },
     offlineMembers() {

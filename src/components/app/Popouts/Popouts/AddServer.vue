@@ -106,7 +106,7 @@
 import config from "@/config.js";
 
 import ServerService from "@/services/ServerService";
-import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
+import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
 import ErrorsListTemplate from "@/components/app/errorsListTemplate";
 
 export default {

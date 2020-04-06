@@ -32,7 +32,7 @@ import Popouts from "@/components/app/Popouts/Popouts.vue";
 import windowProperties from "@/utils/windowProperties";
 import changelog from "@/utils/changelog.js";
 import ConnectingScreen from "./../components/app/ConnectingScreen.vue";
-import Spinner from "./../components/Spinner.vue";
+import Spinner from "./../components/global/Spinner.vue";
 import MainNav from "./../components/app/MainNav.vue";
 import ThemeService from "../services/ThemeService";
 import ExploreService from "../services/exploreService";
@@ -99,7 +99,7 @@ export default {
       const DMChannelID = this.$store.state.channelModule.DMChannelID;
 
       if (isServer) {
-        this.$store.dispatch("selectedChannelID", serverChannelID);
+        this.$store.dispatch("currentChannelID", serverChannelID);
         const channel = this.$store.state.channelModule.channels[
           serverChannelID
         ];
@@ -110,7 +110,7 @@ export default {
           "setChannelName",
           channel ? channel.recipients[0].username : ""
         );
-        this.$store.dispatch("selectedChannelID", DMChannelID);
+        this.$store.dispatch("currentChannelID", DMChannelID);
       }
     },
     switchTab(index) {

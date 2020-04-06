@@ -126,7 +126,7 @@
     <div class="second-box">
       <div
         class="second-box-inner roles-box"
-        v-if="selectedServerID && serverMember"
+        v-if="currentServerID && serverMember"
       >
         <div class="title">Server Roles</div>
         <div class="roles-list" v-if="memberRoles && memberRoles.length">
@@ -176,8 +176,8 @@
 import { bus } from "@/main";
 import config from "@/config.js";
 import statuses from "@/utils/statuses";
-import Spinner from "@/components/Spinner.vue";
-import profilePicture from "@/components/ProfilePictureTemplate.vue";
+import Spinner from "@/components/global/Spinner.vue";
+import profilePicture from "@/components/global/ProfilePictureTemplate.vue";
 import userService from "@/services/userService.js";
 import relationshipService from "@/services/RelationshipService.js";
 import surveyItems from "@/utils/surveyItems.js";
@@ -295,12 +295,12 @@ export default {
       ).filter(s => this.commonServersIDArr.includes(s.server_id));
       return commonServers;
     },
-    selectedServerID() {
+    currentServerID() {
       if (this.currentTab !== 2) return undefined;
-      return this.$store.getters["servers/selectedServerID"];
+      return this.$store.getters["servers/currentServerID"];
     },
     memberRoles() {
-      const serverRoles = this.$store.getters["servers/selectedServerRoles"];
+      const serverRoles = this.$store.getters["servers/currentServerRoles"];
       const memberRolesID = this.serverMember.roles;
       if (!serverRoles || !memberRolesID) return;
       return serverRoles.filter(sr => memberRolesID.includes(sr.id));
@@ -309,7 +309,7 @@ export default {
       const serverMembers = this.$store.getters["servers/serverMembers"];
       return serverMembers.find(
         m =>
-          m.uniqueID === this.uniqueID && m.server_id === this.selectedServerID
+          m.uniqueID === this.uniqueID && m.server_id === this.currentServerID
       );
     },
     currentTab() {

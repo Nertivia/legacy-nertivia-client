@@ -140,7 +140,7 @@ export default {
       return false;
     },
     dragenter(event) {
-      if (!this.isFile(event) || !this.selectedChannelID) return;
+      if (!this.isFile(event) || !this.currentChannelID) return;
 
       this.lastTarget = event.target; // cache the last target here
       this.showUploadDrapDrop = true;
@@ -157,7 +157,7 @@ export default {
     drop(event) {
       this.showUploadDrapDrop = false;
       event.preventDefault();
-      if (!event.dataTransfer.files.length || !this.selectedChannelID) return;
+      if (!event.dataTransfer.files.length || !this.currentChannelID) return;
       this.$store.dispatch("setFile", event.dataTransfer.files[0]);
       this.$store.dispatch("setPopoutVisibility", {
         name: "uploadDialog",
@@ -184,8 +184,8 @@ export default {
     popouts() {
       return this.$store.getters.popouts;
     },
-    selectedChannelID() {
-      return this.$store.getters.selectedChannelID;
+    currentChannelID() {
+      return this.$store.getters.currentChannelID;
     }
   }
 };

@@ -26,7 +26,7 @@
 <script>
 import config from "@/config.js";
 import ServerService from "@/services/ServerService";
-import Spinner from "@/components/Spinner";
+import Spinner from "@/components/global/Spinner";
 
 export default {
   components: { Spinner },

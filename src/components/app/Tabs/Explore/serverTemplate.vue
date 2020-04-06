@@ -43,10 +43,10 @@
 </template>
 
 <script>
-import Spinner from "@/components/Spinner";
+import Spinner from "@/components/global/Spinner";
 import ServerService from "@/services/ServerService";
 import config from "@/config.js";
-import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
+import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
 
 export default {
   components: { Spinner, ProfilePicture },
