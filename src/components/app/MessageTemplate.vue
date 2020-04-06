@@ -13,7 +13,7 @@
         ownMessageRight:
           user.uniqueID === creator.uniqueID &&
           apperance &&
-          apperance.own_message_right === true
+          apperance.own_message_right === true,
       }"
     >
       <div class="small-time" v-if="hideAdditional" :title="getDate">
@@ -59,7 +59,7 @@
             :style="[
               message.color && message.color !== -2
                 ? { color: message.color }
-                : ''
+                : '',
             ]"
             :message="message.message"
           />
@@ -73,7 +73,17 @@
             :file="getFile"
           />
 
-          <InviteMessage v-else-if="inviteEmbed" :invite="inviteEmbed" />
+          <InviteMessage
+            :key="message.timeEdited || message.tempID"
+            v-else-if="inviteEmbed"
+            :invite="inviteEmbed"
+          />
+
+          <ThemeMessage
+            :key="message.timeEdited || message.tempID"
+            v-else-if="themeEmbed"
+            :theme="themeEmbed"
+          />
 
           <message-embed-template
             v-else-if="message.embed && Object.keys(message.embed).length"
@@ -88,7 +98,6 @@
           >
             <img :src="getImage" @click="imageClicked" />
           </div>
-
         </div>
       </div>
       <div class="other-information">
@@ -137,6 +146,7 @@ import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
 import PresenceMessage from "./PresenceMessage.vue";
 import FileMessage from "./FileMessage.vue";
 import InviteMessage from "./InviteMessage.vue";
+import ThemeMessage from "./ThemeMessage.vue";
 import MusicMessage from "./MusicMessage.vue";
 import SimpleMarkdown from "./SimpleMarkdown.vue";
 import messageEmbedTemplate from "./messageEmbedTemplate";
@@ -157,13 +167,14 @@ export default {
     PresenceMessage,
     FileMessage,
     MusicMessage,
-    InviteMessage
+    InviteMessage,
+    ThemeMessage
   },
   data() {
     return {
       hover: false,
       isGif: false,
-      loaded: false
+      loaded: false,
     };
   },
   methods: {
@@ -176,7 +187,7 @@ export default {
         serverID: this.$store.getters["servers/currentServerID"],
         uniqueID: this.creator.uniqueID,
         x,
-        y
+        y,
       });
     },
     mouseOverEvent() {
@@ -202,7 +213,7 @@ export default {
         message: this.message.message,
         uniqueID: this.creator.uniqueID,
         messageType: this.message.type,
-        color: this.message.color
+        color: this.message.color,
       });
     },
     openUserInformation() {
@@ -218,7 +229,7 @@ export default {
         channelID: this.message.channelID,
         messageID: this.message.messageID,
         message: this.message.message,
-        color: this.message.color
+        color: this.message.color,
       });
     },
     contentDoubleClickEvent(event) {
@@ -282,14 +293,14 @@ export default {
         type: "IMAGE_CONTEXT",
         url: this.getImage,
         x: event.clientX,
-        y: event.clientY
+        y: event.clientY,
       });
-    }
+    },
   },
   watch: {
     getWindowWidth(dimentions) {
       this.onResize(dimentions);
-    }
+    },
   },
   mounted() {
     this.imageSize();
@@ -348,7 +359,7 @@ export default {
     getWindowWidth() {
       return {
         width: windowProperties.resizeWidth,
-        height: windowProperties.resizeHeight
+        height: windowProperties.resizeHeight,
       };
     },
     roles() {
@@ -357,7 +368,7 @@ export default {
     serverMember() {
       const serverMembers = this.$store.getters["servers/serverMembers"];
       return serverMembers.find(
-        m =>
+        (m) =>
           m.uniqueID === this.creator.uniqueID &&
           m.server_id === this.$store.getters["servers/currentServerID"]
       );
@@ -366,7 +377,7 @@ export default {
       if (!this.isServer) return undefined;
       if (!this.serverMember || !this.serverMember.roles) return undefined;
 
-      const filter = this.roles.find(r =>
+      const filter = this.roles.find((r) =>
         this.serverMember.roles.includes(r.id)
       );
       if (filter) {
@@ -376,13 +387,13 @@ export default {
           return undefined;
         }
       } else {
-        return this.roles.find(r => r.default).color + " !important";
+        return this.roles.find((r) => r.default).color + " !important";
       }
     },
     isMentioned() {
       if (!this.message.mentions) return;
       const mentions = this.message.mentions;
-      if (mentions.find(u => u.uniqueID === this.user.uniqueID)) {
+      if (mentions.find((u) => u.uniqueID === this.user.uniqueID)) {
         return true;
       }
       return false;
@@ -391,8 +402,13 @@ export default {
       const regex = /nertivia\.tk\/invites\/([\w]+)/;
       if (!this.message.message) return null;
       return this.message.message.match(regex);
-    }
-  }
+    },
+    themeEmbed() {
+      const regex = /nertivia\.tk\/themes\/([\w]+)/;
+      if (!this.message.message) return null;
+      return this.message.message.match(regex);
+    },
+  },
 };
 </script>
 

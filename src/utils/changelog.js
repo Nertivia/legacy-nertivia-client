@@ -1,5 +1,15 @@
 const config = [
   {
+    version: "1.1.3",
+    title: "Channel tagging + Theme Embed",
+    shortTitle: "",
+    date: "06/04/2020",
+    new: [
+      "You can now tag channels in the chat. '#General#'",
+      "You can now embed themes in the chat 'nertivia.tk/themes/{id}"
+  ],
+  },
+  {
     version: "1.1.2",
     title: "Improvements + reset data",
     shortTitle: "Improvements + reset data",

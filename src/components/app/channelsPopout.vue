@@ -1,33 +1,30 @@
 <template>
   <div class="list">
     <div
-      v-for="(member, i) in list"
-      :key="member.uniqueID"
+      v-for="(channel, i) in list"
+      :key="channel.channelID"
       :class="{ item: true, selected: index === i }"
       @mouseenter="hoverEvent"
       @click="clickEvent"
     >
-      <img class="avatar" :src="avatarPath + member.avatar + '?type=webp'" />
-      <div class="username">{{ member.username }}</div>
-      <div class="tag">:{{ member.tag }}</div>
+      <div class="dot" />
+      <div class="name">{{ channel.name }}</div>
     </div>
   </div>
 </template>
 
 <script>
-import config from "@/config.js";
 export default {
   props: ["list"],
   data() {
     return {
-      avatarPath: config.domain + "/avatars/",
-      index: 0,
+      index: 0
     };
   },
   watch: {
     list() {
       this.index = 0;
-    },
+    }
   },
   methods: {
     hoverEvent(event) {
@@ -76,12 +73,6 @@ export default {
   user-select: none;
   cursor: default;
 }
-.avatar {
-  width: 25px;
-  height: 25px;
-  margin-right: 5px;
-  border-radius: 50%;
-}
 
 .item {
   display: flex;
@@ -90,9 +81,18 @@ export default {
   align-items: center;
   cursor: pointer;
 }
-.tag {
-  color: rgba(255, 255, 255, 0.3);
+.selected .dot {
+  background: white;
 }
+.dot {
+  height: 5px;
+  width: 5px;
+  margin-right: 10px;
+  margin-left: 5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.7);
+}
+
 @media (max-height: 441px) {
   .list {
     max-height: 150px;

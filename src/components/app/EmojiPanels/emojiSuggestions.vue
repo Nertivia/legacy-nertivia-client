@@ -1,9 +1,9 @@
 <template>
   <div class="emoji-suggetions-list">
     <div
-      v-for="(emoji, index) in $props.emojiArray"
+      v-for="(emoji, i) in $props.emojiArray"
       :key="emoji.hexcode || emoji.emojiID"
-      :class="{ emojiItem: true, selected: index === emojiIndex }"
+      :class="{ emojiItem: true, selected: i === index }"
       @mouseenter="hoverEvent"
       @click="clickEvent"
     >
@@ -19,32 +19,20 @@
 </template>
 
 <script>
-import { bus } from "@/main";
 import emojiParser from "@/utils/emojiParser.js";
 import config from "@/config.js";
 export default {
   props: ["emojiArray"],
   data() {
     return {
-      customEmojiPath: config.domain + "/media/"
+      customEmojiPath: config.domain + "/media/",
+      index: 0
     };
-  },
-  computed: {
-    emojiIndex() {
-      return this.$store.getters.getEmojiIndex;
-    }
   },
   watch: {
     emojiArray() {
-      this.$store.dispatch("changeIndex", 0);
+      this.index = 0;
     }
-  },
-  mounted() {
-    bus.$on("emojiSuggestions:key", this.KeySwitch);
-  },
-  destroyed() {
-    bus.$off("emojiSuggestions:key", this.KeySwitch);
-    this.$store.dispatch("setEmojiArray", null);
   },
   methods: {
     emojiParser(emoji) {
@@ -55,26 +43,23 @@ export default {
       const parent = event.target.parentElement.children;
       if (!emoji) return;
       const index = [...parent].findIndex(el => el === emoji);
-      if (index >= 0) this.$store.dispatch("changeIndex", index);
+      if (index >= 0) this.index = index;
     },
     KeySwitch(key) {
       if (key == "up") {
-        if (this.emojiIndex == 0)
-          return this.$store.dispatch(
-            "changeIndex",
-            this.$props.emojiArray.slice(0, 10).length - 1
-          );
+        if (this.index == 0)
+          return (this.index = this.$props.emojiArray.slice(0, 10).length - 1);
 
-        this.$store.dispatch("changeIndex", this.emojiIndex - 1);
+        this.index = this.index - 1;
       }
       if (key == "down") {
-        if (this.emojiIndex == this.$props.emojiArray.slice(0, 10).length - 1)
-          return this.$store.dispatch("changeIndex", 0);
-        this.$store.dispatch("changeIndex", this.emojiIndex + 1);
+        if (this.index == this.$props.emojiArray.slice(0, 10).length - 1)
+          return (this.index = 0);
+        this.index = this.index + 1;
       }
     },
     clickEvent() {
-      bus.$emit("emojiSuggestions:Selected");
+      this.$emit("chosen")
     }
   }
 };

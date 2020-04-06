@@ -16,8 +16,26 @@
           <i class="material-icons">keyboard_arrow_down</i>
         </div>
       </transition>
-      <emoji-suggestions v-if="emojiArray" :emojiArray="emojiArray" />
-      <mentions-popout v-if="mentionsArray" :list="mentionsArray" />
+
+      <emoji-suggestions
+        @chosen="enterEmojiSuggestion"
+        v-if="emojiSuggestionsArr"
+        :emojiArray="emojiSuggestionsArr"
+        ref="emojiSuggestionsList"
+      />
+      <mentions-popout
+        @chosen="enterMention"
+        ref="mentionSuggestionsList"
+        v-if="mentionSuggestionsArr"
+        :list="mentionSuggestionsArr"
+      />
+      <channels-popout
+        @chosen="enterChannel"
+        ref="channelSuggestionsList"
+        v-if="channelSuggestionsArr"
+        :list="channelSuggestionsArr"
+      />
+
       <emoji-panel v-if="showEmojiPanel" @close="showEmojiPanel = false" />
     </div>
 
@@ -113,6 +131,7 @@ import { isMobile } from "../../utils/Mobile";
 import ChatMarkdownArea from "@/components/app/ChatMarkdownArea";
 
 const mentionsPopout = () => import("@/components/app/mentionsPopout.vue");
+const channelsPopout = () => import("@/components/app/channelsPopout.vue");
 const emojiSuggestions = () =>
   import("@/components/app/EmojiPanels/emojiSuggestions.vue");
 const emojiPanel = () => import("@/components/app/EmojiPanels/emojiPanel.vue");
@@ -127,6 +146,7 @@ export default {
     TypingStatus,
     mentionsPopout,
     ChatMarkdownArea,
+    channelsPopout
   },
   data() {
     return {
@@ -135,6 +155,10 @@ export default {
       messageLength: 0,
       customColor: null,
       mobile: isMobile(),
+
+      emojiSuggestionsArr: null,
+      mentionSuggestionsArr: null,
+      channelSuggestionsArr: null
     };
   },
   methods: {
@@ -146,6 +170,7 @@ export default {
     keyDown(event) {
       this.mentionsSwitchKey(event);
       this.emojiSwitchKey(event);
+      this.channelsSwitchKey(event);
       // when enter is press
       if (event.keyCode == 13) {
         if (this.mobile) {
@@ -154,15 +179,16 @@ export default {
         // and the shift key is not held
         if (!event.shiftKey) {
           event.preventDefault();
-          if (this.emojiArray) {
+          if (this.emojiSuggestionsArr) {
             this.enterEmojiSuggestion();
             return;
           }
-          if (
-            this.mentionsArray &&
-            this.mentionsArray[this.mentionsListIndex]
-          ) {
+          if (this.mentionSuggestionsArr) {
             this.enterMention();
+            return;
+          }
+          if (this.channelSuggestionsArr) {
+            this.enterChannel();
             return;
           }
           if (this.editMessage) {
@@ -193,8 +219,12 @@ export default {
       }
     },
     keyUp(event) {
+      this.showPopouts(event);
+    },
+    showPopouts(event) {
       setTimeout(() => {
         this.showMentionsPopout(event);
+        this.showChannelsPopout(event);
         this.showEmojiPopout(event);
       }, 10);
     },
@@ -321,7 +351,7 @@ export default {
 
       if (this.message == "") return;
       if (this.message.length > 5000) return;
-      this.$store.dispatch("setEmojiArray", null);
+      this.emojiSuggestionsArr = null;
       clearInterval(this.postTimerID);
       this.postTimerID = null;
 
@@ -426,7 +456,7 @@ export default {
       }
       if (this.message == "") return;
       if (this.message.length > 5000) return;
-      this.$store.dispatch("setEmojiArray", null);
+      this.emojiSuggestionsArr = null;
       clearInterval(this.postTimerID);
       this.postTimerID = null;
 
@@ -462,39 +492,8 @@ export default {
         });
       }
     },
-    mentionsSwitchKey(event) {
-      if (!this.mentionsArray) return;
-      if (event.keyCode === 38) {
-        bus.$emit("mentions:key", "up");
-        event.preventDefault();
-        return;
-      }
-      if (event.keyCode === 40) {
-        bus.$emit("mentions:key", "down");
-        event.preventDefault();
-        return;
-      }
-    },
-    emojiSwitchKey(event) {
-      if (!this.emojiArray) return;
-
-      const keyCode = event.keyCode;
-
-      if (keyCode == 38) {
-        //up
-        bus.$emit("emojiSuggestions:key", "up");
-        event.preventDefault();
-        return;
-      }
-      if (keyCode == 40) {
-        //down
-        bus.$emit("emojiSuggestions:key", "down");
-        event.preventDefault();
-        return;
-      }
-    },
     cursorWord(text, caretPos) {
-      var preText = text.substring(0, caretPos);
+      var preText = text.substring(0, caretPos).replace(/\n/g, " ");
       if (preText.indexOf(" ") > 0) {
         var words = preText.split(" ");
         return words[words.length - 1]; //return last word
@@ -502,6 +501,7 @@ export default {
         return preText;
       }
     },
+
     showEmojiPopout(event) {
       if (event.keyCode == 38 || event.keyCode == 40) return; // up/down
       const message = this.$refs["input-box"].value;
@@ -513,18 +513,17 @@ export default {
       );
 
       if (cursorLetter.trim() == "" || cursorWord.endsWith(":"))
-        return this.$store.dispatch("setEmojiArray", null);
+        return (this.emojiSuggestionsArr = null);
 
       if (!cursorWord.startsWith(":") || cursorWord.length <= 2)
-        return this.$store.dispatch("setEmojiArray", null);
+        return (this.emojiSuggestionsArr = null);
 
       const searchArr = emojiParser.searchEmoji(
         cursorWord.slice(1, cursorWord.length)
       );
-      if (searchArr.length <= 0)
-        return this.$store.dispatch("setEmojiArray", null);
+      if (searchArr.length <= 0) return (this.emojiSuggestionsArr = null);
 
-      this.$store.dispatch("setEmojiArray", searchArr.slice(0, 10));
+      this.emojiSuggestionsArr = searchArr.slice(0, 10);
     },
     showMentionsPopout(event) {
       if (event.keyCode == 38 || event.keyCode == 40) return; // up/down
@@ -533,7 +532,7 @@ export default {
       const cursorWord = this.cursorWord(message, cursorPosition);
 
       if (!cursorWord.startsWith("@")) {
-        this.$store.dispatch("mentionsListModule/setMentionsArray", null);
+        this.mentionSuggestionsArr = null;
         return;
       }
       // word without @
@@ -557,13 +556,42 @@ export default {
         }
       }
       searchedMembers = searchedMembers.slice(0, 9);
-      this.$store.dispatch(
-        "mentionsListModule/setMentionsArray",
-        searchedMembers
-      );
+      this.mentionSuggestionsArr = searchedMembers;
     },
+    showChannelsPopout(event) {
+      if (event.keyCode == 38 || event.keyCode == 40) return; // up/down
+      const inputBox = this.$refs["input-box"].value;
+      const cursorPosition = event.target.selectionStart;
+      const cursorWord = this.cursorWord(inputBox, cursorPosition);
+      const cursorLetter = inputBox.substring(
+        cursorPosition - 1,
+        cursorPosition
+      );
+
+      if (cursorLetter.trim() == "" || cursorWord.endsWith("#"))
+        return (this.channelSuggestionsArr = null);
+
+      if (!cursorWord.startsWith("#"))
+        return (this.channelSuggestionsArr = null);
+      // word without #
+      const wordWithoutBegining = cursorWord
+        .slice(1, cursorWord.length)
+        .toLowerCase();
+
+      this.channelSuggestionsArr = [];
+      for (let index = 0; index < this.channels.length; index++) {
+        const channel = this.channels[index];
+        const name = channel.name.toLowerCase().replace(/\s/g, "");
+        if (name.includes(wordWithoutBegining)) {
+          this.channelSuggestionsArr.push(channel);
+        }
+      }
+    },
+
     enterEmojiSuggestion() {
-      const emoji = this.emojiArray[this.emojiIndex];
+      const emoji = this.emojiSuggestionsArr[
+        this.$refs.emojiSuggestionsList.index
+      ];
       this.$store.dispatch(
         "settingsModule/addRecentEmoji",
         emoji.name || emoji.shortcodes[0]
@@ -580,12 +608,14 @@ export default {
         this.message.substring(0, start) +
         emojiShortCode +
         this.message.substring(end);
-      this.$store.dispatch("setEmojiArray", null);
+      this.emojiSuggestionsArr = null;
     },
     enterMention() {
-      const member = this.mentionsArray[this.mentionsListIndex];
+      const member = this.mentionSuggestionsArr[
+        this.$refs.mentionSuggestionsList.index
+      ];
       if (!member) return;
-      this.$store.dispatch("mentionsListModule/setMentionsArray", null);
+      this.mentionSuggestionsArr = null;
       const cursorPosition = this.$refs["input-box"].selectionStart;
       const cursorWord = this.cursorWord(this.message, cursorPosition);
       const start = cursorPosition - cursorWord.length;
@@ -596,6 +626,23 @@ export default {
         `@${member.username}:${member.tag} ` +
         this.message.substring(end);
     },
+    enterChannel() {
+      const channel = this.channelSuggestionsArr[
+        this.$refs.channelSuggestionsList.index
+      ];
+      if (!channel) return;
+      this.channelSuggestionsArr = null;
+      const cursorPosition = this.$refs["input-box"].selectionStart;
+      const cursorWord = this.cursorWord(this.message, cursorPosition);
+      const start = cursorPosition - cursorWord.length;
+      const end = cursorPosition;
+
+      this.message =
+        this.message.substring(0, start) +
+        `#${channel.name}#` +
+        this.message.substring(end);
+    },
+
     enterEmojiPanel(shortcode) {
       const target = this.$refs["input-box"];
       if (!target) return;
@@ -611,6 +658,51 @@ export default {
       }
       target.blur();
       this.$store.dispatch("settingsModule/addRecentEmoji", shortcode);
+    },
+
+    mentionsSwitchKey(event) {
+      if (!this.mentionSuggestionsArr) return;
+      if (event.keyCode === 38) {
+        this.$refs.mentionSuggestionsList.KeySwitch("up");
+        event.preventDefault();
+        return;
+      }
+      if (event.keyCode === 40) {
+        this.$refs.mentionSuggestionsList.KeySwitch("down");
+        event.preventDefault();
+        return;
+      }
+    },
+    channelsSwitchKey(event) {
+      if (!this.channelSuggestionsArr) return;
+      if (event.keyCode === 38) {
+        this.$refs.channelSuggestionsList.KeySwitch("up");
+        event.preventDefault();
+        return;
+      }
+      if (event.keyCode === 40) {
+        this.$refs.channelSuggestionsList.KeySwitch("down");
+        event.preventDefault();
+        return;
+      }
+    },
+    emojiSwitchKey(event) {
+      if (!this.emojiSuggestionsArr || !this.emojiSuggestionsArr.length) return;
+
+      const keyCode = event.keyCode;
+
+      if (keyCode == 38) {
+        //up
+        this.$refs.emojiSuggestionsList.KeySwitch("up");
+        event.preventDefault();
+        return;
+      }
+      if (keyCode == 40) {
+        //down
+        this.$refs.emojiSuggestionsList.KeySwitch("down");
+        event.preventDefault();
+        return;
+      }
     },
 
     async onFocus() {
@@ -655,6 +747,7 @@ export default {
       this.$nextTick(this.resize);
     },
     currentChannelID() {
+      this.showPopouts(event);
       this.$nextTick(() => {
         if (!this.mobile && this.$refs["input-box"])
           this.$refs["input-box"].focus();
@@ -696,15 +789,6 @@ export default {
     },
     editMessage() {
       return this.$store.getters.popouts.editMessage;
-    },
-    emojiArray() {
-      return this.$store.getters.emojiArray;
-    },
-    emojiIndex() {
-      return this.$store.getters.getEmojiIndex;
-    },
-    mentionsArray() {
-      return this.$store.getters["mentionsListModule/mentionsArray"];
     },
     myRolePermissions() {
       if (!this.serverMember) return undefined;
@@ -758,9 +842,6 @@ export default {
         undefined
       );
     },
-    mentionsListIndex() {
-      return this.$store.getters["mentionsListModule/getMentionIndex"];
-    },
     channels() {
       if (!this.server) return [];
       return Object.values(this.$store.getters.channels).filter(
@@ -769,8 +850,6 @@ export default {
     },
   },
   mounted() {
-    bus.$on("emojiSuggestions:Selected", this.enterEmojiSuggestion);
-    bus.$on("mentions:Selected", this.enterMention);
     bus.$on("emojiPanel:Selected", this.enterEmojiPanel);
     bus.$on("scrolledDown", this.scrollDownEvent);
   },
@@ -779,8 +858,6 @@ export default {
     this.postTimerID = null;
   },
   destroyed() {
-    bus.$off("emojiSuggestions:Selected", this.enterEmojiSuggestion);
-    bus.$off("mentions:Selected", this.enterMention);
     bus.$off("emojiPanel:Selected", this.enterEmojiPanel);
     bus.$off("scrolledDown", this.scrollDownEvent);
   },

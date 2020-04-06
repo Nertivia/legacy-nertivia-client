@@ -1,5 +1,5 @@
 <template>
-  <div class="file-content">
+  <div class="invite-content">
     <img
       class="avatar"
       v-if="inviteDetail"
@@ -62,7 +62,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.file-content {
+.invite-content {
   display: flex;
   background: #ffffff21;
   padding: 10px;
@@ -73,7 +73,7 @@ export default {
   height: 50px;
 }
 
-.file-content .material-icons {
+.invite-content .material-icons {
   font-size: 40px;
 }
 .avatar {
