@@ -19,20 +19,20 @@
 
       <emoji-suggestions
         @chosen="enterEmojiSuggestion"
-        v-if="emojiSuggestionsArr"
+        v-if="emojiSuggestionsArr.length"
         :emojiArray="emojiSuggestionsArr"
         ref="emojiSuggestionsList"
       />
       <mentions-popout
         @chosen="enterMention"
         ref="mentionSuggestionsList"
-        v-if="mentionSuggestionsArr"
+        v-if="mentionSuggestionsArr.length"
         :list="mentionSuggestionsArr"
       />
       <channels-popout
         @chosen="enterChannel"
         ref="channelSuggestionsList"
-        v-if="channelSuggestionsArr"
+        v-if="channelSuggestionsArr.length"
         :list="channelSuggestionsArr"
       />
 
@@ -156,9 +156,9 @@ export default {
       customColor: null,
       mobile: isMobile(),
 
-      emojiSuggestionsArr: null,
-      mentionSuggestionsArr: null,
-      channelSuggestionsArr: null
+      emojiSuggestionsArr: [],
+      mentionSuggestionsArr: [],
+      channelSuggestionsArr: []
     };
   },
   methods: {
@@ -179,15 +179,15 @@ export default {
         // and the shift key is not held
         if (!event.shiftKey) {
           event.preventDefault();
-          if (this.emojiSuggestionsArr) {
+          if (this.emojiSuggestionsArr.length) {
             this.enterEmojiSuggestion();
             return;
           }
-          if (this.mentionSuggestionsArr) {
+          if (this.mentionSuggestionsArr.length) {
             this.enterMention();
             return;
           }
-          if (this.channelSuggestionsArr) {
+          if (this.channelSuggestionsArr.length) {
             this.enterChannel();
             return;
           }
@@ -351,7 +351,7 @@ export default {
 
       if (this.message == "") return;
       if (this.message.length > 5000) return;
-      this.emojiSuggestionsArr = null;
+      this.emojiSuggestionsArr = [];
       clearInterval(this.postTimerID);
       this.postTimerID = null;
 
@@ -456,7 +456,7 @@ export default {
       }
       if (this.message == "") return;
       if (this.message.length > 5000) return;
-      this.emojiSuggestionsArr = null;
+      this.emojiSuggestionsArr = [];
       clearInterval(this.postTimerID);
       this.postTimerID = null;
 
@@ -513,15 +513,15 @@ export default {
       );
 
       if (cursorLetter.trim() == "" || cursorWord.endsWith(":"))
-        return (this.emojiSuggestionsArr = null);
+        return (this.emojiSuggestionsArr = []);
 
       if (!cursorWord.startsWith(":") || cursorWord.length <= 2)
-        return (this.emojiSuggestionsArr = null);
+        return (this.emojiSuggestionsArr = []);
 
       const searchArr = emojiParser.searchEmoji(
         cursorWord.slice(1, cursorWord.length)
       );
-      if (searchArr.length <= 0) return (this.emojiSuggestionsArr = null);
+      if (searchArr.length <= 0) return (this.emojiSuggestionsArr = []);
 
       this.emojiSuggestionsArr = searchArr.slice(0, 10);
     },
@@ -532,7 +532,7 @@ export default {
       const cursorWord = this.cursorWord(message, cursorPosition);
 
       if (!cursorWord.startsWith("@")) {
-        this.mentionSuggestionsArr = null;
+        this.mentionSuggestionsArr = [];
         return;
       }
       // word without @
@@ -569,10 +569,10 @@ export default {
       );
 
       if (cursorLetter.trim() == "" || cursorWord.endsWith("#"))
-        return (this.channelSuggestionsArr = null);
+        return (this.channelSuggestionsArr = []);
 
       if (!cursorWord.startsWith("#"))
-        return (this.channelSuggestionsArr = null);
+        return (this.channelSuggestionsArr = []);
       // word without #
       const wordWithoutBegining = cursorWord
         .slice(1, cursorWord.length)
@@ -608,14 +608,14 @@ export default {
         this.message.substring(0, start) +
         emojiShortCode +
         this.message.substring(end);
-      this.emojiSuggestionsArr = null;
+      this.emojiSuggestionsArr = [];
     },
     enterMention() {
       const member = this.mentionSuggestionsArr[
         this.$refs.mentionSuggestionsList.index
       ];
       if (!member) return;
-      this.mentionSuggestionsArr = null;
+      this.mentionSuggestionsArr = [];
       const cursorPosition = this.$refs["input-box"].selectionStart;
       const cursorWord = this.cursorWord(this.message, cursorPosition);
       const start = cursorPosition - cursorWord.length;
@@ -631,7 +631,7 @@ export default {
         this.$refs.channelSuggestionsList.index
       ];
       if (!channel) return;
-      this.channelSuggestionsArr = null;
+      this.channelSuggestionsArr = [];
       const cursorPosition = this.$refs["input-box"].selectionStart;
       const cursorWord = this.cursorWord(this.message, cursorPosition);
       const start = cursorPosition - cursorWord.length;
@@ -661,7 +661,7 @@ export default {
     },
 
     mentionsSwitchKey(event) {
-      if (!this.mentionSuggestionsArr) return;
+      if (!this.mentionSuggestionsArr.length) return;
       if (event.keyCode === 38) {
         this.$refs.mentionSuggestionsList.KeySwitch("up");
         event.preventDefault();
@@ -674,7 +674,7 @@ export default {
       }
     },
     channelsSwitchKey(event) {
-      if (!this.channelSuggestionsArr) return;
+      if (!this.channelSuggestionsArr.length) return;
       if (event.keyCode === 38) {
         this.$refs.channelSuggestionsList.KeySwitch("up");
         event.preventDefault();
@@ -687,7 +687,7 @@ export default {
       }
     },
     emojiSwitchKey(event) {
-      if (!this.emojiSuggestionsArr || !this.emojiSuggestionsArr.length) return;
+      if (!this.emojiSuggestionsArr.length) return;
 
       const keyCode = event.keyCode;
 
