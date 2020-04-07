@@ -1,6 +1,13 @@
 <template>
   <div class="heading">
-    <div class="show-menu-button" @click="toggleLeftMenu">
+    <div
+      class="show-menu-button"
+      :class="{
+        notifyAnimation: serverNotification.notification || friendRequestExists,
+        mentioned: serverNotification.mentioned,
+      }"
+      @click="toggleLeftMenu"
+    >
       <i class="material-icons">menu</i>
     </div>
     <div
@@ -51,6 +58,51 @@ export default {
     },
   },
   computed: {
+        serverNotification() {
+      const notifications = this.$store.getters.notifications;
+      const channels = this.$store.getters.channels;
+      const notificationsFiltered = notifications.filter(e => {
+        return (
+          channels[e.channelID] &&
+          channels[e.channelID].server_id &&
+          (e.channelID !== this.$store.getters.currentChannelID ||
+            !document.hasFocus() ||
+            this.currentTab !== 2)
+        );
+      });
+      const mentioned = notificationsFiltered.find(m => m.mentioned);
+      return {
+        notification: !!notificationsFiltered.length,
+        mentioned: !!mentioned
+      };
+    },
+    DMNotification() {
+      const notifications = this.$store.getters.notifications;
+      const channels = this.$store.getters.channels;
+      const notification = notifications.find(e => {
+        return (
+          channels[e.channelID] &&
+          !channels[e.channelID].server_id &&
+          (e.channelID !== this.$store.getters.currentChannelID ||
+            !document.hasFocus() ||
+            this.currentTab !== 1)
+        );
+      });
+      // unopened dm
+      if (!notification) {
+        return notifications.find(e => {
+          return !channels[e.channelID];
+        });
+      }
+      return notification;
+    },
+    friendRequestExists() {
+      const allFriend = this.$store.getters.user.friends;
+      const result = Object.keys(allFriend).map(function(key) {
+        return allFriend[key];
+      });
+      return result.find(friend => friend.status === 1);
+    },
     currentServerID() {
       return this.$store.getters["servers/currentServerID"];
     },
@@ -67,6 +119,33 @@ export default {
 </script>
 
 <style scoped>
+.notifyAnimation:before {
+  content: "!";
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  font-size: 11px;
+  font-weight: bold;
+  position: absolute;
+  z-index: 115651;
+  bottom: 4px;
+  left: 10px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #ff6947;
+  flex-shrink: 0;
+}
+
+.mentioned:before {
+  content: "@";
+  margin-bottom: 10px;
+  font-size: 10px;
+  background: #ee3e34;
+}
+
 .heading {
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(4px);
@@ -96,6 +175,7 @@ export default {
   user-select: none;
   display: none;
   cursor: pointer;
+  position: relative;
 }
 .show-members-button {
   display: inline-block;

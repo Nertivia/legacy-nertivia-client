@@ -6,7 +6,7 @@ const config = [
     date: "06/04/2020",
     new: [
       "You can now tag channels in the chat. '#General#'",
-      "You can now embed themes in the chat 'nertivia.tk/themes/{id}"
+      "You can now embed themes in the chat 'nertivia.tk/themes/{id}'"
   ],
   },
   {
