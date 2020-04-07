@@ -137,11 +137,11 @@ export default {
   border-radius: 50%;
   background: #ff6947;
   flex-shrink: 0;
+  margin-bottom: 10px;
 }
 
 .mentioned:before {
   content: "@";
-  margin-bottom: 10px;
   font-size: 10px;
   background: #ee3e34;
 }

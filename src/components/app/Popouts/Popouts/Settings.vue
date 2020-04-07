@@ -73,7 +73,7 @@ export default {
         },
         {
           name: "My Themes",
-          tabName: "My Themes BETA",
+          tabName: "My Themes",
           icon: "palette",
           component: "my-themes",
           index: 2
