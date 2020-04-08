@@ -37,11 +37,19 @@
         <div class="material-icons">keyboard_arrow_left</div>
         Edit Roles
       </div>
-      <div class="item warn" v-if="showKickBanOption" @click="kickMember">
+      <div
+        class="item warn"
+        v-if="showKickBanOption && hasKickPermission"
+        @click="kickMember"
+      >
         <div class="material-icons icon-cat">exit_to_app</div>
         <div class="name">Kick</div>
       </div>
-      <div class="item warn" v-if="showKickBanOption" @click="banMember">
+      <div
+        class="item warn"
+        v-if="showKickBanOption && hasBanPermission"
+        @click="banMember"
+      >
         <img class="icon-cat" src="../../../../assets/hammer4.0.svg" />
         <div class="name">Ban</div>
       </div>
@@ -106,12 +114,15 @@ export default {
       this.$nextTick(() => {
         const rolesMenu = this.$refs["roles-menu"];
 
-        const mainMenuY = parseInt(mainMenu.style.top, 10);
-        const mainMenuX = parseInt(mainMenu.style.left, 10);
+        let y = parseInt(mainMenu.style.top, 10) + 120;
+        let x = parseInt(mainMenu.style.left, 10) - mainMenu.clientWidth - 21;
 
-        rolesMenu.style.top = mainMenuY + 120 + "px";
+        if (y + rolesMenu.clientHeight > window.innerHeight) {
+          y = window.innerHeight - rolesMenu.clientHeight;
+        }
+        rolesMenu.style.top = y + "px";
 
-        rolesMenu.style.left = mainMenuX - mainMenu.clientWidth - 21 + "px";
+        rolesMenu.style.left = x + "px";
       });
     },
     setPosition() {
@@ -220,13 +231,13 @@ export default {
     showKickBanOption() {
       // Dont show kick and ban option for Fishie and Fullipsp :P
       if (
-        this.contextDetails.uniqueID === "763085765093499318" ||
+        this.contextDetails.uniqueID === "763085765093499319" ||
         this.contextDetails.uniqueID === "825242960222351869"
       )
-        return;
+        return false;
       // Only show kick and ban option if the user is server owner and not us
       if (this.user.uniqueID === this.contextDetails.uniqueID) return false;
-      return !!this.isServerMember;
+      return true;
     },
     selfServerMember() {
       return this.$store.getters["servers/serverMembers"].find(
@@ -262,14 +273,28 @@ export default {
         this.myRolePermissions,
         permissions.MANAGE_ROLES.value | permissions.ADMIN.value
       );
+    },
+    hasKickPermission() {
+      if (this.selfServerMember.type === "OWNER") return true;
+      if (this.serverMember.type === "OWNER") return false;
+      return containsPerm(
+        this.myRolePermissions,
+        permissions.KICK_USER.value | permissions.ADMIN.value
+      );
+    },
+    hasBanPermission() {
+      if (this.selfServerMember.type === "OWNER") return true;
+      if (this.serverMember.type === "OWNER") return false;
+      return containsPerm(
+        this.myRolePermissions,
+        permissions.BAN_USER.value | permissions.ADMIN.value
+      );
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.drop-down-menu {
-}
 .main-menu {
   position: absolute;
   background: rgba(0, 0, 0, 0.7);
@@ -279,7 +304,7 @@ export default {
   z-index: 99999;
   top: 0;
   left: 0;
-    overflow: hidden;
+  overflow: hidden;
   border-radius: 4px;
 }
 

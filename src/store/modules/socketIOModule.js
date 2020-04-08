@@ -36,6 +36,7 @@ const actions = {
       serverMembers,
       serverRoles,
       dms,
+      mutedChannels,
       notifications,
       currentFriendStatus,
       settings
@@ -168,6 +169,7 @@ const actions = {
       }
     }
     context.commit("addAllChannels", channelsObject);
+    context.dispatch("setMutedChannels", mutedChannels);
     context.dispatch("addAllNotifications", notifications);
     context.dispatch("settingsModule/setSettings", settings);
   },
@@ -205,13 +207,18 @@ const actions = {
         tempID: data.tempID
       });
     }
-    const currentTab = context.rootGetters.currentTab;
-    const selectedChannelID = context.rootState.channelModule.selectedChannelID;
 
-    const isSelectedChannel = selectedChannelID == data.message.channelID;
+    // muted channel
+    if (context.rootGetters.mutedChannels.includes(data.message.channelID))
+      return;
+
+    const currentTab = context.rootGetters.currentTab;
+    const currentChannelID = context.rootState.channelModule.currentChannelID;
+
+    const iscurrentChannel = currentChannelID == data.message.channelID;
     const isCurrentTabDMOrSrvrs = currentTab === 1 || currentTab === 2;
 
-    if (!isSelectedChannel || !document.hasFocus() || !isCurrentTabDMOrSrvrs) {
+    if (!iscurrentChannel || !document.hasFocus() || !isCurrentTabDMOrSrvrs) {
       // send notification if other users message the recipient
       if (data.message.creator.uniqueID === context.getters.user.uniqueID)
         return;
@@ -255,14 +262,27 @@ const actions = {
             channelName: channel.name,
             username: data.message.creator.username,
             avatarURL: config.domain + "/avatars/" + server.avatar,
-            message: data.message.message
+            message: data.message.message,
+            serverID: channel.server_id,
+            bus: bus
           });
         } else {
           DesktopNotification.directMessage({
             username: data.message.creator.username,
             avatarURL:
               config.domain + "/avatars/" + data.message.creator.avatar,
-            message: data.message.message
+            message: data.message.message,
+            open: function() {
+              context.dispatch("setCurrentTab", 1, { root: true });
+              context.dispatch(
+                "openChat",
+                {
+                  uniqueID: data.message.creator.uniqueID,
+                  channelName: data.message.creator.username
+                },
+                { root: true }
+              );
+            }
           });
         }
       }
@@ -293,6 +313,14 @@ const actions = {
     const { channel } = data;
     // rename to 'channel' to setChannel
     context.dispatch("channel", channel);
+  },
+  ["socket_channel:remove"](context, { channelID }) {
+    const currentChannelID = context.rootState.channelModule.currentChannelID;
+    if (currentChannelID === channelID) {
+      context.dispatch("selectedUserUniqueID", undefined);
+      context.dispatch("currentChannelID", undefined);
+    } 
+    context.dispatch("removeChannel", { channelID });
   },
   ["socket_notification:dismiss"](context, data) {
     const { channelID } = data;
@@ -362,37 +390,37 @@ const actions = {
       c => c.channelID === server.default_channel_id
     );
     context.dispatch("setCurrentTab", 2, { root: true });
-    context.dispatch("servers/setSelectedServerID", server.server_id, {
+    context.dispatch("servers/setcurrentServerID", server.server_id, {
       root: true
     });
     context.dispatch("openChannel", defaultChannel, { root: true });
   },
   ["socket_server:leave"](context, { server_id }) {
-    const lastSelectedChannel = JSON.parse(
-      localStorage.getItem("selectedChannels") || "{}"
+    const lastcurrentChannel = JSON.parse(
+      localStorage.getItem("currentChannels") || "{}"
     );
-    if (lastSelectedChannel[server_id]) {
-      delete lastSelectedChannel[server_id];
+    if (lastcurrentChannel[server_id]) {
+      delete lastcurrentChannel[server_id];
       localStorage.setItem(
-        "selectedChannels",
-        JSON.stringify(lastSelectedChannel)
+        "currentChannels",
+        JSON.stringify(lastcurrentChannel)
       );
     }
     // check if server channel selected
     const serverChannelIDs = context.rootState.servers.channelsIDs[server_id];
 
-    const selectedChannelID = context.rootState.channelModule.selectedChannelID;
+    const currentChannelID = context.rootState.channelModule.currentChannelID;
     const serverChannelID = context.rootState.channelModule.serverChannelID;
-    const serverID = context.rootState.servers.selectedServerID;
+    const serverID = context.rootState.servers.currentServerID;
 
-    if (serverChannelIDs.includes(selectedChannelID)) {
-      context.dispatch("selectedChannelID", null);
+    if (serverChannelIDs.includes(currentChannelID)) {
+      context.dispatch("currentChannelID", null);
     }
     if (serverChannelIDs.includes(serverChannelID)) {
       context.dispatch("setServerChannelID", null);
     }
     if (serverID === server_id) {
-      context.dispatch("servers/setSelectedServerID", null);
+      context.dispatch("servers/setcurrentServerID", null);
     }
     context.dispatch("servers/removePresences", server_id);
     context.dispatch("servers/removeServer", server_id);
@@ -518,6 +546,12 @@ const actions = {
   },
   ["socket_server:roles"](context, { roles }) {
     context.dispatch("servers/setServerRoles", roles);
+  },
+  ["socket_channel:mute"](context, { channelID }) {
+    context.dispatch("addMutedChannel", channelID);
+  },
+  ["socket_channel:unmute"](context, { channelID }) {
+    context.dispatch("removeMutedChannel", channelID);
   }
 };
 

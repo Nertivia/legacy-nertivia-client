@@ -24,11 +24,11 @@ const getters = {
 const actions = {
   // server channel
   async openChannel(context, channel) {
-    context.commit("selectedChannelID", channel.channelID);
+    context.commit("currentChannelID", channel.channelID);
     context.commit("setChannelName", channel.name);
     const messages = context.state.messages[channel.channelID];
     if (messages) {
-      context.commit("selectedChannelID", channel.channelID);
+      context.commit("currentChannelID", channel.channelID);
       context.commit("setServerChannelID", channel.channelID);
       return;
     }
@@ -51,9 +51,9 @@ const actions = {
     context.commit("selectedUserUniqueID", uniqueID);
     if (channelID) {
       context.commit("setDMChannelID", channelID);
-      context.commit("selectedChannelID", channelID);
+      context.commit("currentChannelID", channelID);
     } else {
-      context.commit("selectedChannelID", "Loading");
+      context.commit("currentChannelID", "Loading");
     }
 
     if (messages) return;
@@ -62,7 +62,7 @@ const actions = {
     const { ok, error, result } = await channelService.post(uniqueID);
     if (ok) {
       context.commit("setDMChannelID", result.data.channel.channelID);
-      context.commit("selectedChannelID", result.data.channel.channelID);
+      context.commit("currentChannelID", result.data.channel.channelID);
 
       context.commit("channel", result.data.channel);
       getMessages(context, result.data.channel.channelID, false);
@@ -127,6 +127,7 @@ const actions = {
   },
   updateMessage(context, { channelID, messageID, message }) {
     const messages = context.state.messages[channelID];
+    if (!messages) return;
     messages.find((obj, index) => {
       if (obj.messageID === messageID) {
         const newObj = Object.assign({}, obj, message);

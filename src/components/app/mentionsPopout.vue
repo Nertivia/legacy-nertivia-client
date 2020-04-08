@@ -1,9 +1,9 @@
 <template>
   <div class="list">
     <div
-      v-for="(member, index) in list"
+      v-for="(member, i) in list"
       :key="member.uniqueID"
-      :class="{ item: true, selected: index === mentionIndex }"
+      :class="{ item: true, selected: index === i }"
       @mouseenter="hoverEvent"
       @click="clickEvent"
     >
@@ -15,60 +15,43 @@
 </template>
 
 <script>
-import { bus } from "@/main";
 import config from "@/config.js";
 export default {
   props: ["list"],
   data() {
     return {
-      avatarPath: config.domain + "/avatars/"
+      avatarPath: config.domain + "/avatars/",
+      index: 0,
     };
-  },
-  computed: {
-    mentionIndex() {
-      return this.$store.getters["mentionsListModule/getMentionIndex"];
-    }
   },
   watch: {
     list() {
-      this.changeIndex(0);
-    }
-  },
-  mounted() {
-    bus.$on("mentions:key", this.KeySwitch);
-  },
-  destroyed() {
-    bus.$off("mentions:key", this.KeySwitch);
-    this.$store.dispatch("mentionsListModule/setMentionsArray", null);
+      this.index = 0;
+    },
   },
   methods: {
-    changeIndex(index) {
-      this.$store.dispatch("mentionsListModule/changeIndex", index);
-    },
     hoverEvent(event) {
       const mention = event.target.closest(".item");
       const parent = event.target.parentElement.children;
       if (!mention) return;
-      const index = [...parent].findIndex(el => el === mention);
-      if (index >= 0) this.changeIndex(index);
+      const index = [...parent].findIndex((el) => el === mention);
+      if (index >= 0) this.index = index;
     },
     KeySwitch(key) {
       if (key == "up") {
-        if (this.mentionIndex == 0)
-          return this.changeIndex(this.$props.list.length - 1);
+        if (this.index == 0) return (this.index = this.$props.list.length - 1);
 
-        this.changeIndex(this.mentionIndex - 1);
+        this.index = this.index - 1;
       }
       if (key == "down") {
-        if (this.mentionIndex == this.$props.list.length - 1)
-          return this.changeIndex(0);
-        this.changeIndex(this.mentionIndex + 1);
+        if (this.index == this.$props.list.length - 1) return (this.index = 0);
+        this.index = this.index + 1;
       }
     },
     clickEvent() {
-      bus.$emit("mentions:Selected");
-    }
-  }
+      this.$emit("chosen")
+    },
+  },
 };
 </script>
 

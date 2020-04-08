@@ -13,10 +13,12 @@
         ownMessageRight:
           user.uniqueID === creator.uniqueID &&
           apperance &&
-          apperance.own_message_right === true
+          apperance.own_message_right === true,
       }"
     >
-      <div class="small-time" v-if="hideAdditional" :title="getDate">{{ getTime }}</div>
+      <div class="small-time" v-if="hideAdditional" :title="getDate">
+        {{ getTime }}
+      </div>
       <div class="avatar" v-if="!hideAdditional">
         <profile-picture
           :admin="creator.admin"
@@ -24,6 +26,7 @@
           size="50px"
           :hover="true"
           @click.native="openUserInformation"
+          @contextmenu.native.prevent="openMemberContext"
         />
       </div>
       <div class="triangle">
@@ -36,6 +39,7 @@
             class="username"
             :style="{ color: loaded ? roleColor : null }"
             @click="openUserInformation"
+            @contextmenu.prevent="openMemberContext"
           >
             {{ creator.username }}
           </div>
@@ -50,45 +54,50 @@
         </div>
         <div class="inner-content">
           <SimpleMarkdown
+            @contextmenu.native="openContextMenu($event, true)"
             class="content-message"
             :style="[
               message.color && message.color !== -2
                 ? { color: message.color }
-                : ''
+                : '',
             ]"
             :message="message.message"
           />
-          <div
-            class="file-content"
-            v-if="getFile && !getFile.fileName.endsWith('.mp3')"
-          >
-            <div class="icon">
-              <i class="material-icons">insert_drive_file</i>
-            </div>
-            <div class="information">
-              <div class="info">{{ getFile.fileName }}</div>
-              <a :href="getFile.url" download target="_blank">
-                <div class="download-button">Download</div>
-              </a>
-            </div>
-          </div>
-          <div
-            v-if="getFile && getFile.fileName.endsWith('.mp3')"
-            class="file-content music"
-          >
-            <div class="info">{{ getFile.fileName }}</div>
-            <audio controls>
-              <source :src="getFile.url" type="audio/mp3" />
-            </audio>
-          </div>
 
-          <div class="image-content" ref="image" v-if="getImage">
-            <img :src="getImage" @click="imageClicked" />
-          </div>
+          <FileMessage
+            v-if="getFile && !getFile.fileName.endsWith('.mp3')"
+            :file="getFile"
+          />
+          <MusicMessage
+            v-else-if="getFile && getFile.fileName.endsWith('.mp3')"
+            :file="getFile"
+          />
+
+          <InviteMessage
+            :key="message.timeEdited || message.tempID"
+            v-else-if="inviteEmbed"
+            :invite="inviteEmbed"
+          />
+
+          <ThemeMessage
+            :key="message.timeEdited || message.tempID"
+            v-else-if="themeEmbed"
+            :theme="themeEmbed"
+          />
+
           <message-embed-template
-            v-if="message.embed && Object.keys(message.embed).length"
+            v-else-if="message.embed && Object.keys(message.embed).length"
             :embed="message.embed"
           />
+
+          <div
+            class="image-content"
+            ref="image"
+            v-if="getImage"
+            @contextmenu="imageContextEvent"
+          >
+            <img :src="getImage" @click="imageClicked" />
+          </div>
         </div>
       </div>
       <div class="other-information">
@@ -120,30 +129,25 @@
         </div>
       </div>
     </div>
-    <div v-if="messageType" class="presence-message" :class="messageType[1]">
-      <div class="presense-contain">
-        <span>
-          <span class="username" @click="openUserInformation">{{
-            creator.username
-          }}</span>
-          <span class="text">{{ messageType[0] }}</span>
-
-          <span class="date">{{ getDate }}</span>
-        </span>
-      </div>
-      <div
-        class="drop-down-button"
-        ref="drop-down-button"
-        @click="openContextMenu"
-      >
-        <i class="material-icons">more_vert</i>
-      </div>
-    </div>
+    <PresenceMessage
+      v-if="message.type > 0 && message.type < 5"
+      :type="message.type"
+      :creator="creator"
+      :date="getDate"
+      @openContext="openContextMenu"
+      @openUserInformation="openUserInformation"
+      @openMemberContext="openMemberContext"
+    />
   </div>
 </template>
 
 <script>
-import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
+import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
+import PresenceMessage from "./PresenceMessage.vue";
+import FileMessage from "./FileMessage.vue";
+import InviteMessage from "./InviteMessage.vue";
+import ThemeMessage from "./ThemeMessage.vue";
+import MusicMessage from "./MusicMessage.vue";
 import SimpleMarkdown from "./SimpleMarkdown.vue";
 import messageEmbedTemplate from "./messageEmbedTemplate";
 import config from "@/config.js";
@@ -152,39 +156,64 @@ import path from "path";
 import windowProperties from "@/utils/windowProperties";
 
 import { mapState } from "vuex";
+import isElectron from "../../utils/ElectronJS/isElectron";
 
 export default {
   props: ["creator", "message", "isServer", "hideAdditional"],
   components: {
     ProfilePicture,
     messageEmbedTemplate,
-    SimpleMarkdown
+    SimpleMarkdown,
+    PresenceMessage,
+    FileMessage,
+    MusicMessage,
+    InviteMessage,
+    ThemeMessage
   },
   data() {
     return {
       hover: false,
       isGif: false,
-      loaded: false
+      loaded: false,
     };
   },
   methods: {
+    openMemberContext(event) {
+      if (!this.isServer) return;
+      if (!this.serverMember) return;
+      const x = event.clientX;
+      const y = event.clientY;
+      this.$store.dispatch("setServerMemberContext", {
+        serverID: this.$store.getters["servers/currentServerID"],
+        uniqueID: this.creator.uniqueID,
+        x,
+        y,
+      });
+    },
     mouseOverEvent() {
       if (this.isGif) {
         this.hover = true;
       }
     },
-    openContextMenu(event) {
+    openContextMenu(event, text) {
+      if (text && isElectron) {
+        event.preventDefault(true);
+      } else if (text && !isElectron) {
+        return;
+      }
       const x = event.clientX;
       const y = event.clientY;
-      this.$store.dispatch("setMessageContext", {
+      this.$store.dispatch("setAllPopout", {
+        show: true,
+        type: "MESSAGE_CONTEXT",
         x,
         y,
         channelID: this.message.channelID,
         messageID: this.message.messageID,
         message: this.message.message,
         uniqueID: this.creator.uniqueID,
-        type: this.message.type,
-        color: this.message.color
+        messageType: this.message.type,
+        color: this.message.color,
       });
     },
     openUserInformation() {
@@ -200,7 +229,7 @@ export default {
         channelID: this.message.channelID,
         messageID: this.message.messageID,
         message: this.message.message,
-        color: this.message.color
+        color: this.message.color,
       });
     },
     contentDoubleClickEvent(event) {
@@ -252,12 +281,26 @@ export default {
     },
     onResize() {
       this.imageSize();
-    }
+    },
+    imageContextEvent(event) {
+      if (isElectron) {
+        event.preventDefault(true);
+      } else {
+        return;
+      }
+      this.$store.dispatch("setAllPopout", {
+        show: true,
+        type: "IMAGE_CONTEXT",
+        url: this.getImage,
+        x: event.clientX,
+        y: event.clientY,
+      });
+    },
   },
   watch: {
     getWindowWidth(dimentions) {
       this.onResize(dimentions);
-    }
+    },
   },
   mounted() {
     this.imageSize();
@@ -316,25 +359,25 @@ export default {
     getWindowWidth() {
       return {
         width: windowProperties.resizeWidth,
-        height: windowProperties.resizeHeight
+        height: windowProperties.resizeHeight,
       };
     },
     roles() {
-      return this.$store.getters["servers/selectedServerRoles"];
+      return this.$store.getters["servers/currentServerRoles"];
     },
     serverMember() {
       const serverMembers = this.$store.getters["servers/serverMembers"];
       return serverMembers.find(
-        m =>
+        (m) =>
           m.uniqueID === this.creator.uniqueID &&
-          m.server_id === this.$store.getters["servers/selectedServerID"]
+          m.server_id === this.$store.getters["servers/currentServerID"]
       );
     },
     roleColor() {
       if (!this.isServer) return undefined;
       if (!this.serverMember || !this.serverMember.roles) return undefined;
 
-      const filter = this.roles.find(r =>
+      const filter = this.roles.find((r) =>
         this.serverMember.roles.includes(r.id)
       );
       if (filter) {
@@ -344,37 +387,28 @@ export default {
           return undefined;
         }
       } else {
-        return this.roles.find(r => r.default).color + " !important";
-      }
-    },
-    messageType() {
-      switch (this.message.type) {
-        case 1:
-          return ["joined the server!", "join"];
-          break;
-        case 2:
-          return ["left the server.", "leave"];
-          break;
-        case 3:
-          return ["has been kicked.", "kick"];
-          break;
-        case 4:
-          return ["has been banned.", "ban"];
-          break;
-        default:
-          return null;
-          break;
+        return this.roles.find((r) => r.default).color + " !important";
       }
     },
     isMentioned() {
       if (!this.message.mentions) return;
       const mentions = this.message.mentions;
-      if (mentions.find(u => u.uniqueID === this.user.uniqueID)) {
+      if (mentions.find((u) => u.uniqueID === this.user.uniqueID)) {
         return true;
       }
       return false;
-    }
-  }
+    },
+    inviteEmbed() {
+      const regex = /nertivia\.tk\/invites\/([\w]+)/;
+      if (!this.message.message) return null;
+      return this.message.message.match(regex);
+    },
+    themeEmbed() {
+      const regex = /nertivia\.tk\/themes\/([\w]+)/;
+      if (!this.message.message) return null;
+      return this.message.message.match(regex);
+    },
+  },
 };
 </script>
 
@@ -432,42 +466,6 @@ $message-color: rgba(0, 0, 0, 0.3);
 .container:hover .drop-down-button {
   opacity: 1;
 }
-.presence-message {
-  margin: 10px;
-  display: flex;
-  color: white;
-  overflow: hidden;
-}
-
-.presense-contain {
-  padding: 10px;
-  display: table;
-  color: white;
-  overflow: hidden;
-  background: $message-color;
-  border-radius: 4px;
-}
-
-.presence-message .text {
-  margin-left: 5px;
-  font-size: 15px;
-}
-.presence-message .username {
-  font-size: 15px;
-  font-weight: bold;
-}
-.presence-message.join .text {
-  color: #29bf12;
-}
-.presence-message.leave .text {
-  color: rgb(150, 139, 139);
-}
-.presence-message.kick .text {
-  color: #ff9914;
-}
-.presence-message.ban .text {
-  color: #d92121;
-}
 
 .ownMessageRight {
   flex-direction: row-reverse;
@@ -504,51 +502,8 @@ $message-color: rgba(0, 0, 0, 0.3);
   color: #d5e3e6;
 }
 
-.file-content {
-  display: flex;
-  background: #ffffff21;
-  padding: 10px;
-  margin-top: 5px;
-  &.music {
-    .info {
-      margin-bottom: 5px;
-    }
-    flex-direction: column;
-  }
-}
-
-.file-content .material-icons {
-  font-size: 40px;
-}
-.file-content .download-button {
-  font-size: 14px;
-  background: rgba(0, 0, 0, 0.158);
-  padding: 3px;
-  text-align: center;
-  display: inline-block;
-  margin-top: 3px;
-  transition: 0.3s;
-  user-select: none;
-  cursor: pointer;
-  color: white;
-}
-.file-content .download-button:hover {
-  background: rgba(0, 0, 0, 0.329);
-}
-.file-content .info {
-  word-wrap: break-word;
-  word-break: break-word;
-  white-space: pre-wrap;
-  font-size: 14px;
-  overflow: hidden;
-  max-width: 100%;
-  color: white;
-  overflow-wrap: anywhere;
-  margin-top: 3px;
-}
-
 .avatar {
-  margin: auto 0 0 0;
+  margin: 0;
   height: 56px;
   width: 56px;
 }
@@ -557,14 +512,13 @@ $message-color: rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: bottom;
   flex-direction: column;
-  margin: auto 0 0 0;
 }
 
 .triangle-inner {
   width: 0;
   height: 0;
-  border-top: 9px solid transparent;
-  border-bottom: 0px solid transparent;
+  border-top: 0 solid transparent;
+  border-bottom: 9px solid transparent;
   border-right: 8px solid $message-color;
 }
 
@@ -574,13 +528,11 @@ $message-color: rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
   flex-direction: column;
-  // border-radius: 10px;
-  border-bottom-left-radius: 0;
   color: rgb(231, 231, 231);
   margin: auto 0;
   overflow: hidden;
   border-radius: 4px;
-  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
 }
 .inner-content {
   display: flex;
@@ -589,7 +541,7 @@ $message-color: rgba(0, 0, 0, 0.3);
 }
 .ownMessageRight .content {
   border-radius: 4px;
-  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
 }
 .image-content {
   margin-top: 10px;
@@ -639,6 +591,7 @@ $message-color: rgba(0, 0, 0, 0.3);
   max-width: 100%;
   color: white;
   margin-top: 3px;
+  padding-right: 2px;
 }
 .other-information {
   display: flex;
@@ -685,10 +638,5 @@ $message-color: rgba(0, 0, 0, 0.3);
   width: 15px;
   border-radius: 50%;
   cursor: default;
-}
-@media (max-width: 830px) {
-  audio {
-    width: initial;
-  }
 }
 </style>

@@ -76,7 +76,7 @@
 
 <script>
 import config from "@/config.js";
-import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
+import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
 import ErrorsListTemplate from "@/components/app/errorsListTemplate";
 import ServerService from "@/services/ServerService";
 import DropDown from "./DropDownMenu";

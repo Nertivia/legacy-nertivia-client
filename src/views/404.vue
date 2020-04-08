@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import HeaderLogin from "@/components/HeaderLoginTemplate.vue";
+import HeaderLogin from "@/components/global/HeaderLoginTemplate.vue";
 export default {
   components: { HeaderLogin },
   data() {

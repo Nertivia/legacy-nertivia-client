@@ -20,7 +20,7 @@
 import searchHeader from "./searchHeader";
 import serverTemplate from "./serverTemplate";
 import exploreService from "@/services/exploreService";
-import Spinner from "@/components/Spinner";
+import Spinner from "@/components/global/Spinner";
 
 export default {
   components: { searchHeader, serverTemplate, Spinner },

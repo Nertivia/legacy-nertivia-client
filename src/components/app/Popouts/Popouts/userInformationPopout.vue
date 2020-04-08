@@ -16,9 +16,22 @@
             <div class="username">{{ user.username }}</div>
             <div class="tag">:{{ user.tag }}</div>
           </div>
-          <!-- <div class="details">
-              Pancake • Male • 17-19 • United Kingdom
-          </div>-->
+          <div class="online-status">
+            <div class="status" :style="{ background: status.color }"></div>
+            <div>{{ status.name }}</div>
+          </div>
+          <div class="badges-list">
+            <div
+              class="badge"
+              v-for="(badge, index) of filteredBadges"
+              v-bind:style="{ 'border-color': badges[badge].color }"
+              :key="index"
+            >
+              <img class="icon" :src="badges[badge].icon" />
+              <div class="name">{{ badges[badge].name }}</div>
+            </div>
+          </div>
+
           <div class="actions" v-if="uniqueID !== selfUniqueID">
             <div class="action-buttons">
               <div
@@ -73,22 +86,7 @@
           </div>
         </div>
         <div class="scrollable">
-          <div class="badges" v-if="user.badges && filteredBadges.length">
-            <div class="title">Badges</div>
-            <div class="badges-list">
-              <div
-                class="badge"
-                v-for="(badge, index) of filteredBadges"
-                v-bind:style="{ 'border-color': badges[badge].color }"
-                :key="index"
-              >
-                <img class="icon" :src="badges[badge].icon" />
-                <div class="name">{{ badges[badge].name }}</div>
-              </div>
-            </div>
-          </div>
           <div class="about-me">
-            <div class="title">Profile</div>
             <div
               class="about-item-container"
               v-for="aboutItem of aboutMe"
@@ -125,12 +123,61 @@
         </div>
       </div>
     </div>
+    <div class="second-box">
+      <div
+        class="second-box-inner roles-box"
+        v-if="currentServerID && serverMember"
+      >
+        <div class="title">Server Roles</div>
+        <div class="roles-list" v-if="memberRoles && memberRoles.length">
+          <div
+            class="role"
+            v-for="role in memberRoles"
+            :key="role.id"
+            :style="{ color: role.color, borderColor: role.color }"
+          >
+            {{ role.name }}
+          </div>
+        </div>
+        <div v-else class="no-roles">This member has no roles.</div>
+      </div>
+      <div class="second-box-inner common-friends-box">
+        <div class="title">Common Friends</div>
+        <div class="list">
+          <div
+            class="item"
+            @click="switchUser(user.uniqueID)"
+            v-for="user in commonFriendsArr"
+            :key="user.uniqueID"
+          >
+            <img class="avatar" :src="avatarDomain + user.avatar" />
+            <div class="name">{{ user.username }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="second-box-inner common-servers-box">
+        <div class="title">Common Servers</div>
+        <div class="list">
+          <div
+            class="item"
+            @click="openServer(server.server_id)"
+            v-for="server in commonServersArr"
+            :key="server.server_id"
+          >
+            <img class="avatar" :src="avatarDomain + server.avatar" />
+            <div class="name">{{ server.name }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
+import { bus } from "@/main";
 import config from "@/config.js";
-import Spinner from "@/components/Spinner.vue";
-import profilePicture from "@/components/ProfilePictureTemplate.vue";
+import statuses from "@/utils/statuses";
+import Spinner from "@/components/global/Spinner.vue";
+import profilePicture from "@/components/global/ProfilePictureTemplate.vue";
 import userService from "@/services/userService.js";
 import relationshipService from "@/services/RelationshipService.js";
 import surveyItems from "@/utils/surveyItems.js";
@@ -146,6 +193,8 @@ export default {
     return {
       surveyItems: Object.assign({}, surveyItems),
       user: null,
+      commonServersIDArr: null,
+      commonFriendsIDArr: null,
       avatarDomain: config.domain + "/avatars/",
       badges,
       isBlocked: null
@@ -184,6 +233,9 @@ export default {
     async RemoveFriendButton() {
       await relationshipService.delete(this.uniqueID);
     },
+    switchUser(uniqueID) {
+      this.$store.dispatch("setUserInformationPopout", uniqueID);
+    },
     openChat() {
       this.$store.dispatch("setCurrentTab", 1);
       this.$store.dispatch("openChat", {
@@ -202,6 +254,10 @@ export default {
     capitalize(s) {
       if (typeof s !== "string") return "";
       return s.charAt(0).toUpperCase() + s.slice(1);
+    },
+    openServer(serverID) {
+      bus.$emit("openServer", serverID);
+      this.close();
     }
   },
   async mounted() {
@@ -209,9 +265,56 @@ export default {
     if (ok) {
       this.user = result.data.user;
       this.isBlocked = result.data.isBlocked;
+      this.commonServersIDArr = result.data.commonServersArr;
+      this.commonFriendsIDArr = result.data.commonFriendsArr;
     }
   },
   computed: {
+    status() {
+      let status;
+      if (this.uniqueID === this.$store.getters.user.uniqueID) {
+        status = this.$store.getters.user.status;
+      } else {
+        status = this.$store.getters["members/presences"][this.uniqueID];
+      }
+      return status ? statuses[status] : statuses[0];
+    },
+    commonFriendsArr() {
+      if (!this.commonFriendsIDArr) return;
+      const members = Object.values(this.$store.getters["members/members"]);
+
+      const commonFriends = members.filter(m =>
+        this.commonFriendsIDArr.includes(m.uniqueID)
+      );
+      return commonFriends;
+    },
+    commonServersArr() {
+      if (!this.commonServersIDArr) return;
+      const commonServers = Object.values(
+        this.$store.getters["servers/servers"]
+      ).filter(s => this.commonServersIDArr.includes(s.server_id));
+      return commonServers;
+    },
+    currentServerID() {
+      if (this.currentTab !== 2) return undefined;
+      return this.$store.getters["servers/currentServerID"];
+    },
+    memberRoles() {
+      const serverRoles = this.$store.getters["servers/currentServerRoles"];
+      const memberRolesID = this.serverMember.roles;
+      if (!serverRoles || !memberRolesID) return;
+      return serverRoles.filter(sr => memberRolesID.includes(sr.id));
+    },
+    serverMember() {
+      const serverMembers = this.$store.getters["servers/serverMembers"];
+      return serverMembers.find(
+        m =>
+          m.uniqueID === this.uniqueID && m.server_id === this.currentServerID
+      );
+    },
+    currentTab() {
+      return this.$store.getters.currentTab;
+    },
     joinedDate() {
       return friendlyDate(this.user.created);
     },
@@ -270,7 +373,102 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
+.second-box {
+  display: flex;
+  flex-direction: column;
+  height: 550px;
+  margin-left: 40px;
+}
+.second-box .second-box-inner {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  color: white;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 87, 153, 0.8) 0,
+    rgba(0, 118, 209, 0.8)
+  );
+  width: 250px;
+  border-radius: 4px;
+  backdrop-filter: blur(5px);
+  overflow: hidden;
+  .title {
+    margin: 5px;
+  }
+  box-shadow: 0px 0px 20px 5px #151515bd;
+}
+.second-box .second-box-inner:nth-child(2) {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.roles-list {
+  display: block;
+  overflow: auto;
+  margin-left: 5px;
+}
+.role {
+  display: inline-block;
+  padding: 3px;
+  border: solid 1px;
+  border-radius: 4px;
+  margin: 3px;
+}
+.no-roles {
+  color: rgba(255, 255, 255, 0.8);
+  margin-left: 5px;
+}
+.list {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+.online-status {
+  display: flex;
+  flex-shrink: 0;
+  align-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  .status {
+    background: gray;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    align-self: center;
+    flex-shrink: 0;
+    margin-right: 5px;
+  }
+}
+.item {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 3px;
+  transition: 0.2s;
+  color: rgba(255, 255, 255, 0.8);
+  .avatar {
+    margin-right: 5px;
+    margin-left: 5px;
+    height: 30px;
+    width: 30px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  .name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  &:hover {
+    color: white;
+    background: rgba(0, 0, 0, 0.4);
+  }
+}
+
 .drop-background {
   position: absolute;
   background: rgba(0, 0, 0, 0.2);
@@ -284,7 +482,7 @@ export default {
   align-items: center;
 }
 .box {
-  max-height: 500px;
+  height: 550px;
   width: 350px;
   color: white;
   display: flex;
@@ -378,18 +576,6 @@ export default {
   opacity: 1;
 }
 
-.badges {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin-top: 10px;
-
-  border-bottom: solid 1px #84b7be;
-  padding-bottom: 10px;
-  user-select: none;
-  cursor: default;
-  flex-shrink: 0;
-}
 .actions {
   display: flex;
   flex-direction: column;
@@ -401,7 +587,7 @@ export default {
   flex-shrink: 0;
 }
 .title {
-  font-size: 20px;
+  font-size: 16px;
   margin-bottom: 3px;
   margin-left: 10px;
 }
@@ -410,6 +596,10 @@ export default {
   flex-wrap: wrap;
   flex-shrink: 0;
   margin-left: 8px;
+  margin-top: 5px;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
 }
 .badge {
   border: solid 1px white;
@@ -421,6 +611,8 @@ export default {
   margin: 3px;
   display: flex;
   flex-shrink: 0;
+  align-self: center;
+  font-size: 12px;
 }
 .badge .name {
   margin-top: 1px;
@@ -432,8 +624,8 @@ export default {
 }
 .badge img {
   align-self: center;
-  height: 20px;
-  width: 20px;
+  height: 15px;
+  width: 15px;
 }
 
 .about-me {
@@ -533,6 +725,11 @@ export default {
     height: 100%;
     max-height: initial;
     border-radius: 0;
+  }
+}
+@media (max-width: 550px) {
+  .second-box {
+    display: none;
   }
 }
 </style>

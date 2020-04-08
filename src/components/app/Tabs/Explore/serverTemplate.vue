@@ -15,7 +15,7 @@
         :url="`${avatarDomain}/${server.server.avatar}`"
       />
       <div class="name">
-        <div class="name-container">
+        <div class="name-container" :title="server.server.name ">
           <span class="inner-name">{{ server.server.name }}</span>
           <span class="material-icons" v-if="server.verified">check</span>
         </div>
@@ -34,15 +34,19 @@
           <span v-else-if="!joinClicked">Join Server</span>
         </div>
       </div>
+      <div class="created-by">
+        Created by
+        <span @click="openUserInformation">{{ server.creator.username }}</span>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import Spinner from "@/components/Spinner";
+import Spinner from "@/components/global/Spinner";
 import ServerService from "@/services/ServerService";
 import config from "@/config.js";
-import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
+import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
 
 export default {
   components: { Spinner, ProfilePicture },
@@ -56,6 +60,12 @@ export default {
     };
   },
   methods: {
+    openUserInformation() {
+      this.$store.dispatch(
+        "setUserInformationPopout",
+        this.server.creator.uniqueID
+      );
+    },
     async joinButton() {
       if (this.joinClicked || this.joined) return;
       this.joinClicked = true;
@@ -224,6 +234,22 @@ export default {
       &.selected {
         background: grey;
       }
+    }
+  }
+}
+.created-by {
+  margin-left: 10px;
+  margin-bottom: 5px;
+  color: rgba(255, 255, 255, 0.7);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  span {
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    transition: 0.2s;
+    &:hover {
+      color: white;
     }
   }
 }

@@ -7,7 +7,7 @@
       <image-large-preview key="ilp" v-if="popouts.ImagePreviewURL" />
       <drag-drop-file-upload-dialog key="ddfud" v-if="showUploadDrapDrop" />
       <user-information-popout
-        key="uip"
+        :key="`uip-${popouts.userInformationPopoutID}`"
         v-if="popouts.userInformationPopoutID"
       />
       <take-survey-popout key="tsp" v-if="popouts.surveyPopout" />
@@ -17,7 +17,9 @@
       <GenericPopout key="gp" v-if="popouts.genericMessage" />
       <message-context-menu
         key="mcm"
-        v-if="popouts.messageContextMenu.messageID"
+        v-if="
+          popouts.allPopout.type === 'MESSAGE_CONTEXT' && popouts.allPopout.show
+        "
       />
       <server-member-context
         key="smc"
@@ -43,6 +45,23 @@
         key="delete-confirm"
         v-if="popouts.allPopout.type === 'DELETE_CONFIRM'"
       />
+      <ChannelContextMenu
+        key="ccm"
+        v-if="popouts.allPopout.type === 'CHANNEL_CONTEXT'"
+      />
+      <ImageContextMenu
+        key="icm"
+        v-if="popouts.allPopout.type === 'IMAGE_CONTEXT'"
+      />
+      <TextAreaContext
+        key="tac"
+        v-if="popouts.allPopout.type === 'TEXT_AREA_CONTEXT'"
+      />
+
+      <DrawPopout
+        key="dp"
+        v-if="popouts.allPopout.unclosableType === 'DRAW_POPOUT'"
+      />
     </transition-group>
   </div>
 </template>
@@ -56,6 +75,9 @@ const userInformationPopout = () =>
 const messageContextMenu = () => import("./Popouts/messageContextMenu");
 const ServerMemberContext = () => import("./Popouts/ServerMemberContext");
 const ServerContext = () => import("./Popouts/ServerContextMenu.vue");
+const ChannelContextMenu = () => import("./Popouts/ChannelContextMenu.vue");
+const ImageContextMenu = () => import("./Popouts/ImageContextMenu.vue");
+const TextAreaContext = () => import("./Popouts/TextAreaContext.vue");
 
 const AddServer = () => import("./Popouts/AddServer.vue");
 const AddFriend = () => import("./Popouts/AddFriend");
@@ -73,6 +95,8 @@ const AdminCssEditor = () => import("./Popouts/AdminEditorPopout");
 const AdminManageUser = () => import("./Popouts/adminManageUserPopout");
 const GenericPopout = () => import("./Popouts/GenericPopout");
 const DeleteConfirm = () => import("./Popouts/DeleteConfirm");
+
+const DrawPopout = () => import("./Popouts/DrawPopout");
 
 export default {
   components: {
@@ -93,7 +117,11 @@ export default {
     AddFriend,
     AdminCssEditor,
     AdminManageUser,
-    DeleteConfirm
+    DeleteConfirm,
+    ChannelContextMenu,
+    ImageContextMenu,
+    DrawPopout,
+    TextAreaContext
   },
   data() {
     return {
@@ -112,7 +140,7 @@ export default {
       return false;
     },
     dragenter(event) {
-      if (!this.isFile(event) || !this.selectedChannelID) return;
+      if (!this.isFile(event) || !this.currentChannelID) return;
 
       this.lastTarget = event.target; // cache the last target here
       this.showUploadDrapDrop = true;
@@ -129,7 +157,7 @@ export default {
     drop(event) {
       this.showUploadDrapDrop = false;
       event.preventDefault();
-      if (!event.dataTransfer.files.length || !this.selectedChannelID) return;
+      if (!event.dataTransfer.files.length || !this.currentChannelID) return;
       this.$store.dispatch("setFile", event.dataTransfer.files[0]);
       this.$store.dispatch("setPopoutVisibility", {
         name: "uploadDialog",
@@ -156,8 +184,8 @@ export default {
     popouts() {
       return this.$store.getters.popouts;
     },
-    selectedChannelID() {
-      return this.$store.getters.selectedChannelID;
+    currentChannelID() {
+      return this.$store.getters.currentChannelID;
     }
   }
 };

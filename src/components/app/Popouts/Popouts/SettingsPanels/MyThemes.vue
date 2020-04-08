@@ -48,7 +48,7 @@ import { bus } from "@/main";
 import ThemeTemplate from "./MyThemeTemplate";
 import Editor from "./themesEditor";
 import MakePublic from "./MyThemesMakePublic";
-import Spinner from "@/components/Spinner";
+import Spinner from "@/components/global/Spinner";
 import { unzip, zip } from "@/utils/cssZip";
 
 import ThemeService from "@/services/ThemeService";
@@ -190,6 +190,11 @@ export default {
   flex-direction: column;
   overflow: hidden;
 }
+.managing {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
 .bar {
   display: flex;
   width: 100%;
@@ -221,5 +226,6 @@ export default {
 .themes-list {
   display: flex;
   flex-direction: column;
+  overflow: auto;
 }
 </style>

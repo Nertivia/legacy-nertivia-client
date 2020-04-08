@@ -558,6 +558,9 @@ export default {
   width: 100%;
   overflow: auto;
 }
+.emojis-list div {
+  scrollbar-width: thin;
+}
 .hidden {
   visibility: hidden;
 }

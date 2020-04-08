@@ -8,8 +8,6 @@ import notificationsModule from "./modules/notificationsModule";
 import settingsModule from "./modules/settingsModule";
 import uploadFilesModule from "./modules/uploadFilesModule";
 import popoutsModule from "./modules/popoutsModule/popoutsModule.js";
-import emojiSuggestionModule from "./modules/emojiSuggestionModule";
-import mentionsListModule from "./modules/mentionsListModule";
 import serversModule from "./modules/serversModule";
 import membersModule from "./modules/membersModule";
 Vue.use(Vuex);
@@ -24,8 +22,6 @@ export const store = new Vuex.Store({
     settingsModule,
     uploadFilesModule,
     popoutsModule,
-    emojiSuggestionModule,
-    mentionsListModule,
     servers: serversModule,
     members: membersModule
   },
@@ -36,7 +32,8 @@ export const store = new Vuex.Store({
     // 2: authenticated
     // 3: error
     connectionStatus: 0,
-    connectionErrorMessage: null
+    connectionErrorMessage: null,
+    message: "" // message panel, message area
   },
   getters: {
     currentTab(state) {
@@ -47,6 +44,9 @@ export const store = new Vuex.Store({
     },
     connectionErrorMessage(state) {
       return state.connectionErrorMessage;
+    },
+    message(state) {
+      return state.message;
     }
   },
   actions: {
@@ -60,9 +60,15 @@ export const store = new Vuex.Store({
     setCurrentTab({ commit }, currentTab) {
       localStorage.setItem("currentTab", currentTab);
       commit("SET_CURRENT_TAB", currentTab);
+    },
+    setMessage({commit}, message) {
+      commit("SET_MESSAGE", message);
     }
   },
   mutations: {
+    SET_MESSAGE(state, message) {
+      state.message = message;
+    },
     SET_CURRENT_TAB(state, currentTab) {
       state.currentTab = currentTab;
     },

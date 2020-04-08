@@ -19,12 +19,15 @@
             >
               <div class="input">
                 <div class="input-text">
-                  Email
+                  <strong> Email</strong> or <strong>username:tag</strong>
                   <span v-if="email.alert" class="error"
                     >- {{ email.alert }}</span
                   >
                 </div>
-                <input v-model="email.value" type="email" placeholder="Email" />
+                <input
+                  v-model="email.value"
+                  placeholder="Email or username:tag"
+                />
               </div>
               <div class="input">
                 <div class="input-text">
@@ -100,8 +103,8 @@
 </template>
 
 <script>
-import Recaptcha from "@/components/Recaptcha.vue";
-import HeaderLogin from "@/components/HeaderLoginTemplate.vue";
+import Recaptcha from "@/components/global/Recaptcha.vue";
+import HeaderLogin from "@/components/global/HeaderLoginTemplate.vue";
 import AuthenticationService from "@/services/AuthenticationService";
 
 const ElectronFrameButtons = () =>

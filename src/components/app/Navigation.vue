@@ -86,21 +86,21 @@ export default {
       this.drag = true;
       this.$store.dispatch("setAllPopout", { show: false });
     },
-    openServer(serverID) {
+    openServer(serverID, channelID) {
       this.switchTab(2);
       const server = this.servers[serverID];
-      const lastSelectedChannel = JSON.parse(
-        localStorage.getItem("selectedChannels") || "{}"
+      const lastcurrentChannel = JSON.parse(
+        localStorage.getItem("currentChannels") || "{}"
       )[serverID];
       const defaultChannelID = server.default_channel_id;
       const channels = this.$store.getters.channels;
-      let channel = channels[lastSelectedChannel || defaultChannelID];
+      let channel = channels[channelID || lastcurrentChannel || defaultChannelID];
       if (!channel) {
         channel = channels[defaultChannelID];
       }
-      this.$store.dispatch("servers/setSelectedServerID", serverID);
+      this.$store.dispatch("servers/setcurrentServerID", serverID);
       this.$store.dispatch("openChannel", channel);
-      this.$store.dispatch("selectedChannelID", channel.channelID);
+      this.$store.dispatch("currentChannelID", channel.channelID);
     },
     switchTab(index) {
       bus.$emit("tab:switch", index);
@@ -193,15 +193,17 @@ export default {
         this.$store.dispatch("servers/setServers", json);
       }
     },
-    selectedServerID() {
-      return this.$store.getters["servers/selectedServerID"];
+    currentServerID() {
+      return this.$store.getters["servers/currentServerID"];
     }
   },
   mounted() {
     bus.$on("server-tool-tip", this.serverToolTipEvent);
+    bus.$on("openServer", this.openServer);
   },
   destroyed() {
     bus.$off("server-tool-tip", this.serverToolTipEvent);
+    bus.$off("openServer", this.openServer);
   }
 };
 </script>
@@ -210,17 +212,9 @@ export default {
 .flip-list-move {
   transition: 0.3s;
 }
-.sortable-drag {
+
+.ghost {
   opacity: 0;
-}
-.ghost::before {
-  content: "";
-  position: absolute;
-  background: white;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 3px;
 }
 
 .navigation {

@@ -15,20 +15,20 @@
           class="channel"
           v-for="(channel, index) in channels"
           :key="channel.channelID"
-          :class="{ selected: index === selectedChannelIndex }"
+          :class="{ selected: index === currentChannelIndex }"
           @click="channelClick($event, index)"
         >
           <div class="name">{{ channel.name }}</div>
         </div>
       </div>
-      <div class="details" v-if="channels[selectedChannelIndex]">
+      <div class="details" v-if="channels[currentChannelIndex]">
         <div class="input">
           <div class="input-title">Channel Name</div>
           <input
             type="text"
             ref="name"
             placeholder="Channel Name"
-            :default-value.prop="channels[selectedChannelIndex].name"
+            :default-value.prop="channels[currentChannelIndex].name"
             @input="inputEvent('name', $event)"
           />
         </div>
@@ -51,7 +51,7 @@
           class="button warn delete-server disabled"
           v-if="
             server.default_channel_id ===
-              channels[selectedChannelIndex].channelID
+              channels[currentChannelIndex].channelID
           "
         >
           Cannot delete default channel
@@ -61,7 +61,7 @@
           :class="{ disabled: deleteClicked }"
           v-if="
             server.default_channel_id !==
-              channels[selectedChannelIndex].channelID
+              channels[currentChannelIndex].channelID
           "
           @click="deleteChannel"
         >
@@ -81,7 +81,7 @@ export default {
     return {
       deleteButtonConfirmed: false,
       deleteClicked: false,
-      selectedChannelIndex: 0,
+      currentChannelIndex: 0,
       errors: null,
       update: {
         name: null
@@ -95,14 +95,14 @@ export default {
     async updateChannel() {
       this.errors = null;
       const data = {
-        name: this.update.name || this.channels[this.selectedChannelIndex].name
+        name: this.update.name || this.channels[this.currentChannelIndex].name
       };
       if (this.update.permissions) {
         data.permissions = this.update.permissions;
       }
       const { ok, error } = await ServerService.updateChannel(
         this.server.server_id,
-        this.channels[this.selectedChannelIndex].channelID,
+        this.channels[this.currentChannelIndex].channelID,
         data
       );
       if (ok) {
@@ -125,18 +125,18 @@ export default {
       this.deleteClicked = true;
       await ServerService.deleteChannel(
         this.server.server_id,
-        this.channels[this.selectedChannelIndex].channelID
+        this.channels[this.currentChannelIndex].channelID
       );
       this.deleteButtonConfirmed = false;
-      this.selectedChannelIndex = null;
+      this.currentChannelIndex = null;
       this.deleteClicked = false;
     },
     inputEvent(name, event) {
       this.update.name = event.target.value;
     },
     channelClick(event, index) {
-      this.selectedChannelIndex = index;
-      this.$refs["name"].value = this.channels[this.selectedChannelIndex].name;
+      this.currentChannelIndex = index;
+      this.$refs["name"].value = this.channels[this.currentChannelIndex].name;
       this.update = { name: null };
       this.deleteButtonConfirmed = false;
     },
@@ -160,7 +160,7 @@ export default {
       });
     },
     sendMessagePermission() {
-      const channel = this.channels[this.selectedChannelIndex];
+      const channel = this.channels[this.currentChannelIndex];
       const permissions = this.update.permissions || undefined;
       if (permissions) {
         return !!permissions.send_message;

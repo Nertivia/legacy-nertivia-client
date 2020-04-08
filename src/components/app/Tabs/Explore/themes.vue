@@ -22,7 +22,7 @@
 <script>
 import themeTemplate from "./themesTemplate";
 import exploreService from "@/services/exploreService";
-import Spinner from "@/components/Spinner";
+import Spinner from "@/components/global/Spinner";
 const cssZip = () => import("@/utils/cssZip");
 
 export default {

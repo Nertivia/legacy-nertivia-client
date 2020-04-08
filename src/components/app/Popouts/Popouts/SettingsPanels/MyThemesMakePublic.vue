@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import Spinner from "@/components/Spinner";
+import Spinner from "@/components/global/Spinner";
 import ErrorList from "@/components/app/errorsListTemplate";
 import path from "path";
 import config from "@/config.js";

@@ -90,7 +90,7 @@
 </template>
 
 <script>
-import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
+import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
 import userService from "@/services/userService.js";
 import ErrorsListTemplate from "@/components/app/errorsListTemplate";
 import config from "@/config.js";

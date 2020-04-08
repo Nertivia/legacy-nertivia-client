@@ -106,7 +106,7 @@
 import config from "@/config.js";
 
 import ServerService from "@/services/ServerService";
-import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
+import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
 import ErrorsListTemplate from "@/components/app/errorsListTemplate";
 
 export default {
@@ -200,7 +200,13 @@ export default {
     async joinButton(event) {
       if (event.target.classList.contains("button-clicked")) return;
       event.target.classList.add("button-clicked");
-      const { ok } = await ServerService.joinServer(this.inviteCode, {
+      let code;
+      if (this.inviteCode.split("/").length >= 2) {
+        code = this.inviteCode.split("/").pop();
+      } else {
+        code = this.inviteCode;
+      }
+      const { ok } = await ServerService.joinServer(code, {
         socketID: this.$socket.client.id
       });
       if (ok) {

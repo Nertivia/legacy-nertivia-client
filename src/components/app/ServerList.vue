@@ -5,7 +5,7 @@
       @mouseenter="bannerHover = true"
       @mouseleave="bannerHover = false"
       :class="{ extendBanner: server && server.banner }"
-      v-if="selectedServerID"
+      v-if="currentServerID"
     >
       <img
         class="banner-image"
@@ -16,8 +16,8 @@
         "
       />
       <div class="sub-banner">
-        <div class="text" :title="servers[selectedServerID].name">
-          {{ servers[selectedServerID].name }}
+        <div class="text" :title="servers[currentServerID].name">
+          {{ servers[currentServerID].name }}
         </div>
         <div class="options-button material-icons" @click="openServerContext">
           more_vert
@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="channels-list">
-      <channels-list v-if="selectedServerID" :server-i-d="selectedServerID" />
+      <channels-list v-if="currentServerID" :server-i-d="currentServerID" />
       <div v-else class="not-selected">
         <div class="material-icons">dns</div>
         <div>Select a server</div>
@@ -58,7 +58,7 @@ export default {
     },
     clickServer(serverID) {
       this.openedServer = serverID;
-      this.$store.dispatch("servers/setSelectedServerID", serverID);
+      this.$store.dispatch("servers/setcurrentServerID", serverID);
     },
     openExploreTab() {
       this.$store.dispatch("setCurrentTab", 0);
@@ -75,8 +75,8 @@ export default {
       this.$store.dispatch("setAllPopout", {
         show: true,
         type: "SERVER",
-        serverID: this.servers[this.selectedServerID].server_id,
-        creatorUniqueID: this.servers[this.selectedServerID].creator.uniqueID,
+        serverID: this.servers[this.currentServerID].server_id,
+        creatorUniqueID: this.servers[this.currentServerID].creator.uniqueID,
         x: rect.left - 30,
         y: rect.top + 35
       });
@@ -101,11 +101,11 @@ export default {
         .slice()
         .reverse();
     },
-    selectedServerID() {
-      return this.$store.getters["servers/selectedServerID"];
+    currentServerID() {
+      return this.$store.getters["servers/currentServerID"];
     },
     server() {
-      return this.servers[this.selectedServerID];
+      return this.servers[this.currentServerID];
     },
     checkServerContextOpened() {
       const contextDetail = this.$store.getters.popouts.allPopout;

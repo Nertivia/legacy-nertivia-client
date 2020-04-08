@@ -4,10 +4,10 @@
       <div class="tabs">
         <div
           class="tab"
-          v-for="(tab, index) in tabsFiltered"
-          :key="index"
-          :class="{ selected: currentTab === index }"
-          @click="currentTab = index"
+          v-for="tab in tabsFiltered"
+          :key="tab.index"
+          :class="{ selected: currentTab === tab.index }"
+          @click="currentTab = tab.index"
         >
           <div class="material-icons">{{ tab.icon }}</div>
           <div class="tab-name">{{ tab.name }}</div>
@@ -41,6 +41,7 @@ const MessageDesign = () => import("./SettingsPanels/MessageDesign.vue");
 const MyThemes = () => import("./SettingsPanels/MyThemes.vue");
 const Notifications = () => import("./SettingsPanels/Notifications.vue");
 const AppSettings = () => import("./SettingsPanels/appSettings");
+const DebugSettings = () => import("./SettingsPanels/DebugSettings");
 
 export default {
   components: {
@@ -49,7 +50,8 @@ export default {
     MessageDesign,
     MyThemes,
     Notifications,
-    AppSettings
+    AppSettings,
+    DebugSettings
   },
   data() {
     return {
@@ -59,39 +61,52 @@ export default {
           name: "My Profile",
           tabName: "My Profile",
           icon: "account_circle",
-          component: "my-profile"
+          component: "my-profile",
+          index: 0
         },
         {
           name: "Message Design",
           tabName: "Message Design",
           icon: "palette",
-          component: "message-design"
+          component: "message-design",
+          index: 1
         },
         {
           name: "My Themes",
-          tabName: "My Themes BETA",
+          tabName: "My Themes",
           icon: "palette",
-          component: "my-themes"
+          component: "my-themes",
+          index: 2
         },
         {
           name: "Manage Emojis",
           tabName: "Manage Emojis",
           icon: "face",
-          component: "manage-emojis"
+          component: "manage-emojis",
+          index: 3
         },
         {
           name: "Notifications",
           tabName: "Notifications",
           icon: "message",
           component: "notifications",
-          hidden: isMobile()
+          hidden: isMobile(),
+          index: 4
         },
         {
           name: "App Settings",
           tabName: "App Settings",
           icon: "desktop_windows",
           component: "app-settings",
-          hidden: !isElectron
+          hidden: !isElectron,
+          index: 5
+        },
+        {
+          name: "Debug",
+          tabName: "Debug",
+          icon: "bug_report",
+          component: "debug-settings",
+          index: 6
         }
       ]
     };

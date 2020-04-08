@@ -117,8 +117,8 @@
 </template>
 
 <script>
-import Recaptcha from "@/components/Recaptcha.vue";
-import HeaderLogin from "@/components/HeaderLoginTemplate.vue";
+import Recaptcha from "@/components/global/Recaptcha.vue";
+import HeaderLogin from "@/components/global/HeaderLoginTemplate.vue";
 import AuthenticationService from "@/services/AuthenticationService";
 
 const ElectronFrameButtons = () =>

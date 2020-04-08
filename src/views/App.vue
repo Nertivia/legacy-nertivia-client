@@ -32,7 +32,7 @@ import Popouts from "@/components/app/Popouts/Popouts.vue";
 import windowProperties from "@/utils/windowProperties";
 import changelog from "@/utils/changelog.js";
 import ConnectingScreen from "./../components/app/ConnectingScreen.vue";
-import Spinner from "./../components/Spinner.vue";
+import Spinner from "./../components/global/Spinner.vue";
 import MainNav from "./../components/app/MainNav.vue";
 import ThemeService from "../services/ThemeService";
 import ExploreService from "../services/exploreService";
@@ -68,6 +68,11 @@ const AdminPanel = () => ({
   delay: 0
 });
 
+let ipcRenderer;
+if (window.require) {
+  ipcRenderer = window.require("electron").ipcRenderer;
+}
+
 export default {
   name: "app",
   components: {
@@ -85,7 +90,7 @@ export default {
     return {
       title: "Nertivia",
       isElectron: window && window.process && window.process.type,
-      ready: false,
+      ready: false
     };
   },
   methods: {
@@ -94,7 +99,7 @@ export default {
       const DMChannelID = this.$store.state.channelModule.DMChannelID;
 
       if (isServer) {
-        this.$store.dispatch("selectedChannelID", serverChannelID);
+        this.$store.dispatch("currentChannelID", serverChannelID);
         const channel = this.$store.state.channelModule.channels[
           serverChannelID
         ];
@@ -105,7 +110,7 @@ export default {
           "setChannelName",
           channel ? channel.recipients[0].username : ""
         );
-        this.$store.dispatch("selectedChannelID", DMChannelID);
+        this.$store.dispatch("currentChannelID", DMChannelID);
       }
     },
     switchTab(index) {
@@ -158,6 +163,11 @@ export default {
         styleEl.innerHTML = css;
         document.head.innerHTML += styleEl.outerHTML;
       });
+    },
+    sendElectronNotification(notificationExists) {
+      if (this.isElectron) {
+        ipcRenderer.send("notification", !!notificationExists);
+      }
     }
   },
   watch: {
@@ -168,9 +178,16 @@ export default {
       setTimeout(() => {
         this.ready = val;
       });
+    },
+    allNotificationExists(val) {
+      this.sendElectronNotification(val);
     }
   },
   async mounted() {
+    this.sendElectronNotification(false);
+    if (this.loggedIn) {
+      this.ready = true;
+    }
     const currentTab = localStorage.getItem("currentTab");
     if (currentTab) {
       this.$store.dispatch("setCurrentTab", parseInt(currentTab));
@@ -192,43 +209,20 @@ export default {
   },
 
   computed: {
+    allNotificationExists() {
+      return this.notificationExists || this.friendRequestExists;
+    },
     currentTab() {
       return this.$store.getters.currentTab;
     },
     loggedIn() {
       return this.$store.getters.loggedIn;
     },
-    serverNotification() {
-      const notifications = this.$store.getters.notifications;
-      const channels = this.$store.getters.channels;
-      const notification = notifications.find(e => {
-        return (
-          channels[e.channelID] &&
-          channels[e.channelID].server_id &&
-          e.channelID !== this.$store.getters.selectedChannelID
-        );
-      });
-      return notification;
-    },
-    DMNotification() {
-      const notifications = this.$store.getters.notifications;
-      const channels = this.$store.getters.channels;
-      const notification = notifications.find(e => {
-        return (
-          channels[e.channelID] &&
-          !channels[e.channelID].server_id &&
-          e.channelID !== this.$store.getters.selectedChannelID
-        );
-      });
-      // unopened dm
-      if (!notification) {
-        return notifications.find(e => {
-          return !channels[e.channelID];
-        });
-      }
-      return notification;
+    notificationExists() {
+      return this.$store.getters.notifications.length;
     },
     friendRequestExists() {
+      if (!this.$store.getters.user) return;
       const allFriend = this.$store.getters.user.friends;
       const result = Object.keys(allFriend).map(function(key) {
         return allFriend[key];

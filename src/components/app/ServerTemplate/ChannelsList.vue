@@ -3,7 +3,7 @@
     <spinner v-if="channels === undefined" size="40" />
     <div v-if="channels" class="wrapper">
       <draggable
-        :disabled="!isServerCreator"
+        :disabled="!canManageChannels"
         v-model="serverChannels"
         :animation="200"
         :delay="mobile ? 400 : 0"
@@ -16,19 +16,20 @@
           :key="channel.channelID"
           :channel-data="channel"
           @click.native="openChannel(channel)"
+          @contextmenu.prevent.native="contextEvent($event, channel)"
         />
       </draggable>
     </div>
   </div>
 </template>
 <script>
-import Spinner from "@/components/Spinner.vue";
+import Spinner from "@/components/global/Spinner.vue";
 import ChannelTemplate from "@/components/app/ServerTemplate/ChannelTemplate.vue";
 import ServerService from "@/services/ServerService.js";
 import draggable from "vuedraggable";
 import { isMobile } from "@/utils/Mobile";
 import { bus } from "@/main.js";
-
+import { permissions, containsPerm } from "@/utils/RolePermissions";
 export default {
   components: { draggable, ChannelTemplate, Spinner },
   props: ["serverID"],
@@ -50,18 +51,28 @@ export default {
     },
     openChannel(channel) {
       // add to local storage
-      const selectedChannels = JSON.parse(
-        localStorage.getItem("selectedChannels") || "{}"
+      const currentChannels = JSON.parse(
+        localStorage.getItem("currentChannels") || "{}"
       );
-      selectedChannels[this.serverID] = channel.channelID;
+      currentChannels[this.serverID] = channel.channelID;
       localStorage.setItem(
-        "selectedChannels",
-        JSON.stringify(selectedChannels)
+        "currentChannels",
+        JSON.stringify(currentChannels)
       );
       bus.$emit("closeLeftMenu");
       this.$store.dispatch("openChannel", channel);
-      this.$store.dispatch("selectedChannelID", channel.channelID);
-    }
+      this.$store.dispatch("currentChannelID", channel.channelID);
+    },
+    contextEvent(event, channel) {
+      this.$store.dispatch("setAllPopout", {
+        show: true,
+        type: "CHANNEL_CONTEXT",
+        serverID: channel.server_id,
+        channelID: channel.channelID,
+        x: event.clientX,
+        y: event.clientY
+      });
+    },
   },
   async beforeMount() {
     if (this.channels !== undefined) return;
@@ -89,10 +100,43 @@ export default {
     user() {
       return this.$store.getters.user;
     },
-    isServerCreator() {
-      return (
+    serverMember() {
+      return this.$store.getters["servers/serverMembers"].find(
+        sm =>
+          sm.server_id === this.serverID && sm.uniqueID === this.user.uniqueID
+      );
+    },
+    myRolePermissions() {
+      if (!this.serverMember) return undefined;
+      const roles = this.$store.getters["servers/roles"][this.serverID];
+      if (!roles) return undefined;
+
+      let perms = 0;
+
+      if (this.serverMember.roles) {
+        for (let index = 0; index < roles.length; index++) {
+          const role = roles[index];
+          if (this.serverMember.roles.includes(role.id)) {
+            perms = perms | (role.permissions || 0);
+          }
+        }
+      }
+
+      const defaultRole = roles.find(r => r.default);
+      perms = perms | defaultRole.permissions;
+      return perms;
+    },
+    canManageChannels() {
+      const isServerOwner =
         this.$store.getters["servers/servers"][this.serverID].creator
-          .uniqueID === this.user.uniqueID
+          .uniqueID === this.user.uniqueID;
+
+      return (
+        isServerOwner ||
+        containsPerm(
+          this.myRolePermissions,
+          permissions.ADMIN.value | permissions.MANAGE_CHANNELS.value
+        )
       );
     },
     channels() {
@@ -122,17 +166,8 @@ export default {
 </script>
 
 <style scoped>
-.sortable-drag {
+.ghost {
   opacity: 0;
-}
-.ghost::before {
-  content: "";
-  position: absolute;
-  background: white;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 3px;
 }
 
 .channels-list {

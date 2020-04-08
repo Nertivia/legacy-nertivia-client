@@ -33,7 +33,7 @@ import { bus } from "../../main";
 import config from "@/config.js";
 import statusList from "../../components/app/statusList.vue";
 import settingsService from "@/services/settingsService";
-import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
+import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
 import statuses from "@/utils/statuses";
 
 export default {
@@ -107,7 +107,7 @@ export default {
   padding-left: 5px;
   padding-right: 5px;
   transition: 0.3s;
-  background-color: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.14);
 }
 
 .avatar {

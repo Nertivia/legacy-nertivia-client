@@ -27,7 +27,7 @@ export default {
 }
 .loading-animation {
   background-size: 100%;
-  background-image: url(../assets/spinner.svg);
+  background-image: url(../../assets/spinner.svg);
   display: table;
   margin: auto;
 }

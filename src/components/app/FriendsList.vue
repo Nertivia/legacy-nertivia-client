@@ -83,7 +83,7 @@ export default {
         return (
           channels[e.channelID] &&
           !channels[e.channelID].server_id &&
-          (e.channelID !== this.$store.getters.selectedChannelID ||
+          (e.channelID !== this.$store.getters.currentChannelID ||
             !document.hasFocus())
         );
       });
@@ -136,7 +136,6 @@ export default {
   color: rgba(255, 255, 255, 0.7);
   flex-shrink: 0;
   position: relative;
-  background: rgba(0, 0, 0, 0.2);
 }
 .tab {
   display: flex;

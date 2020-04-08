@@ -38,9 +38,9 @@
 
 <script>
 import config from "@/config";
-import HeaderLogin from "@/components/HeaderLoginTemplate.vue";
-import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
-import Spinner from "@/components/Spinner.vue";
+import HeaderLogin from "@/components/global/HeaderLoginTemplate.vue";
+import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
+import Spinner from "@/components/global/Spinner.vue";
 import ServerService from "@/services/ServerService";
 export default {
   components: { HeaderLogin, Spinner, ProfilePicture },

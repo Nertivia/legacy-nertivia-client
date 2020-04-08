@@ -1,5 +1,91 @@
 const config = [
   {
+    version: "1.1.3",
+    title: "Channel tagging + Theme Embed",
+    shortTitle: "",
+    date: "06/04/2020",
+    new: [
+      "You can now tag channels in the chat. '#General#'",
+      "You can now embed themes in the chat 'nertivia.tk/themes/{id}'"
+  ],
+  },
+  {
+    version: "1.1.2",
+    title: "Improvements + reset data",
+    shortTitle: "Improvements + reset data",
+    date: "02/04/2020",
+    new: ["You can now close Recent DMs."],
+    fix: [
+      "All of your friends and messages are removed.",
+      "Moved server locations closer to each other. this should make Nertivia much faster at sending messages.",
+      "Changed the way notifications were being sent, This should also make nertivia work faster.",
+    ],
+    msg: "April fools! Your data will not be deleted 😅"
+  },
+  {
+    version: "1.1.1",
+    title: "Embed your server!",
+    shortTitle: "",
+    date: "30/03/2020",
+    new: [
+      "You can now embed your own servers in chats by sending the url (nertivia.tk/invites/{invite_code})"
+    ],
+    fix: ["Fixed a bug where when deleting a message would do nothing."]
+  },
+  {
+    version: "1.1.0",
+    title: "Draw A Cat 😸",
+    shortTitle: "",
+    date: "22/03/2020",
+    new: [
+      "You can now draw pictures inside Nertivia! (Thanks to Bree's 'doodlepad' package)"
+    ],
+    fix: ["When connection is lost, your message will be retained."]
+  },
+  {
+    version: "1.0.9",
+    title: "YouTube Video Embed",
+    shortTitle: "",
+    date: "19/03/2020",
+    new: ["You can now embed YouTube Videos!"]
+  },
+  {
+    version: "1.0.8",
+    title: "R u online?",
+    shortTitle: "",
+    date: "18/03/2020",
+    new: ["You can now see who's online by viewing someone's profile page."]
+  },
+  {
+    version: "1.0.7",
+    title: "Stop DMing me 2.0!",
+    shortTitle: "",
+    date: "17/03/2020",
+    new: ["You can now mute server channels by right clicking on them."],
+    msg:
+      "Note: When muting a channel, android app push notifications will also be muted for that channel."
+  },
+  {
+    version: "1.0.6",
+    title: "Always credit the artist 👌",
+    shortTitle: "",
+    date: "12/03/2020",
+    new: [
+      "You can now see who created a theme/server under the description. This could help developers of themes to get feedback easier."
+    ]
+  },
+  {
+    version: "1.0.5",
+    title: "Mutual Friends, servers and more!",
+    shortTitle: "",
+    date: "10/03/2020",
+    new: [
+      "You can now view mutual friends and servers for a user when clicking on their profile.",
+      "You can now view the users roles when clicking on their profile while being in the server."
+    ],
+    msg: "Note: These new features only work on desktop view."
+  },
+  {
     version: "1.0.4",
     title: '"Stop DMing me!"',
     shortTitle: "",

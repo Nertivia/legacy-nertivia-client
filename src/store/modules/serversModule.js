@@ -1,7 +1,7 @@
 import Vue from "vue";
 
 const state = {
-  selectedServerID: null,
+  currentServerID: null,
   servers: {},
   channelsIDs: {},
   serverMembers: [],
@@ -21,11 +21,11 @@ const getters = {
   serverMembers(state) {
     return state.serverMembers;
   },
-  selectedServerID(state) {
-    return state.selectedServerID;
+  currentServerID(state) {
+    return state.currentServerID;
   },
-  selectedServerRoles() {
-    const serverRoles = state.roles[state.selectedServerID];
+  currentServerRoles() {
+    const serverRoles = state.roles[state.currentServerID];
     if (!serverRoles) return [];
     return serverRoles.sort((a, b) => {
       return a.order - b.order;
@@ -149,7 +149,7 @@ const actions = {
   removeServerMember(context, { uniqueID, server_id }) {
     context.commit("REMOVE_SERVER_MEMBER", { uniqueID, server_id });
   },
-  setSelectedServerID(context, serverID) {
+  setcurrentServerID(context, serverID) {
     context.commit("SET_SELECTED_SERVER_ID", serverID);
   },
   addServerMember(context, serverMember) {
@@ -258,7 +258,7 @@ const mutations = {
     );
   },
   SET_SELECTED_SERVER_ID(state, serverID) {
-    state.selectedServerID = serverID;
+    state.currentServerID = serverID;
   }
 };
 

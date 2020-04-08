@@ -1,9 +1,10 @@
 <template>
   <div
     class="channel"
-    :class="{ selected: selectedChannelID === channelData.channelID }"
+    :class="{ selected: currentChannelID === channelData.channelID }"
   >
-    <div class="dot" />
+    <div class="dot" v-if="!isMuted" />
+    <div class="mute-icon material-icons" v-else>notifications_off</div>
     <div class="channel-name">{{ channelData.name }}</div>
     <div
       class="notification"
@@ -19,15 +20,15 @@
 export default {
   props: ["channelData"],
   computed: {
-    selectedChannelID() {
-      return this.$store.getters.selectedChannelID;
+    currentChannelID() {
+      return this.$store.getters.currentChannelID;
     },
     hasNotifications() {
       const notifications = this.$store.getters.notifications;
 
       if (
         document.hasFocus() &&
-        this.selectedChannelID === this.channelData.channelID
+        this.currentChannelID === this.channelData.channelID
       ) {
         return false;
       }
@@ -35,6 +36,10 @@ export default {
         n => n.channelID === this.channelData.channelID
       );
       return find;
+    },
+    isMuted() {
+      const mutedChannels = this.$store.getters.mutedChannels;
+      return mutedChannels.includes(this.channelData.channelID);
     }
   }
 };
@@ -50,6 +55,7 @@ export default {
   display: flex;
   align-items: center;
   padding: 10px;
+  height: 18px;
   transition: background 0.2s;
   font-size: 14px;
   cursor: pointer;
@@ -69,6 +75,10 @@ export default {
   background: rgba(255, 255, 255, 0.8);
   border-radius: 50%;
   margin-right: 5px;
+}
+.mute-icon {
+  font-size: 18px;
+  margin-left: -5px;
 }
 .channel:hover {
   background: #00477d;

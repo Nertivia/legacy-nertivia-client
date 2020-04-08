@@ -2,12 +2,16 @@ import Vue from "vue";
 import NotificationSounds from "@/utils/notificationSound";
 
 const state = {
-  notifications: []
+  notifications: [],
+  mutedChannels: [],
 };
 
 const getters = {
   notifications(state) {
     return state.notifications;
+  },
+  mutedChannels(state) {
+    return state.mutedChannels;
   }
 };
 
@@ -15,13 +19,22 @@ const actions = {
   addAllNotifications(context, notifications) {
     context.commit("addAllNotifications", notifications);
   },
+  setMutedChannels(context, mutedChannelArr) {
+    context.commit("setMutedChannels", mutedChannelArr);
+  },
+  addMutedChannel(context, channelID) {
+    context.commit("addMutedChannel", channelID);
+  },
+  removeMutedChannel(context, channelID) {
+    context.commit("removeMutedChannel", channelID);
+  },
   messageCreatedNotification(context, notification) {
     const { channelID, lastMessageID, sender, mentioned } = notification;
     const currentTab = context.rootGetters.currentTab;
 
     // dont display a notification if the channel is selected.
     if (
-      context.rootState.channelModule.selectedChannelID !== channelID ||
+      context.rootState.channelModule.currentChannelID !== channelID ||
       (currentTab !== 1 && currentTab !== 2) ||
       !document.hasFocus()
     ) {
@@ -58,6 +71,15 @@ const mutations = {
   },
   addAllNotifications(state, notifications) {
     Vue.set(state, "notifications", notifications);
+  },
+  setMutedChannels(state, mutedChannelArr) {
+    Vue.set(state, "mutedChannels", mutedChannelArr);
+  },
+  addMutedChannel(state, channelID) {
+    state.mutedChannels.push(channelID);
+  },
+  removeMutedChannel(state, channelID) {
+    state.mutedChannels = state.mutedChannels.filter(mc => mc !== channelID);
   },
   messageCreatedNotification(state, data) {
     const { exists, notification } = data;

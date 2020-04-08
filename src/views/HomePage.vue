@@ -91,8 +91,8 @@
 </template>
 
 <script>
-import Spinner from "@/components/Spinner.vue";
-import ProfilePicture from "@/components/ProfilePictureTemplate.vue";
+import Spinner from "@/components/global/Spinner.vue";
+import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
 import ProfilePopout from "@/components/homePage/ProfilePopout.vue";
 import DownloadAppPopout from "@/components/homePage/DownloadAppPopout.vue";
 import AuthenticationService from "@/services/AuthenticationService.js";

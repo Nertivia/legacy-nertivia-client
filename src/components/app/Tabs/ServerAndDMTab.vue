@@ -14,7 +14,7 @@
           <div class="wrapper">
             <MyMiniInformation />
             <transition name="fade" mode="out-in">
-              <server-list :key="selectedServerID" v-if="currentTab === 2" />
+              <server-list :key="currentServerID" v-if="currentTab === 2" />
               <friends-list v-if="currentTab === 1" />
             </transition>
           </div>
@@ -24,20 +24,17 @@
     </transition>
     <message-panel :type="currentTab === 1 ? 0 : currentTab === 2 ? 1 : null" />
     <transition :name="$mq !== 'desktop' ? 'slide-right' : 'none'">
-      <transition name="fade" mode="out-in">
-        <members-list
-          v-if="
-            selectedServerID &&
-              currentTab === 2 &&
-              ((($mq === 'members_panel' || $mq === 'mobile') &&
-                showMembersPanel) ||
-                $mq === 'desktop')
-          "
-          :key="selectedServerID"
-          v-click-outside="hideMembersPanel"
-          class="members-panel"
-        />
-      </transition>
+      <members-list
+        v-if="
+          currentServerID &&
+            currentTab === 2 &&
+            ((($mq === 'members_panel' || $mq === 'mobile') &&
+              showMembersPanel) ||
+              $mq === 'desktop')
+        "
+        v-click-outside="hideMembersPanel"
+        class="members-panel"
+      />
     </transition>
   </div>
 </template>
@@ -102,8 +99,8 @@ export default {
     currentTab() {
       return this.$store.getters.currentTab;
     },
-    selectedServerID() {
-      return this.$store.getters["servers/selectedServerID"];
+    currentServerID() {
+      return this.$store.getters["servers/currentServerID"];
     }
   }
 };
@@ -181,7 +178,7 @@ export default {
     position: absolute;
     bottom: 0;
     top: 0;
-    z-index: 2;
+    z-index: 3;
     background: linear-gradient(to bottom, #00477e 0, #016dc0);
   }
   .wrapper {

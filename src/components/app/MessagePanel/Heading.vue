@@ -1,6 +1,13 @@
 <template>
   <div class="heading">
-    <div class="show-menu-button" @click="toggleLeftMenu">
+    <div
+      class="show-menu-button"
+      :class="{
+        notifyAnimation: serverNotification.notification || friendRequestExists,
+        mentioned: serverNotification.mentioned,
+      }"
+      @click="toggleLeftMenu"
+    >
       <i class="material-icons">menu</i>
     </div>
     <div
@@ -19,7 +26,7 @@
       </div>
     </div>
     <div
-      v-if="type === 2 && selectedServerID"
+      v-if="type === 2 && currentServerID"
       class="show-members-button"
       @click="toggleMembersPanel"
     >
@@ -35,7 +42,7 @@ export default {
   props: [
     "type", // 0: without online status; 1: with online status; 2: server.
     "name",
-    "uniqueID"
+    "uniqueID",
   ],
 
   methods: {
@@ -48,33 +55,118 @@ export default {
     },
     toggleMembersPanel() {
       bus.$emit("toggleMembersPanel");
-    }
+    },
   },
   computed: {
-    selectedServerID() {
-      return this.$store.getters["servers/selectedServerID"];
+        serverNotification() {
+      const notifications = this.$store.getters.notifications;
+      const channels = this.$store.getters.channels;
+      const notificationsFiltered = notifications.filter(e => {
+        return (
+          channels[e.channelID] &&
+          channels[e.channelID].server_id &&
+          (e.channelID !== this.$store.getters.currentChannelID ||
+            !document.hasFocus() ||
+            this.currentTab !== 2)
+        );
+      });
+      const mentioned = notificationsFiltered.find(m => m.mentioned);
+      return {
+        notification: !!notificationsFiltered.length,
+        mentioned: !!mentioned
+      };
+    },
+    DMNotification() {
+      const notifications = this.$store.getters.notifications;
+      const channels = this.$store.getters.channels;
+      const notification = notifications.find(e => {
+        return (
+          channels[e.channelID] &&
+          !channels[e.channelID].server_id &&
+          (e.channelID !== this.$store.getters.currentChannelID ||
+            !document.hasFocus() ||
+            this.currentTab !== 1)
+        );
+      });
+      // unopened dm
+      if (!notification) {
+        return notifications.find(e => {
+          return !channels[e.channelID];
+        });
+      }
+      return notification;
+    },
+    friendRequestExists() {
+      const allFriend = this.$store.getters.user.friends;
+      const result = Object.keys(allFriend).map(function(key) {
+        return allFriend[key];
+      });
+      return result.find(friend => friend.status === 1);
+    },
+    currentServerID() {
+      return this.$store.getters["servers/currentServerID"];
     },
     userStatusColor() {
-      const selectedChannel = this.$store.getters.selectedChannelID;
-      const channel = this.$store.getters.channels[selectedChannel];
+      const currentChannel = this.$store.getters.currentChannelID;
+      const channel = this.$store.getters.channels[currentChannel];
       const presences = this.$store.getters["members/presences"];
 
       let status = presences[channel.recipients[0].uniqueID] || 0;
       return statuses[status].color;
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped>
+.notifyAnimation:before {
+  content: "!";
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  font-size: 11px;
+  font-weight: bold;
+  position: absolute;
+  z-index: 115651;
+  bottom: 4px;
+  left: 10px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #ff6947;
+  flex-shrink: 0;
+  margin-bottom: 10px;
+}
+
+.mentioned:before {
+  content: "@";
+  font-size: 10px;
+  background: #ee3e34;
+}
+
 .heading {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
   margin-bottom: 0;
   height: 50px;
   display: flex;
   flex-shrink: 0;
   padding-left: 10px;
   align-items: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 2;
+}
+@supports (
+  (-webkit-backdrop-filter: blur(4px)) or (backdrop-filter: blur(4px))
+) {
+  .heading {
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(4px);
+  }
 }
 .show-menu-button {
   display: inline-block;
@@ -83,6 +175,7 @@ export default {
   user-select: none;
   display: none;
   cursor: pointer;
+  position: relative;
 }
 .show-members-button {
   display: inline-block;

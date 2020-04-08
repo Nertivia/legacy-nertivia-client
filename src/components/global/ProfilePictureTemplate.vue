@@ -47,10 +47,10 @@ export default {
   ],
   data() {
     return {
-      crown: require("../assets/twemoji/1f451.svg"),
-      flower: require("../assets/twemoji/1f33a.svg"),
-      heart: require("../assets/twemoji/2764.svg"),
-      developer: require("../assets/twemoji/2728.svg")
+      crown: require("../../assets/twemoji/1f451.svg"),
+      flower: require("../../assets/twemoji/1f33a.svg"),
+      heart: require("../../assets/twemoji/2764.svg"),
+      developer: require("../../assets/twemoji/2728.svg")
     };
   },
   computed: {

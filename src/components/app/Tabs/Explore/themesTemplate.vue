@@ -12,7 +12,7 @@
     </div>
     <div class="bottom">
       <div class="name">
-        <div class="name-container">
+        <div class="name-container" :title="theme.theme.name">
           <span class="inner-name">{{ theme.theme.name }}</span>
         </div>
       </div>
@@ -33,6 +33,10 @@
           <span>Apply</span>
         </div>
       </div>
+      <div class="created-by">
+        Created by
+        <span @click="openUserInformation">{{ theme.creator.username }}</span>
+      </div>
     </div>
   </div>
 </template>
@@ -48,18 +52,24 @@ export default {
     };
   },
   methods: {
+    openUserInformation() {
+      this.$store.dispatch(
+        "setUserInformationPopout",
+        this.theme.creator.uniqueID
+      );
+    },
     async applyButton() {
-      this.$emit("applyTheme", this.theme.id)
+      this.$emit("applyTheme", this.theme.id);
     },
     unApplyButton() {
-      this.$emit("unapplyTheme", this.theme.id)
+      this.$emit("unapplyTheme", this.theme.id);
     },
     bannerImageClicked() {
       this.$store.dispatch(
         "setImagePreviewURL",
         this.bannerDomain + this.theme.screenshot + "?type=webp"
       );
-    },
+    }
   }
 };
 </script>
@@ -204,6 +214,22 @@ export default {
           background: rgb(255, 53, 53);
         }
       }
+    }
+  }
+}
+.created-by {
+  margin-left: 10px;
+  margin-bottom: 5px;
+  color: rgba(255, 255, 255, 0.7);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  span {
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    transition: 0.2s;
+    &:hover {
+      color: white;
     }
   }
 }
