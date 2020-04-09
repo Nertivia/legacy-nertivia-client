@@ -34,12 +34,13 @@ export default {
       this.view = JSON.stringify(notifications, null, 2);
     },
     printAll() {
-      this.view = this.stateFiltered
+      this.view = this.stateFiltered;
     },
   },
   computed: {
     stateFiltered() {
-      const state = { ...this.$store.state };
+      // without stringifying it, data is still reactive.
+      const state = { ...JSON.parse(JSON.stringify(this.$store.state)) };
       state.user.token = "hidden";
       state.user.user.email = "hidden"
       return JSON.stringify(state, null, 2);

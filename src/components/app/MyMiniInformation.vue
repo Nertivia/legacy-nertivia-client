@@ -11,17 +11,21 @@
       @click.native="openUserInformation"
     />
     <div class="information">
-      <div class="username">{{ user.username }}</div>
-      <div class="tag">:{{ user.tag }}</div>
+      <div class="username-tag">
+        <div class="username">{{ user.username }}</div>
+        <div class="tag">:{{ user.tag }}</div>
+      </div>
+      <CustomStatus />
     </div>
-    <div
-      class="status-button"
+    <!-- <div class="custom-status-button material-icons">
+      edit
+    </div> -->
+    <div class="status-button"
       @click="status.isPoppedOut = !status.isPoppedOut"
     >
-      <statusList
+      <statusList class="status-popout"
         v-if="status.isPoppedOut"
         v-click-outside="closeMenus"
-        class="status-popout"
       />
       <img class="status" :src="getStatus" />
     </div>
@@ -32,6 +36,7 @@
 import { bus } from "../../main";
 import config from "@/config.js";
 import statusList from "../../components/app/statusList.vue";
+import CustomStatus from "../../components/app/CustomStatus.vue";
 import settingsService from "@/services/settingsService";
 import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
 import statuses from "@/utils/statuses";
@@ -39,7 +44,8 @@ import statuses from "@/utils/statuses";
 export default {
   components: {
     statusList,
-    ProfilePicture
+    ProfilePicture,
+    CustomStatus
   },
   data() {
     return {
@@ -134,6 +140,9 @@ export default {
     color: rgba(255, 255, 255, 0.72);
   }
 }
+.username-tag {
+  display: flex;
+}
 
 .status-button {
   display: flex;
@@ -154,6 +163,22 @@ export default {
   }
   &:hover {
     background: rgba(0, 0, 0, 0.3);
+  }
+}
+.custom-status-button {
+  height: 40px;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.2s;
+  color: rgba(255, 255, 255, 0.8);
+  &:hover {
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
   }
 }
 </style>

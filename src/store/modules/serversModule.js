@@ -167,6 +167,11 @@ const actions = {
           { uniqueID: member.uniqueID, status: null },
           { root: true }
         );
+        context.dispatch(
+          "members/updateCustomStatus",
+          { uniqueID: member.uniqueID, custom_status: null },
+          { root: true }
+        );
       }
       context.commit("REMOVE_SERVER_MEMBER", {
         uniqueID: member.uniqueID,

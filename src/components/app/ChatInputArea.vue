@@ -146,7 +146,7 @@ export default {
     TypingStatus,
     mentionsPopout,
     ChatMarkdownArea,
-    channelsPopout
+    channelsPopout,
   },
   data() {
     return {
@@ -158,7 +158,7 @@ export default {
 
       emojiSuggestionsArr: [],
       mentionSuggestionsArr: [],
-      channelSuggestionsArr: []
+      channelSuggestionsArr: [],
     };
   },
   methods: {
@@ -372,6 +372,9 @@ export default {
           created: new Date(),
         },
       };
+      if (!this.customColor) {
+        delete addMessage.message.color;
+      }
 
       this.$store.dispatch("addMessage", addMessage);
 
@@ -380,14 +383,18 @@ export default {
       let input = this.$refs["input-box"];
       input.style.height = "1em";
       this.$store.dispatch("updateChannelLastMessage", this.currentChannelID);
+      const post = {
+        message: msg,
+        color: this.customColor,
+        socketID: this.$socket.client.id,
+        tempID,
+      };
+      if (!this.customColor) {
+        delete post.color;
+      }
       const { ok, error, result } = await messagesService.post(
         this.currentChannelID,
-        {
-          message: msg,
-          color: this.customColor,
-          socketID: this.$socket.client.id,
-          tempID,
-        }
+        post
       );
       if (ok) {
         const message = result.data.messageCreated;
@@ -571,8 +578,7 @@ export default {
       if (cursorLetter.trim() == "" || cursorWord.endsWith("#"))
         return (this.channelSuggestionsArr = []);
 
-      if (!cursorWord.startsWith("#"))
-        return (this.channelSuggestionsArr = []);
+      if (!cursorWord.startsWith("#")) return (this.channelSuggestionsArr = []);
       // word without #
       const wordWithoutBegining = cursorWord
         .slice(1, cursorWord.length)

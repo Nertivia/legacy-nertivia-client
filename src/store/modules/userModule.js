@@ -37,6 +37,9 @@ const actions = {
   changeStatus(context, status) {
     context.commit("changeStatus", status);
   },
+  changeCustomStatus(context, customStatus) {
+    context.commit("changeCustomStatus", customStatus);
+  },
   surveyCompleted(context) {
     context.commit("surveyCompleted");
   },
@@ -60,6 +63,9 @@ const mutations = {
   changeStatus(state, status) {
     //changes my status
     Vue.set(state.user, "status", status);
+  },
+  changeCustomStatus(state, customStatus) {
+    Vue.set(state.user, "custom_status", customStatus);
   },
   token(state, token) {
     axios.defaults.headers.common["authorization"] = token;

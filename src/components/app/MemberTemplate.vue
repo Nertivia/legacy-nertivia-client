@@ -17,6 +17,11 @@
       <div class="username" :style="{ color: roleColor }">
         {{ user.username }}
       </div>
+      <SimpleMarkdown
+        v-if="customStatus && presense"
+        class="custom-status"
+        :message="customStatus"
+      />
     </div>
     <div v-if="type === 'OWNER'" class="type-box">Owner</div>
     <div v-else-if="isAdmin" class="type-box admin">Admin</div>
@@ -24,11 +29,12 @@
 </template>
 
 <script>
+import SimpleMarkdown from "@/components/app/SimpleMarkdown";
 import ProfilePicture from "@/components/global/ProfilePictureTemplate";
 import config from "@/config";
 import { containsPerm, permissions } from "../../utils/RolePermissions";
 export default {
-  components: { ProfilePicture },
+  components: { ProfilePicture, SimpleMarkdown },
   props: ["user", "avatar", "type", "member"],
   data() {
     return {
@@ -52,6 +58,13 @@ export default {
       const userPresense = presences[this.user.uniqueID];
       return userPresense || 0;
     },
+    customStatus() {
+      if (this.user.uniqueID === this.$store.getters.user.uniqueID) {
+        return this.$store.getters.user.custom_status;
+      }
+      const customStatusArr = this.$store.getters["members/customStatusArr"];
+      return customStatusArr[this.user.uniqueID];
+    },
     roles() {
       return this.$store.getters["servers/currentServerRoles"];
     },
@@ -59,7 +72,7 @@ export default {
       if (!this.member || !this.member.roles) return undefined;
       if (!this.roles) return undefined;
 
-      let filter = this.roles.filter(r => this.member.roles.includes(r.id));
+      let filter = this.roles.filter((r) => this.member.roles.includes(r.id));
 
       if (filter.length) {
         if (filter[0].color) {
@@ -68,12 +81,12 @@ export default {
           return undefined;
         }
       } else {
-        return this.roles.find(r => r.default).color + " !important";
+        return this.roles.find((r) => r.default).color + " !important";
       }
     },
     isAdmin() {
       if (!this.roles) return false;
-      const defaultRole = this.roles.find(r => r.default === true);
+      const defaultRole = this.roles.find((r) => r.default === true);
       if (containsPerm(defaultRole.permissions, permissions.ADMIN.value)) {
         return true;
       }
@@ -83,7 +96,7 @@ export default {
 
       for (let index = 0; index < this.member.roles.length; index++) {
         const roleID = this.member.roles[index];
-        const role = this.roles.find(r => r.id === roleID);
+        const role = this.roles.find((r) => r.id === roleID);
         if (role) {
           if (containsPerm(role.permissions, permissions.ADMIN.value)) {
             return true;
@@ -92,7 +105,7 @@ export default {
       }
 
       return false;
-    }
+    },
   },
   mounted() {
     this.isGif = this.userAvatar.endsWith(".gif");
@@ -108,15 +121,15 @@ export default {
         serverID: this.serverID,
         uniqueID: this.user.uniqueID,
         x,
-        y
+        y,
       });
     },
     mouseOverEvent() {
       if (this.isGif) {
         this.hover = true;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -161,6 +174,20 @@ export default {
 .type-box.admin {
   background: #ff6947;
 }
-.avatar {
+.custom-status {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  white-space: pre;
+  overflow: hidden;
+}
+</style>
+
+<style>
+.custom-status .emoji {
+  height: 14px;
+  width: 14px;
 }
 </style>

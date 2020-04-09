@@ -24,6 +24,11 @@
       <div class="information">
         <div class="username">{{ recipient.username }}</div>
         <div class="status-name">{{ status.statusName }}</div>
+        <SimpleMarkdown
+          v-if="customStatus && status.status"
+          class="custom-status"
+          :message="customStatus"
+        />
       </div>
       <div v-if="notifications && notifications > 0" class="notification">
         <div class="notification-inner">{{ notifications }}</div>
@@ -41,16 +46,18 @@
 
 <script>
 import channelService from "@/services/channelService";
+import SimpleMarkdown from "@/components/app/SimpleMarkdown";
 import config from "@/config.js";
 import statuses from "@/utils/statuses";
 import { bus } from "@/main";
 
 export default {
   props: ["friend", "recents", "recipient"],
+  components: { SimpleMarkdown },
   data() {
     return {
       hover: false,
-      isGif: false
+      isGif: false,
     };
   },
   mounted() {
@@ -86,6 +93,11 @@ export default {
     userAvatar() {
       return config.domain + "/avatars/" + this.recipient.avatar;
     },
+    customStatus() {
+      return this.$store.getters["members/customStatusArr"][
+        this.recipient.uniqueID
+      ];
+    },
     status() {
       const presences = this.$store.getters["members/presences"];
       let status = 0;
@@ -98,14 +110,14 @@ export default {
         statusName: statuses[parseInt(status)].name,
         statusURL: statuses[parseInt(status)].url,
         statusColor: statuses[parseInt(status)].color,
-        bgColor: statuses[parseInt(status)].bgColor
+        bgColor: statuses[parseInt(status)].bgColor,
       };
     },
     uniqueIDSelected() {
       return (
         this.$store.getters.selectedUserUniqueID === this.recipient.uniqueID
       );
-    }
+    },
   },
   methods: {
     mouseOverEvent() {
@@ -126,13 +138,13 @@ export default {
       this.$store.dispatch("openChat", {
         uniqueID: this.recipient.uniqueID,
         channelID: this.friend.channelID,
-        channelName: this.recipient.username
+        channelName: this.recipient.username,
       });
     },
     openUserInformation() {
       this.$store.dispatch("setUserInformationPopout", this.recipient.uniqueID);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -177,6 +189,10 @@ export default {
   &:hover .status-name {
     opacity: 1;
     height: 13px;
+  }
+  &:hover .custom-status {
+    opacity: 0;
+    height: 0;
   }
 
   &:hover .close-button {
@@ -243,6 +259,18 @@ export default {
   transition: 0.3s;
 }
 
+.custom-status {
+  transition: 0.3s;
+  height: 18px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  white-space: pre;
+  overflow: hidden;
+}
+
 .status-name {
   opacity: 0;
   font-size: 13px;
@@ -266,5 +294,12 @@ export default {
 }
 .close-button:hover {
   color: white;
+}
+</style>
+
+<style>
+.custom-status .emoji {
+  height: 14px;
+  width: 14px;
 }
 </style>

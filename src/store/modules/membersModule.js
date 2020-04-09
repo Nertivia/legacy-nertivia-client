@@ -2,7 +2,8 @@ import Vue from "vue";
 
 const state = {
   members: {},
-  presences: {}
+  presences: {},
+  customStatusArr: {}
 };
 
 const getters = {
@@ -11,10 +12,19 @@ const getters = {
   },
   presences(state) {
     return state.presences;
+  },
+  customStatusArr(state) {
+    return state.customStatusArr;
   }
 };
 
 const actions = {
+  updateCustomStatus(context, { uniqueID, custom_status }) {
+    context.commit("UPDATE_CUSTOM_STATUS", { uniqueID, custom_status });
+  },
+  addCustomStatusArr(context, customStatusArr) {
+    context.commit("ADD_CUSTOM_STATUS_ARR", customStatusArr);
+  },
   addPresences(context, presences) {
     context.commit("ADD_PRESENCES", presences);
   },
@@ -36,6 +46,12 @@ const actions = {
 };
 
 const mutations = {
+  ADD_CUSTOM_STATUS_ARR(state, customStatusArr) {
+    state.customStatusArr = { ...state.customStatusArr, ...customStatusArr };
+  },
+  UPDATE_CUSTOM_STATUS(state, { uniqueID, custom_status }) {
+    Vue.set(state.customStatusArr, uniqueID, custom_status);
+  },
   ADD_PRESENCES(state, presences) {
     state.presences = { ...state.presences, ...presences };
   },

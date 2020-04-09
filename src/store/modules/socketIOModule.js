@@ -38,17 +38,21 @@ const actions = {
       dms,
       mutedChannels,
       notifications,
-      currentFriendStatus,
+      customStatusArr,
+      memberStatusArr,
       settings
     } = data;
 
+
     const friendsArr = user.friends;
 
-    const presence = {};
+    const presenceObj = {};
+    const customStatusObj = {};
     const friendObj = {};
     const memberObj = {};
     if (friendsArr) {
-      for (let friend of friendsArr) {
+      for (let index = 0; index < friendsArr.length; index++) {
+        const friend = friendsArr[index];
         const member = friend.recipient;
         delete friend.recipient;
         friend.uniqueID = member.uniqueID;
@@ -56,13 +60,22 @@ const actions = {
         memberObj[member.uniqueID] = member;
       }
     }
-    if (currentFriendStatus) {
-      for (const _presence of currentFriendStatus) {
-        presence[_presence[0]] = _presence[1];
+    if (memberStatusArr) {
+      for (let index = 0; index < memberStatusArr.length; index++) {
+        const presence = memberStatusArr[index];
+        presenceObj[presence[0]] = presence[1];
+      }
+    }
+    
+    if (customStatusArr) {
+      for (let index = 0; index < customStatusArr.length; index++) {
+        const customStatus = customStatusArr[index];
+        customStatusObj[customStatus[0]] = customStatus[1];
       }
     }
 
-    context.dispatch("members/addPresences", presence);
+    context.dispatch("members/addCustomStatusArr", customStatusObj);
+    context.dispatch("members/addPresences", presenceObj);
 
     context.dispatch("members/addMembers", memberObj);
     let servers = user.servers || [];
@@ -181,7 +194,12 @@ const actions = {
       uniqueID: member.uniqueID,
       status: member.status
     });
+    context.dispatch("members/updateCustomStatus", {
+      uniqueID: member.uniqueID,
+      custom_status: member.custom_status
+    });
     delete member.status;
+    delete member.custom_status;
     context.dispatch("members/addMember", member);
     context.commit("addFriend", friend);
   },
@@ -295,8 +313,18 @@ const actions = {
       status: data.status
     });
   },
+  ["socket_member:customStatusChange"](context, data) {
+    if (context.rootState.user.user.uniqueID === data.uniqueID) return;
+    context.dispatch("members/updateCustomStatus", {
+      uniqueID: data.uniqueID,
+      custom_status: data.custom_status
+    });
+  },
   socket_multiDeviceStatus(context, data) {
     context.commit("changeStatus", data.status);
+  },
+  socket_multiDeviceCustomStatus(context, data) {
+     context.commit("changeCustomStatus", data.custom_status);
   },
   socket_multiDeviceUserAvatarChange(context, data) {
     context.commit("changeAvatar", data.avatarID);
@@ -429,7 +457,7 @@ const actions = {
     context.dispatch("servers/removeAllServerChannels", server_id);
     context.dispatch("deleteAllMessages", serverChannelIDs);
   },
-  ["socket_server:memberAdd"](context, { serverMember, presence }) {
+  ["socket_server:memberAdd"](context, { serverMember, presence, custom_status }) {
     // member_add
     let sm = Object.assign({}, serverMember);
     const member = sm.member;
@@ -440,6 +468,10 @@ const actions = {
       uniqueID: member.uniqueID,
       status: presence
     });
+    context.dispatch("members/updateCustomStatus", {
+      uniqueID: member.uniqueID,
+      custom_status: custom_status
+    });
     context.dispatch("members/addMember", member);
     context.dispatch("servers/addServerMember", sm);
   },
@@ -447,7 +479,7 @@ const actions = {
     // member_remove
     context.dispatch("servers/removeServerMember", { uniqueID, server_id });
   },
-  ["socket_server:members"](context, { serverMembers, memberPresences }) {
+  ["socket_server:members"](context, { serverMembers, memberPresences, memberCustomStatusArr }) {
     // members
     let serverMembersArr = [];
     let members = {};
@@ -460,11 +492,23 @@ const actions = {
     }
     context.dispatch("members/addMembers", members);
     context.dispatch("servers/addServerMembers", serverMembers);
-    let presences = {};
-    for (const _presence of memberPresences) {
-      presences[_presence[0]] = _presence[1];
+    let customStatusObj = {}
+    let presencesObj = {};
+    for (let index = 0; index < memberPresences.length; index++) {
+      const presence = memberPresences[index];
+      presencesObj[presence[0]] = presence[1];
     }
-    context.dispatch("members/addPresences", presences);
+    context.dispatch("members/addPresences", presencesObj);
+
+
+    for (let index = 0; index < memberCustomStatusArr.length; index++) {
+      const customStatus = memberCustomStatusArr[index];
+      customStatusObj[customStatus[0]] = customStatus[1];
+    }
+
+    context.dispatch("members/addCustomStatusArr", customStatusObj);
+
+
   },
   ["socket_server:addChannel"](context, { channel }) {
     // add_channel
