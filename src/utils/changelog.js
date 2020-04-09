@@ -3,7 +3,7 @@ const config = [
     version: "1.1.4",
     title: "Custom status",
     shortTitle: "",
-    date: "09/04/2020",
+    date: "09 April 2020",
     new: ["You can now set your own custom status!"]
   },
   {

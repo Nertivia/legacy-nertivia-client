@@ -5,7 +5,7 @@
       <div class="change-log">
         <div v-for="(change, index) in changelog" :key="index" class="change">
           <div class="heading" :class="{ 'latest-color': index === 0 }">
-            <div class="date">{{ change.date }}</div>
+            <div class="date">Updated on {{ change.date }}</div>
             <div class="changes-title">{{ change.title }}</div>
           </div>
           <div class="information">
@@ -120,7 +120,8 @@ export default {
   background: rgba(38, 139, 255, 0.87);
 }
 .change-log {
-  background: rgba(0, 0, 0, 0.4);
+  background: #1153a9;
+  box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.3);
   overflow-y: auto;
   max-width: 700px;
   width: 100%;
@@ -138,17 +139,18 @@ export default {
   color: white;
 }
 .date {
-  text-align: right;
-  font-size: 19px;
-  margin-right: 10px;
-  color: rgba(255, 255, 255, 0.692);
+  text-align: center;
+  font-size: 17px;
+  color: rgba(255, 255, 255, 0.808);
+  margin-top: 10px;
+  margin-bottom: 5px;
 }
 .changes-title {
-  font-size: 30px;
+  font-size: 25px;
   color: rgba(255, 255, 255, 0.979);
   text-align: center;
   font-weight: bold;
-  margin-top: -5px;
+  margin-top: 0px;
   margin-bottom: 10px;
 }
 .see-all-button {
