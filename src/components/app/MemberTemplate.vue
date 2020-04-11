@@ -182,6 +182,7 @@ export default {
   align-content: center;
   white-space: pre;
   overflow: hidden;
+  height: 18px;
 }
 </style>
 

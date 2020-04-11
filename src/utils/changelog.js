@@ -1,5 +1,12 @@
 const config = [
   {
+    version: "1.1.5",
+    title: "Bye Bye Google Drive",
+    shortTitle: "",
+    date: "10 April 2020",
+    msg: "Seems like Google Drive has been annoying these days and have been rate limiting Nertivia a lot. I had to do something about it. I found out about nodeclusters (https://nodeclusters.com/) Providing unlimited storage for a very cheap price so, I'm going to try this out :)"
+  },
+  {
     version: "1.1.4",
     title: "Custom status",
     shortTitle: "",

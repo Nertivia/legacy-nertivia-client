@@ -17,6 +17,30 @@
           </div>
         </div>
       </div>
+      <div class="upload-cdn" v-if="image">
+        <div class="title">Upload to:</div>
+        <div
+          class="radio"
+          :class="{ selected: !upload_cdn }"
+          @click="upload_cdn = 0"
+        >
+          <div class="box" />
+          <div class="text">
+            Google Drive <span class="notice">(Does not work sometimes.)</span>
+          </div>
+        </div>
+        <div
+          class="radio"
+          :class="{ selected: upload_cdn }"
+          @click="upload_cdn = 1"
+        >
+          <div class="box" />
+          <div class="text">
+            Nertivia CDN
+            <span class="notice">(Data is not guaranteed to stay + Images only.)</span>
+          </div>
+        </div>
+      </div>
       <div class="message-area">
         <textarea
           v-model="message"
@@ -55,7 +79,8 @@ export default {
       message: "",
       name: "",
       size: "",
-      image: false
+      image: false,
+      upload_cdn: 0 // 0: google drive, 1: CDN
     };
   },
   beforeMount() {
@@ -111,6 +136,7 @@ export default {
       const previewImage = this.$refs["preview-image"];
       const mimeType = file.type;
       if (mimeType.split("/")[0] === "image") {
+        this.upload_cdn = 1;
         this.image = true;
         const reader = new FileReader();
         reader.onloadend = function() {
@@ -122,8 +148,11 @@ export default {
     async send() {
       const tempID = this.generateNum(25);
       const formData = new FormData();
-      formData.append("message", emojiParser.replaceShortcode(this.message));
-      formData.append("avatar", this.popouts.fileToUpload);
+      if (this.message.length) {
+        formData.append("message", emojiParser.replaceShortcode(this.message));
+      }
+      formData.append("upload_cdn", this.upload_cdn);
+      formData.append("file", this.popouts.fileToUpload);
       this.$store.dispatch("setPopoutVisibility", {
         name: "uploadDialog",
         visibility: false
@@ -137,7 +166,7 @@ export default {
         created: new Date()
       });
 
-      const { ok } = await messagesService.post(
+      const { ok, error } = await messagesService.post(
         this.currentChannelID,
         formData,
         percent => {
@@ -149,6 +178,34 @@ export default {
       );
       if (ok) {
         this.$store.dispatch("removeUpload", tempID);
+      } else {
+        this.$store.dispatch("removeUpload", tempID);
+        let message;
+
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
+          message = error.response.data.message;
+        } else {
+          message = "Something went wrong while sending the message.";
+        }
+        this.$store.dispatch("addMessage", {
+          channelID: this.currentChannelID,
+          message: {
+            creator: {
+              username: "Whoopsies!",
+              uniqueID: "12345678",
+              avatar: "default.png",
+            },
+            message: message,
+            messageID: Math.floor(Math.random() * 10999 + 0).toString(),
+            color: "#ff4d4d",
+            channelID: this.currentChannelID,
+            created: new Date(),
+          },
+        });
       }
 
       this.$store.dispatch("setPopoutVisibility", {
@@ -174,7 +231,6 @@ export default {
     currentChannelID() {
       return this.$store.getters.currentChannelID;
     },
-
     popouts() {
       return this.$store.getters.popouts;
     }
@@ -182,7 +238,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .dark-background {
   background: rgba(0, 0, 0, 0.4);
   position: absolute;
@@ -209,11 +265,51 @@ export default {
   border-radius: 4px;
   backdrop-filter: blur(5px);
 }
+.upload-cdn {
+  color: white;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  .radio {
+    color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 30px;
+    cursor: pointer;
+    user-select: none;
+    transition: 0.2s;
+    .notice {
+      font-size: 14px;
+      opacity: 0.8;
+    }
+    .box {
+      height: 20px;
+      width: 20px;
+      background: rgba(255, 255, 255, 0.4);
+      margin-right: 5px;
+      border-radius: 4px;
+      transition: 0.2s;
+    }
+    &:hover .box {
+      background: rgba(255, 255, 255, 0.8);
+    }
+    &:hover {
+      color: white;
+    }
+    &.selected {
+      .box {
+        background: white;
+      }
+      color: white;
+    }
+  }
+}
 .info {
   display: flex;
   margin: 20px;
+  margin-left: 10px;
   font-size: 15px;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
 }
 .size {
   color: rgb(221, 221, 221);

@@ -314,6 +314,7 @@ export default {
     getImage() {
       if (!this.message.files || this.message.files.length === 0)
         return undefined;
+      if (this.message.files[0].url) return this.message.files[0].url;
       const file = this.message.files[0];
       if (!file.fileID) return undefined;
       const filetypes = /jpeg|jpg|gif|png/;

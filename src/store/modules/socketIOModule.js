@@ -229,6 +229,7 @@ const actions = {
     // muted channel
     if (context.rootGetters.mutedChannels.includes(data.message.channelID))
       return;
+    if (data.message.creator.uniqueID === context.getters.user.uniqueID) return;
 
     const currentTab = context.rootGetters.currentTab;
     const currentChannelID = context.rootState.channelModule.currentChannelID;
@@ -238,8 +239,6 @@ const actions = {
 
     if (!iscurrentChannel || !document.hasFocus() || !isCurrentTabDMOrSrvrs) {
       // send notification if other users message the recipient
-      if (data.message.creator.uniqueID === context.getters.user.uniqueID)
-        return;
       bus.$emit(
         "title:change",
         data.message.creator.username + " sent a message."
