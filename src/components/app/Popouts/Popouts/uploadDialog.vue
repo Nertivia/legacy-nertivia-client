@@ -90,16 +90,6 @@ export default {
         visibility: false
       });
     }
-    if (!this.GDriveLinked) {
-      this.$store.dispatch("setPopoutVisibility", {
-        name: "uploadDialog",
-        visibility: false
-      });
-      this.$store.dispatch("setPopoutVisibility", {
-        name: "GDLinkMenu",
-        visibility: true
-      });
-    }
   },
   mounted() {
     this.$refs["messageInput"].focus();
@@ -146,6 +136,14 @@ export default {
       }
     },
     async send() {
+
+      if (this.upload_cdn === 0 && !this.GDriveLinked) {
+        this.$store.dispatch("setPopoutVisibility", {
+          name: "GDLinkMenu",
+          visibility: true
+        });
+        return;
+      }
       const tempID = this.generateNum(25);
       const formData = new FormData();
       if (this.message.length) {

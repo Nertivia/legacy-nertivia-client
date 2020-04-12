@@ -13,13 +13,9 @@
         <div class="image nertivia-img" />
       </div>
       <div class="text">
-        If you would like to see Nertivia grow, and have its own storage CDN,
-        donations would be appreciated.
+        Nertivia CDN is in WIP :)
       </div>
       <div class="buttons">
-        <div class="button donate" @click="donateButton">
-          Donate
-        </div>
         <div class="button deny" @click="closeMenu">
           No thanks
         </div>
