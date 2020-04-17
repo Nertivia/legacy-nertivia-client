@@ -151,7 +151,13 @@
             v-for="user in commonFriendsArr"
             :key="user.uniqueID"
           >
-            <img class="avatar" :src="avatarDomain +  user.avatar" />
+            <profile-picture
+              class="avatar"
+              size="30px"
+              animationPadding="0"
+              :avatar="user.avatar"
+              :hover="true"
+            />
             <div class="name">{{ user.username }}</div>
           </div>
         </div>
@@ -165,7 +171,13 @@
             v-for="server in commonServersArr"
             :key="server.server_id"
           >
-            <img class="avatar" :src="avatarDomain + server.avatar" />
+            <profile-picture
+              class="avatar"
+              size="30px"
+              animationPadding="0"
+              :avatar="server.avatar"
+              :hover="true"
+            />
             <div class="name">{{ server.name }}</div>
           </div>
         </div>
