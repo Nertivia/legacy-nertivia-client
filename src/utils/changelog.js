@@ -1,5 +1,13 @@
 const config = [
   {
+    version: "1.1.6",
+    title: "Be Gone Google Drive!",
+    shortTitle: "",
+    date: "17 April 2020",
+    new: ["You can now upload images without linking your google drive account."],
+    msg: "All avatars and emojis have been removed from Nertivia but still available in your google drive."
+  },
+  {
     version: "1.1.5",
     title: "Bye Bye Google Drive",
     shortTitle: "",
