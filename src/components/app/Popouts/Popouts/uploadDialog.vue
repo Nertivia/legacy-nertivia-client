@@ -195,7 +195,6 @@ export default {
             creator: {
               username: "Whoopsies!",
               uniqueID: "12345678",
-              avatar: "default.png",
             },
             message: message,
             messageID: Math.floor(Math.random() * 10999 + 0).toString(),
@@ -285,7 +284,7 @@ export default {
       width: 20px;
       background: rgba(255, 255, 255, 0.4);
       margin-right: 5px;
-      border-radius: 4px;
+      border-radius: 50%;
       transition: 0.2s;
     }
     &:hover .box {

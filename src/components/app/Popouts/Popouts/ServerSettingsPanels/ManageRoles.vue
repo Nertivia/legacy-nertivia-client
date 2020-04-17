@@ -292,12 +292,7 @@ export default {
 .ghost {
   opacity: 0;
 }
-.server-avatar {
-  background: grey;
-  height: 90px;
-  width: 90px;
-  border-radius: 50%;
-}
+
 .content-inner {
   display: flex;
   height: 100%;

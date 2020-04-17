@@ -5,20 +5,21 @@ export default order => {
   return {
     order: order++,
     match: function(source) {
-      return /^<:([\w\d_-]+):([\w\d_-]+)>/.exec(source);
+      return /^<(g?):([\w\d_-]+):([\w\d_-]+)>/.exec(source);
     },
 
     parse: function(capture) {
       return {
-        name: capture[1],
-        id: capture[2]
+        gif: capture[1] === "g",
+        name: capture[2],
+        id: capture[3],
       };
     },
     html: function(node) {
       return SimpleMarkdown.htmlTag("img", "", {
         class: "emoji custom-emoji",
         title: node.name,
-        src: `${config.domain}/media/${node.id}`,
+        src: `${config.nertiviaCDN}emojis/${node.id}.${node.gif ? 'gif' : 'png'}`,
         alt: node.name
       });
     }

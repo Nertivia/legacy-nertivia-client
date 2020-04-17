@@ -2,10 +2,10 @@
   <div class="my-mini-information">
     <ProfilePicture
       class="avatar"
-      :url="`${avatar}${hover ? '' : '?type=webp'}`"
+      :avatar="avatar"
       :admin="user.admin"
       size="35px"
-      :hover="true"
+      :hover="hover"
       @mouseenter.native="hover = true"
       @mouseleave.native="hover = false"
       @click.native="openUserInformation"
@@ -34,13 +34,11 @@
 
 <script>
 import { bus } from "../../main";
-import config from "@/config.js";
 import statusList from "../../components/app/statusList.vue";
 import CustomStatus from "../../components/app/CustomStatus.vue";
 import settingsService from "@/services/settingsService";
 import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
 import statuses from "@/utils/statuses";
-
 export default {
   components: {
     statusList,
@@ -60,7 +58,7 @@ export default {
       return this.$store.getters.user;
     },
     avatar() {
-      return config.domain + "/avatars/" + this.$store.getters.user.avatar;
+      return this.$store.getters.user.avatar;
     },
     getStatus() {
       return require(`./../../assets/status/${this.$store.getters.user.status ||

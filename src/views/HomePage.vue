@@ -19,7 +19,7 @@
               v-if="loggedIn && user"
               class="avatar"
               :hover="true"
-              :url="avatarDomain + user.avatar"
+              :avatar="user.avatar"
               :admin="user.admin"
               size="40px"
               emote-size="17px"
@@ -96,7 +96,6 @@ import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
 import ProfilePopout from "@/components/homePage/ProfilePopout.vue";
 import DownloadAppPopout from "@/components/homePage/DownloadAppPopout.vue";
 import AuthenticationService from "@/services/AuthenticationService.js";
-import config from "@/config.js";
 
 export default {
   components: { Spinner, ProfilePicture, ProfilePopout, DownloadAppPopout },
@@ -105,8 +104,7 @@ export default {
       showDownloadsPopout: false,
       showProfilePopout: false,
       loggedIn: localStorage.getItem("hauthid") || null,
-      user: null,
-      avatarDomain: config.domain + "/avatars/"
+      user: null
     };
   },
   async mounted() {

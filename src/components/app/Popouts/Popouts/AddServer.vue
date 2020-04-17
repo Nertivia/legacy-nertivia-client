@@ -30,7 +30,7 @@
               <profile-picture
                 class="avatar"
                 size="90px"
-                :url="avatar + 'default'"
+                :avatar="undefined"
               />
               <div class="input">
                 <div class="input-name">Server Name</div>
@@ -67,7 +67,8 @@
           <profile-picture
             class="avatar found"
             size="100px"
-            :url="avatar + server.avatar"
+            :hover="true"
+            :avatar="server.avatar"
           />
           <div class="server-name">{{ server.name }}</div>
           <div class="buttons">
@@ -103,7 +104,7 @@
 </template>
 
 <script>
-import config from "@/config.js";
+
 
 import ServerService from "@/services/ServerService";
 import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
@@ -114,7 +115,6 @@ export default {
   data() {
     return {
       tab: 0,
-      avatar: config.domain + "/avatars/",
       serverName: "",
       serverNameError: null,
       inviteCode: "",

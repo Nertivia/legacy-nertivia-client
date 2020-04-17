@@ -9,7 +9,7 @@
       v-else
       class="emoji custom"
       :style="{
-        backgroundImage: `url(${customEmojiUrl + emoji.emojiID})`
+        backgroundImage: `url(${customEmojiUrl + emoji.emojiID}.${emoji.gif ? 'gif' : 'png'})`
       }"
     />
   </div>
@@ -21,7 +21,7 @@ export default {
   props: ["emoji"],
   data() {
     return {
-      customEmojiUrl: config.domain + "/media/"
+      customEmojiUrl: config.nertiviaCDN + "emojis/"
     };
   }
 };

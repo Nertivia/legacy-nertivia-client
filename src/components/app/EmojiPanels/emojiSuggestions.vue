@@ -10,7 +10,7 @@
       <div class="preview">
         <span v-if="emoji.unicode" v-html="emojiParser(emoji.unicode)" />
         <span v-else>
-          <img class="emoji" :src="customEmojiPath + emoji.emojiID" />
+          <img class="emoji" :src="`${customEmojiPath + emoji.emojiID}.${emoji.gif ? 'gif' : 'png'}`" />
         </span>
       </div>
       <div class="short-code">:{{ emoji.name || emoji.shortcodes[0] }}:</div>
@@ -25,7 +25,7 @@ export default {
   props: ["emojiArray"],
   data() {
     return {
-      customEmojiPath: config.domain + "/media/",
+      customEmojiPath: config.nertiviaCDN + "emojis/",
       index: 0
     };
   },

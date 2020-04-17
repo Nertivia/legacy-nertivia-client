@@ -5,8 +5,9 @@
       <profile-picture
         v-if="user"
         class="avatar"
-        :url="avatarDomain + user.avatar"
+        :avatar="user.avatar"
         :admin="user.admin"
+        :hover="true"
         size="40px"
         emote-size="17px"
       />
@@ -24,16 +25,9 @@
 
 <script>
 import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
-import config from "@/config.js";
-
 export default {
   components: { ProfilePicture },
   props: ["user"],
-  data() {
-    return {
-      avatarDomain: config.domain + "/avatars/"
-    };
-  },
   methods: {
     openApp() {
       window.location.href = "/app";

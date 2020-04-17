@@ -21,7 +21,12 @@ export default {
       const customEmoji = customEmojis.find(
         e => e.name === x.substr(1).slice(0, -1)
       );
-      if (customEmoji) return `<:${customEmoji.name}:${customEmoji.emojiID}>`;
+      if (customEmoji) {
+        if (customEmoji.gif) {
+          return `<g:${customEmoji.name}:${customEmoji.emojiID}>`;
+        }
+        return `<:${customEmoji.name}:${customEmoji.emojiID}>`;
+      }
       return x;
     });
   },
@@ -33,7 +38,7 @@ export default {
       message = message.split(search).join(replace);
     }
     // replace custom emojis
-    message = message.replace(/<:([-\w]+):[-\w]+>/g, ":$1:");
+    message = message.replace(/<(g?):([-\w]+):[-\w]+>/g, ":$2:");
     return message;
   },
   replaceEmojis: string => {

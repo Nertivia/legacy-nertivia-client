@@ -2,7 +2,7 @@
   <div
     class="message-container container"
     :class="{ 'mentioned-message': isMentioned, hideAdditional }"
-    @mouseover="mouseOverEvent"
+    @mouseover="hover = true"
     @mouseleave="hover = false"
   >
     <div
@@ -22,9 +22,9 @@
       <div class="avatar" v-if="!hideAdditional">
         <profile-picture
           :admin="creator.admin"
-          :url="`${userAvatar}${hover || !isGif ? '' : '?type=webp'}`"
+          :hover="hover"
+          :avatar="creator.avatar"
           size="50px"
-          :hover="true"
           @click.native="openUserInformation"
           @contextmenu.native.prevent="openMemberContext"
         />
@@ -154,7 +154,6 @@ import config from "@/config.js";
 import friendlyDate, { time } from "@/utils/date";
 import path from "path";
 import windowProperties from "@/utils/windowProperties";
-
 import { mapState } from "vuex";
 import isElectron from "../../utils/ElectronJS/isElectron";
 
@@ -173,7 +172,6 @@ export default {
   data() {
     return {
       hover: false,
-      isGif: false,
       loaded: false,
     };
   },
@@ -189,11 +187,6 @@ export default {
         x,
         y,
       });
-    },
-    mouseOverEvent() {
-      if (this.isGif) {
-        this.hover = true;
-      }
     },
     openContextMenu(event, text) {
       if (text && isElectron) {
@@ -305,7 +298,6 @@ export default {
   mounted() {
     this.imageSize();
     setTimeout(() => (this.loaded = true));
-    this.isGif = this.userAvatar.endsWith(".gif");
     const files = this.files;
     if (!files || files.length === 0 || !files[0].dimensions) return undefined;
   },
@@ -325,7 +317,7 @@ export default {
     getFile() {
       if (!this.message.files || this.message.files.length === 0)
         return undefined;
-      let file = this.message.files[0];
+      let file = { ...this.message.files[0] };
       if (!file.fileID) return undefined;
       const filetypes = /jpeg|jpg|gif|png/;
       const extname = filetypes.test(path.extname(file.fileName).toLowerCase());
@@ -350,9 +342,6 @@ export default {
         this.message.timeEdited,
         this.apperance && this.apperance["12h_time"] ? "12h" : false
       );
-    },
-    userAvatar() {
-      return config.domain + "/avatars/" + this.creator.avatar;
     },
     user() {
       return this.$store.getters.user;

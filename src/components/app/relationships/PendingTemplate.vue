@@ -31,7 +31,7 @@
 
 <script>
 import RelationshipService from "@/services/RelationshipService.js";
-import config from "@/config.js";
+import config from '@/config';
 
 export default {
   props: ["friend"],
@@ -41,7 +41,7 @@ export default {
         .recipient;
     },
     userAvatar() {
-      return config.domain + "/avatars/" + this.user.avatar;
+      return config.nertiviaCDN + this.user.avatar;
     }
   },
   methods: {

@@ -2,13 +2,14 @@
   <div
     class="member"
     @click="openUserInformation()"
-    @mouseover="mouseOverEvent"
+    @mouseover="hover = true"
     @mouseleave="hover = false"
     @contextmenu.prevent="rightClickEvent"
   >
     <Profile-picture
       class="avatar"
-      :url="`${userAvatar}${hover || !isGif ? '' : '?type=webp'}`"
+      :avatar="this.avatar"
+      :hover="hover"
       size="30px"
       :unique-i-d="user.uniqueID"
       :status="presense"
@@ -31,7 +32,6 @@
 <script>
 import SimpleMarkdown from "@/components/app/SimpleMarkdown";
 import ProfilePicture from "@/components/global/ProfilePictureTemplate";
-import config from "@/config";
 import { containsPerm, permissions } from "../../utils/RolePermissions";
 export default {
   components: { ProfilePicture, SimpleMarkdown },
@@ -39,15 +39,11 @@ export default {
   data() {
     return {
       hover: false,
-      isGif: false,
     };
   },
   computed: {
     serverID() {
       return this.$store.getters["servers/currentServerID"];
-    },
-    userAvatar() {
-      return config.domain + "/avatars/" + this.avatar;
     },
     presense() {
       //attach presense
@@ -107,9 +103,6 @@ export default {
       return false;
     },
   },
-  mounted() {
-    this.isGif = this.userAvatar.endsWith(".gif");
-  },
   methods: {
     openUserInformation() {
       this.$store.dispatch("setUserInformationPopout", this.user.uniqueID);
@@ -123,11 +116,6 @@ export default {
         x,
         y,
       });
-    },
-    mouseOverEvent() {
-      if (this.isGif) {
-        this.hover = true;
-      }
     },
   },
 };

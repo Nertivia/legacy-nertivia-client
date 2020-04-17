@@ -5,14 +5,15 @@
         class="background-dark"
         v-if="server.server.banner"
         :style="{
-          backgroundImage: `url(${bannerDomain + server.server.banner}${
+          backgroundImage: `url(${nertiviaCDN + server.server.banner}${
             hover ? '' : '?type=webp'
           })`
         }"
       />
       <profile-picture
         size="90px"
-        :url="`${avatarDomain}/${server.server.avatar}`"
+        :avatar="server.server.avatar"
+        :hover="true"
       />
       <div class="name">
         <div class="name-container" :title="server.server.name ">
@@ -54,8 +55,8 @@ export default {
   data() {
     return {
       joinClicked: false,
-      avatarDomain: config.domain + "/avatars",
-      bannerDomain: config.domain + "/media/",
+      nertiviaCDN: config.nertiviaCDN,
+
       hover: false
     };
   },

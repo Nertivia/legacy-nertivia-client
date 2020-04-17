@@ -13,7 +13,8 @@
               <profile-picture
                 class="avatar"
                 size="100px"
-                :url="domain + server.avatar"
+                :avatar="server.avatar"
+                :hover="true"
               />
               <div class="server-name">{{ server.name }}</div>
               <div class="buttons">
@@ -37,7 +38,6 @@
 </template>
 
 <script>
-import config from "@/config";
 import HeaderLogin from "@/components/global/HeaderLoginTemplate.vue";
 import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
 import Spinner from "@/components/global/Spinner.vue";
@@ -47,7 +47,6 @@ export default {
   data() {
     return {
       server: null,
-      domain: config.domain + "/avatars/",
       loggedIn: localStorage.getItem("hauthid"),
       errorMsg: ""
     };

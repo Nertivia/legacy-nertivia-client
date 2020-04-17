@@ -15,14 +15,14 @@
     <profile-picture
       size="45px"
       class="avatar"
-      :url="`${avatarDomain}/${serverData.avatar}${hover ? '' : '?type=webp'}`"
+      :hover="hover"
+      :avatar="serverData.avatar"
     />
   </div>
 </template>
 
 <script>
 import { bus } from "../../../main.js";
-import config from "@/config.js";
 import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
 
 export default {
@@ -30,7 +30,6 @@ export default {
   props: ["serverData"],
   data() {
     return {
-      avatarDomain: config.domain + "/avatars",
       hover: false
     };
   },

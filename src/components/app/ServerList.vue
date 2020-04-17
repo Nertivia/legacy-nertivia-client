@@ -12,7 +12,7 @@
         @click="bannerImageClicked"
         v-if="server && server.banner"
         :src="
-          `${bannerDomain}${server.banner}${bannerHover ? '' : '?type=webp'}`
+          `${bannerDomain + server.banner}${bannerHover ? '' : '?type=webp'}`
         "
       />
       <div class="sub-banner">
@@ -44,8 +44,8 @@ export default {
   },
   data() {
     return {
+      bannerDomain: config.nertiviaCDN,
       openedServer: null,
-      bannerDomain: config.domain + "/media/",
       bannerHover: false
     };
   },

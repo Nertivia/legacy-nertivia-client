@@ -12,7 +12,7 @@
 
     <div class="emojis-list">
       <div v-for="emoji in customEmojis" :key="emoji.emojiID" class="emoji">
-        <img class="preview" :src="`${domain}${emoji.emojiID}`" />
+        <img class="preview" :src="`${domain}${emoji.emojiID}.${emoji.gif ? 'gif' : 'png'}`" />
         <div class="emoji-name">
           <input
             type="text"
@@ -50,7 +50,7 @@ export default {
   components: {},
   data() {
     return {
-      domain: config.domain + "/media/"
+      domain: config.nertiviaCDN + "/emojis/"
     };
   },
   methods: {
@@ -127,12 +127,6 @@ export default {
       };
     },
     addEmojiBtn() {
-      if (!this.GDriveLinked) {
-        return this.$store.dispatch("setPopoutVisibility", {
-          name: "GDLinkMenu",
-          visibility: true
-        });
-      }
       this.$refs.emojiBrowser.click();
     },
     async removeEmoji(emojiID) {

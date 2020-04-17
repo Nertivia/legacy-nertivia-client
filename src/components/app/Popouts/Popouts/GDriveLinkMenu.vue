@@ -2,8 +2,8 @@
   <div class="dark-background GDrive-popout" @click="backgroundClick">
     <div class="inner">
       <div class="text">
-        To upload files, images or set avatars, You must link your Google Drive
-        account with your Nertivia account.
+        To upload files, You must link your Google Drive account with your
+        Nertivia account.
       </div>
       <div class="images">
         <div class="image GDrive-img" />
@@ -11,9 +11,6 @@
           >
         </div>
         <div class="image nertivia-img" />
-      </div>
-      <div class="text">
-        Nertivia CDN is in WIP :)
       </div>
       <div class="buttons">
         <div class="button deny" @click="closeMenu">

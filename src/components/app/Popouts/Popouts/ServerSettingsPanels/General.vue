@@ -7,7 +7,9 @@
           <profile-picture
             class="server-avatar"
             size="100px"
-            :url="update.avatar || `${avatarDomain}/${server.avatar}`"
+            :hover="true"
+            :url="update.avatar"
+            :avatar="update.avatar ? null : server.avatar"
           />
           <div class="button" @click="$refs.avatarBrowser.click()">
             Edit Avatar
@@ -25,7 +27,7 @@
             class="banner-image"
             :style="{
               backgroundImage: `url(${update.banner ||
-                `${bannerDomain}${server.banner}`})`
+                `${imageDomain}${server.banner}`})`
             }"
           >
             <div class="banner-text"></div>
@@ -86,11 +88,12 @@ export default {
   components: { DropDown, ProfilePicture, ErrorsListTemplate },
   data() {
     return {
+      imageDomain: config.nertiviaCDN,
       requestSent: false,
       changed: false,
       errors: null,
-      avatarDomain: config.domain + "/avatars/",
-      bannerDomain: config.domain + "/media/",
+      avatarDomain: "",
+      bannerDomain: "",
       update: {},
       key: 1
     };
@@ -103,6 +106,7 @@ export default {
       this.$set(this.update, name, value);
     },
     async updateServer() {
+      console.log(this.server)
       if (this.requestSent) return;
       this.requestSent = true;
       const { ok, error } = await ServerService.updateServer(
@@ -126,21 +130,14 @@ export default {
     },
     //type: avatar || banner
     imageChangeEvent(type) {
-      if (!this.googleDriveLinked) {
-        event.target.value = "";
-        return this.$store.dispatch("setPopoutVisibility", {
-          name: "GDLinkMenu",
-          visibility: true
-        });
-      }
       const file = event.target.files[0];
       const _this = this;
-      const maxSize = 2092000;
+      const maxSize = 5092000;
       event.target.value = "";
       if (file.size > maxSize) {
         return this.$store.dispatch(
           "setGenericMessage",
-          "Image is larger than 2MB"
+          "Image is larger than 5MB"
         );
       }
       const allowedFormats = [".png", ".jpeg", ".gif", ".jpg"];
@@ -174,9 +171,6 @@ export default {
     }
   },
   computed: {
-    googleDriveLinked() {
-      return this.$store.getters["settingsModule/settings"].GDriveLinked;
-    },
     server() {
       const serverID = this.$store.state.popoutsModule.serverSettings.serverID;
       return this.$store.getters["servers/servers"][serverID];

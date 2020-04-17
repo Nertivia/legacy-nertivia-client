@@ -27,7 +27,7 @@ export default {
   props: ["invite"],
   data() {
     return {
-      avatarDomain: config.domain + "/avatars/",
+      avatarDomain: config.nertiviaCDN,
       inviteDetail: undefined
     };
   },

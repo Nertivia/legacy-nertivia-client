@@ -59,9 +59,11 @@
         <div class="change-avatar-container">
           <profile-picture
             class="avatar"
-            :url="update.avatar || avatar"
+            :url="update.avatar"
+            :avatar="update.avatar ? null : avatar"
             :admin="user.admin"
             size="70px"
+            :hover="true"
             emote-size="24px"
             animation-padding="4px"
           />
@@ -93,7 +95,6 @@
 import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
 import userService from "@/services/userService.js";
 import ErrorsListTemplate from "@/components/app/errorsListTemplate";
-import config from "@/config.js";
 import path from "path";
 
 export default {
@@ -113,13 +114,6 @@ export default {
       this.$set(this.update, name, event.target.value);
     },
     avatarChangeEvent(event) {
-      if (!this.googleDriveLinked) {
-        event.target.value = "";
-        return this.$store.dispatch("setPopoutVisibility", {
-          name: "GDLinkMenu",
-          visibility: true
-        });
-      }
       const file = event.target.files[0];
       const _this = this;
       const maxSize = 8092000;
@@ -191,11 +185,8 @@ export default {
     }
   },
   computed: {
-    googleDriveLinked() {
-      return this.$store.getters["settingsModule/settings"].GDriveLinked;
-    },
     avatar() {
-      return config.domain + "/avatars/" + this.$store.getters.user.avatar;
+      return this.$store.getters.user.avatar;
     },
     user() {
       return this.$store.getters.user;

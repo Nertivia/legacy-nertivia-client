@@ -10,7 +10,8 @@
           <profile-picture
             class="avatar"
             size="120px"
-            :url="`${avatarDomain}${user.avatar}`"
+            :avatar="user.avatar"
+            :hover="true"
           />
           <div class="uesrname-tag">
             <div class="username">{{ user.username }}</div>
@@ -150,7 +151,7 @@
             v-for="user in commonFriendsArr"
             :key="user.uniqueID"
           >
-            <img class="avatar" :src="avatarDomain + user.avatar" />
+            <img class="avatar" :src="avatarDomain +  user.avatar" />
             <div class="name">{{ user.username }}</div>
           </div>
         </div>
@@ -195,7 +196,7 @@ export default {
       user: null,
       commonServersIDArr: null,
       commonFriendsIDArr: null,
-      avatarDomain: config.domain + "/avatars/",
+      avatarDomain: config.nertiviaCDN,
       badges,
       isBlocked: null
     };

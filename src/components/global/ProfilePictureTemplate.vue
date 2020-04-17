@@ -1,5 +1,5 @@
 <template>
-  <div class="outer-profile-picture">
+  <div :key="avatar" class="outer-profile-picture">
     <div
       :class="`profile-picture ${admin && adminType ? adminType.name : ''}`"
       :style="`padding: ${$props.animationPadding || '3px'}`"
@@ -26,7 +26,7 @@
               : 'solid 3px' + statusColor.statusColor
           }`
         }"
-        :src="$props.url"
+        :src="src ? src + (hover || !isGif ? '' : '?type=webp') : defaultImage"
       />
     </div>
   </div>
@@ -34,46 +34,62 @@
 
 <script>
 import statuses from "@/utils/statuses";
+import config from '@/config';
 export default {
   props: [
-    "url",
+    "avatar",
     "size",
     "emoteSize",
     "admin",
     "hover",
     "animationPadding",
     "status",
-    "uniqueID"
+    "uniqueID",
+    "url"
   ],
   data() {
     return {
-      crown: require("../../assets/twemoji/1f451.svg"),
-      flower: require("../../assets/twemoji/1f33a.svg"),
-      heart: require("../../assets/twemoji/2764.svg"),
-      developer: require("../../assets/twemoji/2728.svg")
+      nertiviaCDN: config.nertiviaCDN,
     };
   },
   computed: {
+    src() {
+      if (!this.avatar && !this.url) {
+        return undefined
+      }
+      if (this.url) {
+        return this.url
+      }
+      return config.nertiviaCDN + this.avatar;
+    },
+    isGif() {
+      if (!this.avatar) return undefined;
+      return this.avatar.endsWith(".gif");
+    },
+    defaultImage() {
+      // console.log(require("../../assets/logo.png"))
+      return require("../../assets/logo.png")
+    },
     adminType() {
       if (this.$props.admin == 3)
         return {
           name: "creator",
-          emotePath: this.crown
+          emotePath: require("../../assets/twemoji/1f451.svg")
         };
       if (this.$props.admin == 4)
         return {
           name: "cute",
-          emotePath: this.flower
+          emotePath: require("../../assets/twemoji/1f33a.svg")
         };
       if (this.$props.admin == 5)
         return {
           name: "supporter",
-          emotePath: this.heart
+          emotePath: require("../../assets/twemoji/2764.svg")
         };
       if (this.$props.admin == 6)
         return {
           name: "developer",
-          emotePath: this.developer
+          emotePath: require("../../assets/twemoji/2728.svg")
         };
       return "";
     },
@@ -192,3 +208,4 @@ export default {
   }
 }
 </style>
+ 

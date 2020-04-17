@@ -19,8 +19,8 @@
 
 <script>
 import friendlyDate from "@/utils/date";
-import config from "@/config.js";
 import statuses from "@/utils/statuses";
+import config from '@/config';
 export default {
   props: ["user"],
   computed: {
@@ -28,7 +28,7 @@ export default {
       return friendlyDate(this.user.created);
     },
     avatar() {
-      return config.domain + "/avatars/" + this.user.avatar;
+      return config.nertiviaCDN + this.user.avatar;
     },
     presence() {
       if (this.user.status === undefined) return null;

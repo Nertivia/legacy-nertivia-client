@@ -161,10 +161,6 @@ body {
 .red {
   background: rgba(117, 10, 10, 0.774);
 }
-.avatar {
-  align-self: center;
-  margin-bottom: 10px;
-}
 
 .server-name {
   text-align: center;

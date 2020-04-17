@@ -102,6 +102,10 @@ img.emoji {
   vertical-align: -9px;
 }
 
+img.emoji[alt] {
+  text-indent: -9999px;
+}
+
 .large-emojis .emoji {
   height: 5em;
   width: 5em;

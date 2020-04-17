@@ -4,7 +4,7 @@
       class="wrapper"
       :class="{ selected: uniqueIDSelected }"
       @click="openChat"
-      @mouseover="mouseOverEvent"
+      @mouseover="hover = true"
       @mouseleave="hover = false"
     >
       <div
@@ -12,9 +12,12 @@
         :style="`border-color: ${status.statusColor};`"
         @click="openUserInformation"
       >
-        <img
-          class="avatar"
-          :src="`${userAvatar}${hover || !isGif ? '' : '?type=webp'}`"
+          <profile-picture
+            class="avatar"
+            :avatar="this.recipient.avatar"
+            animationPadding="0"
+            :hover="hover"
+            size="30px"
         />
         <div
           class="status"
@@ -47,21 +50,18 @@
 <script>
 import channelService from "@/services/channelService";
 import SimpleMarkdown from "@/components/app/SimpleMarkdown";
-import config from "@/config.js";
+import ProfilePicture from '@/components/global/ProfilePictureTemplate';
 import statuses from "@/utils/statuses";
 import { bus } from "@/main";
+import config from '@/config';
 
 export default {
   props: ["friend", "recents", "recipient"],
-  components: { SimpleMarkdown },
+  components: { SimpleMarkdown, ProfilePicture },
   data() {
     return {
       hover: false,
-      isGif: false,
     };
-  },
-  mounted() {
-    this.isGif = this.userAvatar.endsWith(".gif");
   },
   computed: {
     notifications() {
@@ -91,7 +91,7 @@ export default {
       return notifications.count;
     },
     userAvatar() {
-      return config.domain + "/avatars/" + this.recipient.avatar;
+      return config.nertiviaCDN + this.recipient.avatar;
     },
     customStatus() {
       return this.$store.getters["members/customStatusArr"][
@@ -120,11 +120,6 @@ export default {
     },
   },
   methods: {
-    mouseOverEvent() {
-      if (this.isGif) {
-        this.hover = true;
-      }
-    },
     async closeChannel() {
       await channelService.delete(this.friend.channelID);
     },

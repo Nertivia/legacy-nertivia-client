@@ -8,7 +8,7 @@
           <div
             class="avatar"
             @click="showProfile(ban.user.uniqueID)"
-            :style="`background-image: url(${avatarDomain + ban.user.avatar})`"
+            :style="`background-image: url(${ban.user.avatar})`"
           />
           <div class="details" @click="showProfile(ban.user.uniqueID)">
             <div class="username">{{ ban.user.username }}</div>
@@ -24,17 +24,17 @@
 </template>
 
 <script>
-import config from "@/config.js";
 import ServerService from "@/services/ServerService";
 import Spinner from "@/components/global/Spinner";
+import config from '@/config';
 
 export default {
   components: { Spinner },
   data() {
     return {
+      CDNDomain: config.nertiviaCDN,
       unbanStatus: false,
-      bans: null,
-      avatarDomain: config.domain + "/avatars/"
+      bans: null
     };
   },
   methods: {
