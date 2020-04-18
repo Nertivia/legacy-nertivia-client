@@ -118,8 +118,6 @@ export default {
   flex-shrink: 0;
 }
 .inner-profile-picture {
-  background-color: rgba(0, 0, 0, 0.315);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   border-radius: 50%;
   object-fit: cover;
   display: flex;

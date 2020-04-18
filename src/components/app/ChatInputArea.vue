@@ -172,6 +172,10 @@ export default {
       this.emojiSwitchKey(event);
       this.channelsSwitchKey(event);
       // when enter is press
+
+      if (event.keyCode == 9) {
+        if (this.enterPopout()) event.preventDefault();
+      }
       if (event.keyCode == 13) {
         if (this.mobile) {
           return;
@@ -179,18 +183,7 @@ export default {
         // and the shift key is not held
         if (!event.shiftKey) {
           event.preventDefault();
-          if (this.emojiSuggestionsArr.length) {
-            this.enterEmojiSuggestion();
-            return;
-          }
-          if (this.mentionSuggestionsArr.length) {
-            this.enterMention();
-            return;
-          }
-          if (this.channelSuggestionsArr.length) {
-            this.enterChannel();
-            return;
-          }
+          if (this.enterPopout()) return;
           if (this.editMessage) {
             return this.updateMessage();
           } else {
@@ -593,6 +586,20 @@ export default {
       }
     },
 
+    enterPopout() {
+      if (this.emojiSuggestionsArr.length) {
+        this.enterEmojiSuggestion();
+        return true;
+      }
+      if (this.mentionSuggestionsArr.length) {
+        this.enterMention();
+        return true;
+      }
+      if (this.channelSuggestionsArr.length) {
+        this.enterChannel();
+        return true;
+      }
+    },
     enterEmojiSuggestion() {
       const emoji = this.emojiSuggestionsArr[
         this.$refs.emojiSuggestionsList.index

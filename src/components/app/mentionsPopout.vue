@@ -20,7 +20,7 @@ export default {
   props: ["list"],
   data() {
     return {
-      avatarPath: config.domain + "/avatars/",
+      avatarPath: config.nertiviaCDN,
       index: 0,
     };
   },
