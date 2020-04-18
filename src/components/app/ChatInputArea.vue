@@ -173,6 +173,10 @@ export default {
       this.channelsSwitchKey(event);
       // when enter is press
 
+      if (event.ctrlKey && event.key === "e") {
+        event.preventDefault();
+        this.showEmojiPanel = !this.showEmojiPanel;
+      }
       if (event.keyCode == 9) {
         if (this.enterPopout()) event.preventDefault();
       }
@@ -192,10 +196,11 @@ export default {
         }
       }
 
-      if (event.keyCode === 38) {
+      if (event.keyCode === 38 && !event.altKey) {
         //38 = up arrow
         if (this.message !== "") return;
         if (this.editMessage) return;
+        if (!this.currentChannelMessages) return;
         const messagesFiltered = this.currentChannelMessages.filter(
           (m) => m.creator.uniqueID === this.user.uniqueID
         );

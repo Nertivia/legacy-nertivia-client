@@ -15,6 +15,7 @@
 <script>
 import VirtualList from "vue-virtual-scroll-list";
 import FriendsTemplate from "./FriendsTemplate.vue";
+import { bus } from '../../../main';
 export default {
   components: {
     FriendsTemplate,
@@ -25,10 +26,37 @@ export default {
       loaded: false
     };
   },
+  methods: {
+    changeCurrentChannelIndex(direction) {
+      let currentChannelIndex = this.recentsArr.findIndex(r => r.recipients[0].uniqueID === this.currentUniqueID);
+      if (!(currentChannelIndex + 1)) currentChannelIndex = -1;
+      if (direction === "up") {
+         currentChannelIndex -= 1;
+      } else {
+         currentChannelIndex += 1;
+      }
+      const channel = this.recentsArr[currentChannelIndex];
+      if (!channel) return;
+      this.$store.dispatch("openChat", {
+        uniqueID: channel.recipients[0].uniqueID,
+        channelID: channel.channelID,
+        channelName: channel.recipients[0].username,
+      });
+    },
+  },
   mounted() {
+    bus.$on('channels:changeCurrentIndex', this.changeCurrentChannelIndex);
     setTimeout(() => (this.loaded = true));
   },
+  destroyed() {
+    bus.$off('channels:changeCurrentIndex', this.changeCurrentChannelIndex);
+  },
   computed: {
+    currentUniqueID() {
+      return (
+        this.$store.getters.selectedUserUniqueID
+      );
+    },
     user() {
       return this.$store.getters.user;
     },

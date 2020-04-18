@@ -1,5 +1,5 @@
 <template>
-  <div id="app" ref="app" :class="{ desktop: isElectron }">
+  <div id="app" ref="app" :class="{ desktop: isElectron }" >
     <vue-headful :title="title" description="Nertivia Chat Client" />
     <div class="background-color"></div>
     <transition-group name="fade-between-two" appear mode="in-out">
@@ -13,7 +13,7 @@
         <main-nav
           v-if="$mq !== 'mobile' || currentTab === 3 || currentTab === 4"
         />
-        <div class="panel-layout">
+        <div class="panel-layout" >
           <news v-if="currentTab == 3" />
           <servers v-if="currentTab == 1 || currentTab == 2" />
           <!-- <servers v-if="currentTab == 2" /> -->
@@ -94,6 +94,32 @@ export default {
     };
   },
   methods: {
+    keyDown(event) {
+      if (event.altKey) {
+        if (!event.ctrlKey) {
+          event.preventDefault();
+          if (event.key === "ArrowUp") {
+            bus.$emit("channels:changeCurrentIndex", "up")
+          }
+          if (event.key === "ArrowDown") {
+            bus.$emit("channels:changeCurrentIndex", "down")
+          }
+          if (event.key === "ArrowLeft") {
+            bus.$emit("channels:changeCurrentIndex", "left")
+          }
+          if (event.key === "ArrowRight") {
+            bus.$emit("channels:changeCurrentIndex", "right")
+          }
+        } else {
+          if (event.key === "ArrowUp") {
+            bus.$emit("servers:changeCurrentIndex", "up")
+          }
+          if (event.key === "ArrowDown") {
+            bus.$emit("servers:changeCurrentIndex", "down")
+          }
+        }
+      }
+    },
     switchChannel(isServer) {
       const serverChannelID = this.$store.state.channelModule.serverChannelID;
       const DMChannelID = this.$store.state.channelModule.DMChannelID;
@@ -184,6 +210,7 @@ export default {
     }
   },
   async mounted() {
+    window.addEventListener('keydown', this.keyDown)
     this.sendElectronNotification(false);
     if (this.loggedIn) {
       this.ready = true;
@@ -206,6 +233,9 @@ export default {
       this.switchTab(tab);
     });
     this.setTheme();
+  },
+  destroyed() {
+    window.removeEventListener('keydown', this.keyDown)
   },
 
   computed: {

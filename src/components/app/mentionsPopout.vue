@@ -7,7 +7,13 @@
       @mouseenter="hoverEvent"
       @click="clickEvent"
     >
-      <img class="avatar" :src="avatarPath + member.avatar + '?type=webp'" />
+      <profile-picture
+          class="avatar"
+          :avatar="member.avatar"
+          animationPadding="0"
+          :hover="false"
+          size="25px"
+      />
       <div class="username">{{ member.username }}</div>
       <div class="tag">:{{ member.tag }}</div>
     </div>
@@ -16,7 +22,9 @@
 
 <script>
 import config from "@/config.js";
+import ProfilePicture from '@/components/global/ProfilePictureTemplate';
 export default {
+  components: {ProfilePicture},
   props: ["list"],
   data() {
     return {

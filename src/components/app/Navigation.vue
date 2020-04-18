@@ -153,6 +153,18 @@ export default {
         name: "surveyPopout",
         visibility: true
       });
+    },
+    changeCurrentServerIndex(direction) {
+      let index = this.serversArr.findIndex(s => s.server_id === this.currentServerID);
+      if (!(index + 1)) index = -1;
+      if (direction === "up") {
+        index -= 1;
+      }
+      if (direction === "down") {
+        index += 1;
+      }
+      if (!this.serversArr[index]) return;
+      bus.$emit("openServer", this.serversArr[index].server_id);
     }
   },
   computed: {
@@ -198,10 +210,12 @@ export default {
     }
   },
   mounted() {
+    bus.$on("servers:changeCurrentIndex", this.changeCurrentServerIndex);
     bus.$on("server-tool-tip", this.serverToolTipEvent);
     bus.$on("openServer", this.openServer);
   },
   destroyed() {
+    bus.$off("servers:changeCurrentIndex", this.changeCurrentServerIndex);
     bus.$off("server-tool-tip", this.serverToolTipEvent);
     bus.$off("openServer", this.openServer);
   }

@@ -118,6 +118,12 @@ export default {
       drag: false
     };
   },
+  mounted() {
+    bus.$on('channels:changeCurrentIndex', this.changeCurrentChannelIndex);
+  },
+  destroyed() {
+    bus.$off('channels:changeCurrentIndex', this.changeCurrentChannelIndex);
+  },
   methods: {
     async onEnd() {
       this.drag = false;
@@ -189,6 +195,18 @@ export default {
         name: "surveyPopout",
         visibility: true
       });
+    },
+    changeCurrentChannelIndex(direction) {
+      let index = this.currentTab;
+      if (direction === "left") {
+        if (!index) return;
+        index -= 1;
+      }
+      if (direction === "right") {
+        if (index >= 4) return;
+        index += 1;
+      }
+      this.switchTab(index);
     }
   },
   computed: {

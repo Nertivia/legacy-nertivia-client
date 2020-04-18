@@ -2,9 +2,16 @@
   <div class="user">
     <div
       @click="openUserInformation"
-      class="profile-picture"
+      class=""
       :style="{ backgroundImage: `url(${avatar})` }"
     ></div>
+    <profile-picture
+      class="profile-picture"
+      :avatar="user.avatar"
+      animationPadding="0"
+      :hover="true"
+      size="40px"
+    />
     <div class="details" @click="openManageUser">
       <div class="username-tag">
         {{ user.username }}<span class="tag">@{{ user.tag }}</span>
@@ -20,15 +27,13 @@
 <script>
 import friendlyDate from "@/utils/date";
 import statuses from "@/utils/statuses";
-import config from '@/config';
+import ProfilePicture from '@/components/global/ProfilePictureTemplate';
 export default {
+  components: {ProfilePicture},
   props: ["user"],
   computed: {
     date() {
       return friendlyDate(this.user.created);
-    },
-    avatar() {
-      return config.nertiviaCDN + this.user.avatar;
     },
     presence() {
       if (this.user.status === undefined) return null;

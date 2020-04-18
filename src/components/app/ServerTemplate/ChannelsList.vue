@@ -73,6 +73,17 @@ export default {
         y: event.clientY
       });
     },
+    changeCurrentChannelIndex(direction) {
+      let currentChannelIndex = this.serverChannels.findIndex(c => c.channelID === this.currentChannelID)
+      if (!(currentChannelIndex + 1)) currentChannelIndex = 0;
+      if (direction === "up") {
+        currentChannelIndex -= 1;
+      } else {
+        currentChannelIndex += 1;
+      }
+      if (!this.serverChannels[currentChannelIndex]) return;
+      this.openChannel(this.serverChannels[currentChannelIndex])
+    }
   },
   async beforeMount() {
     if (this.channels !== undefined) return;
@@ -96,7 +107,16 @@ export default {
       });
     }
   },
+  mounted() {
+    bus.$on('channels:changeCurrentIndex', this.changeCurrentChannelIndex);
+  },
+  destroyed() {
+    bus.$off('channels:changeCurrentIndex', this.changeCurrentChannelIndex);
+  },
   computed: {
+    currentChannelID() {
+      return this.$store.getters.currentChannelID;
+    },
     user() {
       return this.$store.getters.user;
     },
