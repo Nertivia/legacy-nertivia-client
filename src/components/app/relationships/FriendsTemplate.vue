@@ -27,8 +27,13 @@
       <div class="information">
         <div class="username">{{ recipient.username }}</div>
         <div class="status-name">{{ status.statusName }}</div>
+        <div v-if="programActivityStatus" class="custom-status program" :title="`${programActivityStatus.status} ${programActivityStatus.name}`">
+          <span class="icon material-icons">widgets</span>
+          <strong>{{programActivityStatus.status}}</strong>
+          <span>{{programActivityStatus.name}}</span>
+        </div>
         <SimpleMarkdown
-          v-if="customStatus && status.status"
+          v-else-if="customStatus && status.status"
           class="custom-status"
           :message="customStatus"
         />
@@ -97,6 +102,10 @@ export default {
       return this.$store.getters["members/customStatusArr"][
         this.recipient.uniqueID
       ];
+    },
+    programActivityStatus() {
+      const programActivityJson = this.$store.getters["members/programActivity"];
+      return programActivityJson[this.recipient.uniqueID]
     },
     status() {
       const presences = this.$store.getters["members/presences"];
@@ -258,12 +267,22 @@ export default {
   transition: 0.3s;
   height: 18px;
   color: rgba(255, 255, 255, 0.8);
-  font-size: 14px;
-  display: flex;
+  font-size: 12px;
   align-items: center;
   align-content: center;
   white-space: pre;
   overflow: hidden;
+  width: 170px;
+  text-overflow: ellipsis;
+}
+.custom-status.program strong {
+  margin-right: 3px;
+}
+.custom-status.program .icon {
+  font-size: 14px;
+  vertical-align: -2px;
+  color: white;
+  margin-right: 3px;
 }
 
 .status-name {

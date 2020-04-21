@@ -3,7 +3,8 @@ import Vue from "vue";
 const state = {
   members: {},
   presences: {},
-  customStatusArr: {}
+  customStatusArr: {},
+  programActivity: {}
 };
 
 const getters = {
@@ -15,10 +16,19 @@ const getters = {
   },
   customStatusArr(state) {
     return state.customStatusArr;
+  },
+  programActivity(state) {
+    return state.programActivity;
   }
 };
 
 const actions = {
+  updateProgramActivity(context, { uniqueID, name, status }) {
+    context.commit("UPDATE_PRGORAM_ACTIVITY", { uniqueID, name, status });
+  },
+  addProgramActivity(context, programActivityObj) {
+    context.commit("ADD_PROGRAM_ACTIVITY", programActivityObj);
+  },
   updateCustomStatus(context, { uniqueID, custom_status }) {
     context.commit("UPDATE_CUSTOM_STATUS", { uniqueID, custom_status });
   },
@@ -46,8 +56,18 @@ const actions = {
 };
 
 const mutations = {
+  ADD_PROGRAM_ACTIVITY(state, programActivityObj) {
+    state.programActivity = {...state.programActivity, ...programActivityObj}
+  },
   ADD_CUSTOM_STATUS_ARR(state, customStatusArr) {
     state.customStatusArr = { ...state.customStatusArr, ...customStatusArr };
+  },
+  UPDATE_PRGORAM_ACTIVITY(state, {  uniqueID, name, status }) {
+    if (!uniqueID || !name) {
+      Vue.delete(state.programActivity, uniqueID)
+    } else {
+      Vue.set(state.programActivity, uniqueID, {name, status});
+    }
   },
   UPDATE_CUSTOM_STATUS(state, { uniqueID, custom_status }) {
     Vue.set(state.customStatusArr, uniqueID, custom_status);

@@ -18,8 +18,14 @@
       <div class="username" :style="{ color: roleColor }">
         {{ user.username }}
       </div>
+      <div v-if="programActivityStatus" class="custom-status program" :title="`${programActivityStatus.status} ${programActivityStatus.name}`">
+        <span class="icon material-icons">widgets</span>
+        <strong>{{programActivityStatus.status}}</strong>
+        <span>{{programActivityStatus.name}}</span>
+      </div>
       <SimpleMarkdown
-        v-if="customStatus && presense"
+        :title="customStatus"
+        v-else-if="customStatus && presense"
         class="custom-status"
         :message="customStatus"
       />
@@ -60,6 +66,10 @@ export default {
       }
       const customStatusArr = this.$store.getters["members/customStatusArr"];
       return customStatusArr[this.user.uniqueID];
+    },
+    programActivityStatus() {
+      const programActivityJson = this.$store.getters["members/programActivity"];
+      return programActivityJson[this.user.uniqueID]
     },
     roles() {
       return this.$store.getters["servers/currentServerRoles"];
@@ -164,13 +174,23 @@ export default {
 }
 .custom-status {
   color: rgba(255, 255, 255, 0.8);
-  font-size: 14px;
-  display: flex;
+  font-size: 12px;
   align-items: center;
   align-content: center;
   white-space: pre;
   overflow: hidden;
+  text-overflow: ellipsis;
   height: 18px;
+
+}
+.custom-status.program strong {
+  margin-right: 3px;
+}
+.custom-status.program .icon {
+  font-size: 14px;
+  vertical-align: -2px;
+  color: white;
+  margin-right: 3px;
 }
 </style>
 

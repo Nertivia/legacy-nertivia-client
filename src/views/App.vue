@@ -1,5 +1,5 @@
 <template>
-  <div id="app" ref="app" :class="{ desktop: isElectron }" >
+  <div id="app" ref="app" :class="{ desktop: isElectron }">
     <vue-headful :title="title" description="Nertivia Chat Client" />
     <div class="background-color"></div>
     <transition-group name="fade-between-two" appear mode="in-out">
@@ -10,10 +10,8 @@
             <electron-frame-buttons />
           </div>
         </div>
-        <main-nav
-          v-if="$mq !== 'mobile' || currentTab === 3 || currentTab === 4"
-        />
-        <div class="panel-layout" >
+        <main-nav v-if="$mq !== 'mobile' || currentTab === 3 || currentTab === 4" />
+        <div class="panel-layout">
           <news v-if="currentTab == 3" />
           <servers v-if="currentTab == 1 || currentTab == 2" />
           <!-- <servers v-if="currentTab == 2" /> -->
@@ -90,7 +88,9 @@ export default {
     return {
       title: "Nertivia",
       isElectron: window && window.process && window.process.type,
-      ready: false
+      ready: false,
+      programActivityTimeout: undefined,
+      currentActiveProgram: undefined
     };
   },
   methods: {
@@ -194,6 +194,24 @@ export default {
       if (this.isElectron) {
         ipcRenderer.send("notification", !!notificationExists);
       }
+    },
+    activityStatusChanged(event, filename) {
+      if (!filename) {
+        this.currentActiveProgram = undefined;
+        this.$socket.client.emit('programActivity:set', undefined);
+        return;
+      }
+      const storedPrograms = JSON.parse(localStorage.getItem("activity_status"));
+      if (!storedPrograms) return undefined;
+      const program = storedPrograms.find(sp => sp.filename === filename);
+      this.currentActiveProgram = program; 
+      this.$socket.client.emit('programActivity:set', {name: program.name, status: program.status})
+    },
+    emitActivity(){
+      if (this.currentActiveProgram) {
+        this.$socket.client.emit('programActivity:set', {name: this.currentActiveProgram.name, status: this.currentActiveProgram.status})
+      }
+      this.programActivityTimeout = setTimeout(this.emitActivity, 180000); // 3 minutes
     }
   },
   watch: {
@@ -204,12 +222,28 @@ export default {
       setTimeout(() => {
         this.ready = val;
       });
+      if (this.isElectron) {
+        if (!val) {
+          clearTimeout(this.programActivityTimeout)
+          this.programActivityTimeout = undefined;
+          this.currentActiveProgram = undefined;
+        } else {
+          const storedPrograms = JSON.parse(localStorage.getItem("activity_status")) || [];
+          const programNameArr = storedPrograms.map(sp => sp.filename)
+          ipcRenderer.send("activity_status:update", programNameArr)
+          setTimeout(this.emitActivity, 180000); // 3 minutes
+        }
+      }
     },
     allNotificationExists(val) {
       this.sendElectronNotification(val);
     }
   },
   async mounted() {
+    if (this.isElectron) {
+      ipcRenderer.on("activity_status:changed", this.activityStatusChanged)
+
+    }
     window.addEventListener('keydown', this.keyDown)
     this.sendElectronNotification(false);
     if (this.loggedIn) {
@@ -235,6 +269,9 @@ export default {
     this.setTheme();
   },
   destroyed() {
+    if (this.isElectron) {
+      ipcRenderer.off("activity_status:changed", this.activityStatusChanged)
+    }
     window.removeEventListener('keydown', this.keyDown)
   },
 

@@ -34,7 +34,6 @@
 
 <script>
 import emojiParser from "@/utils/emojiParser.js";
-import { constants } from "crypto";
 export default {
   model: {
     prop: "itemSelected",

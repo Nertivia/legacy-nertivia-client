@@ -1,11 +1,7 @@
 <template>
   <div class="user">
-    <div
-      @click="openUserInformation"
-      class=""
-      :style="{ backgroundImage: `url(${avatar})` }"
-    ></div>
     <profile-picture
+      @click.native="openUserInformation"
       class="profile-picture"
       :avatar="user.avatar"
       animationPadding="0"
@@ -77,7 +73,6 @@ export default {
 .profile-picture {
   width: 40px;
   height: 40px;
-  background: rgba(0, 0, 0, 0.7);
   flex-shrink: 0;
   border-radius: 50%;
   margin-right: 5px;

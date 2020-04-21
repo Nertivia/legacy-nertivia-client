@@ -42,6 +42,7 @@ const MyThemes = () => import("./SettingsPanels/MyThemes.vue");
 const Notifications = () => import("./SettingsPanels/Notifications.vue");
 const AppSettings = () => import("./SettingsPanels/appSettings");
 const DebugSettings = () => import("./SettingsPanels/DebugSettings");
+const ActivityStatus = () => import("./SettingsPanels/ActivityStatus");
 
 export default {
   components: {
@@ -51,7 +52,8 @@ export default {
     MyThemes,
     Notifications,
     AppSettings,
-    DebugSettings
+    DebugSettings,
+    ActivityStatus
   },
   data() {
     return {
@@ -94,19 +96,27 @@ export default {
           index: 4
         },
         {
+          name: "Activity Status",
+          tabName: "Activity Status BETA",
+          icon: "widgets",
+          component: "activity-status",
+          hidden: !isElectron,
+          index: 5
+        },
+        {
           name: "App Settings",
           tabName: "App Settings",
           icon: "desktop_windows",
           component: "app-settings",
           hidden: !isElectron,
-          index: 5
+          index: 6
         },
         {
           name: "Debug",
           tabName: "Debug",
           icon: "bug_report",
           component: "debug-settings",
-          index: 6
+          index: 7
         }
       ]
     };

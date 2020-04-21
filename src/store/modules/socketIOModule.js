@@ -40,6 +40,7 @@ const actions = {
       notifications,
       customStatusArr,
       memberStatusArr,
+      programActivityArr,
       settings
     } = data;
 
@@ -48,6 +49,7 @@ const actions = {
 
     const presenceObj = {};
     const customStatusObj = {};
+    const programActivityObj = {};
     const friendObj = {};
     const memberObj = {};
     if (friendsArr) {
@@ -66,7 +68,13 @@ const actions = {
         presenceObj[presence[0]] = presence[1];
       }
     }
-    
+    if (programActivityArr.length) {
+      for (let index = 0; index < programActivityArr.length; index++) {
+        const programActivity = programActivityArr[index];
+        programActivityObj[programActivity.uniqueID] = { name: programActivity.name, status: programActivity.status }
+      }
+    }
+
     if (customStatusArr) {
       for (let index = 0; index < customStatusArr.length; index++) {
         const customStatus = customStatusArr[index];
@@ -74,6 +82,7 @@ const actions = {
       }
     }
 
+    context.dispatch("members/addProgramActivity", programActivityObj);
     context.dispatch("members/addCustomStatusArr", customStatusObj);
     context.dispatch("members/addPresences", presenceObj);
 
@@ -194,6 +203,9 @@ const actions = {
       uniqueID: member.uniqueID,
       status: member.status
     });
+    if (friend.program_activity) {
+      context.dispatch('members/addProgramActivity', { [member.uniqueID]: friend.program_activity })
+    }
     context.dispatch("members/updateCustomStatus", {
       uniqueID: member.uniqueID,
       custom_status: member.custom_status
@@ -289,7 +301,7 @@ const actions = {
             avatarURL:
               config.domain + "/avatars/" + data.message.creator.avatar,
             message: data.message.message,
-            open: function() {
+            open: function () {
               context.dispatch("setCurrentTab", 1, { root: true });
               context.dispatch(
                 "openChat",
@@ -312,6 +324,10 @@ const actions = {
       status: data.status
     });
   },
+  ["socket_programActivity:changed"](context, data) {
+    context.dispatch("members/updateProgramActivity", data)
+
+  },
   ["socket_member:customStatusChange"](context, data) {
     if (context.rootState.user.user.uniqueID === data.uniqueID) return;
     context.dispatch("members/updateCustomStatus", {
@@ -323,7 +339,7 @@ const actions = {
     context.commit("changeStatus", data.status);
   },
   socket_multiDeviceCustomStatus(context, data) {
-     context.commit("changeCustomStatus", data.custom_status);
+    context.commit("changeCustomStatus", data.custom_status);
   },
   socket_multiDeviceUserAvatarChange(context, data) {
     context.commit("changeAvatar", data.avatarID);
@@ -346,7 +362,7 @@ const actions = {
     if (currentChannelID === channelID) {
       context.dispatch("selectedUserUniqueID", undefined);
       context.dispatch("currentChannelID", undefined);
-    } 
+    }
     context.dispatch("removeChannel", { channelID });
   },
   ["socket_notification:dismiss"](context, data) {
@@ -478,7 +494,7 @@ const actions = {
     // member_remove
     context.dispatch("servers/removeServerMember", { uniqueID, server_id });
   },
-  ["socket_server:members"](context, { serverMembers, memberPresences, memberCustomStatusArr }) {
+  ["socket_server:members"](context, { serverMembers, memberPresences, memberCustomStatusArr, programActivityArr }) {
     // members
     let serverMembersArr = [];
     let members = {};
@@ -492,6 +508,7 @@ const actions = {
     context.dispatch("members/addMembers", members);
     context.dispatch("servers/addServerMembers", serverMembers);
     let customStatusObj = {}
+    let programActivityObj = {}
     let presencesObj = {};
     for (let index = 0; index < memberPresences.length; index++) {
       const presence = memberPresences[index];
@@ -504,6 +521,13 @@ const actions = {
       const customStatus = memberCustomStatusArr[index];
       customStatusObj[customStatus[0]] = customStatus[1];
     }
+
+    for (let index = 0; index < programActivityArr.length; index++) {
+      const programActivity = programActivityArr[index];
+      programActivityObj[programActivity.uniqueID] = programActivity;
+    }
+
+    context.dispatch("members/addProgramActivity", programActivityObj);
 
     context.dispatch("members/addCustomStatusArr", customStatusObj);
 

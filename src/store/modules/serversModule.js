@@ -172,6 +172,11 @@ const actions = {
           { uniqueID: member.uniqueID, custom_status: null },
           { root: true }
         );
+        context.dispatch(
+          "members/updateProgramActivity",
+          { uniqueID: member.uniqueID },
+          { root: true }
+        );
       }
       context.commit("REMOVE_SERVER_MEMBER", {
         uniqueID: member.uniqueID,

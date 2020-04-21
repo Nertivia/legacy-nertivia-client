@@ -1,5 +1,12 @@
 const config = [
   {
+    version: "1.1.7",
+    title: "Activity Status",
+    shortTitle: "",
+    date: "21 April 2020",
+    new: ["Share what programs or games you are running. For more information, click on the settings icon and find 'Activity Status' (Only works on the desktop app)"],
+  },
+  {
     version: "1.1.6",
     title: "Be Gone Google Drive!",
     shortTitle: "",
