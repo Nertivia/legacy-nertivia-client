@@ -18,7 +18,7 @@
       <div class="username" :style="{ color: roleColor }">
         {{ user.username }}
       </div>
-      <div v-if="programActivityStatus" class="custom-status program" :title="`${programActivityStatus.status} ${programActivityStatus.name}`">
+      <div v-if="programActivityStatus && presense" class="custom-status program" :title="`${programActivityStatus.status} ${programActivityStatus.name}`">
         <span class="icon material-icons">widgets</span>
         <strong>{{programActivityStatus.status}}</strong>
         <span>{{programActivityStatus.name}}</span>
