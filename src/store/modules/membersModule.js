@@ -52,7 +52,10 @@ const actions = {
   },
   updateAvatar(context, { uniqueID, avatarID }) {
     context.commit("UPDATE_AVATAR", { uniqueID, avatarID });
-  }
+  },
+  updateMember(context, data) {
+    context.commit("UPDATE_MEMBER", data);
+  },
 };
 
 const mutations = {
@@ -89,6 +92,11 @@ const mutations = {
   },
   UPDATE_AVATAR(state, { uniqueID, avatarID }) {
     state.members[uniqueID].avatar = avatarID;
+  },
+  UPDATE_MEMBER(state, data) {
+    const newMembers = state.members;
+    newMembers[data.uniqueID] = {...newMembers[data.uniqueID], ...data};
+    state.members = Object.assign({}, newMembers);
   }
 };
 

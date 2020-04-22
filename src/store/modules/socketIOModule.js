@@ -350,6 +350,8 @@ const actions = {
   ["socket_updateMember"](context, data) {
     if (context.rootGetters.user.uniqueID === data.uniqueID) {
       context.dispatch("updateUser", data);
+    } else {
+      context.dispatch("members/updateMember", data);
     }
   },
   ["socket_channel:created"](context, data) {
