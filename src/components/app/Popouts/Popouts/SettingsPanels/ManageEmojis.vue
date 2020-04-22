@@ -22,20 +22,12 @@
           />
         </div>
         <div class="delete-button" @click="removeEmoji(emoji.emojiID)">
-          <div class="material-icons">
-            close
-          </div>
+          <div class="material-icons">close</div>
           <div class="inner" />
         </div>
       </div>
     </div>
-    <input
-      ref="emojiBrowser"
-      type="file"
-      accept="image/*"
-      class="hidden"
-      @change="emojiBrowse"
-    />
+    <input ref="emojiBrowser" type="file" accept="image/*" class="hidden" @change="emojiBrowse" />
   </div>
 </template>
 
@@ -65,12 +57,18 @@ export default {
     },
     async blurEvent(emojiID, event) {
       // send put request
-      const { ok } = await customEmoji.put({
+      const { ok, error } = await customEmoji.put({
         emojiID,
         name: event.target.value
       });
       if (!ok) {
-        this.errorBox("Something weng wrong. Try again later.");
+        if (error.response && error.response.data) {
+          this.errorBox(error.response.data.message);
+        } else {
+          this.errorBox("Something went wrong. Try again later.");
+        }
+        const find = this.customEmojis.find(e => e.emojiID === emojiID);
+        event.target.value = find.name
         return;
       }
     },
