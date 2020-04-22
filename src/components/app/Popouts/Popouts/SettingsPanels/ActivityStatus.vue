@@ -133,7 +133,7 @@ export default {
           if (activityProgramNames.preferedNames[filename]) {
             title = activityProgramNames.preferedNames[filename];
           } else {
-            const split = title.split("-");
+            const split = title.split(" - ");
             if (split.length > 1) {
               title = split[split.length - 1].trim();
             }
