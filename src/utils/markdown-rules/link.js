@@ -19,7 +19,8 @@ export default order => {
         const tdl = url.hostname.split(".").pop();
         if (tdl.length >= 4 || tdl.length <= 1) return node.url;
         const urlArr = url.href.split("//");
-        return SimpleMarkdown.htmlTag("a", node.protocol ? url.href : urlArr.shift() + "//" + urlArr.join("//"), {
+        urlArr.shift();
+        return SimpleMarkdown.htmlTag("a", node.protocol ? url.href : urlArr.join("//"), {
           href: SimpleMarkdown.sanitizeText(SimpleMarkdown.sanitizeUrl(url.href)),
           class: "link",
           target: "_blank"
