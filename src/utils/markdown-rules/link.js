@@ -4,18 +4,19 @@ export default order => {
   return {
     order: order++,
     match: function(source) {
-      return /^(^|\s)((https?:\/\/)?[\w-]+(\.[a-z-]+)+\.?(:\d+)?(\/\S*)?)/.exec(source);
+      return /^(^|\s)(https?:\/\/)?(([^.\s/<>]+\.)+[a-z]+(:(\d+))?(\/[^\s<>]*)?)/.exec(source);
     },
 
     parse: function(capture) {
       return {
-        protocol: capture[3],
-        url: capture[2]
+        protocol: capture[2],
+        url: capture[0]
       };
     },
     html: function(node) {
-      return SimpleMarkdown.htmlTag("a", node.url.trim(), {
-        href: SimpleMarkdown.sanitizeText(SimpleMarkdown.sanitizeUrl(node.protocol ? node.url : 'https://' + node.url)),
+      const url = new URL(node.protocol ? node.url.trim() : 'https://' + node.url.trim());
+      return SimpleMarkdown.htmlTag("a",  node.protocol ? url.href: url.href.split("//").pop() , {
+        href: SimpleMarkdown.sanitizeText(SimpleMarkdown.sanitizeUrl(url.href)),
         class: "link",
         target: "_blank"
       }) + " ";
