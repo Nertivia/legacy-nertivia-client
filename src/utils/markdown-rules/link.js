@@ -1,42 +1,24 @@
 import * as SimpleMarkdown from "simple-markdown";
-import LinkifyIt from "linkify-it";
-
-const linkify = LinkifyIt();
-
-linkify.add("ftp:", null);
-linkify.add("//", null);
 
 export default order => {
   return {
     order: order++,
     match: function(source) {
-      const match = linkify.match(source);
-
-      if (match === null || match[0].index !== 0 || match.length === 0) {
-        return null;
-      }
-
-      const converted = [match[0].raw, match[0].text, match[0].url];
-
-      return converted;
+      return /^(^|\s)((https?:\/\/)?[\w-]+(\.[a-z-]+)+\.?(:\d+)?(\/\S*)?)/.exec(source);
     },
 
     parse: function(capture) {
       return {
-        content: {
-          type: "text",
-          content: capture[1]
-        },
+        protocol: capture[3],
         url: capture[2]
       };
     },
-
-    html: function(node, output) {
-      return SimpleMarkdown.htmlTag("a", output(node.content), {
-        href: SimpleMarkdown.sanitizeText(SimpleMarkdown.sanitizeUrl(node.url)),
+    html: function(node) {
+      return SimpleMarkdown.htmlTag("a", node.url.trim(), {
+        href: SimpleMarkdown.sanitizeText(SimpleMarkdown.sanitizeUrl(node.protocol ? node.url : 'https://' + node.url)),
         class: "link",
         target: "_blank"
-      });
+      }) + " ";
     }
   };
 };

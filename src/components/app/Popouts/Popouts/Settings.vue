@@ -19,7 +19,7 @@
       </div>
       <div class="panel">
         <div class="title">
-          <div class="material-icons">{{ tabs[currentTab].icon }}</div>
+          <div class="material-icons" :class="tabs[currentTab].icon">{{ tabs[currentTab].icon }}</div>
           <div class="in-title">{{ tabs[currentTab].tabName }}</div>
           <div class="close-button" @click="close">
             <div class="material-icons">close</div>

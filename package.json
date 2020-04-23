@@ -12,7 +12,6 @@
     "core-js": "^3.6.4",
     "doodlepad": "^2.1.1",
     "idb-keyval": "^3.2.0",
-    "linkify-it": "^2.2.0",
     "match-sorter": "^4.0.2",
     "pako": "^1.0.11",
     "simple-markdown": "^0.7.2",
