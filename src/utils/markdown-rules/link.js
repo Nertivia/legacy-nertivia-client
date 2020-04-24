@@ -1,32 +1,61 @@
 import * as SimpleMarkdown from "simple-markdown";
+import * as linkify from "linkifyjs";
+
+const matchLink = str => {
+  const tokens = linkify.tokenize(str)
+  if(tokens.length >= 1 && tokens[0].isLink) {
+    return {
+      ...tokens[0].toObject(),
+      raw: tokens[0].toString()
+    }
+  }
+}
 
 export default order => {
   return {
     order: order++,
     match: function (source) {
-      return /^(^|\s)(https?:\/\/)?(([^.\s/<>]+\.)+[a-z]+(:(\d+))?(\/[^\s<>]*)?)/.exec(source);
+
+      const trimmed = source.trimStart()
+      const diff = source.length - trimmed.length
+
+      const link = matchLink(trimmed)
+
+      if(link === undefined || link.length === 0) {
+        return null
+      }
+
+      return [
+        source.slice(0, link.raw.length + diff),
+        link
+      ]
     },
 
     parse: function (capture) {
       return {
-        protocol: capture[2],
-        url: capture[0]
-      };
+        content: {
+          type: 'text',
+          content: capture[0]
+        },
+        link: capture[1]
+      }
     },
-    html: function (node) {
+
+    html: function ({ link }) {
       try {
-        const url = new URL(node.protocol ? node.url.trim() : 'https://' + node.url.trim());
-        const tdl = url.hostname.split(".").pop();
-        if (tdl.length >= 4 || tdl.length <= 1) return node.url;
-        const urlArr = url.href.split("//");
-        urlArr.shift();
-        return SimpleMarkdown.htmlTag("a", node.protocol ? url.href : urlArr.join("//"), {
-          href: SimpleMarkdown.sanitizeText(SimpleMarkdown.sanitizeUrl(url.href)),
-          class: "link",
-          target: "_blank"
-        }) + " ";
-      } catch {
-        return node.url
+        return (
+          SimpleMarkdown.htmlTag(
+            "a", 
+            link.href,
+            {
+              href: link.href,
+              class: "link",
+              target: "_blank"
+            }
+          ) + " "
+        )
+      } catch (err) {
+        return link.href
       }
     }
   };
