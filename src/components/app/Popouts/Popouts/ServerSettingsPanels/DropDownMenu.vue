@@ -27,6 +27,7 @@
         >
           <div class="emoji" v-if="item.emoji" v-html="item.emoji"></div>
           <div class="name">{{ item.name }}</div>
+          <div class="name secondary" v-if="item.filename">({{ item.filename }})</div>
         </div>
       </div>
     </div>
@@ -170,6 +171,11 @@ export default {
 }
 .material-icons {
   flex-shrink: 0;
+}
+.name.secondary {
+  opacity: 0.4;
+  font-size: 14px;
+  margin-left: 3px;
 }
 </style>
 

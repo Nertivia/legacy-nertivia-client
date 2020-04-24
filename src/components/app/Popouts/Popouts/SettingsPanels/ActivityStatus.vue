@@ -6,6 +6,7 @@
     <drop-down-template
       class="activity dropdown"
       :items="items"
+      @click.native="getItems"
       selectBy="name"
       :selectedItem="0"
       :noneSelect="true"
@@ -35,7 +36,12 @@
           </div>
           <div class="input-box">
             <div class="text">Filename:</div>
-            <div class="name">{{program.filename}}</div>
+            <input
+              type="text"
+              @blur="updatefilename(program, $event)"
+              class="input name"
+              :value="program.filename"
+            />
           </div>
         </div>
         <div class="delete-button material-icons" @click="deleteButton(program)">close</div>
@@ -52,6 +58,7 @@ const { ipcRenderer } = window.require("electron");
 
 import DropDownTemplate from "@/components/app/Popouts/Popouts/ServerSettingsPanels/DropDownMenu";
 import activityProgramNames from "@/utils/activityProgramNames";
+activityProgramNames;
 export default {
   components: { DropDownTemplate },
   data() {
@@ -105,6 +112,19 @@ export default {
       );
       this.updateDetector();
     },
+    updatefilename(program, event) {
+      if (event.target.value.trim() === "") return this.deleteButton(program);
+      const newObj = { ...program, filename: event.target.value };
+      const index = this.storedPrograms.findIndex(
+        sp => sp.filename === program.filename
+      );
+      this.$set(this.storedPrograms, index, newObj);
+      localStorage.setItem(
+        "activity_status",
+        JSON.stringify(this.storedPrograms)
+      );
+      this.updateDetector();
+    },
     changeEvent(selected) {
       this.storedPrograms.push({
         ...selected,
@@ -117,33 +137,25 @@ export default {
       this.updateDetector();
       this.getItems();
     },
-    getItems() {
-      this.items = activeWindowListener
-        .getWindows()
-        .map(window => {
+    async getItems() {
+      const windows = activeWindowListener.getWindows();
+      const map = await Promise.all(windows.map(async window => {
           const filename = window.path.split("\\")[
             window.path.split("\\").length - 1
           ];
-          let title = window.getTitle();
-          if (activityProgramNames.blacklist.includes(filename)) {
-            return undefined;
-          }
           if (this.storedPrograms.find(sp => sp.filename === filename))
             return undefined;
-          if (activityProgramNames.preferedNames[filename]) {
-            title = activityProgramNames.preferedNames[filename];
+          let title;
+          try {
+            title = (await window.getExif()).FileDescription;
+          } catch {
+            title = window.getTitle();
           }
-          // console.log({
-          //   filename,
-          //   path: window.path,
-          //   title: window.getTitle()
-          // })
-          return {
-            name: title,
-            filename
-          };
-        })
-        .filter(w => w !== undefined);
+          return {name: title, filename}
+      }))
+      const filter = map.filter(w => w !== undefined);
+
+      this.items = [{name: "Add", filename: "Click me.exe"}, ...filter];
     },
     randomStatusChooser() {
       const statusArr = ["Playing", "Exploring", "Enjoying"];
