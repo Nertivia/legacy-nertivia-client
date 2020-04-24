@@ -51,7 +51,7 @@ const rules = {
       return /^[\s\S][0-9A-Za-z\u00c0-\uffff]*\s?/.exec(source);
     },
     parse: SimpleMarkdown.defaultRules.text.parse,
-    html: SimpleMarkdown.defaultRules.text.html
+    html: node => emojiParser.replaceEmojis(SimpleMarkdown.defaultRules.text.html(node))
   })
 };
 
@@ -68,9 +68,5 @@ const markdownToHtml = function(source, state) {
   return output(parsedContentTree, state);
 };
 
-export default message => {
-  message = markdownToHtml(message || "", { inline: false });
-  message = emojiParser.replaceEmojis(message);
-
-  return message;
-};
+export default message =>
+  markdownToHtml(message || "", { inline: false });
