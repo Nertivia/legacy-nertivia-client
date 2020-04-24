@@ -147,7 +147,14 @@ export default {
             return undefined;
           let title;
           try {
-            title = (await window.getExif()).FileDescription;
+            const exif = await window.getExif();
+            if (exif.FileDescription && exif.FileDescription.trim().length) {
+              title = exif.FileDescription;
+            } else if (exif.ProductName && exif.ProductName.trim().length) {
+              title = exif.ProductName;
+            } else {
+              title = window.getTitle();
+            } 
           } catch {
             title = window.getTitle();
           }
