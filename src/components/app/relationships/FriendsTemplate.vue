@@ -27,7 +27,7 @@
       <div class="information">
         <div class="username">{{ recipient.username }}</div>
         <div class="status-name">{{ status.statusName }}</div>
-        <div v-if="programActivityStatus && status.statu" class="custom-status program" :title="`${programActivityStatus.status} ${programActivityStatus.name}`">
+        <div v-if="programActivityStatus && status.status" class="custom-status program" :title="`${programActivityStatus.status} ${programActivityStatus.name}`">
           <span class="icon material-icons">widgets</span>
           <strong>{{programActivityStatus.status}}</strong>
           <span>{{programActivityStatus.name}}</span>
