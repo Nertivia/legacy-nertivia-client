@@ -46,9 +46,9 @@ export default order => {
         return (
           SimpleMarkdown.htmlTag(
             "a", 
-            link.href,
+            SimpleMarkdown.sanitizeText(link.href),
             {
-              href: link.href,
+              href: SimpleMarkdown.sanitizeUrl(link.href),
               class: "link",
               target: "_blank"
             }
