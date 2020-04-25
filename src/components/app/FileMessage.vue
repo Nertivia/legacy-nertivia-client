@@ -45,9 +45,6 @@ export default {
   background: rgba(0, 0, 0, 0.329);
 }
 .file-content .info {
-  word-wrap: break-word;
-  word-break: break-word;
-  white-space: pre-wrap;
   font-size: 14px;
   overflow: hidden;
   max-width: 100%;
