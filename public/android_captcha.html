@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <script src="https://hcaptcha.com/1/api.js" async defer></script>
+    </head>
+    <body>
+        <div class="h-captcha" data-theme="dark" data-sitekey="8babbac4-8758-4347-84d4-0ff321e821bc" data-callback="captchaResponse"></div>
+    </body>
+    <script type="text/javascript">
+        function captchaResponse(token){
+            BridgeWebViewClass.hCaptchaCallbackInAndroid(token);
+        }
+    </script>
+    <style>
+        body {
+            display: flex;
+            align-items: center;;
+            justify-content: center;
+            align-content: center;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+    </style>
+</html>
