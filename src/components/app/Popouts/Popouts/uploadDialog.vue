@@ -15,6 +15,14 @@
             <strong>Size:</strong>
             {{ size }}
           </div>
+          <div 
+            v-if="image"
+            class="checkbox" 
+            :class="{selected: compress}"
+            @click="compress ? compress = 0 : compress = 1">
+            <div class="box" />
+            <div class="name">Compress Image</div>
+          </div>
         </div>
       </div>
       <div class="upload-cdn" v-if="image">
@@ -80,7 +88,8 @@ export default {
       name: "",
       size: "",
       image: false,
-      upload_cdn: 0 // 0: google drive, 1: CDN
+      upload_cdn: 0, // 0: google drive, 1: CDN
+      compress: 1,
     };
   },
   beforeMount() {
@@ -148,6 +157,9 @@ export default {
       const formData = new FormData();
       if (this.message.length) {
         formData.append("message", emojiParser.replaceShortcode(this.message));
+      }
+      if (this.image) {
+        formData.append("compress", this.compress);
       }
       formData.append("upload_cdn", this.upload_cdn);
       formData.append("file", this.popouts.fileToUpload);
@@ -286,6 +298,7 @@ export default {
       margin-right: 5px;
       border-radius: 50%;
       transition: 0.2s;
+      flex-shrink: 0;
     }
     &:hover .box {
       background: rgba(255, 255, 255, 0.8);
@@ -316,6 +329,35 @@ export default {
   margin-left: 10px;
   color: white;
   margin-top: 5px;
+  .checkbox {
+    display: flex;
+    margin-top: 5px;
+    transition: 0.2s;
+    opacity: 0.7;
+    user-select: none;
+    cursor: pointer;
+    &:hover {
+      .box {
+        background: rgba(255, 255, 255, 0.6);
+      }
+      opacity: 1;
+    }
+    &.selected {
+      .box {
+        background: white;
+      }
+      opacity: 1;
+    }
+    
+    .box {
+      height: 20px;
+      width: 20px;
+      margin-right: 5px;
+      transition: 0.2s;
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 4px;
+    }
+  }
 }
 .preview-image {
   background-color: #343434;
