@@ -1,5 +1,12 @@
 const config = [
   {
+    version: "1.1.8",
+    title: "Image Compression",
+    shortTitle: "",
+    date: "28 April 2020",
+    new: ["Added Image Compression option. This seems to only work well with JPG images. If anyone knows how to use GraphicsMagick, Send help! Thanks."],
+  },
+  {
     version: "1.1.7",
     title: "Activity Status",
     shortTitle: "",
