@@ -1,6 +1,10 @@
 <template>
   <div class="dark-background upload-dialog-popout">
-    <div class="inner">
+    <div class="inner exceed" v-if="exceededSize" v-click-outside="closeButton">
+      <div class="material-icons icon">close</div>
+      <div class="message">File size exceeded 50MB</div>
+    </div>
+    <div v-else class="inner">
       <div class="info">
         <div v-show="image" ref="preview-image" class="preview-image" />
         <div v-if="!image" class="file-icon">
@@ -19,7 +23,7 @@
             v-if="image"
             class="checkbox" 
             :class="{selected: compress}"
-            @click="compress ? compress = 0 : compress = 1">
+            @click="toggleCompressButton">
             <div class="box" />
             <div class="name">Compress Image</div>
           </div>
@@ -84,6 +88,7 @@ export default {
   props: ["file"],
   data() {
     return {
+      exceededSize: false,
       message: "",
       name: "",
       size: "",
@@ -101,6 +106,11 @@ export default {
     }
   },
   mounted() {
+    const maxSize =  52424000 //50MB
+    if (this.popouts.fileToUpload.size > maxSize ) {
+      this.exceededSize = true
+      return;
+    }
     this.$refs["messageInput"].focus();
     (this.name = this.popouts.fileToUpload.name),
       (this.size = filesize(this.popouts.fileToUpload.size)),
@@ -109,6 +119,14 @@ export default {
   },
   destroyed() {
     document.removeEventListener("keydown", this.keyDownEvent);
+  },
+  watch: {
+    upload_cdn() {
+      const maxCDNSize = 7340000; 
+        if (this.upload_cdn === 1 && this.popouts.fileToUpload.size > maxCDNSize) {
+          this.compress = 1;
+        }
+    }
   },
   methods: {
     generateNum(n) {
@@ -130,6 +148,14 @@ export default {
         name: "uploadDialog",
         visibility: false
       });
+    },
+    toggleCompressButton() {
+      const maxCDNSize = 7340000; 
+      if (this.upload_cdn === 1 && this.compress === 1 &&  this.popouts.fileToUpload.size > maxCDNSize) {
+        alert("Nertivia CDN Max file size: 7MB. \nEither compress the image or upload using Google Drive option.")
+        return;
+      }
+      this.compress ? this.compress = 0 : this.compress = 1
     },
     loadFileInfo(file) {
       const previewImage = this.$refs["preview-image"];
@@ -274,6 +300,26 @@ export default {
   border-radius: 4px;
   backdrop-filter: blur(5px);
 }
+
+.exceed  {
+  height: 300px;
+  width: 300px;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(153, 5, 0, 0.8) 0,
+    rgba(209, 31, 0, 0.8)
+  );
+  .icon {
+    color: white;
+    font-size: 70px;
+    margin-bottom: 30px;
+  }
+}
+
 .upload-cdn {
   color: white;
   margin-left: 10px;
