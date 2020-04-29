@@ -2,6 +2,7 @@
   <div
     class="direct-message-tab"
     :class="{ darken: showLeftPanel || showMembersPanel }"
+    :data-server="currentServer ? currentServer.name: undefined"
   >
     <transition :name="$mq === 'mobile' ? 'slide-left' : null">
       <div
@@ -101,6 +102,10 @@ export default {
     },
     currentServerID() {
       return this.$store.getters["servers/currentServerID"];
+    },
+    currentServer() {
+      if (this.currentTab !== 2) return undefined;
+      return this.$store.getters["servers/servers"][this.currentServerID];
     }
   }
 };
