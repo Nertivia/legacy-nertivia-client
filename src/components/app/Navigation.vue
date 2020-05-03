@@ -6,7 +6,7 @@
       :style="{ top: toolTipTopPosition + 'px' }"
       v-if="toolTipShown"
     >
-      <div class="verified" v-if="servers[toolTipServerID] && servers[toolTipServerID].verified" title="Verified Server">
+      <div class="verified" v-if="!toolTipLocalName && servers[toolTipServerID] && servers[toolTipServerID].verified" title="Verified Server">
         <span class="material-icons">check</span>
       </div>
       <div class="name">{{ toolTipLocalName || servers[toolTipServerID].name }}</div>
