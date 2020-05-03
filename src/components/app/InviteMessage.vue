@@ -1,14 +1,19 @@
 <template>
   <div class="invite-content">
-    <img
-      class="avatar"
-      v-if="inviteDetail"
-      :src="avatarDomain + inviteDetail.avatar"
-      alt=""
-    />
-    <div class="name" v-if="inviteDetail === undefined">
-      Getting Invite Details...
+    <div class="pfp" v-if="inviteDetail">
+      <profile-picture
+        class="avatar"
+        size="50px"
+        animationPadding="0"
+        :avatar="inviteDetail.avatar"
+        :hover="true"
+      />
+
+      <div class="verified" v-if="inviteDetail.verified" title="Verified Server">
+        <span class="material-icons">check</span>
+      </div>
     </div>
+    <div class="name" v-if="inviteDetail === undefined">Getting Invite Details...</div>
     <div class="name" v-if="inviteDetail === null">Invalid Invite</div>
     <div class="info" v-if="inviteDetail">
       <div class="name">{{ inviteDetail.name }}</div>
@@ -20,10 +25,12 @@
 
 <script>
 import ServerService from "@/services/ServerService";
+import ProfilePicture from "@/components/global/ProfilePictureTemplate";
 import config from "../../config";
 import { bus } from "../../main";
 
 export default {
+  components: { ProfilePicture },
   props: ["invite"],
   data() {
     return {
@@ -62,6 +69,26 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.pfp {
+  position: relative;
+  .verified {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background-color: #267dff;
+    border-radius: 50%;
+    right: 0px;
+    bottom: 0px;
+    position: absolute;
+    user-select: none;
+    .material-icons {
+      color: #ffffff;
+      font-size: 12px;
+    }
+  }
+}
 .invite-content {
   display: flex;
   background: #ffffff21;
@@ -77,10 +104,9 @@ export default {
   font-size: 40px;
 }
 .avatar {
-  height: 50px;
-  width: 50px;
+  background: rgba(0, 0, 0, 0.5);
+  border: solid 3px rgba(30, 146, 255, 0.856);
   border-radius: 50%;
-  object-fit: cover;
 }
 .info {
   margin-left: 10px;

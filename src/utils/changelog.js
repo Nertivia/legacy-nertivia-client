@@ -1,5 +1,15 @@
 const config = [
   {
+    version: "1.1.9",
+    title: "Verified Server",
+    shortTitle: "",
+    date: "3 May 2020",
+    new: [
+      "Changed server verified checkmark color.",
+      "Added server verified checkmark to more places."
+    ],
+  },
+  {
     version: "1.1.8",
     title: "Image Compression",
     shortTitle: "",

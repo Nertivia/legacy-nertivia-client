@@ -10,15 +10,15 @@
           })`
         }"
       />
-      <profile-picture
-        size="90px"
-        :avatar="server.server.avatar"
-        :hover="true"
-      />
+      <div class="pfp">
+        <profile-picture class="avatar" animationPadding="0" size="90px" :avatar="server.server.avatar" :hover="true" />
+        <div class="verified" v-if="server.server.verified" title="Verified Server">
+          <span class="material-icons" >check</span>
+        </div>
+      </div>
       <div class="name">
         <div class="name-container" :title="server.server.name ">
           <span class="inner-name">{{ server.server.name }}</span>
-          <span class="material-icons" v-if="server.verified">check</span>
         </div>
       </div>
     </div>
@@ -96,6 +96,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.pfp {
+  position: relative;
+  .verified {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    background-color: #267dff;
+    border-radius: 50%;
+    right: 3px;
+    bottom: 3px;
+    position: absolute;
+    .material-icons {
+      color: #ffffff;
+      font-size: 13px;
+    }
+  }
+}
 .item {
   position: relative;
   width: 250px;
@@ -137,11 +156,9 @@ export default {
       }
     }
     .avatar {
-      background: rgb(26, 133, 255);
-      height: 80px;
-      width: 80px;
+      background: rgba(0, 0, 0, 0.5);
+      border: solid 3px rgba(30, 146, 255, 0.856);
       border-radius: 50%;
-      margin-bottom: 10px;
     }
     .name {
       margin-top: 9px;
@@ -162,19 +179,9 @@ export default {
         overflow: hidden;
         text-overflow: ellipsis;
       }
-      .material-icons {
-        color: #ffffff;
-        width: 12px;
-        height: 12px;
-        background-color: #5dcce8;
-        font-size: 13px;
-        border-radius: 50%;
-        padding: 4px;
-        margin-top: 3px;
-        margin-left: 5px;
-      }
     }
   }
+
   .bottom {
     display: flex;
     flex-direction: column;

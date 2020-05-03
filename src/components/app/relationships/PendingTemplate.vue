@@ -1,29 +1,23 @@
 <template>
   <div class="pending-friend">
-    <div
-      class="profile-picture"
-      :style="`background-image: url(${userAvatar})`"
-      @click="openUserInformation"
+    <profile-picture
+      class="avatar"
+      :avatar="this.user.avatar"
+      animationPadding="0"
+      :hover="hover"
+      size="30px"
+      @click.native="openUserInformation"
     />
     <div class="information">
-      <div class="username">
-        {{ friend.recipient.username }}
-      </div>
+      <div class="username">{{ friend.recipient.username }}</div>
       <div class="tag">@{{ friend.recipient.tag }}</div>
     </div>
     <div class="buttons">
-      <div
-        :class="{ button: true, accept: true, hide: friend.status == 0 }"
-        @click="accept"
-      >
-        <i class="material-icons">
-          check
-        </i>
+      <div :class="{ button: true, accept: true, hide: friend.status == 0 }" @click="accept">
+        <i class="material-icons">check</i>
       </div>
       <div class="button decline" @click="deny">
-        <i class="material-icons">
-          not_interested
-        </i>
+        <i class="material-icons">not_interested</i>
       </div>
     </div>
   </div>
@@ -31,17 +25,15 @@
 
 <script>
 import RelationshipService from "@/services/RelationshipService.js";
-import config from '@/config';
+import ProfilePicture from "@/components/global/ProfilePictureTemplate";
 
 export default {
+  components: { ProfilePicture },
   props: ["friend"],
   computed: {
     user() {
       return this.$store.getters.user.friends[this.friend.recipient.uniqueID]
         .recipient;
-    },
-    userAvatar() {
-      return config.nertiviaCDN + this.user.avatar;
     }
   },
   methods: {
@@ -76,7 +68,7 @@ export default {
   transition: 0.3s;
 }
 
-.profile-picture {
+.avatar {
   height: 30px;
   width: 30px;
   background-color: rgba(0, 0, 0, 0.425);

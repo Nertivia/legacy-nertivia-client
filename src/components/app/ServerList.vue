@@ -15,13 +15,13 @@
           `${bannerDomain + server.banner}${bannerHover ? '' : '?type=webp'}`
         "
       />
+      <div class="gradient" @click="bannerImageClicked" v-if="server.banner" />
       <div class="sub-banner">
-        <div class="text" :title="servers[currentServerID].name">
-          {{ servers[currentServerID].name }}
+        <div class="verified" v-if="server.verified" title="Verified Server">
+          <span class="material-icons">check</span>
         </div>
-        <div class="options-button material-icons" @click="openServerContext">
-          more_vert
-        </div>
+        <div class="text" :title="servers[currentServerID].name">{{ servers[currentServerID].name }}</div>
+        <div class="options-button material-icons" @click="openServerContext">more_vert</div>
       </div>
     </div>
     <div class="channels-list">
@@ -116,6 +116,25 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
+.verified {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background-color: #267dff;
+  border-radius: 50%;
+  right: 0px;
+  bottom: 0px;
+  user-select: none;
+  margin-right: 5px;
+  flex-shrink: 0;
+  .material-icons {
+    color: #ffffff;
+    font-size: 12px;
+  }
+}
 .server-left-panel {
   height: 100%;
   width: 100%;
@@ -150,11 +169,21 @@ export default {
   height: 130px;
   background-color: rgb(32, 32, 32);
   overflow: hidden;
+  position: relative;
+  .gradient {
+    cursor: pointer;
+    height: 70px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
+    position: absolute;
+  }
   .sub-banner {
     align-items: flex-end;
     padding-bottom: 10px;
-    background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
-    height: 70px;
+    background: transparent;
   }
   .options-button {
     margin-bottom: -7px;
@@ -203,7 +232,6 @@ export default {
     font-size: 35px;
     margin-bottom: 15px;
   }
-
 }
 .options-button {
   display: flex;

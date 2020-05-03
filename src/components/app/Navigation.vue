@@ -6,7 +6,10 @@
       :style="{ top: toolTipTopPosition + 'px' }"
       v-if="toolTipShown"
     >
-      {{ toolTipLocalName || servers[toolTipServerID].name }}
+      <div class="verified" v-if="servers[toolTipServerID].verified" title="Verified Server">
+        <span class="material-icons">check</span>
+      </div>
+      <div class="name">{{ toolTipLocalName || servers[toolTipServerID].name }}</div>
     </div>
     <div class="container" @mouseleave="mouseLeaveEvent">
       <div class="scrollable">
@@ -19,10 +22,7 @@
             @end="onEnd"
             @start="onStart"
           >
-            <transition-group
-              type="transition"
-              :name="!drag ? 'flip-list' : null"
-            >
+            <transition-group type="transition" :name="!drag ? 'flip-list' : null">
               <server-template
                 class="sortable"
                 v-for="data in serversArr"
@@ -39,17 +39,13 @@
         class="item material-icons"
         @click="addFriend"
         @mouseenter="localToolTipEvent('Add Friend', $event)"
-      >
-        person_add
-      </div>
+      >person_add</div>
       <div
         data-name="Add Server"
         class="item material-icons"
         @click="addServer"
         @mouseenter="localToolTipEvent('Add Server', $event)"
-      >
-        add
-      </div>
+      >add</div>
     </div>
   </div>
 </template>
@@ -94,7 +90,8 @@ export default {
       )[serverID];
       const defaultChannelID = server.default_channel_id;
       const channels = this.$store.getters.channels;
-      let channel = channels[channelID || lastcurrentChannel || defaultChannelID];
+      let channel =
+        channels[channelID || lastcurrentChannel || defaultChannelID];
       if (!channel) {
         channel = channels[defaultChannelID];
       }
@@ -155,7 +152,9 @@ export default {
       });
     },
     changeCurrentServerIndex(direction) {
-      let index = this.serversArr.findIndex(s => s.server_id === this.currentServerID);
+      let index = this.serversArr.findIndex(
+        s => s.server_id === this.currentServerID
+      );
       if (!(index + 1)) index = -1;
       if (direction === "up") {
         index -= 1;
@@ -225,6 +224,25 @@ export default {
 <style lang="scss" scoped>
 .flip-list-move {
   transition: 0.3s;
+}
+
+.verified {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background-color: #267dff;
+  border-radius: 50%;
+  right: 0px;
+  bottom: 0px;
+  user-select: none;
+  margin-right: 5px;
+  flex-shrink: 0;
+  .material-icons {
+    color: #ffffff;
+    font-size: 12px;
+  }
 }
 
 .ghost {
@@ -306,19 +324,20 @@ export default {
 .tool-tip {
   color: white;
   position: absolute;
+  display: flex;
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(3px);
   padding: 5px;
   border-radius: 4px;
   max-width: 150px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+
   left: 70px;
   z-index: 99999;
   user-select: none;
   cursor: default;
   transition: 0.2s;
+  .name {
+  }
 }
 
 @media (max-width: 600px) {
