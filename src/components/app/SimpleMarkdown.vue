@@ -1,15 +1,10 @@
 <template>
-  <div
-    class="formatted-content"
-    ref="content"
-    @click="textClicked"
-    v-html="markdown"
-  ></div>
+  <div class="formatted-content" ref="content" @click="textClicked" v-html="markdown"></div>
 </template>
 
 <script>
 import messageFormatter from "@/utils/messageFormatter";
-import { bus } from '../../main';
+import { bus } from "../../main";
 
 export default {
   props: {
@@ -23,7 +18,7 @@ export default {
       if (event.target.classList[0] === "mention") {
         const id = event.target.id.split("-")[1];
         if (event.target.classList.contains("channel")) {
-          this.channelClicked(id)
+          this.channelClicked(id);
         } else {
           this.$store.dispatch("setUserInformationPopout", id);
         }
@@ -37,29 +32,39 @@ export default {
     setEmojiSize() {
       if (!this.$refs.content) return false;
       const nodes = this.$refs.content.childNodes;
-      // make emoji size big if theres nothing else
-      let containsOtherType = false;
+
+      const ELEMENT = 1;
+      const TEXT = 3;
+
       let emojiCount = 0;
+      let notEmoji = false;
       for (let index = 0; index < nodes.length; index++) {
-        if (emojiCount >= 5) return;
         const element = nodes[index];
-        if (!element.classList && element.wholeText.trim() != "") {
-          containsOtherType = true;
-          break;
-        } else if (!element.classList) {
-          continue;
+
+        if (element.nodeType === TEXT) {
+          if (emojiCount >= 5) {
+            notEmoji = true;
+            break;
+          }
+          // element.data !== "️" contains some weird unicode which some emojis contain for some reason.
+          if (element.data !== "️" && element.data.replace(/\s+/g, "").trim().length !== 0) {
+            // dont enlargen emoji since it contains text.
+            notEmoji = true;
+            break;
+          }
         }
-        if (element.classList.contains("emoji")) {
-          containsOtherType = false;
-          emojiCount += 1;
-        } else {
-          containsOtherType = true;
+        if (element.nodeType === ELEMENT) {
+          if (!element.classList || !element.classList.contains("emoji")) {
+            notEmoji = true;
+            break;
+          }
+          emojiCount++;
         }
       }
-      if (!containsOtherType) {
-        this.$refs.content.classList.add("large-emojis");
-      } else {
+      if (notEmoji) {
         this.$refs.content.classList.remove("large-emojis");
+      } else {
+        this.$refs.content.classList.add("large-emojis");
       }
     }
   },
