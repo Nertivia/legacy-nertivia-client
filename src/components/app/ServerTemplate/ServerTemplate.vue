@@ -17,6 +17,7 @@
       class="avatar"
       :hover="hover"
       :avatar="serverData.avatar"
+      :uniqueID="serverData.server_id"
     />
   </div>
 </template>

@@ -4,6 +4,7 @@
       class="avatar"
       :avatar="avatar"
       :admin="user.admin"
+      :uniqueID="user.uniqueID"
       size="35px"
       :hover="hover"
       @mouseenter.native="hover = true"

@@ -10,6 +10,7 @@
       <profile-picture
           class="avatar"
           :avatar="member.avatar"
+          :uniqueID="member.uniqueID"
           animationPadding="0"
           :hover="false"
           size="25px"

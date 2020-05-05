@@ -5,6 +5,7 @@
       class="profile-picture"
       :avatar="user.avatar"
       animationPadding="0"
+      :uniqueID="user.uniqueID"
       :hover="true"
       size="40px"
     />

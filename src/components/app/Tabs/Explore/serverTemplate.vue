@@ -11,9 +11,16 @@
         }"
       />
       <div class="pfp">
-        <profile-picture class="avatar" animationPadding="0" size="90px" :avatar="server.server.avatar" :hover="true" />
+        <profile-picture
+          class="avatar"
+          animationPadding="0"
+          size="90px"
+          :avatar="server.server.avatar"
+          :uniqueID="server.server.server_id"
+          :hover="true"
+        />
         <div class="verified" v-if="server.server.verified" title="Verified Server">
-          <span class="material-icons" >check</span>
+          <span class="material-icons">check</span>
         </div>
       </div>
       <div class="name">

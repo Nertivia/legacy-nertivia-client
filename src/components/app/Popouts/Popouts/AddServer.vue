@@ -68,6 +68,7 @@
             class="avatar found"
             size="100px"
             :hover="true"
+            :uniqueID="server.server_id"
             :avatar="server.avatar"
           />
           <div class="server-name">{{ server.name }}</div>

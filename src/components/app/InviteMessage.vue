@@ -6,6 +6,7 @@
         size="50px"
         animationPadding="0"
         :avatar="inviteDetail.avatar"
+        :uniqueID="inviteDetail.server_id"
         :hover="true"
       />
 

@@ -11,6 +11,7 @@
             class="avatar"
             size="120px"
             :avatar="user.avatar"
+            :uniqueID="user.uniqueID"
             :hover="true"
           />
           <div class="uesrname-tag">
@@ -155,6 +156,7 @@
               class="avatar"
               size="30px"
               animationPadding="0"
+              :uniqueID="user.uniqueID"
               :avatar="user.avatar"
               :hover="true"
             />
@@ -175,6 +177,7 @@
               class="avatar"
               size="30px"
               animationPadding="0"
+              :uniqueID="server.server_id"
               :avatar="server.avatar"
               :hover="true"
             />

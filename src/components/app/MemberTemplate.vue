@@ -11,7 +11,7 @@
       :avatar="this.avatar"
       :hover="hover"
       size="30px"
-      :unique-i-d="user.uniqueID"
+      :uniqueID="user.uniqueID"
       :status="presense"
     />
     <div class="information">

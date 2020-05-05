@@ -14,7 +14,8 @@
       >
           <profile-picture
             class="avatar"
-            :avatar="this.recipient.avatar"
+            :uniqueID="recipient.uniqueID"
+            :avatar="recipient.avatar"
             animationPadding="0"
             :hover="hover"
             size="30px"

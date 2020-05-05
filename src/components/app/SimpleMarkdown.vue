@@ -8,7 +8,8 @@ import { bus } from "../../main";
 
 export default {
   props: {
-    message: String
+    message: String,
+    content: Object,
   },
   mounted() {
     this.setEmojiSize();
@@ -77,7 +78,7 @@ export default {
   },
   computed: {
     markdown: function() {
-      return messageFormatter(this.message);
+      return messageFormatter(this.message, this.content);
     }
   }
 };
@@ -137,5 +138,32 @@ img.emoji[alt] {
 }
 .mention.channel {
   color: rgba(255, 255, 255, 0.9);
+}
+.formatted-content .quote {
+  background: rgba(0, 0, 0, 0.3);
+  display: block;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+.formatted-content .quote .quote-profile{ 
+  display: flex;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 5px;
+  font-weight: bold;
+}
+.formatted-content .quote .quote-username {
+  font-weight: initial;
+  cursor: pointer; 
+}
+
+.formatted-content .quote .quote-username:hover {
+  text-decoration: underline;
+}
+
+.formatted-content .quote .quote-message{
+  padding: 5px;
 }
 </style>

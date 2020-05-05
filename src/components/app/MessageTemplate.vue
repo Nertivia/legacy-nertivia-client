@@ -24,6 +24,7 @@
           :admin="creator.admin"
           :hover="hover"
           :avatar="creator.avatar"
+          :uniqueID="creator.uniqueID"
           size="50px"
           @click.native="openUserInformation"
           @contextmenu.native.prevent="openMemberContext"
@@ -62,6 +63,7 @@
                 : '',
             ]"
             :message="message.message"
+            :content="message"
           />
 
           <FileMessage

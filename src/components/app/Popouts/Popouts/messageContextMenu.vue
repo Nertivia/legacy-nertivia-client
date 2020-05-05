@@ -1,10 +1,7 @@
 <template>
-  <div
-    class="drop-down-menu msg-context-popout"
-    v-click-outside="outsideClick"
-    ref="mainMenu"
-  >
-      <div class="item" @click="copyMessage" v-if="!isPrecense && highlightedText">
+  <div class="drop-down-menu msg-context-popout" v-click-outside="outsideClick" ref="mainMenu">
+
+    <div class="item" @click="copyMessage" v-if="!isPrecense && highlightedText">
       <div class="material-icons">developer_board</div>
       <div class="name">Copy</div>
     </div>
@@ -18,6 +15,10 @@
       <div class="name">User ></div>
     </div>
 
+    <div class="item" @click="quoteMessage" v-if="!isPrecense && !highlightedText">
+      <div class="material-icons">format_quote</div>
+      <div class="name">Quote</div>
+    </div>
     <div class="item" @click="copyMessage" v-if="!isPrecense && !highlightedText">
       <div class="material-icons">developer_board</div>
       <div class="name">Copy</div>
@@ -34,6 +35,7 @@
 </template>
 
 <script>
+import { bus } from '../../../../main';
 export default {
   data() {
     return {};
@@ -59,10 +61,13 @@ export default {
       });
       this.closeMenu();
     },
+    quoteMessage() {
+      bus.$emit("insertInputMessage", `<m${this.contextDetails.messageID}>`)
+    },
     copyMessage() {
       this.closeMenu();
       if (this.highlightedText) {
-        document.execCommand("copy")
+        document.execCommand("copy");
         return;
       }
       this.$clipboard(this.contextDetails.message);
@@ -125,7 +130,7 @@ export default {
   },
   computed: {
     highlightedText() {
-      return window.getSelection().type === "Range"
+      return window.getSelection().type === "Range";
     },
     serverMember() {
       const serverMembers = this.$store.getters["servers/serverMembers"];

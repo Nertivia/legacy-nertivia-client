@@ -6,6 +6,7 @@
         v-if="user"
         class="avatar"
         :avatar="user.avatar"
+        :uniqueID="user.uniqueID"
         :admin="user.admin"
         :hover="true"
         size="40px"

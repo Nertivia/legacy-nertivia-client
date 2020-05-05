@@ -60,6 +60,7 @@
           <profile-picture
             class="avatar"
             :url="update.avatar"
+            :uniqueID="user.uniqueID"
             :avatar="update.avatar ? null : avatar"
             :admin="user.admin"
             size="70px"
@@ -186,7 +187,7 @@ export default {
   },
   computed: {
     avatar() {
-      return this.$store.getters.user.avatar;
+      return this.user.avatar;
     },
     user() {
       return this.$store.getters.user;

@@ -55,17 +55,8 @@
           editMessage
       "
     >
-      <input
-        type="file"
-        ref="sendFileBrowse"
-        style="display: none"
-        @change="attachmentChange"
-      />
-      <div
-        class="attachment-button"
-        title="Attach File"
-        @click="$refs.sendFileBrowse.click()"
-      >
+      <input type="file" ref="sendFileBrowse" style="display: none" @change="attachmentChange" />
+      <div class="attachment-button" title="Attach File" @click="$refs.sendFileBrowse.click()">
         <i class="material-icons">attach_file</i>
       </div>
       <textarea
@@ -86,11 +77,7 @@
       <button class="emojis-button" title="Draw" @click="showDraw">
         <i class="material-icons">brush</i>
       </button>
-      <button
-        class="emojis-button"
-        title="Emojis"
-        @click="showEmojiPanel = !showEmojiPanel"
-      >
+      <button class="emojis-button" title="Emojis" @click="showEmojiPanel = !showEmojiPanel">
         <i class="material-icons">tag_faces</i>
       </button>
       <button
@@ -111,9 +98,7 @@
             'message-count': true,
             'error-info': messageLength > 5000,
           }"
-        >
-          {{ messageLength }} / 5000
-        </div>
+        >{{ messageLength }} / 5000</div>
       </button>
     </div>
   </div>
@@ -146,7 +131,7 @@ export default {
     TypingStatus,
     mentionsPopout,
     ChatMarkdownArea,
-    channelsPopout,
+    channelsPopout
   },
   data() {
     return {
@@ -158,7 +143,7 @@ export default {
 
       emojiSuggestionsArr: [],
       mentionSuggestionsArr: [],
-      channelSuggestionsArr: [],
+      channelSuggestionsArr: []
     };
   },
   methods: {
@@ -202,7 +187,7 @@ export default {
         if (this.editMessage) return;
         if (!this.currentChannelMessages) return;
         const messagesFiltered = this.currentChannelMessages.filter(
-          (m) => m.creator.uniqueID === this.user.uniqueID
+          m => m.creator.uniqueID === this.user.uniqueID
         );
 
         if (!messagesFiltered.length) return;
@@ -212,7 +197,7 @@ export default {
           messageID: lastMessage.messageID,
           channelID: lastMessage.channelID,
           message: lastMessage.message,
-          color: lastMessage.color,
+          color: lastMessage.color
         });
       }
     },
@@ -267,7 +252,7 @@ export default {
           this.$store.dispatch("setFile", blob);
           this.$store.dispatch("setPopoutVisibility", {
             name: "uploadDialog",
-            visibility: true,
+            visibility: true
           });
           break;
         }
@@ -283,7 +268,7 @@ export default {
           type: "TEXT_AREA_CONTEXT",
           x,
           y,
-          input: this.$refs["input-box"],
+          input: this.$refs["input-box"]
         });
       }
     },
@@ -291,14 +276,14 @@ export default {
       const shown = !!this.$store.getters.popouts.allPopout.unclosableType;
       this.$store.dispatch("setAllPopout", {
         show: true,
-        unclosableType: shown ? undefined : "DRAW_POPOUT",
+        unclosableType: shown ? undefined : "DRAW_POPOUT"
       });
     },
     replaceChannelMentions(message) {
       //#channel name#
       const regex = /#(.+?)#/g;
-      return message.replace(regex, (word) => {
-        const channel = this.channels.find((c) => `#${c.name}#` === word);
+      return message.replace(regex, word => {
+        const channel = this.channels.find(c => `#${c.name}#` === word);
         if (!channel) return word;
         return `<#${channel.channelID}>`;
       });
@@ -306,11 +291,11 @@ export default {
     replaceMentions(message) {
       const regex = /@(.+?(?=:)):([\w]*)/g;
 
-      return message.replace(regex, (word) => {
+      return message.replace(regex, word => {
         const [username, tag] = word.split(":");
         if (!username || !tag) return word;
         const member = Object.values(this.members).find(
-          (m) => "@" + m.username === username && m.tag === tag
+          m => "@" + m.username === username && m.tag === tag
         );
         if (!member) return word;
         return `<@${member.uniqueID}>`;
@@ -340,7 +325,7 @@ export default {
       this.$store.dispatch("setFile", file);
       this.$store.dispatch("setPopoutVisibility", {
         name: "uploadDialog",
-        visibility: true,
+        visibility: true
       });
     },
     async sendMessage() {
@@ -367,8 +352,8 @@ export default {
           message: msg,
           color: this.customColor,
           channelID: this.currentChannelID,
-          created: new Date(),
-        },
+          created: new Date()
+        }
       };
       if (!this.customColor) {
         delete addMessage.message.color;
@@ -385,7 +370,7 @@ export default {
         message: msg,
         color: this.customColor,
         socketID: this.$socket.client.id,
-        tempID,
+        tempID
       };
       if (!this.customColor) {
         delete post.color;
@@ -399,14 +384,14 @@ export default {
         message.status = 1;
         this.$store.dispatch("replaceMessage", {
           tempID: result.data.tempID,
-          message,
+          message
         });
       } else {
         // TODO: Error handling
 
         this.$store.dispatch("replaceMessage", {
           tempID: tempID,
-          message: { ...addMessage.message, status: 2, messageID: "0111" },
+          message: { ...addMessage.message, status: 2, messageID: "0111" }
         });
         let message;
 
@@ -424,14 +409,14 @@ export default {
           message: {
             creator: {
               username: "Whoopsies!",
-              uniqueID: "12345678",
+              uniqueID: "12345678"
             },
             message: message,
             messageID: Math.floor(Math.random() * 10999 + 0).toString(),
             color: "#ff4d4d",
             channelID: this.currentChannelID,
-            created: new Date(),
-          },
+            created: new Date()
+          }
         });
       }
     },
@@ -444,7 +429,7 @@ export default {
           show: true,
           type: "DELETE_CONFIRM",
           messageID: editMessage.messageID,
-          channelID: editMessage.channelID,
+          channelID: editMessage.channelID
         });
         this.$store.dispatch("setEditMessage", null);
         return;
@@ -469,7 +454,7 @@ export default {
       this.$store.dispatch("updateMessage", {
         channelID: editMessage.channelID,
         messageID: editMessage.messageID,
-        message: { message: msg, status: 0 },
+        message: { message: msg, status: 0 }
       });
       this.$store.dispatch("setEditMessage", null);
       this.message = "";
@@ -479,20 +464,20 @@ export default {
         editMessage.channelID,
         {
           color: this.customColor || -1,
-          message: msg,
+          message: msg
         }
       );
       if (ok) {
         this.$store.dispatch("updateMessage", {
           channelID: editMessage.channelID,
           messageID: editMessage.messageID,
-          message: { status: 1 },
+          message: { status: 1 }
         });
       } else {
         this.$store.dispatch("updateMessage", {
           channelID: editMessage.channelID,
           messageID: editMessage.messageID,
-          message: { message: msg, status: 2 },
+          message: { message: msg, status: 2 }
         });
       }
     },
@@ -737,7 +722,7 @@ export default {
         ? emojiParser.emojiToShortcode(editMessage.message)
         : "";
       // replace mention <@1234> with test:owo1
-      this.message = this.message.replace(/<@([\d]+)>/g, (test) => {
+      this.message = this.message.replace(/<@([\d]+)>/g, test => {
         const ID = test.slice(2, test.length - 1);
         const member = this.members[ID];
         if (!member) return test;
@@ -751,6 +736,31 @@ export default {
     backToTopButton() {
       bus.$emit("backToBottom");
     },
+    insert(message) {
+      const msgBox = this.$refs["input-box"];
+      msgBox.focus();
+      const endPos = msgBox.selectionEnd;
+
+      const selection = window.getSelection();
+      const selected = selection.toString();
+
+      if (selected === "") {
+        this.message = [
+          this.message.slice(0, endPos),
+          message,
+          this.message.slice(endPos)
+        ].join("");
+
+        this.$nextTick(() => {
+          const offsetCursorPos = message.length;
+          msgBox.focus();
+          msgBox.setSelectionRange(
+            endPos + offsetCursorPos,
+            endPos + offsetCursorPos
+          );
+        });
+      }
+    }
   },
   watch: {
     editMessage(editMessage) {
@@ -769,7 +779,7 @@ export default {
         if (!this.mobile && this.$refs["input-box"])
           this.$refs["input-box"].focus();
       });
-    },
+    }
   },
   computed: {
     message: {
@@ -778,7 +788,7 @@ export default {
       },
       set: function(value) {
         this.$store.dispatch("setMessage", value);
-      },
+      }
     },
     user() {
       return this.$store.getters.user;
@@ -795,7 +805,7 @@ export default {
     },
     serverMember() {
       return this.$store.getters["servers/serverMembers"].find(
-        (sm) =>
+        sm =>
           sm.server_id === this.server.server_id &&
           sm.uniqueID === this.user.uniqueID
       );
@@ -823,7 +833,7 @@ export default {
         }
       }
 
-      const defaultRole = roles.find((r) => r.default);
+      const defaultRole = roles.find(r => r.default);
       perms = perms | defaultRole.permissions;
       return perms;
     },
@@ -862,11 +872,12 @@ export default {
     channels() {
       if (!this.server) return [];
       return Object.values(this.$store.getters.channels).filter(
-        (c) => c.server_id === this.server.server_id
+        c => c.server_id === this.server.server_id
       );
-    },
+    }
   },
   mounted() {
+    bus.$on("insertInputMessage", this.insert);
     bus.$on("emojiPanel:Selected", this.enterEmojiPanel);
     bus.$on("scrolledDown", this.scrollDownEvent);
   },
@@ -875,9 +886,10 @@ export default {
     this.postTimerID = null;
   },
   destroyed() {
+    bus.$off("insertInputMessage", this.insert);
     bus.$off("emojiPanel:Selected", this.enterEmojiPanel);
     bus.$off("scrolledDown", this.scrollDownEvent);
-  },
+  }
 };
 </script>
 

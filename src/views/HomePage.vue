@@ -20,6 +20,7 @@
               class="avatar"
               :hover="true"
               :avatar="user.avatar"
+              :uniqueID="user.uniqueID"
               :admin="user.admin"
               size="40px"
               emote-size="17px"

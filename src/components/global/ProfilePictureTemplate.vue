@@ -2,8 +2,9 @@
   <div :key="avatar" class="outer-profile-picture">
     <div
       :class="`profile-picture ${admin && adminType ? adminType.name : ''}`"
-      :style="`padding: ${$props.animationPadding || '3px'}`"
+      :style="{padding: animationPadding || '3px'}"
     >
+      <!-- :style="`padding: ${$props.animationPadding || '3px'}`" -->
       <img
         v-if="adminType"
         class="emote"
@@ -15,10 +16,12 @@
       />
 
       <img
+        v-if="src"
         class="inner-profile-picture"
         :class="{ hoverable: $props.hover }"
         :style="{
           height: $props.size,
+          background: color,
           width: $props.size,
           border: `${
             statusColor === undefined
@@ -26,7 +29,23 @@
               : 'solid 3px' + statusColor.statusColor
           }`
         }"
-        :src="src ? src + (hover || !isGif ? '' : '?type=webp') : defaultImage"
+        :src="src + (hover || !isGif ? '' : '?type=webp')"
+      />
+      <div
+        v-else
+        class="inner-profile-picture default"
+        :class="{ hoverable: $props.hover }"
+        :style="{
+          height: $props.size,
+          backgroundColor: color,
+          width: $props.size,
+          border: `${
+            statusColor === undefined
+              ? undefined
+              : 'solid 3px' + statusColor.statusColor
+          }`
+        }"
+        :src="src + (hover || !isGif ? '' : '?type=webp')"
       />
     </div>
   </div>
@@ -34,7 +53,8 @@
 
 <script>
 import statuses from "@/utils/statuses";
-import config from '@/config';
+import config from "@/config";
+import seedColor from "seed-color";
 export default {
   props: [
     "avatar",
@@ -50,15 +70,16 @@ export default {
   data() {
     return {
       nertiviaCDN: config.nertiviaCDN,
+      color: !this.avatar ? seedColor(this.uniqueID).toHex() : undefined
     };
   },
   computed: {
     src() {
       if (!this.avatar && !this.url) {
-        return undefined
+        return undefined;
       }
       if (this.url) {
-        return this.url
+        return this.url;
       }
       return config.nertiviaCDN + this.avatar;
     },
@@ -68,7 +89,7 @@ export default {
     },
     defaultImage() {
       // console.log(require("../../assets/logo.png"))
-      return require("../../assets/logo.png")
+      return require("../../assets/transparentLogo.svg");
     },
     adminType() {
       if (this.$props.admin == 3)
@@ -108,6 +129,12 @@ export default {
 </script>
 
 <style scoped>
+.default {
+  background-image: url("../../assets/transparentLogoProfile.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
 .outer-profile-picture {
   z-index: 999;
   user-select: none;

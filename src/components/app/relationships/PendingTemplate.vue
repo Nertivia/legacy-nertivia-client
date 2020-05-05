@@ -2,7 +2,8 @@
   <div class="pending-friend">
     <profile-picture
       class="avatar"
-      :avatar="this.user.avatar"
+      :avatar="user.avatar"
+      :uniqueID="user.uniqueID"
       animationPadding="0"
       :hover="hover"
       size="30px"
