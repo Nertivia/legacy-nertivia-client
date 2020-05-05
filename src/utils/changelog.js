@@ -1,12 +1,12 @@
 const config = [
   {
-    version: "1.1.9",
-    title: "Verified Server",
+    version: "1.2.0",
+    title: "Quote Messages!",
     shortTitle: "",
-    date: "3 May 2020",
+    date: "5 May 2020",
     new: [
-      "Changed server verified checkmark color.",
-      "Added server verified checkmark to more places."
+      "You can now quote messages by clicking on a messages context menu.",
+      "Colored profile pictures for default profile pictures."
     ],
   },
   {
