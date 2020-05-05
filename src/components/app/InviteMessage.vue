@@ -1,5 +1,5 @@
 <template>
-  <div class="invite-content">
+  <div class="invite-content" :class="{verified: inviteDetail.verified}">
     <div class="pfp" v-if="inviteDetail">
       <profile-picture
         class="avatar"
@@ -104,9 +104,11 @@ export default {
 .invite-content .material-icons {
   font-size: 40px;
 }
+.verified .avatar {
+    border: solid 3px rgba(30, 146, 255, 0.856);
+}
 .avatar {
   background: rgba(0, 0, 0, 0.5);
-  border: solid 3px rgba(30, 146, 255, 0.856);
   border-radius: 50%;
 }
 .info {

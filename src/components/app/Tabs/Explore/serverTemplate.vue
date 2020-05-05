@@ -1,5 +1,5 @@
 <template>
-  <div class="item" @mouseenter="hover = true" @mouseleave="hover = false">
+  <div class="item" :class="{verified: server.server.verified}" @mouseenter="hover = true" @mouseleave="hover = false">
     <div class="top">
       <div
         class="background-dark"
@@ -122,6 +122,9 @@ export default {
     }
   }
 }
+.verified .avatar {
+  border: solid 3px rgba(30, 146, 255, 0.856);
+}
 .item {
   position: relative;
   width: 250px;
@@ -164,7 +167,6 @@ export default {
     }
     .avatar {
       background: rgba(0, 0, 0, 0.5);
-      border: solid 3px rgba(30, 146, 255, 0.856);
       border-radius: 50%;
     }
     .name {

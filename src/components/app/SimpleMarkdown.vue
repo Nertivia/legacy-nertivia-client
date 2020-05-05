@@ -24,6 +24,9 @@ export default {
           this.$store.dispatch("setUserInformationPopout", id);
         }
       }
+      if(event.target.classList[0] ==='quote-username') {
+         this.$store.dispatch("setUserInformationPopout", event.target.id);
+      }
     },
     channelClicked(id) {
       const channel = this.$store.getters.channels[id];
