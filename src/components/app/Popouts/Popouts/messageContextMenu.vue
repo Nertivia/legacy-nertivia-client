@@ -63,6 +63,7 @@ export default {
     },
     quoteMessage() {
       bus.$emit("insertInputMessage", `<m${this.contextDetails.messageID}>`)
+      this.closeMenu();
     },
     copyMessage() {
       this.closeMenu();
