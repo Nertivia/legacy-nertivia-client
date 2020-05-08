@@ -4,7 +4,7 @@
     class="message-logs"
     @scroll.passive="scrollEvent"
     @resize="onResize"
-  > -->
+  >-->
   <CustomScroller
     ref="customScroller"
     class="message-logs"
@@ -17,20 +17,16 @@
       isTyping && Object.values(isTyping).length ? '26px' : '0px'
     "
   >
-    <div
-      class="load-more-button"
-      v-if="loadMoreTop.show && currentChannelMessages.length >= 50"
-    >
+    <div class="load-more-button" v-if="loadMoreTop.show && currentChannelMessages.length >= 50">
       <spinner :size="30" v-if="loadMoreTop.loading" />
-      <div class="text" v-if="!loadMoreTop.loading" @click="loadMoreMessages">
-        Load more
-      </div>
+      <div class="text" v-if="!loadMoreTop.loading" @click="loadMoreMessages">Load more</div>
     </div>
     <message
       v-for="(msg, index) in currentChannelMessages"
       :class="{
         'show-message-animation': index === currentChannelMessages.length - 1,
       }"
+      :ref="`message-${msg.messageID}`"
       :key="msg.tempID || msg.messageID"
       :creator="msg.creator"
       :message="msg"
@@ -39,18 +35,9 @@
     />
     <!-- {{ groupedMessages }} -->
     <uploadsQueue v-if="uploadQueue !== undefined" :queue="uploadQueue" />
-    <div
-      class="load-more-button"
-      v-if="loadMoreBottom.show && currentChannelMessages.length >= 50"
-    >
+    <div class="load-more-button" v-if="loadMoreBottom.show && currentChannelMessages.length >= 50">
       <spinner :size="30" v-if="loadMoreBottom.loading" />
-      <div
-        class="text"
-        v-if="!loadMoreBottom.loading"
-        @click="loadBottomMessages"
-      >
-        Load more
-      </div>
+      <div class="text" v-if="!loadMoreBottom.loading" @click="loadBottomMessages">Load more</div>
     </div>
   </CustomScroller>
   <!-- </div> -->
@@ -73,7 +60,7 @@ export default {
     Message,
     Spinner,
     uploadsQueue,
-    CustomScroller,
+    CustomScroller
   },
   data() {
     return {
@@ -82,22 +69,22 @@ export default {
 
       loadMoreTop: {
         show: true,
-        loading: false,
+        loading: false
       },
       loadMoreBottom: {
         show: false,
-        loading: false,
+        loading: false
       },
       currentChannelID: null,
       currentScrollTopPos: null,
       backToBottomLoading: false,
-      scrollEl: null,
+      scrollEl: null
     };
   },
   methods: {
     scrollEvent: debounce(function(event) {
       const {
-        target: { scrollTop, clientHeight, scrollHeight },
+        target: { scrollTop, clientHeight, scrollHeight }
       } = event;
       this.scrolledDown =
         Math.abs(scrollHeight - scrollTop - clientHeight) <= 3.0;
@@ -118,7 +105,7 @@ export default {
         this.currentChannelMessages.length >= 100
       )
         this.$store.dispatch("unloadTopMessages", {
-          channelID: this.currentChannelID,
+          channelID: this.currentChannelID
         });
     },
     unloadBottomMessages() {
@@ -128,10 +115,10 @@ export default {
       ) {
         this.$store.dispatch("setBottomUnloadStatus", {
           channelID: this.currentChannelID,
-          status: true,
+          status: true
         });
         this.$store.dispatch("unloadBottomMessages", {
-          channelID: this.currentChannelID,
+          channelID: this.currentChannelID
         });
       }
     },
@@ -181,7 +168,7 @@ export default {
         if (!result.data.messages.length) {
           this.$store.dispatch("setBottomUnloadStatus", {
             channelID,
-            status: false,
+            status: false
           });
           this.$set(this.loadMoreBottom, "loading", false);
           this.$set(this.loadMoreBottom, "show", false);
@@ -229,12 +216,12 @@ export default {
       if (ok) {
         this.$store.dispatch("messages", {
           messages: result.data.messages.reverse(),
-          channelID,
+          channelID
         });
         this.$set(this.loadMoreBottom, "show", false);
         this.$store.dispatch("setBottomUnloadStatus", {
           channelID,
-          status: false,
+          status: false
         });
         this.$nextTick(() => {
           this.scrollDown({ force: true });
@@ -250,6 +237,57 @@ export default {
         }, 500);
       }
     },
+    async scrollTo(messageID) {
+      if (
+        this.$refs[`message-${messageID}`] &&
+        this.$refs[`message-${messageID}`][0]
+      ) {
+        this.$refs[`message-${messageID}`][0].$el.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+          inline: "center"
+        });
+        this.highlightMessage(messageID)
+        return;
+      }
+
+      const { result } = await messagesService.get(
+        this.currentChannelID,
+        null,
+        null,
+        messageID
+      );
+      this.$store.dispatch("messages", {
+        ...result.data,
+        messages: result.data.messages.reverse()
+      });
+
+      this.$nextTick(() =>
+        this.$nextTick(() =>
+          this.$nextTick(() => {
+            this.$refs[`message-${messageID}`][0].$el.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+              inline: "center"
+            });
+            this.$store.dispatch("setBottomUnloadStatus", {
+              channelID: this.currentChannelID,
+              status: true
+            });
+            this.$set(this.loadMoreBottom, "show", true);
+            this.highlightMessage(messageID)
+          })
+        )
+      );
+    },
+    highlightMessage(messageID) {
+      const el = this.$refs[`message-${messageID}`][0].$el;
+      if (el.classList.contains("active")) return;
+      el.classList.add("active");
+      setTimeout(() => {
+        el.classList.remove("active");
+      }, 3000);
+    }
   },
 
   mounted() {
@@ -257,6 +295,7 @@ export default {
     this.scrollEl.addEventListener("scroll", this.scrollEvent);
     this.currentChannelID = this.$store.getters.currentChannelID;
     const pos = this.$store.getters.scrollPosition[this.currentChannelID];
+    bus.$on("message:scrollTo", this.scrollTo);
     bus.$on("backToBottom", this.backToBottomEvent);
     bus.$on("scrollDown", this.scrollDown);
     bus.$emit("scrolledDown", this.scrolledDown);
@@ -274,8 +313,9 @@ export default {
     this.$store.dispatch("setEditMessage", null);
     this.$store.dispatch("changeScrollPosition", {
       channelID: this.currentChannelID,
-      pos: !this.scrolledDown ? this.currentScrollTopPos : null,
+      pos: !this.scrolledDown ? this.currentScrollTopPos : null
     });
+    bus.$off("message:scrollTo", this.scrollTo);
     bus.$off("backToBottom", this.backToBottomEvent);
     bus.$off("scrollDown", this.scrollDown);
   },
@@ -312,11 +352,11 @@ export default {
     scrolledDown(scrolledDown) {
       bus.$emit("scrolledDown", scrolledDown);
       if (scrolledDown) this.scrolledDownEvent();
-    },
+    }
   },
   computed: {
     channelNotifications() {
-      return this.$store.getters.notifications.find((e) => {
+      return this.$store.getters.notifications.find(e => {
         return e.channelID === this.currentChannelID;
       });
     },
@@ -355,16 +395,14 @@ export default {
     getWindowWidth() {
       return {
         width: windowProperties.resizeWidth,
-        height: windowProperties.resizeHeight,
+        height: windowProperties.resizeHeight
       };
     },
     scrollPosition() {
       return this.$store.getters.scrollPosition;
     },
     bottomUnloaded() {
-      return (
-        this.$store.getters.bottomUnloaded[this.currentChannelID] || false
-      );
+      return this.$store.getters.bottomUnloaded[this.currentChannelID] || false;
     },
     groupedMessages() {
       const messages = this.currentChannelMessages;
@@ -391,8 +429,8 @@ export default {
         }
       }
       return grouped;
-    },
-  },
+    }
+  }
 };
 </script>
 

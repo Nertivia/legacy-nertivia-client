@@ -21,10 +21,14 @@ export default order => {
       if (!quote) return SimpleMarkdown.sanitizeText(node.orig);
 
       return SimpleMarkdown.htmlTag("div",
-      SimpleMarkdown.htmlTag("div", 
-      SimpleMarkdown.htmlTag("div", "Quoted: ")+ SimpleMarkdown.htmlTag("div", SimpleMarkdown.sanitizeText(quote.creator.username), {class: "quote-username", id: quote.creator.uniqueID})
-      ,{class: "quote-profile"}) + 
-      SimpleMarkdown.htmlTag("div", messageFormatter(quote.message), {class: "quote-message"}),
+        SimpleMarkdown.htmlTag("div",
+          SimpleMarkdown.htmlTag("div", "Quoted: ") +
+          SimpleMarkdown.htmlTag("div", SimpleMarkdown.sanitizeText(quote.creator.username), { class: "quote-username", id: quote.creator.uniqueID })
+          , { class: "quote-profile" }) +
+        SimpleMarkdown.htmlTag("div", messageFormatter(quote.message), { class: "quote-message" }) +
+        SimpleMarkdown.htmlTag("div",
+          SimpleMarkdown.htmlTag("div", "Go to message", { class: "quote-gtm", id: quote.messageID  })
+          , { class: "quote-profile" }),
         { class: "quote" }
       );
     }

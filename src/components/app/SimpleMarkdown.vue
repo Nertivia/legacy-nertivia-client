@@ -23,9 +23,14 @@ export default {
         } else {
           this.$store.dispatch("setUserInformationPopout", id);
         }
+        return;
       }
       if(event.target.classList[0] ==='quote-username') {
          this.$store.dispatch("setUserInformationPopout", event.target.id);
+         return;
+      }
+      if (event.target.classList[0] === 'quote-gtm') {
+        bus.$emit("message:scrollTo", event.target.id);
       }
     },
     channelClicked(id) {
@@ -169,4 +174,13 @@ img.emoji[alt] {
 .formatted-content .quote .quote-message{
   padding: 5px;
 }
+.quote .quote-gtm {
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.8);
+  user-select: none;
+}
+.quote .quote-gtm:hover { 
+  color: white;
+}
+
 </style>

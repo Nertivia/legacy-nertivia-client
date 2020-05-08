@@ -408,9 +408,13 @@ export default {
 $self-message-color: rgba(255, 255, 255, 0.1);
 $message-color: rgba(0, 0, 0, 0.3);
 
+.active {
+  background: rgba(255, 255, 255, 0.3);
+}
 .container {
   position: relative;
   z-index: 1;
+  transition: 0.2s;
 }
 .hideAdditional {
   .small-time {

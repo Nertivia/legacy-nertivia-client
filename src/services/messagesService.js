@@ -7,14 +7,13 @@ if (config.serverURL) domain = config.serverURL+"/"
 
 export default {
   // TODO: add ?continue=id
-  get(channelID, continueMessageID, beforeMessageID) {
+  get(channelID, continueMessageID, beforeMessageID, aroundMessageID) {
     return wrapper(
       instance().get(
         domain+`messages/channels/${channelID}${
-          continueMessageID
-            ? "?continue=" + continueMessageID
-            : beforeMessageID
-            ? "?before=" + beforeMessageID
+          continueMessageID ? "?continue=" + continueMessageID
+            : beforeMessageID ? "?before=" + beforeMessageID
+            : aroundMessageID ? "?around=" + aroundMessageID
             : ""
         }`
       )
