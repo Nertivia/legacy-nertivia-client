@@ -19,6 +19,8 @@ const LoginPage = () =>
   import(/* webpackChunkName: "LoginPage" */ "../src/views/LoginPage.vue");
 const InvitesPage = () =>
   import(/* webpackChunkName: "Invites" */ "../src/views/Invites.vue");
+const ThemesPage = () =>
+  import(/* webpackChunkName: "Themes" */ "../src/views/Themes.vue");
 const RegisterPage = () =>
   import(
     /* webpackChunkName: "RegisterPage" */ "../src/views/RegisterPage.vue"
@@ -86,6 +88,11 @@ export const router = new VueRouter({
       path: "/invites/:invite_id",
       name: "invites",
       component: InvitesPage
+    },
+    {
+      path: "/themes/:theme_id",
+      name: "themes",
+      component: ThemesPage
     }
   ]
 });

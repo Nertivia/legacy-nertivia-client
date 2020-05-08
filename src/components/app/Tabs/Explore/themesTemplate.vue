@@ -21,15 +21,17 @@
         <!-- <div class="stars-button">
           <div class="material-icons">star</div>
           {{theme.stars}}
-        </div> -->
-        <div
-          class="button un-apply"
-          v-if="appliedTheme === theme.id"
-          @click="unApplyButton"
-        >
+        </div>-->
+        <div class="button clone-button" @click="cloneButton">
+          <span>{{cloneStatus === null ? 'Clone' : cloneStatus === false ? 'Cloning...' : 'Cloned' }}</span>
+        </div>
+        <div class="button copy-button" @click="copyButton" title="Copy Link">
+          <span class="material-icons">link</span>
+        </div>
+        <div class="button un-apply" v-if="appliedTheme === theme.id" @click="unApplyButton">
           <span>Unapply</span>
         </div>
-        <div v-else class="button" @click="applyButton">
+        <div v-else class="button apply" @click="applyButton">
           <span>Apply</span>
         </div>
       </div>
@@ -43,12 +45,16 @@
 
 <script>
 import config from "@/config.js";
+import exploreService from '../../../../services/exploreService';
+import ThemeService from '../../../../services/ThemeService';
+
 
 export default {
   props: ["theme", "appliedTheme"],
   data() {
     return {
-      bannerDomain: config.domain + "/media/"
+      bannerDomain: config.domain + "/media/",
+      cloneStatus: null,
     };
   },
   methods: {
@@ -57,6 +63,20 @@ export default {
         "setUserInformationPopout",
         this.theme.creator.uniqueID
       );
+    },
+    copyButton() {
+      this.$clipboard(`https://nertivia.tk/themes/${this.theme.theme.id}`);
+    },
+    async cloneButton() {
+      if (this.cloneStatus === false || this.cloneStatus === true) return;
+      this.cloneStatus = false;
+      const {result} = await exploreService.applyTheme(this.theme.id);
+      const css = result.data.css 
+      const name = result.data.theme.name 
+      const response = await ThemeService.save({ name, css });
+      if (response.ok) {
+        this.cloneStatus = true;
+      }
     },
     async applyButton() {
       this.$emit("applyTheme", this.theme.id);
@@ -201,6 +221,9 @@ export default {
       margin-right: 10px;
       margin-left: 10px;
 
+      &.apply{
+        margin-left: 5px;
+      }
       cursor: pointer;
       &:hover {
         background: #00b4db;
@@ -209,9 +232,33 @@ export default {
         background: grey;
       }
       &.un-apply {
+        margin-left: 5px;
         background: rgba(255, 53, 53, 0.808);
         &:hover {
           background: rgb(255, 53, 53);
+        }
+      }
+      &.clone-button {
+        margin-right: 1px;
+        flex-shrink: 0;
+        width: initial;
+        padding-left: 5px;
+        padding-right: 5px;
+        background: rgba(114, 53, 255, 0.808);
+        &:hover {
+          background: rgb(124, 53, 255);
+        }
+      }
+      &.copy-button {
+        margin-right: 1px;
+        margin-left: 5px;
+        flex-shrink: 0;
+        width: initial;
+        padding-left: 5px;
+        padding-right: 5px;
+        background: rgba(255, 53, 120, 0.808);
+        &:hover {
+          background: rgb(255, 53, 147);
         }
       }
     }
