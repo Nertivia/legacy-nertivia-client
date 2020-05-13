@@ -358,17 +358,19 @@ export default {
   justify-content: center;
   align-content: center;
   align-items: center;
-  color: white;
+  color: rgba(255, 255, 255, 0.6);
   align-self: center;
   border-radius: 50%;
   cursor: pointer;
   user-select: none;
   transition: 0.2s;
   &:hover {
-    background: rgba(0, 0, 0, 0.3);
+    color: white;
+    // background: rgba(0, 0, 0, 0.3);
   }
   &.selected {
-    background: rgba(0, 0, 0, 0.3);
+    color: white;
+    // background: rgba(0, 0, 0, 0.3);
   }
 }
 

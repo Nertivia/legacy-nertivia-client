@@ -95,7 +95,7 @@ export default {
   display: flex;
   align-self: center;
   width: 70px;
-  height: 70px;
+  height: 55px;
   flex-shrink: 0;
   justify-content: center;
   align-content: center;
@@ -133,7 +133,7 @@ export default {
   font-size: 15px;
   position: absolute;
   z-index: 115651;
-  top: 10px;
+  bottom: 0px;
   right: 10px;
   width: 20px;
   height: 20px;
@@ -142,7 +142,7 @@ export default {
 }
 .mentioned:after {
   content: "@";
-  margin-bottom: 10px;
+  margin-bottom: 0px;
   font-size: 13px;
   background: #ee3e34;
 }
