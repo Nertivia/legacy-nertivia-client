@@ -6,7 +6,11 @@
       :style="{ top: toolTipTopPosition + 'px' }"
       v-if="toolTipShown"
     >
-      <div class="verified" v-if="!toolTipLocalName && servers[toolTipServerID] && servers[toolTipServerID].verified" title="Verified Server">
+      <div
+        class="verified"
+        v-if="!toolTipLocalName && servers[toolTipServerID] && servers[toolTipServerID].verified"
+        title="Verified Server"
+      >
         <span class="material-icons">check</span>
       </div>
       <div class="name">{{ toolTipLocalName || servers[toolTipServerID].name }}</div>
@@ -111,19 +115,22 @@ export default {
     localToolTipEvent(name, event) {
       const rect = event.target.getBoundingClientRect();
       this.toolTipLocalName = name;
-      this.toolTipTopPosition = rect.top - this.getTopHeight() + 16;
       this.toolTipShown = true;
+      this.$nextTick(() => {
+        this.toolTipTopPosition = (rect.top - this.topHeight() + 70 / 2) - this.$refs["toolTip"].clientHeight / 2
+      })
     },
     serverToolTipEvent({ serverID, top }) {
       if (this.drag) return;
       this.toolTipLocalName = null;
       this.toolTipServerID = serverID;
-      if (this.mobileSize) {
-        this.toolTipTopPosition = top - this.getTopHeight() + 80;
-      } else {
-        this.toolTipTopPosition = top - this.getTopHeight() + 20;
-      }
       this.toolTipShown = true;
+      this.$nextTick(() => {
+          this.toolTipTopPosition = (top - this.topHeight() + 55 / 2 ) - this.$refs["toolTip"].clientHeight / 2
+      });
+    },
+    topHeight() {
+      return this.mobileSize ? 0 : 60;
     },
     mouseLeaveEvent() {
       this.toolTipShown = false;
@@ -131,7 +138,7 @@ export default {
       this.toolTipLocalName = null;
     },
     getTopHeight() {
-      return window.innerHeight - this.$refs["navigation"].offsetHeight;
+      return -60;
     },
     addServer() {
       this.$store.dispatch("setPopoutVisibility", {
@@ -291,20 +298,19 @@ export default {
   justify-content: center;
   align-content: center;
   align-items: center;
-  color: white;
+  color: rgba(255, 255, 255, 0.6);
   font-size: 30px;
   align-self: center;
   width: 70px;
   height: 70px;
   cursor: pointer;
   user-select: none;
-  opacity: 0.8;
   transition: 0.2s;
   &:hover {
-    background: rgba(0, 0, 0, 0.2);
+    color: white;
   }
   &.selected {
-    background: rgba(0, 0, 0, 0.2);
+    color: white;
   }
 }
 

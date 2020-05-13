@@ -170,7 +170,7 @@ export default {
         this.contextDetails.serverID
       ];
       const map = roles
-        .filter(r => !r.default)
+        .filter(r => !r.default && !r.bot)
         .map(r => {
           if (
             this.serverMember.roles &&

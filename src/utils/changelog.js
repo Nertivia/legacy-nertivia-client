@@ -1,5 +1,16 @@
 const config = [
   {
+    version: "1.2.1",
+    title: "Bots BETA",
+    shortTitle: "",
+    date: "13 May 2020",
+    new: [
+      "You can now create bots in the settings page of Nertivia.",
+    ],
+    fix: ["Fixed some bugs with roles not applying."],
+    msg: "Notice: Bots feature is not properly tested and could damage your server. Please test bots in empty servers first. People could also make dangerous that can kill the server."
+  },
+  {
     version: "1.2.0",
     title: "Quote Messages!",
     shortTitle: "",

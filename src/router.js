@@ -21,6 +21,9 @@ const InvitesPage = () =>
   import(/* webpackChunkName: "Invites" */ "../src/views/Invites.vue");
 const ThemesPage = () =>
   import(/* webpackChunkName: "Themes" */ "../src/views/Themes.vue");
+const BotsPage = () =>
+  import(/* webpackChunkName: "BotsPage" */ "../src/views/BotsPage.vue");
+
 const RegisterPage = () =>
   import(
     /* webpackChunkName: "RegisterPage" */ "../src/views/RegisterPage.vue"
@@ -93,6 +96,11 @@ export const router = new VueRouter({
       path: "/themes/:theme_id",
       name: "themes",
       component: ThemesPage
+    },
+    {
+      path: "/bots/:bot_id",
+      name: "bots",
+      component: BotsPage
     }
   ]
 });

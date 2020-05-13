@@ -43,6 +43,7 @@ const Notifications = () => import("./SettingsPanels/Notifications.vue");
 const AppSettings = () => import("./SettingsPanels/appSettings");
 const DebugSettings = () => import("./SettingsPanels/DebugSettings");
 const ActivityStatus = () => import("./SettingsPanels/ActivityStatus");
+const myBots = () => import("./SettingsPanels/myBots");
 
 export default {
   components: {
@@ -53,7 +54,8 @@ export default {
     Notifications,
     AppSettings,
     DebugSettings,
-    ActivityStatus
+    ActivityStatus,
+    myBots
   },
   data() {
     return {
@@ -112,11 +114,18 @@ export default {
           index: 6
         },
         {
+          name: "My Bots",
+          tabName: "My Bots",
+          icon: "adb",
+          component: "my-bots",
+          index: 7
+        },
+        {
           name: "Debug",
           tabName: "Debug",
           icon: "bug_report",
           component: "debug-settings",
-          index: 7
+          index: 8
         }
       ]
     };
@@ -169,7 +178,7 @@ export default {
     rgba(0, 118, 209, 0.8)
   );
   border-radius: 4px;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(10px);
 }
 .tabs {
   height: 100%;

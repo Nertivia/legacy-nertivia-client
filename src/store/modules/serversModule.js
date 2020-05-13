@@ -112,7 +112,7 @@ const actions = {
     const serverMemberIndex = state.serverMembers.findIndex(
       sm => sm.uniqueID === uniqueID && sm.server_id === server_id
     );
-    if (!serverMemberIndex) return;
+    if (serverMemberIndex < 0) return;
 
     const serverMemberNew = { ...state.serverMembers[serverMemberIndex] };
     if (!serverMemberNew.roles) {
@@ -133,7 +133,7 @@ const actions = {
     const serverMemberIndex = state.serverMembers.findIndex(
       sm => sm.uniqueID === uniqueID && sm.server_id === server_id
     );
-    if (!serverMemberIndex) return;
+    if (serverMemberIndex < 0) return;
 
     let serverMemberNew = { ...state.serverMembers[serverMemberIndex] };
     if (!serverMemberNew.roles || !serverMemberNew.roles.includes(role_id))
