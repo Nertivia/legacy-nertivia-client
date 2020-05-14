@@ -98,7 +98,7 @@ export default {
       deleteSure: false,
       perms: permissions.SEND_MESSAGES.value,
       update: {},
-      errors: [{ msg: "owo" }],
+      errors: null,
       key: 0,
       saving: false,
     };

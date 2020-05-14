@@ -32,6 +32,7 @@
     </div>
     <div v-if="type === 'OWNER'" class="type-box">Owner</div>
     <div v-else-if="isAdmin" class="type-box admin">Admin</div>
+    <div v-else-if="isBot" class="type-box bot">Bot</div>
   </div>
 </template>
 
@@ -48,6 +49,9 @@ export default {
     };
   },
   computed: {
+    isBot() {
+      return this.member.type === "BOT"
+    },
     serverID() {
       return this.$store.getters["servers/currentServerID"];
     },
@@ -171,6 +175,9 @@ export default {
 
 .type-box.admin {
   background: #ff6947;
+}
+.type-box.bot {
+  background: #a31aff;
 }
 .custom-status {
   color: rgba(255, 255, 255, 0.8);

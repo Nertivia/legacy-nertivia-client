@@ -516,6 +516,7 @@ export default {
     },
     showMentionsPopout(event) {
       if (event.keyCode == 38 || event.keyCode == 40) return; // up/down
+      if (!this.$refs["input-box"]) return;
       const message = this.$refs["input-box"].value;
       const cursorPosition = event.target.selectionStart;
       const cursorWord = this.cursorWord(message, cursorPosition);

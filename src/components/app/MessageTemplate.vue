@@ -44,6 +44,7 @@
           >
             {{ creator.username }}
           </div>
+          <div class="bot" v-if="!hideAdditional && creator.bot">Bot</div>
           <div class="date" v-if="!hideAdditional">{{ getDate }}</div>
           <div
             class="mentioned material-icons"
@@ -570,6 +571,16 @@ $message-color: rgba(0, 0, 0, 0.3);
 .username:hover {
   color: rgb(255, 255, 255);
   text-decoration: underline;
+}
+
+.bot {
+  background: #a31aff;
+  padding: 2px;
+  border-radius: 2px;
+  font-size: 12px;
+  margin-left: 5px;
+  flex-shrink: 0;
+  align-self: center;
 }
 .date {
   color: #d5e3e6;
