@@ -120,7 +120,7 @@
         </div>
       </div>
     </div>
-    <div class="second-box" :class="{'add-margin': currentServerID && serverMember}">
+    <div class="second-box">
       <div class="second-box-inner roles-box" v-if="currentServerID && serverMember">
         <div class="title">Server Roles</div>
         <div class="roles-list" v-if="memberRoles && memberRoles.length">
@@ -405,12 +405,17 @@ export default {
   }
   box-shadow: 0px 0px 20px 5px #151515bd;
 }
-.second-box .second-box-inner:nth-child(2) {
-  margin-top: 20px;
+
+.second-box .second-box-inner {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
-.second-box.add-margin .second-box-inner:nth-child(2) {
-  margin-top: 20px;
-  margin-bottom: 20px;
+
+.second-box .second-box-inner:first-child {
+  margin-top: 0;
+}
+.second-box .second-box-inner:last-child {
+  margin-bottom: 0;
 }
 
 .roles-list {
