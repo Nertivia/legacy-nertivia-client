@@ -141,7 +141,7 @@ export default {
         this.bot.uniqueID
       );
       if (ok) {
-        this.bot = {...this.bot, ...result.data};        
+        this.$emit("update", result.data)    
         this.update = {}
         this.key = Math.random();
       } else {

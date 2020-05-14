@@ -17,6 +17,7 @@
           <div class="uesrname-tag">
             <div class="username">{{ user.username }}</div>
             <div class="tag">:{{ user.tag }}</div>
+            <div class="bot" v-if="user.bot">Bot</div>
           </div>
           <div class="online-status">
             <div class="status" :style="{ background: status.color }"></div>
@@ -107,6 +108,10 @@
                 <div class="name" v-else>{{ aboutItem.name }}</div>
               </div>
             </div>
+            <div class="about-item createdBy" v-if="user.bot">
+              <div class="key">Created By:</div>
+              <div class="name" @click="switchUser(user.createdBy.uniqueID)">{{user.createdBy.username}}</div>
+            </div>
             <div class="about-item">
               <div class="key">Joined:</div>
               <div class="name">{{ joinedDate }}</div>
@@ -128,7 +133,7 @@
         </div>
         <div v-else class="no-roles">This member has no roles.</div>
       </div>
-      <div class="second-box-inner common-friends-box">
+      <div class="second-box-inner common-friends-box" v-if="!user || !user.bot">
         <div class="title">Common Friends</div>
         <div class="list">
           <div
@@ -537,6 +542,25 @@ export default {
   flex-shrink: 0;
   background: rgba(0, 0, 0, 0.4);
   padding-top: 30px;
+}
+
+.createdBy .name {
+  user-select: none;
+  cursor: pointer;
+  &:hover {
+    color: white;
+    text-decoration: underline;
+  }
+}
+
+.bot {
+  background: #a31aff;
+  padding: 2px;
+  border-radius: 2px;
+  font-size: 12px;
+  margin-left: 5px;
+  flex-shrink: 0;
+  align-self: center;
 }
 
 .uesrname-tag {

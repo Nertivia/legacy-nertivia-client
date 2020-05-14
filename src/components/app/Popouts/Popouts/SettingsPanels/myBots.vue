@@ -1,6 +1,6 @@
 <template>
   <div class="panel">
-    <manage-bot v-if="clickedBotIndex !== undefined" :bot="bots[clickedBotIndex]" @back="clickedBotIndex = undefined"/>
+    <manage-bot v-if="clickedBotIndex !== undefined" @update="updateBot"  :bot="bots[clickedBotIndex]" @back="clickedBotIndex = undefined"/>
     <div class="content" v-else>
       <error-list v-if="errors" :errors="errors" />
       <div class="title main">Create bot users which will allow you to use our API to create your own fancy bots.</div>
@@ -34,6 +34,9 @@ export default {
     };
   },
   methods: {
+    updateBot(data) {
+      this.$set(this.bots, this.clickedBotIndex, {...this.bots[this.clickedBotIndex], ...data})
+    },
     async createBotButton() {
       const {result, ok, error} = await botsService.createBot();
       if (ok) {
