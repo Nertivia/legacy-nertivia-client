@@ -8,7 +8,7 @@
       <div class="sub-head">Your bots:</div>
       <div class="bots-list">
         <div class="bot" v-for="(bot, i) in botsReverse" :key="bot.uniqueID" @click="clickedBotIndex = i">
-          <profile-picture :uniqueID="bot.uniqueID" size="30px" :hover="true" animation-padding="4px" />
+          <profile-picture :uniqueID="bot.uniqueID" :avatar="bot.avatar" size="30px" :hover="true" animation-padding="4px" />
           <div class="username">{{bot.username}}<span class="tag">:{{bot.tag}}</span></div>
         </div>
       </div>

@@ -7,6 +7,9 @@ export default {
   getBots() {
     return wrapper(instance().get(`/bots`));
   },
+  updateBot(data, bot_id) {
+    return wrapper(instance().post(`/bots/${bot_id}`, data));
+  },
   addBot(bot_id, server_id, permissions) {
     return wrapper(instance().put(`/bots/${bot_id}/servers/${server_id}`, {permissions}));
   },

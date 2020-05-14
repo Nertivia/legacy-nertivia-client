@@ -1,22 +1,35 @@
 <template>
   <div class="inner-panel">
-    <div class="content">
+    <error-list v-if="errors" :errors="errors" />
+    <div class="content" :key="key">
       <div class="avatar-box">
         <profile-picture
           :uniqueID="bot.uniqueID"
+          :url="update.avatar"
+          :avatar="update.avatar ? null : bot.avatar"
           size="80px"
           :hover="true"
           animation-padding="4px"
         />
         <div class="button" @click="$refs.avatarBrowser.click()">Change Avatar</div>
-        <input ref="avatarBrowser" type="file" accept=".jpeg, .jpg, .png, .gif" class="hidden" />
+        <input ref="avatarBrowser" @change="avatarChangeEvent" type="file" accept=".jpeg, .jpg, .png, .gif" class="hidden" />
       </div>
       <div class="outer-input">
         <div class="title">Username</div>
         <div class="user-tag">
-          <input :default-value.prop="bot.username" type="text" class="username" />
+          <input
+            :default-value.prop="bot.username"
+            @input="inputEvent('username', $event)"
+            type="text"
+            class="username"
+          />
 
-          <input :default-value.prop="bot.tag" type="text" class="tag" />
+          <input
+            :default-value.prop="bot.tag"
+            @input="inputEvent('tag', $event)"
+            type="text"
+            class="tag"
+          />
         </div>
       </div>
       <div class="invite-link">
@@ -55,7 +68,7 @@
     </div>
     <div class="buttons">
       <div class="button" @click="$emit('back')">Back</div>
-      <div class="button">Save</div>
+      <div class="button" @click="saveButton">{{saving ? 'Saving...' : 'Save'}}</div>
     </div>
   </div>
 </template>
@@ -65,6 +78,9 @@
 <script>
 import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
 import botsService from "../../../../../services/botsService";
+import ErrorList from "@/components/app/errorsListTemplate";
+import path from "path";
+
 import {
   permissions,
   containsPerm,
@@ -73,14 +89,18 @@ import {
 } from "@/utils/RolePermissions";
 export default {
   props: ["bot"],
-  components: { ProfilePicture },
+  components: { ProfilePicture, ErrorList },
   data() {
     return {
       showToken: false,
       token: "Loading...",
       showMore: false,
       deleteSure: false,
-      perms: permissions.SEND_MESSAGES.value
+      perms: permissions.SEND_MESSAGES.value,
+      update: {},
+      errors: [{ msg: "owo" }],
+      key: 0,
+      saving: false,
     };
   },
   async mounted() {
@@ -111,6 +131,67 @@ export default {
       } else {
         this.perms = addPerm(this.perms, perm.value);
       }
+    },
+    async saveButton() {
+      if (this.saving) return;
+      this.saving = true;
+      this.errors = null;
+      const { ok, result, error } = await botsService.updateBot(
+        this.update,
+        this.bot.uniqueID
+      );
+      if (ok) {
+        this.bot = {...this.bot, ...result.data};        
+        this.update = {}
+        this.key = Math.random();
+      } else {
+        if (error.response === undefined) {
+          this.errors = { message: "Cant connect to server" };
+          return;
+        }
+        const data = error.response.data;
+        if (data.message) {
+          this.errors = [{ msg: data.message }];
+          return;
+        }
+        this.errors = data.errors;
+      }
+      this.saving = false;
+    },
+    inputEvent(name, event) {
+      this.$set(this.update, name, event.target.value);
+    },
+    avatarChangeEvent(event) {
+      const file = event.target.files[0];
+      const _this = this;
+      const maxSize = 8092000;
+      if (file.size > maxSize) {
+        return this.$store.dispatch(
+          "setGenericMessage",
+          "Image is larger than 8MB"
+        );
+      }
+      event.target.value = "";
+      const allowedFormats = [".png", ".jpeg", ".gif", ".jpg"];
+      if (!allowedFormats.includes(path.extname(file.name).toLowerCase())) {
+        return this.$store.dispatch(
+          "setGenericMessage",
+          "That file format is not allowed!"
+        );
+      }
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
+
+      reader.onload = function() {
+        _this.$set(_this.update, "avatar", reader.result);
+      };
+      reader.onerror = function(error) {
+        console.log("Error: ", error);
+        return this.$store.dispatch(
+          "setGenericMessage",
+          "Something went wrong. Try again later."
+        );
+      };
     }
   },
   computed: {
@@ -294,7 +375,7 @@ export default {
     margin-top: 5px;
     margin-bottom: 5px;
   }
-  .link  {
+  .link {
     padding: 5px;
     background: rgba(0, 0, 0, 0.4);
     border-radius: 4px;

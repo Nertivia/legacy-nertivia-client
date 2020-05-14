@@ -36,29 +36,31 @@
 
           <div class="actions" v-if="uniqueID !== selfUniqueID">
             <div class="action-buttons">
-              <div
-                class="button"
-                v-if="this.relationshipStatus === null"
-                @click="AddFriendButton"
-              >
-                <div class="material-icons">person_add</div>
-                <div>Add Friend</div>
-              </div>
-              <div
-                class="button"
-                v-if="this.relationshipStatus === 0"
-                @click="RemoveFriendButton"
-              >
-                <div class="material-icons">hourglass_empty</div>
-                <div>Request Sent</div>
-              </div>
-              <div
-                class="button green"
-                v-if="this.relationshipStatus === 1"
-                @click="AcceptFriendButton"
-              >
-                <div class="material-icons">check</div>
-                <div>Accept Friend</div>
+              <div class="relationship" v-if="!user.bot">
+                <div
+                  class="button"
+                  v-if="this.relationshipStatus === null"
+                  @click="AddFriendButton"
+                >
+                  <div class="material-icons">person_add</div>
+                  <div>Add Friend</div>
+                </div>
+                <div
+                  class="button"
+                  v-if="this.relationshipStatus === 0"
+                  @click="RemoveFriendButton"
+                >
+                  <div class="material-icons">hourglass_empty</div>
+                  <div>Request Sent</div>
+                </div>
+                <div
+                  class="button green"
+                  v-if="this.relationshipStatus === 1"
+                  @click="AcceptFriendButton"
+                >
+                  <div class="material-icons">check</div>
+                  <div>Accept Friend</div>
+                </div>
               </div>
               <div class="button" @click="openChat">
                 <div class="material-icons">message</div>
@@ -72,11 +74,7 @@
                 <div class="material-icons">person_add_disabled</div>
                 <div>Remove Friend</div>
               </div>
-              <div
-                class="button warn"
-                v-if="isBlocked"
-                @click="unblockFriendButton"
-              >
+              <div class="button warn" v-if="isBlocked" @click="unblockFriendButton">
                 <div class="material-icons">block</div>
                 <div>Unblock</div>
               </div>
@@ -89,11 +87,7 @@
         </div>
         <div class="scrollable">
           <div class="about-me">
-            <div
-              class="about-item-container"
-              v-for="aboutItem of aboutMe"
-              :key="aboutItem.name"
-            >
+            <div class="about-item-container" v-for="aboutItem of aboutMe" :key="aboutItem.name">
               <div
                 class="about-item"
                 v-if="aboutMe"
@@ -104,11 +98,7 @@
                 }"
               >
                 <div class="key">{{ aboutItem.key }}:</div>
-                <div
-                  class="emoji"
-                  v-if="aboutItem.emoji"
-                  v-html="aboutItem.emoji"
-                ></div>
+                <div class="emoji" v-if="aboutItem.emoji" v-html="aboutItem.emoji"></div>
                 <SimpleMarkdown
                   class="name"
                   v-if="aboutItem.key === 'About me'"
@@ -126,10 +116,7 @@
       </div>
     </div>
     <div class="second-box" :class="{'add-margin': currentServerID && serverMember}">
-      <div
-        class="second-box-inner roles-box"
-        v-if="currentServerID && serverMember"
-      >
+      <div class="second-box-inner roles-box" v-if="currentServerID && serverMember">
         <div class="title">Server Roles</div>
         <div class="roles-list" v-if="memberRoles && memberRoles.length">
           <div
@@ -137,9 +124,7 @@
             v-for="role in memberRoles"
             :key="role.id"
             :style="{ color: role.color, borderColor: role.color }"
-          >
-            {{ role.name }}
-          </div>
+          >{{ role.name }}</div>
         </div>
         <div v-else class="no-roles">This member has no roles.</div>
       </div>
