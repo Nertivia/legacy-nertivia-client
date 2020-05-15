@@ -120,7 +120,7 @@
         </div>
       </div>
     </div>
-    <div class="second-box">
+    <div class="second-box" v-if="user">
       <div class="second-box-inner roles-box" v-if="currentServerID && serverMember">
         <div class="title">Server Roles</div>
         <div class="roles-list" v-if="memberRoles && memberRoles.length">
