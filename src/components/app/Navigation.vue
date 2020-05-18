@@ -130,15 +130,12 @@ export default {
       });
     },
     topHeight() {
-      return this.mobileSize ? 0 : 60;
+      return this.$refs["navigation"].getBoundingClientRect().top
     },
     mouseLeaveEvent() {
       this.toolTipShown = false;
       this.toolTipServerID = null;
       this.toolTipLocalName = null;
-    },
-    getTopHeight() {
-      return -60;
     },
     addServer() {
       this.$store.dispatch("setPopoutVisibility", {
