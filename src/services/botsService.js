@@ -13,6 +13,9 @@ export default {
   addBot(bot_id, server_id, permissions) {
     return wrapper(instance().put(`/bots/${bot_id}/servers/${server_id}`, {permissions}));
   },
+  resetToken(bot_id) {
+    return wrapper(instance().post(`/bots/${bot_id}/reset-token`));
+  },
   getBot(botId, getToken = false, getMyServers) {
     const params = {};
     if (getToken) {

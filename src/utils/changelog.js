@@ -1,5 +1,15 @@
 const config = [
   {
+    version: "1.2.2",
+    title: "Reset token",
+    shortTitle: "",
+    date: "20 May 2020",
+    new: [
+      "Changing your password should reset the token and log every other user out.",
+      "Reset toke button added for bots.",
+    ],
+  },
+  {
     version: "1.2.1",
     title: "Bots BETA",
     shortTitle: "",

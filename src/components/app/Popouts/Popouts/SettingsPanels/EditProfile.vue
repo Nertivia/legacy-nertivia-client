@@ -150,7 +150,7 @@ export default {
       if (this.requestSent) return;
       this.errors = null;
       this.requestSent = true;
-      const { ok, error } = await userService.update(this.update);
+      const { ok, error, result } = await userService.update(this.update, this.$socket.client.id);
       if (!ok) {
         if (error.response === undefined) {
           this.errors = { message: "Cant connect to server" };
@@ -163,6 +163,9 @@ export default {
         }
         this.errors = data.errors;
       } else {
+        if (result.data.token) {
+          this.$store.dispatch("token", result.data.token);
+        }
         this.$refs["passwordInput"].value = "";
         this.resetPassword = false;
         this.$set(this, "update", {});

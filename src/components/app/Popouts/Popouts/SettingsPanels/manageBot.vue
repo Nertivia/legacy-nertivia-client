@@ -59,7 +59,8 @@
           @click="showToken = !showToken"
         >{{showToken ? 'Hide Token' : 'Show Token'}}</div>
         <input class="token-inner" v-if="showToken" :value="token" readonly="readonly" />
-        <div class="copy-token-button" @click="copyToken" v-if="showToken">Copy</div>
+        <div class="copy-token-button" @click="copyToken">Copy</div>
+        <div class="copy-token-button" @click="resetToken">Reset Token</div>
       </div>
       <div class="button" @click="showMore = !showMore">Show More Options</div>
       <div class="more-options" v-if="showMore">
@@ -118,6 +119,12 @@ export default {
     copyToken() {
       this.$clipboard(this.token);
       alert("Token copied to clipboard.");
+    },
+    async resetToken() {
+      const { ok, result } = await botsService.resetToken(this.bot.uniqueID);
+      if (ok) {
+        this.token = result.data.token
+      }
     },
     deleteButton() {
       if (!this.deleteSure) {
@@ -331,6 +338,8 @@ export default {
     padding-left: 5px;
     padding-right: 5px;
     border-radius: 4px;
+    margin-left: 3px;
+    margin-right: 3px;
   }
   align-self: center;
   text-align: center;
@@ -344,8 +353,6 @@ export default {
     overflow: hidden;
     border-radius: 4px;
     margin: 0;
-    margin-left: 5px;
-    margin-right: 5px;
     padding-left: 5px;
     padding-right: 5px;
   }
@@ -362,6 +369,8 @@ export default {
     border-radius: 4px;
     padding-left: 5px;
     padding-right: 5px;
+    margin-left: 3px;
+    margin-right: 3px;
   }
 }
 .invite-link {
