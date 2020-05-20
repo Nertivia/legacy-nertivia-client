@@ -6,7 +6,7 @@ const config = [
     date: "20 May 2020",
     new: [
       "Changing your password should reset the token and log every other user out.",
-      "Reset toke button added for bots.",
+      "Reset token button added for bots.",
     ],
   },
   {
