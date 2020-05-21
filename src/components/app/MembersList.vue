@@ -81,11 +81,21 @@ export default {
       remain: 20
     };
   },
-  watch: {
-    windowSize() {
+  methods: {
+    resize() {
       const memberListHeight = this.$refs["members-list"].clientHeight;
       const memberTemplateHeight = 48;
       this.remain = memberListHeight / memberTemplateHeight;
+    }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.resize();
+    })
+  },
+  watch: {
+    windowSize() {
+      this.resize()
     }
   },
   computed: {
