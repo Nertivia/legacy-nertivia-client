@@ -21,7 +21,6 @@
         :class="{ hoverable: $props.hover }"
         :style="{
           height: $props.size,
-          background: color,
           width: $props.size,
           border: `${
             statusColor === undefined
@@ -70,10 +69,12 @@ export default {
   data() {
     return {
       nertiviaCDN: config.nertiviaCDN,
-      color: !this.avatar ? seedColor(this.uniqueID).toHex() : undefined
     };
   },
   computed: {
+    color() {
+      return !this.avatar ? seedColor(this.uniqueID).toHex() : undefined
+    },
     src() {
       if (!this.avatar && !this.url) {
         return undefined;
