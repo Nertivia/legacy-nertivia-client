@@ -1,5 +1,8 @@
 # Nertivia---Client
 
+# Screenshots
+![alt text](https://raw.githubusercontent.com/supertiger1234/nertivia-desktop-app/master/Preview.png)
+
 ## Project setup
 ```
 npm install
