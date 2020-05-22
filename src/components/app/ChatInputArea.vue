@@ -532,17 +532,33 @@ export default {
 
       let searchedMembers = [];
 
-      for (let index = 0; index < this.serverMembers.length; index++) {
-        const serverMember = this.serverMembers[index];
-        if (serverMember.server_id != this.server.server_id) continue;
-        const member = this.members[serverMember.uniqueID];
-        if (
-          member.username
-            .toLowerCase()
-            .replace(/\s/g, "")
-            .includes(wordWithoutBegining)
-        ) {
-          searchedMembers.push(member);
+      // DM Tab
+      if (this.currentTab === 1) {
+        // add self
+          if (this.user.username.toLowerCase().replace(/\s/g, "").includes(wordWithoutBegining)) {
+            searchedMembers.push(this.user);
+          }
+        const recipients = this.channel.recipients;
+        for (let index = 0; index < recipients.length; index++) {
+          const recipient = recipients[index];
+            if (recipient.username.toLowerCase().replace(/\s/g, "").includes(wordWithoutBegining)) {
+            searchedMembers.push(recipient);
+          }
+        }
+
+      } else {
+        for (let index = 0; index < this.serverMembers.length; index++) {
+          const serverMember = this.serverMembers[index];
+          if (serverMember.server_id != this.server.server_id) continue;
+          const member = this.members[serverMember.uniqueID];
+          if (
+            member.username
+              .toLowerCase()
+              .replace(/\s/g, "")
+              .includes(wordWithoutBegining)
+          ) {
+            searchedMembers.push(member);
+          }
         }
       }
       searchedMembers = searchedMembers.slice(0, 9);
@@ -783,6 +799,9 @@ export default {
     }
   },
   computed: {
+    currentTab() {
+      return this.$store.getters.currentTab;
+    },
     message: {
       get: function() {
         return this.$store.getters.message;
