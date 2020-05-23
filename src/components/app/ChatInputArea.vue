@@ -212,7 +212,7 @@ export default {
       }, 10);
     },
     resize() {
-      let input = this.$refs["input-box"];
+      const input = this.$refs["input-box"];
       if (!input) return;
       if (input.scrollHeight < 50 || !this.message) {
         input.style.height = "1em";

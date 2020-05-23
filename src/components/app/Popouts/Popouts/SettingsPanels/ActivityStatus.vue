@@ -68,9 +68,9 @@ export default {
     };
   },
   watch: {
-    storedPrograms(){
+    storedPrograms() {
       if (!this.storedPrograms.length) {
-        this.$socket.client.emit('programActivity:set', null)
+        this.$socket.client.emit("programActivity:set", null);
       }
     }
   },
@@ -87,34 +87,20 @@ export default {
       this.updateDetector();
     },
     updateStatus(program, event) {
-      if (event.target.value.trim() === "") return this.deleteButton(program);
-      const newObj = { ...program, status: event.target.value };
-      const index = this.storedPrograms.findIndex(
-        sp => sp.filename === program.filename
-      );
-      this.$set(this.storedPrograms, index, newObj);
-      localStorage.setItem(
-        "activity_status",
-        JSON.stringify(this.storedPrograms)
-      );
+      this.updateData(program, { status: event.target.value });
       this.updateDetector();
     },
     updateName(program, event) {
-      if (event.target.value.trim() === "") return this.deleteButton(program);
-      const newObj = { ...program, name: event.target.value };
-      const index = this.storedPrograms.findIndex(
-        sp => sp.filename === program.filename
-      );
-      this.$set(this.storedPrograms, index, newObj);
-      localStorage.setItem(
-        "activity_status",
-        JSON.stringify(this.storedPrograms)
-      );
+      this.updateData(program, { name: event.target.value });
       this.updateDetector();
     },
     updatefilename(program, event) {
+      this.updateData(program, { filename: event.target.value });
+      this.updateDetector();
+    },
+    updateData(program, obj) {
       if (event.target.value.trim() === "") return this.deleteButton(program);
-      const newObj = { ...program, filename: event.target.value };
+      const newObj = { ...program, ...obj };
       const index = this.storedPrograms.findIndex(
         sp => sp.filename === program.filename
       );
@@ -123,7 +109,6 @@ export default {
         "activity_status",
         JSON.stringify(this.storedPrograms)
       );
-      this.updateDetector();
     },
     changeEvent(selected) {
       this.storedPrograms.push({
@@ -139,7 +124,8 @@ export default {
     },
     async getItems() {
       const windows = activeWindowListener.getWindows();
-      const map = await Promise.all(windows.map(async window => {
+      const map = await Promise.all(
+        windows.map(async window => {
           const filename = window.path.split("\\")[
             window.path.split("\\").length - 1
           ];
@@ -154,15 +140,16 @@ export default {
               title = exif.ProductName;
             } else {
               title = window.getTitle();
-            } 
+            }
           } catch {
             title = window.getTitle();
           }
-          return {name: title, filename}
-      }))
+          return { name: title, filename };
+        })
+      );
       const filter = map.filter(w => w !== undefined);
 
-      this.items = [{name: "Add", filename: "Click me.exe"}, ...filter];
+      this.items = [{ name: "Add", filename: "Click me.exe" }, ...filter];
     },
     randomStatusChooser() {
       const statusArr = ["Playing", "Exploring", "Enjoying"];
