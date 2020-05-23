@@ -85,7 +85,7 @@ export default {
 
         const notified = notifications.find(
           n =>
-            n.sender.uniqueID === recipient.uniqueID &&
+            n.sender && n.sender.uniqueID === recipient.uniqueID &&
             n.channelID === channel.channelID
         );
 
