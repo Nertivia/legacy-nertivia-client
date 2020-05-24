@@ -157,7 +157,7 @@ export default {
         if (!sm.roles || !sm.roles.length) {
           return sm;
         }
-        if (!roles.find(r => sm.roles.includes(r.id))) {
+        if (!roles.find(r => sm.roles.includes(r.id) && !r.hideRole)) {
           return sm;
         }
         return false;
@@ -172,6 +172,7 @@ export default {
       for (let index = 0; index < roles.length; index++) {
         const role = { ...roles[index] };
 
+        if (role.hideRole) continue;
         // filter role members
         const members = this.roleMembers.filter(rm => {
           const filteredRoles = roles.filter(r => rm.roles.includes(r.id));

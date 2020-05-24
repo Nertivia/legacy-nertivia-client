@@ -25,64 +25,73 @@
             :class="{ selected: index === selectedRoleIndex }"
             @click="roleClick($event, index)"
           >
-            <div class="name" :style="{ color: role.color }">
-              {{ role.name }}
-            </div>
+            <div class="name" :style="{ color: role.color }">{{ role.name }}</div>
           </div>
         </draggable>
       </div>
       <div class="details" v-if="roles && roles[selectedRoleIndex]">
-        <div class="input role-input">
-          <div class="input-title">Role Name</div>
-          <div
-            class="role-color"
-            :style="{
+        <div class="inner-details">
+          <div class="input role-input">
+            <div class="input-title">Role Name</div>
+            <div
+              class="role-color"
+              :style="{
               backgroundColor: update.color || roles[selectedRoleIndex].color
             }"
-          >
-            <div class="color-picker" @click="$refs.colorPic.click()">
+            >
+              <div class="color-picker" @click="$refs.colorPic.click()">
+                <input
+                  type="color"
+                  ref="colorPic"
+                  style="display: none"
+                  @change="colorChangeEvent"
+                  value="#e7e7e7"
+                />
+                <div class="material-icons">color_lens</div>
+              </div>
               <input
-                type="color"
-                ref="colorPic"
-                style="display: none"
-                @change="colorChangeEvent"
-                value="#e7e7e7"
+                type="text"
+                ref="name"
+                placeholder="Role Name"
+                :default-value.prop="roles[selectedRoleIndex].name"
+                @input="inputEvent('name', $event)"
               />
-              <div class="material-icons">color_lens</div>
-            </div>
-            <input
-              type="text"
-              ref="name"
-              placeholder="Role Name"
-              :default-value.prop="roles[selectedRoleIndex].name"
-              @input="inputEvent('name', $event)"
-            />
-          </div>
-        </div>
-
-        <div class="input">
-          <div class="input-title">Permissions</div>
-          <div
-            class="check-box"
-            @click="updatePermissions(perm.value)"
-            v-for="(perm, index) in perms"
-            :key="index"
-          >
-            <div class="box" :class="{ checked: perm.hasPerm }" />
-            <div>
-              <div class="name">{{ perm.name }}</div>
-              <div class="info">{{ perm.info }}</div>
             </div>
           </div>
-        </div>
 
+          <div class="input">
+            <div class="input-title">Settings</div>
+            <div class="check-box" @click="updateSettings('hideRole')">
+              <div class="box" :class="{ checked: update.hideRole !== undefined ? update.hideRole :  roles[selectedRoleIndex].hideRole  }" />
+              <div>
+                <div class="name">Hide Role</div>
+                <div
+                  class="info"
+                >Display members with this role along with all the default members.</div>
+              </div>
+            </div>
+          </div>
+          <div class="input">
+            <div class="input-title">Permissions</div>
+            <div
+              class="check-box"
+              @click="updatePermissions(perm.value)"
+              v-for="(perm, index) in perms"
+              :key="index"
+            >
+              <div class="box" :class="{ checked: perm.hasPerm }" />
+              <div>
+                <div class="name">{{ perm.name }}</div>
+                <div class="info">{{ perm.info }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div
           class="button"
-          v-if="update.name || update.permissions !== undefined || update.color"
+          v-if="(update.name || update.permissions !== undefined || update.color) || update.hideRole !== undefined"
           @click="updateRole"
-        >
-          Save Changes
-        </div>
+        >Save Changes</div>
         <div
           class="button warn delete-server disabled"
           v-if="
@@ -91,9 +100,9 @@
           "
         >
           {{
-            roles[selectedRoleIndex].default
-              ? "Cannot delete default role."
-              : "Cannot delete this role."
+          roles[selectedRoleIndex].default
+          ? "Cannot delete default role."
+          : "Cannot delete this role."
           }}
         </div>
         <div
@@ -104,9 +113,7 @@
               !roles[selectedRoleIndex].default === true
           "
           @click="deleteRole"
-        >
-          {{ deleteButtonConfirmed ? "ARE YOU SURE?" : "Delete Role" }}
-        </div>
+        >{{ deleteButtonConfirmed ? "ARE YOU SURE?" : "Delete Role" }}</div>
       </div>
     </div>
   </div>
@@ -165,7 +172,7 @@ export default {
         data
       );
       if (ok) {
-        this.update = { name: null };
+        this.update = { name: null};
       } else {
         if (error.response) {
           if (error.response.data.message)
@@ -200,6 +207,14 @@ export default {
         this.update = { name: null };
         this.deleteButtonConfirmed = false;
       });
+    },
+    updateSettings(key) {
+      if (this.update.hideRole !== undefined) {
+        this.$set(this.update, key, !this.update.hideRole)
+      } else {
+        this.$set(this.update, key, !this.roles[this.selectedRoleIndex].hideRole)
+      }
+      
     },
     updatePermissions(value) {
       const updatePerm = this.update.permissions;
@@ -341,7 +356,13 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
-  overflow: hidden;
+  overflow: auto;
+}
+.inner-details {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: auto;
 }
 .button {
   background: rgba(0, 0, 0, 0.4);
@@ -391,6 +412,7 @@ export default {
   padding: 10px;
   margin: 10px;
   overflow: auto;
+  flex-shrink: 0;
 }
 .input input {
   width: 100%;

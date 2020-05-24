@@ -1,5 +1,14 @@
 const config = [
   {
+    version: "1.2.3",
+    title: "Hide Roles",
+    shortTitle: "",
+    date: "20 May 2020",
+    new: [
+      "You can now hide roles. This will place all the members in the role with default members.",
+    ],
+  },
+  {
     version: "1.2.2",
     title: "Reset token",
     shortTitle: "",
