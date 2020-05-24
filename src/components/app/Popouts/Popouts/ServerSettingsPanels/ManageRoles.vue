@@ -59,7 +59,7 @@
             </div>
           </div>
 
-          <div class="input">
+          <div class="input" v-if="!roles[selectedRoleIndex].default">
             <div class="input-title">Settings</div>
             <div class="check-box" @click="updateSettings('hideRole')">
               <div class="box" :class="{ checked: update.hideRole !== undefined ? update.hideRole :  roles[selectedRoleIndex].hideRole  }" />
