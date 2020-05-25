@@ -20,7 +20,7 @@
         >
           <div
             class="role"
-            v-for="(role, index) in roles"
+            v-for="(role, index) in rolesWithoutDefault"
             :key="role.id"
             :class="{ selected: index === selectedRoleIndex }"
             @click="roleClick($event, index)"
@@ -28,6 +28,13 @@
             <div class="name" :style="{ color: role.color }">{{ role.name }}</div>
           </div>
         </draggable>
+        <div
+          class="role"
+          :class="{ selected: roles.length - 1 === selectedRoleIndex }"
+          @click="roleClick($event, roles.length - 1)"
+        >
+          <div class="name" :style="{ color: defaultRole.color }">{{ defaultRole.name }}</div>
+        </div>
       </div>
       <div class="details" v-if="roles && roles[selectedRoleIndex]">
         <div class="inner-details">
@@ -62,12 +69,13 @@
           <div class="input" v-if="!roles[selectedRoleIndex].default">
             <div class="input-title">Settings</div>
             <div class="check-box" @click="updateSettings('hideRole')">
-              <div class="box" :class="{ checked: update.hideRole !== undefined ? update.hideRole :  roles[selectedRoleIndex].hideRole  }" />
+              <div
+                class="box"
+                :class="{ checked: update.hideRole !== undefined ? update.hideRole :  roles[selectedRoleIndex].hideRole  }"
+              />
               <div>
                 <div class="name">Hide Role</div>
-                <div
-                  class="info"
-                >Display members with this role along with all the default members.</div>
+                <div class="info">Display members with this role along with all the default members.</div>
               </div>
             </div>
           </div>
@@ -138,6 +146,7 @@ export default {
       deleteButtonConfirmed: false,
       deleteClicked: false,
       selectedRoleIndex: 0,
+      selectedRoleID: null,
       errors: null,
       mobile: isMobile(),
       update: {
@@ -147,7 +156,13 @@ export default {
   },
   methods: {
     async onEnd(test) {
+      const oldIndex = test.oldIndex;
       const newIndex = test.newIndex;
+      if (oldIndex === this.selectedRoleIndex) {
+        this.selectedRoleIndex = newIndex;
+      } else {
+        this.selectedRoleIndex = this.roles.findIndex(r => r.id === this.selectedRoleID);
+      }
       const role = this.roles[newIndex];
       const sendObj = { roleID: role.id, order: newIndex };
       await ServerService.updateRolesPosition(this.server.server_id, sendObj);
@@ -172,7 +187,7 @@ export default {
         data
       );
       if (ok) {
-        this.update = { name: null};
+        this.update = { name: null };
       } else {
         if (error.response) {
           if (error.response.data.message)
@@ -202,6 +217,7 @@ export default {
     },
     roleClick(event, index) {
       this.selectedRoleIndex = index;
+      this.selectedRoleID = this.roles[this.selectedRoleIndex].id;
       this.$nextTick(() => {
         this.$refs["name"].value = this.roles[this.selectedRoleIndex].name;
         this.update = { name: null };
@@ -210,11 +226,14 @@ export default {
     },
     updateSettings(key) {
       if (this.update.hideRole !== undefined) {
-        this.$set(this.update, key, !this.update.hideRole)
+        this.$set(this.update, key, !this.update.hideRole);
       } else {
-        this.$set(this.update, key, !this.roles[this.selectedRoleIndex].hideRole)
+        this.$set(
+          this.update,
+          key,
+          !this.roles[this.selectedRoleIndex].hideRole
+        );
       }
-      
     },
     updatePermissions(value) {
       const updatePerm = this.update.permissions;
@@ -239,6 +258,9 @@ export default {
       e.target.value = "";
       this.$set(this.update, "color", hexColor);
     }
+  },
+  mounted() {
+    this.selectedRoleID = this.roles[0].id;
   },
   computed: {
     server() {
@@ -268,6 +290,12 @@ export default {
           })
         );
       }
+    },
+    defaultRole() {
+      return this.roles.find(r => r.default);
+    },
+    rolesWithoutDefault() {
+      return this.roles.filter(r => !r.default);
     },
     perms() {
       return Object.values(permissions).map(p => {
