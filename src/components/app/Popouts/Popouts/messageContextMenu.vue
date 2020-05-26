@@ -27,7 +27,7 @@
       <div class="material-icons">edit</div>
       <div class="name">Edit</div>
     </div>
-    <div class="item warn" @click="deleteMessage" v-if="showDeleteOption">
+    <div class="item warn" @click="deleteMessage" v-if="showDeleteOption || hasAdminRole">
       <div class="material-icons">delete</div>
       <div class="name">Delete</div>
     </div>
@@ -36,6 +36,7 @@
 
 <script>
 import { bus } from '../../../../main';
+import { containsPerm, permissions } from '../../../../utils/RolePermissions';
 export default {
   data() {
     return {};
@@ -130,6 +131,13 @@ export default {
     }
   },
   computed: {
+    selfServerMember() {
+      return this.$store.getters["servers/serverMembers"].find(
+        sm =>
+          sm.server_id === this.currentServerID &&
+          sm.uniqueID === this.user.uniqueID
+      );
+    },
     highlightedText() {
       return window.getSelection().type === "Range";
     },
@@ -180,6 +188,32 @@ export default {
     showEditOption() {
       // Only show edit option if the user is us.
       return this.user.uniqueID === this.contextDetails.uniqueID;
+    },
+    myRolePermissions() {
+      if (!this.selfServerMember) return undefined;
+      const roles = this.$store.getters["servers/roles"][
+        this.contextDetails.serverID
+      ];
+      if (!roles) return undefined;
+
+      let perms = 0;
+
+      if (this.selfServerMember.roles) {
+        for (let index = 0; index < roles.length; index++) {
+          const role = roles[index];
+          if (this.selfServerMember.roles.includes(role.id)) {
+            perms = perms | (role.permissions || 0);
+          }
+        }
+      }
+
+      const defaultRole = roles.find(r => r.default);
+      perms = perms | defaultRole.permissions;
+      return perms;
+    },
+    hasAdminRole() {
+      if (this.currentTab !== 2) return false;
+      return containsPerm(this.myRolePermissions, permissions.ADMIN.value);
     },
     showDeleteOption() {
       // Only show delete option if the user is us or server owner is us.

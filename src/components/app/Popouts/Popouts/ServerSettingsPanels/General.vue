@@ -107,7 +107,6 @@ export default {
       this.$set(this.update, name, value);
     },
     async updateServer() {
-      console.log(this.server)
       if (this.requestSent) return;
       this.requestSent = true;
       const { ok, error } = await ServerService.updateServer(
