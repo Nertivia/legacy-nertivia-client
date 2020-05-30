@@ -28,6 +28,7 @@
       }"
       :ref="`message-${msg.messageID}`"
       :key="msg.tempID || msg.messageID"
+      :notificationLastMessageID="notificationLastMessageID"
       :creator="msg.creator"
       :message="msg"
       :isServer="isServer"
@@ -78,7 +79,8 @@ export default {
       currentChannelID: null,
       currentScrollTopPos: null,
       backToBottomLoading: false,
-      scrollEl: null
+      scrollEl: null,
+      notificationLastMessageID: null
     };
   },
   methods: {
@@ -287,10 +289,16 @@ export default {
       setTimeout(() => {
         el.classList.remove("active");
       }, 3000);
+    },
+    setNotificationLastMessageID(){
+      if (this.channelNotifications) {
+        this.notificationLastMessageID = this.channelNotifications.lastMessageID
+      }
     }
   },
 
   mounted() {
+    this.setNotificationLastMessageID()
     this.scrollEl = this.$refs.customScroller.$el.children[0];
     this.scrollEl.addEventListener("scroll", this.scrollEvent);
     this.currentChannelID = this.$store.getters.currentChannelID;
@@ -321,6 +329,11 @@ export default {
   },
 
   watch: {
+    "channelNotifications.count"() {
+      if (!document.hasFocus()) {
+        this.setNotificationLastMessageID()
+      }
+    },
     currentChannelMessages(newVal) {
       this.$set(this.loadMoreTop, "show", true);
       this.$nextTick(function() {
@@ -336,6 +349,7 @@ export default {
     },
     currentChannelID(channelID) {
       if (!channelID) return;
+      this.setNotificationLastMessageID()
       this.dismissNotification(channelID);
     },
     uploadQueue() {
@@ -352,7 +366,7 @@ export default {
     scrolledDown(scrolledDown) {
       bus.$emit("scrolledDown", scrolledDown);
       if (scrolledDown) this.scrolledDownEvent();
-    }
+    },
   },
   computed: {
     channelNotifications() {

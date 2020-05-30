@@ -260,12 +260,18 @@ const actions = {
 
     const notification = {
       channelID: data.message.channelID,
-      lastMessageID: data.message.messageID,
       sender: data.message.creator,
       mentioned: !!data.message.mentions.find(
         m => m.uniqueID === context.rootState.user.user.uniqueID
       )
     };
+    const notificationExists = context.rootGetters.notifications.find(n => n.channelID === data.message.channelID)
+    if (notificationExists) {
+      notification.lastMessageID = notificationExists.lastMessageID
+    } else {
+      notification.lastMessageID = data.message.messageID;
+    }
+
     context.dispatch("messageCreatedNotification", notification);
     function desktopNotification() {
       // send desktop notification

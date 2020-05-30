@@ -5,6 +5,7 @@
     @mouseover="hover = true"
     @mouseleave="hover = false"
   >
+  <div class="new-badge" v-if="notificationLastMessageID && notificationLastMessageID === message.messageID">New</div>
     <div
       v-if="!message.type || message.type === 0"
       :class="{
@@ -161,7 +162,7 @@ import { mapState } from "vuex";
 import isElectron from "../../utils/ElectronJS/isElectron";
 
 export default {
-  props: ["creator", "message", "isServer", "hideAdditional"],
+  props: ["creator", "message", "isServer", "hideAdditional", "notificationLastMessageID"],
   components: {
     ProfilePicture,
     messageEmbedTemplate,
@@ -459,7 +460,15 @@ $message-color: rgba(0, 0, 0, 0.3);
   position: relative;
   z-index: 1;
 }
-
+.new-badge {
+  background: rgb(255, 48, 48);
+  padding: 4px;
+  text-align: center;
+  border-radius: 4px;
+  margin-left: 5px;
+  margin-right: 5px;
+  font-size: 14px;
+}
 .container:hover .drop-down-button {
   opacity: 1;
 }
@@ -467,7 +476,6 @@ $message-color: rgba(0, 0, 0, 0.3);
 .ownMessageRight {
   flex-direction: row-reverse;
 }
-
 .ownMessageRight .triangle-inner {
   border-left: 8px solid $self-message-color;
   border-right: none !important;
