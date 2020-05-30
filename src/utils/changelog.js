@@ -1,5 +1,14 @@
 const config = [
   {
+    version: "1.2.4",
+    title: "New badge",
+    shortTitle: "",
+    date: "30 May 2020",
+    new: [
+      "Added a 'New' badge for new messages"
+    ],
+  },
+  {
     version: "1.2.3",
     title: "Hide Roles",
     shortTitle: "",

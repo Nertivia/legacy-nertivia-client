@@ -26,6 +26,11 @@
           </div>
         </div>
         <component :is="tabs[currentTab].component"></component>
+        <div class="support-donate">
+          <div class="icon"><div class="material-icons heart">favorite</div></div>
+          <div class="text">Support Nertivia. You will get a badge.</div>
+          <div class="button" @click="donateButton">Donate</div>
+        </div>
       </div>
     </div>
   </div>
@@ -131,6 +136,9 @@ export default {
     };
   },
   methods: {
+    donateButton() {
+      window.open("https://www.paypal.me/DiscordDevHelp", "_blank");
+    },
     logout() {
       this.$store.dispatch("logout");
       setTimeout(() => {
@@ -154,7 +162,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .settings-darken-background {
   position: absolute;
   background: rgba(0, 0, 0, 0.541);
@@ -289,7 +297,45 @@ export default {
     height: 100%;
   }
 }
+.support-donate {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  min-height: 30px;
+  background: #f53f3f;
+  user-select: none;
+  .button {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.1);
+    opacity: 0.8;
+    padding-left: 5px;
+    padding-right: 5px;
+    height: 100%;
+    margin: auto;
+    margin-right: 0;
+    cursor: pointer;
+    transition: 0.2s;
+    &:hover {
+      opacity: 1;
+      background: rgba(0, 0, 0, 0.2);
+    }
+  }
+  .icon .material-icons {
+    font-size: 18px;
+    margin-left: 5px;
+    margin-top: 3px;
+  }
+  .text {
+    margin-left: 3px;
+  }
+}
 @media (max-width: 550px) {
+  .support-donate {
+    display: none;
+  }
   .settings-box {
     flex-direction: column;
     height: 100%;
@@ -313,4 +359,5 @@ export default {
     width: 100%;
   }
 }
+
 </style>
