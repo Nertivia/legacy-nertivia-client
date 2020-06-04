@@ -7,6 +7,7 @@
       <!-- :style="`padding: ${$props.animationPadding || '3px'}`" -->
       <img
         v-if="adminType"
+        :title="adminType.name"
         class="emote"
         :src="adminType.emotePath"
         :style="
@@ -68,12 +69,12 @@ export default {
   ],
   data() {
     return {
-      nertiviaCDN: config.nertiviaCDN,
+      nertiviaCDN: config.nertiviaCDN
     };
   },
   computed: {
     color() {
-      return !this.avatar ? seedColor(this.uniqueID).toHex() : undefined
+      return !this.avatar ? seedColor(this.uniqueID).toHex() : undefined;
     },
     src() {
       if (!this.avatar && !this.url) {
@@ -113,6 +114,12 @@ export default {
           name: "developer",
           emotePath: require("../../assets/twemoji/2728.svg")
         };
+      if (this.$props.admin == 7)
+        return {
+          name: "bug_catcher",
+          emotePath: require("../../assets/twemoji/1f41b.svg")
+        };
+
       return "";
     },
     statusColor() {
@@ -184,6 +191,19 @@ export default {
 }
 .supporter .emote:after {
   z-index: 999;
+}
+
+.bug_catcher {
+  margin-right: 5px;
+  margin-left: 0;
+  flex-shrink: 0;
+  margin: auto;
+  background: #e234eb 100%;
+}
+.bug_catcher .emote {
+  z-index: 9999999;
+  top: -3px;
+  left: -3px;
 }
 
 .cute {
