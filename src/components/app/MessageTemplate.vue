@@ -5,7 +5,7 @@
     @mouseover="hover = true"
     @mouseleave="hover = false"
   >
-  <div class="new-badge" v-if="notificationLastMessageID && notificationLastMessageID === message.messageID">New</div>
+  <div class="new-badge" v-if="notificationLastMessageID && notificationLastMessageID === message.messageID">New messages</div>
     <div
       v-if="!message.type || message.type === 0"
       :class="{
@@ -461,7 +461,7 @@ $message-color: rgba(0, 0, 0, 0.3);
   z-index: 1;
 }
 .new-badge {
-  background: rgb(255, 48, 48);
+  background: #ed5151;
   padding: 4px;
   text-align: center;
   border-radius: 4px;
