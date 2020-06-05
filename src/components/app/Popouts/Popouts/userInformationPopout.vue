@@ -87,6 +87,24 @@
           </div>
         </div>
         <div class="scrollable">
+          <div class="playing-status" v-if="programActivityStatus && status">
+            <div class="title">Activity Status:</div>
+            <div class="status program-activity">
+              <span class="icon material-icons">widgets</span>
+              <strong>{{programActivityStatus.status}}</strong>
+              <span>{{programActivityStatus.name}}</span>
+            </div>
+          </div>
+          <div v-else-if="customStatus && status" class="playing-status">
+            <div class="title">Custom Status:</div>
+            <div class="status program-activity">
+              <SimpleMarkdown
+                class="custom-status"
+                :message="customStatus"
+              />
+            </div>
+          </div>
+
           <div class="about-me">
             <div class="about-item-container" v-for="aboutItem of aboutMe" :key="aboutItem.name">
               <div
@@ -110,7 +128,10 @@
             </div>
             <div class="about-item createdBy" v-if="user.bot">
               <div class="key">Created By:</div>
-              <div class="name" @click="switchUser(user.createdBy.uniqueID)">{{user.createdBy.username}}</div>
+              <div
+                class="name"
+                @click="switchUser(user.createdBy.uniqueID)"
+              >{{user.createdBy.username}}</div>
             </div>
             <div class="about-item">
               <div class="key">Joined:</div>
@@ -375,11 +396,50 @@ export default {
       const allFriend = this.$store.getters.user.friends;
       if (!allFriend[userUniqueID]) return null;
       return allFriend[userUniqueID].status;
+    },
+    customStatus() {
+      if (this.user.uniqueID === this.$store.getters.user.uniqueID) {
+        return this.$store.getters.user.custom_status;
+      }
+      const customStatusArr = this.$store.getters["members/customStatusArr"];
+      return customStatusArr[this.user.uniqueID];
+    },
+    programActivityStatus() {
+      const programActivityJson = this.$store.getters[
+        "members/programActivity"
+      ];
+      return programActivityJson[this.user.uniqueID];
     }
   }
 };
 </script>
 <style scoped lang="scss">
+.playing-status {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  .title {
+    margin-top: 4px;
+    font-size: 15px;
+    opacity: 0.8;
+  }
+
+  .status {
+    font-size: 14px;
+    line-break: anywhere;
+    display: block;
+    margin-left: 10px;
+    margin-bottom: 5px;
+  }
+  strong {
+    margin-right: 5px;
+  }
+
+  .material-icons {
+    font-size: 16px;
+    margin-right: 5px;
+  }
+}
+
 .second-box {
   display: flex;
   flex-direction: column;
@@ -772,4 +832,10 @@ export default {
   height: 20px;
   width: 20px;
 }
+.custom-status .emoji {
+  height: 18px;
+  width: 18px;
+  vertical-align: -3px;
+}
 </style>
+

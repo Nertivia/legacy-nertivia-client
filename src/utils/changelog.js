@@ -1,5 +1,14 @@
 const config = [
   {
+    version: "1.2.5",
+    title: "Custom status in profile",
+    shortTitle: "",
+    date: "05 June 2020",
+    new: [
+      "You can now see activity status or custom status in the profile popout"
+    ],
+  },
+  {
     version: "1.2.4",
     title: "New badge",
     shortTitle: "",
