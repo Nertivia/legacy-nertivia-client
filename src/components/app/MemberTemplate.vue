@@ -205,5 +205,6 @@ export default {
 .custom-status .emoji {
   height: 14px;
   width: 14px;
+  vertical-align: -3px;
 }
 </style>
