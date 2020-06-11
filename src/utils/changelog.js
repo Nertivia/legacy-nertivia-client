@@ -1,11 +1,13 @@
 const config = [
   {
     version: "1.2.6",
-    title: "Custom Server Invites! (Verified servers only",
+    title: "Custom Server Invites! (Verified servers only)",
     shortTitle: "",
     date: "11 June 2020",
     new: [
-      "You can now create custom invite links for your server if your server is verified."
+      "Redesigned invites page.",
+      "You can now create custom invite links for your server if your server is verified.",
+      "You can now delete invites, see others invites (owner only) and uses of invites."
     ],
     fix: [
       "Manage bans page not showing avatars."
