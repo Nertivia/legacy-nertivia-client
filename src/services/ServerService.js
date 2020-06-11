@@ -12,9 +12,14 @@ export default {
   getChannels(serverID) {
     return wrapper(instance().get(domain + `/servers/${serverID}/channels`));
   },
-
+  deleteInvite(inviteCode) {
+    return wrapper(instance().delete(domain + `/servers/invite/${inviteCode}`));
+  },
   postInvite(serverID) {
     return wrapper(instance().post(domain + `/servers/${serverID}/invite`));
+  },
+  createCustomInvite(serverID, customInvite){
+    return wrapper(instance().post(domain + `/servers/${serverID}/invites/custom`, {customCode: customInvite}));
   },
   getInvites(serverID) {
     return wrapper(instance().get(domain + `/servers/${serverID}/invites`));

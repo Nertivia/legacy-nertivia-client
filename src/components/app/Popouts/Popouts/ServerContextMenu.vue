@@ -64,10 +64,14 @@ export default {
     },
     createInvite() {
       this.closeMenu();
-      this.$store.dispatch("setPopoutVisibility", {
-        name: "showServerInviteMenu",
-        visibility: true
+      this.$store.dispatch("setServerSettings", {
+        serverID: this.contextDetails.serverID,
+        index: 3
       });
+      // this.$store.dispatch("setPopoutVisibility", {
+      //   name: "showServerInviteMenu",
+      //   visibility: true
+      // });
     },
     async leaveServer() {
       this.closeMenu();

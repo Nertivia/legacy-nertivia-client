@@ -24,9 +24,10 @@
         <general v-if="index === 0" />
         <manage-channels v-if="index === 1" />
         <manage-roles v-if="index === 2" />
-        <manage-bans v-if="index === 3" />
-        <server-visibility v-if="index === 4" />
-        <delete-server v-if="index === 5" />
+        <server-invite-popout v-if="index === 3" />
+        <manage-bans v-if="index === 4" />
+        <server-visibility v-if="index === 5" />
+        <delete-server v-if="index === 6" />
       </div>
     </div>
   </div>
@@ -34,26 +35,31 @@
 
 <script>
 // panels
-import General from "./General.vue";
-import DeleteServer from "./DeleteServer.vue";
-import ManageChannels from "./ManageChannels.vue";
-import ManageRoles from "./ManageRoles.vue";
-import ManageBans from "./ManageBans.vue";
-import ServerVisibility from "./ServerVisibility.vue";
+const General = () => import("./General.vue");
+const DeleteServer = () => import("./DeleteServer.vue");
+const ManageChannels = () => import("./ManageChannels.vue");
+const ManageRoles = () => import("./ManageRoles.vue");
+const ManageBans = () => import("./ManageBans.vue");
+const ServerVisibility = () => import("./ServerVisibility.vue");
+const ServerInvitePopout = () => import("../ServerInvitePopout");
+
+
 import { permissions, containsPerm } from "@/utils/RolePermissions";
 
 export default {
+  props: ["defaultIndex"],
   components: {
     General,
     DeleteServer,
     ManageChannels,
     ServerVisibility,
+    ServerInvitePopout,
     ManageBans,
     ManageRoles
   },
   data() {
     return {
-      index: 0
+      index: this.$store.state.popoutsModule.serverSettings.index || 0
     };
   },
 
@@ -135,22 +141,28 @@ export default {
         },
         // {title: "Manage Invites", icon: "local_post_office"},
         {
+          title: "Manage Invites",
+          icon: "settings",
+          index: 3,
+          shown: true
+        },
+        {
           title: "Banned Members",
           icon: "lock",
-          index: 3,
+          index: 4,
           shown: this.checkServerCreator
         },
         {
           title: "Server Visibility",
           icon: "visibility",
-          index: 4,
+          index: 5,
           shown: this.checkServerCreator
         },
         {
           title: "Delete Server",
           icon: "warning",
           critical: true,
-          index: 5,
+          index: 6,
           shown: this.checkServerCreator
         }
       ];

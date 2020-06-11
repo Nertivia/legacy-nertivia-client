@@ -5,11 +5,8 @@
         <spinner v-if="bans === null" />
 
         <div class="member" v-for="(ban, index) in bans" :key="index">
-          <div
-            class="avatar"
-            @click="showProfile(ban.user.uniqueID)"
-            :style="`background-image: url(${ban.user.avatar})`"
-          />
+          <profile-picture class="avatar" :uniqueID="ban.user.uniqueID" :avatar="ban.user.avatar" size="30px" :hover="true" animation-padding="4px" />
+
           <div class="details" @click="showProfile(ban.user.uniqueID)">
             <div class="username">{{ ban.user.username }}</div>
             <div class="tag">@{{ ban.user.tag }}</div>
@@ -25,11 +22,12 @@
 
 <script>
 import ServerService from "@/services/ServerService";
+import ProfilePicture from "@/components/global/ProfilePictureTemplate";
 import Spinner from "@/components/global/Spinner";
 import config from '@/config';
 
 export default {
-  components: { Spinner },
+  components: { Spinner, ProfilePicture },
   data() {
     return {
       CDNDomain: config.nertiviaCDN,
@@ -88,23 +86,13 @@ export default {
   overflow: auto;
   .member {
     display: flex;
-    background: rgba(0, 0, 0, 0.5);
     height: 30px;
     padding: 5px;
     align-content: center;
     align-items: center;
     flex-shrink: 0;
-    .avatar {
-      height: 30px;
-      width: 30px;
-      border-radius: 50%;
-      margin-right: 5px;
-      flex-shrink: 0;
-      background-color: rgba(0, 0, 0, 0.315);
-      background-position: center;
-      background-size: cover;
-      background-repeat: no-repeat;
-      cursor: pointer;
+    &:hover {
+      background: rgba(0, 0, 0, 0.1);
     }
     .details {
       display: flex;

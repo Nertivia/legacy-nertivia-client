@@ -1,27 +1,52 @@
 <template>
-  <div
-    class="dark-background server-invite-popout"
-    @mousedown="backgroundClick"
-  >
-    <div class="inner">
-      <div class="top">
-        <div class="button" @click="createInviteButton">
-          Create New Invite
+  <div class="inner-content">
+    <div class="bottom">
+      <div
+        class="custom-links"
+        :class="{notAllowed: !server.verified}"
+        v-if="invites !== null && checkServerCreator"
+      >
+        <div class="title">Create custom link (Verified servers only)</div>
+        <div class="custom-link-input">
+          <div class="link" @click="$refs.customLinkInput.focus()">https://nertivia.tk/invites/</div>
+          <input
+            ref="customLinkInput"
+            v-model="customLink"
+            @blur="updateCustomLink"
+            @keydown="keyDownEvent"
+            spellcheck="false"
+            type="text"
+            placeholder="Type here"
+          />
         </div>
       </div>
-      <div class="bottom">
-        <div class="title">
-          Invites created by you:
+
+      <div class="strip">
+        <div class="button" @click="createInviteButton">
+          <div class="material-icons">add</div>Create New Invite
         </div>
-        <spinner v-if="invites === null" />
-        <div v-if="invites !== null" class="invite-list">
-          <div
-            v-for="invite in invites.slice().reverse()"
-            :key="invite"
-            class="invite"
-          >
-            <span class="link">https://nertivia.tk/invites/</span>{{ invite }}
+      </div>
+      <spinner v-if="invites === null" />
+      <div v-if="invites !== null" class="invite-list">
+        <div v-for="invite in invites" :key="invite.invite_code" class="invite">
+          <div class="details">
+            <div class="full-link">
+              <span class="link">https://nertivia.tk/invites/</span>
+              {{ invite.invite_code }}
+              <div class="other-info">
+                <span class="sub-title">Created By:</span>
+                <span
+                  class="username"
+                  @click="showUser(invite.creator.uniqueID)"
+                >{{invite.creator.username}}:{{invite.creator.tag}}</span>
+                <span class="sub-title">Uses:</span>
+                {{invite.uses}}
+              </div>
+            </div>
+          </div>
+          <div class="buttons">
             <div class="copy-button" @click="copy(invite)">Copy</div>
+            <div class="copy-button delete" @click="deleteInvite(invite)">Delete</div>
           </div>
         </div>
       </div>
@@ -37,21 +62,21 @@ export default {
   components: { Spinner },
   data() {
     return {
-      invites: null
+      invites: null,
+      customLink: ""
     };
   },
   async mounted() {
     // get invites created by you
     const { ok, result } = await ServerService.getInvites(this.serverID);
     if (ok) {
-      let invites = [];
-      for (let invite of result.data) {
-        invites.push(invite.invite_code);
-      }
-      this.invites = invites;
+      this.invites = result.data.reverse();
     }
   },
   methods: {
+    showUser(id) {
+      this.$store.dispatch("setUserInformationPopout", id);
+    },
     closeMenu() {
       this.$store.dispatch("setPopoutVisibility", {
         name: "showServerInviteMenu",
@@ -70,62 +95,94 @@ export default {
       }
       const { ok, result } = await ServerService.postInvite(this.serverID);
       if (ok) {
-        this.invites.push(result.data.invite_code);
+        this.invites = [
+          { invite_code: result.data.invite_code, creator: this.user },
+          ...this.invites
+        ];
       }
     },
     copy(invite) {
-      this.$clipboard("https://nertivia.tk/invites/" + invite);
+      this.$clipboard("https://nertivia.tk/invites/" + invite.invite_code);
+    },
+    async deleteInvite(invite) {
+      this.invites = this.invites.filter(
+        i => i.invite_code !== invite.invite_code
+      );
+      await ServerService.deleteInvite(invite.invite_code);
+    },
+    async updateCustomLink() {
+      const { ok, error } = await ServerService.createCustomInvite(
+        this.serverID,
+        this.customLink
+      );
+      if (ok) {
+        if (this.customInvite) {
+          const index = this.invites.findIndex(i => i.custom);
+          this.$set(this.invites, index, {
+            ...this.customInvite,
+            invite_code: this.customLink
+          });
+        } else {
+          this.invites = [
+            { invite_code: this.customLink, creator: this.user, custom: true },
+            ...this.invites
+          ];
+        }
+      } else {
+        this.$store.dispatch("setGenericMessage", error.response.data.message);
+      }
+    },
+    keyDownEvent(e) {
+      if (e.key === "Enter") {
+        this.updateCustomLink()
+      }
+    }
+  },
+  watch: {
+    customInvite(val) {
+      this.customLink = val ? val.invite_code : "";
     }
   },
   computed: {
+    user() {
+      return this.$store.getters.user;
+    },
     serverID() {
       return this.$store.getters.popouts.allPopout.serverID;
+    },
+    server() {
+      return this.$store.getters["servers/servers"][this.serverID];
+    },
+    checkServerCreator() {
+      return this.server.creator.uniqueID === this.user.uniqueID;
+    },
+    customInvite() {
+      if (!this.invites) return undefined;
+      return this.invites.find(i => i.custom);
     }
   }
 };
 </script>
 
-<style scoped>
-.dark-background {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.541);
-  z-index: 111111;
-  display: flex;
-}
-.inner {
-  margin: auto;
-  height: 400px;
-  width: 400px;
+<style scoped lang="scss">
+.inner-content {
   display: flex;
   flex-direction: column;
-  color: white;
-  overflow: hidden;
-  box-shadow: 0px 0px 20px 5px #151515bd;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 87, 153, 0.8) 0,
-    rgba(0, 118, 209, 0.8)
-  );
-  border-radius: 4px;
-  backdrop-filter: blur(5px);
+  overflow: auto;
+  height: 100%;
 }
-.top {
+.strip {
   display: flex;
-  width: 100%;
-  min-height: 100px;
-  background: rgba(0, 0, 0, 0.171);
-  flex-shrink: 0;
+  background: rgba(0, 0, 0, 0.1);
 }
 
 .button {
-  padding: 10px;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  padding: 5px;
+  font-size: 14px;
   background: rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
-  margin: auto;
   transition: 0.3s;
   user-select: none;
   cursor: pointer;
@@ -152,26 +209,95 @@ export default {
 }
 .invite {
   display: flex;
-  background: rgba(0, 0, 0, 0.274);
-  margin: 1px;
   margin-left: 0;
   margin-right: 0;
-  padding: 10px;
+  padding: 5px;
+  transition: 0.2s;
+}
+
+.invite:hover {
+  background: rgba(0, 0, 0, 0.3);
+
+  .copy-button {
+    opacity: 0.7;
+  }
+  .copy-button:hover {
+    opacity: 1;
+  }
 }
 .link {
   color: rgba(255, 255, 255, 0.5);
+  word-break: break-word;
+}
+
+.buttons {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  margin-right: 0;
+}
+
+.details {
+  display: flex;
+  align-items: center;
 }
 
 .copy-button {
-  display: flex;
-  margin: auto;
-  margin-right: 0;
   flex-shrink: 0;
   cursor: pointer;
-  opacity: 0.7;
+  opacity: 0.6;
   transition: 0.2s;
+  user-select: none;
 }
-.copy-button:hover {
-  opacity: 1;
+.copy-button.delete {
+  margin-top: 10px;
+  color: rgb(255, 152, 67);
+}
+.other-info {
+  font-size: 14px;
+}
+.sub-title {
+  opacity: 0.8;
+}
+.username {
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+.custom-links {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  &.notAllowed {
+    &::before {
+      content: "";
+      position: absolute;
+      cursor: not-allowed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+    opacity: 0.4;
+  }
+}
+.custom-link-input {
+  border-radius: 4px;
+  padding-left: 10px;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  align-self: center;
+  margin-bottom: 10px;
+  align-content: center;
+  font-size: 14px;
+  input {
+    margin: 0;
+    background: transparent;
+    padding-left: 0;
+    width: initial;
+  }
 }
 </style>

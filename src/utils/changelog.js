@@ -1,5 +1,17 @@
 const config = [
   {
+    version: "1.2.6",
+    title: "Custom Server Invites! (Verified servers only",
+    shortTitle: "",
+    date: "11 June 2020",
+    new: [
+      "You can now create custom invite links for your server if your server is verified."
+    ],
+    fix: [
+      "Manage bans page not showing avatars."
+    ]
+  },
+  {
     version: "1.2.5",
     title: "Custom status in profile",
     shortTitle: "",

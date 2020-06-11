@@ -48,8 +48,8 @@ export default {
         { name: "Verified", param: "verified", default: true, value: true }
       ],
       sortBys: [
-        { name: "Alphabetical", param: "", value: true },
-        { name: "Most Users", param: "most_users", value: true },
+        { name: "Most Users", param: "", value: true },
+        { name: "Alphabetical", param: "alphabetical", value: true },
         { name: "Least Users", param: "most_users", value: false },
         { name: "Date Added", param: "date_added", value: true }
       ],
