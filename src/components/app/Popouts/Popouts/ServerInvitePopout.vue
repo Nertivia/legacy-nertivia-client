@@ -32,7 +32,7 @@
           <div class="details">
             <div class="full-link">
               <span class="link">https://nertivia.tk/invites/</span>
-              {{ invite.invite_code }}
+              <span>{{ invite.invite_code }}</span>
               <div class="other-info">
                 <span class="sub-title">Created By:</span>
                 <span
@@ -134,7 +134,7 @@ export default {
     },
     keyDownEvent(e) {
       if (e.key === "Enter") {
-        this.updateCustomLink()
+        this.updateCustomLink();
       }
     }
   },
@@ -230,6 +230,10 @@ export default {
   word-break: break-word;
 }
 
+.other-info {
+  margin-top: 5px;
+}
+
 .buttons {
   flex-shrink: 0;
   display: flex;
@@ -259,6 +263,11 @@ export default {
 }
 .sub-title {
   opacity: 0.8;
+  margin-left: 5px;
+  margin-right: 5px;
+  &:first-child {
+    margin-left: 0;
+  }
 }
 .username {
   cursor: pointer;
