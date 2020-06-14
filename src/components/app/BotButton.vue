@@ -55,14 +55,16 @@ export default {
   user-select: none;
   cursor: pointer;
   min-width: 18px;
-  border-radius: 4px;
+  border-radius: 10px;
   margin-bottom: 5px;
   margin-right: 5px;
   transition: 0.2s;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .button:hover {
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.3);
+  color: white;
 }
 
 .button.disabled {
