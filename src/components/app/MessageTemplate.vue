@@ -5,7 +5,10 @@
     @mouseover="hover = true"
     @mouseleave="hover = false"
   >
-  <div class="new-badge" v-if="notificationLastMessageID && notificationLastMessageID === message.messageID">New messages</div>
+    <div
+      class="new-badge"
+      v-if="notificationLastMessageID && notificationLastMessageID === message.messageID"
+    >New messages</div>
     <div
       v-if="!message.type || message.type === 0"
       :class="{
@@ -17,9 +20,7 @@
           apperance.own_message_right === true,
       }"
     >
-      <div class="small-time" v-if="hideAdditional" :title="getDate">
-        {{ getTime }}
-      </div>
+      <div class="small-time" v-if="hideAdditional" :title="getDate">{{ getTime }}</div>
       <div class="avatar" v-if="!hideAdditional">
         <profile-picture
           :admin="creator.admin"
@@ -34,103 +35,94 @@
       <div class="triangle">
         <div class="triangle-inner" v-if="!hideAdditional" />
       </div>
-      <div class="content" @dblclick="contentDoubleClickEvent">
-        <div class="user-info">
-          <div
-            v-if="!hideAdditional"
-            class="username"
-            :style="{ color: loaded ? roleColor : null }"
-            @click="openUserInformation"
-            @contextmenu.prevent="openMemberContext"
-          >
-            {{ creator.username }}
+      <div>
+        <div class="content-outer">
+          <div class="content" @dblclick="contentDoubleClickEvent">
+            <div class="user-info">
+              <div
+                v-if="!hideAdditional"
+                class="username"
+                :style="{ color: loaded ? roleColor : null }"
+                @click="openUserInformation"
+                @contextmenu.prevent="openMemberContext"
+              >{{ creator.username }}</div>
+              <div class="bot" v-if="!hideAdditional && creator.bot">Bot</div>
+              <div class="date" v-if="!hideAdditional">{{ getDate }}</div>
+              <div
+                class="mentioned material-icons"
+                v-if="isMentioned"
+                title="You were mentioned"
+              >alternate_email</div>
+            </div>
+            <div class="inner-content">
+              <SimpleMarkdown
+                @contextmenu.native="openContextMenu($event, true)"
+                class="content-message"
+                :style="[
+                message.color && message.color !== -2
+                  ? { color: message.color }
+                  : '',
+              ]"
+                :message="message.message"
+                :content="message"
+              />
+
+              <FileMessage v-if="getFile && !getFile.fileName.endsWith('.mp3')" :file="getFile" />
+              <MusicMessage
+                v-else-if="getFile && getFile.fileName.endsWith('.mp3')"
+                :file="getFile"
+              />
+
+              <InviteMessage
+                :key="message.timeEdited || message.tempID"
+                v-else-if="inviteEmbed"
+                :invite="inviteEmbed"
+              />
+
+              <ThemeMessage
+                :key="message.timeEdited || message.tempID"
+                v-else-if="themeEmbed"
+                :theme="themeEmbed"
+              />
+
+              <message-embed-template
+                v-else-if="message.embed && Object.keys(message.embed).length"
+                :embed="message.embed"
+              />
+
+              <div
+                class="image-content"
+                ref="image"
+                v-if="getImage"
+                @contextmenu="imageContextEvent"
+              >
+                <img :src="getImage" @click="imageClicked" />
+              </div>
+            </div>
           </div>
-          <div class="bot" v-if="!hideAdditional && creator.bot">Bot</div>
-          <div class="date" v-if="!hideAdditional">{{ getDate }}</div>
-          <div
-            class="mentioned material-icons"
-            v-if="isMentioned"
-            title="You were mentioned"
-          >
-            alternate_email
+          <div class="other-information">
+            <div class="drop-down-button" ref="drop-down-button" @click="openContextMenu">
+              <i class="material-icons">more_vert</i>
+            </div>
+            <div
+              class="sending-status"
+              v-if="message.timeEdited &&(message.status === undefined || message.status === 1)"
+              :title="`Edited ${getEditedDate}`"
+              >
+              <i class="material-icons">edit</i>
+            </div>
+            <div class="sending-status" v-else-if="message.status === 0">
+              <i class="material-icons">hourglass_full</i>
+            </div>
+            <div class="sending-status" v-else-if="message.status === 1">
+              <i class="material-icons">done</i>
+            </div>
+            <div class="sending-status" v-else-if="message.status === 2">
+              <i class="material-icons">close</i> Failed
+            </div>
           </div>
         </div>
-        <div class="inner-content">
-          <SimpleMarkdown
-            @contextmenu.native="openContextMenu($event, true)"
-            class="content-message"
-            :style="[
-              message.color && message.color !== -2
-                ? { color: message.color }
-                : '',
-            ]"
-            :message="message.message"
-            :content="message"
-          />
-
-          <FileMessage
-            v-if="getFile && !getFile.fileName.endsWith('.mp3')"
-            :file="getFile"
-          />
-          <MusicMessage
-            v-else-if="getFile && getFile.fileName.endsWith('.mp3')"
-            :file="getFile"
-          />
-
-          <InviteMessage
-            :key="message.timeEdited || message.tempID"
-            v-else-if="inviteEmbed"
-            :invite="inviteEmbed"
-          />
-
-          <ThemeMessage
-            :key="message.timeEdited || message.tempID"
-            v-else-if="themeEmbed"
-            :theme="themeEmbed"
-          />
-
-          <message-embed-template
-            v-else-if="message.embed && Object.keys(message.embed).length"
-            :embed="message.embed"
-          />
-
-          <div
-            class="image-content"
-            ref="image"
-            v-if="getImage"
-            @contextmenu="imageContextEvent"
-          >
-            <img :src="getImage" @click="imageClicked" />
-          </div>
-        </div>
-      </div>
-      <div class="other-information">
-        <div
-          class="drop-down-button"
-          ref="drop-down-button"
-          @click="openContextMenu"
-        >
-          <i class="material-icons">more_vert</i>
-        </div>
-        <div
-          class="sending-status"
-          v-if="
-            message.timeEdited &&
-              (message.status === undefined || message.status === 1)
-          "
-          :title="`Edited ${getEditedDate}`"
-        >
-          <i class="material-icons">edit</i>
-        </div>
-        <div class="sending-status" v-else-if="message.status === 0">
-          <i class="material-icons">hourglass_full</i>
-        </div>
-        <div class="sending-status" v-else-if="message.status === 1">
-          <i class="material-icons">done</i>
-        </div>
-        <div class="sending-status" v-else-if="message.status === 2">
-          <i class="material-icons">close</i> Failed
-        </div>
+        <bot-buttons v-if="message.buttons && message.buttons.length" :message="message" />
       </div>
     </div>
     <PresenceMessage
@@ -148,6 +140,7 @@
 <script>
 import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
 import PresenceMessage from "./PresenceMessage.vue";
+import BotButtons from "./BotButtons.vue";
 import FileMessage from "./FileMessage.vue";
 import InviteMessage from "./InviteMessage.vue";
 import ThemeMessage from "./ThemeMessage.vue";
@@ -160,9 +153,14 @@ import path from "path";
 import windowProperties from "@/utils/windowProperties";
 import { mapState } from "vuex";
 import isElectron from "../../utils/ElectronJS/isElectron";
-
 export default {
-  props: ["creator", "message", "isServer", "hideAdditional", "notificationLastMessageID"],
+  props: [
+    "creator",
+    "message",
+    "isServer",
+    "hideAdditional",
+    "notificationLastMessageID"
+  ],
   components: {
     ProfilePicture,
     messageEmbedTemplate,
@@ -171,12 +169,13 @@ export default {
     FileMessage,
     MusicMessage,
     InviteMessage,
-    ThemeMessage
+    ThemeMessage,
+    BotButtons
   },
   data() {
     return {
       hover: false,
-      loaded: false,
+      loaded: false
     };
   },
   methods: {
@@ -189,7 +188,7 @@ export default {
         serverID: this.$store.getters["servers/currentServerID"],
         uniqueID: this.creator.uniqueID,
         x,
-        y,
+        y
       });
     },
     openContextMenu(event, text) {
@@ -210,7 +209,7 @@ export default {
         message: this.message.message,
         uniqueID: this.creator.uniqueID,
         messageType: this.message.type,
-        color: this.message.color,
+        color: this.message.color
       });
     },
     openUserInformation() {
@@ -226,7 +225,7 @@ export default {
         channelID: this.message.channelID,
         messageID: this.message.messageID,
         message: this.message.message,
-        color: this.message.color,
+        color: this.message.color
       });
     },
     contentDoubleClickEvent(event) {
@@ -290,14 +289,14 @@ export default {
         type: "IMAGE_CONTEXT",
         url: this.getImage,
         x: event.clientX,
-        y: event.clientY,
+        y: event.clientY
       });
-    },
+    }
   },
   watch: {
     getWindowWidth(dimentions) {
       this.onResize(dimentions);
-    },
+    }
   },
   mounted() {
     this.imageSize();
@@ -353,7 +352,7 @@ export default {
     getWindowWidth() {
       return {
         width: windowProperties.resizeWidth,
-        height: windowProperties.resizeHeight,
+        height: windowProperties.resizeHeight
       };
     },
     roles() {
@@ -362,7 +361,7 @@ export default {
     serverMember() {
       const serverMembers = this.$store.getters["servers/serverMembers"];
       return serverMembers.find(
-        (m) =>
+        m =>
           m.uniqueID === this.creator.uniqueID &&
           m.server_id === this.$store.getters["servers/currentServerID"]
       );
@@ -371,7 +370,7 @@ export default {
       if (!this.isServer) return undefined;
       if (!this.serverMember || !this.serverMember.roles) return undefined;
 
-      const filter = this.roles.find((r) =>
+      const filter = this.roles.find(r =>
         this.serverMember.roles.includes(r.id)
       );
       if (filter) {
@@ -381,13 +380,13 @@ export default {
           return undefined;
         }
       } else {
-        return this.roles.find((r) => r.default).color + " !important";
+        return this.roles.find(r => r.default).color + " !important";
       }
     },
     isMentioned() {
       if (!this.message.mentions) return;
       const mentions = this.message.mentions;
-      if (mentions.find((u) => u.uniqueID === this.user.uniqueID)) {
+      if (mentions.find(u => u.uniqueID === this.user.uniqueID)) {
         return true;
       }
       return false;
@@ -401,8 +400,8 @@ export default {
       const regex = /nertivia\.tk\/themes\/([\w]+)/;
       if (!this.message.message) return null;
       return this.message.message.match(regex);
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -531,13 +530,17 @@ $message-color: rgba(0, 0, 0, 0.3);
   background: $message-color;
   padding: 10px;
   display: flex;
-  justify-content: center;
   flex-direction: column;
   color: rgb(231, 231, 231);
   margin: auto 0;
   overflow: hidden;
   border-radius: 4px;
   border-top-left-radius: 0;
+}
+.content-outer {
+  display: flex;
+  align-self: flex-start;
+  
 }
 .inner-content {
   display: flex;
@@ -611,6 +614,8 @@ $message-color: rgba(0, 0, 0, 0.3);
 .other-information {
   display: flex;
   flex-direction: column;
+  width: 20px;
+  
 }
 .message .sending-status {
   display: flex;

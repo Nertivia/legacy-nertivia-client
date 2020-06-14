@@ -62,6 +62,7 @@
         key="dp"
         v-if="popouts.allPopout.unclosableType === 'DRAW_POPOUT'"
       />
+      <NotificationPopout key="np" v-if="popouts.allPopout.type === 'NOTIFICATION_POPOUT'" />
     </transition-group>
   </div>
 </template>
@@ -96,6 +97,8 @@ const AdminManageUser = () => import("./Popouts/adminManageUserPopout");
 const GenericPopout = () => import("./Popouts/GenericPopout");
 const DeleteConfirm = () => import("./Popouts/DeleteConfirm");
 
+const NotificationPopout = () => import("./Popouts/NotificationPopout");
+
 const DrawPopout = () => import("./Popouts/DrawPopout");
 
 export default {
@@ -121,7 +124,8 @@ export default {
     ChannelContextMenu,
     ImageContextMenu,
     DrawPopout,
-    TextAreaContext
+    TextAreaContext,
+    NotificationPopout
   },
   data() {
     return {

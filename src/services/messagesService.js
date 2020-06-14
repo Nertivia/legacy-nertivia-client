@@ -49,5 +49,8 @@ export default {
     };
 
     return wrapper(instance().post(domain+url, data, config));
+  },
+  buttonClick(channelID, messageID, buttonID) {
+    return wrapper(instance().post(domain+ `channels/${channelID}/messages/${messageID}/button/${buttonID}`));
   }
 };
