@@ -26,12 +26,14 @@ export default {
       if (data.id !== this.button.id) return;
       this.posting = false;
       clearTimeout(this.timeout);
-      this.$store.dispatch("setAllPopout", {
-        show: true,
-        type: "NOTIFICATION_POPOUT",
-        message: data.message,
-        id: Math.random().toString()
-      });
+      if (data.message && data.message.trim()) {
+        this.$store.dispatch("setAllPopout", {
+          show: true,
+          type: "NOTIFICATION_POPOUT",
+          message: data.message,
+          id: Math.random().toString()
+        });
+      }
     }
   },
   destroyed() {
