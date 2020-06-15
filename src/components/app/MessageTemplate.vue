@@ -35,7 +35,7 @@
       <div class="triangle">
         <div class="triangle-inner" v-if="!hideAdditional" />
       </div>
-      <div>
+      <div class="all-content">
         <div class="content-outer">
           <div class="content" @dblclick="contentDoubleClickEvent">
             <div class="user-info">
@@ -417,42 +417,7 @@ $message-color: rgba(0, 0, 0, 0.3);
   z-index: 1;
   transition: 0.2s;
 }
-.hideAdditional {
-  .small-time {
-    display: flex;
-    color: white;
-    width: 56px;
-    font-size: 13px;
-    align-self: center;
-    text-align: center;
-    justify-content: center;
-    flex-shrink: 0;
-    opacity: 0;
-    transition: 0.2s;
-  }
-  &:hover .small-time {
-    opacity: 0.8;
-  }
-  .content {
-    border-radius: 4px;
-    flex-direction: row;
-  }
-  .mentioned {
-    margin-top: 0;
-    margin-left: 0;
-  }
-  .user-info {
-    margin-top: 2px;
-  }
-  .avatar {
-    height: 15px;
-    flex-shrink: 0;
-  }
-  .triangle {
-    width: 8px;
-    flex-shrink: 0;
-  }
-}
+
 .drop-down-button {
   opacity: 0;
   transition: 0.2s;
@@ -474,7 +439,14 @@ $message-color: rgba(0, 0, 0, 0.3);
 
 .ownMessageRight {
   flex-direction: row-reverse;
+  .content-outer {
+    flex-direction: row-reverse;
+  }
+  .drop-down-button {
+    text-align: end;
+  }
 }
+
 .ownMessageRight .triangle-inner {
   border-left: 8px solid $self-message-color;
   border-right: none !important;
@@ -537,15 +509,22 @@ $message-color: rgba(0, 0, 0, 0.3);
   border-radius: 4px;
   border-top-left-radius: 0;
 }
+
+.all-content {
+  display: flex;  
+  overflow: hidden;
+}
+
 .content-outer {
   display: flex;
   align-self: flex-start;
-  
+  overflow: hidden;
 }
 .inner-content {
   display: flex;
   justify-content: center;
   flex-direction: column;
+  overflow: hidden;
 }
 .ownMessageRight .content {
   border-radius: 4px;
@@ -614,7 +593,8 @@ $message-color: rgba(0, 0, 0, 0.3);
 .other-information {
   display: flex;
   flex-direction: column;
-  width: 20px;
+  min-width: 20px;
+  flex-shrink: 0;
   
 }
 .message .sending-status {
@@ -659,4 +639,43 @@ $message-color: rgba(0, 0, 0, 0.3);
   border-radius: 50%;
   cursor: default;
 }
+
+
+.hideAdditional {
+  .small-time {
+    display: flex;
+    color: white;
+    width: 56px;
+    font-size: 13px;
+    align-self: center;
+    text-align: center;
+    justify-content: center;
+    flex-shrink: 0;
+    opacity: 0;
+    transition: 0.2s;
+  }
+  &:hover .small-time {
+    opacity: 0.8;
+  }
+  .content {
+    border-radius: 4px;
+    flex-direction: row;
+  }
+  .mentioned {
+    margin-top: 0;
+    margin-left: 0;
+  }
+  .user-info {
+    margin-top: 2px;
+  }
+  .avatar {
+    height: 15px;
+    flex-shrink: 0;
+  }
+  .triangle {
+    width: 8px;
+    flex-shrink: 0;
+  }
+}
+
 </style>
