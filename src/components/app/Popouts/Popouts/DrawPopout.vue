@@ -192,6 +192,8 @@ export default {
       const rect = canvas.getBoundingClientRect();
       canvas.width = rect.width;
       canvas.height = rect.height;
+      this.doodlePad.width = rect.width;
+      this.doodlePad.height = rect.height;
       this.doodlePad.render();
     }
   },

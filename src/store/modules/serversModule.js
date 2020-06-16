@@ -235,17 +235,20 @@ const mutations = {
     Vue.delete(state.servers, serverID);
   },
   ADD_SERVER_MEMBERS(state, serverMembersArr) {
-    for (let members of serverMembersArr) {
-      if (
-        !state.serverMembers.find(
-          sm =>
-            sm.uniqueID === members.uniqueID &&
-            sm.server_id === members.server_id
-        )
-      ) {
-        state.serverMembers.push(members);
-      }
+
+    for (let index = 0; index < serverMembersArr.length; index++) {
+      const members = serverMembersArr[index];
+      if (state.serverMembers.find(sm => 
+        sm.uniqueID === members.uniqueID &&
+        sm.server_id === members.server_id  
+      )) {
+        // console.log(members);
+        continue
+      };
+      state.serverMembers.push(members);      
     }
+    
+
   },
   ADD_SERVER_MEMBER(state, serverMember) {
     const exists = state.serverMembers.find(
