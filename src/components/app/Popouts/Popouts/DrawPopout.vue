@@ -3,12 +3,7 @@
     <div class="tool-bar">
       <div class="button material-icons" title="Undo" @click="undo">undo</div>
       <div class="button material-icons" title="Redo" @click="redo">redo</div>
-      <input
-        style="display: none;"
-        type="color"
-        ref="colorInput"
-        @change="customColorChange"
-      />
+      <input style="display: none;" type="color" ref="colorInput" @change="customColorChange" />
       <div class="colors">
         <div
           class="color"
@@ -25,9 +20,7 @@
           title="Custom Color"
           :class="{ selected: selectedColor === null }"
         >
-          <div class="icon material-icons" :style="{ color: customColor }">
-            palette
-          </div>
+          <div class="icon material-icons" :style="{ color: customColor }">palette</div>
         </div>
       </div>
 
@@ -40,10 +33,7 @@
           title="Pen Size"
           :class="{ selected: selectedPenSize === index }"
         >
-          <div
-            class="pen-size-inner"
-            :style="{ width: `${size}px`, height: `${size}px` }"
-          ></div>
+          <div class="pen-size-inner" :style="{ width: `${size}px`, height: `${size}px` }"></div>
         </div>
       </div>
     </div>
@@ -51,32 +41,24 @@
       <canvas class="canvas" ref="canvas" />
     </div>
     <div class="bottom-tool-bar">
-      <div class="button material-icons" title="Close" @click="closeMenu">
-        close
-      </div>
+      <div class="button material-icons" title="Close" @click="closeMenu">close</div>
       <div
         class="button material-icons"
         title="Fullscreen"
         @click="fullscreen = !fullscreen"
-      >
-        fullscreen
-      </div>
+      >fullscreen</div>
       <div
         class="button material-icons"
         :class="{ confirm: deleteConfirm }"
         title="Delete"
         @click="deleteButton"
-      >
-        delete
-      </div>
+      >delete</div>
       <div
         class="button material-icons"
         @click="sendButton"
         :title="currentChannelID ? 'Send' : 'Select a channel to send'"
         :class="{ disabled: !currentChannelID }"
-      >
-        send
-      </div>
+      >send</div>
     </div>
   </div>
 </template>
@@ -170,6 +152,15 @@ export default {
           this.undo();
         }
       }
+    },
+    setCanvasSize() {
+      const canvas = this.$refs.canvas;
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+      this.doodlePad.width = rect.width;
+      this.doodlePad.height = rect.height;
+      this.doodlePad.render();
     }
   },
   beforeDestroy() {
@@ -180,21 +171,11 @@ export default {
   watch: {
     fullscreen() {
       this.$nextTick(() => {
-        const canvas = this.$refs.canvas;
-        const rect = canvas.getBoundingClientRect();
-        canvas.width = rect.width;
-        canvas.height = rect.height;
-        this.doodlePad.render();
+        this.setCanvasSize();
       });
     },
     getWindowSize() {
-      const canvas = this.$refs.canvas;
-      const rect = canvas.getBoundingClientRect();
-      canvas.width = rect.width;
-      canvas.height = rect.height;
-      this.doodlePad.width = rect.width;
-      this.doodlePad.height = rect.height;
-      this.doodlePad.render();
+      this.setCanvasSize();
     }
   },
   computed: {
@@ -234,9 +215,7 @@ export default {
       });
     });
 
-    const rect = canvas.getBoundingClientRect();
-    canvas.width = rect.width;
-    canvas.height = rect.height;
+    this.setCanvasSize();
   }
 };
 </script>
