@@ -53,12 +53,9 @@
 
 
 <script>
-const activeWindowListener = window.require("active-window-listener");
 const { ipcRenderer } = window.require("electron");
 
 import DropDownTemplate from "@/components/app/Popouts/Popouts/ServerSettingsPanels/DropDownMenu";
-import activityProgramNames from "@/utils/activityProgramNames";
-activityProgramNames;
 export default {
   components: { DropDownTemplate },
   data() {
@@ -123,33 +120,10 @@ export default {
       this.getItems();
     },
     async getItems() {
-      const windows = activeWindowListener.getWindows();
-      const map = await Promise.all(
-        windows.map(async window => {
-          const filename = window.path.split("\\")[
-            window.path.split("\\").length - 1
-          ];
-          if (this.storedPrograms.find(sp => sp.filename === filename))
-            return undefined;
-          let title;
-          try {
-            const exif = await window.getExif();
-            if (exif.FileDescription && exif.FileDescription.trim().length) {
-              title = exif.FileDescription;
-            } else if (exif.ProductName && exif.ProductName.trim().length) {
-              title = exif.ProductName;
-            } else {
-              title = window.getTitle();
-            }
-          } catch {
-            title = window.getTitle();
-          }
-          return { name: title, filename };
-        })
-      );
-      const filter = map.filter(w => w !== undefined);
-
-      this.items = [{ name: "Add", filename: "Click me.exe" }, ...filter];
+      ipcRenderer.send("get_all_running_programs", this.storedPrograms)
+    },
+    getItemsReturn(_, data) {
+      this.items = [{ name: "Add", filename: "Click me.exe" }, ...data];
     },
     randomStatusChooser() {
       const statusArr = ["Playing", "Exploring", "Enjoying"];
@@ -163,6 +137,10 @@ export default {
 
   mounted() {
     this.getItems();
+    ipcRenderer.on("all_running_programs", this.getItemsReturn)
+  },
+  destroyed() {
+    ipcRenderer.off("all_running_programs", this.getItemsReturn)
   },
   computed: {}
 };
