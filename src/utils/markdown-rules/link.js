@@ -1,9 +1,11 @@
 import * as SimpleMarkdown from "simple-markdown";
 import * as linkify from "linkifyjs";
 
+
 const matchLink = str => {
   const tokens = linkify.tokenize(str);
   if (tokens.length >= 1 && tokens[0].isLink) {
+    if (tokens[0].v[0].v === "/" && tokens[0].v[1].v === "/") return;
     return {
       ...tokens[0].toObject(),
       raw: tokens[0].toString()
@@ -49,7 +51,7 @@ export default order => {
           SimpleMarkdown.sanitizeText(space) +
           SimpleMarkdown.htmlTag(
             "a", 
-            SimpleMarkdown.sanitizeText(`${link.href}`),
+            SimpleMarkdown.sanitizeText(`${link.raw}`),
             {
               href: SimpleMarkdown.sanitizeUrl(link.href),
               class: "link",
