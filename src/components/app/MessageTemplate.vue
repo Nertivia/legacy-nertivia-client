@@ -512,6 +512,7 @@ $message-color: rgba(0, 0, 0, 0.3);
 
 .all-content {
   display: flex;  
+  flex-direction: column;
   overflow: hidden;
 }
 

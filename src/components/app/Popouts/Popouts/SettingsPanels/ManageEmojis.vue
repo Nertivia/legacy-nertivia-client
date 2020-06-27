@@ -27,7 +27,7 @@
         </div>
       </div>
     </div>
-    <input ref="emojiBrowser" type="file" accept="image/*" class="hidden" @change="emojiBrowse" />
+    <input multiple ref="emojiBrowser" type="file" accept="image/*" class="hidden" @change="emojiBrowse" />
   </div>
 </template>
 
@@ -73,39 +73,73 @@ export default {
       }
     },
     async emojiBrowse(event) {
-      const file = event.target.files[0];
-      event.target.value = "";
-      const allowedFormats = [".png", ".jpeg", ".gif", ".jpg"];
-      if (!allowedFormats.includes(path.extname(file.name).toLowerCase())) {
-        this.errorBox("Upload failed - Unsupported image file.");
-        return;
-      } else if (file.size >= 3048576) {
-        // 3048576 = 3mb
-        this.errorBox(
-          "Upload failed - Image size must be less than 1 megabytes."
-        );
+      const files = event.target.files
+
+      if (files.length > 10) {
+        this.errorBox(`Please select less than 10 files.`);
         return;
       }
 
-      let reader = new FileReader();
-      reader.readAsDataURL(file);
+      const allowedFormats = [".png", ".jpeg", ".gif", ".jpg"];
+
+      for (let index = 0; index < files.length; index++) {
+        const file = files[index];
+        if (!allowedFormats.includes(path.extname(file.name).toLowerCase())) {
+          this.errorBox(`Upload failed - ${file.name} Unsupported image file.`);
+          break;
+        }
+        if (file.size >= 3048576) {
+          // 3048576 = 3mb
+          this.errorBox(`Upload failed - ${file.name} Image size must be less than 1 megabytes.`);
+          break;
+        }
+        const reader = await this.loadReader(file)
+          .catch(() => {})
+        if (!reader) break;
+        let failed = false;
+        await this.uploadEmoji(file, reader)
+        .catch(() => {failed = true;})
+        if (failed) break;
+      }
+
+      event.target.value = "";
+
+    },
+    loadReader(file) {
+      emojiParser
       const _this = this;
-      reader.onload = async function() {
-        //check if emoji name is already used by twemoji
-        const fileName = path.basename(file.name, path.extname(file.name));
+      return new Promise((res, rej) => {
+        const reader = new FileReader();
+        reader.onload = function() {
+          res(reader);
+        }
+        reader.onerror = function(error) {
+          console.log("Error: ", error);
+          _this.errorBox("Something went wrong. Try again later.");
+          rej();
+        }
+        reader.readAsDataURL(file);
+      })
+    },
+    uploadEmoji(file, reader) {
+      
+      const _this = this;
+      const fileName = path.basename(file.name, path.extname(file.name));
 
-        const emojiExists = emojiParser.allEmojis.find(e =>
-          e.shortcodes.find(ee => ee === fileName.toLowerCase())
-        );
+      //check if emoji name is already used by twemoji
+      const emojiExists = emojiParser.allEmojis.find(e =>
+        e.shortcodes.find(ee => ee === fileName.toLowerCase())
+      );
 
-        let finalEmojiName = () => {
-          if (emojiExists) {
-            return `${fileName.substring(0, 28)}-1`;
-          } else {
-            return fileName.substring(0, 30);
-          }
-        };
+      let finalEmojiName = () => {
+        if (emojiExists) {
+          return `${fileName.substring(0, 28)}-1`;
+        } else {
+          return fileName.substring(0, 30);
+        }
+      };
 
+      return new Promise(async (res, rej) => {
         const { ok, error } = await customEmoji.post({
           name: finalEmojiName(),
           avatar: reader.result
@@ -116,13 +150,11 @@ export default {
           } else {
             _this.errorBox("Something went wrong. Try again later.");
           }
+          rej();
           return;
         }
-      };
-      reader.onerror = function(error) {
-        console.log("Error: ", error);
-        _this.errorBox("Something went wrong. Try again later.");
-      };
+        res();
+      })
     },
     addEmojiBtn() {
       this.$refs.emojiBrowser.click();
