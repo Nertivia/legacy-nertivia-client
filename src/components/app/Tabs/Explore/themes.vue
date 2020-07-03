@@ -23,7 +23,7 @@
 import themeTemplate from "./themesTemplate";
 import exploreService from "@/services/exploreService";
 import Spinner from "@/components/global/Spinner";
-const cssZip = () => import("@/utils/cssZip");
+const zip = () => import("@/utils/zip");
 
 export default {
   components: { themeTemplate, Spinner },
@@ -52,7 +52,7 @@ export default {
         const styleEl = document.createElement("style");
         styleEl.classList.add("theme-" + id);
         styleEl.id = "theme";
-        cssZip().then(utils => {
+        zip().then(utils => {
           styleEl.innerHTML = utils.unzip(css) || css;
 
           const currentStyle = document.getElementById("theme");

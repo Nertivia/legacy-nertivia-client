@@ -45,6 +45,10 @@
         key="delete-confirm"
         v-if="popouts.allPopout.type === 'DELETE_CONFIRM'"
       />
+      <OpenLinkConfirm
+        key="open-link-confirm"
+        v-if="popouts.allPopout.type === 'OPEN_LINK_CONFIRM'"
+      />
       <ChannelContextMenu
         key="ccm"
         v-if="popouts.allPopout.type === 'CHANNEL_CONTEXT'"
@@ -100,6 +104,7 @@ const DeleteConfirm = () => import("./Popouts/DeleteConfirm");
 const NotificationPopout = () => import("./Popouts/NotificationPopout");
 
 const DrawPopout = () => import("./Popouts/DrawPopout");
+const OpenLinkConfirm = () => import("./Popouts/openLinkConfirm");
 
 export default {
   components: {
@@ -125,7 +130,8 @@ export default {
     ImageContextMenu,
     DrawPopout,
     TextAreaContext,
-    NotificationPopout
+    NotificationPopout,
+    OpenLinkConfirm
   },
   data() {
     return {

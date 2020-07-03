@@ -26,7 +26,7 @@
 
 <script>
 import config from "../../config";
-const cssZip = () => import("@/utils/cssZip");
+const zip = () => import("@/utils/zip");
 import exploreService from "../../services/exploreService";
 
 export default {
@@ -59,7 +59,7 @@ export default {
         const styleEl = document.createElement("style");
         styleEl.classList.add("theme-" + id);
         styleEl.id = "theme";
-        cssZip().then((utils) => {
+        zip().then((utils) => {
           styleEl.innerHTML = utils.unzip(css) || css;
 
           const currentStyle = document.getElementById("theme");

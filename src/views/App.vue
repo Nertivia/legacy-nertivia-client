@@ -35,7 +35,7 @@ import MainNav from "./../components/app/MainNav.vue";
 import ThemeService from "../services/ThemeService";
 import ExploreService from "../services/exploreService";
 
-const cssZip = () => import("@/utils/cssZip");
+const zip = () => import("@/utils/zip");
 
 const ElectronFrameButtons = () =>
   import("@/components/ElectronJS/FrameButtons.vue");
@@ -180,7 +180,7 @@ export default {
       if (!id && !css) {
         return;
       }
-      cssZip().then(utils => {
+      zip().then(utils => {
         css = utils.unzip(css) || css;
 
         const styleEl = document.createElement("style");

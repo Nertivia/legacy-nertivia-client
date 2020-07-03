@@ -19,7 +19,7 @@
 
 <script>
 
-const cssZip = () => import("@/utils/cssZip");
+const zip = () => import("@/utils/zip");
 
 import "codemirror/mode/css/css.js";
 
@@ -93,7 +93,7 @@ export default {
   async mounted() {
     const { ok, result } = await AdminService.fetchTheme(this.popoutDetails.id);
     if (ok) {
-      cssZip().then(utils => {
+      zip().then(utils => {
         this.cmOptions.orig = utils.unzip(result.data.css) || result.data.css;
         this.cmOptions.value = utils.unzip(result.data.updatedCss) || result.data.updatedCss;
         this.details = result.data;

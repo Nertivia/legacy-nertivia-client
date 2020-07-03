@@ -89,6 +89,7 @@
                 v-else-if="message.embed && Object.keys(message.embed).length"
                 :embed="message.embed"
               />
+              <message-html-embeds v-if="message.htmlEmbed" :embed="message.htmlEmbed" />
 
               <div
                 class="image-content"
@@ -147,6 +148,9 @@ import ThemeMessage from "./ThemeMessage.vue";
 import MusicMessage from "./MusicMessage.vue";
 import SimpleMarkdown from "./SimpleMarkdown.vue";
 import messageEmbedTemplate from "./messageEmbedTemplate";
+
+const MessageHtmlEmbeds = () => import("./MessageHtmlEmbeds");
+
 import config from "@/config.js";
 import friendlyDate, { time } from "@/utils/date";
 import path from "path";
@@ -170,7 +174,8 @@ export default {
     MusicMessage,
     InviteMessage,
     ThemeMessage,
-    BotButtons
+    BotButtons,
+    MessageHtmlEmbeds
   },
   data() {
     return {
