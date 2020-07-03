@@ -1,5 +1,14 @@
 const config = [
   {
+    version: "1.2.7",
+    title: "Fancy HTML bot messages!",
+    shortTitle: "",
+    date: "03 July 2020",
+    new: [
+      "You can now add HTML Embeds to your bots messages."
+    ],
+  },
+  {
     version: "1.2.6",
     title: "Custom Server Invites! (Verified servers only)",
     shortTitle: "",
