@@ -6,6 +6,7 @@
 
 <script>
 import { unzipAlt } from "@/utils/zip";
+import messageFormatter from "@/utils/messageFormatter";
 export default {
   props: ["embed"],
   methods: {
@@ -20,11 +21,27 @@ export default {
                     link: link,
                 });
           }
+      },
+      unescapeHtml(unsafe) {
+        return unsafe
+          .replace(/&amp;/g, "&")
+          .replace(/&lt;/g, "<")
+          .replace(/&gt;/g, ">")
+          .replace(/&quot;/g, "\"")
+          .replace(/&#039;/g, "'");
       }
   },
   computed: {
     html() {
-      return unzipAlt(this.embed);
+      const div = unzipAlt(this.embed);
+      const el = document.createElement("div");
+      el.innerHTML = div;
+
+      el.querySelectorAll(".content").forEach(e => {
+        e.innerHTML = messageFormatter(this.unescapeHtml(e.innerHTML))
+      })
+
+      return el.innerHTML;
     }
   }
 };
