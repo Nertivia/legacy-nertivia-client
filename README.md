@@ -20,7 +20,7 @@ These steps are for Windows 10 only, Linux users can do some Googling for some o
 • node-gyp  
 • MongoDB  
 • Redis  
-• Some patients  
+• Some patience  
 
 ## Setting up MongoDB Server
 1. Download MongoDB server and install it from this link: https://www.mongodb.com/try/download/community (Green Download button)
