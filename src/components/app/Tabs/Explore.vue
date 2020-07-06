@@ -15,9 +15,9 @@
                 <i class="material-icons">explore</i>
               </div>
               <div class="details">
-                <div class="title">Explore</div>
+                <div class="title">{{ $t('explore') }}</div>
                 <div class="description">
-                  Find new servers, Emojis and more!
+                  {{$t('explore-desc')}}
                 </div>
               </div>
             </div>
@@ -43,8 +43,8 @@
                   close
                 </div>
                 <div class="logo" />
-                <div class="title">Join the official Nertivia server</div>
-                <div class="button" @click="joinNertiviaServer">Join</div>
+                <div class="title">{{$t('join-card-message')}}</div>
+                <div class="button" @click="joinNertiviaServer">{{$t('join')}}</div>
               </div>
 
               <div class="card donate-paypal" v-if="donateHide !== true">
@@ -53,10 +53,9 @@
                 </div>
                 <div class="material-icons heart">favorite</div>
                 <div class="title">
-                  Support Nertivia by donating any amount of money. You will get
-                  a supporter badge and more features in the future.
+                  {{$t('explore-support-message')}}
                 </div>
-                <div class="button" @click="donateButton">Donate</div>
+                <div class="button" @click="donateButton">{{$t('donate')}}</div>
               </div>
             </div>
           </div>
@@ -103,10 +102,10 @@ export default {
       selectedTab: 0,
       tabs: [
         // {icon: "home", name: "home", component: ""},
-        { icon: "rss_feed", name: "Servers", component: "Servers" },
-        { icon: "brush", name: "Themes", component: "Themes" },
-        { icon: "face", name: "Emoji Packs", component: "" },
-        { icon: "message", name: "Message Styles", component: "" }
+        { icon: "rss_feed", name: this.$t('servers'), component: "Servers" },
+        { icon: "brush", name: this.$t('themes'), component: "Themes" },
+        { icon: "face", name: this.$t('emoji-packs'), component: "" },
+        { icon: "message", name: this.$t('message-styles'), component: "" }
       ],
       nertiviaServerID: "6572915451527958528",
       nertiviaServerHide:

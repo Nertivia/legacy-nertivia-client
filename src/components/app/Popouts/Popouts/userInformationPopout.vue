@@ -127,7 +127,7 @@
               </div>
             </div>
             <div class="about-item createdBy" v-if="user.bot">
-              <div class="key">Created By:</div>
+              <div class="key">{{this.$t('created-by')}}:</div>
               <div
                 class="name"
                 @click="switchUser(user.createdBy.uniqueID)"

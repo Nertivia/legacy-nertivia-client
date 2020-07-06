@@ -36,7 +36,7 @@
         </div>
       </div>
       <div class="created-by">
-        Created by
+        {{this.$t('created-by')}}
         <span @click="openUserInformation">{{ theme.creator.username }}</span>
       </div>
     </div>

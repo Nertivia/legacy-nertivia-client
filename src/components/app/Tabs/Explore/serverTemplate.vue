@@ -39,11 +39,11 @@
         <div class="button" :class="{ selected: joined }" @click="joinButton">
           <span v-if="joined">Joined</span>
           <spinner v-else-if="joinClicked" :size="30" />
-          <span v-else-if="!joinClicked">Join Server</span>
+          <span v-else-if="!joinClicked">{{$t('join-server')}}</span>
         </div>
       </div>
       <div class="created-by">
-        Created by
+        {{this.$t('created-by')}}
         <span @click="openUserInformation">{{ server.creator.username }}</span>
       </div>
     </div>

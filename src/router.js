@@ -6,6 +6,7 @@ import VueSocketio from "vue-socket.io-extended";
 import io from "socket.io-client";
 import config from "./config.js";
 import VueMq from "vue-mq";
+import { i18n } from "./i18n";
 
 const MainApp = () =>
   import(/* webpackChunkName: "MainApp" */ "../src/views/App.vue");
@@ -70,6 +71,20 @@ export const router = new VueRouter({
         if (!localStorage.getItem("hauthid")) {
           return router.push({ path: "/login" });
         }
+
+        // language
+        let lang = localStorage.getItem("lang");
+        if (!lang) {
+          lang = "en";
+          localStorage.setItem("lang", "en");
+        }
+        if (lang !== "en") {
+          import(`@/lang/${lang}.json`).then(msgs => {
+            i18n.setLocaleMessage(lang, msgs.default);
+            i18n.locale = lang;
+          }).catch(() => {console.log("Invalid Language")})
+        }
+
 
         Vue.use(VueSocketio, io(config.socketIP), { store });
         Vue.use(VueMq, {

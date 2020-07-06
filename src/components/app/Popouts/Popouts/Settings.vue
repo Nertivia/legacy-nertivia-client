@@ -28,8 +28,8 @@
         <component :is="tabs[currentTab].component"></component>
         <div class="support-donate">
           <div class="icon"><div class="material-icons heart">favorite</div></div>
-          <div class="text">Support Nertivia. You will get a badge.</div>
-          <div class="button" @click="donateButton">Donate</div>
+          <div class="text">{{$t('support-message-settings')}}</div>
+          <div class="button" @click="donateButton">{{$t('donate')}}</div>
         </div>
       </div>
     </div>

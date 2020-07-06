@@ -2,7 +2,7 @@
   <div class="search-header">
     <div class="filter-area">
       <div class="filter">
-        <div class="title">Filter</div>
+        <div class="title">{{this.$t('filter')}}</div>
         <div class="filter-item">
           <div
             class="item"
@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="filter">
-        <div class="title">Sort By</div>
+        <div class="title">{{this.$t('sort-by')}}</div>
         <div class="filter-item">
           <div
             class="item"
@@ -44,14 +44,14 @@ export default {
   data() {
     return {
       filters: [
-        { name: "All", param: "", value: true },
-        { name: "Verified", param: "verified", default: true, value: true }
+        { name: this.$t('all'), param: "", value: true },
+        { name: this.$t('verified'), param: "verified", default: true, value: true }
       ],
       sortBys: [
-        { name: "Most Users", param: "", value: true },
-        { name: "Alphabetical", param: "alphabetical", value: true },
-        { name: "Least Users", param: "most_users", value: false },
-        { name: "Date Added", param: "date_added", value: true }
+        { name: this.$t('most-users'), param: "", value: true },
+        { name: this.$t('alphabetical'), param: "alphabetical", value: true },
+        { name: this.$t('least-users'), param: "most_users", value: false },
+        { name: this.$t('date-added'), param: "date_added", value: true }
       ],
       filterSelected: 1,
       sortSelected: 0

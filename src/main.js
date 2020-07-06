@@ -8,6 +8,7 @@ import Axios from "axios";
 import "./utils/clickOutside";
 import vueHeadful from "vue-headful";
 import Clipboard from "v-clipboard";
+import {i18n} from "./i18n";
 
 Vue.component("vue-headful", vueHeadful);
 Vue.use(Clipboard);
@@ -26,5 +27,6 @@ export const bus = new Vue();
 new Vue({
   store,
   router,
+  i18n,
   render: h => h(Main)
 }).$mount("#app");

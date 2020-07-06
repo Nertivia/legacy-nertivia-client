@@ -328,6 +328,17 @@ export default {
         visibility: true
       });
     },
+    messageSetup(genTempID = false) {
+      let msg = emojiParser.replaceShortcode(this.message);
+      msg = this.replaceMentions(msg);
+      msg = this.replaceChannelMentions(msg);
+
+      let tempID;
+      if (genTempID) tempID = this.generateNum(25);
+      return {
+        msg, tempID
+      }
+    },
     async sendMessage() {
       this.$refs["input-box"].focus();
       this.message = this.message.trim();
@@ -338,11 +349,7 @@ export default {
       clearInterval(this.postTimerID);
       this.postTimerID = null;
 
-      let msg = emojiParser.replaceShortcode(this.message);
-      msg = this.replaceMentions(msg);
-      msg = this.replaceChannelMentions(msg);
-
-      const tempID = this.generateNum(25);
+      const {msg, tempID} = this.messageSetup(true);
 
       const addMessage = {
         sender: true,
@@ -449,8 +456,7 @@ export default {
       clearInterval(this.postTimerID);
       this.postTimerID = null;
 
-      let msg = emojiParser.replaceShortcode(this.message);
-      msg = this.replaceMentions(msg);
+      const {msg} = this.messageSetup();
       this.$store.dispatch("updateMessage", {
         channelID: editMessage.channelID,
         messageID: editMessage.messageID,

@@ -1,0 +1,27 @@
+{
+    "explore": "Explore",
+    "explore-desc": "Find new servers, Emojis and more!",
+    "servers": "Servers",
+    "join-server": "Join Server",
+    "themes": "Themes",
+    "emoji-packs": "Emoji Packs",
+    "message-styles": "Message Styles",
+    "created-by": "Created By",
+    "filter": "Filter",
+    "sort-by": "Sort By",
+
+    "all": "All",
+    "verified": "Verified",
+    "most-users": "Most Users",
+    "least-users": "Least Users",
+    "alphabetical": "Alphabetical",
+    "date-added": "Date Added",
+
+    "explore-support-message": "Support Nertivia by donating any amount of money. You will get a supporter badge and more features in the future.",
+    "support-message-settings": "Support Nertivia. You will get a badge.",
+    "donate": "Donate",
+
+    "join": "Join",
+    "join-card-message": "Join the official Nertivia server"
+
+}
