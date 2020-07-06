@@ -1,3 +1,27 @@
 {
-    "explore": "explore??"
+    "explore": "Odkrywaj",
+    "explore-desc": "Znajdź nowe serwery, Emoji i więcej!",
+    "servers": "Serwery",
+    "join-server": "Dołącz do Serwera",
+    "themes": "Motywy",
+    "emoji-packs": "Paczki z Emotikonami",
+    "message-styles": "Style Wiadomości",
+    "created-by": "Stworzone przez",
+    "filter": "Filtry",
+    "sort-by": "Sortuj",
+
+    "all": "Wszystkie",
+    "verified": "Zweryfykowane",
+    "most-users": "Najwięcej Użytkowników",
+    "least-users": "Ostatni Użytkownicy",
+    "alphabetical": "Alfabetycznie",
+    "date-added": "Data dodania",
+
+    "explore-support-message": "Wspieraj Nertivię przez dotacje dowolnej ilości pieniędzy. Otrzymasz odznakę wspierdającego oraz więcej funkcji w przyszłości.",
+    "support-message-settings": "Wspieraj Nertivię. Otrzymasz odznakę.",
+    "donate": "Wspieraj",
+
+    "join": "Dołącz",
+    "join-card-message": "Dołącz do oficjalnego serwera Nertivii"
+
 }
