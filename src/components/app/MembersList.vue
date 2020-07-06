@@ -151,18 +151,38 @@ export default {
       );
       return roleMembers;
     },
+
     noneRoleOnlineMembers() {
       const roles = this.$store.getters["servers/currentServerRoles"];
       return this.onlineMembers.filter(sm => {
         if (!sm.roles || !sm.roles.length) {
           return sm;
         }
-        if (roles.find(r => sm.roles.includes(r.id) && r.hideRole)) {
-          return sm;
+
+        // check if hideRole exists
+        let isOnline = false;
+
+        for (let index = 0; index < roles.length; index++) {
+          const role = roles[index];
+          const includes = sm.roles.includes(role.id);
+
+          if (!includes) isOnline = true;
+
+          if ( includes && role.hideRole) {
+            isOnline = true;
+            break;
+          } else if (includes){
+            isOnline = false;
+            break;
+          }
         }
+
+
+        if (isOnline) return sm;
         return false;
       });
     },
+
     serverRoles() {
       const roles = this.$store.getters["servers/currentServerRoles"];
       let newRolesWithMembers = [];
