@@ -1,0 +1,28 @@
+{
+    "explore": "探索する探索する",
+    "explore-desc": "探索して説明を探索する",
+    "servers": "サーバー",
+    "join-server": "サーバーに参加",
+    "themes": "テーマ",
+    "emoji-packs": "絵文字パック",
+    "message-styles": "メッセージのスタイル",
+    "created-by": "によって作成された",
+    "filter": "フィルタ",
+    "sort-by": "ソート",
+
+    "all": "すべて",
+    "verified": "確認済み",
+    "most-users": "ほとんどのユーザー",
+    "least-users": "最小ユーザー",
+    "alphabetical": "アルファベット順",
+    "date-added": "追加された日付",
+
+    "explore-support-message": "サポートメッセージを探す",
+    "support-message-settings": "サポートメッセージ設定",
+    "donate": "寄付",
+
+    "join": "参加する",
+    "join-card-message": "参加カードメッセージ",
+    
+    "Translated-By": "NekoNoiir, RolkozTM and My Japanese cousin"
+}
