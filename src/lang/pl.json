@@ -1,19 +1,19 @@
 {
     "explore": "Odkrywaj",
-    "explore-desc": "Znajdź nowe serwery, Emoji i więcej!",
+    "explore-desc": "Znajdź nowe serwery, emotki i więcej!",
     "servers": "Serwery",
     "join-server": "Dołącz do Serwera",
     "themes": "Motywy",
-    "emoji-packs": "Paczki z Emotikonami",
-    "message-styles": "Style Wiadomości",
+    "emoji-packs": "Paczki emotek",
+    "message-styles": "Wygląd Wiadomości",
     "created-by": "Stworzone przez",
     "filter": "Filtry",
     "sort-by": "Sortuj",
 
     "all": "Wszystkie",
-    "verified": "Zweryfykowane",
+    "verified": "Zweryfikowane",
     "most-users": "Najwięcej Użytkowników",
-    "least-users": "Ostatni Użytkownicy",
+    "least-users": "Najmniej Użytkowników",
     "alphabetical": "Alfabetycznie",
     "date-added": "Data dodania",
 
@@ -22,6 +22,7 @@
     "donate": "Wspieraj",
 
     "join": "Dołącz",
-    "join-card-message": "Dołącz do oficjalnego serwera Nertivii"
+    "join-card-message": "Dołącz do oficjalnego serwera Nertivii",
+    "coming-soon!": "Wkrótce!"
 
 }
