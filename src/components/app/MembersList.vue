@@ -157,7 +157,7 @@ export default {
         if (!sm.roles || !sm.roles.length) {
           return sm;
         }
-        if (!roles.find(r => sm.roles.includes(r.id) && !r.hideRole)) {
+        if (roles.find(r => sm.roles.includes(r.id) && r.hideRole)) {
           return sm;
         }
         return false;
