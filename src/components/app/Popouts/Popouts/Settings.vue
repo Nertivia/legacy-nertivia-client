@@ -47,6 +47,7 @@ const MyThemes = () => import("./SettingsPanels/MyThemes.vue");
 const Notifications = () => import("./SettingsPanels/Notifications.vue");
 const AppSettings = () => import("./SettingsPanels/appSettings");
 const DebugSettings = () => import("./SettingsPanels/DebugSettings");
+const LanguageSettings = () => import("./SettingsPanels/LanguageSettings");
 const ActivityStatus = () => import("./SettingsPanels/ActivityStatus");
 const myBots = () => import("./SettingsPanels/myBots");
 
@@ -60,7 +61,8 @@ export default {
     AppSettings,
     DebugSettings,
     ActivityStatus,
-    myBots
+    myBots,
+    LanguageSettings
   },
   data() {
     return {
@@ -126,11 +128,18 @@ export default {
           index: 7
         },
         {
+          name: "Language BETA",
+          tabName: "Language",
+          icon: "flag",
+          component: "language-settings",
+          index: 8
+        },
+        {
           name: "Debug",
           tabName: "Debug",
           icon: "bug_report",
           component: "debug-settings",
-          index: 8
+          index: 9
         }
       ]
     };

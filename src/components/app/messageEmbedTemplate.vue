@@ -31,7 +31,7 @@
           width="100%"
           height="100%"
           :src="
-            `https://www.youtube.com/embed/${youtubeLink}?autoplay=1&vq=hd360`
+            `https://www.youtube-nocookie.com/embed/${youtubeLink}?autoplay=1&vq=hd360`
           "
           frameborder="0"
           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"

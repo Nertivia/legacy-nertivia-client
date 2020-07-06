@@ -240,6 +240,7 @@ export default {
     }
   },
   async mounted() {
+
     if (this.isElectron) {
       ipcRenderer.on("activity_status:changed", this.activityStatusChanged)
 

@@ -79,7 +79,7 @@
         <div class="icon">
           <i class="material-icons">explore</i>
         </div>
-        <div class="text">Coming soon!</div>
+        <div class="text">$t('coming-soon!')</div>
       </div>
       <component :is="tabs[selectedTab].component" />
     </div>

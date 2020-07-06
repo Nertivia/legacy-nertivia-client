@@ -1,5 +1,15 @@
 const config = [
   {
+    version: "1.2.8",
+    title: "Languages BETA",
+    shortTitle: "",
+    date: "06 July 2020",
+    new: [
+      "Test out how the languages feature will work. Note that this feature is not completly added in.",
+      "changed youtube embed link to no-cookie version.",
+    ],
+  },
+  {
     version: "1.2.7",
     title: "Fancy HTML bot messages!",
     shortTitle: "",
