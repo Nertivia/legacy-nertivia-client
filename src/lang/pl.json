@@ -17,15 +17,15 @@
     "alphabetical": "Alfabetycznie",
     "date-added": "Data dodania",
 
-    "explore-support-message": "Wspieraj Nertivię przez dotacje dowolnej ilości pieniędzy. Otrzymasz odznakę wspierającego oraz więcej funkcji w przyszłości.",
-    "support-message-settings": "Wspieraj Nertivię. Otrzymasz za to odznakę.",
+    "explore-support-message": "Wesprzyj Nertivię przez dotacje dowolnej ilości pieniędzy. Otrzymasz odznakę wspierającego oraz więcej funkcji w przyszłości.",
+    "support-message-settings": "Wesprzyj Nertivię. Otrzymasz za to odznakę.",
     "donate": "Wesprzyj",
 
     "join": "Dołącz",
     "join-card-message": "Dołącz do oficjalnego serwera Nertivii",
     "coming-soon!": "Wkrótce!",
 
-    "joined": "Dołączono",
+    "joined": "Dołączony",
     "apply": "Aplikuj",
     "unapply": "Odaplikuj",
     "copy-link": "Skopiuj link",
@@ -37,7 +37,7 @@
 
     "friends": "Znajomi",
     "pending": "Oczekiwanie",
-    "recents": "Ostatnie",
+    "recents": "Ostatni",
 
     "online": "Aktywny",
     "away": "Zaraz wracam",
@@ -46,9 +46,9 @@
     "offline": "Niedostępny",
 
     "add-friends-message": "Dodaj znajomych",
-    "offline-message": "Wszyscy twoi znajomi są niedostępni.",
+    "offline-message": "Wszyscy twoji znajomi są niedąstepni.",
     "saved-notes": "Zachowane notatki",
-    "select-person-message": "Wybierz osobę, do której chcesz wysłać wiadomość",
+    "select-person-message": "Wybierz osobę do wiadomości",
     "message": "Wiadomość",
 
     "add-server": "Dodaj serwer",
@@ -60,6 +60,7 @@
     "new-messages": "Nowe wiadomości",
 
     "today-at": "Dzisiaj o {0}",
-    "yesterday-at": "Wczoraj o {0}"
+    "yesterday-at": "Wczoraj o {0}",
+    "send-a-message": "Wyślij wiadomość"
 
 }
