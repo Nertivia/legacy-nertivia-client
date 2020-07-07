@@ -48,7 +48,7 @@
         data-name="Add Server"
         class="item material-icons"
         @click="addServer"
-        @mouseenter="localToolTipEvent($t('add-friend'), $event)"
+        @mouseenter="localToolTipEvent($t('add-server'), $event)"
       >add</div>
     </div>
   </div>
