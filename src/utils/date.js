@@ -1,12 +1,15 @@
+import { i18n } from "@/i18n";
+
 export default (miliseconds, type) => {
   let friendlyDate = "";
   const now = new Date();
   const messageDate = new Date(miliseconds);
 
   if (sameDay(now, messageDate)) {
-    friendlyDate = `Today at ${getFullTime(messageDate, type)}`;
+    friendlyDate = i18n.t("today-at", [getFullTime(messageDate, type)])
   } else if (yesterDay(messageDate)) {
-    friendlyDate = `Yesterday at ${getFullTime(messageDate, type)}`;
+    
+    friendlyDate = i18n.t("yesterday-at", [getFullTime(messageDate, type)])
   } else {
     friendlyDate = getFullDateWithTime(messageDate, type);
   }
