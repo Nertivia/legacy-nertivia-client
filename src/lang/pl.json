@@ -12,18 +12,13 @@
 
     "all": "Wszystkie",
     "verified": "Zweryfikowane",
-    "most-users": "Najwięcej Osób",
-    "least-users": "Najmniej Osób",
+    "most-users": "Najwięcej Użytkowników",
+    "least-users": "Najmniej Użytkowników",
     "alphabetical": "Alfabetycznie",
     "date-added": "Data dodania",
 
-<<<<<<< HEAD
     "explore-support-message": "Wspieraj Nertivię przez dotacje dowolnej ilości pieniędzy. Otrzymasz odznakę wspierającego oraz więcej funkcji w przyszłości.",
     "support-message-settings": "Wspieraj Nertivię. Otrzymasz za to odznakę.",
-=======
-    "explore-support-message": "Wesprzyj Nertivię przez dotacje dowolnej ilości pieniędzy. Otrzymasz odznakę wspierającego oraz więcej funkcji w przyszłości.",
-    "support-message-settings": "Wesprzyj Nertivię. Otrzymasz odznakę.",
->>>>>>> 652264c108bb56d0a5694503c7f2bcb28de234a6
     "donate": "Wesprzyj",
 
     "join": "Dołącz",
