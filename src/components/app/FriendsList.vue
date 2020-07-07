@@ -7,7 +7,7 @@
         @click="currentTab = 0"
       >
         <div class="material-icons">group</div>
-        Friends
+        {{$t('friends')}}
       </div>
       <div
         class="tab"
@@ -15,7 +15,7 @@
         @click="currentTab = 1"
       >
         <div class="material-icons">access_time</div>
-        Recents
+        {{$t('recents')}}
       </div>
     </div>
     <div class="list">
@@ -30,7 +30,7 @@
       @click="saveNotesBtn"
     >
       <div class="material-icons">notes</div>
-      <div class="name">Saved Notes</div>
+      <div class="name">{{$t('saved-notes')}}</div>
     </div>
   </div>
 </template>

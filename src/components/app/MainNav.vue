@@ -15,7 +15,7 @@
           class="item material-icons"
           :class="{ selected: currentTab == 0 }"
           @click="switchTab(0)"
-          @mouseenter="localToolTipEvent('Explore', $event)"
+          @mouseenter="localToolTipEvent($t('explore'), $event)"
         >
           explore
         </div>

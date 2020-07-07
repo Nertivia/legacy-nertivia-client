@@ -2,7 +2,7 @@
   <div class="friends">
     <virtual-list :size="50" :remain="20" v-if="loaded" :variable="true">
       <div class="tab" v-if="friends[0].length" :style="{ height: '25px' }">
-        Pending
+        {{$t('pending')}}
       </div>
       <pending-template
         v-for="friend of friends[0]"
@@ -11,14 +11,14 @@
         :style="{ height: '55px' }"
       />
       <div class="tab" v-if="friends[1].length || friends[2].length">
-        Online
+        {{$t('online')}}
       </div>
       <div
         class="none-online"
         :style="{ height: '29px' }"
         v-if="!friends[1].length && friends[2].length"
       >
-        All of your friends are offline.
+        {{$t('offline-message')}}
       </div>
       <friends-template
         v-for="friend of friends[1]"
@@ -27,13 +27,13 @@
         :recipient="friend.recipient"
         :style="{ height: '50px' }"
       />
-      <div class="tab">Offline</div>
+      <div class="tab">{{$t('offline')}}</div>
       <div
         class="none-online"
         :style="{ height: '29px' }"
         v-if="!friends[2].length && !friends[1].length"
       >
-        Add some friends.
+        {{$t('add-friends-message')}}
       </div>
       <friends-template
         v-for="friend of friends[2]"

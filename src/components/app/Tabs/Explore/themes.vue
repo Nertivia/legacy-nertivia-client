@@ -1,7 +1,7 @@
 <template>
   <div class="themes-tab">
     <div class="items-main-container">
-      <div class="note">Themes below are safe and manually reviewed.</div>
+      <div class="note">{{$t('theme-safe-message')}}</div>
       <div class="items-container">
         <spinner class="spinner" v-if="!publicThemes" :size="80" />
         <div class="items">

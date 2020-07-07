@@ -9,7 +9,7 @@
             slideBack();
           "
         >
-          Create
+          {{$t('create')}}
         </div>
         <div
           :class="{ tab: true, selected: tab == 1 || tab == 2 }"
@@ -44,7 +44,7 @@
                 serverNameError
               }}</span>
               <div class="button create-button" @click="createButton">
-                Create
+                {{$t('create')}}
               </div>
             </div>
           </div>
@@ -78,13 +78,13 @@
               class="button join-button"
               @click="joinButton"
             >
-              Join
+              {{$t('join')}}
             </div>
             <div
               v-if="servers[server.server_id]"
               class="button join-button button-clicked"
             >
-              Joined
+              {{$t('joined')}}
             </div>
             <div
               class="button cancel-button"

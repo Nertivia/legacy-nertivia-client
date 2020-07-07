@@ -28,7 +28,7 @@
           {{ type === 0 ? "forum" : type === 1 ? "dns" : "question" }}
         </div>
         <div class="message">
-          {{ (!type && "Select a person to message!") || "Select a server!" }}
+          {{ (!type && $t("select-person-message")) || "Select a server!" }}
         </div>
       </div>
     </transition>
