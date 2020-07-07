@@ -18,11 +18,48 @@
     "date-added": "Data dodania",
 
     "explore-support-message": "Wspieraj Nertivię przez dotacje dowolnej ilości pieniędzy. Otrzymasz odznakę wspierającego oraz więcej funkcji w przyszłości.",
-    "support-message-settings": "Wspieraj Nertivię. Otrzymasz odznakę.",
-    "donate": "Wspieraj",
+    "support-message-settings": "Wspieraj Nertivię. Otrzymasz za to odznakę.",
+    "donate": "Wesprzyj",
 
     "join": "Dołącz",
     "join-card-message": "Dołącz do oficjalnego serwera Nertivii",
-    "coming-soon!": "Wkrótce!"
+    "coming-soon!": "Wkrótce!",
+
+    "joined": "Ta osoba już jest na tym serwerze.",
+    "apply": "Aplikuj",
+    "unapply": "Odaplikuj",
+    "copy-link": "Skopiuj link",
+
+    "clone": "Sklonuj",
+    "cloning": "Klonowanie...",
+    "cloned": "Klonowanie skończone",
+    "theme-safe-message": "Te motywy są bezpieczne i zweryfikowane przez naszych moderatorów.",
+
+    "friends": "Znajomi",
+    "pending": "Oczekiwanie",
+    "recents": "Ostatnie",
+
+    "online": "Aktywny",
+    "away": "Zaraz wracam",
+    "busy": "Zajęty",
+    "looking-to-play": "Szkuam graczy",
+    "offline": "Niedostępny",
+
+    "add-friends-message": "Dodaj znajomych",
+    "offline-message": "Wszyscy twoi znajomi są niedostępni.",
+    "saved-notes": "Zachowane notatki",
+    "select-person-message": "Wybierz osobę do, której chcesz wysłać wiadomość",
+    "message": "Wiadomość",
+
+    "add-server": "Dodaj serwer",
+    "add-friend": "Dodaj znajomego",
+    "add-friend-message": "Dodaj znajomych używając ich nazwy użytkownika i tagu.",
+    "adding": "Dodawanie...",
+    "create": "Stwórz",
+
+    "new-messages": "Nowe wiadomości",
+
+    "today-at": "Dzisiaj o {0}",
+    "yesterday-at": "Wczoraj o {0}"
 
 }
