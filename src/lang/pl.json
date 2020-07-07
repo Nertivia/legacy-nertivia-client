@@ -25,19 +25,19 @@
     "join-card-message": "Dołącz do oficjalnego serwera Nertivii",
     "coming-soon!": "Wkrótce!",
 
-    "joined": "Dołączony",
+    "joined": "Dołączono",
     "apply": "Aplikuj",
     "unapply": "Odaplikuj",
     "copy-link": "Skopiuj link",
 
     "clone": "Sklonuj",
     "cloning": "Klonowanie...",
-    "cloned": "Klonowanie skończone",
+    "cloned": "Klonowanie zakończone",
     "theme-safe-message": "Te motywy są bezpieczne i zweryfikowane przez naszych moderatorów.",
 
     "friends": "Znajomi",
-    "pending": "Oczekiwanie",
-    "recents": "Ostatni",
+    "pending": "Oczekujący",
+    "recents": "Ostatnie",
 
     "online": "Aktywny",
     "away": "Zaraz wracam",
@@ -46,9 +46,9 @@
     "offline": "Niedostępny",
 
     "add-friends-message": "Dodaj znajomych",
-    "offline-message": "Wszyscy twoji znajomi są niedąstepni.",
+    "offline-message": "Wszyscy twoi znajomi są niedostępni.",
     "saved-notes": "Zachowane notatki",
-    "select-person-message": "Wybierz osobę do wiadomości",
+    "select-person-message": "Wybierz osobę do pisania",
     "message": "Wiadomość",
 
     "add-server": "Dodaj serwer",
@@ -61,6 +61,6 @@
 
     "today-at": "Dzisiaj o {0}",
     "yesterday-at": "Wczoraj o {0}",
-    "send-a-message": "Wyślij Wiadomość"
+    "send-a-message": "Wyślij wiadomość"
 
 }
