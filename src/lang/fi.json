@@ -1,0 +1,66 @@
+
+{
+    "explore": "Löydä",
+    "explore-desc": "Löydä uusia Servereitä, Emojeita ja lisää!",
+    "servers": "Serverit",
+    "join-server": "Liity Serveriin",
+    "themes": "Teemat",
+    "emoji-packs": "Emoji-kokoelmat",
+    "message-styles": "Viestityylit",
+    "created-by": "Tekijä:",
+    "filter": "Suodatin",
+    "sort-by": "Lajittele",
+
+    "all": "Kaikki",
+    "verified": "Vahvistetut",
+    "most-users": "Eniten käyttäjiä",
+    "least-users": "Vähiten käyttäjiä",
+    "alphabetical": "Aakkosjärjestys",
+    "date-added": "Pvm lisätty",
+
+    "explore-support-message": "Tue Nertiviaa lahjoittamalla minkä tahansa summan rahaa. Saat käyttöösi supporter-badgen ja lisää ominaisuuksia tulevaisuudessa.",
+    "support-message-settings": "Tue Neritiviaa. Saat badgen.",
+    "donate": "Lahjoita",
+
+    "join": "Liity",
+    "join-card-message": "Liity viralliseen Neritivia serveriin",
+    "coming-soon!": "Tulossa pian!",
+
+    "joined": "Liitytty",
+    "apply": "Aseta",
+    "unapply": "Aseta pois",
+    "copy-link": "Kopioi linkki",
+
+    "clone": "Kloonaa",
+    "cloning": "Kloonaa...",
+    "cloned": "Kloonattu",
+    "theme-safe-message": "Alla olevat teemat ovat turvallisia ja manuaalisesti läpikäytyjä.",
+
+    "friends": "Ystävät",
+    "pending": "Avoin",
+    "recents": "Viimeisimmät",
+
+    "online": "Online",
+    "away": "Poissa",
+    "busy": "Kiireinen",
+    "looking-to-play": "Etsii peliseuraa",
+    "offline": "Offline",
+
+    "add-friends-message": "Lisää ystäviä.",
+    "offline-message": "Kaikki ystäväsi ovat offline-tilassa.",
+    "saved-notes": "Tallannetut kirjaukset",
+    "select-person-message": "Valitse henkilö, jolle lähettää viesti!",
+    "message": "Viesti",
+
+    "add-server": "Lisää serveri",
+    "add-friend": "Lisää ystävä",
+    "add-friend-message": "Lisää ystäviä käyttämällä heidän käyttäjänimeään ja tägiä.",
+    "adding": "Lisätään...",
+    "create": "Luo",
+
+    "new-messages": "Uusia viestejä",
+
+    "today-at": "Tänään kello {0}",
+    "yesterday-at": "Eilen kello {0}",
+    "send-a-message": "Lähetä viesti"
+}

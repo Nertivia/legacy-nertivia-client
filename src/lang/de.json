@@ -23,6 +23,43 @@
 
     "join": "Beitreten",
     "join-card-message": "Treten Sie dem offiziellen Nertivia-Server bei.",
-    "coming-soon!": "Kommt bald!"
+    "coming-soon!": "Kommt bald!",
 
+    "joined": "Trat bei",
+    "apply": "Anwenden",
+    "unapply": "Nicht anwenden",
+    "copy-link": "Link kopieren",
+
+    "clone": "Klon",
+    "cloning": "Klonen...",
+    "cloned": "Geklont",
+    "theme-safe-message": "Die folgenden Themen werden alle manuell überprüft und können sicher verwendet werden.",
+
+    "friends": "Freunde",
+    "pending": "Steht aus",
+    "recents": "Kürzlich",
+
+    "online": "Online",
+    "away": "Weg",
+    "busy": "Beschäftigt",
+    "looking-to-play": "Auf der Suche nach Spielen",
+    "offline": "Offline",
+
+    "add-friends-message": "Füge einige Freunde hinzu.",
+    "offline-message": "Alle deine Freunde sind offline.",
+    "saved-notes": "Gespeicherte Notizen",
+    "select-person-message": "Wählen Sie eine Person für die Nachricht aus!",
+    "message": "Nachricht",
+
+    "add-server": "Server hinzufügen",
+    "add-friend": "Freund hinzufügen",
+    "add-friend-message": "Fügen Sie Freunde hinzu, indem Sie ihren Benutzernamen und ihr Tag verwenden.",
+    "adding": "Hinzufügen...",
+    "create": "Erstellen",
+
+    "new-messages": "Neue Nachrichten",
+
+    "today-at": "Heute um {0}",
+    "yesterday-at": "Gestern um {0}",
+    "send-a-message": "Eine Nachricht schicken"
 }

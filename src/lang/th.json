@@ -22,7 +22,44 @@
     "donate": "บริจาค!",
 
     "join": "เข้าร่วม!",
-    "join-card-message": "เข้าร่วมสมาคม Nertivia (เป็นทางการ)",
-    "coming-soon!": "เร็วๆ นี้!"
+    "join-card-message": "เข้าร่วมกิลด์ Nertivia (เป็นทางการ)",
+    "coming-soon!": "เร็วๆ นี้!",
 
+    "joined": "เข้าร่วมแล้ว",
+    "apply": "นำมาใช้",
+    "unapply": "ไม่นำมาใช้",
+    "copy-link": "คัดลอกลิงค์",
+
+    "clone": "โคลน",
+    "cloning": "กำลังโคลน ..",
+    "cloned": "โคลนสำเร็จ",
+    "theme-safe-message": "ธีมด้านล่างมีความปลอดภัย และทุกธีมได้รับการตรวจสอบอย่างเป็นทางการ",
+
+    "friends": "เพื่อน",
+    "pending": "รอการยืนยัน",
+    "recents": "เมื่อเร็ว ๆ นี้",
+
+    "online": "ออนไลน์",
+    "away": "ไม่อยู่",
+    "busy": "ไม่ว่าง",
+    "looking-to-play": "หาเพื่อนเล่นด้วยกัน",
+    "offline": "ออฟไลน์",
+
+    "add-friends-message": "เพิ่มเพื่อน",
+    "offline-message": "เพื่อนทุกคนของคุณกำลังออฟไลน์",
+    "saved-notes": "สมุดบันทึก",
+    "select-person-message": "เลือกบุคคลที่จะส่งข้อความ!",
+    "message": "ข้อความ",
+
+    "add-server": "เพิ่มกิลด์",
+    "add-friend": "เพิ่มเพื่อน",
+    "add-friend-message": "เพิ่มเพื่อนด้วยชื่อและแท็ก",
+    "adding": "กำลังเพิ่ม..",
+    "create": "สร้าง",
+
+    "new-messages": "ข้อความใหม่",
+
+    "today-at": "วันนี้ตอน {0}",
+    "yesterday-at": "เมื่อวานตอน {0}",
+    "send-a-message": "ส่งข้อความ"
 }
