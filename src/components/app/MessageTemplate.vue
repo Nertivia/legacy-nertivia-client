@@ -8,7 +8,7 @@
     <div
       class="new-badge"
       v-if="notificationLastMessageID && notificationLastMessageID === message.messageID"
-    >{{$('new-messages')}}</div>
+    >{{$t('new-messages')}}</div>
     <div
       v-if="!message.type || message.type === 0"
       :class="{
