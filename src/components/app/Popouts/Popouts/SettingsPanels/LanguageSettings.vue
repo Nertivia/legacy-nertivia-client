@@ -24,7 +24,7 @@ export default {
           emoji:  require(`@/assets/twemoji/1f1ec-1f1e7.svg`),
         },
         pl: {
-          name: "Polish | Polszczyzna",
+          name: "Polish | Polski",
           emoji:  require(`@/assets/twemoji/1f1f5-1f1f1.svg`),
         },
         jp: {
@@ -43,7 +43,7 @@ export default {
           name: "Romanian | Română",
           emoji:  require(`@/assets/twemoji/1f1f7-1f1f4.svg`),
         },
-        di: {
+        id: {
           name: "Bahasa Indonesia",
           emoji:  require(`@/assets/twemoji/1f1ee-1f1e9.svg`),
         },
