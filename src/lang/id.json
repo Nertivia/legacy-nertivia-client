@@ -1,0 +1,65 @@
+{
+    "explore": "Jelajah",
+    "explore-desc": "Temukan Server dan Emoji baru, dan lainnya!",
+    "servers": "Servers",
+    "join-server": "Gabung Server",
+    "themes": "Tema",
+    "emoji-packs": "Paket Emoji",
+    "message-styles": "Gaya Pesan",
+    "created-by": "Dibuat oleh",
+    "filter": "Filter",
+    "sort-by": "Sortir dari",
+
+    "all": "Semua",
+    "verified": "Verified",
+    "most-users": "User Terbanyak",
+    "least-users": "User Paling Sedikit",
+    "alphabetical": "Sesuai Alfabet",
+    "date-added": "Tanggal Ditambah",
+
+    "explore-support-message": "Dukung Nertivia dengan mendonasikan uang dengan nominal apapun. Kamu akan mendapatkan lambang supporter dan fitur tambahan nantinya.",
+    "support-message-settings": "Dukung Nertivia. Kamu akan mendapatkan lambang supporter.",
+    "donate": "Donasi",
+
+    "join": "Gabung",
+    "join-card-message": "Gabung server official Nertivia",
+    "coming-soon!": "Segera Hadir!",
+
+    "joined": "Bergabung",
+    "apply": "Apply",
+    "unapply": "Unapply",
+    "copy-link": "Kopi Tautan",
+
+    "clone": "Klon",
+    "cloning": "Sedang Mengklon...",
+    "cloned": "diklon",
+    "theme-safe-message": "Tema dibawah ini telah dicek secara manual dan aman untuk dipakai.",
+
+    "friends": "Teman",
+    "pending": "Menunggu",
+    "recents": "Terbaru",
+
+    "online": "Online",
+    "away": "Pergi",
+    "busy": "Sibuk",
+    "looking-to-play": "Mencari Pemain",
+    "offline": "Offline",
+
+    "add-friends-message": "Tambah beberapa teman.",
+    "offline-message": "Semua teman kamu sedang offline.",
+    "saved-notes": "Saved Notes",
+    "select-person-message": "Pilih orang untuk mengirim pesan!",
+    "message": "Pesan",
+
+    "add-server": "Tambah Server",
+    "add-friend": "Tambah Teman",
+    "add-friend-message": "Tambah teman dengan username dan tagnya.",
+    "adding": "Menambahkan...",
+    "create": "Buat",
+
+    "new-messages": "Pesan baru",
+
+    "today-at": "Hari ini pada {0}",
+    "yesterday-at": "Kemarin pada {0}",
+    "send-a-message": "Kirim pesan"
+}

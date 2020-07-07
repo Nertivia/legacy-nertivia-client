@@ -43,6 +43,10 @@ export default {
           name: "Romanian | Română",
           emoji:  require(`@/assets/twemoji/1f1f7-1f1f4.svg`),
         },
+        di: {
+          name: "Bahasa Indonesia",
+          emoji:  require(`@/assets/twemoji/1f1ee-1f1e9.svg`),
+        },
         fi: {
           name: "Finnish | Suomi",
           emoji:require(`@/assets/twemoji/1f1eb-1f1ee.svg`) 
