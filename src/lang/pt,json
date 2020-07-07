@@ -1,0 +1,65 @@
+{
+    "explore": "Explorar",
+    "explore-desc": "Encontra novos servidors, Emojis e muito mais!",
+    "servers": "Servidores",
+    "join-server": "Entrar num Servidor",
+    "themes": "Temas",
+    "emoji-packs": "Pacotes de Emojis",
+    "message-styles": "Estilo de Mensagem",
+    "created-by": "Criado por",
+    "filter": "Filtro",
+    "sort-by": "Ordenar",
+
+    "all": "Tudo",
+    "verified": "Verificado",
+    "most-users": "Mais Utilizadores",
+    "least-users": "Menos Utilizadores",
+    "alphabetical": "Alfabético",
+    "date-added": "Adicionado",
+
+    "explore-support-message": "Apoia o Nertivia ao doar qualquer quantia monetária. Vais receber o emblema de supporter e mais regalias no futuro.",
+    "support-message-settings": "Apoia o Nertivia. Recebes um emblema.",
+    "donate": "Doar",
+
+    "join": "Entrar",
+    "join-card-message": "Junta-te ao Servidor Oficial do Nertivia",
+    "coming-soon!": "Brevemente!",
+
+    "joined": "Juntou-se",
+    "apply": "Aplicar",
+    "unapply": "Recuar",
+    "copy-link": "Copiar Link",
+
+    "clone": "Clonar",
+    "cloning": "A Clonar...",
+    "cloned": "Clonado",
+    "theme-safe-message": "Os Temas abaixo são seguros e revistos um a um.",
+
+    "friends": "Amigos",
+    "pending": "Pendentes",
+    "recents": "Recentes",
+
+    "online": "Online",
+    "away": "Afastado",
+    "busy": "Ocupado",
+    "looking-to-play": "A querer jogar",
+    "offline": "Offline",
+
+    "add-friends-message": "Adiciona alguns amigos.",
+    "offline-message": "Todos os teus amigos estão offline.",
+    "saved-notes": "Notas salvas",
+    "select-person-message": "Seleciona uma pessoa para falar!",
+    "message": "Mensagem",
+
+    "add-server": "Adicionar Servidor",
+    "add-friend": "Adicionar Amigo",
+    "add-friend-message": "Adiciona amigos utilizando o seu utilizador e tag.",
+    "adding": "A Adicionar...",
+    "create": "Criar",
+
+    "new-messages": "Novas Mensagens",
+
+    "today-at": "Hoje às {0}",
+    "yesterday-at": "Ontem às {0}",
+    "send-a-message": "Enviar uma mensagem"
+}
