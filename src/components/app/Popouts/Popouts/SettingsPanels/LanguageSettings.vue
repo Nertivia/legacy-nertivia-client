@@ -24,31 +24,31 @@ export default {
           emoji:  require(`@/assets/twemoji/1f1ec-1f1e7.svg`),
         },
         pl: {
-          name: "Polish",
+          name: "Polish | Polszczyzna",
           emoji:  require(`@/assets/twemoji/1f1f5-1f1f1.svg`),
         },
         jp: {
-          name: "Japanese",
+          name: "Japanese | 日本語",
           emoji:  require(`@/assets/twemoji/1f1ef-1f1f5.svg`),
         },
         de: {
-          name: "German",
+          name: "German | Deutsch",
           emoji:  require(`@/assets/twemoji/1f1e9-1f1ea.svg`),
         },
         th: {
-          name: "Thai",
+          name: "Thai | ไทย",
           emoji:  require(`@/assets/twemoji/1f1f9-1f1ed.svg`),
         },
         ro: {
-          name: "Romanian",
+          name: "Romanian | Română",
           emoji:  require(`@/assets/twemoji/1f1f7-1f1f4.svg`),
         },
         fi: {
-          name: "Finnish",
+          name: "Finnish | Suomi",
           emoji:require(`@/assets/twemoji/1f1eb-1f1ee.svg`) 
         },
         ru: {
-          name: "Russian",
+          name: "Russian | Pусский",
           emoji:  require(`@/assets/twemoji/1f1f7-1f1fa.svg`),
         },
       }
