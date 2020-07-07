@@ -23,16 +23,16 @@
           {{theme.stars}}
         </div>-->
         <div class="button clone-button" @click="cloneButton">
-          <span>{{cloneStatus === null ? 'Clone' : cloneStatus === false ? 'Cloning...' : 'Cloned' }}</span>
+          <span>{{cloneStatus === null ? $t('clone') : cloneStatus === false ? $t('cloning') : $t('cloned') }}</span>
         </div>
-        <div class="button copy-button" @click="copyButton" title="Copy Link">
+        <div class="button copy-button" @click="copyButton" :title="$t('copy-link')">
           <span class="material-icons">link</span>
         </div>
         <div class="button un-apply" v-if="appliedTheme === theme.id" @click="unApplyButton">
-          <span>Unapply</span>
+          <span>{{$t('unapply')}}</span>
         </div>
         <div v-else class="button apply" @click="applyButton">
-          <span>Apply</span>
+          <span>{{$t('apply')}}</span>
         </div>
       </div>
       <div class="created-by">

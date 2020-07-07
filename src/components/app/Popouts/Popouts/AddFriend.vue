@@ -3,12 +3,12 @@
     <div class="add-friend">
       <div class="header">
         <div class="icon material-icons">person_add</div>
-        <div class="name">Add Friend</div>
+        <div class="name">{{$t('add-friend')}}</div>
       </div>
       <div class="content">
         <div class="container">
           <div class="description">
-            Add friends by using their username and tag.
+            {{$t("add-friend-message")}}
           </div>
           <input
             class="tag"
@@ -20,7 +20,7 @@
             class="button"
             @click="addButton"
             type="button"
-            :value="requestSent ? 'Adding...' : 'Add Friend'"
+            :value="requestSent ? $t('adding') : $t('add-friend')"
           />
         </div>
       </div>

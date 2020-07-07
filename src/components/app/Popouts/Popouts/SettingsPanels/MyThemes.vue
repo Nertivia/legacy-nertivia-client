@@ -22,7 +22,7 @@
         </div>
         <div class="button" @click="createButton">
           <div class="material-icons">add</div>
-          Create
+          {{$t('create')}}
         </div>
       </div>
       <spinner v-if="!themes" />

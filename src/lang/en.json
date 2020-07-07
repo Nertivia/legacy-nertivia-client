@@ -23,6 +23,42 @@
 
     "join": "Join",
     "join-card-message": "Join the official Nertivia server",
-    "coming-soon!": "Coming soon!"
+    "coming-soon!": "Coming soon!",
 
+    "joined": "Joined",
+    "apply": "Apply",
+    "unapply": "Unapply",
+    "copy-link": "Copy Link",
+
+    "clone": "Clone",
+    "cloning": "Cloning...",
+    "cloned": "Cloned",
+    "theme-safe-message": "Themes below are safe and manually reviewed.",
+
+    "friends": "Friends",
+    "pending": "Pending",
+    "recents": "Recents",
+
+    "online": "Online",
+    "away": "Away",
+    "busy": "Busy",
+    "looking-to-play": "Looking to play",
+    "offline": "Offline",
+
+    "add-friends-message": "Add some friends.",
+    "offline-message": "All of your friends are offline.",
+    "saved-notes": "Saved Notes",
+    "select-person-message": "Select a person to message!",
+    "message": "Message",
+
+    "add-server": "Add Server",
+    "add-friend": "Add Friend",
+    "add-friend-message": "Add friends by using their username and tag.",
+    "adding": "Adding...",
+    "create": "Create",
+
+    "new-messages": "New messages",
+
+    "today-at": "Today at {0}",
+    "yesterday-at": "Yesterday at {0}"
 }

@@ -37,7 +37,7 @@
           {{ server.total_members }}
         </div>
         <div class="button" :class="{ selected: joined }" @click="joinButton">
-          <span v-if="joined">Joined</span>
+          <span v-if="joined">{{$t('joined')}}</span>
           <spinner v-else-if="joinClicked" :size="30" />
           <span v-else-if="!joinClicked">{{$t('join-server')}}</span>
         </div>
@@ -239,6 +239,7 @@ export default {
       align-items: center;
       justify-content: center;
       width: 100%;
+      text-align: center;
       height: 36px;
       border-radius: 2px;
       background: rgba(0, 179, 219, 0.8);
