@@ -63,7 +63,7 @@
         class="chat-input"
         rows="1"
         ref="input-box"
-        :placeholder="$t('message')"
+        :placeholder="$t('send-a-message')"
         @keydown="keyDown"
         @keyup="keyUp"
         @change="resize"

@@ -60,5 +60,6 @@
     "new-messages": "New messages",
 
     "today-at": "Today at {0}",
-    "yesterday-at": "Yesterday at {0}"
+    "yesterday-at": "Yesterday at {0}",
+    "send-a-message": "Send a message"
 }
