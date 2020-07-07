@@ -1,0 +1,28 @@
+{
+    "explore": "สำรวจ",
+    "explore-desc": "ค้นหาที่ๆใหม่, อิโมจิและอีกมากมาย!",
+    "servers": "กิลด์",
+    "join-server": "เข้าร่วมกิลด์",
+    "themes": "ธีม",
+    "emoji-packs": "แพ็คอิโมจิ",
+    "message-styles": "รูปแบบข้อความ",
+    "created-by": "สร้างโดย",
+    "filter": "กรอง..",
+    "sort-by": "จัดเรียงตาม..",
+
+    "all": "ทุกอย่าง",
+    "verified": "ได้รับการยืนยัน",
+    "most-users": "ผู้ใช้ (ส่วนใหญ่)",
+    "least-users": "ผู้ใช้(ส่วนน้อย)",
+    "alphabetical": "เรียงตามตัวอักษร",
+    "date-added": "ตามวันที่",
+
+    "explore-support-message": "สนับสนุน Nertivia ด้วยการบริจาคเงินจำนวนเท่าใดก็ได้ คุณจะได้รับตราผู้สนับสนุนและคุณสมบัติเพิ่มเติมในอนาคต!",
+    "support-message-settings": "สนับสนุน Nertivia!",
+    "donate": "บริจาค!",
+
+    "join": "เข้าร่วม!",
+    "join-card-message": "เข้าร่วมสมาคม Nertivia (เป็นทางการ)",
+    "coming-soon!": "เร็วๆ นี้!"
+
+}

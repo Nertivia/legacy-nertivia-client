@@ -1,0 +1,28 @@
+{
+    "explore": "Erkunden",
+    "explore-desc": "Finde neue Gilden, Emojis und mehr!",
+    "servers": "Gilden",
+    "join-server": "Tritt der Gilde bei",
+    "themes": "Themen",
+    "emoji-packs": "Emoji Packs",
+    "message-styles": "Nachrichtenstile",
+    "created-by": "Erstellt von",
+    "filter": "Filter",
+    "sort-by": "Sortiere nach",
+
+    "all": "Alles",
+    "verified": "Verifiziert",
+    "most-users": "Die meisten Benutzer",
+    "least-users": "Am wenigsten Benutzer",
+    "alphabetical": "Alphabetisch",
+    "date-added": "Datum hinzugefügt",
+
+    "explore-support-message": "Unterstützen Sie Nertivia, indem Sie einen beliebigen Geldbetrag spenden. Sie erhalten in Zukunft ein Unterstützerabzeichen und weitere Funktionen.",
+    "support-message-settings": "Unterstützen Sie Nertivia. Sie erhalten ein Abzeichen.",
+    "donate": "Spenden",
+
+    "join": "Beitreten",
+    "join-card-message": "Treten Sie dem offiziellen Nertivia-Server bei.",
+    "coming-soon!": "Kommt bald!"
+
+}

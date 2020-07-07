@@ -1,6 +1,6 @@
 <template>
   <div class="panel">
-    <div class="desc">Change the language by selecting one below. You can submit more languages at <a href="https://github.com/supertiger1234/Nertivia-Client/tree/master/src/lang" target="_blank" rel="noopener noreferrer">GitHub</a></div>
+    <div class="desc">Change the language by selecting one below. Note that some of these translations may be incorrect. You can submit more languages or fix some translations at <a href="https://github.com/supertiger1234/Nertivia-Client/tree/master/src/lang" target="_blank" rel="noopener noreferrer">GitHub</a></div>
     <div class="lang-list">
       <div class="lang" :class="{selected: currentLang === lang}" @click="changeLang(lang)" v-for="lang in langs" :key="lang">
         <img class="emoji" :src="langConsts[lang].emoji" />
@@ -26,6 +26,14 @@ export default {
         pl: {
           name: "Polish",
           emoji:  require(`@/assets/twemoji/1f1f5-1f1f1.svg`),
+        },
+        de: {
+          name: "German",
+          emoji:  require(`@/assets/twemoji/1f1e9-1f1ea.svg`),
+        },
+        th: {
+          name: "Thai",
+          emoji:  require(`@/assets/twemoji/1f1f9-1f1ed.svg`),
         },
       }
     }
