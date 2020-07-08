@@ -27,6 +27,10 @@ export default {
           name: "Polish | Polski",
           emoji:  require(`@/assets/twemoji/1f1f5-1f1f1.svg`),
         },
+        pt: {
+          name: "Portuguese",
+          emoji:  require(`@/assets/twemoji/1f1f5-1f1f9.svg`),
+        },
         jp: {
           name: "Japanese | 日本語",
           emoji:  require(`@/assets/twemoji/1f1ef-1f1f5.svg`),
