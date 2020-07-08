@@ -45,7 +45,6 @@ export default {
       document.getElementById("theme").outerHTML = "";
     },
     async applyTheme() {
-      console.log("owo");
       // get css
       const { ok, result } = await exploreService.applyTheme(
         this.themeDetail.id

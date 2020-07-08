@@ -128,15 +128,21 @@ const actions = {
   updateMessage(context, { channelID, messageID, message }) {
     const messages = context.state.messages[channelID];
     if (!messages) return;
-    if (message.replace) {
-      const index = messages.findIndex(v => v.messageID === messageID);
-      if (!index) return;
-      context.commit("updateMessage", { message: message, index });
-      return;
-    }
+    // if (message.replace) {
+    //   const index = messages.findIndex(v => v.messageID === messageID);
+    //   if (!index) return;
+    //   context.commit("updateMessage", { message: message, index });
+    //   return;
+    // }
     messages.find((obj, index) => {
       if (obj.messageID === messageID) {
-        const newObj = Object.assign({}, obj, message);
+        let newObj = {}
+        if (message.replace) {
+          newObj = message;
+          newObj.tempID = obj.tempID
+        } else {
+          newObj = Object.assign({}, obj, message)
+        }
         context.commit("updateMessage", { message: newObj, index });
         return true;
       }
