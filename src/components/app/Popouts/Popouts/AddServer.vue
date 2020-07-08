@@ -18,7 +18,7 @@
             slideForward();
           "
         >
-          Join
+          {{$t('join')}}
         </div>
       </div>
       <transition-group tag="div" class="slider" :name="slideInDirection">

@@ -159,6 +159,7 @@ export default {
 
 .description {
   margin-bottom: 30px;
+  text-align: center;
 }
 .button {
   align-self: center;
