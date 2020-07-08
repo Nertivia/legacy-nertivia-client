@@ -1,0 +1,67 @@
+{
+    "explore": "Разучи",
+    "explore-desc": "Прегледай нови Групи, Емотикони и повече!",
+    "servers": "Групи",
+    "join-server": "Добави Групата",
+    "themes": "Мотиви",
+    "emoji-packs": "Емотикони",
+    "message-styles": "Мотиви за съобщения",
+    "created-by": "Направен от",
+    "filter": "Филтър",
+    "sort-by": "Сортиран според",
+
+    "all": "Всички",
+    "verified": "Потвърдени",
+    "most-users": "със най много зрители",
+    "least-users": "със най малко зрители",
+    "alphabetical": "Алфабътично",
+    "date-added": "отворен преди малко",
+
+    "explore-support-message": "Подкрепи Nertivia със >1GBP за да получете Supporter Значка. Във бъдеще ще получете повече екстри.",
+    "support-message-settings": "Подкрепи Nertivia ! Подаряваме глобални eмблеми",
+    "donate": "Подкрепи",
+
+    "join": "Влез",
+    "join-card-message": "Вие влязохте във официалната Nertivia група",
+    "coming-soon!": "Очаквайте!",
+
+    "joined": "Влязох",
+    "apply": "Подвърди",
+    "unapply": "Не потвърждавам",
+    "copy-link": "Копирай линка",
+
+    "clone": "Клонинг",
+    "cloning": "Клонирам...",
+    "cloned": "Клонинг успешен!",
+    "theme-safe-message": "Всички мотиви с проверени еднорачно и са сигорни за употреба.",
+
+    "friends": "Приятели",
+    "pending": "Отворени",
+    "recents": "Предишни",
+
+    "online": "Онлайн",
+    "away": "АФК",
+    "busy": "Зает",
+    "looking-to-play": "Търся играчи!",
+    "offline": "Офлайн",
+
+    "add-friends-message": "Добави нов приятел",
+    "offline-message": "Всички ваши приятеля са извън линия.",
+    "saved-notes": "Записки",
+    "select-person-message": "Избери приятел за комунициране!",
+    "message": "Съобщения",
+
+    "add-server": "Добави Групата",
+    "add-friend": "Добави Приятел",
+    "add-friend-message": "За да добавете нов приятел, исползвайте тяхното име следващо с техния ТАГ.",
+    "adding": "Добавяне...",
+    "create": "Направи новa",
+
+    "new-messages": "Нови Съобщения",
+
+    "today-at": "Неска в {0}",
+    "yesterday-at": "Вчера в {0}",
+    "send-a-message": "Изпрати ново съобщение"
+
+    "Translated-By": "Veii"
+}

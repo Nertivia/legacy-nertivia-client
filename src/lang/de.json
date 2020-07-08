@@ -1,39 +1,39 @@
 {
-    "explore": "Erkunden",
-    "explore-desc": "Finde neue Gilden, Emojis und mehr!",
-    "servers": "Gilden",
-    "join-server": "Tritt der Gilde bei",
-    "themes": "Themen",
-    "emoji-packs": "Emoji Packs",
+    "explore": "Erkunde",
+    "explore-desc": "Finde neue Server, Emoji Sammlungen und mehr!",
+    "servers": "Server",
+    "join-server": "Tritt dem Server bei",
+    "themes": "Designs",
+    "emoji-packs": "Emoji Sammlungen",
     "message-styles": "Nachrichtenstile",
     "created-by": "Erstellt von",
     "filter": "Filter",
     "sort-by": "Sortiere nach",
 
-    "all": "Alles",
+    "all": "Alle",
     "verified": "Verifiziert",
-    "most-users": "Die meisten Benutzer",
-    "least-users": "Am wenigsten Benutzer",
+    "most-users": "mit den meisten Nutzern",
+    "least-users": "mit den wenigsten Nutzern",
     "alphabetical": "Alphabetisch",
-    "date-added": "Datum hinzugefügt",
+    "date-added": "zuletzt erstellt",
 
-    "explore-support-message": "Unterstützen Sie Nertivia, indem Sie einen beliebigen Geldbetrag spenden. Sie erhalten in Zukunft ein Unterstützerabzeichen und weitere Funktionen.",
-    "support-message-settings": "Unterstützen Sie Nertivia. Sie erhalten ein Abzeichen.",
+    "explore-support-message": "Unterstütze Nertivia, indem du >1GBP spendest. Dies verschaffe dir ein Unterstützer-Badge, sowie weitere anstehende Kleinigkeiten",
+    "support-message-settings": "Unterstütze Nertivia. Du erhaltest ein globales Unterstützer-Badge!,
     "donate": "Spenden",
 
     "join": "Beitreten",
-    "join-card-message": "Treten Sie dem offiziellen Nertivia-Server bei.",
+    "join-card-message": "Trete dem offiziellen Nertivia-Server bei.",
     "coming-soon!": "Kommt bald!",
 
-    "joined": "Trat bei",
+    "joined": "Beigetreten",
     "apply": "Anwenden",
     "unapply": "Nicht anwenden",
     "copy-link": "Link kopieren",
 
-    "clone": "Klon",
-    "cloning": "Klonen...",
-    "cloned": "Geklont",
-    "theme-safe-message": "Die folgenden Themen werden alle manuell überprüft und können sicher verwendet werden.",
+    "clone": "Dupliziere",
+    "cloning": "wird dupliziert...",
+    "cloned": "erfolgreich dupliziert!",
+    "theme-safe-message": "Die folgenden Themen wurden alle eigenhändig überprüft, und können sicher verwendet werden.",
 
     "friends": "Freunde",
     "pending": "Steht aus",
@@ -42,7 +42,7 @@
     "online": "Online",
     "away": "Weg",
     "busy": "Beschäftigt",
-    "looking-to-play": "Auf der Suche nach Spielen",
+    "looking-to-play": "Auf der Suche nach Mitpielern",
     "offline": "Offline",
 
     "add-friends-message": "Füge einige Freunde hinzu.",
@@ -51,9 +51,9 @@
     "select-person-message": "Wählen Sie eine Person für die Nachricht aus!",
     "message": "Nachricht",
 
-    "add-server": "Server hinzufügen",
-    "add-friend": "Freund hinzufügen",
-    "add-friend-message": "Fügen Sie Freunde hinzu, indem Sie ihren Benutzernamen und ihr Tag verwenden.",
+    "add-server": "Neuer Server",
+    "add-friend": "füge einen Freund hinzu",
+    "add-friend-message": "Füge Freunde hinzu, indem du ihren Benutzernamen und den jeweiligen TAG verwendest.",
     "adding": "Hinzufügen...",
     "create": "Erstellen",
 
@@ -61,5 +61,5 @@
 
     "today-at": "Heute um {0}",
     "yesterday-at": "Gestern um {0}",
-    "send-a-message": "Eine Nachricht schicken"
+    "send-a-message": "Verfasse eine Nachricht"
 }
