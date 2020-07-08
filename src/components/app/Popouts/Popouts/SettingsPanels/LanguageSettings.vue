@@ -27,6 +27,10 @@ export default {
           name: "Polish | Polski",
           emoji:  require(`@/assets/twemoji/1f1f5-1f1f1.svg`),
         },
+        sl: {
+          name: "Slovenian",
+          emoji:  require(`@/assets/twemoji/1f1f8-1f1ee.svg`),
+        },
         pt: {
           name: "Portuguese",
           emoji:  require(`@/assets/twemoji/1f1f5-1f1f9.svg`),

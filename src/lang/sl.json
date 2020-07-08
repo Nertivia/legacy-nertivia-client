@@ -1,0 +1,27 @@
+{
+    "explore": "Odkrij",
+    "explore-desc": "Odkrij nove strežnike, emojije in še več!",
+    "servers": "Strežniki",
+    "join-server": "Pridruži se strežniku",
+    "themes": "Teme",
+    "emoji-packs": "Paketi emojijev",
+    "message-styles": "Izgled sporočil",
+    "created-by": "Naredil",
+    "filter": "Filtriraj",
+    "sort-by": "Sortiraj po",
+
+    "all": "Vsi",
+    "verified": "Potrjen",
+    "most-users": "Največje število uporabnikov najprej",
+    "least-users": "Najmanjše število uporabnikov najprej",
+    "alphabetical": "Po abecedi",
+    "date-added": "Datum ustvarjanja",
+
+    "explore-support-message": "Podpirajte Nertivio in njen razvoj z donacijo v manjšem ali večjem znesku. Dobili boste posebno značko in dodatne sposobnosi v bližnji prihodnosti.",
+    "support-message-settings": "Podpirajte Nertivio. Dobite posebno značko.",
+    "donate": "Doniraj",
+
+    "join": "Pridruži se",
+    "join-card-message": "Pridruži se uradnem strežniku za Nertivio",
+    "coming-soon!": "Prihaja kmalu!"
+}
