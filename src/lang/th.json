@@ -25,14 +25,14 @@
     "join-card-message": "เข้าร่วมเซิร์ฟเวอร์ Nertivia ทางการ",
     "coming-soon!": "พบกันเร็วๆ นี้",
 
-    "joined": "เข้ากลุ่มแล้ว"
-    "apply": "เลือกธีม", // apply/unapply is for themes apply only, for general apply please delete the word ธีม 
+    "joined": "เข้ากลุ่มแล้ว",
+    "apply": "เลือกธีม",
     "unapply": "ปิดใช้ธีม",
     "copy-link": "คัดลอกลิงค์",
 
     "clone": "โคลน",
     "cloning": "กำลังโคลน...",
-    "cloned": "โคลนแล้ว"
+    "cloned": "โคลนแล้ว",
     "theme-safe-message": "ทางเราได้ตรวจสอบความปลอดภัยของธีมทั้งหมดแล้ว",
 
     "friends": "เพื่อน",
