@@ -8,7 +8,6 @@ export function zip(string) {
 export function unzip(base64) {
   try {
     const binaryString = atob(base64);
-    console.log(binaryString)
     return pako.inflate(binaryString, { to: "string" });
   } catch {
     return null;

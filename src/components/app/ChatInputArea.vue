@@ -279,15 +279,33 @@ export default {
         unclosableType: shown ? undefined : "DRAW_POPOUT"
       });
     },
+    
     replaceChannelMentions(message) {
-      //#channel name#
-      const regex = /#(.+?)#/g;
-      return message.replace(regex, word => {
-        const channel = this.channels.find(c => `#${c.name}#` === word);
-        if (!channel) return word;
-        return `<#${channel.channelID}>`;
-      });
+      const getChannel = name => this.channels.find(c => c.name === name);
+      const isChannel = name => name != null && getChannel(name)
+
+      const result = [];
+      const reg = /#([^#]+?)#/g;
+      let name;
+
+      let lastIndex = reg.lastIndex;
+      let i = 0;
+
+      while ((name = reg.exec(message)) !== null) {
+        if (isChannel(name[1])) {
+          const channelName = name[1];
+          result.push(message.slice(lastIndex, name.index))
+          result.push(`<#${getChannel(channelName).channelID}>`)
+          lastIndex = name.index + name[0].length
+        } else {
+          reg.lastIndex = lastIndex + i;
+        }
+        i += 1;
+      }
+      result.push(message.slice(lastIndex))
+      return result.join('');
     },
+
     replaceMentions(message) {
       const regex = /@(.+?(?=:)):([\w]*)/g;
 
