@@ -307,7 +307,7 @@ export default {
     },
 
     replaceMentions(message) {
-      const regex = /@(.+?(?=:)):([\w]*)/g;
+      const regex = /@([^@]+?(?=:)):([\w]*)/g;
 
       return message.replace(regex, word => {
         const [username, tag] = word.split(":");
