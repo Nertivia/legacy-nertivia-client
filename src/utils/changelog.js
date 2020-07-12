@@ -1,6 +1,15 @@
 const config = [
   {
     version: "1.2.8",
+    title: "Nested Quoting",
+    shortTitle: "",
+    date: "12 July 2020",
+    new: [
+      "You can now nest quotes 1 time more! More features will be added to quoting soon such as: quote images and files and maybe colors too.",
+    ],
+  },
+  {
+    version: "1.2.8",
     title: "Languages BETA",
     shortTitle: "",
     date: "06 July 2020",
