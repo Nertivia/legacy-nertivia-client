@@ -10,6 +10,7 @@ export default order => {
 
     parse: function (capture, _, state) {
       return {
+        content: state.content,
         quotes: state.content && state.content.quotes ? state.content.quotes : undefined,
         id: capture[1],
         orig: capture[0]
@@ -25,7 +26,7 @@ export default order => {
           SimpleMarkdown.htmlTag("div", "Quoted: ") +
           SimpleMarkdown.htmlTag("div", SimpleMarkdown.sanitizeText(quote.creator.username), { class: "quote-username", id: quote.creator.uniqueID })
           , { class: "quote-profile" }) +
-        SimpleMarkdown.htmlTag("div", messageFormatter(quote.message), { class: "quote-message" }) +
+        SimpleMarkdown.htmlTag("div", messageFormatter(quote.message, node.content), { class: "quote-message" }) +
         SimpleMarkdown.htmlTag("div",
           SimpleMarkdown.htmlTag("div", "Go to message", { class: "quote-gtm", id: quote.messageID  })
           , { class: "quote-profile" }),
