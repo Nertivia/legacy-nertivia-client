@@ -1,8 +1,8 @@
 {
-    "explore": "Erkunde",
-    "explore-desc": "Finde neue Server, Emoji Sammlungen und mehr!",
+    "explore": "Erkunden",
+    "explore-desc": "Entdecke neue Server, Emoji Sammlungen und mehr!",
     "servers": "Server",
-    "join-server": "Tritt dem Server bei",
+    "join-server": "Server Beitreten",
     "themes": "Designs",
     "emoji-packs": "Emoji Sammlungen",
     "message-styles": "Nachrichtenstile",
@@ -15,9 +15,9 @@
     "most-users": "mit den meisten Nutzern",
     "least-users": "mit den wenigsten Nutzern",
     "alphabetical": "Alphabetisch",
-    "date-added": "zuletzt erstellt",
+    "date-added": "Erstelldatum",
 
-    "explore-support-message": "Unterstütze Nertivia, indem du >1GBP spendest. Dies verschaffe dir ein Unterstützer-Badge, sowie weitere anstehende Kleinigkeiten",
+    "explore-support-message": "Unterstütze Nertivia, indem du >1GBP spendest. Dies verschafft dir einen Unterstützer-Badge, sowie weitere anstehende Kleinigkeiten",
     "support-message-settings": "Unterstütze Nertivia. Du erhaltest ein globales Unterstützer-Badge!",
     "donate": "Spenden",
 
@@ -30,29 +30,29 @@
     "unapply": "Nicht anwenden",
     "copy-link": "Link kopieren",
 
-    "clone": "Dupliziere",
+    "clone": "Duplizieren",
     "cloning": "wird dupliziert...",
-    "cloned": "erfolgreich dupliziert!",
+    "cloned": "Erfolgreich dupliziert!",
     "theme-safe-message": "Die folgenden Themen wurden alle eigenhändig überprüft, und können sicher verwendet werden.",
 
     "friends": "Freunde",
-    "pending": "Steht aus",
+    "pending": "Ausstehend",
     "recents": "Kürzlich",
 
     "online": "Online",
     "away": "Weg",
     "busy": "Beschäftigt",
-    "looking-to-play": "Auf der Suche nach Mitpielern",
+    "looking-to-play": "Auf der Suche nach Mitspielern",
     "offline": "Offline",
 
-    "add-friends-message": "Füge einige Freunde hinzu.",
+    "add-friends-message": "Freunde hinzufügen.",
     "offline-message": "Alle deine Freunde sind offline.",
     "saved-notes": "Gespeicherte Notizen",
     "select-person-message": "Wählen Sie eine Person für die Nachricht aus!",
     "message": "Nachricht",
 
     "add-server": "Neuer Server",
-    "add-friend": "füge einen Freund hinzu",
+    "add-friend": "Freund hinzufügen",
     "add-friend-message": "Füge Freunde hinzu, indem du ihren Benutzernamen und den jeweiligen TAG verwendest.",
     "adding": "Hinzufügen...",
     "create": "Erstellen",
@@ -63,5 +63,5 @@
     "yesterday-at": "Gestern um {0}",
     "send-a-message": "Verfasse eine Nachricht",
 
-    "Translated-By": "Translated by Hanako, ReWritten by Veii"
+    "Translated-By": "Translated by Hanako, ReWritten by Veii, Edited by LostNuke"
 }
