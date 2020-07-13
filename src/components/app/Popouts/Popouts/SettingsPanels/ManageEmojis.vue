@@ -90,7 +90,7 @@ export default {
         }
         if (file.size >= 3048576) {
           // 3048576 = 3mb
-          this.errorBox(`Upload failed - ${file.name} Image size must be less than 1 megabytes.`);
+          this.errorBox(`Upload failed - ${file.name} Image size must be less than 3 megabytes.`);
           break;
         }
         const reader = await this.loadReader(file)
