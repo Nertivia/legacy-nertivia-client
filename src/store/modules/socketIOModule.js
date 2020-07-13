@@ -271,6 +271,7 @@ const actions = {
     } else {
       notification.lastMessageID = data.message.messageID;
     }
+    const isBusy = context.rootGetters.user.status == 3;
 
     context.dispatch("messageCreatedNotification", notification);
     function desktopNotification() {
@@ -281,15 +282,14 @@ const actions = {
           .disableDesktopNotification;
 
       if (isMobile()) return;
+
       if (isElectron && disableDesktopNotification === undefined)
         return sendNotification();
-      if (
-        disableDesktopNotification !== undefined &&
-        disableDesktopNotification === false
-      )
-        return sendNotification();
 
+      if ( disableDesktopNotification !== undefined && disableDesktopNotification === false )
+        return sendNotification();
       function sendNotification() {
+        if (isBusy) return;
         if (channel && channel.server_id) {
           const server = context.getters["servers/servers"][channel.server_id];
           DesktopNotification.serverMessage({
