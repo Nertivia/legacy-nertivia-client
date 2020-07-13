@@ -246,6 +246,7 @@ const actions = {
     const currentTab = context.rootGetters.currentTab;
     const currentChannelID = context.rootState.channelModule.currentChannelID;
 
+    const isBusy = context.rootGetters.user.status == 3;
     const iscurrentChannel = currentChannelID == data.message.channelID;
     const isCurrentTabDMOrSrvrs = currentTab === 1 || currentTab === 2;
 
@@ -271,7 +272,7 @@ const actions = {
     } else {
       notification.lastMessageID = data.message.messageID;
     }
-    const isBusy = context.rootGetters.user.status == 3;
+
 
     context.dispatch("messageCreatedNotification", notification);
     function desktopNotification() {
@@ -288,6 +289,7 @@ const actions = {
 
       if ( disableDesktopNotification !== undefined && disableDesktopNotification === false )
         return sendNotification();
+
       function sendNotification() {
         if (isBusy) return;
         if (channel && channel.server_id) {
