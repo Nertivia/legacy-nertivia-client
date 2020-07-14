@@ -212,6 +212,16 @@ export default {
         this.$socket.client.emit('programActivity:set', {name: this.currentActiveProgram.name, status: this.currentActiveProgram.status})
       }
       this.programActivityTimeout = setTimeout(this.emitActivity, 180000); // 3 minutes
+    },
+    setNotification() {
+      const notification = this.latestNotification;
+      if (!notification) {
+        document.querySelector("link[rel='icon']").setAttribute("href", "/favicon.ico")
+        bus.$emit("title:change", "Nertivia")
+        return; 
+      }
+      bus.$emit("title:change", `${notification.sender.username} - Nertivia`)
+      document.querySelector("link[rel='icon']").setAttribute("href", "/favicon-notification.ico")
     }
   },
   watch: {
@@ -237,10 +247,13 @@ export default {
     },
     allNotificationExists(val) {
       this.sendElectronNotification(val);
+    },
+    latestNotification() {
+      this.setNotification();
     }
   },
   async mounted() {
-
+    this.setNotification()
     if (this.isElectron) {
       ipcRenderer.on("activity_status:changed", this.activityStatusChanged)
 
@@ -288,6 +301,12 @@ export default {
     },
     notificationExists() {
       return this.$store.getters.notifications.length;
+    },
+    latestNotification() {
+      if (!this.notificationExists) return;
+      const notifications = this.$store.getters.notifications
+      const latestMessage = notifications[notifications.length - 1];
+      return latestMessage
     },
     friendRequestExists() {
       if (!this.$store.getters.user) return;

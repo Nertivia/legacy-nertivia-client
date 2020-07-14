@@ -252,10 +252,6 @@ const actions = {
 
     if (!iscurrentChannel || !document.hasFocus() || !isCurrentTabDMOrSrvrs) {
       // send notification if other users message the recipient
-      bus.$emit(
-        "title:change",
-        data.message.creator.username + " sent a message."
-      );
       desktopNotification();
     }
 

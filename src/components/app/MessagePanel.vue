@@ -89,7 +89,6 @@ export default {
       );
     },
     async onFocus() {
-      bus.$emit("title:change", "Nertivia");
       if (!this.$store.getters.currentChannelID) return;
       //dismiss notification on focus
       const find = this.$store.getters.notifications.find((notification) => {
