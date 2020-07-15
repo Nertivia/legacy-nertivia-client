@@ -1,105 +1,175 @@
 <template>
   <div class="edit-profile">
     <errors-list-template :errors="errors" v-if="errors" />
-    <div class="inner-content">
-      <div class="left">
-        <form :key="key">
-          <div class="outer-input">
-            <div class="title">Username</div>
-            <div class="user-tag">
-              <input
-                type="text"
-                class="username"
-                :default-value.prop="user.username"
-                @input="inputEvent('username', $event)"
-              />
-
-              <input
-                type="text"
-                class="tag"
-                :default-value.prop="user.tag"
-                @input="inputEvent('tag', $event)"
-              />
-            </div>
+    <div class="centered-box">
+      <div class="information">
+        <input
+          ref="avatarBrowser"
+          type="file"
+          accept=".jpeg, .jpg, .png, .gif"
+          style="display: none"
+          @change="avatarChangeEvent"
+        />
+        <profile-picture
+          class="avatar"
+          @click.native="$refs.avatarBrowser.click()"
+          :url="update.avatar"
+          :uniqueID="user.uniqueID"
+          :avatar="update.avatar ? null : avatar"
+          :admin="user.admin"
+          size="90px"
+          :hover="true"
+          emote-size="27px"
+          animation-padding="4px"
+        />
+        <div class="details">
+          <div class="username">
+            <span>{{user.username}}</span>
+            <span class="tag">:{{user.tag}}</span>
           </div>
-          <div class="outer-input">
-            <div class="title">Email</div>
-            <input
-              type="email"
-              autocomplete="off"
-              :default-value.prop="user.email"
-              @input="inputEvent('email', $event)"
-            />
-          </div>
-          <div class="outer-input">
-            <div class="title">Current Password</div>
-            <input
-              type="password"
-              autocomplete="new-password"
-              ref="passwordInput"
-              @input="inputEvent('password', $event)"
-            />
-          </div>
-          <div class="link" v-if="!resetPassword" @click="resetPassword = true">
-            Reset Password
-          </div>
-          <div class="outer-input" v-if="resetPassword">
-            <div class="title">New Password</div>
-            <input
-              type="password"
-              autocomplete="new-password"
-              @input="inputEvent('new_password', $event)"
-            />
-          </div>
-          <div class="link" @click="linkGoogleDrive">Re-link Google Drive</div>
-        </form>
-      </div>
-
-      <div class="change-avatar">
-        <div class="change-avatar-container">
-          <profile-picture
-            class="avatar"
-            :url="update.avatar"
-            :uniqueID="user.uniqueID"
-            :avatar="update.avatar ? null : avatar"
-            :admin="user.admin"
-            size="70px"
-            :hover="true"
-            emote-size="24px"
-            animation-padding="4px"
-          />
-          <div class="button" @click="$refs.avatarBrowser.click()">
-            Change Avatar
-          </div>
-          <input
-            ref="avatarBrowser"
-            type="file"
-            accept=".jpeg, .jpg, .png, .gif"
-            class="hidden"
-            @change="avatarChangeEvent"
-          />
+          <div class="email">{{user.email}}</div>
         </div>
       </div>
+      <div class="edit-information">
+        <div class="username-tag">
+          <custom-input
+            class="input"
+            type="text"
+            @input="inputEvent('username', $event)"
+            :default-value="user.username"
+            name="Username"
+          />
+          <custom-input
+            class="input tag"
+            type="text"
+            @input="inputEvent('tag', $event)"
+            :default-value="user.tag"
+            name="Tag"
+          />
+        </div>
+
+        <custom-input
+          class="input"
+          type="email"
+          @input="inputEvent('email', $event)"
+          :default-value="user.email"
+          name="Email"
+        />
+        <custom-input
+          class="input current-password"
+          type="password"
+          @input="inputEvent('password', $event)"
+          autocomplete="new-password"
+          name="Current Password"
+        />
+        <custom-input
+          v-if="resetPassword"
+          class="input current-password"
+          type="password"
+          @input="inputEvent('new_password', $event)"
+          autocomplete="new-password"
+          name="New Password"
+        />
+      </div>
+      <div class="link" v-if="!resetPassword" @click="resetPassword = true">Reset Password</div>
+      <div class="link" @click="linkGoogleDrive">Re-link Google Drive</div>
+      <div
+        class="button save-button"
+        :class="{ disabled: requestSent }"
+        @click="updateProfile"
+        v-if="changed"
+      >{{ requestSent ? "Saving..." : "Update" }}</div>
     </div>
-    <div
-      class="button save-button"
-      :class="{ disabled: requestSent }"
-      @click="updateProfile"
-      v-if="changed"
-    >
-      {{ requestSent ? "Saving..." : "Update" }}
+
+    <div style="display: none">
+      <errors-list-template :errors="errors" v-if="errors" />
+      <div class="inner-content">
+        <div class="left">
+          <form :key="key">
+            <div class="outer-input">
+              <div class="title">Username</div>
+              <div class="user-tag">
+                <input
+                  type="text"
+                  class="username"
+                  :default-value.prop="user.username"
+                  @input="inputEvent('username', $event)"
+                />
+
+                <input
+                  type="text"
+                  class="tag"
+                  :default-value.prop="user.tag"
+                  @input="inputEvent('tag', $event)"
+                />
+              </div>
+            </div>
+            <div class="outer-input">
+              <div class="title">Email</div>
+              <input
+                type="email"
+                autocomplete="off"
+                :default-value.prop="user.email"
+                @input="inputEvent('email', $event)"
+              />
+            </div>
+            <div class="outer-input">
+              <div class="title">Current Password</div>
+              <input
+                type="password"
+                autocomplete="new-password"
+                ref="passwordInput"
+                @input="inputEvent('password', $event)"
+              />
+            </div>
+            <div class="link" v-if="!resetPassword" @click="resetPassword = true">Reset Password</div>
+            <div class="outer-input" v-if="resetPassword">
+              <div class="title">New Password</div>
+              <input
+                type="password"
+                autocomplete="new-password"
+                @input="inputEvent('new_password', $event)"
+              />
+            </div>
+            <div class="link" @click="linkGoogleDrive">Re-link Google Drive</div>
+          </form>
+        </div>
+
+        <div class="change-avatar">
+          <div class="change-avatar-container">
+            <profile-picture
+              class="avatar"
+              :url="update.avatar"
+              :uniqueID="user.uniqueID"
+              :avatar="update.avatar ? null : avatar"
+              :admin="user.admin"
+              size="70px"
+              :hover="true"
+              emote-size="24px"
+              animation-padding="4px"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="button save-button"
+        :class="{ disabled: requestSent }"
+        @click="updateProfile"
+        v-if="changed"
+      >{{ requestSent ? "Saving..." : "Update" }}</div>
     </div>
   </div>
 </template>
 
 <script>
 import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
+import CustomInput from "@/components/global/CustomInput";
 import userService from "@/services/userService.js";
 import ErrorsListTemplate from "@/components/app/errorsListTemplate";
 import path from "path";
 
 export default {
-  components: { ProfilePicture, ErrorsListTemplate },
+  components: { ProfilePicture, ErrorsListTemplate, CustomInput },
   data() {
     return {
       errors: null,
@@ -150,7 +220,10 @@ export default {
       if (this.requestSent) return;
       this.errors = null;
       this.requestSent = true;
-      const { ok, error, result } = await userService.update(this.update, this.$socket.client.id);
+      const { ok, error, result } = await userService.update(
+        this.update,
+        this.$socket.client.id
+      );
       if (!ok) {
         if (error.response === undefined) {
           this.errors = { message: "Cant connect to server" };
@@ -206,149 +279,129 @@ export default {
   flex: 1;
   overflow: hidden;
 }
-.inner-content {
+.centered-box {
   display: flex;
-  flex: 1;
+  flex-direction: column;
+  max-width: 521px;
+  width: 100%;
+  margin: auto;
   overflow: auto;
-  flex-shrink: 0;
-  padding-top: 20px;
 }
-
-.change-avatar {
+.information {
   display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-.change-avatar-container {
-  display: flex;
-  flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.4);
-  width: 150px;
-  align-self: center;
-  padding: 20px;
-  margin-top: 10px;
-  margin-left: 29px;
-  border-radius: 4px;
-  .button {
-    background: rgba(0, 0, 0, 0.2);
-    &:hover {
-      background: rgba(0, 0, 0, 0.3);
+  align-items: center;
+  margin: 10px;
+  margin-bottom: 40px;
+  .details {
+    margin-left: 20px;
+    .username {
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+    .tag {
+      opacity: 0.7;
+    }
+    .email {
+      opacity: 0.7;
     }
   }
 }
-.avatar {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  align-self: center;
+.edit-information {
+  display: flex;
+  flex-wrap: wrap;
+  .username-tag {
+    display: flex;
+    .input {
+      margin-right: 0;
+      width: 190px;
+      &.tag {
+        width: 50px;
+        margin-left: 1px;
+        margin-right: 10px;
+      }
+    }
+  }
+  .input {
+    width: 240px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 20px;
+  }
 }
-.hidden {
-  display: none;
-}
-.button {
-  background: rgba(0, 0, 0, 0.3);
-  padding: 10px;
-  text-align: center;
-  display: inline-block;
-  align-self: center;
+.button.save-button {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
   cursor: pointer;
-  transition: 0.3s;
-  border-radius: 4px;
-}
-.button:hover {
-  background: rgba(0, 0, 0, 0.4);
-}
-.button.disabled {
-  background: grey;
-}
-.left {
-  width: 340px;
-  display: flex;
-  flex-direction: column;
-}
-
-.outer-input {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  background-color: rgba(0, 0, 0, 0.4);
-  padding: 10px;
-  margin: 10px;
-  margin-left: 30px;
-  flex-shrink: 0;
-  border-radius: 4px;
-  .title {
-    font-size: 14px;
-    margin-left: 2px;
-  }
-}
-.outer-input .user-tag .username {
-  flex: 1;
-}
-.outer-input .user-tag .tag {
-  border-left: solid 1px rgb(168, 168, 168);
-  width: 50px;
-}
-.outer-input .user-tag {
-  display: flex;
-  overflow: hidden;
-}
-.outer-input input {
-  width: initial;
-  border-radius: 4px;
-}
-
-.save-button {
-  z-index: 99999;
-  width: 120px;
-  align-self: flex-end;
-  display: block;
-  padding: 10px 0px 10px 0px;
-  background: rgba(0, 0, 0, 0.4);
-  margin: 0;
-  margin-bottom: 20px;
-  margin-right: 20px;
-  &:hover {
-    background: rgba(0, 0, 0, 0.6);
-  }
-}
-
-.errors {
+  user-select: none;
   align-self: center;
+  padding: 10px;
+  transition: 0.2s;
+  margin-top: 10px;
+  &:hover {
+    background: rgba(0, 0, 0, 0.4);
+  }
 }
 .link {
-  user-select: none;
+  color: rgba(255, 255, 255, 0.7);
+  transition: 0.2s;
   cursor: pointer;
-  margin-left: 35px;
-  color: white;
-}
-.link:hover {
-  text-decoration: underline;
+  user-select: none;
+  margin: 0;
+  margin-left: 10px;
+  &:hover {
+    color: white;
+    text-decoration: underline;
+  }
 }
 
-@media (max-width: 740px) {
-  .inner-content {
+@media (max-width: 723px) {
+  .edit-information {
     flex-direction: column;
+    align-items: center;
+    align-content: center;
   }
-  .change-avatar-container {
-    order: 1;
-    margin-left: 0;
-    flex-shrink: 0;
-  }
-  .change-avatar {
-    flex: initial;
-    flex-shrink: 0;
-  }
-  .left {
-    order: 2;
-    align-self: center;
-    width: 280px;
-  }
-  .outer-input {
-    margin-left: initial;
+  .information {
+    flex-direction: column;
+    .details {
+      text-align: center;
+      margin-top: 10px;
+      margin-left: 0;
+    }
   }
   .link {
-    margin: 0;
-    text-align: center;
+    align-self: center;
+    margin-left: 0;
   }
+}
+.avatar {
+  position: relative;
+  &:after {
+    position: absolute;
+    content: '';
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0);
+    transition: 0.2s;
+  }
+  &:hover {
+    &:after {
+      position: absolute;
+      content: 'Edit';
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      align-content: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.5);
+      cursor: pointer;
+    }
+  }
+
 }
 </style>

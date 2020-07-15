@@ -184,9 +184,10 @@ export default {
   color: white;
 }
 .settings-box {
-  height: 630px;
+  flex: 1;
+  width: 100%;
   display: flex;
-  margin: auto;
+  margin: 40px;
   overflow: hidden;
   box-shadow: 0px 0px 20px 5px #151515bd;
   background: linear-gradient(
@@ -211,7 +212,7 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100%;
-  width: 600px;
+  width: 100%;
   overflow: hidden;
 }
 .tab {
@@ -299,6 +300,7 @@ export default {
 @media (max-width: 815px) {
   .settings-box {
     width: 100%;
+    margin: 0;
   }
 }
 @media (max-height: 609px) {
