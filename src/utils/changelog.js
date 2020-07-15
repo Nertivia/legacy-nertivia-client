@@ -1,12 +1,14 @@
 const config = [
   {
-    version: "1.2.8",
-    title: "Nested Quoting",
+    version: "1.2.9",
+    title: "Bigger Settings Page",
     shortTitle: "",
-    date: "12 July 2020",
+    date: "15 July 2020",
     new: [
-      "You can now nest quotes 1 time more! More features will be added to quoting soon such as: quote images and files and maybe colors too.",
+      "Settings page is much bigger now.",
+      "Redesigned Edit Profile setting."
     ],
+    msg: "New Nertivia design incomming soon!"
   },
   {
     version: "1.2.8",
