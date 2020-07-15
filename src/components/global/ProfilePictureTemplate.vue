@@ -119,6 +119,11 @@ export default {
           name: "bug_catcher",
           emotePath: require("../../assets/twemoji/1f41b.svg")
         };
+      if (this.$props.admin == 8)
+        return {
+          name: "translator",
+          emotePath: require("../../assets/twemoji/1f4dd.svg")
+        };
 
       return "";
     },
@@ -206,6 +211,14 @@ export default {
   left: -3px;
 }
 
+.translator {
+  background: #1fffb4 100%;
+}
+.translator .emote {
+  z-index: 9999999;
+  top: -3px;
+  left: -3px;
+}
 .cute {
   margin-right: 5px;
   margin-left: 0;

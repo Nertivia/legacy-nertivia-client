@@ -28,5 +28,10 @@ module.exports = {
     name: "Bug Catcher",
     icon: require("../assets/twemoji/1f41b.svg"),
     color: "#e234eb"
+  },
+  6: {
+    name: "Translator",
+    icon: require("../assets/twemoji/1f4dd.svg"),
+    color: "#1fffb4"
   }
 };
