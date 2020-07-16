@@ -3,6 +3,7 @@ import { store } from "@/store/index";
 import MemberMention from "./markup/MemberMention.vue";
 import ChannelMention from "./markup/ChannelMention.vue";
 import MessageQuote from "./markup/MessageQuote.vue";
+import config from "@/config.js";
 
 const generateRegex = parts => {
   return RegExp(
@@ -26,6 +27,7 @@ const MARKUP_PARTS = {
   userMention: /<@(\d+)>/,
   channelMention: /<#(\d+)>/,
   messageQuote: /<m(\d+)>/,
+  customEmoji: /<(g?):([\w\d_-]+?):([\w\d_-]+?)>/,
   custom: /{\|(.{0,6})\|([^]+?[^\\])}/,
   egg: /§([0-9a-fk-or])/
 };
@@ -152,6 +154,12 @@ function transformEntity(entity, root = true) {
       entity.message_id = entity.params[0];
       return entity;
     }
+    case "customEmoji": {
+      entity.isAnimated = entity.params[0] === "g";
+      entity.name = entity.params[1];
+      entity.id = entity.params[2];
+      return entity;
+    }
     case "custom": {
       entity.custom_type = entity.params[0];
       entity.expression = entity.params[1];
@@ -199,6 +207,7 @@ export default {
     message: Object
   },
   render() {
+    let emojiCount = 0;
     const parse = text => parseEntities(parseRichText(text));
     const parseChildren = children => {
       switch (true) {
@@ -286,6 +295,19 @@ export default {
             return entity.text;
           }
         }
+        case "customEmoji": {
+          emojiCount += 1;
+          return (
+            <img
+              class="emoji custom-emoji"
+              title={entity.name}
+              src={`${config.nertiviaCDN}emojis/${entity.id}.${
+                entity.isAnimated ? "gif" : "png"
+              }`}
+              alt={entity.name}
+            ></img>
+          );
+        }
         // wrap the rest of the entities in entity_type
         case "consume": {
           entity.type = entity.consume_type;
@@ -325,7 +347,9 @@ export default {
           return parseChildren(entity.text);
       }
     };
-    return <div>{parse(this.text || "")}</div>;
+
+    const markup = parse(this.text || "");
+    return <div class={{ "large-emojis": emojiCount <= 5 }}>{markup}</div>;
   }
 };
 </script>
@@ -378,5 +402,22 @@ blockquote {
   padding: 0.3rem 0.6rem;
   border-left: 0.3rem #ccf2 solid;
   background: #efeffc22;
+}
+
+img.emoji {
+  object-fit: contain;
+  height: 2em;
+  width: 2em;
+  margin: 1px;
+  vertical-align: -9px;
+}
+
+img.emoji[alt] {
+  text-indent: -9999px;
+}
+
+.large-emojis .emoji {
+  height: 5em;
+  width: 5em;
 }
 </style>
