@@ -168,7 +168,7 @@ export default {
   (-webkit-backdrop-filter: blur(4px)) or (backdrop-filter: blur(4px))
 ) {
   .heading {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgb(31, 120, 255, 0.2);
     backdrop-filter: blur(10px);
   }
 }
