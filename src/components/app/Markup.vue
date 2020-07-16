@@ -4,6 +4,8 @@ import MemberMention from "./markup/MemberMention.vue";
 import ChannelMention from "./markup/ChannelMention.vue";
 import MessageQuote from "./markup/MessageQuote.vue";
 import config from "@/config.js";
+import emojis from "@/utils/emojiData/emojis.json";
+import emojiParser from "@/utils/emojiParser";
 
 const generateRegex = parts => {
   return RegExp(
@@ -27,6 +29,7 @@ const MARKUP_PARTS = {
   userMention: /<@(\d+)>/,
   channelMention: /<#(\d+)>/,
   messageQuote: /<m(\d+)>/,
+  emoji: /:(\w+?):/,
   customEmoji: /<(g?):([\w\d_-]+?):([\w\d_-]+?)>/,
   custom: /{\|(.{0,6})\|([^]+?[^\\])}/,
   egg: /§([0-9a-fk-or])/
@@ -160,6 +163,14 @@ function transformEntity(entity, root = true) {
       entity.id = entity.params[2];
       return entity;
     }
+    case "emoji": {
+      entity.emoji_name = entity.params[0];
+      entity.emoji = emojis.find(e => e.shortcodes.includes(entity.emoji_name));
+      if (entity.emoji == null) {
+        return { text: entity.text };
+      }
+      return entity;
+    }
     case "custom": {
       entity.custom_type = entity.params[0];
       entity.expression = entity.params[1];
@@ -206,7 +217,8 @@ export default {
     text: String,
     message: Object
   },
-  render() {
+  render(h) {
+    let depth = 0;
     let emojiCount = 0;
     const parse = text => parseEntities(parseRichText(text));
     const parseChildren = children => {
@@ -214,8 +226,10 @@ export default {
         case typeof children === "string":
           return children;
         case Array.isArray(children):
+          depth += 1;
           return children.map(child => parseChildren(child));
         default:
+          depth += 1;
           return parseEntities(children);
       }
     };
@@ -295,6 +309,17 @@ export default {
             return entity.text;
           }
         }
+        case "emoji": {
+          emojiCount += 1;
+          return (
+            <img
+              class="emoji"
+              draggable={false}
+              alt={entity.emoji.unicode}
+              src={emojiParser.GetEmojiPath(entity.emoji.unicode)}
+            />
+          );
+        }
         case "customEmoji": {
           emojiCount += 1;
           return (
@@ -349,7 +374,11 @@ export default {
     };
 
     const markup = parse(this.text || "");
-    return <div class={{ "large-emojis": emojiCount <= 5 }}>{markup}</div>;
+    return (
+      <div class={{ "large-emojis": emojiCount <= 5 && depth <= 1 }}>
+        {markup}
+      </div>
+    );
   }
 };
 </script>

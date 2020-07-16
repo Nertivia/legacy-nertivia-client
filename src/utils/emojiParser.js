@@ -15,8 +15,8 @@ export default {
     const regex = /:([\w]+):/g;
 
     return message.replace(regex, x => {
-      const emoji = emojiExists(x.replace(/[::]+/g, ""));
-      if (emoji) return emoji.unicode;
+      // const emoji = emojiExists(x.replace(/[::]+/g, ""));
+      // if (emoji) return emoji.unicode;
 
       const customEmoji = customEmojis.find(
         e => e.name === x.substr(1).slice(0, -1)
