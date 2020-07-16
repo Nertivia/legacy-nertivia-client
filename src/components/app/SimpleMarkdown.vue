@@ -92,7 +92,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 pre {
   padding: 0;
   margin: 0;
