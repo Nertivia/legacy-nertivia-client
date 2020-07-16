@@ -136,7 +136,7 @@ export default {
     width: 30px;
     margin-left: 0px;
     transition: 0.2s;
-    color: #a5bec4;
+    color: rgba(255, 255, 255, 0.5);
     &:hover {
       color: white;
     }

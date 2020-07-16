@@ -1,5 +1,13 @@
 <template>
   <div class="friend-left-panel">
+    <div
+      class="button saved-notes-button"
+      :class="{ selected: uniqueIDSelected }"
+      @click="saveNotesBtn"
+    >
+      <div class="material-icons">notes</div>
+      <div class="name">{{$t('saved-notes')}}</div>
+    </div>
     <div class="tabs">
       <div
         class="tab"
@@ -24,14 +32,6 @@
         <recent-friends-tab v-else />
       </transition>
     </div>
-    <div
-      class="button"
-      :class="{ selected: uniqueIDSelected }"
-      @click="saveNotesBtn"
-    >
-      <div class="material-icons">notes</div>
-      <div class="name">{{$t('saved-notes')}}</div>
-    </div>
   </div>
 </template>
 
@@ -41,7 +41,6 @@ import FriendsTab from "./relationships/FriendsTab.vue";
 
 export default {
   components: {
-
     FriendsTab,
     RecentFriendsTab
   },
@@ -114,7 +113,6 @@ export default {
   flex-direction: column;
   z-index: 1;
   flex: 1;
-  background: rgba(0, 0, 0, 0.14);
   overflow: hidden;
 }
 
@@ -129,6 +127,7 @@ export default {
 .list {
   flex: 1;
   overflow: auto;
+  margin-right: 5px;
 }
 
 .tabs {
@@ -136,6 +135,8 @@ export default {
   color: rgba(255, 255, 255, 0.7);
   flex-shrink: 0;
   position: relative;
+  margin-top: 5px;
+  margin-bottom: 10px;
 }
 .tab {
   display: flex;
@@ -146,49 +147,34 @@ export default {
   text-align: center;
   margin: auto;
   flex-shrink: 0;
+  font-size: 14px;
   user-select: none;
   cursor: default;
-  height: 50px;
+  height: 30px;
   transition: 0.2s;
   cursor: pointer;
+  margin-left: 5px;
+  margin-right: 5px;
   position: relative;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
 }
 .tab:hover {
   color: white;
 }
 .tab.selected {
   color: white;
+  background: rgb(0, 163, 90);
+  background: linear-gradient(
+    90deg,
+    rgba(0, 163, 90, 1) 0%,
+    rgba(0, 173, 159, 1) 100%
+  );
+  box-shadow: 0px 0px 5px 1px rgba(0, 163, 90, 1);
 }
+
 .tab .material-icons {
   margin-right: 5px;
-}
-.tab:hover::before {
-  content: "";
-  position: absolute;
-  height: 3px;
-  left: 10px;
-  right: 10px;
-  bottom: 0;
-  background: rgba(255, 255, 255, 0.4);
-}
-.tab::before {
-  content: "";
-  position: absolute;
-  height: 3px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: transparent;
-  transition: 0.2s;
-}
-.tab.selected::before {
-  content: "";
-  position: absolute;
-  height: 3px;
-  left: 10px;
-  right: 10px;
-  bottom: 0;
-  background: rgb(255, 255, 255);
 }
 
 .button {
@@ -199,17 +185,27 @@ export default {
   padding: 5px;
   justify-content: center;
   flex-shrink: 0;
-  background: rgba(0, 0, 0, 0.2);
   cursor: pointer;
   transition: 0.2s;
   .material-icons {
     margin-right: 5px;
   }
+}
+.saved-notes-button {
+
+  border-radius: 5px;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.1);
+  margin: 5px;
   &:hover {
-    background: rgba(0, 0, 0, 0.4);
+    color: white;
+    background: rgba(255, 255, 255, 0.2);
   }
   &.selected {
-    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    background: rgb(188,0,255);
+    background: linear-gradient(90deg, rgba(188,0,255,1) 0%, rgba(0,164,255,1) 100%);
+    box-shadow: 0px 0px 5px 1px rgba(0, 166, 255, 0.63);
   }
 }
 

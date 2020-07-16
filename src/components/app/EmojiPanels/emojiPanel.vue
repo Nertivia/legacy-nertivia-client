@@ -544,7 +544,8 @@ export default {
   display: flex;
   flex-direction: column;
   background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(5px);
+  box-shadow: 0px 0px 5px 1px rgb(0, 0, 0);
+  backdrop-filter: blur(10px);
   border-radius: 4px;
   transition: 0.3s;
   z-index: 99999;
@@ -595,7 +596,7 @@ export default {
   align-items: center;
   justify-content: center;
   width: 100%;
-  background: rgba(0, 56, 100, 0.4);
+  background: #1c1e3d;
   flex-shrink: 0;
 }
 .tab {

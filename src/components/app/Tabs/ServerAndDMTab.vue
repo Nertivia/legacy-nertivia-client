@@ -1,12 +1,10 @@
 <template>
-  <div
-    class="direct-message-tab"
+  <div class="direct-message-tab"
     :class="{ darken: showLeftPanel || showMembersPanel }"
     :data-server="currentServer ? currentServer.name: undefined"
   >
     <transition :name="$mq === 'mobile' ? 'slide-left' : null">
-      <div
-        class="left-panel"
+      <div class="left-panel"
         v-show="($mq === 'mobile' && showLeftPanel) || $mq !== 'mobile'"
         v-click-outside="hideLeftPanel"
       >
@@ -138,10 +136,14 @@ export default {
   overflow: hidden;
 }
 .wrapper {
+  border-left: solid 1px rgba(255, 255, 255, 0.4);
+  border-right: solid 1px rgba(255, 255, 255, 0.4);
+  border-top: solid 1px rgba(255, 255, 255, 0.4);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   display: flex;
   flex-direction: column;
   width: 100%;
-  border-top-left-radius: 10px;
   overflow: hidden;
 }
 .fade-enter-active,
@@ -184,10 +186,14 @@ export default {
     bottom: 0;
     top: 0;
     z-index: 3;
-    background: linear-gradient(to bottom, #00477e 0, #016dc0);
+    background: #101332c7;
+    backdrop-filter: blur(10px);
+    box-shadow: 0px 0px 10px 0px black;
   }
   .wrapper {
     border-radius: 0;
+    border-right: initial;
+    border-top: initial;
   }
   .darken::after {
     content: "";

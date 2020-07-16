@@ -225,13 +225,20 @@ export default {
   width: 300px;
   max-width: calc(100% - 60px);
   height: 100%;
+  border-left: solid 1px rgba(255, 255, 255, 0.4);
+  border-top: solid 1px rgba(255, 255, 255, 0.4);
+  border-top-left-radius: 10px;
+
 }
 .header {
-  height: 50px;
-  width: 100%;
-  background: rgba(0, 0, 0, 0.2);
+  height: 40px;
+  margin: 5px;
+  background: rgb(31, 120, 255, 0.2);
+  box-shadow: 0px 0px 5px 1px rgb(0, 0, 0);
   display: flex;
   flex-shrink: 0;
+  border-radius: 5px;
+  
 }
 .header .title {
   user-select: none;
@@ -243,6 +250,7 @@ export default {
   flex-direction: column;
   height: 100%;
   overflow: hidden;
+  margin-right: 5px;
 }
 .tab {
   user-select: none;

@@ -182,12 +182,12 @@ export default {
   margin-right: 3px;
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.1);
     color: white;
   }
 
   &.selected {
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(255, 255, 255, 0.2);
     color: white;
   }
 

@@ -462,7 +462,7 @@ textarea {
   z-index: -1;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom, #005799 0, #0076d1);
+  background: #101332;
 }
 
 .panel-layout {

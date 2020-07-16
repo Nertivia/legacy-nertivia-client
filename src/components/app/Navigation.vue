@@ -343,9 +343,4 @@ export default {
   }
 }
 
-@media (max-width: 600px) {
-  .navigation {
-    background: #005a9e;
-  }
-}
 </style>

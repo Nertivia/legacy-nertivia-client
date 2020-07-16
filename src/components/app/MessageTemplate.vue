@@ -411,8 +411,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$self-message-color: rgba(255, 255, 255, 0.1);
-$message-color: rgba(0, 0, 0, 0.3);
+$self-message-color: rgba(31, 136, 255, 0.6);
+
+$message-color: rgba(31, 136, 255, 0.2);
 
 .active {
   background: rgba(255, 255, 255, 0.3);
@@ -430,14 +431,31 @@ $message-color: rgba(0, 0, 0, 0.3);
   z-index: 1;
 }
 .new-badge {
-  background: #ed5151;
+  background: rgb(255,175,0);
+  background: linear-gradient(90deg, rgb(209, 143, 0) 0%, rgb(209, 0, 0) 100%);
   padding: 4px;
   text-align: center;
   border-radius: 4px;
   margin-left: 5px;
   margin-right: 5px;
+  position: relative;
   font-size: 14px;
+  z-index: 111111111;
 }
+.new-badge::after {
+  content: '';
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgb(255,175,0);
+  background: linear-gradient(90deg, rgb(209, 143, 0) 0%, rgb(209, 0, 0) 100%);
+  filter: blur(5px);
+
+}
+
 .container:hover .drop-down-button {
   opacity: 1;
 }

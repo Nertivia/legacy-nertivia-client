@@ -9,12 +9,12 @@
     ref="customScroller"
     class="message-logs"
     height="100%"
-    width="100%"
+    width="calc(100% - 5px)"
     spacingTop="50px"
-    spacingBottom="26px"
+    spacingBottom="31px"
     scrollbarTop="50px"
     :scrollbarBottom="
-      isTyping && Object.values(isTyping).length ? '26px' : '0px'
+      isTyping && Object.values(isTyping).length ? '36px' : '5px'
     "
   >
     <div class="load-more-button" v-if="loadMoreTop.show && currentChannelMessages.length >= 50">
