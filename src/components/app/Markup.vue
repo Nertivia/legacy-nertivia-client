@@ -266,7 +266,11 @@ export default {
         case "reset":
           return <span class="reset">{parseChildren(entity.children)}</span>;
         case "link":
-          return <a href={entity.link}>{parseChildren(entity.children)}</a>;
+          return (
+            <a class="link" href={entity.link} target="_blank">
+              {parseChildren(entity.children)}
+            </a>
+          );
         case "escape":
           return entity.token;
         case "codeblock":
@@ -352,7 +356,7 @@ export default {
                 .split("->")
                 .map(s => s.trim());
               return parseEntity(
-                { type: "link", text: text, link: url },
+                { type: "link", children: parseRichText(text), link: url },
                 entities
               );
             }
@@ -448,5 +452,9 @@ img.emoji[alt] {
 .large-emojis .emoji {
   height: 5em;
   width: 5em;
+}
+
+.link {
+  color: #68aaff;
 }
 </style>
