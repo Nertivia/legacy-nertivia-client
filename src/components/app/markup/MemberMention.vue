@@ -1,5 +1,5 @@
 <template>
-	<span class="mention" v-on:click="openUserInfo">@{{member.username}}</span>
+	<span class="mention" v-on:click="openUserInfo">@{{this.member.username}}</span>
 </template>
 
 <script>

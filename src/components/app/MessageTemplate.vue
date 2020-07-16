@@ -64,6 +64,7 @@
                   : '',
               ]"
                 :text="message.message"
+                :message="message"
               />
 
               <FileMessage v-if="getFile && !getFile.fileName.endsWith('.mp3')" :file="getFile" />
