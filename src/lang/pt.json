@@ -8,7 +8,7 @@
     "message-styles": "Estilo de Mensagem",
     "created-by": "Criado por",
     "filter": "Filtro",
-    "sort-by": "Ordenar",
+    "sort-by": "Ordenar por",
 
     "all": "Tudo",
     "verified": "Verificado",
@@ -33,7 +33,7 @@
     "clone": "Clonar",
     "cloning": "A Clonar...",
     "cloned": "Clonado",
-    "theme-safe-message": "Os Temas abaixo são seguros e revistos um a um.",
+    "theme-safe-message": "Os Temas abaixo são seguros e revistos manualmente.",
 
     "friends": "Amigos",
     "pending": "Pendentes",
