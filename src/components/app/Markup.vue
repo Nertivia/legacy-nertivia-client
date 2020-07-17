@@ -365,6 +365,17 @@ export default {
                 { type: "color", color: entity.expression.trim() },
                 entities
               );
+            case "ruby": {
+              let characters = []
+              for (let match of entity.expression.matchAll(/(.+?)\((.+?)\)/g)) {
+                const [raw, below, above] = match
+                characters.push(<Fragment>
+                    <rb>{below}</rb><rp>(</rp>
+                    <rt>{above}</rt><rp>)</rp>
+                </Fragment>)
+              }
+              return <ruby>{characters}</ruby>
+            }
             default:
               console.warn(
                 `unhandled custom expression '${entity.custom_type}'`
