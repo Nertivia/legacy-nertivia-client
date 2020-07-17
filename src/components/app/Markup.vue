@@ -18,13 +18,14 @@ const generateRegex = parts => {
 
 const MARKUP_PARTS = {
   bold: /\*\*([^*]+?)\*\*/,
-  italic: /__([^_]+?)__/,
+  italic: /\/\/([^_]+?)\/\//,
+  underline: /__([^_]+?)__/,
   strike: /~~([^~]+?)~~/,
   codeblock: /```(\S*?)\n([^]+?)\n?```/,
   inlineCodeblock: /```([^`]+?)```/,
-  code: /`([^`]+?)`/,
+  code: /``([^`]+?)``/,
   link: /https?:\/\/\S+\.\S+/,
-  escape: /\\[*_~`\\>]/,
+  escape: /\\([*_~`\\>])/,
   blockquote: /(?:^|\n)> ([^]+?)(?=(?:\n[^>])|$)/,
   userMention: /<@(\d+)>/,
   channelMention: /<#(\d+)>/,
@@ -94,6 +95,7 @@ function transformEntity(entity, root = true) {
   switch (entity.type) {
     case "bold":
     case "italic":
+    case "underline":
     case "strike": {
       entity.innerText = entity.params[0];
       entity.children = parseRichText(entity.innerText, false);
@@ -224,7 +226,8 @@ export default {
     const parseChildren = children => {
       switch (true) {
         case typeof children === "string":
-          return children;
+          // todo(@brecert): maybe make this part of the initial parsing process for possible performance.
+          return children.replace(/\\[\\*/_`{}]/g, e => e[1]);
         case Array.isArray(children):
           depth += 1;
           return children.map(child => parseChildren(child));
@@ -370,12 +373,12 @@ export default {
               for (let match of entity.expression.matchAll(/(.+?)\((.+?)\)/g)) {
                 const [raw, below, above] = match;
                 characters.push(
-                  <Fragment>
+                  <div>
                     <rb>{below}</rb>
                     <rp>(</rp>
                     <rt>{above}</rt>
                     <rp>)</rp>
-                  </Fragment>
+                  </div>
                 );
               }
               return <ruby>{characters}</ruby>;
