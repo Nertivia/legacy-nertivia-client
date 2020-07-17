@@ -67,6 +67,10 @@ export default {
           name: "Russian | Pусский",
           emoji:  require(`@/assets/twemoji/1f1f7-1f1fa.svg`),
         },
+        hr: {
+          name: "Croatia",
+          emoji: require(`@/assets/twemoji/1f1ed-1f1f7.svg`),
+        }
       }
     }
   },
