@@ -33,10 +33,10 @@
           <strong>{{programActivityStatus.status}}</strong>
           <span>{{programActivityStatus.name}}</span>
         </div>
-        <SimpleMarkdown
+        <Markup
           v-else-if="customStatus && status.status"
           class="custom-status"
-          :message="customStatus"
+          :text="customStatus"
         />
       </div>
       <div v-if="notifications && notifications > 0" class="notification">
@@ -55,7 +55,7 @@
 
 <script>
 import channelService from "@/services/channelService";
-import SimpleMarkdown from "@/components/app/SimpleMarkdown";
+import Markup from "@/components/app/Markup.vue";
 import ProfilePicture from '@/components/global/ProfilePictureTemplate';
 import statuses from "@/utils/statuses";
 import { bus } from "@/main";
@@ -63,7 +63,7 @@ import config from '@/config';
 
 export default {
   props: ["friend", "recents", "recipient"],
-  components: { SimpleMarkdown, ProfilePicture },
+  components: { Markup, ProfilePicture },
   data() {
     return {
       hover: false,
