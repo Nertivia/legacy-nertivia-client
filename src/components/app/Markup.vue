@@ -217,7 +217,11 @@ function transformEntity(entity, root = true) {
 export default {
   props: {
     text: String,
-    message: Object
+    message: Object,
+    features: {
+      type: Object,
+      default: () => ({})
+    }
   },
   render() {
     let depth = 0;
@@ -248,6 +252,9 @@ export default {
     // do not use entity.params in here!
     // use spans when needed to be semantically/accessibly correct
     const parseEntity = (entity, entities) => {
+      if(entity.type in this.features && !this.features[entity.type]) {
+        return entity.text
+      }
       switch (entity.type) {
         case "bold":
           return <span class="bold">{parseChildren(entity.children)}</span>;
