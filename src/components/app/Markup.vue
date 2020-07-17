@@ -108,9 +108,9 @@ function transformEntity(entity, root = true) {
         };
       }
       // todo(@brecert): this isn't very performant or clean, please change
-      entity.children = entity.params[0]
-        .split("\n> ")
-        .map(text => [parseRichText(text, false), "\n"]);
+      entity.children = parseRichText(
+        entity.params[0].split("\n> ").join("\n")
+      );
       return entity;
     }
     case "code": {
@@ -252,8 +252,8 @@ export default {
     // do not use entity.params in here!
     // use spans when needed to be semantically/accessibly correct
     const parseEntity = (entity, entities) => {
-      if(entity.type in this.features && !this.features[entity.type]) {
-        return entity.text
+      if (entity.type in this.features && !this.features[entity.type]) {
+        return entity.text;
       }
       switch (entity.type) {
         case "bold":
