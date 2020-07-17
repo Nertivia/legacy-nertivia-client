@@ -366,15 +366,19 @@ export default {
                 entities
               );
             case "ruby": {
-              let characters = []
+              let characters = [];
               for (let match of entity.expression.matchAll(/(.+?)\((.+?)\)/g)) {
-                const [raw, below, above] = match
-                characters.push(<Fragment>
-                    <rb>{below}</rb><rp>(</rp>
-                    <rt>{above}</rt><rp>)</rp>
-                </Fragment>)
+                const [raw, below, above] = match;
+                characters.push(
+                  <Fragment>
+                    <rb>{below}</rb>
+                    <rp>(</rp>
+                    <rt>{above}</rt>
+                    <rp>)</rp>
+                  </Fragment>
+                );
               }
-              return <ruby>{characters}</ruby>
+              return <ruby>{characters}</ruby>;
             }
             default:
               console.warn(
