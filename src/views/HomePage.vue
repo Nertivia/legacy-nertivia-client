@@ -82,7 +82,7 @@
     </div>
     <div class="popouts">
       <transition name="fade">
-        <LoginPopout v-if="showSignupPage" @close="showSignupPage = false"/>
+        <RegisterPopout v-if="showSignupPage" @close="showSignupPage = false"/>
         <download-app-popout
           v-if="showDownloadsPopout"
           @close="showDownloadsPopout = false"
@@ -97,11 +97,11 @@ import Spinner from "@/components/global/Spinner.vue";
 import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
 import ProfilePopout from "@/components/homePage/ProfilePopout.vue";
 import DownloadAppPopout from "@/components/homePage/DownloadAppPopout.vue";
-import LoginPopout from "@/components/homePage/LoginPopout.vue";
+import RegisterPopout from "@/components/homePage/RegisterPopout.vue";
 import AuthenticationService from "@/services/AuthenticationService.js";
 
 export default {
-  components: { Spinner, ProfilePicture, ProfilePopout, DownloadAppPopout, LoginPopout },
+  components: { Spinner, ProfilePicture, ProfilePopout, DownloadAppPopout, RegisterPopout },
   data() {
     return {
       showDownloadsPopout: false,
@@ -346,7 +346,7 @@ body {
   justify-content: center;
 }
 .feature {
-  background: $box-color;
+  background: rgba(255, 255, 255, 0.1);
   box-shadow: 0px 0px 6px 1px #000000;
   color: white;
   margin: 10px;

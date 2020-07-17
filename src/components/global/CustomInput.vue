@@ -1,15 +1,20 @@
 <template>
     <div class="input">
         <div class="name">{{ name }}</div>
-        <input class="text-input" @input="event('input', $event)" :autocomplete="autocomplete || 'on'"  :default-value.prop="defaultValue" :type="type || 'text'">
+        <input class="text-input" @input="event('input', $event)" :value="value" :autocomplete="autocomplete || 'on'"  :default-value.prop="defaultValue" :type="type || 'text'">
     </div>
 </template>
 
 <script>
 export default {
+    model: {
+        prop: 'value',
+        event: 'input'
+    },
     props: {
         name: String,
         defaultValue: String,
+        value: String,
         type: String,
         autocomplete: String
     },

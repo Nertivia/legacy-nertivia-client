@@ -3,16 +3,16 @@
         <div class="box">
             <div class="material-icons heart">favorite</div>
             <div class="text">Thanks for trying out Nertivia!</div>
-            <div class="sub-text text">Fill in the information below to get started.</div>
-            <form class="form" action="#" @submit.prevent="login" @keydown="keyDown">
+            <div class="sub-text text">Fill in the information below to create your account.</div>
+            <form class="form" action="#" @submit.prevent="register" @keydown="keyDown">
                 <custom-input class="input" name="Email" type="email"/>
                 <custom-input class="input" name="Username"/>
                 <custom-input class="input" name="Password" type="password"/>
                 <div class="links">
-                    <div class="link">Register instead</div>
-                    <div class="link disabled" style="cursor: not-allowed;" title="This feature is coming soon.">I forgot my password</div>
+                    <div class="link">Login to your account</div>
+                    <!-- <div class="link disabled" style="cursor: not-allowed;" title="This feature is coming soon.">Reset password</div> -->
                 </div>
-                <button class="button"><span class="material-icons">check</span></button>
+                <button class="button" @click="register"><span class="material-icons">check</span></button>
             </form>
         </div>
     </div>
@@ -31,10 +31,10 @@ export default {
         keyDown(event) {
             if (event.keyCode === 13) {
                 event.preventDefault();
-                this.login();
+                this.register();
             }
         },
-        login() {
+        register() {
 
         },
 
@@ -63,10 +63,11 @@ export default {
 .box {
     display: flex;
     flex-direction: column;
-    background: rgba(34, 34, 34, 0.8);
+    background: $box-color;
     align-self: center;
-    padding: 10px;
+    padding: 5px;
     color: white;
+    max-width: 350px;
     border-radius: 10px;
     overflow: auto;
 
@@ -112,6 +113,8 @@ export default {
     opacity: 0.8;
     box-shadow: 0px 0px 10px 2px black;
     background: linear-gradient(90deg, rgba(54,40,255,1) 0%, rgba(69,214,252,1) 100%);
+    margin-bottom: 5px;
+    margin-top: 10px;
     transition: 0.2s;
     &:hover {
         opacity: 1;
