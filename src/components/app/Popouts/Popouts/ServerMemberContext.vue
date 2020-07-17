@@ -297,8 +297,9 @@ export default {
 <style lang="scss" scoped>
 .main-menu {
   position: absolute;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(5px);
+  background: rgba(29, 127, 255, 0.2);
+  box-shadow: 0px 0px 5px 1px rgb(0, 0, 0);
+  backdrop-filter: blur(10px);
   user-select: none;
   color: white;
   z-index: 99999;
@@ -309,8 +310,9 @@ export default {
 }
 
 .roles-menu {
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(5px);
+  background: rgba(29, 127, 255, 0.2);
+  box-shadow: 0px 0px 5px 1px rgb(0, 0, 0);
+  backdrop-filter: blur(10px);
   user-select: none;
   color: white;
   position: absolute;

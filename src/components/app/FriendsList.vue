@@ -127,7 +127,6 @@ export default {
 .list {
   flex: 1;
   overflow: auto;
-  margin-right: 5px;
 }
 
 .tabs {

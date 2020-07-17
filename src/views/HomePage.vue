@@ -8,7 +8,7 @@
           <div class="logo" />
           <div class="name">Nertivia</div>
           <div class="links">
-            <div v-if="!loggedIn" class="link" @click="signupPage">Sign up</div>
+            <div v-if="!loggedIn" class="link" @click="showSignupPage = true">Sign up</div>
             <div v-if="!loggedIn" class="link" @click="loginPage">Login</div>
             <spinner
               v-if="loggedIn && !user"
@@ -41,7 +41,7 @@
         <div class="inner-content">
           <div class="title">
             The best chat client that won't restrict you from important and fun
-            features.
+            features!
           </div>
           <img class="graphic" src="@/assets/graphics/Graphic.webp" />
           <div class="buttons">
@@ -55,7 +55,7 @@
             </div>
           </div>
           <div class="features-list">
-            <div class="title">Things you can do in Nertivia</div>
+            <div class="title">Things you can do in Nertivia:</div>
             <div class="list">
               <div class="feature">
                 <i class="material-icons">insert_drive_file</i>
@@ -82,6 +82,7 @@
     </div>
     <div class="popouts">
       <transition name="fade">
+        <LoginPopout v-if="showSignupPage" @close="showSignupPage = false"/>
         <download-app-popout
           v-if="showDownloadsPopout"
           @close="showDownloadsPopout = false"
@@ -96,14 +97,16 @@ import Spinner from "@/components/global/Spinner.vue";
 import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
 import ProfilePopout from "@/components/homePage/ProfilePopout.vue";
 import DownloadAppPopout from "@/components/homePage/DownloadAppPopout.vue";
+import LoginPopout from "@/components/homePage/LoginPopout.vue";
 import AuthenticationService from "@/services/AuthenticationService.js";
 
 export default {
-  components: { Spinner, ProfilePicture, ProfilePopout, DownloadAppPopout },
+  components: { Spinner, ProfilePicture, ProfilePopout, DownloadAppPopout, LoginPopout },
   data() {
     return {
       showDownloadsPopout: false,
       showProfilePopout: false,
+      showSignupPage: false,
       loggedIn: localStorage.getItem("hauthid") || null,
       user: null
     };
@@ -121,9 +124,6 @@ export default {
     },
     loginPage() {
       window.location.href = "/login";
-    },
-    signupPage() {
-      window.location.href = "/register";
     },
     openApp() {
       window.location.href = "/app";
@@ -149,7 +149,9 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import "@/styles/global";
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.2s;
@@ -239,7 +241,9 @@ body {
   flex-shrink: 0;
   border: 10px;
   position: relative;
-  background: rgba(0, 0, 0, 0.2);
+  border-bottom: solid 1px rgba(255, 255, 255, 0.2);
+  margin-left: 10px;
+  margin-right: 10px;
 }
 .logo {
   background: url("../assets/transparentLogo.svg");
@@ -265,7 +269,7 @@ body {
   width: 100%;
   height: 100%;
   transition: 0.5s;
-  background: linear-gradient(to bottom, #005799 0, #0076d1);
+  background: $bg-color;
 }
 .content {
   position: fixed;
@@ -312,23 +316,26 @@ body {
 }
 .button {
   padding: 15px;
-  background: rgba(0, 0, 0, 0.2);
-  color: white;
+  background: $primary-button-color;
+  color: rgba(255, 255, 255, 0.8);
   user-select: none;
-  transition: 0.3s;
+  transition: 0.2s;
   margin: 10px;
   cursor: pointer;
   border-radius: 4px;
   display: flex;
   align-items: center;
 }
+.button:hover {
+  color: white;
+  box-shadow: 0px 0px 6px 1px #44affa;
+}
+
 .button .material-icons {
   margin-right: 5px;
 }
 
-.button:hover {
-  background: rgba(0, 0, 0, 0.4);
-}
+
 
 
 .features-list {
@@ -339,7 +346,8 @@ body {
   justify-content: center;
 }
 .feature {
-  background: rgba(0, 0, 0, 0.4);
+  background: $box-color;
+  box-shadow: 0px 0px 6px 1px #000000;
   color: white;
   margin: 10px;
   padding: 2px;
@@ -369,7 +377,7 @@ body {
 }
 .link {
   padding: 10px;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.2);
   user-select: none;
   margin-left: 5px;
   transition: 0.3s;
@@ -377,7 +385,7 @@ body {
   border-radius: 4px;
 }
 .link:hover {
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.4);
 }
 .warn {
   color: red;
@@ -419,6 +427,8 @@ body {
     height: 150px;
     width: auto;
     font-size: 15px;
+    background: transparent;
+    box-shadow: initial;
   }
   .feature .description {
     margin-top: 15px;
@@ -428,6 +438,25 @@ body {
 </style>
 
 <style>
+input {
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.301);
+  outline: none;
+  border: none;
+  color: white;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  width: 200px;
+  transition: 0.3s;
+}
+
+input:hover {
+  background: rgba(0, 0, 0, 0.452);
+}
+
+input:focus {
+  background: rgba(0, 0, 0, 0.603);
+}
 body {
   background: rgb(46, 37, 49);
 }

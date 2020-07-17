@@ -25,7 +25,7 @@ export default {
 .input {
     display: flex;
     flex-direction: column;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.2);
     border-radius: 4px;
     align-self: flex-start;
 }

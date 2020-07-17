@@ -452,7 +452,8 @@ export default {
 }
 </style>
 
-<style>
+<style lang="scss">
+@import "@/styles/global";
 textarea {
   font-family: "Montserrat", sans-serif;
 }
@@ -462,7 +463,7 @@ textarea {
   z-index: -1;
   width: 100%;
   height: 100%;
-  background: #101332;
+  background: $bg-color;
 }
 
 .panel-layout {
