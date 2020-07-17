@@ -20,9 +20,9 @@ const MARKUP_PARTS = {
   bold: /\*\*([^*]+?)\*\*/,
   italic: /__([^_]+?)__/,
   strike: /~~([^~]+?)~~/,
-  inlineCodeblock: /```([^`]+?)```/,
   codeblock: /```(\S*?)\n([^]+?)\n?```/,
-  code: /`([^~]+?)`/,
+  inlineCodeblock: /```([^`]+?)```/,
+  code: /`([^`]+?)`/,
   link: /https?:\/\/\S+\.\S+/,
   escape: /\\[*_~`\\>]/,
   blockquote: /(?:^|\n)> ([^]+?)(?=(?:\n[^>])|$)/,
@@ -217,7 +217,7 @@ export default {
     text: String,
     message: Object
   },
-  render(h) {
+  render() {
     let depth = 0;
     let emojiCount = 0;
     const parse = text => parseEntities(parseRichText(text));

@@ -3,14 +3,12 @@
     <header class="section">
       Quoted:
       <span class="username">{{ this.quote.creator.username }}</span>
+      <i title="Go to message" class="go-to-message material-icons" v-on:click="goToMessage">keyboard_arrow_up</i>
     </header>
     <main class="message">
       <Markup v-if="formattingEnabled" :text="quote.message" :message="message" />
       <div v-else>{{this.quote.message}}</div>
     </main>
-    <footer class="section">
-      <div class="go-to-message" v-on:click="goToMessage">Go to message</div>
-    </footer>
   </article>
 </template>
 
@@ -51,6 +49,7 @@ export default {
   background: rgba(0, 0, 0, 0.5);
   padding: 5px;
   font-weight: bold;
+  align-items: center;
 }
 
 .username {
@@ -69,10 +68,18 @@ export default {
 .go-to-message {
   cursor: pointer;
   color: rgba(255, 255, 255, 0.8);
+  margin-left: auto;
   user-select: none;
+  padding-left: 0.75rem;
 }
 
 .go-to-message:hover {
   color: white;
+}
+
+.material-icons {
+  align-self: center;
+  flex-shrink: 0;
+  font-size: 1.25rem;
 }
 </style>
