@@ -23,7 +23,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this)
     bus.$emit("scrollDown");
   },
   created() {
