@@ -430,6 +430,7 @@ export default {
 }
 
 .reset {
+  color: white;
   display: inline-block;
   font-weight: normal;
   font-style: normal;
