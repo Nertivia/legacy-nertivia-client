@@ -109,7 +109,8 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import "@/styles/global";
 .direct-message-tab {
   overflow: hidden;
 }
@@ -122,6 +123,8 @@ export default {
   display: flex;
   flex-direction: column;
   z-index: 1;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+
 }
 .inner {
   z-index: 2;
@@ -143,6 +146,7 @@ export default {
   border-top-right-radius: 10px;
   width: 100%;
   overflow: hidden;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
 }
 .fade-enter-active,
 .fade-leave-active {
@@ -186,10 +190,11 @@ export default {
     z-index: 3;
     background: #101332c7;
     backdrop-filter: blur(10px);
+    background: $bg-color;
     box-shadow: 0px 0px 10px 0px black;
   }
   .wrapper {
-    border-radius: 0;
+    border-bottom-left-radius: 10px;
     border-right: initial;
     border-top: initial;
   }
