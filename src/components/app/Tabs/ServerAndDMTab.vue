@@ -136,13 +136,11 @@ export default {
   overflow: hidden;
 }
 .wrapper {
-  border-left: solid 1px rgba(255, 255, 255, 0.4);
-  border-right: solid 1px rgba(255, 255, 255, 0.4);
-  border-top: solid 1px rgba(255, 255, 255, 0.4);
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
   display: flex;
   flex-direction: column;
+  background: #272e37;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   width: 100%;
   overflow: hidden;
 }

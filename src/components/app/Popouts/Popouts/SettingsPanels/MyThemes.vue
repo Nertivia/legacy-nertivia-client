@@ -198,7 +198,7 @@ export default {
 .bar {
   display: flex;
   width: 100%;
-  background: rgba(0, 0, 0, 0.3);
+  border-bottom: solid 1px rgba(255, 255, 255, 0.6);
   height: 40px;
   flex-shrink: 0;
   .button {
@@ -211,12 +211,13 @@ export default {
     cursor: pointer;
     padding-left: 5px;
     padding-right: 5px;
+    transition: 0.2s;
     &.end {
       margin: auto;
       margin-right: 0;
     }
     &:hover {
-      background: rgba(0, 0, 0, 0.2);
+      background: rgba(255, 255, 255, 0.2);
     }
     .material-icons {
       margin-right: 5px;

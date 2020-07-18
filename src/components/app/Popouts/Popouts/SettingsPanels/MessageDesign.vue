@@ -62,9 +62,6 @@
         </div>
       </div>
     </div>
-    <div class="title">
-      Message Themes (Soon!)
-    </div>
   </div>
 </template>
 
@@ -131,36 +128,41 @@ export default {
 <style scoped>
 .switches {
   display: flex;
+  flex-direction: column;
   margin: 20px;
   user-select: none;
   flex-shrink: 0;
   flex-wrap: wrap;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .checkbox {
   display: flex;
   cursor: pointer;
+  margin-bottom: 10px;
 }
 .checkbox-box {
-  background: rgba(88, 88, 88, 0.74);
+  background: rgba(255, 255, 255, 0.1);
   height: 20px;
+  border-radius: 4px;
   width: 20px;
-  margin: auto;
   margin-right: 10px;
   transition: 0.3s;
   flex-shrink: 0;
+  align-self: center;
 }
 
 .checkbox-box.selected {
-  background: rgba(66, 122, 244, 0.74);
+  background: rgba(255, 255, 255, 0.74);
 }
 
 .checkbox-box.selected:hover {
-  background: rgba(66, 122, 244, 0.94);
+  background: rgba(255, 255, 255, 0.94);
 }
 
 .checkbox-box:hover {
-  background: rgba(88, 88, 88, 0.94);
+  background: rgba(255, 255, 255, 0.2);
 }
 .checkbox-name {
   max-width: 200px;
@@ -170,7 +172,7 @@ export default {
 
 .message-example {
   padding: 10px;
-  background: rgba(0, 0, 0, 0.45);
+  border-bottom: solid 1px rgba(255, 255, 255, 0.6);
 }
 .title {
   font-size: 20px;
@@ -190,7 +192,6 @@ export default {
 }
 
 .options {
-  background-color: rgba(0, 0, 0, 0.6);
   padding-top: 5px;
 }
 </style>

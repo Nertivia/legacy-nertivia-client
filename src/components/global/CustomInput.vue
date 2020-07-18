@@ -1,5 +1,5 @@
 <template>
-    <div class="input">
+    <div class="input" :class="theme">
         <div class="name">{{ name }}</div>
         <input class="text-input" @input="event('input', $event)" :value="value" :autocomplete="autocomplete || 'on'"  :default-value.prop="defaultValue" :type="type || 'text'">
     </div>
@@ -16,7 +16,8 @@ export default {
         defaultValue: String,
         value: String,
         type: String,
-        autocomplete: String
+        autocomplete: String,
+        theme: String,
     },
     methods: {
         event(name, event) {
@@ -47,6 +48,12 @@ export default {
     width: initial;
     &:focus {
         color: white;
+    }
+}
+.light {
+    background: rgba(255, 255, 255, 0.1);
+    .text-input {
+        background: rgba(255, 255, 255, 0.1);
     }
 }
 </style>

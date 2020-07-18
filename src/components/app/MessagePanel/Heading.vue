@@ -147,7 +147,7 @@ export default {
 }
 
 .heading {
-  background: rgb(31, 120, 255, 0.2);
+  background: linear-gradient(137deg, rgb(133 150 255 / 50%) 0%, rgb(94 200 255 / 50%) 100%);
   box-shadow: 0px 0px 5px 1px rgb(0, 0, 0);
   border-radius: 5px;
   backdrop-filter: blur(4px);

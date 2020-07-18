@@ -187,7 +187,7 @@ export default {
   }
 
   &.selected {
-    background-color: rgba(255, 255, 255, 0.2);
+    background: linear-gradient(137deg, rgba(45,136,255,1) 0%, rgba(87,160,255,1) 100%);
     color: white;
   }
 
@@ -221,6 +221,7 @@ export default {
   position: relative;
   transition: 0.3s;
   flex-shrink: 0;
+  box-shadow: 0px 0px 4px 0px black;
 }
 .avatar {
   height: 30px;

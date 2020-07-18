@@ -54,7 +54,10 @@ export default {
 .tabs {
   z-index: 999999;
   display: flex;
-  background: rgba(0, 0, 0, 0.6);
+  border-bottom: solid 1px rgba(255, 255, 255, 0.5);
+  padding-bottom: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
   justify-content: center;
 }
 .tabs .tab {
@@ -65,8 +68,15 @@ export default {
   cursor: pointer;
   position: relative;
   padding-bottom: 15px;
+  transition: 0.2s;
+  color: rgba(255, 255, 255, 0.7);
 }
-
+.tabs .tab:hover {
+  color: white;
+}
+.tabs .tab.selected{
+  color: white;
+}
 .tabs .tab:after {
   content: "";
   position: absolute;
@@ -74,7 +84,7 @@ export default {
   left: 0;
   right: 0;
   height: 5px;
-  transition: 0.3s;
+  transition: 0.2s;
 }
 
 .tabs .tab:hover:after {

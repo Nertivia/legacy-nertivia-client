@@ -411,9 +411,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$self-message-color: rgba(31, 136, 255, 0.6);
+$self-message-color: #4883db;
 
-$message-color: rgba(31, 136, 255, 0.2);
+$message-color: #3a4750;
 
 .active {
   background: rgba(255, 255, 255, 0.3);

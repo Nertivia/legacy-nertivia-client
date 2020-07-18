@@ -81,11 +81,11 @@ export default {
   margin-left: -5px;
 }
 .channel:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: #4f56b85d;
   color: white;
 }
 .channel.selected {
-  background: rgba(255, 255, 255, 0.2);
+  background: #4f56b8;
   color: white;
 }
 
