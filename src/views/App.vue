@@ -10,7 +10,7 @@
             <electron-frame-buttons />
           </div>
         </div>
-        <main-nav v-if="$mq !== 'mobile' || currentTab === 3 || currentTab === 4" />
+        <main-nav class="nav" v-if="$mq !== 'mobile' || currentTab === 3 || currentTab === 4" />
         <div class="panel-layout">
           <news v-if="currentTab == 3" />
           <servers v-if="currentTab == 1 || currentTab == 2" />
@@ -334,10 +334,16 @@ export default {
 }
 
 .box {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template:
+    "nav nav" auto
+    "panel panel" calc(100% - 60px)
+    / auto 1fr;
   height: 100%;
   width: 100%;
+}
+.nav {
+  grid-area: nav;
 }
 
 .coming-soon {
@@ -450,6 +456,15 @@ export default {
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
+@media (max-width: 600px) {
+  .box {
+    display: grid;
+    grid-template:
+      "nav nav" auto
+      "panel panel" 100%
+      / auto 1fr;
+  }
+}
 </style>
 
 <style lang="scss">
@@ -467,8 +482,8 @@ textarea {
 }
 
 .panel-layout {
+  grid-area: panel;
   display: flex;
-  overflow: auto;
   height: 100%;
 }
 

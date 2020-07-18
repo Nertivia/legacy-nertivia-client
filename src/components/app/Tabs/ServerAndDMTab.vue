@@ -111,9 +111,7 @@ export default {
 
 <style scoped lang="scss">
 @import "@/styles/global";
-.direct-message-tab {
-  overflow: hidden;
-}
+
 .left-panel {
   z-index: 2;
   height: 100%;
@@ -123,7 +121,6 @@ export default {
   display: flex;
   flex-direction: column;
   z-index: 1;
-  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
 
 }
 .inner {
@@ -135,8 +132,6 @@ export default {
   display: flex;
   flex-direction: row;
   z-index: 1;
-  flex: 1;
-  overflow: hidden;
 }
 .wrapper {
   display: flex;
@@ -193,10 +188,14 @@ export default {
     background: $bg-color;
     box-shadow: 0px 0px 10px 0px black;
   }
+  .inner {
+    height: calc(100% - 60px);
+  }
   .wrapper {
     border-bottom-left-radius: 10px;
-    border-right: initial;
-    border-top: initial;
+    border-top-left-radius: initial;
+    border-top-right-radius: initial;
+    
   }
   .darken::after {
     content: "";

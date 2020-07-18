@@ -951,7 +951,8 @@ export default {
   display: flex;
   flex-direction: column;
   position: relative;
-  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.6);
+  background: #1f2329;
 }
 .message-area {
   display: flex;
