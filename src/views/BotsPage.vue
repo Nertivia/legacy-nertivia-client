@@ -133,6 +133,7 @@ body {
 
 
 <style scoped lang="scss">
+@import "@/styles/global";
 .perms-box {
   background: rgba(0, 0, 0, 0.4);
   border-radius: 4px;
@@ -185,7 +186,7 @@ body {
   flex-direction: column;
   color: white;
   height: 100%;
-  background: linear-gradient(to bottom, #005799 0, #0076d1);
+  background: $bg-color;
 }
 .app-content {
   display: flex;

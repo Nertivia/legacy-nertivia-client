@@ -241,9 +241,8 @@ body {
   flex-shrink: 0;
   border: 10px;
   position: relative;
-  border-bottom: solid 1px rgba(255, 255, 255, 0.2);
-  margin-left: 10px;
-  margin-right: 10px;
+  background: $box-secondary-color;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
 }
 .logo {
   background: url("../assets/transparentLogo.svg");

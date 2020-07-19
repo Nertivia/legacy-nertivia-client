@@ -235,7 +235,8 @@ body {
 }
 </style>
 
-<style scoped>
+<style scoped lang="scss">
+@import "@/styles/global";
 .fade-up-enter-active {
   opacity: 0;
   animation: bounce-in 0.5s;
@@ -263,7 +264,7 @@ body {
   display: flex;
   flex-direction: column;
   color: white;
-  background: linear-gradient(to bottom, #005799 0, #0076d1);
+  background: $bg-color;
 }
 .app-content {
   display: flex;

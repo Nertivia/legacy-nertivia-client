@@ -204,7 +204,8 @@ export default {
   overflow-y: auto;
   overflow-x: hidden;
   flex-shrink: 0;
-  border-right: solid 1px rgba(255, 255, 255, 0.4);
+  background: #272e37da;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5); 
   position: relative;
 }
 .panel {
@@ -221,17 +222,20 @@ export default {
   user-select: none;
   transition: 0.2s;
   align-items: center;
+  color: rgba(255, 255, 255, 0.7);
 }
 .tab-name {
   margin-left: 10px;
 }
 
 .tab:hover {
-  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .tab.selected {
-  background: rgba(255, 255, 255, 0.3);
+  color: white;
+  background: linear-gradient(137deg, rgba(45,136,255,1) 0%, rgba(87,160,255,1) 100%);
 }
 
 .tab.warn {

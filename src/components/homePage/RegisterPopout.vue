@@ -5,9 +5,9 @@
             <div class="text">Thanks for trying out Nertivia!</div>
             <div class="sub-text text">Fill in the information below to create your account.</div>
             <form class="form" action="#" @submit.prevent="register" @keydown="keyDown">
-                <custom-input class="input" name="Email" type="email"/>
-                <custom-input class="input" name="Username"/>
-                <custom-input class="input" name="Password" type="password"/>
+                <custom-input theme="light" class="input" name="Email" type="email"/>
+                <custom-input theme="light" class="input" name="Username"/>
+                <custom-input theme="light" class="input" name="Password" type="password"/>
                 <div class="links">
                     <div class="link">Login to your account</div>
                     <!-- <div class="link disabled" style="cursor: not-allowed;" title="This feature is coming soon.">Reset password</div> -->
@@ -63,7 +63,7 @@ export default {
 .box {
     display: flex;
     flex-direction: column;
-    background: $box-color;
+    background: $other-box-color;
     align-self: center;
     padding: 5px;
     color: white;
@@ -112,7 +112,7 @@ export default {
     cursor: pointer;
     opacity: 0.8;
     box-shadow: 0px 0px 10px 2px black;
-    background: linear-gradient(90deg, rgba(54,40,255,1) 0%, rgba(69,214,252,1) 100%);
+    background: $primary-button-color;
     margin-bottom: 5px;
     margin-top: 10px;
     transition: 0.2s;
