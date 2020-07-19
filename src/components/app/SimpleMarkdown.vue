@@ -129,7 +129,7 @@ img.emoji[alt] {
 }
 
 .link {
-  color: #68aaff;
+  color: #fcb93b;
 }
 .mention {
   background: rgba(0, 0, 0, 0.3);

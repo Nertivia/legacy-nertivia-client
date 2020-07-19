@@ -434,7 +434,8 @@ export default {
           message: {
             creator: {
               username: "Whoopsies!",
-              uniqueID: "12345678"
+              uniqueID: "12345678",
+              bot: true,
             },
             message: message,
             messageID: Math.floor(Math.random() * 10999 + 0).toString(),

@@ -236,7 +236,6 @@ export default {
   margin: 5px;
   background: rgba(73, 131, 219, 0.71);
   box-shadow: 0px 0px 5px 1px rgb(0, 0, 0);
-  text-shadow: 1px 1px 2px black;
   display: flex;
   flex-shrink: 0;
   border-radius: 5px;

@@ -151,7 +151,6 @@ export default {
   box-shadow: 0px 0px 5px 1px rgb(0, 0, 0);
   border-radius: 5px;
   backdrop-filter: blur(4px);
-  text-shadow: 1px 1px 2px black;
   margin-bottom: 0;
   height: 40px;
   display: flex;

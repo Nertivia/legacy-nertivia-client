@@ -278,6 +278,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "@/styles/global.scss";
 .edit-profile {
   display: flex;
   flex-direction: column;
@@ -334,12 +335,10 @@ export default {
   }
 }
 .button.save-button {
-  background: linear-gradient(90deg, rgba(54,40,255,1) 0%, rgba(69,214,252,1) 100%);
-  box-shadow: 0px 0px 5px rgb(54,40,255);
+  background: $primary-button-color;
   border-radius: 4px;
   cursor: pointer;
   user-select: none;
-  text-shadow: 0px 0px 7px black;
   align-self: center;
   padding: 10px;
   transition: 0.2s;

@@ -19,9 +19,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "@/styles/global.scss";
 .file-content {
   display: flex;
-  background: #ffffff21;
+  background: $embed-bg-color;
+  border-radius: 5px;
   padding: 10px;
   margin-top: 5px;
 }
@@ -31,7 +33,7 @@ export default {
 }
 .file-content .download-button {
   font-size: 14px;
-  background: rgba(0, 0, 0, 0.158);
+  background: rgba(0, 0, 0, 0.2);
   padding: 3px;
   text-align: center;
   display: inline-block;
@@ -40,9 +42,11 @@ export default {
   user-select: none;
   cursor: pointer;
   color: white;
+  border-radius: 5px;
+  padding: 5px;
 }
 .file-content .download-button:hover {
-  background: rgba(0, 0, 0, 0.329);
+  background: rgba(0, 0, 0, 0.3);
 }
 .file-content .info {
   font-size: 14px;

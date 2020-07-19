@@ -121,4 +121,5 @@ export default {
 .warning:hover {
   background: rgba(255, 67, 67, 0.9);
 }
+
 </style>

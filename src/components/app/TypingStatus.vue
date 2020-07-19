@@ -74,13 +74,12 @@ export default {
 
 .typing-status {
   color: white;
-  text-shadow: 1px 1px 2px black;
   display: flex;
   transition: 0.3s;
   flex-shrink: 0;
   flex: 1;
   padding: 3px;
-  background: rgb(31, 120, 255, 0.2);
+  background: rgba(73, 131, 219, 0.71);
   box-shadow: 0px 0px 5px 1px rgb(0, 0, 0);
   border-radius: 5px;
   margin-left: 5px;

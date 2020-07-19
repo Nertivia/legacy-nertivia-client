@@ -1,7 +1,8 @@
 <template>
     <div class="input" :class="theme">
         <div class="name">{{ name }}</div>
-        <input class="text-input" @input="event('input', $event)" :value="value" :autocomplete="autocomplete || 'on'"  :default-value.prop="defaultValue" :type="type || 'text'">
+        <input v-if="type === undefined | type !== 'textarea'" class="text-input" @input="event('input', $event)" :value="value" :autocomplete="autocomplete || 'on'"  :default-value.prop="defaultValue" :type="type || 'text'">
+        <textarea v-if="type && type === 'textarea'" class="text-input" @input="event('input', $event)" :default-value.prop="defaultValue" :value="value"/>
     </div>
 </template>
 
@@ -9,7 +10,7 @@
 export default {
     model: {
         prop: 'value',
-        event: 'input'
+        event: 'model'
     },
     props: {
         name: String,
@@ -21,6 +22,9 @@ export default {
     },
     methods: {
         event(name, event) {
+            if (name === "input") {
+                this.$emit("model", event.target.value);
+            }
             this.$emit(name, event)
         }
     }
@@ -55,5 +59,18 @@ export default {
     .text-input {
         background: rgba(255, 255, 255, 0.1);
     }
+}
+
+textarea {
+  padding: 10px;
+  resize: none;
+  border: none;
+  outline: none;
+  color: white;
+  height: 100px;
+  margin-bottom: 10px;
+  margin-top: 2px;
+  transition: 0.3s;
+  border-radius: 4px;
 }
 </style>

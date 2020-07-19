@@ -41,7 +41,7 @@
     </div>
     <div class="left">
       <div class="title" v-if="embed.url">
-        <a target="”_blank”" :href="embed.url">{{ embed.title }}</a>
+        <a target="”_blank”" :href=" (!embed.url.startsWith('http') ? 'https://' : '') + embed.url">{{ embed.title }}</a>
       </div>
       <div class="title" v-else>{{ embed.title }}</div>
       <div class="description">{{ embed.description }}</div>
@@ -184,8 +184,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "@/styles/global.scss";
 .embed {
-  background: #ffffff21;
+  background: $embed-bg-color;
+  border-radius: 5px;
   padding: 5px;
   display: flex;
   max-width: 500px;
@@ -299,7 +301,7 @@ export default {
   background: rgba(0, 0, 0, 0.384);
 }
 a {
-  color: rgb(86, 159, 253);
+  color: #fcb93b;
   text-decoration: none;
 }
 a:hover {

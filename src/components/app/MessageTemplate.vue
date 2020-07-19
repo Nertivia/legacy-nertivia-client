@@ -411,6 +411,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "@/styles/global.scss";
 $self-message-color: #4883db;
 
 $message-color: #3a4750;
@@ -552,10 +553,12 @@ $message-color: #3a4750;
 .image-content {
   margin-top: 10px;
   padding: 5px;
-  background: #ffffff21;
+  background: $embed-bg-color;
   display: -ms-flexbox;
   display: flex;
   flex-direction: column;
+  border-radius: 5px;
+  cursor: pointer;
 }
 .image-content img {
   width: 100px;

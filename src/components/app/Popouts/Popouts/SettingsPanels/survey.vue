@@ -10,10 +10,8 @@
         <div class="survey-content">
           <div class="left">
             <!-- name -->
-            <div class="input">
-              <div class="input-title">Name</div>
-              <input type="text" placeholder="Name" v-model="items.name" />
-            </div>
+            <custom-input theme="light" class="input" name="Name" v-model="items.name"/>
+            
             <!-- Gender -->
             <drop-down
               class="dropdown"
@@ -58,13 +56,7 @@
               @change="changeEvent('country', $event)"
             />
             <!-- About me -->
-            <div class="input">
-              <div class="input-title">About me</div>
-              <textarea
-                placeholder="I like cats and dogs."
-                v-model="items.about_me"
-              />
-            </div>
+            <custom-input theme="light" class="input" name="About me" type="textarea" v-model="items.about_me"/>
           </div>
         </div>
       </div>
@@ -84,8 +76,9 @@ import DropDown from "./../ServerSettingsPanels/DropDownMenu";
 import surveyItems from "@/utils/surveyItems.js";
 import userService from "@/services/userService.js";
 import Spinner from "@/components/global/Spinner";
+import CustomInput from '@/components/global/CustomInput';
 export default {
-  components: { DropDown, Spinner },
+  components: { DropDown, Spinner, CustomInput },
   data() {
     return {
       surveyItems: surveyItems,
@@ -163,6 +156,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "@/styles/global.scss";
 .notice {
   color: rgb(216, 216, 216);
   font-size: 15px;
@@ -202,12 +196,18 @@ export default {
 
 .survey-content {
   display: flex;
+  margin-top: 20px;
 }
 
 .left {
   display: flex;
   flex-direction: column;
   flex: 1;
+  align-items: flex-end;
+  align-content: flex-end;
+  .input {
+    align-self: flex-end;
+  }
   flex-shrink: 0;
 }
 .right {
@@ -221,6 +221,7 @@ export default {
   margin: 10px;
   margin-left: 30px;
   margin-right: 30px;
+  width: 200px;
 }
 
 .survey-warning {
@@ -233,7 +234,8 @@ export default {
 }
 .survey .button {
   color: white;
-  background: rgba(0, 0, 0, 0.4);
+  background: $primary-button-color;
+  opacity: 0.8;
   padding-top: 10px;
   padding-bottom: 10px;
   z-index: 99999;
@@ -243,14 +245,14 @@ export default {
   user-select: none;
   cursor: pointer;
   flex-shrink: 0;
-  margin: 0;
+  margin: auto;
+  margin-bottom: 10px;
   align-self: flex-end;
-  margin-bottom: 20px;
-  margin-right: 20px;
+
   border-radius: 4px;
 }
 .survey .button:hover {
-  background: rgba(0, 0, 0, 0.6);
+  opacity: 1;
 }
 
 .title {
@@ -270,23 +272,10 @@ export default {
 .input {
   display: flex;
   flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.4);
-  border-radius: 4px;
-  padding: 10px;
   margin: 10px;
   margin-left: 30px;
+  width: 200px;
   margin-right: 30px;
-  padding-bottom: 0;
-  .input-title {
-    font-size: 14px;
-    margin-left: 2px;
-  }
-}
-.input input {
-  width: initial;
-  margin-top: 2px;
-  background-color: rgba(0, 0, 0, 0.4);
-  border-radius: 4px;
 }
 textarea {
   padding: 10px;
@@ -308,6 +297,13 @@ textarea:hover {
 @media (max-width: 764px) {
   .survey-content {
     flex-direction: column;
+  }
+  .left, .right {
+    align-items: center;
+    align-items: center;
+    .input {
+      align-self: center;
+    }
   }
 }
 </style>
