@@ -337,7 +337,7 @@ export default {
   display: grid;
   grid-template:
     "nav nav" auto
-    "panel panel" calc(100% - 60px)
+    "panel panel" 1fr
     / auto 1fr;
   height: 100%;
   width: 100%;
@@ -456,7 +456,7 @@ export default {
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
-@media (max-width: 600px) {
+/* @media (max-width: 600px) {
   .box {
     display: grid;
     grid-template:
@@ -464,7 +464,7 @@ export default {
       "panel panel" 100%
       / auto 1fr;
   }
-}
+} */
 </style>
 
 <style lang="scss">
@@ -484,7 +484,7 @@ textarea {
 .panel-layout {
   grid-area: panel;
   display: flex;
-  height: 100%;
+  min-height: 0;
 }
 
 input {

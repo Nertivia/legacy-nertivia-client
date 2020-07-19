@@ -431,28 +431,23 @@ $message-color: #3a4750;
   z-index: 1;
 }
 .new-badge {
-  background: rgb(255,175,0);
-  background: linear-gradient(90deg, rgb(209, 143, 0) 0%, rgb(209, 0, 0) 100%);
   padding: 4px;
   text-align: center;
-  border-radius: 4px;
-  margin-left: 5px;
-  margin-right: 5px;
+  margin-left: 30px;
+  margin-right: 30px;
   position: relative;
   font-size: 14px;
   z-index: 111111111;
-}
-.new-badge::after {
-  content: '';
-  z-index: -1;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgb(255,175,0);
-  background: linear-gradient(90deg, rgb(209, 143, 0) 0%, rgb(209, 0, 0) 100%);
-  filter: blur(5px);
+
+  background: none !important;
+  padding-bottom: 5px !important;
+  
+  border-bottom: 2px solid;
+  border-width: 2px;
+  border-image-slice: 1;
+  border-image-source: linear-gradient(90deg,#d18f00,#d10000);
+  margin-bottom: 20px !important;
+
 
 }
 
