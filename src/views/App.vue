@@ -336,6 +336,7 @@ export default {
 .box {
   display: grid;
   grid-template:
+    "frame frame" auto
     "nav nav" auto
     "panel panel" 1fr
     / auto 1fr;
@@ -369,6 +370,7 @@ export default {
 }
 
 .frame {
+  grid-area: frame;
   display: flex;
   -webkit-app-region: drag;
   flex-shrink: 0;
