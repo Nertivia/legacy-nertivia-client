@@ -48,7 +48,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@styles/global.scss";
+@import "@/styles/global.scss";
 .html-embed {
   border-radius: 5px;
   background: $embed-bg-color;
