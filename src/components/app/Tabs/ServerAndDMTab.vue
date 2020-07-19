@@ -137,10 +137,10 @@ export default {
   display: flex;
   flex-direction: column;
   background: #272e37;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
   width: 100%;
   overflow: hidden;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
 }
 .fade-enter-active,
@@ -167,23 +167,12 @@ export default {
   transform: translateX(300px);
 }
 
-@media (max-width: 949px) {
-  .members-panel {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    z-index: 2;
-    background: linear-gradient(to bottom, #00477e 0, #016dc0);
-  }
-}
-
 @media (max-width: 600px) {
   .left-panel {
     position: absolute;
     bottom: 0;
     top: 0;
     z-index: 3;
-    background: #101332c7;
     backdrop-filter: blur(10px);
     background: $bg-color;
     box-shadow: 0px 0px 10px 0px black;

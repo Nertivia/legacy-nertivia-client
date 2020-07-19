@@ -149,6 +149,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/styles/global";
 .explore-tab {
   display: flex;
   width: 100%;
@@ -166,20 +167,23 @@ export default {
   z-index: 2;
 
   .inner {
+    background: $bg-color;
     display: flex;
     flex-direction: row;
     flex-shrink: 0;
     z-index: 2;
+    min-height: 0;
     flex: 1;
-    overflow: hidden;
   }
 
   .content {
     display: flex;
     flex-direction: column;
     height: 100%;
-    background: rgba(0, 0, 0, 0.14);
+    background: #272e37;
     border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
     overflow: hidden;
   }
   .items {
@@ -385,11 +389,12 @@ export default {
     bottom: 0;
     top: 0;
     z-index: 2222;
-    background: linear-gradient(to bottom, #00477e 0, #016dc0);
+    background: #272e37;
     height: 100%;
   }
   .left-panel .content {
     border-radius: 0;
+    border-bottom-left-radius: 10px;
   }
   .darken::after {
     content: "";

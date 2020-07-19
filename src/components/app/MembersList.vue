@@ -225,16 +225,18 @@ export default {
   width: 300px;
   max-width: calc(100% - 60px);
   height: 100%;
-  border-left: solid 1px rgba(255, 255, 255, 0.4);
-  border-top: solid 1px rgba(255, 255, 255, 0.4);
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+  background: #272e37;
+
   border-top-left-radius: 10px;
 
 }
 .header {
   height: 40px;
   margin: 5px;
-  background: rgb(31, 120, 255, 0.2);
+  background: rgba(73, 131, 219, 0.71);
   box-shadow: 0px 0px 5px 1px rgb(0, 0, 0);
+  text-shadow: 1px 1px 2px black;
   display: flex;
   flex-shrink: 0;
   border-radius: 5px;
@@ -269,5 +271,14 @@ export default {
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
+}
+@media (max-width: 949px) {
+  .members-list {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    border-radius: 0;
+  }
 }
 </style>
