@@ -87,15 +87,16 @@ export default {
 
 }
 .button {
-  background: rgba(0, 0, 0, 0.2);
+  background: linear-gradient(137deg, rgba(45,136,255,1) 0%, rgba(87,160,255,1) 100%);
   align-self: center;
   padding: 5px;
   border-radius: 4px;
   user-select: none;
   cursor: pointer;
   transition: 0.2s;
+  opacity: 0.8;
   &:hover {
-    background: rgba(0, 0, 0, 0.4);
+    opacity: 1;
   }
 }
 .sub-head {
@@ -122,7 +123,7 @@ export default {
       opacity: 0.8;
     }
     &:hover {
-      background: rgba(0, 0, 0, 0.3);
+      background-color: rgba(255, 255, 255, 0.1);
     }
   }
 }

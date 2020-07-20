@@ -100,7 +100,8 @@ export default {
   cursor: pointer;
 }
 .checkbox-box {
-  background: rgba(88, 88, 88, 0.74);
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
   height: 20px;
   width: 20px;
   margin-right: 10px;
@@ -108,15 +109,15 @@ export default {
 }
 
 .checkbox-box.selected {
-  background: rgba(66, 122, 244, 0.74);
+  background: rgba(255, 255, 255, 0.74);
 }
 
 .checkbox-box.selected:hover {
-  background: rgba(66, 122, 244, 0.94);
+  background: rgba(255, 255, 255, 0.94);
 }
 
 .checkbox-box:hover {
-  background: rgba(88, 88, 88, 0.94);
+  background: rgba(255, 255, 255, 0.2);
 }
 .checkbox-name {
   max-width: 200px;

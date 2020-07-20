@@ -175,13 +175,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "@/styles/global";
 .dark-background {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(0, 0, 0, 0.541);
+  background: rgba(0, 0, 0, 0.7);
   z-index: 111111;
   display: flex;
 }
@@ -196,11 +197,7 @@ export default {
   position: relative;
   overflow: hidden;
   box-shadow: 0px 0px 20px 5px #151515bd;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 87, 153, 0.8) 0,
-    rgba(0, 118, 209, 0.8)
-  );
+  background: $other-box-color;
   border-radius: 4px;
   backdrop-filter: blur(5px);
 }
@@ -215,7 +212,8 @@ export default {
 .tabs {
   display: flex;
   flex-direction: column;
-  background: #00000033;
+  background: #272e37da;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5); 
   height: 100%;
   width: 180px;
   flex-shrink: 0;
