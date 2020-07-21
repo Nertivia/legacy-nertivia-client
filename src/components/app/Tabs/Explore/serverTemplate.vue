@@ -233,7 +233,7 @@ export default {
       border-radius: 4px;
       margin-right: 10px;
       flex: 1;
-      background: rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.1);
       .material-icons {
         margin-right: 5px;
       }
