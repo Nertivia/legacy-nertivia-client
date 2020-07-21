@@ -1,5 +1,15 @@
 const config = [
   {
+    version: "1.3.0",
+    title: "Its better for your eyes!",
+    shortTitle: "",
+    date: "21 July 2020",
+    new: [
+      "Nertivia re-designed with a dark theme!",
+    ],
+    msg: 'Note: There might be some elements that are still the light blue color. If so, Please send me a screenshot (Fishie:azK1)'
+  },
+  {
     version: "1.2.9",
     title: "Bigger Settings Page",
     shortTitle: "",
