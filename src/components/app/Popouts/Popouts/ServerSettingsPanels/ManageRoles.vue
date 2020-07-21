@@ -368,10 +368,10 @@ export default {
   align-self: center;
 }
 .role:hover {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.1);
 }
 .role.selected {
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.2);
 }
 .add-role-button {
   background: rgba(17, 148, 255, 0.692);
@@ -391,6 +391,7 @@ export default {
   flex-direction: column;
   width: 100%;
   overflow: auto;
+  margin-top: 30px;
 }
 .button {
   background: rgba(0, 0, 0, 0.4);
@@ -436,8 +437,7 @@ export default {
   display: flex;
   flex-direction: column;
   border-radius: 4px;
-  background-color: rgba(0, 0, 0, 0.4);
-  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.1);
   margin: 10px;
   overflow: auto;
   flex-shrink: 0;
@@ -459,12 +459,14 @@ export default {
   flex-direction: column;
   width: 100%;
 }
+.input-title {
+  margin: 5px;
+}
 .role-color {
   display: flex;
   flex-shrink: 0;
   background: rgb(255, 255, 255);
   transition: 0.2s;
-  margin-top: 5px;
   border-radius: 4px;
 }
 
@@ -493,17 +495,23 @@ export default {
     height: 30px;
     width: 30px;
     flex-shrink: 0;
-    background-color: rgb(95, 95, 95);
+    background: rgba(255, 255, 255, 0.1);
     margin-right: 5px;
+    transition: 0.2s;
     border-radius: 2px;
     &.checked {
-      background-color: rgb(31, 154, 255);
+      background: rgba(255, 255, 255, 0.74);
     }
   }
   .info {
     color: rgb(255, 255, 255);
     opacity: 0.7;
     font-size: 15px;
+  }
+}
+@media (max-width: 614px) {
+  .inner-details {
+    margin-top: 0;
   }
 }
 </style>

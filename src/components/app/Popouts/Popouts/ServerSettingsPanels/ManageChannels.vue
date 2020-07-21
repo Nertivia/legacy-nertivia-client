@@ -22,17 +22,16 @@
         </div>
       </div>
       <div class="details" v-if="channels[currentChannelIndex]">
-        <div class="input">
-          <div class="input-title">Channel Name</div>
-          <input
+          <custom-input
+            ref="name-input"
+            theme="light"
+            class="input"
             type="text"
-            ref="name"
-            placeholder="Channel Name"
-            :default-value.prop="channels[currentChannelIndex].name"
             @input="inputEvent('name', $event)"
+            :default-value="channels[currentChannelIndex].name"
+            name="Channel Name"
           />
-        </div>
-        <div class="input">
+        <div class="perm-input">
           <div class="input-title">Permissions</div>
           <div class="check-box" @click="updatePermissions('send_message')">
             <div class="box" :class="{ checked: sendMessagePermission }" />
@@ -74,9 +73,10 @@
 
 <script>
 import ServerService from "@/services/ServerService";
+import CustomInput from "@/components/global/CustomInput";
 import ErrorsListTemplate from "@/components/app/errorsListTemplate";
 export default {
-  components: { ErrorsListTemplate },
+  components: { ErrorsListTemplate, CustomInput },
   data() {
     return {
       deleteButtonConfirmed: false,
@@ -107,6 +107,7 @@ export default {
       );
       if (ok) {
         this.update = { name: null };
+        this.$refs["name-input"].updateVal(this.channels[this.currentChannelIndex].name)
       } else {
         if (error.response) {
           if (error.response.data.message)
@@ -136,7 +137,7 @@ export default {
     },
     channelClick(event, index) {
       this.currentChannelIndex = index;
-      this.$refs["name"].value = this.channels[this.currentChannelIndex].name;
+      this.$refs["name-input"].updateVal(this.channels[this.currentChannelIndex].name)
       this.update = { name: null };
       this.deleteButtonConfirmed = false;
     },
@@ -206,17 +207,19 @@ export default {
   align-self: center;
 }
 .channel:hover {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.1);
 }
 .channel.selected {
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.2)
 }
 .add-channel-button {
-  background: rgba(17, 148, 255, 0.692);
+  background: linear-gradient(137deg, rgba(45,136,255,1) 0%, rgba(87,160,255,1) 100%);
+  opacity: 0.8;
   transition: 0.3s;
 }
 .add-channel-button:hover {
-  background: rgb(17, 148, 255);
+  background: linear-gradient(137deg, rgba(45,136,255,1) 0%, rgba(87,160,255,1) 100%);
+  opacity: 1;
 }
 .details {
   display: flex;
@@ -225,7 +228,8 @@ export default {
   overflow: hidden;
 }
 .button {
-  background: rgba(0, 0, 0, 0.2);
+  background: linear-gradient(137deg, rgba(45,136,255,1) 0%, rgba(87,160,255,1) 100%);
+  opacity: 0.8;
   padding: 10px;
   align-self: center;
   margin: 5px;
@@ -235,7 +239,7 @@ export default {
   border-radius: 4px;
 }
 .button:hover {
-  background: rgba(0, 0, 0, 0.4);
+  opacity: 1;
 }
 .button.warn {
   background: rgba(255, 17, 17, 0.692);
@@ -263,18 +267,17 @@ export default {
   border-radius: 0;
   text-align: center;
 }
-.input {
+.input  {
+  align-self: center;
+  margin: 10px;
+  margin-top: 20px;
+}
+.perm-input {
+  align-self: center;
   display: flex;
   flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.4);
-  padding: 10px;
-  margin: 10px;
-  border-radius: 4px;
-}
-.input input {
-  width: initial;
-  margin-top: 2px;
-  margin-bottom: 0;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 5px;
   border-radius: 4px;
 }
 

@@ -191,6 +191,7 @@ export default {
   flex-direction: column;
   user-select: none;
   overflow: auto;
+  margin-top: 30px;
   height: 100%;
 }
 
@@ -206,9 +207,9 @@ export default {
 }
 
 .toggle {
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(255, 255, 255, 0.1);
   border-radius: 4px;
-  padding: 10px;
+  padding: 5px;
   margin-left: 10px;
   display: flex;
   flex-direction: column;
@@ -220,11 +221,11 @@ export default {
     .box {
       width: 20px;
       height: 20px;
-      background: rgb(95, 95, 95);
+      background: rgba(255, 255, 255, 0.1);
       border-radius: 4px;
       margin-right: 5px;
       &.selected {
-        background: rgb(34, 156, 255);
+        background: rgba(255, 255, 255, 0.74);
       }
     }
   }
@@ -235,9 +236,8 @@ export default {
 }
 
 .input {
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(255, 255, 255, 0.1);
   border-radius: 4px;
-  padding: 10px;
   margin: 10px;
   align-self: flex-start;
   height: 155px;
@@ -245,13 +245,14 @@ export default {
   display: flex;
   flex-direction: column;
   .title {
+    margin: 5px;
     margin-bottom: 5px;
   }
   textarea {
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(255, 255, 255, 0.1);
     resize: none;
     outline: none;
-    margin-top: 2px;
+    margin-top: 0;
     margin-bottom: 0;
     padding: 10px;
     border: none;
@@ -266,7 +267,7 @@ export default {
 .button {
   padding: 10px;
   border-radius: 4px;
-  background-color: rgba(0, 0, 0, 0.4);
+  background: linear-gradient(137deg, rgba(45,136,255,1) 0%, rgba(87,160,255,1) 100%);
   -webkit-transition: background 0.3s;
   transition: 0.3s;
   -webkit-user-select: none;
@@ -276,11 +277,13 @@ export default {
   align-self: center;
   margin-top: auto;
   margin-bottom: 15px;
+  opacity: 0.8;
   cursor: pointer;
 }
 
 .button:hover {
-  background-color: rgba(0, 0, 0, 0.6);
+  opacity: 1;
+  background: linear-gradient(137deg, rgba(45,136,255,1) 0%, rgba(87,160,255,1) 100%);
 }
 .button.disabled {
   background: grey;
@@ -288,5 +291,10 @@ export default {
 .errors {
   align-self: center;
   margin: 10px;
+}
+@media (max-width: 614px) {
+  .content-inner{
+    margin-top: 0;
+  }
 }
 </style>

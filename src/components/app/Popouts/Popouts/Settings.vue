@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="panel">
-        <div class="cloes-button-desktop" @click="close"><div class="material-icons">close</div></div>
+        <div class="close-button-desktop" @click="close"><div class="material-icons">close</div></div>
         <div class="title">
           <div class="material-icons" :class="tabs[currentTab].icon">{{ tabs[currentTab].icon }}</div>
           <div class="in-title">{{ tabs[currentTab].tabName }}</div>
@@ -260,7 +260,7 @@ export default {
   margin-left: 5px;
   margin-right: 5px;
 }
-.cloes-button-desktop {
+.close-button-desktop {
   background: rgba(255, 255, 255, 0.1);
   transition: 0.2s;
   border-radius: 5px;

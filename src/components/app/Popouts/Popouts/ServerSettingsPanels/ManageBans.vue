@@ -75,6 +75,7 @@ export default {
 .content-inner {
   display: flex;
   height: 100%;
+  margin-top: 30px;
   position: relative;
 }
 
@@ -92,7 +93,7 @@ export default {
     align-items: center;
     flex-shrink: 0;
     &:hover {
-      background: rgba(0, 0, 0, 0.1);
+      background: rgba(255, 255, 255, 0.1);
     }
     .details {
       display: flex;
@@ -111,6 +112,11 @@ export default {
       margin-left: 5px;
       font-weight: bold;
     }
+  }
+}
+@media (max-width: 614px) {
+  .content-inner{
+    margin-top: 0;
   }
 }
 </style>

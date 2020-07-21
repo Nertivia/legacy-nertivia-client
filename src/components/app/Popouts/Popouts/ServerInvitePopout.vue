@@ -173,7 +173,7 @@ export default {
 }
 .strip {
   display: flex;
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .button {
@@ -182,13 +182,13 @@ export default {
   align-content: center;
   padding: 5px;
   font-size: 14px;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.1);
   transition: 0.3s;
   user-select: none;
   cursor: pointer;
 }
 .button:hover {
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .bottom {
@@ -216,7 +216,7 @@ export default {
 }
 
 .invite:hover {
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.2);
 
   .copy-button {
     opacity: 0.7;
@@ -226,7 +226,7 @@ export default {
   }
 }
 .link {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.7);
   word-break: break-word;
 }
 
@@ -295,7 +295,7 @@ export default {
 .custom-link-input {
   border-radius: 4px;
   padding-left: 10px;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.2);
   display: flex;
   align-items: center;
   align-self: center;

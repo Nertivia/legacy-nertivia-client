@@ -31,7 +31,6 @@
                 `${imageDomain}${server.banner}`})`
             }"
           >
-            <div class="banner-text"></div>
           </div>
           <div class="button" @click="$refs.bannerBrowser.click()">
             Edit Banner
@@ -47,16 +46,14 @@
       </div>
       <div class="details">
         <div class="options">
-          <div class="input">
-            <div class="input-title">Server Name</div>
-            <input
-              type="text"
-              ref="name"
-              placeholder="Channel Name"
-              :default-value.prop="server.name"
-              @input="inputEvent('name', $event)"
-            />
-          </div>
+          <custom-input
+            theme="light"
+            class="input"
+            type="text"
+            @input="inputEvent('name', $event)"
+            :default-value="server.name"
+            name="Server Name"
+          />
           <drop-down
             :items="channels"
             :selected-item="defaultChannel"
@@ -81,12 +78,13 @@
 import config from "@/config.js";
 import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
 import ErrorsListTemplate from "@/components/app/errorsListTemplate";
+import CustomInput from "@/components/global/CustomInput";
 import ServerService from "@/services/ServerService";
 import DropDown from "./DropDownMenu";
 import path from "path";
 
 export default {
-  components: { DropDown, ProfilePicture, ErrorsListTemplate },
+  components: { DropDown, ProfilePicture, ErrorsListTemplate, CustomInput },
   data() {
     return {
       imageDomain: config.nertiviaCDN,
@@ -218,7 +216,7 @@ export default {
   align-self: center;
   margin-top: 10px;
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 4px;
   flex-shrink: 0;
 
@@ -233,7 +231,6 @@ export default {
     }
     .button {
       background: rgba(0, 0, 0, 0.2);
-      margin-bottom: 16px;
     }
   }
   .banner {
@@ -257,15 +254,6 @@ export default {
       background-size: cover;
       border-radius: 4px;
       box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.13);
-      .banner-text {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-        height: 35px;
-        background: rgba(0, 0, 0, 0.5);
-      }
     }
   }
 }
@@ -288,28 +276,14 @@ export default {
   align-self: center;
   margin-left: 10px;
 }
-.input {
-  display: flex;
-  flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.4);
-  padding: 10px;
-  align-self: center;
-  margin: 10px;
-  flex-shrink: 0;
-}
-.input input {
-  margin-top: 2px;
-  margin-bottom: 0;
-  width: 190px;
-  background-color: rgba(0, 0, 0, 0.4);
-  border-radius: 4px;
-}
+
 .input-title {
   font-size: 14px;
   margin-left: 2px;
 }
 .button {
-  background: rgba(0, 0, 0, 0.3);
+  background: linear-gradient(137deg, rgba(45,136,255,1) 0%, rgba(87,160,255,1) 100%);
+  opacity: 0.8;
   border-radius: 4px;
   padding: 10px;
   align-self: center;
@@ -319,7 +293,7 @@ export default {
   transition: 0.3s;
 }
 .button:hover {
-  background: rgba(0, 0, 0, 0.5);
+  opacity: 1;
 }
 .save-button {
   margin-top: 10px;
@@ -330,6 +304,11 @@ export default {
 
 .hidden {
   display: none;
+}
+.input {
+  margin: 10px;
+  margin-left: 0;
+  width: 230px;
 }
 @media (max-width: 390px) {
   .top {
