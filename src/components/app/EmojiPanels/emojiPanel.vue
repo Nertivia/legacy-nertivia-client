@@ -544,7 +544,8 @@ export default {
   display: flex;
   flex-direction: column;
   background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(5px);
+  box-shadow: 2px -3px 4px 0px #00000099;
+  backdrop-filter: blur(10px);
   border-radius: 4px;
   transition: 0.3s;
   z-index: 99999;
@@ -583,7 +584,7 @@ export default {
   height: 0;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  border-top: 15px solid #00203a;
+  border-top: 15px solid #1d1d1d;
 
   align-self: flex-end;
   margin-right: 46px;
@@ -595,7 +596,7 @@ export default {
   align-items: center;
   justify-content: center;
   width: 100%;
-  background: rgba(0, 56, 100, 0.4);
+  background: #1d1d1d;
   flex-shrink: 0;
 }
 .tab {

@@ -147,15 +147,18 @@ export default {
 }
 
 .heading {
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(73, 131, 219, 0.71);
+  box-shadow: 0px 0px 5px 1px rgb(0, 0, 0);
+  border-radius: 5px;
   backdrop-filter: blur(4px);
   margin-bottom: 0;
-  height: 50px;
+  height: 40px;
   display: flex;
   flex-shrink: 0;
   padding-left: 10px;
   align-items: center;
   position: absolute;
+  margin: 5px;
   left: 0;
   right: 0;
   z-index: 2;
@@ -164,8 +167,8 @@ export default {
   (-webkit-backdrop-filter: blur(4px)) or (backdrop-filter: blur(4px))
 ) {
   .heading {
-    background: rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(4px);
+    background: rgba(73, 131, 219, 0.71);
+    backdrop-filter: blur(10px);
   }
 }
 .show-menu-button {

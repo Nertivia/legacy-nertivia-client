@@ -1,20 +1,37 @@
 <template>
-    <div class="input">
+    <div class="input" :class="theme">
+        <div class="error" v-if="error">{{ error }}</div>
         <div class="name">{{ name }}</div>
-        <input class="text-input" @input="event('input', $event)" :autocomplete="autocomplete || 'on'"  :default-value.prop="defaultValue" :type="type || 'text'">
+        <input ref="input" v-if="type === undefined | type !== 'textarea'" class="text-input" @input="event('input', $event)" :value="value" :autocomplete="autocomplete || 'on'"  :default-value.prop="defaultValue" :type="type || 'text'">
+        <textarea v-if="type && type === 'textarea'" class="text-input" @input="event('input', $event)" :default-value.prop="defaultValue" :value="value"/>
     </div>
 </template>
 
 <script>
 export default {
+    model: {
+        prop: 'value',
+        event: 'model'
+    },
     props: {
         name: String,
         defaultValue: String,
+        value: String,
         type: String,
-        autocomplete: String
+        autocomplete: String,
+        theme: String,
+        error: String,
     },
     methods: {
+        updateVal(val) {
+            this.$nextTick(() => {
+                this.$refs.input.value = val;
+            })
+        },
         event(name, event) {
+            if (name === "input") {
+                this.$emit("model", event.target.value);
+            }
             this.$emit(name, event)
         }
     }
@@ -25,9 +42,16 @@ export default {
 .input {
     display: flex;
     flex-direction: column;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.2);
     border-radius: 4px;
     align-self: flex-start;
+}
+.error {
+    color: white;
+    background: rgb(255, 71, 71);
+    border-radius: 4px;
+    font-size: 14px;
+    padding: 3px;
 }
 .name {
     margin: 5px;
@@ -43,5 +67,24 @@ export default {
     &:focus {
         color: white;
     }
+}
+.light {
+    background: rgba(255, 255, 255, 0.1);
+    .text-input {
+        background: rgba(255, 255, 255, 0.1);
+    }
+}
+
+textarea {
+  padding: 10px;
+  resize: none;
+  border: none;
+  outline: none;
+  color: white;
+  height: 100px;
+  margin-bottom: 10px;
+  margin-top: 2px;
+  transition: 0.3s;
+  border-radius: 4px;
 }
 </style>

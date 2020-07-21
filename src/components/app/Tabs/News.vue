@@ -74,7 +74,8 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import "@/styles/global";
 .news {
   display: flex;
   width: 100%;
@@ -106,11 +107,11 @@ export default {
 }
 .heading {
   padding: 10px;
-  background: rgba(0, 0, 0, 0.4);
+  background: #ffffff1c;
   margin-bottom: 10px;
 }
 .latest-color {
-  background: rgb(19, 121, 255);
+  background: $primary-button-color;
 }
 .information {
   overflow-wrap: break-word;
@@ -120,7 +121,7 @@ export default {
   background: rgba(38, 139, 255, 0.87);
 }
 .change-log {
-  background: #1153a9;
+  background: #2c3746;
   box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.3);
   overflow-y: auto;
   max-width: 700px;
@@ -154,7 +155,7 @@ export default {
   margin-bottom: 10px;
 }
 .see-all-button {
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.1);
   display: flex;
   flex-shrink: 0;
   justify-content: center;
@@ -166,6 +167,6 @@ export default {
   transition: 0.2s;
 }
 .see-all-button:hover {
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(255, 255, 255, 0.2);
 }
 </style>

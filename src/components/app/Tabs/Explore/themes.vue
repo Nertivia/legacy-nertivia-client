@@ -118,6 +118,9 @@ export default {
 .note {
   background: rgba(52, 116, 255, 0.658);
   padding: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+  border-radius: 5px;
   text-align: center;
 }
 </style>

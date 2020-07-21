@@ -238,7 +238,6 @@ input:focus {
 .emojis-list {
   display: flex;
   flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.1);
   overflow-y: auto;
   overflow-x: hidden;
   height: 100%;
@@ -252,13 +251,14 @@ input:focus {
   display: flex;
   width: 100%;
   align-items: center;
-  transition: 0.3s;
+  transition: 0.2s;
   user-select: none;
   cursor: default;
+  border-radius: 4px;
   flex-shrink: 0;
 }
 .emoji:hover {
-  background: rgba(0, 0, 0, 0.2);
+  background-color: rgba(255, 255, 255, 0.2);
 }
 .emoji-name {
   margin: auto;
@@ -269,16 +269,17 @@ input:focus {
   display: inline-block;
   width: inherit;
   padding: 10px;
-  background: rgba(6, 52, 67, 0.4);
+  background: linear-gradient(137deg, rgba(45,136,255,1) 0%, rgba(87,160,255,1) 100%);
   margin-bottom: 10px;
   margin-left: 20px;
   user-select: none;
-  transition: 0.3s;
+  transition: 0.2s;
+  opacity: 0.8;
   cursor: pointer;
   border-radius: 4px;
 }
 .button:hover {
-  background: rgba(6, 52, 67, 0.6);
+  opacity: 1;
 }
 .button .material-icons {
   vertical-align: -6px;

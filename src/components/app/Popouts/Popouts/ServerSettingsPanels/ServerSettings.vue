@@ -14,6 +14,7 @@
         </div>
       </div>
       <div class="content">
+      <div class="close-button-desktop" @click="closeMenu"><div class="material-icons">close</div></div>
         <div class="header" :class="{ critical: tabs[index].critical }">
           <div class="material-icons">{{ tabs[index].icon }}</div>
           <div>{{ tabs[index].title }}</div>
@@ -175,32 +176,28 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "@/styles/global";
 .dark-background {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(0, 0, 0, 0.541);
+  background: rgba(0, 0, 0, 0.7);
   z-index: 111111;
   display: flex;
 }
 .inner {
   margin: auto;
-  height: 100%;
-  max-height: 550px;
-  width: 700px;
+  width: 100%;
+  margin: 40px;
   display: flex;
   color: white;
   overflow: hidden;
   position: relative;
   overflow: hidden;
   box-shadow: 0px 0px 20px 5px #151515bd;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 87, 153, 0.8) 0,
-    rgba(0, 118, 209, 0.8)
-  );
+  background: $other-box-color;
   border-radius: 4px;
   backdrop-filter: blur(5px);
 }
@@ -215,7 +212,8 @@ export default {
 .tabs {
   display: flex;
   flex-direction: column;
-  background: #00000033;
+  background: #272e37da;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5); 
   height: 100%;
   width: 180px;
   flex-shrink: 0;
@@ -234,6 +232,25 @@ export default {
     color: rgba(255, 255, 255, 0.8);
   }
 }
+
+.close-button-desktop {
+  background: rgba(255, 255, 255, 0.1);
+  transition: 0.2s;
+  border-radius: 5px;
+  margin: 5px;
+  height: 23px;
+  user-select: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  align-self: flex-end;
+  z-index: 1111111;
+  cursor: pointer;
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+
 .tab .material-icons {
   margin-right: 5px;
 }
@@ -241,18 +258,19 @@ export default {
   align-self: center;
 }
 .tab:hover {
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.1)
 }
 .critical {
   color: red;
 }
 .tab.selected {
-  background: rgba(0, 0, 0, 0.4);
+  background: linear-gradient(137deg, rgba(45,136,255,1) 0%, rgba(87,160,255,1) 100%);
 }
 .header {
   background: rgba(0, 0, 0, 0.4);
   display: flex;
   height: 50px;
+  display: none;
   flex-shrink: 0;
   width: 100%;
   user-select: none;
@@ -283,11 +301,17 @@ export default {
 }
 
 @media (max-width: 614px) {
+  .header {
+    display: flex;
+  }
+  .close-button-desktop {
+    display: none;
+  }
   .close-button {
     top: 55px;
   }
   .inner {
-    height: 100%;
+    margin: 0;
     border-radius: 0;
     max-height: initial;
     flex-direction: column;

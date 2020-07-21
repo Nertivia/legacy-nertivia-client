@@ -258,18 +258,20 @@ export default {
   align-self: center;
   display: flex;
   flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.4);
-  width: 150px;
-  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
   margin-top: 10px;
+  padding-top: 5px;
   border-radius: 4px;
   align-items: center;
   align-content: center;
   .button {
     margin-top: 10px;
-    background: rgba(0, 0, 0, 0.2);
+    opacity: 0.8;
+    transition: 0.2s;
+    background: linear-gradient(137deg, rgba(45,136,255,1) 0%, rgba(87,160,255,1) 100%);
+
     &:hover {
-      background: rgba(0, 0, 0, 0.3);
+      opacity: 1;
     }
   }
 }
@@ -280,15 +282,18 @@ export default {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background-color: rgba(0, 0, 0, 0.4);
-  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
   margin: 10px;
   align-self: center;
   flex-shrink: 0;
   border-radius: 4px;
   .title {
     font-size: 14px;
-    margin-left: 2px;
+    margin: 5px;
+  }
+  input {
+    margin: 0;
+    background: rgba(255, 255, 255, 0.1);
   }
 }
 .outer-input .user-tag .username {
@@ -374,8 +379,8 @@ export default {
   }
 }
 .invite-link {
-  background-color: rgba(0, 0, 0, 0.4);
-  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 5px;
   border-radius: 4px;
   width: 260px;
   word-break: break-all;
@@ -409,14 +414,14 @@ export default {
     align-content: center;
     padding: 5px;
     .box {
-      background: gray;
+      background: rgba(255, 255, 255, 0.1);
       height: 20px;
       width: 20px;
       border-radius: 4px;
       margin-right: 5px;
       cursor: pointer;
       &.checked {
-        background: rgb(0, 153, 255);
+        background: rgba(255, 255, 255, 0.74);
       }
     }
   }

@@ -1,16 +1,26 @@
 <template>
   <div class="dark-background admin-editor-popout" @mousedown="backgroundClick">
     <div class="inner">
-      <div>{{ popoutDetails.user.username }}</div>
-      <div>{{ popoutDetails.user.email }}</div>
-      <div>{{ popoutDetails.user.ip }}</div>
-      <input
+      <div class="details">
+      <div><span class="name">Username: </span>{{ popoutDetails.user.username }}</div>
+      <div><span class="name">Email: </span>{{ popoutDetails.user.email }}</div>
+      <div><span class="name">IP: </span>{{ popoutDetails.user.ip }}</div>
+      </div>
+      <custom-input
+        theme="light"
+        class="input"
         type="password"
         autocomplete="new-password"
         v-model="password"
-        placeholder="Confirm Password"
+        name="Confirm Password"
       />
-      <textarea v-model="reason" placeholder="Suspend Reason"></textarea>
+      <custom-input
+        theme="light"
+        class="input"
+        type="textarea"
+        v-model="reason"
+        name="Suspend Reason"
+      />
       <div class="button" v-if="!confirmSuspend" @click="suspendUserButton">
         Suspend User
       </div>
@@ -21,8 +31,10 @@
 
 <script>
 import AdminService from "@/services/adminService";
+import CustomInput from "@/components/global/CustomInput";
 
 export default {
+  components: {CustomInput},
   data() {
     return {
       confirmSuspend: false,
@@ -68,43 +80,55 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "@/styles/global";
 .dark-background {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(0, 0, 0, 0.541);
-  z-index: 111111;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 111111111;
   display: flex;
 }
 .inner {
   margin: auto;
   // max-height: 460px;
-  // height: 100%;
   // width: 500px;
   padding: 50px;
   display: flex;
   flex-direction: column;
   color: white;
   box-shadow: 0px 0px 20px 5px #151515bd;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 87, 153, 0.8) 0,
-    rgba(0, 118, 209, 0.8)
-  );
+  background: $other-box-color;
   border-radius: 4px;
   backdrop-filter: blur(5px);
-  overflow: hidden;
+  overflow: auto;
   align-items: center;
 }
 .button {
-  background: rgba(0, 0, 0, 0.3);
+  margin-top: 10px;
+  background: $primary-button-color;
   border-radius: 4px;
   padding: 5px;
   cursor: pointer;
 }
-input {
-  width: initial;
+.input {
+  max-width: 300px;
+  width: 100%;
+  margin-top: 20px;
+}
+.details {
+  white-space: break-spaces;
+}
+.name {
+  opacity: 0.6;
+  font-weight: bold;
+}
+@media (max-height: 458px) {
+  .inner {
+    margin: initial;
+  }
 }
 </style>

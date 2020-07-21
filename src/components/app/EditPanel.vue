@@ -42,11 +42,12 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import "@/styles/global";
 .edit-panel {
   padding: 10px;
   color: white;
-  background: #002038;
+  background: #1f2329;
   display: flex;
   flex-direction: column;
   z-index: 1;
@@ -60,7 +61,7 @@ export default {
 }
 .close-button {
   color: white;
-  background: #0061ad;
+  background: $primary-button-color;
   padding: 4px;
   align-self: flex-end;
   transition: 0.3s;

@@ -1,12 +1,10 @@
 <template>
-  <div
-    class="direct-message-tab"
+  <div class="direct-message-tab"
     :class="{ darken: showLeftPanel || showMembersPanel }"
     :data-server="currentServer ? currentServer.name: undefined"
   >
     <transition :name="$mq === 'mobile' ? 'slide-left' : null">
-      <div
-        class="left-panel"
+      <div class="left-panel"
         v-show="($mq === 'mobile' && showLeftPanel) || $mq !== 'mobile'"
         v-click-outside="hideLeftPanel"
       >
@@ -111,10 +109,9 @@ export default {
 };
 </script>
 
-<style scoped>
-.direct-message-tab {
-  overflow: hidden;
-}
+<style scoped lang="scss">
+@import "@/styles/global";
+
 .left-panel {
   z-index: 2;
   height: 100%;
@@ -124,6 +121,7 @@ export default {
   display: flex;
   flex-direction: column;
   z-index: 1;
+
 }
 .inner {
   z-index: 2;
@@ -134,15 +132,16 @@ export default {
   display: flex;
   flex-direction: row;
   z-index: 1;
-  flex: 1;
-  overflow: hidden;
 }
 .wrapper {
   display: flex;
   flex-direction: column;
+  background: #272e37;
   width: 100%;
-  border-top-left-radius: 10px;
   overflow: hidden;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
 }
 .fade-enter-active,
 .fade-leave-active {
@@ -168,26 +167,24 @@ export default {
   transform: translateX(300px);
 }
 
-@media (max-width: 949px) {
-  .members-panel {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    z-index: 2;
-    background: linear-gradient(to bottom, #00477e 0, #016dc0);
-  }
-}
-
 @media (max-width: 600px) {
   .left-panel {
     position: absolute;
     bottom: 0;
     top: 0;
     z-index: 3;
-    background: linear-gradient(to bottom, #00477e 0, #016dc0);
+    backdrop-filter: blur(10px);
+    background: $bg-color;
+    box-shadow: 0px 0px 10px 0px black;
+  }
+  .inner {
+    height: calc(100% - 60px);
   }
   .wrapper {
-    border-radius: 0;
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: initial;
+    border-top-right-radius: initial;
+    
   }
   .darken::after {
     content: "";

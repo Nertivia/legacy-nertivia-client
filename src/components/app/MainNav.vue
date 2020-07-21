@@ -293,7 +293,6 @@ export default {
   position: relative;
 }
 .mobile {
-  background: rgba(0, 0, 0, 0.4);
 
   width: initial;
   .item {

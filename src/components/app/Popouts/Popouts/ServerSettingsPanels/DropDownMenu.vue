@@ -89,8 +89,7 @@ export default {
 
 <style scoped>
 .drop-down {
-  background-color: rgba(0, 0, 0, 0.4);
-  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
   user-select: none;
   cursor: default;
   flex-shrink: 0;
@@ -98,12 +97,11 @@ export default {
   border-radius: 4px;
 }
 .title {
+  margin: 5px;
   font-size: 14px;
-  margin-left: 2px;
-  margin-bottom: 2px;
 }
 .current-select-box {
-  background-color: rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.1);
   padding: 5px;
   cursor: pointer;
   display: flex;
@@ -111,7 +109,7 @@ export default {
   border-radius: 4px;
 }
 .current-select-box:hover {
-  background-color: rgba(0, 0, 0, 0.5);
+  background: rgba(255, 255, 255, 0.2);
 }
 .current-select-box div {
   align-self: center;
@@ -130,18 +128,20 @@ export default {
 
 .drop {
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(56, 60, 67, 0.945);
+  box-shadow: 1px 3px 8px 0px #000000b8;
   backdrop-filter: blur(5px);
-  left: 10px;
-  right: 10px;
+  left: 0px;
+  right: 0px;
   z-index: 11111;
   overflow: hidden;
   padding: 2px;
-  margin-top: -2px;
+  margin-top: 1px;
 }
 .drop-container {
   overflow: auto;
-  max-height: 100px;
+  max-height: 200px;
+  height: 100%;
 }
 .drop-container::-webkit-scrollbar {
   width: 5px;

@@ -411,8 +411,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$self-message-color: rgba(255, 255, 255, 0.1);
-$message-color: rgba(0, 0, 0, 0.3);
+@import "@/styles/global.scss";
+$self-message-color: #4883db;
+
+$message-color: #3a4750;
 
 .active {
   background: rgba(255, 255, 255, 0.3);
@@ -430,14 +432,26 @@ $message-color: rgba(0, 0, 0, 0.3);
   z-index: 1;
 }
 .new-badge {
-  background: #ed5151;
   padding: 4px;
   text-align: center;
-  border-radius: 4px;
-  margin-left: 5px;
-  margin-right: 5px;
+  margin-left: 30px;
+  margin-right: 30px;
+  position: relative;
   font-size: 14px;
+  z-index: 111111111;
+
+  background: none !important;
+  padding-bottom: 5px !important;
+  
+  border-bottom: 2px solid;
+  border-width: 2px;
+  border-image-slice: 1;
+  border-image-source: linear-gradient(90deg,#d18f00,#d10000);
+  margin-bottom: 20px !important;
+
+
 }
+
 .container:hover .drop-down-button {
   opacity: 1;
 }
@@ -539,10 +553,12 @@ $message-color: rgba(0, 0, 0, 0.3);
 .image-content {
   margin-top: 10px;
   padding: 5px;
-  background: #ffffff21;
+  background: $embed-bg-color;
   display: -ms-flexbox;
   display: flex;
   flex-direction: column;
+  border-radius: 5px;
+  cursor: pointer;
 }
 .image-content img {
   width: 100px;

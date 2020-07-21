@@ -143,7 +143,6 @@ export default {
   flex-direction: column;
   z-index: 1;
   flex: 1;
-  background: rgba(0, 0, 0, 0.14);
   overflow: hidden;
 }
 
@@ -158,14 +157,15 @@ export default {
   overflow: hidden;
   position: relative;
   flex-direction: row;
-  background-color: rgba(32, 32, 32, 0.4);
+  background-color: rgba(255, 255, 255, 0.2);
   height: 35px;
   border-radius: 4px;
   margin: 10px;
-  box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.13);
+  box-shadow: 0px 2px 12px rgba(255, 255, 255, 0.1);
   flex-shrink: 0;
 }
 .extendBanner {
+  box-shadow: 0px 0px 5px rgb(0, 0, 0);
   height: 130px;
   background-color: rgb(32, 32, 32);
   overflow: hidden;
@@ -200,7 +200,6 @@ export default {
 .sub-banner {
   display: flex;
   color: white;
-  background-color: rgba(0, 0, 0, 0.5);
   align-self: flex-end;
   height: 35px;
   width: 100%;

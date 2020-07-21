@@ -112,11 +112,15 @@ export default {
   padding-left: 5px;
   padding-right: 5px;
   transition: 0.3s;
-  background: rgba(0, 0, 0, 0.14);
+  background: linear-gradient(137deg, rgba(133,150,255,1) 0%, rgba(94,200,255,1) 100%);
+  border-radius: 10px;
+  box-shadow: 0px 0px 5px 0px rgba(133,150,255,1);
+  margin: 5px;
 }
 
 .avatar {
-  margin-left: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
   flex-shrink: 0;
 }
 
@@ -154,6 +158,7 @@ export default {
   margin-left: 3px;
   margin-right: 5px;
   user-select: none;
+  background: rgba(0, 0, 0, 0.2);
   cursor: pointer;
   .status {
     height: 25px;

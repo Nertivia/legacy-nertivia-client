@@ -11,7 +11,7 @@
               Register
             </div>
             <div class="info">
-              Welcome, new user! I Hope you enjoy Nertivia!
+              Welcome, I Hope you enjoy Nertivia!
             </div>
             <form
               v-if="currentPage === 0"
@@ -235,7 +235,8 @@ body {
 }
 </style>
 
-<style scoped>
+<style scoped lang="scss">
+@import "@/styles/global";
 .fade-up-enter-active {
   opacity: 0;
   animation: bounce-in 0.5s;
@@ -263,7 +264,7 @@ body {
   display: flex;
   flex-direction: column;
   color: white;
-  background: linear-gradient(to bottom, #005799 0, #0076d1);
+  background: $bg-color;
 }
 .app-content {
   display: flex;
@@ -291,7 +292,8 @@ body {
   align-items: center;
   z-index: 9999;
   padding-bottom: 20px;
-  background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 0px 5px 0px #000000bd;
+  background: $box-secondary-color;
   border-radius: 4px;
 }
 .box .title {
@@ -324,20 +326,18 @@ form, .form {
   margin: 10px;
   width: 80%;
   align-self: center;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 4px;
-  padding: 10px;
 }
 .input-text {
-  margin-bottom: 5px;
-  margin-left: 3px;
+  margin: 5px;
 }
 input {
   outline: none;
   padding: 10px;
   border: none;
   background: none;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 4px;
   color: white;
 }

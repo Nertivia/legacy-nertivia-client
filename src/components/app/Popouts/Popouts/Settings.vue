@@ -18,6 +18,7 @@
         </div>
       </div>
       <div class="panel">
+        <div class="close-button-desktop" @click="close"><div class="material-icons">close</div></div>
         <div class="title">
           <div class="material-icons" :class="tabs[currentTab].icon">{{ tabs[currentTab].icon }}</div>
           <div class="in-title">{{ tabs[currentTab].tabName }}</div>
@@ -172,9 +173,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "@/styles/global";
+
 .settings-darken-background {
   position: absolute;
-  background: rgba(0, 0, 0, 0.541);
+  background: rgba(0, 0, 0, 0.7);
   top: 0;
   bottom: 0;
   left: 0;
@@ -189,12 +192,8 @@ export default {
   display: flex;
   margin: 40px;
   overflow: hidden;
-  box-shadow: 0px 0px 20px 5px #151515bd;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 87, 153, 0.8) 0,
-    rgba(0, 118, 209, 0.8)
-  );
+  box-shadow: 0px 0px 20px 5px #000000bd;
+  background: $other-box-color;
   border-radius: 4px;
   backdrop-filter: blur(10px);
 }
@@ -205,8 +204,9 @@ export default {
   overflow-y: auto;
   overflow-x: hidden;
   flex-shrink: 0;
+  background: #272e37da;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5); 
   position: relative;
-  background: #00000033;
 }
 .panel {
   display: flex;
@@ -220,19 +220,22 @@ export default {
   padding: 10px;
   cursor: pointer;
   user-select: none;
-  transition: 0.3s;
+  transition: 0.2s;
   align-items: center;
+  color: rgba(255, 255, 255, 0.7);
 }
 .tab-name {
   margin-left: 10px;
 }
 
 .tab:hover {
-  background: rgba(0, 0, 0, 0.4);
+  color: white;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .tab.selected {
-  background: rgba(0, 0, 0, 0.4);
+  color: white;
+  background: linear-gradient(137deg, rgba(45,136,255,1) 0%, rgba(87,160,255,1) 100%);
 }
 
 .tab.warn {
@@ -244,10 +247,10 @@ export default {
 }
 
 .title {
-  display: flex;
+  display: none;
   padding: 10px;
   font-size: 20px;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.1);
 }
 .title .material-icons {
   font-size: 30px;
@@ -256,6 +259,23 @@ export default {
   margin: auto;
   margin-left: 5px;
   margin-right: 5px;
+}
+.close-button-desktop {
+  background: rgba(255, 255, 255, 0.1);
+  transition: 0.2s;
+  border-radius: 5px;
+  margin: 5px;
+  height: 23px;
+  user-select: none;
+  position: absolute;
+  right: 0;
+  top: 0;
+  align-self: flex-end;
+  z-index: 1111111;
+  cursor: pointer;
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
 }
 .in-title {
   flex: 1;
@@ -301,6 +321,12 @@ export default {
   .settings-box {
     width: 100%;
     margin: 0;
+  }
+  .title {
+    display: flex;
+  }
+  .cloes-button-desktop{
+    display: none;
   }
 }
 @media (max-height: 609px) {

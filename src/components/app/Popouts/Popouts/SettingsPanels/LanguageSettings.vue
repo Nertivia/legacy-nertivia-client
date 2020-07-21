@@ -120,12 +120,15 @@ export default {
   padding-right: 10px;
   user-select: none;
   cursor: pointer;
+  color: rgba(255, 255, 255, 0.8);
   transition: 0.2s;
   &:hover {
-    background: rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
   }
   &.selected {
-    background: rgba(0, 0, 0, 0.4);
+    color: white;
+    background: linear-gradient(137deg, rgba(45,136,255,1) 0%, rgba(87,160,255,1) 100%);
   }
 }
 .lang .name {

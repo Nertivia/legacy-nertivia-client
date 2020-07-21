@@ -33,6 +33,7 @@
       <div class="edit-information">
         <div class="username-tag">
           <custom-input
+            theme="light"
             class="input"
             type="text"
             @input="inputEvent('username', $event)"
@@ -40,6 +41,7 @@
             name="Username"
           />
           <custom-input
+            theme="light"
             class="input tag"
             type="text"
             @input="inputEvent('tag', $event)"
@@ -49,6 +51,7 @@
         </div>
 
         <custom-input
+          theme="light"
           class="input"
           type="email"
           @input="inputEvent('email', $event)"
@@ -56,6 +59,7 @@
           name="Email"
         />
         <custom-input
+          theme="light"
           class="input current-password"
           type="password"
           @input="inputEvent('password', $event)"
@@ -63,6 +67,7 @@
           name="Current Password"
         />
         <custom-input
+          theme="light"
           v-if="resetPassword"
           class="input current-password"
           type="password"
@@ -273,6 +278,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "@/styles/global.scss";
 .edit-profile {
   display: flex;
   flex-direction: column;
@@ -329,7 +335,7 @@ export default {
   }
 }
 .button.save-button {
-  background: rgba(0, 0, 0, 0.2);
+  background: $primary-button-color;
   border-radius: 4px;
   cursor: pointer;
   user-select: none;
@@ -337,8 +343,9 @@ export default {
   padding: 10px;
   transition: 0.2s;
   margin-top: 10px;
+  opacity: 0.8;
   &:hover {
-    background: rgba(0, 0, 0, 0.4);
+      opacity: 1;
   }
 }
 .link {

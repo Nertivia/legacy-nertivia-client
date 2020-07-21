@@ -243,23 +243,26 @@ export default {
 }
 
 .input {
-  background-color: #044050;
-  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
   margin: 5px;
   align-self: flex-start;
   height: 155px;
+  border-radius: 4px;
   width: 300px;
   display: flex;
   flex-shrink: 0;
   flex-direction: column;
+  overflow: hidden;
+  align-self: center;
   .title {
-    margin-bottom: 5px;
+    margin: 5px;
   }
   textarea {
-    background: #032d38;
+    background: rgba(255, 255, 255, 0.1);
     resize: none;
     outline: none;
     margin-top: 2px;
+    border-radius: 5px;
     margin-bottom: 0;
     padding: 10px;
     border: none;
@@ -271,12 +274,13 @@ export default {
   }
 }
 .block {
+  border-radius: 4px;
   display: flex;
   flex-direction: column;
-  background-color: #044050;
+  background: rgba(255, 255, 255, 0.1);
   max-width: 300px;
   margin: 5px;
-  padding: 10px;
+  padding: 5px;
   flex-shrink: 0;
 }
 .buttons {

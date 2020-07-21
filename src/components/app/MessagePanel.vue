@@ -292,7 +292,6 @@ export default {
   flex-direction: column;
   overflow: hidden;
   position: relative;
-  background: rgba(0, 0, 0, 0.4);
 }
 .message-logs {
   flex: 1;

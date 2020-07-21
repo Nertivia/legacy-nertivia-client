@@ -252,6 +252,7 @@ export default {
   position: relative;
   height: calc(100% - 76px);
   margin-top: 50px;
+  border-radius: 6px;
   touch-action: none;
 }
 .handle {
@@ -260,6 +261,7 @@ export default {
   right: 0;
   top: 0;
   height: 70px;
+  border-radius: 6px;
   background: rgba(255, 255, 255, 0.6);
   transition: background 0.2s;
   cursor: default;

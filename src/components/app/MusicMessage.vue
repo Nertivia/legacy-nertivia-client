@@ -14,9 +14,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "@/styles/global.scss";
 .file-content {
   display: flex;
-  background: #ffffff21;
+
+  background: $embed-bg-color;
+  border-radius: 5px;
   padding: 10px;
   margin-top: 5px;
   &.music {

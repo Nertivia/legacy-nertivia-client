@@ -59,7 +59,7 @@ export default {
   transition: background 0.2s;
   font-size: 14px;
   cursor: pointer;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.7);
   user-select: none;
   overflow: hidden;
   padding-right: 10px;
@@ -81,11 +81,11 @@ export default {
   margin-left: -5px;
 }
 .channel:hover {
-  background: #00477d;
+  background-color: rgba(255, 255, 255, 0.1);
   color: white;
 }
 .channel.selected {
-  background: #003660;
+  background: linear-gradient(137deg, rgba(45,136,255,1) 0%, rgba(87,160,255,1) 100%);
   color: white;
 }
 

@@ -79,7 +79,11 @@ export default {
   flex-shrink: 0;
   flex: 1;
   padding: 3px;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(73, 131, 219, 0.71);
+  box-shadow: 0px 0px 5px 1px rgb(0, 0, 0);
+  border-radius: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
   backdrop-filter: blur(5px);
   align-content: center;
   align-content: center;

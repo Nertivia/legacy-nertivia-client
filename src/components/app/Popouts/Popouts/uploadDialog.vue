@@ -233,6 +233,7 @@ export default {
             creator: {
               username: "Whoopsies!",
               uniqueID: "12345678",
+              bot: true,
             },
             message: message,
             messageID: Math.floor(Math.random() * 10999 + 0).toString(),
@@ -274,8 +275,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "@/styles/global";
 .dark-background {
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.7);
   position: absolute;
   top: 0;
   bottom: 0;
@@ -292,11 +294,7 @@ export default {
   position: relative;
   overflow: hidden;
   box-shadow: 0px 0px 20px 5px #151515bd;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 87, 153, 0.8) 0,
-    rgba(0, 118, 209, 0.8)
-  );
+  background: $other-box-color;
   border-radius: 4px;
   backdrop-filter: blur(5px);
 }
@@ -445,17 +443,27 @@ export default {
   display: flex;
   align-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(253, 253, 253, 0.2);
   border-radius: 4px;
   padding: 5px;
   cursor: pointer;
   user-select: none;
   transition: 0.2s;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.9);
 }
-.button:hover {
-  background: rgba(0, 0, 0, 0.4);
+.send-button {
+  background: $primary-button-color;
+  opacity: 0.8;
   color: white;
+}
+
+.button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+}
+.send-button:hover {
+  background: $primary-button-color;
+  opacity: 1;
 }
 .button .text {
   margin-left: 5px;
@@ -475,7 +483,7 @@ export default {
 }
 .chat-input {
   font-family: "Montserrat", sans-serif;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 4px;
   color: white;
   width: 100%;

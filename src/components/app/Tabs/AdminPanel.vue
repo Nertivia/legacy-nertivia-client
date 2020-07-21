@@ -41,5 +41,6 @@ export default {
   height: 100%;
   color: white;
   position: relative;
+  overflow: auto;
 }
 </style>

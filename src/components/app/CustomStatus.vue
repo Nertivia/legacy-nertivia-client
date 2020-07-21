@@ -81,6 +81,8 @@ export default {
   height: 16px;
   padding: 0;
   margin: 0;
+  flex: 1;
+  width: initial;
   overflow: hidden;
 }
 .status-text {

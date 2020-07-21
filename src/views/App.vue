@@ -10,7 +10,7 @@
             <electron-frame-buttons />
           </div>
         </div>
-        <main-nav v-if="$mq !== 'mobile' || currentTab === 3 || currentTab === 4" />
+        <main-nav class="nav" v-if="$mq !== 'mobile' || currentTab === 3 || currentTab === 4" />
         <div class="panel-layout">
           <news v-if="currentTab == 3" />
           <servers v-if="currentTab == 1 || currentTab == 2" />
@@ -334,10 +334,17 @@ export default {
 }
 
 .box {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template:
+    "frame frame" auto
+    "nav nav" auto
+    "panel panel" 1fr
+    / auto 1fr;
   height: 100%;
   width: 100%;
+}
+.nav {
+  grid-area: nav;
 }
 
 .coming-soon {
@@ -363,6 +370,7 @@ export default {
 }
 
 .frame {
+  grid-area: frame;
   display: flex;
   -webkit-app-region: drag;
   flex-shrink: 0;
@@ -450,9 +458,19 @@ export default {
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
+/* @media (max-width: 600px) {
+  .box {
+    display: grid;
+    grid-template:
+      "nav nav" auto
+      "panel panel" 100%
+      / auto 1fr;
+  }
+} */
 </style>
 
-<style>
+<style lang="scss">
+@import "@/styles/global";
 textarea {
   font-family: "Montserrat", sans-serif;
 }
@@ -462,13 +480,13 @@ textarea {
   z-index: -1;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom, #005799 0, #0076d1);
+  background: $bg-color;
 }
 
 .panel-layout {
+  grid-area: panel;
   display: flex;
-  overflow: auto;
-  height: 100%;
+  min-height: 0;
 }
 
 input {

@@ -97,13 +97,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "@/styles/global";
 .dark-background {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(0, 0, 0, 0.541);
+  background: rgba(0, 0, 0, 0.7);
   z-index: 111111;
   display: flex;
 }
@@ -118,18 +119,14 @@ export default {
   margin: auto;
   overflow: hidden;
   box-shadow: 0px 0px 20px 5px #151515bd;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 87, 153, 0.8) 0,
-    rgba(0, 118, 209, 0.8)
-  );
+  background: $other-box-color;
   border-radius: 4px;
   backdrop-filter: blur(5px);
 }
 .header {
   display: flex;
   flex-shrink: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.1);
   color: white;
   height: 50px;
   align-content: center;
@@ -165,15 +162,17 @@ export default {
   align-self: center;
   color: white;
   width: initial;
-  background: rgba(0, 0, 0, 0.2);
+  background: $primary-button-color;
   border-radius: 4px;
   cursor: pointer;
+  opacity: 0.8;
   &:hover {
-    background: rgba(0, 0, 0, 0.4);
+    opacity: 1;
   }
 }
 input {
   border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .alerts {

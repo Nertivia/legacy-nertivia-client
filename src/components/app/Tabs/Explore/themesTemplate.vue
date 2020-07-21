@@ -95,11 +95,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/styles/global";
 .item {
   position: relative;
   width: 250px;
   height: 350px;
-  background: rgba(0, 0, 0, 0.2);
+  background: $other-box-color;
+  box-shadow: 0px 0px 5px 0px #000000bd;
   margin: 5px;
   border-radius: 4px;
   flex-shrink: 0;
@@ -111,6 +113,7 @@ export default {
   .top {
     display: flex;
     flex-direction: column;
+    box-shadow: 0px 0px 5px 0px #000000bd;
     width: 100%;
     height: 150px;
     justify-content: center;
@@ -140,7 +143,6 @@ export default {
   .bottom {
     display: flex;
     flex-direction: column;
-    background: rgba(0, 0, 0, 0.3);
     flex: 1;
     height: 100%;
     overflow: auto;
@@ -216,7 +218,7 @@ export default {
       width: 100%;
       height: 36px;
       border-radius: 2px;
-      background: rgba(0, 179, 219, 0.8);
+      background: $primary-button-color;
       transition: 0.2s;
       margin-right: 10px;
       margin-left: 10px;
@@ -226,7 +228,8 @@ export default {
       }
       cursor: pointer;
       &:hover {
-        background: #00b4db;
+        background: $primary-button-color;
+        opacity: 0.8;
       }
       &.selected {
         background: grey;

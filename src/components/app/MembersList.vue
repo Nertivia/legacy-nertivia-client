@@ -225,13 +225,21 @@ export default {
   width: 300px;
   max-width: calc(100% - 60px);
   height: 100%;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+  background: #272e37;
+
+  border-top-left-radius: 10px;
+
 }
 .header {
-  height: 50px;
-  width: 100%;
-  background: rgba(0, 0, 0, 0.2);
+  height: 40px;
+  margin: 5px;
+  background: rgba(73, 131, 219, 0.71);
+  box-shadow: 0px 0px 5px 1px rgb(0, 0, 0);
   display: flex;
   flex-shrink: 0;
+  border-radius: 5px;
+  
 }
 .header .title {
   user-select: none;
@@ -243,6 +251,7 @@ export default {
   flex-direction: column;
   height: 100%;
   overflow: hidden;
+  margin-right: 5px;
 }
 .tab {
   user-select: none;
@@ -261,5 +270,14 @@ export default {
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
+}
+@media (max-width: 949px) {
+  .members-list {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    border-radius: 0;
+  }
 }
 </style>

@@ -434,7 +434,8 @@ export default {
           message: {
             creator: {
               username: "Whoopsies!",
-              uniqueID: "12345678"
+              uniqueID: "12345678",
+              bot: true,
             },
             message: message,
             messageID: Math.floor(Math.random() * 10999 + 0).toString(),
@@ -951,7 +952,8 @@ export default {
   display: flex;
   flex-direction: column;
   position: relative;
-  background: rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.6);
+  background: #1f2329;
 }
 .message-area {
   display: flex;
@@ -981,13 +983,13 @@ export default {
   max-height: 30vh;
   overflow-y: auto;
   &::placeholder {
-    color: #597981;
+    color: rgba(255, 255, 255, 0.4);
   }
 }
 
 .send-button {
   font-size: 20px;
-  color: #a5bec4;
+  color: rgba(255, 255, 255, 0.5);
   background: transparent;
   border: none;
   outline: none;
@@ -1021,7 +1023,7 @@ export default {
   margin-right: 2px;
   display: flex;
   flex-shrink: 0;
-  color: #a5bec4;
+  color: rgba(255, 255, 255, 0.5);
   cursor: pointer;
   user-select: none;
   transition: 0.3s;
@@ -1038,7 +1040,7 @@ export default {
   display: flex;
   margin-bottom: 5px;
   position: absolute;
-  top: -26px;
+  top: -31px;
   left: 0;
   right: 0;
   z-index: 1;
@@ -1046,7 +1048,7 @@ export default {
 
 .emojis-button {
   font-size: 20px;
-  color: #a5bec4;
+  color: rgba(255, 255, 255, 0.5);
   background: transparent;
   border: none;
   outline: none;
