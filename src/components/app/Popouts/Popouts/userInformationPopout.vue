@@ -414,9 +414,10 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+@import "@/styles/global";
 .playing-status {
   width: 100%;
-  background: rgba(0, 0, 0, 0.3);
+  background: $primary-button-color;
   .title {
     margin-top: 4px;
     font-size: 15px;
@@ -451,11 +452,7 @@ export default {
   flex-direction: column;
   flex: 1;
   color: white;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 87, 153, 0.8) 0,
-    rgba(0, 118, 209, 0.8)
-  );
+  background: $other-box-color;
   width: 250px;
   border-radius: 4px;
   backdrop-filter: blur(5px);
@@ -540,13 +537,13 @@ export default {
   }
   &:hover {
     color: white;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(255, 255, 255, 0.1);
   }
 }
 
 .drop-background {
   position: absolute;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.7);
   top: 0;
   left: 0;
   right: 0;
@@ -564,11 +561,7 @@ export default {
   flex-direction: row;
   position: relative;
   box-shadow: 0px 0px 20px 5px #151515bd;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 87, 153, 0.8) 0,
-    rgba(0, 118, 209, 0.8)
-  );
+  background: $other-box-color;
   border-radius: 4px;
   backdrop-filter: blur(5px);
   overflow: hidden;
@@ -605,8 +598,9 @@ export default {
   align-content: center;
   padding-bottom: 10px;
   flex-shrink: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: $box-secondary-color;
   padding-top: 30px;
+  box-shadow: 0px 0px 5px 0px black;
 }
 
 .createdBy .name {
@@ -658,6 +652,7 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
+  border-radius: 4px;
   background: rgb(51, 163, 255);
   z-index: -1;
   opacity: 0.8;

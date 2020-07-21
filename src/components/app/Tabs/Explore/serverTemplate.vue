@@ -103,6 +103,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/styles/global";
 .pfp {
   position: relative;
   .verified {
@@ -129,7 +130,8 @@ export default {
   position: relative;
   width: 250px;
   height: 300px;
-  background: rgba(0, 0, 0, 0.2);
+  background: $other-box-color;
+  box-shadow: 0px 0px 5px 0px #000000bd;
   margin: 5px;
   border-radius: 4px;
   flex-shrink: 0;
@@ -138,9 +140,12 @@ export default {
   flex-shrink: 0;
   flex-direction: column;
   overflow: hidden;
+
   .top {
     display: flex;
     flex-direction: column;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0px 0px 5px 0px #000000bd;
     width: 100%;
     height: 150px;
     justify-content: center;
@@ -194,7 +199,6 @@ export default {
   .bottom {
     display: flex;
     flex-direction: column;
-    background: rgba(0, 0, 0, 0.3);
     flex: 1;
     height: 100%;
     flex-shrink: 0;
@@ -229,7 +233,7 @@ export default {
       border-radius: 4px;
       margin-right: 10px;
       flex: 1;
-      background: rgba(0, 0, 0, 0.3);
+      background: rgba(255, 255, 255, 0.3);
       .material-icons {
         margin-right: 5px;
       }
@@ -241,13 +245,13 @@ export default {
       width: 100%;
       text-align: center;
       height: 36px;
-      border-radius: 2px;
-      background: rgba(0, 179, 219, 0.8);
+      border-radius: 4px;
+      background: $primary-button-color;
       transition: 0.2s;
       margin-right: 10px;
       cursor: pointer;
       &:hover {
-        background: #00b4db;
+        opacity: 0.8;
       }
       &.selected {
         background: grey;

@@ -169,7 +169,8 @@ body {
   justify-content: center;
   z-index: 9999;
   padding-bottom: 20px;
-  background: rgba(0, 0, 0, 0.4);
+  box-shadow: 0px 0px 5px 0px #000000bd;
+  background: $box-secondary-color;
   border-radius: 4px;
 }
 .server {

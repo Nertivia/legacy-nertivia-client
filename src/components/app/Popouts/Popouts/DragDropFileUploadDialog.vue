@@ -9,10 +9,11 @@
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+@import "@/styles/global";
 .drop-background {
   position: absolute;
-  background: rgba(0, 0, 0, 0.521);
+  background: rgba(0, 0, 0, 0.7);
   top: 0;
   left: 0;
   right: 0;
@@ -30,7 +31,7 @@
   user-select: none;
   overflow: hidden;
   box-shadow: 0px 0px 20px 5px #151515bd;
-  background-color: rgba(0, 0, 0, 0.7);
+  background: $other-box-color;
   backdrop-filter: blur(5px);
   border-radius: 4px;
 }

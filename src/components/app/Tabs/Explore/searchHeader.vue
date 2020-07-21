@@ -81,11 +81,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/styles/global";
 .search-header {
   display: flex;
-  background: rgba(0, 0, 0, 0.55);
-  width: 100%;
-  height: 100px;
+  background: $box-secondary-color;
+  box-shadow: 0px 0px 3px 0px rgb(0, 0, 0);
+  margin: 5px;
+  border-radius: 5px;
+  min-height: 100px;
   flex-shrink: 0;
 }
 .search-area {
@@ -106,6 +109,7 @@ input {
 
 .filter-area {
   display: flex;
+  flex-wrap: wrap;
 }
 .filter {
   margin-top: 2px;
@@ -144,6 +148,31 @@ input {
   }
 }
 
+@media (max-width: 429px) {
+  .filter-area {
+    flex-direction: column;
+    margin-top: 10px;
+    .title {
+      margin-top: 0;
+      flex-shrink: 0;
+    }
+    .filter-item {
+      flex-direction: row;
+      width: 100%;
+      margin-top: 0;
+      height: initial;
+      .item {
+        margin-left: 10px;
+      }
+    }
+    .filter{
+      display: flex;
+      width: 100%;
+      height: initial;
+      flex-direction: row;
+    }
+  }
+}
 @media (max-width: 945px) {
   .search-header {
     flex-direction: column;

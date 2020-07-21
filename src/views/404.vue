@@ -95,7 +95,8 @@ body {
   align-items: center;
   z-index: 9999;
   padding-bottom: 20px;
-  background: rgba(0, 0, 0, 0.4);
+  background: $box-secondary-color;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.651);
   border-radius: 4px;
 }
 .box .title {

@@ -135,7 +135,7 @@ body {
 <style scoped lang="scss">
 @import "@/styles/global";
 .perms-box {
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 4px;
   padding: 10px;
   margin-bottom: 5px;
@@ -218,7 +218,8 @@ body {
   justify-content: center;
   z-index: 9999;
   padding-bottom: 10px;
-  background: rgba(0, 0, 0, 0.4);
+  box-shadow: 0px 0px 5px 0px #000000bd;
+  background: $box-secondary-color;
   border-radius: 4px;
 }
 .server {

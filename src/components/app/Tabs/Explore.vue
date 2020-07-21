@@ -208,12 +208,12 @@ export default {
       transition: 0.3s;
       color: rgba(255, 255, 255, 0.8);
       &:hover {
-        background: rgba(0, 0, 0, 0.2);
+        background: rgba(255, 255, 255, 0.1);
         color: white;
       }
       &.selected {
         color: white;
-        background: rgba(0, 0, 0, 0.4);
+        background: $primary-button-color;
       }
     }
     .item:nth-child(2)::before {
@@ -229,9 +229,11 @@ export default {
   .header {
     display: flex;
     height: 100px;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.1);
     user-select: none;
     flex-shrink: 0;
+    border-radius: 5px;
+    margin: 5px;
     .icon {
       display: flex;
       flex-direction: column;
@@ -263,7 +265,7 @@ export default {
         position: relative;
       }
       .description {
-        color: #b2d1d4;
+        color: #ffffffc2;
         font-size: 14px;
       }
     }
@@ -345,9 +347,12 @@ export default {
 
 .right-panel {
   .header {
-    background: rgba(0, 0, 0, 0.4);
-    padding-left: 10px;
-    height: 54px;
+    background: rgba(73, 131, 219, 0.71);
+    box-shadow: 0px 0px 5px 1px rgb(0, 0, 0);
+    border-radius: 5px;
+    height: 44px;
+    padding-left: 5px;
+    margin: 5px;
     display: flex;
     align-items: center;
     align-content: center;

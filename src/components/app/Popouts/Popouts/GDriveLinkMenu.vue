@@ -54,14 +54,15 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import "@/styles/global";
 .dark-background {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(0, 0, 0, 0.781);
+  background: rgba(0, 0, 0, 0.7);
   z-index: 11111111133451111;
   display: flex;
 }
@@ -75,11 +76,7 @@ export default {
   color: white;
   overflow: hidden;
   box-shadow: 0px 0px 20px 5px #151515bd;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 87, 153, 0.8) 0,
-    rgba(0, 118, 209, 0.8)
-  );
+  background: $other-box-color;
   border-radius: 4px;
   backdrop-filter: blur(5px);
 }
@@ -125,7 +122,7 @@ export default {
 .button {
   display: inline-block;
   margin: auto;
-  background: rgb(32, 118, 255);
+  background: $primary-button-color;
   padding: 10px;
   cursor: pointer;
   user-select: none;
@@ -139,7 +136,8 @@ export default {
 }
 
 .button:hover {
-  background: rgb(58, 134, 255);
+  background: $primary-button-color;
+  opacity: 0.8;
 }
 .donate:hover {
   background: rgb(199, 164, 6);

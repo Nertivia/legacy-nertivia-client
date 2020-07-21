@@ -51,10 +51,11 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import "@/styles/global";
 .darken-background {
   position: absolute;
-  background: rgba(0, 0, 0, 0.541);
+  background: rgba(0, 0, 0, 0.7);
   top: 0;
   bottom: 0;
   left: 0;
@@ -73,11 +74,7 @@ export default {
   padding: 10px;
   overflow: hidden;
   box-shadow: 0px 0px 20px 5px #151515bd;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 87, 153, 0.8) 0,
-    rgba(0, 118, 209, 0.8)
-  );
+  background: $other-box-color;
   border-radius: 4px;
   backdrop-filter: blur(5px);
 }
@@ -110,10 +107,11 @@ export default {
   cursor: pointer;
 }
 .valid {
-  background: rgba(0, 0, 0, 0.2);
+  background: $primary-button-color;
+  opacity: 0.8;
 }
 .valid:hover {
-  background: rgba(0, 0, 0, 0.4);
+  opacity: 1;
 }
 .warning {
   background: rgba(255, 67, 67, 0.7);

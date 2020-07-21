@@ -1,5 +1,6 @@
 <template>
     <div class="input" :class="theme">
+        <div class="error" v-if="error">{{ error }}</div>
         <div class="name">{{ name }}</div>
         <input ref="input" v-if="type === undefined | type !== 'textarea'" class="text-input" @input="event('input', $event)" :value="value" :autocomplete="autocomplete || 'on'"  :default-value.prop="defaultValue" :type="type || 'text'">
         <textarea v-if="type && type === 'textarea'" class="text-input" @input="event('input', $event)" :default-value.prop="defaultValue" :value="value"/>
@@ -19,6 +20,7 @@ export default {
         type: String,
         autocomplete: String,
         theme: String,
+        error: String,
     },
     methods: {
         updateVal(val) {
@@ -43,6 +45,13 @@ export default {
     background: rgba(0, 0, 0, 0.2);
     border-radius: 4px;
     align-self: flex-start;
+}
+.error {
+    color: white;
+    background: rgb(255, 71, 71);
+    border-radius: 4px;
+    font-size: 14px;
+    padding: 3px;
 }
 .name {
     margin: 5px;

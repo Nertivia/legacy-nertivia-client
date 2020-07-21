@@ -32,14 +32,13 @@
                 size="90px"
                 :avatar="undefined"
               />
-              <div class="input">
-                <div class="input-name">Server Name</div>
-                <input
-                  v-model="serverName"
-                  type="text"
-                  placeholder="Server Name"
-                />
-              </div>
+              <custom-input
+                theme="light"
+                class="input"
+                type="text"
+                v-model="serverName"
+                name="Server Name"
+              />
               <span v-if="serverNameError" class="warn">{{
                 serverNameError
               }}</span>
@@ -52,15 +51,14 @@
         <div v-if="tab == 1" key="check-invite" class="content">
           <i class="material-icons icon">forum</i>
           <div class="title">Join A Server</div>
-          <div class="input">
-            <div class="input-name">
-              Invite Code
-              <span v-if="inviteCodeError" class="warn"
-                >- {{ inviteCodeError }}</span
-              >
-            </div>
-            <input v-model="inviteCode" type="text" placeholder="Invite code" />
-          </div>
+            <custom-input
+              theme="light"
+              class="input"
+              type="text"
+              :error="inviteCodeError"
+              v-model="inviteCode"
+              name="Invite Code"
+            />
           <div class="button check-button" @click="checkInviteCode">Check</div>
         </div>
         <div v-if="tab == 2" key="join-server" class="content server">
@@ -110,9 +108,9 @@
 import ServerService from "@/services/ServerService";
 import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
 import ErrorsListTemplate from "@/components/app/errorsListTemplate";
-
+import CustomInput from "@/components/global/CustomInput";
 export default {
-  components: { ProfilePicture, ErrorsListTemplate },
+  components: { ProfilePicture, ErrorsListTemplate, CustomInput },
   data() {
     return {
       tab: 0,
@@ -218,7 +216,8 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import "@/styles/global";
 .slide-forward-enter-active,
 .slide-forward-leave-active {
   transition: 0.3s;
@@ -254,7 +253,7 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(0, 0, 0, 0.541);
+  background: rgba(0, 0, 0, 0.7);
   z-index: 111111;
   display: flex;
 }
@@ -268,11 +267,7 @@ export default {
   color: white;
   overflow: hidden;
   box-shadow: 0px 0px 20px 5px #151515bd;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 87, 153, 0.8) 0,
-    rgba(0, 118, 209, 0.8)
-  );
+  background: $other-box-color;
   border-radius: 4px;
   backdrop-filter: blur(5px);
 }
@@ -338,11 +333,6 @@ export default {
   align-self: center;
   margin-top: 15px;
   margin-bottom: 10px;
-  background-color: rgba(0, 0, 0, 0.4);
-  padding: 10px;
-  border-radius: 4px;
-}
-.input input {
   border-radius: 4px;
 }
 
@@ -359,7 +349,8 @@ export default {
 
 .button {
   padding: 5px;
-  background-color: rgba(0, 0, 0, 0.2);
+  background: $primary-button-color;
+  opacity: 0.8;
   user-select: none;
   border: none;
   color: white;
@@ -372,7 +363,7 @@ export default {
   border-radius: 4px;
 }
 .button:hover {
-  background-color: rgba(0, 0, 0, 0.4);
+  opacity: 1;
 }
 
 .button-clicked {

@@ -40,7 +40,8 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import "@/styles/global";
 .profile-popout {
   position: absolute;
   display: flex;
@@ -55,14 +56,15 @@ export default {
   height: 0;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  border-bottom: 15px solid rgba(0, 0, 0, 0.7);
+  border-bottom: 15px solid $box-secondary-color;
 }
 .inner {
   right: 0;
   top: 15px;
   position: absolute;
   display: flex;
-  background: rgba(0, 0, 0, 0.7);
+  background: $box-secondary-color;
+  box-shadow: 2px 2px 5px 0px rgba(0, 0, 0,.49);
   backdrop-filter: blur(5px);
   border-radius: 5px;
   width: 300px;

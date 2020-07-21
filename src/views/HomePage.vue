@@ -8,7 +8,8 @@
           <div class="logo" />
           <div class="name">Nertivia</div>
           <div class="links">
-            <div v-if="!loggedIn" class="link" @click="showSignupPage = true">Sign up</div>
+            <!-- <div v-if="!loggedIn" class="link" @click="showSignupPage = true">Sign up</div> -->
+            <div v-if="!loggedIn" class="link" @click="registerPage">Sign up</div>
             <div v-if="!loggedIn" class="link" @click="loginPage">Login</div>
             <spinner
               v-if="loggedIn && !user"
@@ -124,6 +125,9 @@ export default {
     },
     loginPage() {
       window.location.href = "/login";
+    },
+    registerPage() {
+      window.location.href = "/register";
     },
     openApp() {
       window.location.href = "/app";
