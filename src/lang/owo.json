@@ -1,0 +1,65 @@
+{
+    "explore": "Expwowe",
+    "explore-desc": "Find new sewrews, emojis and mowe!",
+    "servers": "Sewrews",
+    "join-server": "Join sewrews",
+    "themes": "Themes",
+    "emoji-packs": "Emoji Packs",
+    "message-styles": "Message Stywes",
+    "created-by": "Cweated By",
+    "filter": "Fiwtew",
+    "sort-by": "Sowt By",
+
+    "all": "Aww",
+    "verified": "Vewified",
+    "most-users": "Most Usews",
+    "least-users": "Least Usews",
+    "alphabetical": "Awphabeticaw",
+    "date-added": "Date Added",
+
+    "explore-support-message": "Suppowt Nertivia by donating any amount of money. You wiww get a suppowtew badge and mowe featuwes in the futuwe.",
+    "support-message-settings": "Suppowt Nertivia. You wiww get a badge.",
+    "donate": "Donate",
+
+    "join": "Join",
+    "join-card-message": "Join the officiaw Nertivia sewrew",
+    "coming-soon!": "Coming soon!",
+
+    "joined": "Joined",
+    "apply": "Appwy",
+    "unapply": "Unappwy",
+    "copy-link": "Copy Link",
+
+    "clone": "Cwone",
+    "cloning": "Cwoning...",
+    "cloned": "Cloned",
+    "theme-safe-message": "Themes bewow awe safe and manuawwy weviewed.",
+
+    "friends": "Fwiends",
+    "pending": "Pending",
+    "recents": "Recents",
+
+    "online": "Onwine",
+    "away": "Away",
+    "busy": "Busy",
+    "looking-to-play": "Looking to pway",
+    "offline": "Offwine",
+
+    "add-friends-message": "Add some fwiends.",
+    "offline-message": "Aww of youw fwiends awe offwine.",
+    "saved-notes": "Saved Notes",
+    "select-person-message": "Sewect a pewson to message!",
+    "message": "Message",
+
+    "add-server": "Add Sewrew",
+    "add-friend": "Add Fwiend",
+    "add-friend-message": "Add fwiends by using theiw usewname and tag.",
+    "adding": "Adding...",
+    "create": "Cweate",
+
+    "new-messages": "New messages",
+
+    "today-at": "Today at {0}",
+    "yesterday-at": "Yestewday at {0}",
+    "send-a-message": "Send a message"
+}
