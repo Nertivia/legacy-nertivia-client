@@ -70,7 +70,7 @@ export default {
         hr: {
           name: "Croatia",
           emoji: require(`@/assets/twemoji/1f1ed-1f1f7.svg`),
-        }
+        },
         owo: {
           name: "OwO",
           emoji: require(`@/assets/twemoji/1f431.svg`),
