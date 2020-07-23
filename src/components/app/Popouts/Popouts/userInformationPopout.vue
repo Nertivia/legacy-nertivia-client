@@ -98,9 +98,9 @@
           <div v-else-if="customStatus && status" class="playing-status">
             <div class="title">Custom Status:</div>
             <div class="status program-activity">
-              <SimpleMarkdown
+              <Markup
                 class="custom-status"
-                :message="customStatus"
+                :text="customStatus"
               />
             </div>
           </div>
@@ -118,10 +118,10 @@
               >
                 <div class="key">{{ aboutItem.key }}:</div>
                 <div class="emoji" v-if="aboutItem.emoji" v-html="aboutItem.emoji"></div>
-                <SimpleMarkdown
+                <Markup
                   class="name"
                   v-if="aboutItem.key === 'About me'"
-                  :message="aboutItem.name"
+                  :text="aboutItem.name"
                 />
                 <div class="name" v-else>{{ aboutItem.name }}</div>
               </div>
@@ -209,13 +209,12 @@ import userService from "@/services/userService.js";
 import relationshipService from "@/services/RelationshipService.js";
 import surveyItems from "@/utils/surveyItems.js";
 import emojiParser from "@/utils/emojiParser.js";
-import messageFormatter from "@/utils/messageFormatter.js";
-import SimpleMarkdown from "@/components/app/SimpleMarkdown";
+import Markup from "@/components/app/Markup.vue";
 import badges from "@/utils/Badges";
 import friendlyDate from "@/utils/date";
 
 export default {
-  components: { Spinner, profilePicture, SimpleMarkdown },
+  components: { Spinner, profilePicture, Markup },
   data() {
     return {
       surveyItems: Object.assign({}, surveyItems),
@@ -274,9 +273,6 @@ export default {
     emojiParse(emoji) {
       if (emoji.startsWith("<img")) return emoji;
       return emojiParser.replaceEmojis(emoji);
-    },
-    formatAboutMe(string) {
-      return messageFormatter(string);
     },
     capitalize(s) {
       if (typeof s !== "string") return "";

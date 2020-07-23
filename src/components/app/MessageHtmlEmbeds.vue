@@ -1,48 +1,45 @@
-<template>
-  <div class="html-embed" @click="clickEvent" >
-    <div class="embed" v-html="html" />
-  </div>
-</template>
-
 <script>
 import { unzipAlt } from "@/utils/zip";
-import messageFormatter from "@/utils/messageFormatter";
+import Markup from "@/components/app/Markup.vue";
 export default {
   props: ["embed"],
   methods: {
-      clickEvent(e) {
-          e.preventDefault()
-          if (e.target.nodeName === "A") {
-              const link = e.target.getAttribute("href");
-              if (!link) return;
-                this.$store.dispatch("setAllPopout", {
-                    show: true,
-                    type: "OPEN_LINK_CONFIRM",
-                    link: link,
-                });
-          }
-      },
-      unescapeHtml(unsafe) {
-        return unsafe
-          .replace(/&amp;/g, "&")
-          .replace(/&lt;/g, "<")
-          .replace(/&gt;/g, ">")
-          .replace(/&quot;/g, "\"")
-          .replace(/&#039;/g, "'");
+    clickEvent(e) {
+      e.preventDefault();
+      if (e.target.nodeName === "A") {
+        const link = e.target.getAttribute("href");
+        if (!link) return;
+        this.$store.dispatch("setAllPopout", {
+          show: true,
+          type: "OPEN_LINK_CONFIRM",
+          link: link
+        });
       }
-  },
-  computed: {
-    html() {
-      const div = unzipAlt(this.embed);
-      const el = document.createElement("div");
-      el.innerHTML = div;
-
-      el.querySelectorAll(".content").forEach(e => {
-        e.innerHTML = messageFormatter(this.unescapeHtml(e.innerHTML))
-      })
-
-      return el.innerHTML;
+    },
+    unescapeHtml(unsafe) {
+      return unsafe
+        .replace(/&amp;/g, "&")
+        .replace(/&lt;/g, "<")
+        .replace(/&gt;/g, ">")
+        .replace(/&quot;/g, '"')
+        .replace(/&#039;/g, "'");
     }
+  },
+  render() {
+    const div = unzipAlt(this.embed);
+    const el = document.createElement("div");
+    el.innerHTML = div;
+    const list = [];
+
+    el.querySelectorAll(".content").forEach(e => {
+      list.push(<Markup text={this.unescapeHtml(e.textContent)} />);
+    });
+
+    return (
+      <div class="html-embed" vOn:click={this.clickEvent}>
+        <div class="embed">{list}</div>
+      </div>
+    );
   }
 };
 </script>
@@ -73,7 +70,6 @@ export default {
   overflow-wrap: anywhere;
   position: relative;
 }
-
 </style>
 <style>
 .html-embed a {

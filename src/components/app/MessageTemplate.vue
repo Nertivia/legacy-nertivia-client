@@ -55,7 +55,7 @@
               >alternate_email</div>
             </div>
             <div class="inner-content">
-              <SimpleMarkdown
+              <Markup
                 @contextmenu.native="openContextMenu($event, true)"
                 class="content-message"
                 :style="[
@@ -63,8 +63,8 @@
                   ? { color: message.color }
                   : '',
               ]"
-                :message="message.message"
-                :content="message"
+                :text="message.message"
+                :message="message"
               />
 
               <FileMessage v-if="getFile && !getFile.fileName.endsWith('.mp3')" :file="getFile" />
@@ -146,7 +146,7 @@ import FileMessage from "./FileMessage.vue";
 import InviteMessage from "./InviteMessage.vue";
 import ThemeMessage from "./ThemeMessage.vue";
 import MusicMessage from "./MusicMessage.vue";
-import SimpleMarkdown from "./SimpleMarkdown.vue";
+import Markup from "./Markup.vue";
 import messageEmbedTemplate from "./messageEmbedTemplate";
 
 const MessageHtmlEmbeds = () => import("./MessageHtmlEmbeds");
@@ -168,7 +168,7 @@ export default {
   components: {
     ProfilePicture,
     messageEmbedTemplate,
-    SimpleMarkdown,
+    Markup,
     PresenceMessage,
     FileMessage,
     MusicMessage,
