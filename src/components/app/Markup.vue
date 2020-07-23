@@ -21,12 +21,12 @@ const MARKUP_PARTS = {
   italic: /\/\/([^_]+?)\/\//,
   underline: /__([^_]+?)__/,
   strike: /~~([^~]+?)~~/,
-  codeblock: /```(\S*?)\n([^]+?)\n?```/,
+  codeblock: /```(\w*?)\n([^]+?)\n?```/,
   inlineCodeblock: /```([^`]+?)```/,
   code: /``([^`]+?)``/,
   link: /https?:\/\/\S+\.\S+/,
   escape: /\\([*_~`\\>])/,
-  blockquote: /(?:^|\n)> ([^]+?)(?=(?:\n[^>])|$)/,
+  blockquote: /((?:^|\n)> )([^]+?)(?=(?:\n[^>])|$)/,
   userMention: /<@(\d+)>/,
   channelMention: /<#(\d+)>/,
   messageQuote: /<m(\d+)>/,
@@ -104,12 +104,13 @@ function transformEntity(entity, root = true) {
     case "blockquote": {
       if (!root) {
         return {
-          text: ["> ", parseRichText(entity.params[0], false)]
+          text: [entity.params[0], parseRichText(entity.params[1], false)]
         };
       }
-      // todo(@brecert): this isn't very performant or clean, please change
+
       entity.children = parseRichText(
-        entity.params[0].split("\n> ").join("\n")
+        entity.params[1].split("\n> ").join("\n"),
+        false
       );
       return entity;
     }
@@ -378,7 +379,7 @@ export default {
             case "ruby": {
               let characters = [];
               for (let match of entity.expression.matchAll(/(.+?)\((.+?)\)/g)) {
-                const [raw, below, above] = match;
+                const [, below, above] = match;
                 characters.push(
                   <div>
                     <rb>{below}</rb>
