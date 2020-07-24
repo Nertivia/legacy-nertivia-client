@@ -219,6 +219,10 @@ export default {
   props: {
     text: String,
     message: Object,
+    largeEmoji: {
+      type: Boolean,
+      default: () => false
+    },
     features: {
       type: Object,
       default: () => ({})
@@ -415,7 +419,7 @@ export default {
 
     const markup = parse(this.text || "");
     return (
-      <div class={{ "large-emojis": emojiCount <= 5 && depth <= 1 }}>
+      <div class={{ "large-emojis": (this.largeEmoji !== false) && emojiCount <= 5 && depth <= 1 }}>
         {markup}
       </div>
     );
