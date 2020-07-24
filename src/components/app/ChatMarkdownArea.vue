@@ -9,7 +9,7 @@
     </div>
     <div
       class="material-icons markdown-icon"
-      @click="addFormat('_')"
+      @click="addFormat('//')"
       title="Italic"
     >
       format_italic

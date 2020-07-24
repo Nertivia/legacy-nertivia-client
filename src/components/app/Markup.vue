@@ -1,6 +1,7 @@
 <script>
 import { store } from "@/store/index";
 import MemberMention from "./markup/MemberMention.vue";
+import Link from "./markup/Link.vue";
 import ChannelMention from "./markup/ChannelMention.vue";
 import MessageQuote from "./markup/MessageQuote.vue";
 import config from "@/config.js";
@@ -277,11 +278,7 @@ export default {
         case "reset":
           return <span class="reset">{parseChildren(entity.children)}</span>;
         case "link":
-          return (
-            <a class="link" href={entity.link} target="_blank">
-              {parseChildren(entity.children)}
-            </a>
-          );
+          return <Link class="link" name={parseChildren(entity.children)} link={entity.link}  />;
         case "escape":
           return entity.token;
         case "codeblock":
