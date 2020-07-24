@@ -499,3 +499,69 @@ img.emoji[alt] {
   text-decoration: underline;
 }
 </style>
+
+<!-- EXAMPLE -->
+<!-- 
+```
+**bold**
+//italic//
+__underline__
+~~strikethrough~~
+``code``
+\`\`\`codeblock\`\`\`
+\\*escaped\\*
+https://example.com link
+<@263063969279190832> member mention
+<#6654140632111517696> channel
+> blockquote
+
+> > no nested blockquote
+
+> joined
+> blockquote
+
+> joined
+> > no nested blockquote
+
+:sparkles: emoji
+<:cat:6659355225142333440> custom emoji
+{|#|pink} custom expression
+§8§m egg §r reset
+```
+
+**bold**
+//italic//
+__underline__
+~~strikethrough~~
+``code``
+```codeblock```
+\*escaped\*
+https://example.com link
+<@263063969279190832> member mention
+<#6654140632111517696> channel
+> blockquote
+
+> > no nested blockquote
+
+> joined
+> blockquote
+
+> joined
+> > no nested blockquote
+
+:sparkles: emoji
+<:cat:6659355225142333440> custom emoji
+{|#|pink} custom expression
+§8§m egg §r reset
+
+Custom Expressions:
+```
+{|#|#cafe}text color§r
+{|link| https://example.com -> named link -> more }
+{|ruby| ブリー(bree) } https://en.wikipedia.org/wiki/Ruby_character
+```
+
+{|#|#cafe}text color§r
+{|link| https://example.com -> named link -> more }
+{|ruby| ブリー(bree) } https://en.wikipedia.org/wiki/Ruby_character
+-->
