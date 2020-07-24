@@ -1,5 +1,5 @@
 <template>
-  <a :href="linkHttp" target="_blank" @click.prevent="showLinkWarning">{{name[0]}}</a>
+  <a :href="linkHttp" target="_blank" @click.prevent="showLinkWarning">{{name}}</a>
 </template>
 
 <script>

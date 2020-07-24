@@ -1,7 +1,7 @@
 <template>
   <div class="dark-background generic-popout" @mousedown="backgroundClick">
     <div class="inner">
-      <div class="text">Are you sure that you want to visit this potentially harmful link? </div>
+      <div class="text">You are being taken to the following link:</div>
       <div class="link">{{details.link}} </div>
       <div class="buttons">
         <div class="button" @click="closeMenu">Back</div>
@@ -40,7 +40,8 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import "@/styles/global";
 .dark-background {
   position: absolute;
   top: 0;
@@ -55,7 +56,8 @@ export default {
   margin: auto;
   width: 450px;
   max-height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  background: $box-secondary-color;
+  box-shadow: 2px 2px 5px 0px rgba(0, 0, 0,.49);
   display: flex;
   flex-direction: column;
   color: white;
@@ -74,7 +76,7 @@ export default {
   word-break: break-word;
 }
 .link {
-  margin-bottom: 10px;
+  margin-bottom: 30px;
   text-align: center;
   word-break: break-word;
 }
@@ -103,5 +105,8 @@ export default {
 }
 .button.alert {
   background: rgb(255, 46, 46);
+}
+.link {
+  color: #2db2ff;
 }
 </style>
