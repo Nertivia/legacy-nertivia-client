@@ -350,9 +350,19 @@ export default {
         }
         // wrap the rest of the entities in entity_type
         case "consume": {
-          entity.type = entity.consume_type;
-          entity.children = entities;
-          return parseEntity(entity, entities);
+          let consumed = [];
+          let after = [];
+          for (let ent of entities) {
+            if (ent.type === "reset" || (ent.type === "consume" && ent.consume_type === "reset")) {
+              ent.children = entities;
+              after.push(parseEntity(ent, entities));
+              break;
+            }
+            consumed.push(ent);
+          }
+          entity.children = consumed.values()
+          entity.type = entity.consume_type
+          return [parseEntity(entity, entities), after]
         }
         case "color":
           return (
