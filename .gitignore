@@ -20,3 +20,6 @@ yarn-error.log*
 *.sln
 *.sw?
 src/config.js
+
+# yarn instead of npm
+yarn.lock

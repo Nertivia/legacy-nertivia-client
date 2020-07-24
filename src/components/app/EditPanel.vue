@@ -1,17 +1,18 @@
 <template>
   <div class="edit-panel" v-if="currentChannelID === data.channelID">
     <div class="title">Edit Message:</div>
-    <div class="message" v-html="message"></div>
+    <Markup class="message" :text="data.message" />
     <div class="close-button" @click="close">Cancel</div>
   </div>
 </template>
 
 <script>
-import messageFormatter from "@/utils/messageFormatter.js";
+import Markup from './Markup.vue'
 import { bus } from "../../main";
 
 export default {
   props: ["data"],
+  components: { Markup },
   methods: {
     close() {
       this.$store.dispatch("setEditMessage", null);
@@ -32,9 +33,6 @@ export default {
     document.removeEventListener("keydown", this.keyDownEvent);
   },
   computed: {
-    message() {
-      return messageFormatter(this.data.message);
-    },
     currentChannelID() {
       return this.$store.getters.currentChannelID;
     }

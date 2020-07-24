@@ -8,21 +8,21 @@
       v-if="showTextArea"
       placeholder="Click to add status."
     />
-    <SimpleMarkdown
+    <Markup
       class="status-text"
       @click.native="statusTextClicked"
       v-if="!showTextArea"
-      :message="!userStatus ? 'Click to add status.' : userStatus"
+      :text="!userStatus ? 'Click to add status.' : userStatus"
     />
   </div>
 </template>
 
 <script>
-import SimpleMarkdown from "@/components/app/SimpleMarkdown";
+import Markup from "@/components/app/Markup.vue";
 import settingsService from '../../services/settingsService';
 export default {
   components: {
-    SimpleMarkdown,
+    Markup,
   },
   data() {
     return {

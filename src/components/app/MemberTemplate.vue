@@ -23,11 +23,11 @@
         <strong>{{programActivityStatus.status}}</strong>
         <span>{{programActivityStatus.name}}</span>
       </div>
-      <SimpleMarkdown
+      <Markup
         :title="customStatus"
         v-else-if="customStatus && presense"
         class="custom-status"
-        :message="customStatus"
+        :text="customStatus"
       />
     </div>
     <div v-if="type === 'OWNER'" class="type-box">Owner</div>
@@ -37,11 +37,11 @@
 </template>
 
 <script>
-import SimpleMarkdown from "@/components/app/SimpleMarkdown";
+import Markup from "@/components/app/Markup.vue";
 import ProfilePicture from "@/components/global/ProfilePictureTemplate";
 import { containsPerm, permissions } from "../../utils/RolePermissions";
 export default {
-  components: { ProfilePicture, SimpleMarkdown },
+  components: { ProfilePicture, Markup },
   props: ["user", "avatar", "type", "member"],
   data() {
     return {
