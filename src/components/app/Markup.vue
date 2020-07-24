@@ -491,6 +491,11 @@ img.emoji[alt] {
 }
 
 .link {
-  color: #68aaff;
+  color: #ffa700;
+  text-decoration: underline rgba(255,255,255,0.2);
+}
+
+.link:hover {
+  text-decoration: underline;
 }
 </style>
