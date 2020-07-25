@@ -7,6 +7,13 @@ import config from "@/config.js";
 import emojis from "@/utils/emojiData/emojis.json";
 import emojiParser from "@/utils/emojiParser";
 
+let testElement = document.createElement('div')
+const isValidColor = (color) => {
+  testElement.style.color = ""
+  testElement.style.color = color
+  return testElement.style.color.length !== 0
+}
+
 const generateRegex = parts => {
   return RegExp(
     Object.entries(parts)
@@ -32,6 +39,7 @@ const MARKUP_PARTS = {
   messageQuote: /<m(\d+)>/,
   emoji: /:(\w+?):/,
   customEmoji: /<(g?):([\w\d_-]+?):([\w\d_-]+?)>/,
+  color: /{(#(.+?))}/,
   custom: /{\|(.{0,6})\|([^]+?[^\\])}/,
   egg: /§([0-9a-fk-or])/
 };
@@ -173,6 +181,16 @@ function transformEntity(entity, root = true) {
         return { text: entity.text };
       }
       return entity;
+    }
+    case "color": {
+      if(isValidColor(entity.params[1])) {
+        entity.color = entity.params[1]
+      } else if(isValidColor(entity.params[0])) {
+        entity.color = entity.params[0]
+      } else {
+        return { text: entity.text }
+      }
+      return entity
     }
     case "custom": {
       entity.custom_type = entity.params[0];
@@ -391,11 +409,15 @@ export default {
               children: entities
             }, entities)
           }
-          return (
-            <span style={{ color: entity.color }}>
-              {parseChildren(entities)}
-            </span>
-          );
+          if(isValidColor(entity.color)) {
+            return (
+              <span style={{ color: entity.color }}>
+                {parseChildren(entities)}
+              </span>
+            );
+          } else {
+            return entity.text
+          }
         case "custom":
           switch (entity.custom_type) {
             case "link": {
@@ -410,7 +432,7 @@ export default {
             }
             case "#":
               return parseEntity(
-                { type: "color", color: entity.expression.trim() },
+                { type: "color", color: entity.expression.trim(), text: entity.text },
                 entities
               );
             case "ruby": {
