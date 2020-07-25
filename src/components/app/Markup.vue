@@ -385,6 +385,12 @@ export default {
           return [parseEntity(entity, entities), after];
         }
         case "color":
+          if(entity.color === "reset") {
+            return parseEntity({
+              type: "reset",
+              children: entities
+            }, entities)
+          }
           return (
             <span style={{ color: entity.color }}>
               {parseChildren(entities)}
