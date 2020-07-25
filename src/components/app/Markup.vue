@@ -450,7 +450,7 @@ export default {
       <div
         class={{
           "large-emojis":
-            this.largeEmoji !== false && emojiCount <= 5 && depth <= 1
+            textCount === 0 && this.largeEmoji !== false && emojiCount <= 5 && depth <= 1
         }}
       >
         {markup}
