@@ -55,9 +55,7 @@ export default {
   render(ce) {
     const obj = JSON.parse(unzipAlt(this.embed));
     const content = this.contentTemplate(obj);
-
-    const newEl = this.$createElement('div', { class: 'html-embed', on: {click: this.clickEvent}, }, [content]);
-    return newEl
+    return this.$createElement('div', { class: 'html-embed', on: {click: this.clickEvent}, }, [content]);
   }
 };
 </script>
