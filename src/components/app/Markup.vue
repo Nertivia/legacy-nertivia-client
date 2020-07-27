@@ -8,6 +8,13 @@ import config from "@/config.js";
 import emojis from "@/utils/emojiData/emojis.json";
 import emojiParser from "@/utils/emojiParser";
 
+let testElement = document.createElement('div')
+const isValidColor = (color) => {
+  testElement.style.color = ""
+  testElement.style.color = color
+  return testElement.style.color.length !== 0
+}
+
 const generateRegex = parts => {
   return RegExp(
     Object.entries(parts)
@@ -33,6 +40,7 @@ const MARKUP_PARTS = {
   messageQuote: /<m(\d+)>/,
   emoji: /:(\w+?):/,
   customEmoji: /<(g?):([\w\d_-]+?):([\w\d_-]+?)>/,
+  color: /{(#(.+?))}/,
   custom: /{\|(.{0,6})\|([^]+?[^\\])}/,
   egg: /§([0-9a-fk-or])/
 };
@@ -175,6 +183,16 @@ function transformEntity(entity, root = true) {
       }
       return entity;
     }
+    case "color": {
+      if(isValidColor(entity.params[1])) {
+        entity.color = entity.params[1]
+      } else if(isValidColor(entity.params[0])) {
+        entity.color = entity.params[0]
+      } else {
+        return { text: entity.text }
+      }
+      return entity
+    }
     case "custom": {
       entity.custom_type = entity.params[0];
       entity.expression = entity.params[1];
@@ -220,6 +238,10 @@ export default {
   props: {
     text: String,
     message: Object,
+    largeEmoji: {
+      type: Boolean,
+      default: () => false
+    },
     features: {
       type: Object,
       default: () => ({})
@@ -228,10 +250,14 @@ export default {
   render() {
     let depth = 0;
     let emojiCount = 0;
+    let textCount = 0;
     const parse = text => parseEntities(parseRichText(text));
     const parseChildren = children => {
       switch (true) {
         case typeof children === "string":
+          if (children.length >= 1) {
+            textCount += 1;
+          }
           // todo(@brecert): maybe make this part of the initial parsing process for possible performance.
           return children.replace(/\\[\\*/_`{}]/g, e => e[1]);
         case Array.isArray(children):
@@ -255,6 +281,9 @@ export default {
     // use spans when needed to be semantically/accessibly correct
     const parseEntity = (entity, entities) => {
       if (entity.type in this.features && !this.features[entity.type]) {
+        if (entity.text.length >= 1) {
+          textCount += 1;
+        }
         return entity.text;
       }
       switch (entity.type) {
@@ -278,12 +307,14 @@ export default {
         case "reset":
           return <span class="reset">{parseChildren(entity.children)}</span>;
         case "link":
+          textCount += 1;
           return (
             <a class="link" href={entity.link} target="_blank">
               {parseChildren(entity.children)}
             </a>
           );
         case "escape":
+          textCount += 1;
           return entity.token;
         case "codeblock":
           return (
@@ -292,8 +323,10 @@ export default {
             </pre>
           );
         case "blockquote":
+          textCount += 1;
           return <blockquote>{parseChildren(entity.children)}</blockquote>;
         case "userMention": {
+          textCount += 1;
           const member = store.getters["members/members"][entity.member_id];
           if (member != null) {
             return <MemberMention member={member} />;
@@ -302,6 +335,7 @@ export default {
           }
         }
         case "channelMention": {
+          textCount += 1;
           const channel = store.getters.channels[entity.channel_id];
           if (channel != null) {
             return <ChannelMention channel={channel} />;
@@ -310,6 +344,7 @@ export default {
           }
         }
         case "messageQuote": {
+          textCount += 1;
           const quote = this?.message?.quotes?.find(
             q => q.messageID === entity.message_id
           );
@@ -354,23 +389,36 @@ export default {
           let consumed = [];
           let after = [];
           for (let ent of entities) {
-            if (ent.type === "reset" || (ent.type === "consume" && ent.consume_type === "reset")) {
+            if (
+              ent.type === "reset" ||
+              (ent.type === "consume" && ent.consume_type === "reset")
+            ) {
               ent.children = entities;
               after.push(parseEntity(ent, entities));
               break;
             }
             consumed.push(ent);
           }
-          entity.children = consumed.values()
-          entity.type = entity.consume_type
-          return [parseEntity(entity, entities), after]
+          entity.children = consumed.values();
+          entity.type = entity.consume_type;
+          return [parseEntity(entity, entities), after];
         }
         case "color":
-          return (
-            <span style={{ color: entity.color }}>
-              {parseChildren(entities)}
-            </span>
-          );
+          if(entity.color === "reset") {
+            return parseEntity({
+              type: "reset",
+              children: entities
+            }, entities)
+          }
+          if(isValidColor(entity.color)) {
+            return (
+              <span style={{ color: entity.color }}>
+                {parseChildren(entities)}
+              </span>
+            );
+          } else {
+            return entity.text
+          }
         case "custom":
           switch (entity.custom_type) {
             case "link": {
@@ -381,7 +429,7 @@ export default {
             }
             case "#":
               return parseEntity(
-                { type: "color", color: entity.expression.trim() },
+                { type: "color", color: entity.expression.trim(), text: entity.text },
                 entities
               );
             case "ruby": {
@@ -397,6 +445,8 @@ export default {
                   </div>
                 );
               }
+
+              textCount += 1;
               return <ruby>{characters}</ruby>;
             }
             default:
@@ -412,8 +462,16 @@ export default {
     };
 
     const markup = parse(this.text || "");
+    if (textCount === 0 && emojiCount === 0) {
+      return <div>{this.text}</div>;
+    }
     return (
-      <div class={{ "large-emojis": emojiCount <= 5 && depth <= 1 }}>
+      <div
+        class={{
+          "large-emojis":
+            textCount === 0 && this.largeEmoji !== false && emojiCount <= 5 && depth <= 1
+        }}
+      >
         {markup}
       </div>
     );
@@ -490,7 +548,7 @@ img.emoji[alt] {
 
 .link {
   color: #ffa700;
-  text-decoration: underline rgba(255,255,255,0.2);
+  text-decoration: underline rgba(255, 255, 255, 0.2);
 }
 
 .link:hover {

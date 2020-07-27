@@ -65,6 +65,7 @@
               ]"
                 :text="message.message"
                 :message="message"
+                :largeEmoji="true"
               />
 
               <FileMessage v-if="getFile && !getFile.fileName.endsWith('.mp3')" :file="getFile" />
