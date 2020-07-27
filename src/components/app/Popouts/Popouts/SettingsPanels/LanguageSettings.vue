@@ -71,6 +71,10 @@ export default {
           name: "Croatia",
           emoji: require(`@/assets/twemoji/1f1ed-1f1f7.svg`),
         },
+        ptbr: {
+          name: "Brazilian Portuguese",
+          emoji: require(`@/assets/twemoji/1f1e7-1f1f7.svg`),
+        },
         owo: {
           name: "OwO",
           emoji: require(`@/assets/twemoji/1f431.svg`),
