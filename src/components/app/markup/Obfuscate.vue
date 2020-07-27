@@ -7,7 +7,7 @@ export default {
   data: () => ({
     content: null,
 	interval: null,
-	letters: "dajkwdnawjkdnwajkdnwakndwjwdk"
+	letters: "1234567890abcdefghijklmnopqrstuvwxyz~!@#$%^&*()-=_+{}[]"
 
   }),
   methods: {
