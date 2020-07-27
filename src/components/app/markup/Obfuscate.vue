@@ -5,7 +5,7 @@
 export default {
   props: ["text"],
   data: () => ({
-    content: "sdf",
+    content: null,
 	interval: null,
 	letters: "dajkwdnawjkdnwajkdnwakndwjwdk"
 
@@ -26,23 +26,19 @@ export default {
         .join("");
     }
   },
-  watch: {
-	  text() {
-		  console.log("update")
-	  }
-  },
   mounted() {
 	this.content = this.text[0];
-	// console.log(this.text)
-    this.content = this.obfuscateText(this.content);
-    setInterval(() => {
-      this.content = this.obfuscateText(this.content);
-    }, 200);
+
+	this.content = this.obfuscateText(this.text[0]);
+	this.interval = setInterval(() => {
+		this.content = this.obfuscateText(this.text[0]);
+	}, 200);
+  },
+  beforeDestroy() {
+	  clearInterval(this.interval);
   },
   render() {
-    this.text[0] = this.content;
-    const owo = this.$createElement("span", this.text);
-    return owo;
+    return this.$createElement("span", this.content);
   }
 };
 </script>
