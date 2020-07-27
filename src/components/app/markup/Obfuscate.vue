@@ -15,15 +15,14 @@ export default {
       return [...text]
         .map(
           (ch, i) =>
-            this.letters[
+            this.$createElement('div', {class: 'obfuscate'} ,this.letters[
               (ch.charCodeAt(0) +
                 Math.floor(Math.random() * 10) +
                 offset +
                 i * i) %
                 this.letters.length
-            ]
+            ])
         )
-        .join("");
     }
   },
   mounted() {
@@ -32,7 +31,7 @@ export default {
 	this.content = this.obfuscateText(this.text[0]);
 	this.interval = setInterval(() => {
 		this.content = this.obfuscateText(this.text[0]);
-	}, 200);
+	}, 50);
   },
   beforeDestroy() {
 	  clearInterval(this.interval);
@@ -42,3 +41,11 @@ export default {
   }
 };
 </script>
+
+<style >
+.obfuscate {
+  display: inline-block;
+  width: 9px;
+  text-align: center;
+}
+</style>
