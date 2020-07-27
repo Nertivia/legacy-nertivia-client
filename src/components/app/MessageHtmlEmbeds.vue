@@ -23,23 +23,39 @@ export default {
         .replace(/&gt;/g, ">")
         .replace(/&quot;/g, '"')
         .replace(/&#039;/g, "'");
-    }
+    },
+    contentTemplate(json) {
+      if (json.styles && json.styles.backgroundImage) {
+        json.styles.backgroundImage = `url("https://proxi.bree.workers.dev/cdn/${ encodeURIComponent(json.styles.backgroundImage)}")`
+      }
+
+      const el = this.$createElement(json.tag, {style: json.styles});
+      el.children = [];
+
+      if (typeof json.content === "object") {
+		      if (Array.isArray(json.content)) {
+            for (let c = 0; c < json.content.length; c++) {
+              const jsonContent = json.content[c];
+              el.children.push(this.contentTemplate(jsonContent));
+            }
+            return el;
+          } else {
+              el.children.push(this.contentTemplate(json.content));
+			        return el
+          }
+      }
+
+      if (json.content) {
+        el.children = [<Markup class='content' text={json.content} />];
+      }
+
+      return el
+    },
   },
-  render() {
-    const div = unzipAlt(this.embed);
-    const el = document.createElement("div");
-    el.innerHTML = div;
-    const list = [];
-
-    el.querySelectorAll(".content").forEach(e => {
-      list.push(<Markup text={this.unescapeHtml(e.textContent)} />);
-    });
-
-    return (
-      <div class="html-embed" vOn:click={this.clickEvent}>
-        <div class="embed">{list}</div>
-      </div>
-    );
+  render(ce) {
+    const obj = JSON.parse(unzipAlt(this.embed));
+    const content = this.contentTemplate(obj);
+    return this.$createElement('div', { class: 'html-embed', on: {click: this.clickEvent}, }, [content]);
   }
 };
 </script>

@@ -1,6 +1,7 @@
 <script>
 import { store } from "@/store/index";
 import MemberMention from "./markup/MemberMention.vue";
+import Link from "./markup/Link.vue";
 import ChannelMention from "./markup/ChannelMention.vue";
 import MessageQuote from "./markup/MessageQuote.vue";
 import config from "@/config.js";
@@ -424,11 +425,7 @@ export default {
               const [url, text] = entity.expression
                 .split("->")
                 .map(s => s.trim());
-
-              return parseEntity(
-                { type: "link", children: parseRichText(text), link: url },
-                entities
-              );
+              return <Link class="link" name={text} link={url}  />;
             }
             case "#":
               return parseEntity(
