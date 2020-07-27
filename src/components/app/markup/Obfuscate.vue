@@ -1,41 +1,48 @@
-<template>
-	<span ref="root"><slot></slot></span>
-</template>
 
 <script>
-	// const letters = "1234567890abcdefghijklmnopqrstuvwxyz~!@#$%^&*()-=_+{}[]"
+// const letters = "1234567890abcdefghijklmnopqrstuvwxyz~!@#$%^&*()-=_+{}[]"
 
-	export default {
-		props: ["member"],
-		data: () => ({
-			interval: null,
-		}),
-		methods: {
-			openUserInfo: function() {
-				this.$store.dispatch('setUserInformationPopout', this.member.uniqueID)
-			},
-			obfuscateChildren: function() {
-				const nodes = document.createTreeWalker(this.$refs.root, NodeFilter.SHOW_TEXT)
-				let node
-				while((node = nodes.nextNode()) != null) {
-					// node.nodeValue = [...node.textContent].map(i => letters[(i.charCodeAt(0)+Math.floor(this.interval))%letters.length]).join("")
-					node.nodeValue = `[...node.textContent].map(i => letters[(i.charCodeAt(0)+Math.floor(this.interval))%letters.length]).join("")`
-					// this.append(node)
-					this.$refs.root = "dajkwdnawjkdnwajkdnwakndwjwdk"
-				}
-			},
-			update: function() {
-				this.obfuscateChildren()
-			},
-			mounted: function() {
-				this.resetInterval()
-			},
-			resetInterval: function() {
-				clearInterval(this.interval)
-				this.interval = setInterval(() => {
-					this.obfuscateChildren()
-				}, 200)
-			}
-		}
-	}
+export default {
+  props: ["text"],
+  data: () => ({
+    content: "sdf",
+	interval: null,
+	letters: "dajkwdnawjkdnwajkdnwakndwjwdk"
+
+  }),
+  methods: {
+    obfuscateText(text, offset = 0) {
+      return [...text]
+        .map(
+          (ch, i) =>
+            this.letters[
+              (ch.charCodeAt(0) +
+                Math.floor(Math.random() * 10) +
+                offset +
+                i * i) %
+                this.letters.length
+            ]
+        )
+        .join("");
+    }
+  },
+  watch: {
+	  text() {
+		  console.log("update")
+	  }
+  },
+  mounted() {
+	this.content = this.text[0];
+	// console.log(this.text)
+    this.content = this.obfuscateText(this.content);
+    setInterval(() => {
+      this.content = this.obfuscateText(this.content);
+    }, 200);
+  },
+  render() {
+    this.text[0] = this.content;
+    const owo = this.$createElement("span", this.text);
+    return owo;
+  }
+};
 </script>

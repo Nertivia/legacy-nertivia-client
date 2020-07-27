@@ -4,6 +4,7 @@ import MemberMention from "./markup/MemberMention.vue";
 import Link from "./markup/Link.vue";
 import ChannelMention from "./markup/ChannelMention.vue";
 import MessageQuote from "./markup/MessageQuote.vue";
+import Obfuscate from "./markup/Obfuscate.vue";
 import config from "@/config.js";
 import emojis from "@/utils/emojiData/emojis.json";
 import emojiParser from "@/utils/emojiParser";
@@ -300,10 +301,11 @@ export default {
             <span class="underline">{parseChildren(entity.children)}</span>
           );
         case "obfuscate":
+          return (<Obfuscate text={parseChildren(entity.children)} />)
           // todo: finish.
-          return (
-            <span class="obfuscate">{parseChildren(entity.children)}</span>
-          );
+          // return (
+          //   <span class="obfuscate">{}</span>
+          // );
         case "reset":
           return <span class="reset">{parseChildren(entity.children)}</span>;
         case "link":
