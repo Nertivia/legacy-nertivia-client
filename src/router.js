@@ -12,6 +12,8 @@ const MainApp = () =>
   import(/* webpackChunkName: "MainApp" */ "../src/views/App.vue");
 const HomePage = () =>
   import(/* webpackChunkName: "HomePage" */ "../src/views/HomePage.vue");
+const HomePage2 = () =>
+  import(/* webpackChunkName: "HomePage2" */ "../src/views/HomePage2.vue");
 const GDriveCallback = () =>
   import(
     /* webpackChunkName: "GDriveCallback" */ "../src/views/GDriveCallback.vue"
@@ -40,6 +42,11 @@ export const router = new VueRouter({
       path: "/",
       name: "HomePage",
       component: HomePage
+    },
+    {
+      path: "/2",
+      name: "HomePage2",
+      component: HomePage2
     },
     {
       path: "/login",
