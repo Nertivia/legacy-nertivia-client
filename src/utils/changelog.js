@@ -1,5 +1,15 @@
 const config = [
   {
+    version: "1.3.1",
+    title: "New Markdown",
+    shortTitle: "",
+    date: "28 July 2020",
+    new: [
+      "New markdown added with new color tags and more (Thanks to bree!)",
+    ],
+    msg: 'Here are some examples of the markdown:<br><br>{#1aff00}Hello {#ff8f17}There<br>https://example.com -> Example }<br>and much more!'
+  },
+  {
     version: "1.3.0",
     title: "Its better for your eyes!",
     shortTitle: "",
