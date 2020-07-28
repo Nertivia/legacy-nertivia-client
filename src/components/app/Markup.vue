@@ -427,6 +427,7 @@ export default {
               const [url, text] = entity.expression
                 .split("->")
                 .map(s => s.trim());
+              textCount += 1;
               return <Link class="link" name={text} link={url}  />;
             }
             case "#":
