@@ -6,8 +6,9 @@ export default {
   methods: {
     clickEvent(e) {
       e.preventDefault();
-      if (e.target.nodeName === "A") {
-        const link = e.target.getAttribute("href");
+      const target = e.target.closest("a")
+      if (target) {
+        const link = target.getAttribute("href");
         if (!link) return;
         this.$store.dispatch("setAllPopout", {
           show: true,
@@ -25,11 +26,14 @@ export default {
         .replace(/&#039;/g, "'");
     },
     contentTemplate(json) {
+      if (json.attributes && json.attributes.href) {
+        json.attributes.href = json.attributes.href.startsWith('http') ? json.attributes.href : 'https://' + json.attributes.href
+      }
       if (json.styles && json.styles.backgroundImage) {
         json.styles.backgroundImage = `url("https://proxi.bree.workers.dev/cdn/${ encodeURIComponent(json.styles.backgroundImage)}")`
       }
 
-      const el = this.$createElement(json.tag, {style: json.styles});
+      const el = this.$createElement(json.tag, { on: {click: this.clickEvent}, style: json.styles, attrs: json.attributes});
       el.children = [];
 
       if (typeof json.content === "object") {
@@ -89,6 +93,11 @@ export default {
 </style>
 <style>
 .html-embed a {
-  color: #68aaff;
+  color: #ffa700;
+  text-decoration: underline rgba(255, 255, 255, 0.2);
+}
+
+.html-embed a:hover {
+  text-decoration: underline;
 }
 </style>
