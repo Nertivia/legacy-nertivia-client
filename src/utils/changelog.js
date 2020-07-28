@@ -7,7 +7,7 @@ const config = [
     new: [
       "New markdown added with new color tags and more (Thanks to bree!)",
     ],
-    msg: 'Here are some examples of the markdown:<br><br>{#1aff00}Hello {#ff8f17}There<br>https://example.com -> Example }<br>and much more!'
+    msg: 'Here are some examples of the markdown:<br><br>{#1aff00}Hello {#ff8f17}There<br>{|link| https://example.com -> Example }<br>and much more!'
   },
   {
     version: "1.3.0",
