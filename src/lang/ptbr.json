@@ -2,7 +2,7 @@
     "explore": "Explorar",
     "explore-desc": "Procure novos servidores, emojis e muito mais!",
     "servers": "Servidores",
-    "join-server": "Entrar no Servidor",
+    "join-server": "Entrar",
     "themes": "Temas",
     "emoji-packs": "Pacote de Emojis",
     "message-styles": "Modelo de Mensagens",
@@ -22,7 +22,7 @@
     "donate": "Doar",
 
     "join": "Entrar",
-    "join-card-message": "Entre no servidor oficial do Nertivia.",
+    "join-card-message": "Entre no servidor oficial do Nertivia.",	
     "coming-soon!": "Em breve!",
 
     "joined": "Entrou",
@@ -33,7 +33,7 @@
     "clone": "Clonar",
     "cloning": "Clonando...",
     "cloned": "Clonado",
-    "theme-safe-message": "Os temas abaixo são seguroes e revisados manualmente.",
+    "theme-safe-message": "Os temas abaixo são seguros e revisados manualmente.",
 
     "friends": "Amigos",
     "pending": "Pendente",
