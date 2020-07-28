@@ -9,12 +9,12 @@ import config from "@/config.js";
 import emojis from "@/utils/emojiData/emojis.json";
 import emojiParser from "@/utils/emojiParser";
 
-let testElement = document.createElement('div')
-const isValidColor = (color) => {
-  testElement.style.color = ""
-  testElement.style.color = color
-  return testElement.style.color.length !== 0
-}
+let testElement = document.createElement("div");
+const isValidColor = color => {
+  testElement.style.color = "";
+  testElement.style.color = color;
+  return testElement.style.color.length !== 0;
+};
 
 const generateRegex = parts => {
   return RegExp(
@@ -185,14 +185,14 @@ function transformEntity(entity, root = true) {
       return entity;
     }
     case "color": {
-      if(isValidColor(entity.params[1])) {
-        entity.color = entity.params[1]
-      } else if(isValidColor(entity.params[0])) {
-        entity.color = entity.params[0]
+      if (isValidColor(entity.params[1])) {
+        entity.color = entity.params[1];
+      } else if (isValidColor(entity.params[0])) {
+        entity.color = entity.params[0];
       } else {
-        return { text: entity.text }
+        return { text: entity.text };
       }
-      return entity
+      return entity;
     }
     case "custom": {
       entity.custom_type = entity.params[0];
@@ -402,20 +402,23 @@ export default {
           return [parseEntity(entity, entities), after];
         }
         case "color":
-          if(entity.color === "reset") {
-            return parseEntity({
-              type: "reset",
-              children: entities
-            }, entities)
+          if (entity.color === "reset") {
+            return parseEntity(
+              {
+                type: "reset",
+                children: entities
+              },
+              entities
+            );
           }
-          if(isValidColor(entity.color)) {
+          if (isValidColor(entity.color)) {
             return (
               <span style={{ color: entity.color }}>
                 {parseChildren(entities)}
               </span>
             );
           } else {
-            return entity.text
+            return entity.text;
           }
         case "custom":
           switch (entity.custom_type) {
@@ -424,11 +427,15 @@ export default {
                 .split("->")
                 .map(s => s.trim());
               textCount += 1;
-              return <Link class="link" name={text} link={url}  />;
+              return <Link class="link" name={text} link={url} />;
             }
             case "#":
               return parseEntity(
-                { type: "color", color: entity.expression.trim(), text: entity.text },
+                {
+                  type: "color",
+                  color: entity.expression.trim(),
+                  text: entity.text
+                },
                 entities
               );
             case "ruby": {
@@ -468,7 +475,10 @@ export default {
       <div
         class={{
           "large-emojis":
-            textCount === 0 && this.largeEmoji !== false && emojiCount <= 5 && depth <= 1
+            textCount === 0 &&
+            this.largeEmoji !== false &&
+            emojiCount <= 5 &&
+            depth <= 1
         }}
       >
         {markup}
