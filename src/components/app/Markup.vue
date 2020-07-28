@@ -301,11 +301,7 @@ export default {
             <span class="underline">{parseChildren(entity.children)}</span>
           );
         case "obfuscate":
-          return (<Obfuscate text={parseChildren(entity.children)} />)
-          // todo: finish.
-          // return (
-          //   <span class="obfuscate">{}</span>
-          // );
+          return <Obfuscate>{parseChildren(entity.children)}</Obfuscate>;
         case "reset":
           return <span class="reset">{parseChildren(entity.children)}</span>;
         case "link":
