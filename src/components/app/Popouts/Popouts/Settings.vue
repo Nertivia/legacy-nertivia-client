@@ -325,15 +325,11 @@ export default {
   .title {
     display: flex;
   }
-  .cloes-button-desktop{
+  .close-button-desktop {
     display: none;
   }
 }
-@media (max-height: 609px) {
-  .settings-box {
-    height: 100%;
-  }
-}
+
 .support-donate {
   display: flex;
   align-content: center;

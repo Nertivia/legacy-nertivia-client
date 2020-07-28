@@ -3,7 +3,7 @@
     <div class="desc">Change the language by selecting one below. Note that some of these translations may be incorrect. You can submit more languages or fix some translations at <a href="https://github.com/supertiger1234/Nertivia-Client/tree/master/src/lang" target="_blank" rel="noopener noreferrer">GitHub</a></div>
     <div class="lang-list">
       <div class="lang"  @click="changeLang(lang)" v-for="lang in langs" :class="{selected: currentLang === lang}" :key="lang">
-        <img class="emoji" :src="langConsts[lang].emoji" />
+        <img class="emoji-lang" :src="langConsts[lang].emoji" />
         <div class="name">{{langConsts[lang].name}}</div>
       </div>
     </div>
@@ -119,6 +119,9 @@ export default {
   font-size: 16px;
   padding: 10px;
 }
+.lang-list {
+  overflow: auto;
+}
 .lang {
   display: flex;
   flex-shrink: 0;
@@ -144,5 +147,9 @@ export default {
 }
 a {
   color: #68aaff;
+}
+.emoji-lang {
+  height: 30px;
+  width: auto;
 }
 </style>
