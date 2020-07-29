@@ -56,7 +56,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
+@import "@/styles/global";
 .download-popout {
   position: absolute;
   top: 0;
@@ -74,14 +75,17 @@ export default {
   height: 350px;
   width: 500px;
   margin: auto;
-  background: rgb(39, 39, 39);
+  background: #222831ea;
+  box-shadow: 0 0 5px 0 black;
+  backdrop-filter: blur(10px);
   flex-direction: column;
   border-radius: 4px;
   overflow: hidden;
 }
 .header {
   height: 50px;
-  background: #3fa9f5;
+  background: #272e37da;
+  box-shadow: 0 0 5px 0 black;
   widows: 100%;
   color: white;
   font-size: 20px;
@@ -101,7 +105,7 @@ export default {
   justify-content: center;
 }
 .download-item {
-  background: rgb(42, 42, 42);
+  background: rgba(255, 255, 255, 0);
   margin: 20px;
   display: flex;
   flex-direction: column;
@@ -112,9 +116,9 @@ export default {
   color: white;
   user-select: none;
   cursor: pointer;
-  transition: 0.3s;
-  &:hover {
-    background: rgb(27, 27, 27);
+  transition: 0.2s;
+  &:hover:nth-child(1) {
+    background: rgba(255, 255, 255, 0.1);
   }
   .image {
     height: 100px;
@@ -125,6 +129,7 @@ export default {
   }
   .title {
     margin-top: 10px;
+    text-align: center;
   }
 }
 

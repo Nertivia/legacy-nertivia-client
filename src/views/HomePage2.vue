@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <custom-header />
+    <custom-header @registerButton="setPopout('register')" />
     <div class="center-box">
       <div class="slideshow">
         <img class="logo" src="@/assets/transparentLogo.svg" alt />
@@ -8,35 +8,65 @@
       </div>
       <div class="main-content">
         <div class="buttons">
-          <div class="button">
+          <a href="/app" class="button">
             <div class="material-icons">open_in_browser</div>
             <div class="name">Open In Browser</div>
-          </div>
-          <div class="button">
+          </a>
+          <div class="button" @click="setPopout('download')">
             <div class="material-icons">vertical_align_bottom</div>
             <div class="name">Download</div>
           </div>
         </div>
-				<changelog class="changelog"/>
-        <a class="button github" href="https://github.com/supertiger1234/" target="_blank" rel="noopener noreferrer">
+        <changelog class="changelog" />
+        <a
+          class="button github"
+          href="https://github.com/supertiger1234/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <img class="icon" src="@/assets/github-logo.svg" alt />
           <div class="name">View In GitHub</div>
         </a>
       </div>
     </div>
+    <div class="popouts">
+      <transition name="fade">
+        <download-popout @close="setPopout(null)" v-if="$route.hash === '#download'" />
+        <register-popout @close="setPopout(null)" v-if="$route.hash  === '#register'" />
+      </transition>
+    </div>
   </div>
 </template>
 
 <script>
-import Changelog from '@/components/homePage/Changelog'
-import CustomHeader from '@/components/homePage/Header'
+import Changelog from "@/components/homePage/Changelog";
+import CustomHeader from "@/components/homePage/Header";
+import DownloadPopout from "@/components/homePage/DownloadAppPopout.vue";
+import RegisterPopout from "@/components/homePage/RegisterPopout";
 export default {
-	components: {Changelog, CustomHeader}
-}
+  components: { Changelog, CustomHeader, DownloadPopout, RegisterPopout },
+  methods: {
+    setPopout(val) {
+      if (!val) {
+        this.$router.back();
+        return;
+      }
+      this.$router.push(`#${val}`);
+    }
+  }
+};
 </script>
 
 <style scoped lang="scss">
 @import "@/styles/global";
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
 #app {
   color: white;
   display: flex;
@@ -52,9 +82,9 @@ export default {
   flex-direction: column;
   height: 370px;
   width: 370px;
-	align-items: center;
-	margin: 10px;
-	justify-content: center;
+  align-items: center;
+  margin: 10px;
+  justify-content: center;
   align-content: center;
   border-right: solid 1px rgba(255, 255, 255, 0.315);
   .logo {
@@ -69,11 +99,12 @@ export default {
   display: flex;
   flex-direction: column;
   height: 370px;
-	width: 370px;
-	margin: 10px;
+  width: 370px;
+  margin: 10px;
 }
 a {
   text-decoration: none;
+  color: white;
 }
 .button {
   display: flex;
@@ -83,11 +114,11 @@ a {
   font-size: 14px;
   transition: 0.2s;
   box-shadow: 0 0 13px 0 black;
-	background: $primary-button-color;
-	align-items: center;
-	justify-content: center;
+  background: $primary-button-color;
+  align-items: center;
+  justify-content: center;
   user-select: none;
-	align-content: center;
+  align-content: center;
   margin: 5px;
   cursor: pointer;
   border-radius: 4px;
@@ -113,15 +144,15 @@ a {
   }
 }
 .buttons {
-	display: flex;
-	.button {
-		flex: 1;
-		white-space: pre;
-	}
+  display: flex;
+  .button {
+    flex: 1;
+    white-space: pre;
+  }
 }
 .changelog {
-	margin-top: 10px;
-	margin-bottom: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 @media (max-width: 780px) {
   .slideshow {
@@ -141,7 +172,8 @@ a {
 }
 
 @media (max-width: 403px) {
-  .main-content, .center-box {
+  .main-content,
+  .center-box {
     width: 100%;
   }
 }
