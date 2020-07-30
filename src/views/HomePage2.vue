@@ -29,6 +29,32 @@
         </a>
       </div>
     </div>
+    <div class="features-button">
+      <div class="name">Features</div>
+      <div class="material-icons">keyboard_arrow_down</div>
+    </div>
+    <div class="features-list">
+      <div class="feature">
+        <img src="@/assets/graphics/QuotingExample.png" class="image" />
+        <div class="details">
+          <div class="title">Quoting Messages</div>
+          <div class="description">
+            Easily quote messages to easily identify
+            who’s talking to who.
+          </div>
+        </div>
+      </div>
+      <div class="feature">
+        <img src="@/assets/graphics/UploadFileExample.png" class="image upload" />
+        <div class="details">
+          <div class="title">Quoting Messages</div>
+          <div class="description">
+            Easily quote messages to easily identify
+            who’s talking to who.
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="popouts">
       <transition name="fade">
         <download-popout @close="setPopout(null)" v-if="$route.hash === '#download'" />
@@ -63,7 +89,8 @@ export default {
 .fade-leave-active {
   transition: opacity 0.2s;
 }
-.fade-enter, .fade-leave-to {
+.fade-enter,
+.fade-leave-to {
   opacity: 0;
 }
 
@@ -75,7 +102,8 @@ export default {
 }
 .center-box {
   display: flex;
-  margin: auto;
+  align-self: center;
+  margin-top: 200px;
 }
 .slideshow {
   display: flex;
@@ -154,20 +182,64 @@ a {
   margin-top: 10px;
   margin-bottom: 10px;
 }
-@media (max-width: 780px) {
+.features-button {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  margin-top: 60px;
+  align-content: center;
+  align-items: center;
+}
+.features-list {
+  margin-top: 60px;
+  margin-bottom: 50px;
+  align-self: center;
+  .feature {
+
+    margin-top: 40px;
+    .details {
+      max-width: 350px;
+      margin: auto;
+      margin-right: 0;
+    }
+    .title {
+      font-weight: bold;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    .description {
+      opacity: 0.7;
+    }
+    .image {
+      height: 200px;
+      width: auto;
+      &.upload {
+        width: 250px;
+        height: auto;
+        margin-left: 50px;
+
+      }
+    }
+    display: flex;
+  }
+}
+@media (max-width: 790px) {
   .slideshow {
     border: none;
     width: 100%;
     flex-shrink: 0;
     margin: 0;
+    height: 300px;
   }
   .main-content {
     width: 400px;
     margin: 0;
+    height: initial;
   }
   .center-box {
     flex-direction: column;
     width: 400px;
+    margin-top: 0px;
   }
 }
 
@@ -178,8 +250,27 @@ a {
   }
 }
 @media (max-width: 306px) {
+  .feature .image {
+    width: 100% !important;
+    height: auto !important;
+  }
   .buttons {
     flex-direction: column;
+  }
+}
+@media (max-width: 849px) {
+  .features-list {
+    .feature {
+      flex-direction: column;
+    }
+    .image {
+      margin: auto !important;
+    }
+  }
+  .features-list .details {
+    text-align: center;
+    margin-left: 0 !important;
+    margin-top: 20px;
   }
 }
 </style>
