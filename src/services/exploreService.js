@@ -44,5 +44,5 @@ export default {
   },
   applyTheme(id) {
     return wrapper(instance().get(domain + `explore/themes/${id}/apply`));
-  },
+  }
 };

@@ -4,20 +4,18 @@ const config = [
     title: "New Markdown",
     shortTitle: "",
     date: "28 July 2020",
-    new: [
-      "New markdown added with new color tags and more (Thanks to bree!)",
-    ],
-    msg: 'Here are some examples of the markdown:<br><br>{#1aff00}Hello {#ff8f17}There<br>{|link| https://example.com -> Example }<br>and much more!'
+    new: ["New markdown added with new color tags and more (Thanks to bree!)"],
+    msg:
+      "Here are some examples of the markdown:<br><br>{#1aff00}Hello {#ff8f17}There<br>{|link| https://example.com -> Example }<br>and much more!"
   },
   {
     version: "1.3.0",
     title: "Its better for your eyes!",
     shortTitle: "",
     date: "21 July 2020",
-    new: [
-      "Nertivia re-designed with a dark theme!",
-    ],
-    msg: 'Note: There might be some elements that are still the light blue color. If so, Please send me a screenshot (Fishie:azK1)'
+    new: ["Nertivia re-designed with a dark theme!"],
+    msg:
+      "Note: There might be some elements that are still the light blue color. If so, Please send me a screenshot (Fishie:azK1)"
   },
   {
     version: "1.2.9",
@@ -37,17 +35,15 @@ const config = [
     date: "06 July 2020",
     new: [
       "Test out how the languages feature will work. Note that this feature is not completly added in.",
-      "changed youtube embed link to no-cookie version.",
-    ],
+      "changed youtube embed link to no-cookie version."
+    ]
   },
   {
     version: "1.2.7",
     title: "Fancy HTML bot messages!",
     shortTitle: "",
     date: "03 July 2020",
-    new: [
-      "You can now add HTML Embeds to your bots messages."
-    ],
+    new: ["You can now add HTML Embeds to your bots messages."]
   },
   {
     version: "1.2.6",
@@ -59,9 +55,7 @@ const config = [
       "You can now create custom invite links for your server if your server is verified.",
       "You can now delete invites, see others invites (owner only) and uses of invites."
     ],
-    fix: [
-      "Manage bans page not showing avatars."
-    ]
+    fix: ["Manage bans page not showing avatars."]
   },
   {
     version: "1.2.5",
@@ -70,16 +64,14 @@ const config = [
     date: "05 June 2020",
     new: [
       "You can now see activity status or custom status in the profile popout"
-    ],
+    ]
   },
   {
     version: "1.2.4",
     title: "New badge",
     shortTitle: "",
     date: "30 May 2020",
-    new: [
-      "Added a 'New' badge for new messages"
-    ],
+    new: ["Added a 'New' badge for new messages"]
   },
   {
     version: "1.2.3",
@@ -87,8 +79,8 @@ const config = [
     shortTitle: "",
     date: "20 May 2020",
     new: [
-      "You can now hide roles. This will place all the members in the role with default members.",
-    ],
+      "You can now hide roles. This will place all the members in the role with default members."
+    ]
   },
   {
     version: "1.2.2",
@@ -97,19 +89,18 @@ const config = [
     date: "20 May 2020",
     new: [
       "Changing your password should reset the token and log every other user out.",
-      "Reset token button added for bots.",
-    ],
+      "Reset token button added for bots."
+    ]
   },
   {
     version: "1.2.1",
     title: "Bots BETA",
     shortTitle: "",
     date: "13 May 2020",
-    new: [
-      "You can now create bots in the settings page of Nertivia.",
-    ],
+    new: ["You can now create bots in the settings page of Nertivia."],
     fix: ["Fixed some bugs with roles not applying."],
-    msg: "Notice: Bots feature is not properly tested and could damage your server. Please test bots in empty servers first. People could also make dangerous that can kill the server."
+    msg:
+      "Notice: Bots feature is not properly tested and could damage your server. Please test bots in empty servers first. People could also make dangerous that can kill the server."
   },
   {
     version: "1.2.0",
@@ -119,36 +110,44 @@ const config = [
     new: [
       "You can now quote messages by clicking on a messages context menu.",
       "Colored profile pictures for default profile pictures."
-    ],
+    ]
   },
   {
     version: "1.1.8",
     title: "Image Compression",
     shortTitle: "",
     date: "28 April 2020",
-    new: ["Added Image Compression option. This seems to only work well with JPG images. If anyone knows how to use GraphicsMagick, Send help! Thanks."],
+    new: [
+      "Added Image Compression option. This seems to only work well with JPG images. If anyone knows how to use GraphicsMagick, Send help! Thanks."
+    ]
   },
   {
     version: "1.1.7",
     title: "Activity Status",
     shortTitle: "",
     date: "21 April 2020",
-    new: ["Share what programs or games you are running. For more information, click on the settings icon and find 'Activity Status' (Only works on the desktop app)"],
+    new: [
+      "Share what programs or games you are running. For more information, click on the settings icon and find 'Activity Status' (Only works on the desktop app)"
+    ]
   },
   {
     version: "1.1.6",
     title: "Be Gone Google Drive!",
     shortTitle: "",
     date: "17 April 2020",
-    new: ["You can now upload images without linking your google drive account."],
-    msg: "All avatars and emojis have been removed from Nertivia but still available in your google drive."
+    new: [
+      "You can now upload images without linking your google drive account."
+    ],
+    msg:
+      "All avatars and emojis have been removed from Nertivia but still available in your google drive."
   },
   {
     version: "1.1.5",
     title: "Bye Bye Google Drive",
     shortTitle: "",
     date: "10 April 2020",
-    msg: "Seems like Google Drive has been annoying these days and have been rate limiting Nertivia a lot. I had to do something about it. I found out about nodeclusters (https://nodeclusters.com/) Providing unlimited storage for a very cheap price so, I'm going to try this out :)"
+    msg:
+      "Seems like Google Drive has been annoying these days and have been rate limiting Nertivia a lot. I had to do something about it. I found out about nodeclusters (https://nodeclusters.com/) Providing unlimited storage for a very cheap price so, I'm going to try this out :)"
   },
   {
     version: "1.1.4",
@@ -176,7 +175,7 @@ const config = [
     fix: [
       "All of your friends and messages are removed.",
       "Moved server locations closer to each other. this should make Nertivia much faster at sending messages.",
-      "Changed the way notifications were being sent, This should also make nertivia work faster.",
+      "Changed the way notifications were being sent, This should also make nertivia work faster."
     ],
     msg: "April fools! Your data will not be deleted 😅"
   },

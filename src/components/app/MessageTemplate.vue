@@ -7,8 +7,13 @@
   >
     <div
       class="new-badge"
-      v-if="notificationLastMessageID && notificationLastMessageID === message.messageID"
-    >{{$t('new-messages')}}</div>
+      v-if="
+        notificationLastMessageID &&
+          notificationLastMessageID === message.messageID
+      "
+    >
+      {{ $t("new-messages") }}
+    </div>
     <div
       v-if="!message.type || message.type === 0"
       :class="{
@@ -17,10 +22,12 @@
         ownMessageRight:
           user.uniqueID === creator.uniqueID &&
           apperance &&
-          apperance.own_message_right === true,
+          apperance.own_message_right === true
       }"
     >
-      <div class="small-time" v-if="hideAdditional" :title="getDate">{{ getTime }}</div>
+      <div class="small-time" v-if="hideAdditional" :title="getDate">
+        {{ getTime }}
+      </div>
       <div class="avatar" v-if="!hideAdditional">
         <profile-picture
           :admin="creator.admin"
@@ -45,30 +52,37 @@
                 :style="{ color: loaded ? roleColor : null }"
                 @click="openUserInformation"
                 @contextmenu.prevent="openMemberContext"
-              >{{ creator.username }}</div>
+              >
+                {{ creator.username }}
+              </div>
               <div class="bot" v-if="!hideAdditional && creator.bot">Bot</div>
               <div class="date" v-if="!hideAdditional">{{ getDate }}</div>
               <div
                 class="mentioned material-icons"
                 v-if="isMentioned"
                 title="You were mentioned"
-              >alternate_email</div>
+              >
+                alternate_email
+              </div>
             </div>
             <div class="inner-content">
               <Markup
                 @contextmenu.native="openContextMenu($event, true)"
                 class="content-message"
                 :style="[
-                message.color && message.color !== -2
-                  ? { color: message.color }
-                  : '',
-              ]"
+                  message.color && message.color !== -2
+                    ? { color: message.color }
+                    : ''
+                ]"
                 :text="message.message"
                 :message="message"
                 :largeEmoji="true"
               />
 
-              <FileMessage v-if="getFile && !getFile.fileName.endsWith('.mp3')" :file="getFile" />
+              <FileMessage
+                v-if="getFile && !getFile.fileName.endsWith('.mp3')"
+                :file="getFile"
+              />
               <MusicMessage
                 v-else-if="getFile && getFile.fileName.endsWith('.mp3')"
                 :file="getFile"
@@ -90,7 +104,10 @@
                 v-else-if="message.embed && Object.keys(message.embed).length"
                 :embed="message.embed"
               />
-              <message-html-embeds v-if="message.htmlEmbed" :embed="message.htmlEmbed" />
+              <message-html-embeds
+                v-if="message.htmlEmbed"
+                :embed="message.htmlEmbed"
+              />
 
               <div
                 class="image-content"
@@ -103,14 +120,21 @@
             </div>
           </div>
           <div class="other-information">
-            <div class="drop-down-button" ref="drop-down-button" @click="openContextMenu">
+            <div
+              class="drop-down-button"
+              ref="drop-down-button"
+              @click="openContextMenu"
+            >
               <i class="material-icons">more_vert</i>
             </div>
             <div
               class="sending-status"
-              v-if="message.timeEdited &&(message.status === undefined || message.status === 1)"
+              v-if="
+                message.timeEdited &&
+                  (message.status === undefined || message.status === 1)
+              "
               :title="`Edited ${getEditedDate}`"
-              >
+            >
               <i class="material-icons">edit</i>
             </div>
             <div class="sending-status" v-else-if="message.status === 0">
@@ -124,7 +148,10 @@
             </div>
           </div>
         </div>
-        <bot-buttons v-if="message.buttons && message.buttons.length" :message="message" />
+        <bot-buttons
+          v-if="message.buttons && message.buttons.length"
+          :message="message"
+        />
       </div>
     </div>
     <PresenceMessage
@@ -443,14 +470,12 @@ $message-color: #3a4750;
 
   background: none !important;
   padding-bottom: 5px !important;
-  
+
   border-bottom: 2px solid;
   border-width: 2px;
   border-image-slice: 1;
-  border-image-source: linear-gradient(90deg,#d18f00,#d10000);
+  border-image-source: linear-gradient(90deg, #d18f00, #d10000);
   margin-bottom: 20px !important;
-
-
 }
 
 .container:hover .drop-down-button {
@@ -531,7 +556,7 @@ $message-color: #3a4750;
 }
 
 .all-content {
-  display: flex;  
+  display: flex;
   flex-direction: column;
   overflow: hidden;
 }
@@ -618,7 +643,6 @@ $message-color: #3a4750;
   flex-direction: column;
   min-width: 20px;
   flex-shrink: 0;
-  
 }
 .message .sending-status {
   display: flex;
@@ -663,7 +687,6 @@ $message-color: #3a4750;
   cursor: default;
 }
 
-
 .hideAdditional {
   .small-time {
     display: flex;
@@ -700,5 +723,4 @@ $message-color: #3a4750;
     flex-shrink: 0;
   }
 }
-
 </style>

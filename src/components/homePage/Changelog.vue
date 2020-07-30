@@ -2,12 +2,17 @@
   <div class="changelog">
     <div class="title">Recent Changes:</div>
     <div class="changelog-list">
-      <div v-for="(log, i) in logs" :key="i" class="change" :class="{primary: !i}">
-        <div class="line title">{{log.title}}</div>
+      <div
+        v-for="(log, i) in logs"
+        :key="i"
+        class="change"
+        :class="{ primary: !i }"
+      >
+        <div class="line title">{{ log.title }}</div>
         <div class="line secondary-detail">
-          v{{log.version}}
+          v{{ log.version }}
           <span class="dot" />
-          {{log.date}}
+          {{ log.date }}
         </div>
       </div>
     </div>

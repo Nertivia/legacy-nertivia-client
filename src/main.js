@@ -8,7 +8,7 @@ import Axios from "axios";
 import "./utils/clickOutside";
 import vueHeadful from "vue-headful";
 import Clipboard from "v-clipboard";
-import {i18n} from "./i18n";
+import { i18n } from "./i18n";
 
 Vue.component("vue-headful", vueHeadful);
 Vue.use(Clipboard);

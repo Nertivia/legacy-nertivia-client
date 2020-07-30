@@ -3,11 +3,10 @@
     <div class="box">
       <div class="material-icons heart">favorite</div>
       <div class="text">Thanks for trying out Nertivia!</div>
-      <div
-        class="sub-text text"
-        v-if="!showCaptcha"
-      >Fill in the information below to create your account.</div>
-      <div class="error" v-if="error">{{error}}</div>
+      <div class="sub-text text" v-if="!showCaptcha">
+        Fill in the information below to create your account.
+      </div>
+      <div class="error" v-if="error">{{ error }}</div>
       <form
         v-if="!showCaptcha"
         class="form"
@@ -47,15 +46,16 @@
         </button>
       </form>
       <!-- HCaptcha -->
-      <div
-        class="sub-text text"
-        v-if="showCaptcha && !showEmailConfirm"
-      >To prevent bots, we have this extra step:</div>
+      <div class="sub-text text" v-if="showCaptcha && !showEmailConfirm">
+        To prevent bots, we have this extra step:
+      </div>
       <div class="captcha" v-if="showCaptcha && !showEmailConfirm">
         <Recaptcha ref="recaptcha" @verify="register" />
       </div>
       <!-- Confirm Email -->
-      <div class="sub-text text" v-if="showEmailConfirm">Check your email for a code</div>
+      <div class="sub-text text" v-if="showEmailConfirm">
+        Check your email for a code
+      </div>
       <custom-input
         v-if="showEmailConfirm"
         :error="errors.confirm"
@@ -253,9 +253,9 @@ export default {
   }
 }
 .link {
-	color: white;
-	cursor: pointer;
-	text-decoration: none;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
   &:hover {
     text-decoration: underline;
   }

@@ -19,14 +19,12 @@
             >
               <div class="input">
                 <div class="input-text">
-                 Email <strong>or</strong> username:tag
+                  Email <strong>or</strong> username:tag
                   <span v-if="email.alert" class="error"
                     >- {{ email.alert }}</span
                   >
                 </div>
-                <input
-                  v-model="email.value"
-                />
+                <input v-model="email.value" />
               </div>
               <div class="input">
                 <div class="input-text">

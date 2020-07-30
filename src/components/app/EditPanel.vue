@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import Markup from './Markup.vue'
+import Markup from "./Markup.vue";
 import { bus } from "../../main";
 
 export default {

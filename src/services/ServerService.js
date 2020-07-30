@@ -18,8 +18,12 @@ export default {
   postInvite(serverID) {
     return wrapper(instance().post(domain + `/servers/${serverID}/invite`));
   },
-  createCustomInvite(serverID, customInvite){
-    return wrapper(instance().post(domain + `/servers/${serverID}/invites/custom`, {customCode: customInvite}));
+  createCustomInvite(serverID, customInvite) {
+    return wrapper(
+      instance().post(domain + `/servers/${serverID}/invites/custom`, {
+        customCode: customInvite
+      })
+    );
   },
   getInvites(serverID) {
     return wrapper(instance().get(domain + `/servers/${serverID}/invites`));

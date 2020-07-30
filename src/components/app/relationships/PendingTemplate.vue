@@ -14,7 +14,10 @@
       <div class="tag">@{{ friend.recipient.tag }}</div>
     </div>
     <div class="buttons">
-      <div :class="{ button: true, accept: true, hide: friend.status == 0 }" @click="accept">
+      <div
+        :class="{ button: true, accept: true, hide: friend.status == 0 }"
+        @click="accept"
+      >
         <i class="material-icons">check</i>
       </div>
       <div class="button decline" @click="deny">

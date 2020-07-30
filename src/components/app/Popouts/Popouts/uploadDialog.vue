@@ -19,11 +19,12 @@
             <strong>Size:</strong>
             {{ size }}
           </div>
-          <div 
+          <div
             v-if="image"
-            class="checkbox" 
-            :class="{selected: compress}"
-            @click="toggleCompressButton">
+            class="checkbox"
+            :class="{ selected: compress }"
+            @click="toggleCompressButton"
+          >
             <div class="box" />
             <div class="name">Compress Image</div>
           </div>
@@ -49,7 +50,9 @@
           <div class="box" />
           <div class="text">
             Nertivia CDN
-            <span class="notice">(Data is not guaranteed to stay + Images only.)</span>
+            <span class="notice"
+              >(Data is not guaranteed to stay + Images only.)</span
+            >
           </div>
         </div>
       </div>
@@ -94,7 +97,7 @@ export default {
       size: "",
       image: false,
       upload_cdn: 0, // 0: google drive, 1: CDN
-      compress: 1,
+      compress: 1
     };
   },
   beforeMount() {
@@ -106,9 +109,9 @@ export default {
     }
   },
   mounted() {
-    const maxSize =  52424000 //50MB
-    if (this.popouts.fileToUpload.size > maxSize ) {
-      this.exceededSize = true
+    const maxSize = 52424000; //50MB
+    if (this.popouts.fileToUpload.size > maxSize) {
+      this.exceededSize = true;
       return;
     }
     this.$refs["messageInput"].focus();
@@ -122,10 +125,13 @@ export default {
   },
   watch: {
     upload_cdn() {
-      const maxCDNSize = 7340000; 
-        if (this.upload_cdn === 1 && this.popouts.fileToUpload.size > maxCDNSize) {
-          this.compress = 1;
-        }
+      const maxCDNSize = 7340000;
+      if (
+        this.upload_cdn === 1 &&
+        this.popouts.fileToUpload.size > maxCDNSize
+      ) {
+        this.compress = 1;
+      }
     }
   },
   methods: {
@@ -150,12 +156,18 @@ export default {
       });
     },
     toggleCompressButton() {
-      const maxCDNSize = 7340000; 
-      if (this.upload_cdn === 1 && this.compress === 1 &&  this.popouts.fileToUpload.size > maxCDNSize) {
-        alert("Nertivia CDN Max file size: 7MB. \nEither compress the image or upload using Google Drive option.")
+      const maxCDNSize = 7340000;
+      if (
+        this.upload_cdn === 1 &&
+        this.compress === 1 &&
+        this.popouts.fileToUpload.size > maxCDNSize
+      ) {
+        alert(
+          "Nertivia CDN Max file size: 7MB. \nEither compress the image or upload using Google Drive option."
+        );
         return;
       }
-      this.compress ? this.compress = 0 : this.compress = 1
+      this.compress ? (this.compress = 0) : (this.compress = 1);
     },
     loadFileInfo(file) {
       const previewImage = this.$refs["preview-image"];
@@ -171,7 +183,6 @@ export default {
       }
     },
     async send() {
-
       if (this.upload_cdn === 0 && !this.GDriveLinked) {
         this.$store.dispatch("setPopoutVisibility", {
           name: "GDLinkMenu",
@@ -233,14 +244,14 @@ export default {
             creator: {
               username: "Whoopsies!",
               uniqueID: "12345678",
-              bot: true,
+              bot: true
             },
             message: message,
             messageID: Math.floor(Math.random() * 10999 + 0).toString(),
             color: "#ff4d4d",
             channelID: this.currentChannelID,
-            created: new Date(),
-          },
+            created: new Date()
+          }
         });
       }
 
@@ -299,7 +310,7 @@ export default {
   backdrop-filter: blur(5px);
 }
 
-.exceed  {
+.exceed {
   height: 300px;
   width: 300px;
   align-content: center;
@@ -392,7 +403,7 @@ export default {
       }
       opacity: 1;
     }
-    
+
     .box {
       height: 20px;
       width: 20px;

@@ -10,7 +10,12 @@
       <div class="preview">
         <span v-if="emoji.unicode" v-html="emojiParser(emoji.unicode)" />
         <span v-else>
-          <img class="emoji" :src="`${customEmojiPath + emoji.emojiID}.${emoji.gif ? 'gif' : 'png'}`" />
+          <img
+            class="emoji"
+            :src="
+              `${customEmojiPath + emoji.emojiID}.${emoji.gif ? 'gif' : 'png'}`
+            "
+          />
         </span>
       </div>
       <div class="short-code">:{{ emoji.name || emoji.shortcodes[0] }}:</div>
@@ -59,7 +64,7 @@ export default {
       }
     },
     clickEvent() {
-      this.$emit("chosen")
+      this.$emit("chosen");
     }
   }
 };

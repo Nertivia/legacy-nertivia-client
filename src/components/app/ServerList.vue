@@ -20,8 +20,12 @@
         <div class="verified" v-if="server.verified" title="Verified Server">
           <span class="material-icons">check</span>
         </div>
-        <div class="text" :title="servers[currentServerID].name">{{ servers[currentServerID].name }}</div>
-        <div class="options-button material-icons" @click="openServerContext">more_vert</div>
+        <div class="text" :title="servers[currentServerID].name">
+          {{ servers[currentServerID].name }}
+        </div>
+        <div class="options-button material-icons" @click="openServerContext">
+          more_vert
+        </div>
       </div>
     </div>
     <div class="channels-list">
@@ -116,7 +120,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 .verified {
   display: flex;
   align-items: center;

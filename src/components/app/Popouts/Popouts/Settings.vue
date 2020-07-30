@@ -18,9 +18,13 @@
         </div>
       </div>
       <div class="panel">
-        <div class="close-button-desktop" @click="close"><div class="material-icons">close</div></div>
+        <div class="close-button-desktop" @click="close">
+          <div class="material-icons">close</div>
+        </div>
         <div class="title">
-          <div class="material-icons" :class="tabs[currentTab].icon">{{ tabs[currentTab].icon }}</div>
+          <div class="material-icons" :class="tabs[currentTab].icon">
+            {{ tabs[currentTab].icon }}
+          </div>
           <div class="in-title">{{ tabs[currentTab].tabName }}</div>
           <div class="close-button" @click="close">
             <div class="material-icons">close</div>
@@ -28,9 +32,11 @@
         </div>
         <component :is="tabs[currentTab].component"></component>
         <div class="support-donate">
-          <div class="icon"><div class="material-icons heart">favorite</div></div>
-          <div class="text">{{$t('support-message-settings')}}</div>
-          <div class="button" @click="donateButton">{{$t('donate')}}</div>
+          <div class="icon">
+            <div class="material-icons heart">favorite</div>
+          </div>
+          <div class="text">{{ $t("support-message-settings") }}</div>
+          <div class="button" @click="donateButton">{{ $t("donate") }}</div>
         </div>
       </div>
     </div>
@@ -205,7 +211,7 @@ export default {
   overflow-x: hidden;
   flex-shrink: 0;
   background: #272e37da;
-  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5); 
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
   position: relative;
 }
 .panel {
@@ -235,7 +241,11 @@ export default {
 
 .tab.selected {
   color: white;
-  background: linear-gradient(137deg, rgba(45,136,255,1) 0%, rgba(87,160,255,1) 100%);
+  background: linear-gradient(
+    137deg,
+    rgba(45, 136, 255, 1) 0%,
+    rgba(87, 160, 255, 1) 100%
+  );
 }
 
 .tab.warn {
@@ -392,5 +402,4 @@ export default {
     width: 100%;
   }
 }
-
 </style>

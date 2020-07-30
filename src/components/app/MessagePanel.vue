@@ -64,11 +64,11 @@ export default {
     Spinner,
     heading,
     MessageLogs,
-    ChatInputArea,
+    ChatInputArea
   },
   data() {
     return {
-      typingRecipients: {},
+      typingRecipients: {}
     };
   },
   methods: {
@@ -91,13 +91,13 @@ export default {
     async onFocus() {
       if (!this.$store.getters.currentChannelID) return;
       //dismiss notification on focus
-      const find = this.$store.getters.notifications.find((notification) => {
+      const find = this.$store.getters.notifications.find(notification => {
         return notification.channelID === this.$store.getters.currentChannelID;
       });
       if (find && find.count >= 1) {
         setTimeout(() => {
           this.$socket.client.emit("notification:dismiss", {
-            channelID: this.$store.getters.currentChannelID,
+            channelID: this.$store.getters.currentChannelID
           });
         }, 500);
       }
@@ -113,11 +113,11 @@ export default {
         return;
       if (typingRecipients === undefined) {
         this.$set(this.typingRecipients, channel_id, {
-          [user.unique_id]: { username: user.username },
+          [user.unique_id]: { username: user.username }
         });
       } else if (!typingRecipients[user.unique_id]) {
         this.$set(this.typingRecipients[channel_id], user.unique_id, {
-          username: user.username,
+          username: user.username
         });
       }
 
@@ -129,7 +129,7 @@ export default {
         },
         3500
       );
-    },
+    }
   },
   mounted() {
     this.$socket.client.on("typingStatus", this.onTyping);
@@ -151,7 +151,7 @@ export default {
       },
       set: function(value) {
         this.$store.dispatch("setMessage", value);
-      },
+      }
     },
     uploadQueue() {
       const allUploads = this.$store.getters.getAllUploads;
@@ -183,7 +183,7 @@ export default {
     },
     serverMember() {
       return this.$store.getters["servers/serverMembers"].find(
-        (sm) =>
+        sm =>
           sm.server_id === this.server.server_id &&
           sm.uniqueID === this.user.uniqueID
       );
@@ -204,7 +204,7 @@ export default {
         }
       }
 
-      const defaultRole = roles.find((r) => r.default);
+      const defaultRole = roles.find(r => r.default);
       perms = perms | defaultRole.permissions;
       return perms;
     },
@@ -226,7 +226,7 @@ export default {
     getWindowWidth() {
       return {
         width: windowProperties.resizeWidth,
-        height: windowProperties.resizeHeight,
+        height: windowProperties.resizeHeight
       };
     },
     sendChannelMessagePermission() {
@@ -249,14 +249,12 @@ export default {
         this.myRolePermissions || 0,
         permissions.SEND_MESSAGES.value
       );
-    },
-  },
+    }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-
-
 .no-channel-selected {
   display: flex;
   flex-direction: column;

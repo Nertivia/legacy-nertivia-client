@@ -11,7 +11,9 @@ export default {
     return wrapper(instance().post(`/bots/${bot_id}`, data));
   },
   addBot(bot_id, server_id, permissions) {
-    return wrapper(instance().put(`/bots/${bot_id}/servers/${server_id}`, {permissions}));
+    return wrapper(
+      instance().put(`/bots/${bot_id}/servers/${server_id}`, { permissions })
+    );
   },
   resetToken(bot_id) {
     return wrapper(instance().post(`/bots/${bot_id}/reset-token`));
@@ -24,6 +26,10 @@ export default {
     if (getMyServers) {
       params.myservers = true;
     }
-    return wrapper(instance().get(`/bots/${botId}${getToken ? '?token=true' : ''}`, { params }));
-  },
+    return wrapper(
+      instance().get(`/bots/${botId}${getToken ? "?token=true" : ""}`, {
+        params
+      })
+    );
+  }
 };

@@ -1,10 +1,12 @@
 <template>
-  <div class="direct-message-tab"
+  <div
+    class="direct-message-tab"
     :class="{ darken: showLeftPanel || showMembersPanel }"
-    :data-server="currentServer ? currentServer.name: undefined"
+    :data-server="currentServer ? currentServer.name : undefined"
   >
     <transition :name="$mq === 'mobile' ? 'slide-left' : null">
-      <div class="left-panel"
+      <div
+        class="left-panel"
         v-show="($mq === 'mobile' && showLeftPanel) || $mq !== 'mobile'"
         v-click-outside="hideLeftPanel"
       >
@@ -121,7 +123,6 @@ export default {
   display: flex;
   flex-direction: column;
   z-index: 1;
-
 }
 .inner {
   z-index: 2;
@@ -184,7 +185,6 @@ export default {
     border-bottom-left-radius: 10px;
     border-top-left-radius: initial;
     border-top-right-radius: initial;
-    
   }
   .darken::after {
     content: "";

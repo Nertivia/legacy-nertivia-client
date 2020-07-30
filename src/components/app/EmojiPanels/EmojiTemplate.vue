@@ -9,7 +9,9 @@
       v-else
       class="emoji custom"
       :style="{
-        backgroundImage: `url(${customEmojiUrl + emoji.emojiID}.${emoji.gif ? 'gif' : 'png'})`
+        backgroundImage: `url(${customEmojiUrl + emoji.emojiID}.${
+          emoji.gif ? 'gif' : 'png'
+        })`
       }"
     />
   </div>

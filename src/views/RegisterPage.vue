@@ -315,7 +315,8 @@ body {
   text-align: center;
   margin-bottom: 10px;
 }
-form, .form {
+form,
+.form {
   display: flex;
   flex-direction: column;
   width: 100%;

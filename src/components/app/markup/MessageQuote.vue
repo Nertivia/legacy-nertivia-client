@@ -3,11 +3,20 @@
     <header class="section">
       Quoted:
       <span class="username">{{ this.quote.creator.username }}</span>
-      <i title="Go to message" class="go-to-message material-icons" v-on:click="goToMessage">keyboard_arrow_up</i>
+      <i
+        title="Go to message"
+        class="go-to-message material-icons"
+        v-on:click="goToMessage"
+        >keyboard_arrow_up</i
+      >
     </header>
     <main class="message">
-      <Markup v-if="formattingEnabled" :text="quote.message" :message="message" />
-      <div v-else>{{this.quote.message}}</div>
+      <Markup
+        v-if="formattingEnabled"
+        :text="quote.message"
+        :message="message"
+      />
+      <div v-else>{{ this.quote.message }}</div>
     </main>
   </article>
 </template>

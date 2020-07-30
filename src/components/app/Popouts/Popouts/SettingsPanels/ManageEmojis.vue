@@ -12,7 +12,10 @@
 
     <div class="emojis-list">
       <div v-for="emoji in customEmojis" :key="emoji.emojiID" class="emoji">
-        <img class="preview" :src="`${domain}${emoji.emojiID}.${emoji.gif ? 'gif' : 'png'}`" />
+        <img
+          class="preview"
+          :src="`${domain}${emoji.emojiID}.${emoji.gif ? 'gif' : 'png'}`"
+        />
         <div class="emoji-name">
           <input
             type="text"
@@ -27,7 +30,14 @@
         </div>
       </div>
     </div>
-    <input multiple ref="emojiBrowser" type="file" accept="image/*" class="hidden" @change="emojiBrowse" />
+    <input
+      multiple
+      ref="emojiBrowser"
+      type="file"
+      accept="image/*"
+      class="hidden"
+      @change="emojiBrowse"
+    />
   </div>
 </template>
 
@@ -68,12 +78,12 @@ export default {
           this.errorBox("Something went wrong. Try again later.");
         }
         const find = this.customEmojis.find(e => e.emojiID === emojiID);
-        event.target.value = find.name
+        event.target.value = find.name;
         return;
       }
     },
     async emojiBrowse(event) {
-      const files = event.target.files
+      const files = event.target.files;
 
       if (files.length > 10) {
         this.errorBox(`Please select less than 10 files.`);
@@ -90,39 +100,39 @@ export default {
         }
         if (file.size >= 3048576) {
           // 3048576 = 3mb
-          this.errorBox(`Upload failed - ${file.name} Image size must be less than 3 megabytes.`);
+          this.errorBox(
+            `Upload failed - ${file.name} Image size must be less than 3 megabytes.`
+          );
           break;
         }
-        const reader = await this.loadReader(file)
-          .catch(() => {})
+        const reader = await this.loadReader(file).catch(() => {});
         if (!reader) break;
         let failed = false;
-        await this.uploadEmoji(file, reader)
-        .catch(() => {failed = true;})
+        await this.uploadEmoji(file, reader).catch(() => {
+          failed = true;
+        });
         if (failed) break;
       }
 
       event.target.value = "";
-
     },
     loadReader(file) {
-      emojiParser
+      emojiParser;
       const _this = this;
       return new Promise((res, rej) => {
         const reader = new FileReader();
         reader.onload = function() {
           res(reader);
-        }
+        };
         reader.onerror = function(error) {
           console.log("Error: ", error);
           _this.errorBox("Something went wrong. Try again later.");
           rej();
-        }
+        };
         reader.readAsDataURL(file);
-      })
+      });
     },
     uploadEmoji(file, reader) {
-      
       const _this = this;
       const fileName = path.basename(file.name, path.extname(file.name));
 
@@ -154,7 +164,7 @@ export default {
           return;
         }
         res();
-      })
+      });
     },
     addEmojiBtn() {
       this.$refs.emojiBrowser.click();
@@ -269,7 +279,11 @@ input:focus {
   display: inline-block;
   width: inherit;
   padding: 10px;
-  background: linear-gradient(137deg, rgba(45,136,255,1) 0%, rgba(87,160,255,1) 100%);
+  background: linear-gradient(
+    137deg,
+    rgba(45, 136, 255, 1) 0%,
+    rgba(87, 160, 255, 1) 100%
+  );
   margin-bottom: 10px;
   margin-left: 20px;
   user-select: none;

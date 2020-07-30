@@ -2,9 +2,13 @@
   <div class="dark-background admin-editor-popout" @mousedown="backgroundClick">
     <div class="inner">
       <div class="details">
-      <div><span class="name">Username: </span>{{ popoutDetails.user.username }}</div>
-      <div><span class="name">Email: </span>{{ popoutDetails.user.email }}</div>
-      <div><span class="name">IP: </span>{{ popoutDetails.user.ip }}</div>
+        <div>
+          <span class="name">Username: </span>{{ popoutDetails.user.username }}
+        </div>
+        <div>
+          <span class="name">Email: </span>{{ popoutDetails.user.email }}
+        </div>
+        <div><span class="name">IP: </span>{{ popoutDetails.user.ip }}</div>
       </div>
       <custom-input
         theme="light"
@@ -34,7 +38,7 @@ import AdminService from "@/services/adminService";
 import CustomInput from "@/components/global/CustomInput";
 
 export default {
-  components: {CustomInput},
+  components: { CustomInput },
   data() {
     return {
       confirmSuspend: false,

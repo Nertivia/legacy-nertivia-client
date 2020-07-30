@@ -61,7 +61,7 @@ export const store = new Vuex.Store({
       localStorage.setItem("currentTab", currentTab);
       commit("SET_CURRENT_TAB", currentTab);
     },
-    setMessage({commit}, message) {
+    setMessage({ commit }, message) {
       commit("SET_MESSAGE", message);
     }
   },

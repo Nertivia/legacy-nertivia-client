@@ -3,12 +3,12 @@
     <div class="add-friend">
       <div class="header">
         <div class="icon material-icons">person_add</div>
-        <div class="name">{{$t('add-friend')}}</div>
+        <div class="name">{{ $t("add-friend") }}</div>
       </div>
       <div class="content">
         <div class="container">
           <div class="description">
-            {{$t("add-friend-message")}}
+            {{ $t("add-friend-message") }}
           </div>
           <input
             class="tag"

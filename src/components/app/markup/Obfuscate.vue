@@ -61,15 +61,14 @@ export default {
     }
   },
   watch: {
-    focused(val) {
-      if (this.focused)
-        this.interval = setInterval(this.obfuscateNodes, 60);
-      else clearInterval(this.interval)
+    focused() {
+      if (this.focused) this.interval = setInterval(this.obfuscateNodes, 60);
+      else clearInterval(this.interval);
     }
   },
   computed: {
     focused() {
-      return windowProperties.isfocused
+      return windowProperties.isfocused;
     },
     textNodes: function() {
       return [...this.getTextNodes()];
@@ -77,8 +76,7 @@ export default {
   },
   mounted() {
     this.content = this.obfuscateNodes();
-    if (this.focused)
-      this.interval = setInterval(this.obfuscateNodes, 60);
+    if (this.focused) this.interval = setInterval(this.obfuscateNodes, 60);
   },
   beforeDestroy() {
     clearInterval(this.interval);
@@ -86,7 +84,7 @@ export default {
 };
 </script>
 
-<style >
+<style>
 .obfuscate {
   white-space: pre-wrap;
   font-family: monospace;

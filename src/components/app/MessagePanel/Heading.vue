@@ -4,7 +4,7 @@
       class="show-menu-button"
       :class="{
         notifyAnimation: serverNotification.notification || friendRequestExists,
-        mentioned: serverNotification.mentioned,
+        mentioned: serverNotification.mentioned
       }"
       @click="toggleLeftMenu"
     >
@@ -42,7 +42,7 @@ export default {
   props: [
     "type", // 0: without online status; 1: with online status; 2: server.
     "name",
-    "uniqueID",
+    "uniqueID"
   ],
 
   methods: {
@@ -55,10 +55,10 @@ export default {
     },
     toggleMembersPanel() {
       bus.$emit("toggleMembersPanel");
-    },
+    }
   },
   computed: {
-        serverNotification() {
+    serverNotification() {
       const notifications = this.$store.getters.notifications;
       const channels = this.$store.getters.channels;
       const notificationsFiltered = notifications.filter(e => {
@@ -113,8 +113,8 @@ export default {
 
       let status = presences[channel.recipients[0].uniqueID] || 0;
       return statuses[status].color;
-    },
-  },
+    }
+  }
 };
 </script>
 

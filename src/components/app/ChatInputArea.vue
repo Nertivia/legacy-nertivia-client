@@ -55,8 +55,17 @@
           editMessage
       "
     >
-      <input type="file" ref="sendFileBrowse" style="display: none" @change="attachmentChange" />
-      <div class="attachment-button" title="Attach File" @click="$refs.sendFileBrowse.click()">
+      <input
+        type="file"
+        ref="sendFileBrowse"
+        style="display: none"
+        @change="attachmentChange"
+      />
+      <div
+        class="attachment-button"
+        title="Attach File"
+        @click="$refs.sendFileBrowse.click()"
+      >
         <i class="material-icons">attach_file</i>
       </div>
       <textarea
@@ -77,7 +86,11 @@
       <button class="emojis-button" title="Draw" @click="showDraw">
         <i class="material-icons">brush</i>
       </button>
-      <button class="emojis-button" title="Emojis" @click="showEmojiPanel = !showEmojiPanel">
+      <button
+        class="emojis-button"
+        title="Emojis"
+        @click="showEmojiPanel = !showEmojiPanel"
+      >
         <i class="material-icons">tag_faces</i>
       </button>
       <button
@@ -96,9 +109,11 @@
           "
           :class="{
             'message-count': true,
-            'error-info': messageLength > 5000,
+            'error-info': messageLength > 5000
           }"
-        >{{ messageLength }} / 5000</div>
+        >
+          {{ messageLength }} / 5000
+        </div>
       </button>
     </div>
   </div>
@@ -279,10 +294,10 @@ export default {
         unclosableType: shown ? undefined : "DRAW_POPOUT"
       });
     },
-    
+
     replaceChannelMentions(message) {
       const getChannel = name => this.channels.find(c => c.name === name);
-      const isChannel = name => name != null && getChannel(name)
+      const isChannel = name => name != null && getChannel(name);
 
       const result = [];
       const reg = /#([^#]+?)#/g;
@@ -294,16 +309,16 @@ export default {
       while ((name = reg.exec(message)) !== null) {
         if (isChannel(name[1])) {
           const channelName = name[1];
-          result.push(message.slice(lastIndex, name.index))
-          result.push(`<#${getChannel(channelName).channelID}>`)
-          lastIndex = name.index + name[0].length
+          result.push(message.slice(lastIndex, name.index));
+          result.push(`<#${getChannel(channelName).channelID}>`);
+          lastIndex = name.index + name[0].length;
         } else {
           reg.lastIndex = lastIndex + i;
         }
         i += 1;
       }
-      result.push(message.slice(lastIndex))
-      return result.join('');
+      result.push(message.slice(lastIndex));
+      return result.join("");
     },
 
     replaceMentions(message) {
@@ -354,8 +369,9 @@ export default {
       let tempID;
       if (genTempID) tempID = this.generateNum(25);
       return {
-        msg, tempID
-      }
+        msg,
+        tempID
+      };
     },
     async sendMessage() {
       this.$refs["input-box"].focus();
@@ -367,7 +383,7 @@ export default {
       clearInterval(this.postTimerID);
       this.postTimerID = null;
 
-      const {msg, tempID} = this.messageSetup(true);
+      const { msg, tempID } = this.messageSetup(true);
 
       const addMessage = {
         sender: true,
@@ -435,7 +451,7 @@ export default {
             creator: {
               username: "Whoopsies!",
               uniqueID: "12345678",
-              bot: true,
+              bot: true
             },
             message: message,
             messageID: Math.floor(Math.random() * 10999 + 0).toString(),
@@ -475,7 +491,7 @@ export default {
       clearInterval(this.postTimerID);
       this.postTimerID = null;
 
-      const {msg} = this.messageSetup();
+      const { msg } = this.messageSetup();
       this.$store.dispatch("updateMessage", {
         channelID: editMessage.channelID,
         messageID: editMessage.messageID,
@@ -560,17 +576,26 @@ export default {
       // DM Tab
       if (this.currentTab === 1) {
         // add self
-          if (this.user.username.toLowerCase().replace(/\s/g, "").includes(wordWithoutBegining)) {
-            searchedMembers.push(this.user);
-          }
+        if (
+          this.user.username
+            .toLowerCase()
+            .replace(/\s/g, "")
+            .includes(wordWithoutBegining)
+        ) {
+          searchedMembers.push(this.user);
+        }
         const recipients = this.channel.recipients;
         for (let index = 0; index < recipients.length; index++) {
           const recipient = recipients[index];
-            if (recipient.username.toLowerCase().replace(/\s/g, "").includes(wordWithoutBegining)) {
+          if (
+            recipient.username
+              .toLowerCase()
+              .replace(/\s/g, "")
+              .includes(wordWithoutBegining)
+          ) {
             searchedMembers.push(recipient);
           }
         }
-
       } else {
         for (let index = 0; index < this.serverMembers.length; index++) {
           const serverMember = this.serverMembers[index];

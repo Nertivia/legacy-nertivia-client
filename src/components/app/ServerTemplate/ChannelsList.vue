@@ -55,10 +55,7 @@ export default {
         localStorage.getItem("currentChannels") || "{}"
       );
       currentChannels[this.serverID] = channel.channelID;
-      localStorage.setItem(
-        "currentChannels",
-        JSON.stringify(currentChannels)
-      );
+      localStorage.setItem("currentChannels", JSON.stringify(currentChannels));
       bus.$emit("closeLeftMenu");
       this.$store.dispatch("openChannel", channel);
       this.$store.dispatch("currentChannelID", channel.channelID);
@@ -74,7 +71,9 @@ export default {
       });
     },
     changeCurrentChannelIndex(direction) {
-      let currentChannelIndex = this.serverChannels.findIndex(c => c.channelID === this.currentChannelID)
+      let currentChannelIndex = this.serverChannels.findIndex(
+        c => c.channelID === this.currentChannelID
+      );
       if (!(currentChannelIndex + 1)) currentChannelIndex = 0;
       if (direction === "up") {
         currentChannelIndex -= 1;
@@ -82,7 +81,7 @@ export default {
         currentChannelIndex += 1;
       }
       if (!this.serverChannels[currentChannelIndex]) return;
-      this.openChannel(this.serverChannels[currentChannelIndex])
+      this.openChannel(this.serverChannels[currentChannelIndex]);
     }
   },
   async beforeMount() {
@@ -108,10 +107,10 @@ export default {
     }
   },
   mounted() {
-    bus.$on('channels:changeCurrentIndex', this.changeCurrentChannelIndex);
+    bus.$on("channels:changeCurrentIndex", this.changeCurrentChannelIndex);
   },
   destroyed() {
-    bus.$off('channels:changeCurrentIndex', this.changeCurrentChannelIndex);
+    bus.$off("channels:changeCurrentIndex", this.changeCurrentChannelIndex);
   },
   computed: {
     currentChannelID() {

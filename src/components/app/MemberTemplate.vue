@@ -18,10 +18,14 @@
       <div class="username" :style="{ color: roleColor }">
         {{ user.username }}
       </div>
-      <div v-if="programActivityStatus && presense" class="custom-status program" :title="`${programActivityStatus.status} ${programActivityStatus.name}`">
+      <div
+        v-if="programActivityStatus && presense"
+        class="custom-status program"
+        :title="`${programActivityStatus.status} ${programActivityStatus.name}`"
+      >
         <span class="icon material-icons">widgets</span>
-        <strong>{{programActivityStatus.status}}</strong>
-        <span>{{programActivityStatus.name}}</span>
+        <strong>{{ programActivityStatus.status }}</strong>
+        <span>{{ programActivityStatus.name }}</span>
       </div>
       <Markup
         :title="customStatus"
@@ -45,12 +49,12 @@ export default {
   props: ["user", "avatar", "type", "member"],
   data() {
     return {
-      hover: false,
+      hover: false
     };
   },
   computed: {
     isBot() {
-      return this.member.type === "BOT"
+      return this.member.type === "BOT";
     },
     serverID() {
       return this.$store.getters["servers/currentServerID"];
@@ -72,8 +76,10 @@ export default {
       return customStatusArr[this.user.uniqueID];
     },
     programActivityStatus() {
-      const programActivityJson = this.$store.getters["members/programActivity"];
-      return programActivityJson[this.user.uniqueID]
+      const programActivityJson = this.$store.getters[
+        "members/programActivity"
+      ];
+      return programActivityJson[this.user.uniqueID];
     },
     roles() {
       return this.$store.getters["servers/currentServerRoles"];
@@ -82,7 +88,7 @@ export default {
       if (!this.member || !this.member.roles) return undefined;
       if (!this.roles) return undefined;
 
-      let filter = this.roles.filter((r) => this.member.roles.includes(r.id));
+      let filter = this.roles.filter(r => this.member.roles.includes(r.id));
 
       if (filter.length) {
         if (filter[0].color) {
@@ -91,12 +97,12 @@ export default {
           return undefined;
         }
       } else {
-        return this.roles.find((r) => r.default).color + " !important";
+        return this.roles.find(r => r.default).color + " !important";
       }
     },
     isAdmin() {
       if (!this.roles) return false;
-      const defaultRole = this.roles.find((r) => r.default === true);
+      const defaultRole = this.roles.find(r => r.default === true);
       if (containsPerm(defaultRole.permissions, permissions.ADMIN.value)) {
         return true;
       }
@@ -106,7 +112,7 @@ export default {
 
       for (let index = 0; index < this.member.roles.length; index++) {
         const roleID = this.member.roles[index];
-        const role = this.roles.find((r) => r.id === roleID);
+        const role = this.roles.find(r => r.id === roleID);
         if (role) {
           if (containsPerm(role.permissions, permissions.ADMIN.value)) {
             return true;
@@ -115,7 +121,7 @@ export default {
       }
 
       return false;
-    },
+    }
   },
   methods: {
     openUserInformation() {
@@ -128,10 +134,10 @@ export default {
         serverID: this.serverID,
         uniqueID: this.user.uniqueID,
         x,
-        y,
+        y
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -188,7 +194,6 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   height: 18px;
-
 }
 .custom-status.program strong {
   margin-right: 3px;

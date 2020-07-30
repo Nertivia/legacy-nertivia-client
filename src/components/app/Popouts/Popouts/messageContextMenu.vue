@@ -1,7 +1,14 @@
 <template>
-  <div class="drop-down-menu msg-context-popout" v-click-outside="outsideClick" ref="mainMenu">
-
-    <div class="item" @click="copyMessage" v-if="!isPrecense && highlightedText">
+  <div
+    class="drop-down-menu msg-context-popout"
+    v-click-outside="outsideClick"
+    ref="mainMenu"
+  >
+    <div
+      class="item"
+      @click="copyMessage"
+      v-if="!isPrecense && highlightedText"
+    >
       <div class="material-icons">developer_board</div>
       <div class="name">Copy</div>
     </div>
@@ -15,11 +22,19 @@
       <div class="name">User ></div>
     </div>
 
-    <div class="item" @click="quoteMessage" v-if="!isPrecense && !highlightedText">
+    <div
+      class="item"
+      @click="quoteMessage"
+      v-if="!isPrecense && !highlightedText"
+    >
       <div class="material-icons">format_quote</div>
       <div class="name">Quote</div>
     </div>
-    <div class="item" @click="copyMessage" v-if="!isPrecense && !highlightedText">
+    <div
+      class="item"
+      @click="copyMessage"
+      v-if="!isPrecense && !highlightedText"
+    >
       <div class="material-icons">developer_board</div>
       <div class="name">Copy</div>
     </div>
@@ -27,7 +42,11 @@
       <div class="material-icons">edit</div>
       <div class="name">Edit</div>
     </div>
-    <div class="item warn" @click="deleteMessage" v-if="showDeleteOption || hasAdminRole">
+    <div
+      class="item warn"
+      @click="deleteMessage"
+      v-if="showDeleteOption || hasAdminRole"
+    >
       <div class="material-icons">delete</div>
       <div class="name">Delete</div>
     </div>
@@ -35,8 +54,8 @@
 </template>
 
 <script>
-import { bus } from '../../../../main';
-import { containsPerm, permissions } from '../../../../utils/RolePermissions';
+import { bus } from "../../../../main";
+import { containsPerm, permissions } from "../../../../utils/RolePermissions";
 export default {
   data() {
     return {};
@@ -63,7 +82,7 @@ export default {
       this.closeMenu();
     },
     quoteMessage() {
-      bus.$emit("insertInputMessage", `<m${this.contextDetails.messageID}>`)
+      bus.$emit("insertInputMessage", `<m${this.contextDetails.messageID}>`);
       this.closeMenu();
     },
     copyMessage() {

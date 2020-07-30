@@ -10,8 +10,13 @@
         <div class="survey-content">
           <div class="left">
             <!-- name -->
-            <custom-input theme="light" class="input" name="Name" v-model="items.name"/>
-            
+            <custom-input
+              theme="light"
+              class="input"
+              name="Name"
+              v-model="items.name"
+            />
+
             <!-- Gender -->
             <drop-down
               class="dropdown"
@@ -56,7 +61,13 @@
               @change="changeEvent('country', $event)"
             />
             <!-- About me -->
-            <custom-input theme="light" class="input" name="About me" type="textarea" v-model="items.about_me"/>
+            <custom-input
+              theme="light"
+              class="input"
+              name="About me"
+              type="textarea"
+              v-model="items.about_me"
+            />
           </div>
         </div>
       </div>
@@ -76,7 +87,7 @@ import DropDown from "./../ServerSettingsPanels/DropDownMenu";
 import surveyItems from "@/utils/surveyItems.js";
 import userService from "@/services/userService.js";
 import Spinner from "@/components/global/Spinner";
-import CustomInput from '@/components/global/CustomInput';
+import CustomInput from "@/components/global/CustomInput";
 export default {
   components: { DropDown, Spinner, CustomInput },
   data() {
@@ -298,7 +309,8 @@ textarea:hover {
   .survey-content {
     flex-direction: column;
   }
-  .left, .right {
+  .left,
+  .right {
     align-items: center;
     align-items: center;
     .input {

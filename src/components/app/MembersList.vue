@@ -91,11 +91,11 @@ export default {
   mounted() {
     this.$nextTick(() => {
       this.resize();
-    })
+    });
   },
   watch: {
     windowSize() {
-      this.resize()
+      this.resize();
     }
   },
   computed: {
@@ -168,15 +168,14 @@ export default {
 
           if (!includes) isOnline = true;
 
-          if ( includes && role.hideRole) {
+          if (includes && role.hideRole) {
             isOnline = true;
             break;
-          } else if (includes){
+          } else if (includes) {
             isOnline = false;
             break;
           }
         }
-
 
         if (isOnline) return sm;
         return false;
@@ -229,7 +228,6 @@ export default {
   background: #272e37;
 
   border-top-left-radius: 10px;
-
 }
 .header {
   height: 40px;
@@ -239,7 +237,6 @@ export default {
   display: flex;
   flex-shrink: 0;
   border-radius: 5px;
-  
 }
 .header .title {
   user-select: none;

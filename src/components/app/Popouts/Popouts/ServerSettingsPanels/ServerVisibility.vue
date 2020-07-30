@@ -267,7 +267,11 @@ export default {
 .button {
   padding: 10px;
   border-radius: 4px;
-  background: linear-gradient(137deg, rgba(45,136,255,1) 0%, rgba(87,160,255,1) 100%);
+  background: linear-gradient(
+    137deg,
+    rgba(45, 136, 255, 1) 0%,
+    rgba(87, 160, 255, 1) 100%
+  );
   -webkit-transition: background 0.3s;
   transition: 0.3s;
   -webkit-user-select: none;
@@ -283,7 +287,11 @@ export default {
 
 .button:hover {
   opacity: 1;
-  background: linear-gradient(137deg, rgba(45,136,255,1) 0%, rgba(87,160,255,1) 100%);
+  background: linear-gradient(
+    137deg,
+    rgba(45, 136, 255, 1) 0%,
+    rgba(87, 160, 255, 1) 100%
+  );
 }
 .button.disabled {
   background: grey;
@@ -293,7 +301,7 @@ export default {
   margin: 10px;
 }
 @media (max-width: 614px) {
-  .content-inner{
+  .content-inner {
     margin-top: 0;
   }
 }

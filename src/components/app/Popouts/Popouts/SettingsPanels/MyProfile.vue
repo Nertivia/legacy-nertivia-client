@@ -74,7 +74,7 @@ export default {
 .tabs .tab:hover {
   color: white;
 }
-.tabs .tab.selected{
+.tabs .tab.selected {
   color: white;
 }
 .tabs .tab:after {

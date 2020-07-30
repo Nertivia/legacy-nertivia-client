@@ -1,5 +1,10 @@
 <template>
-  <div class="item" :class="{verified: server.server.verified}" @mouseenter="hover = true" @mouseleave="hover = false">
+  <div
+    class="item"
+    :class="{ verified: server.server.verified }"
+    @mouseenter="hover = true"
+    @mouseleave="hover = false"
+  >
     <div class="top">
       <div
         class="background-dark"
@@ -19,12 +24,16 @@
           :uniqueID="server.server.server_id"
           :hover="true"
         />
-        <div class="verified" v-if="server.server.verified" title="Verified Server">
+        <div
+          class="verified"
+          v-if="server.server.verified"
+          title="Verified Server"
+        >
           <span class="material-icons">check</span>
         </div>
       </div>
       <div class="name">
-        <div class="name-container" :title="server.server.name ">
+        <div class="name-container" :title="server.server.name">
           <span class="inner-name">{{ server.server.name }}</span>
         </div>
       </div>
@@ -37,13 +46,13 @@
           {{ server.total_members }}
         </div>
         <div class="button" :class="{ selected: joined }" @click="joinButton">
-          <span v-if="joined">{{$t('joined')}}</span>
+          <span v-if="joined">{{ $t("joined") }}</span>
           <spinner v-else-if="joinClicked" :size="30" />
-          <span v-else-if="!joinClicked">{{$t('join-server')}}</span>
+          <span v-else-if="!joinClicked">{{ $t("join-server") }}</span>
         </div>
       </div>
       <div class="created-by">
-        {{this.$t('created-by')}}
+        {{ this.$t("created-by") }}
         <span @click="openUserInformation">{{ server.creator.username }}</span>
       </div>
     </div>

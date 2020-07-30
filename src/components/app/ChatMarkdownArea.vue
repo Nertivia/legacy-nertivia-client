@@ -56,7 +56,7 @@
 export default {
   model: {
     prop: "customColor",
-    event: "changeColor",
+    event: "changeColor"
   },
   props: ["customColor"],
   methods: {
@@ -78,7 +78,7 @@ export default {
         this.message = [
           this.message.slice(0, endPos),
           type + (customEnding || type),
-          this.message.slice(endPos),
+          this.message.slice(endPos)
         ].join("");
         this.$nextTick(() => {
           const offsetCursorPos = customPos || type.length;
@@ -93,13 +93,13 @@ export default {
       this.message = [
         this.message.slice(0, startPos),
         type + selected + (customEnding || type),
-        this.message.slice(endPos),
+        this.message.slice(endPos)
       ].join("");
       this.$nextTick(() => {
         msgBox.focus();
         msgBox.setSelectionRange(startPos + type.length, endPos + type.length);
       });
-    },
+    }
   },
   computed: {
     message: {
@@ -108,9 +108,9 @@ export default {
       },
       set: function(value) {
         this.$store.dispatch("setMessage", value);
-      },
-    },
-  },
+      }
+    }
+  }
 };
 </script>
 

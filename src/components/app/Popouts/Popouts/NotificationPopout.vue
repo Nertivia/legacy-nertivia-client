@@ -1,7 +1,6 @@
 <template>
-  <div class="notification">{{detail.message}}</div>
+  <div class="notification">{{ detail.message }}</div>
 </template>
-
 
 <script>
 export default {
@@ -12,7 +11,7 @@ export default {
   },
   methods: {
     intervalSet() {
-    clearTimeout(this.interval)
+      clearTimeout(this.interval);
       this.interval = setTimeout(() => {
         this.$store.dispatch("setAllPopout", {
           show: false,
@@ -26,7 +25,7 @@ export default {
   },
   watch: {
     "detail.id"() {
-        this.intervalSet();
+      this.intervalSet();
     }
   },
   computed: {
@@ -35,7 +34,7 @@ export default {
     }
   },
   mounted() {
-      this.intervalSet()
+    this.intervalSet();
   }
 };
 </script>
@@ -61,6 +60,5 @@ export default {
   user-select: none;
   cursor: default;
   transform: translate(-50%, -50%);
-
 }
 </style>

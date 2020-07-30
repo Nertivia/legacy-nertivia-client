@@ -44,7 +44,6 @@ const actions = {
       settings
     } = data;
 
-
     const friendsArr = user.friends;
 
     const presenceObj = {};
@@ -71,7 +70,10 @@ const actions = {
     if (programActivityArr.length) {
       for (let index = 0; index < programActivityArr.length; index++) {
         const programActivity = programActivityArr[index];
-        programActivityObj[programActivity.uniqueID] = { name: programActivity.name, status: programActivity.status }
+        programActivityObj[programActivity.uniqueID] = {
+          name: programActivity.name,
+          status: programActivity.status
+        };
       }
     }
 
@@ -204,7 +206,9 @@ const actions = {
       status: member.status
     });
     if (friend.program_activity) {
-      context.dispatch('members/addProgramActivity', { [member.uniqueID]: friend.program_activity })
+      context.dispatch("members/addProgramActivity", {
+        [member.uniqueID]: friend.program_activity
+      });
     }
     context.dispatch("members/updateCustomStatus", {
       uniqueID: member.uniqueID,
@@ -262,13 +266,14 @@ const actions = {
         m => m.uniqueID === context.rootState.user.user.uniqueID
       )
     };
-    const notificationExists = context.rootGetters.notifications.find(n => n.channelID === data.message.channelID)
+    const notificationExists = context.rootGetters.notifications.find(
+      n => n.channelID === data.message.channelID
+    );
     if (notificationExists) {
-      notification.lastMessageID = notificationExists.lastMessageID
+      notification.lastMessageID = notificationExists.lastMessageID;
     } else {
       notification.lastMessageID = data.message.messageID;
     }
-
 
     context.dispatch("messageCreatedNotification", notification);
     function desktopNotification() {
@@ -283,7 +288,10 @@ const actions = {
       if (isElectron && disableDesktopNotification === undefined)
         return sendNotification();
 
-      if ( disableDesktopNotification !== undefined && disableDesktopNotification === false )
+      if (
+        disableDesktopNotification !== undefined &&
+        disableDesktopNotification === false
+      )
         return sendNotification();
 
       function sendNotification() {
@@ -305,7 +313,7 @@ const actions = {
             avatarURL:
               config.domain + "/avatars/" + data.message.creator.avatar,
             message: data.message.message,
-            open: function () {
+            open: function() {
               context.dispatch("setCurrentTab", 1, { root: true });
               context.dispatch(
                 "openChat",
@@ -329,8 +337,7 @@ const actions = {
     });
   },
   ["socket_programActivity:changed"](context, data) {
-    context.dispatch("members/updateProgramActivity", data)
-
+    context.dispatch("members/updateProgramActivity", data);
   },
   ["socket_member:customStatusChange"](context, data) {
     if (context.rootState.user.user.uniqueID === data.uniqueID) return;
@@ -478,7 +485,10 @@ const actions = {
     context.dispatch("servers/removeAllServerChannels", server_id);
     context.dispatch("deleteAllMessages", serverChannelIDs);
   },
-  ["socket_server:memberAdd"](context, { serverMember, presence, custom_status }) {
+  ["socket_server:memberAdd"](
+    context,
+    { serverMember, presence, custom_status }
+  ) {
     // member_add
     let sm = Object.assign({}, serverMember);
     const member = sm.member;
@@ -500,7 +510,15 @@ const actions = {
     // member_remove
     context.dispatch("servers/removeServerMember", { uniqueID, server_id });
   },
-  ["socket_server:members"](context, { serverMembers, memberPresences, memberCustomStatusArr, programActivityArr }) {
+  ["socket_server:members"](
+    context,
+    {
+      serverMembers,
+      memberPresences,
+      memberCustomStatusArr,
+      programActivityArr
+    }
+  ) {
     // members
     let serverMembersArr = [];
     let members = {};
@@ -513,15 +531,14 @@ const actions = {
     }
     context.dispatch("members/addMembers", members);
     context.dispatch("servers/addServerMembers", serverMembers);
-    let customStatusObj = {}
-    let programActivityObj = {}
+    let customStatusObj = {};
+    let programActivityObj = {};
     let presencesObj = {};
     for (let index = 0; index < memberPresences.length; index++) {
       const presence = memberPresences[index];
       presencesObj[presence[0]] = presence[1];
     }
     context.dispatch("members/addPresences", presencesObj);
-
 
     for (let index = 0; index < memberCustomStatusArr.length; index++) {
       const customStatus = memberCustomStatusArr[index];
@@ -536,8 +553,6 @@ const actions = {
     context.dispatch("members/addProgramActivity", programActivityObj);
 
     context.dispatch("members/addCustomStatusArr", customStatusObj);
-
-
   },
   ["socket_server:addChannel"](context, { channel }) {
     // add_channel
@@ -568,7 +583,7 @@ const actions = {
       message: {
         replace: true,
         ...data
-      },
+      }
     });
   },
   ["socket_deleteMessage"](context, { channelID, messageID }) {

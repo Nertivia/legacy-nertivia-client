@@ -85,7 +85,11 @@ export default {
   color: white;
 }
 .channel.selected {
-  background: linear-gradient(137deg, rgba(45,136,255,1) 0%, rgba(87,160,255,1) 100%);
+  background: linear-gradient(
+    137deg,
+    rgba(45, 136, 255, 1) 0%,
+    rgba(87, 160, 255, 1) 100%
+  );
   color: white;
 }
 

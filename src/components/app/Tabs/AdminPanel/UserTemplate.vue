@@ -17,16 +17,15 @@
       <div class="presence" v-if="presence">{{ presence }}</div>
       <div class="suspended" v-if="user.banned">Suspended</div>
     </div>
-
   </div>
 </template>
 
 <script>
 import friendlyDate from "@/utils/date";
 import statuses from "@/utils/statuses";
-import ProfilePicture from '@/components/global/ProfilePictureTemplate';
+import ProfilePicture from "@/components/global/ProfilePictureTemplate";
 export default {
-  components: {ProfilePicture},
+  components: { ProfilePicture },
   props: ["user"],
   computed: {
     date() {
@@ -47,7 +46,7 @@ export default {
         type: "ADMIN_MANAGE_USER",
         user: this.user
       });
-    } 
+    }
   }
 };
 </script>

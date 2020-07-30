@@ -5,7 +5,14 @@
         <spinner v-if="bans === null" />
 
         <div class="member" v-for="(ban, index) in bans" :key="index">
-          <profile-picture class="avatar" :uniqueID="ban.user.uniqueID" :avatar="ban.user.avatar" size="30px" :hover="true" animation-padding="4px" />
+          <profile-picture
+            class="avatar"
+            :uniqueID="ban.user.uniqueID"
+            :avatar="ban.user.avatar"
+            size="30px"
+            :hover="true"
+            animation-padding="4px"
+          />
 
           <div class="details" @click="showProfile(ban.user.uniqueID)">
             <div class="username">{{ ban.user.username }}</div>
@@ -24,7 +31,7 @@
 import ServerService from "@/services/ServerService";
 import ProfilePicture from "@/components/global/ProfilePictureTemplate";
 import Spinner from "@/components/global/Spinner";
-import config from '@/config';
+import config from "@/config";
 
 export default {
   components: { Spinner, ProfilePicture },
@@ -115,7 +122,7 @@ export default {
   }
 }
 @media (max-width: 614px) {
-  .content-inner{
+  .content-inner {
     margin-top: 0;
   }
 }

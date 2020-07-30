@@ -6,7 +6,7 @@
       @click="saveNotesBtn"
     >
       <div class="material-icons">notes</div>
-      <div class="name">{{$t('saved-notes')}}</div>
+      <div class="name">{{ $t("saved-notes") }}</div>
     </div>
     <div class="tabs">
       <div
@@ -15,7 +15,7 @@
         @click="currentTab = 0"
       >
         <div class="material-icons">group</div>
-        {{$t('friends')}}
+        {{ $t("friends") }}
       </div>
       <div
         class="tab"
@@ -23,7 +23,7 @@
         @click="currentTab = 1"
       >
         <div class="material-icons">access_time</div>
-        {{$t('recents')}}
+        {{ $t("recents") }}
       </div>
     </div>
     <div class="list">
@@ -191,7 +191,6 @@ export default {
   }
 }
 .saved-notes-button {
-
   border-radius: 5px;
   color: rgba(255, 255, 255, 0.8);
   background: rgba(255, 255, 255, 0.1);
@@ -202,8 +201,12 @@ export default {
   }
   &.selected {
     color: white;
-    background: rgb(188,0,255);
-    background: linear-gradient(90deg, rgba(188,0,255,1) 0%, rgba(0,164,255,1) 100%);
+    background: rgb(188, 0, 255);
+    background: linear-gradient(
+      90deg,
+      rgba(188, 0, 255, 1) 0%,
+      rgba(0, 164, 255, 1) 100%
+    );
     box-shadow: 0px 0px 5px 1px rgba(0, 166, 255, 0.63);
   }
 }

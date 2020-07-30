@@ -41,7 +41,11 @@
     </div>
     <div class="left">
       <div class="title" v-if="embed.url">
-        <a target="”_blank”" :href=" (!embed.url.startsWith('http') ? 'https://' : '') + embed.url">{{ embed.title }}</a>
+        <a
+          target="”_blank”"
+          :href="(!embed.url.startsWith('http') ? 'https://' : '') + embed.url"
+          >{{ embed.title }}</a
+        >
       </div>
       <div class="title" v-else>{{ embed.title }}</div>
       <div class="description">{{ embed.description }}</div>

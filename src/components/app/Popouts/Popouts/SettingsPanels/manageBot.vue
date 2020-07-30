@@ -11,8 +11,16 @@
           :hover="true"
           animation-padding="4px"
         />
-        <div class="button" @click="$refs.avatarBrowser.click()">Change Avatar</div>
-        <input ref="avatarBrowser" @change="avatarChangeEvent" type="file" accept=".jpeg, .jpg, .png, .gif" class="hidden" />
+        <div class="button" @click="$refs.avatarBrowser.click()">
+          Change Avatar
+        </div>
+        <input
+          ref="avatarBrowser"
+          @change="avatarChangeEvent"
+          type="file"
+          accept=".jpeg, .jpg, .png, .gif"
+          class="hidden"
+        />
       </div>
       <div class="outer-input">
         <div class="title">Username</div>
@@ -36,9 +44,14 @@
         <div class="sub-title">Bot Invite Link:</div>
         <div class="link">
           <a
-            :href="`https://nertivia.tk/bots/${this.bot.uniqueID}?perms=${perms}`"
+            :href="
+              `https://nertivia.tk/bots/${this.bot.uniqueID}?perms=${perms}`
+            "
             target="_blank"
-          >{{`https://nertivia.tk/bots/${this.bot.uniqueID}?perms=${perms}`}}</a>
+            >{{
+              `https://nertivia.tk/bots/${this.bot.uniqueID}?perms=${perms}`
+            }}</a
+          >
         </div>
         <div class="sub-title">Permissions:</div>
         <div class="perms-list">
@@ -48,33 +61,39 @@
             :key="perm.value"
             @click="togglePermission(perm)"
           >
-            <div class="box" :class="{checked: perm.enabled}" />
-            <div class="name">{{perm.name}}</div>
+            <div class="box" :class="{ checked: perm.enabled }" />
+            <div class="name">{{ perm.name }}</div>
           </div>
         </div>
       </div>
       <div class="token">
-        <div
-          class="reveal-link"
-          @click="showToken = !showToken"
-        >{{showToken ? 'Hide Token' : 'Show Token'}}</div>
-        <input class="token-inner" v-if="showToken" :value="token" readonly="readonly" />
+        <div class="reveal-link" @click="showToken = !showToken">
+          {{ showToken ? "Hide Token" : "Show Token" }}
+        </div>
+        <input
+          class="token-inner"
+          v-if="showToken"
+          :value="token"
+          readonly="readonly"
+        />
         <div class="copy-token-button" @click="copyToken">Copy</div>
         <div class="copy-token-button" @click="resetToken">Reset Token</div>
       </div>
       <div class="button" @click="showMore = !showMore">Show More Options</div>
       <div class="more-options" v-if="showMore">
-        <div class="button" @click="deleteButton">{{deleteSure ? 'Are you sure?' : 'Delete Bot'}}</div>
+        <div class="button" @click="deleteButton">
+          {{ deleteSure ? "Are you sure?" : "Delete Bot" }}
+        </div>
       </div>
     </div>
     <div class="buttons">
       <div class="button" @click="$emit('back')">Back</div>
-      <div class="button" @click="saveButton">{{saving ? 'Saving...' : 'Save'}}</div>
+      <div class="button" @click="saveButton">
+        {{ saving ? "Saving..." : "Save" }}
+      </div>
     </div>
   </div>
 </template>
-
-
 
 <script>
 import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
@@ -101,7 +120,7 @@ export default {
       update: {},
       errors: null,
       key: 0,
-      saving: false,
+      saving: false
     };
   },
   async mounted() {
@@ -123,7 +142,7 @@ export default {
     async resetToken() {
       const { ok, result } = await botsService.resetToken(this.bot.uniqueID);
       if (ok) {
-        this.token = result.data.token
+        this.token = result.data.token;
       }
     },
     deleteButton() {
@@ -148,8 +167,8 @@ export default {
         this.bot.uniqueID
       );
       if (ok) {
-        this.$emit("update", result.data)    
-        this.update = {}
+        this.$emit("update", result.data);
+        this.update = {};
         this.key = Math.random();
       } else {
         if (error.response === undefined) {
@@ -268,7 +287,11 @@ export default {
     margin-top: 10px;
     opacity: 0.8;
     transition: 0.2s;
-    background: linear-gradient(137deg, rgba(45,136,255,1) 0%, rgba(87,160,255,1) 100%);
+    background: linear-gradient(
+      137deg,
+      rgba(45, 136, 255, 1) 0%,
+      rgba(87, 160, 255, 1) 100%
+    );
 
     &:hover {
       opacity: 1;

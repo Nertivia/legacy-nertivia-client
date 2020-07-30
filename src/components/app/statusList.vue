@@ -5,31 +5,31 @@
         <span class="status-icon">
           <img class="icon" :src="getStatusLogo(1)" />
         </span>
-        <span class="text">{{$t('online')}}</span>
+        <span class="text">{{ $t("online") }}</span>
       </div>
       <div class="status-list" @click="changeStatus(2)">
         <span class="status-icon">
           <img class="icon" :src="getStatusLogo(2)" />
         </span>
-        <span class="text">{{$t('away')}}</span>
+        <span class="text">{{ $t("away") }}</span>
       </div>
       <div class="status-list" @click="changeStatus(3)">
         <span class="status-icon">
           <img class="icon" :src="getStatusLogo(3)" />
         </span>
-        <span class="text">{{$t('busy')}}</span>
+        <span class="text">{{ $t("busy") }}</span>
       </div>
       <div class="status-list" @click="changeStatus(4)">
         <span class="status-icon">
           <img class="icon" :src="getStatusLogo(4)" />
         </span>
-        <span class="text">{{$t('looking-to-play')}}</span>
+        <span class="text">{{ $t("looking-to-play") }}</span>
       </div>
       <div class="status-list" @click="changeStatus(0)">
         <span class="status-icon">
           <img class="icon" :src="getStatusLogo(0)" />
         </span>
-        <span class="text">{{$t('offline')}}</span>
+        <span class="text">{{ $t("offline") }}</span>
       </div>
     </div>
   </transition>
@@ -81,7 +81,7 @@ export default {
 }
 
 .status-list:hover {
-  background: rgba(255, 255, 255, 0.2);;
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .status-icon {

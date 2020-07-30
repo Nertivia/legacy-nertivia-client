@@ -35,7 +35,7 @@ export default {
     return {
       mediaDomain: config.domain + "/media/",
       themeDetail: undefined,
-      applied: false,
+      applied: false
     };
   },
   methods: {
@@ -58,7 +58,7 @@ export default {
         const styleEl = document.createElement("style");
         styleEl.classList.add("theme-" + id);
         styleEl.id = "theme";
-        zip().then((utils) => {
+        zip().then(utils => {
           styleEl.innerHTML = utils.unzip(css) || css;
 
           const currentStyle = document.getElementById("theme");
@@ -70,7 +70,7 @@ export default {
           this.applied = id;
         });
       }
-    },
+    }
   },
   async mounted() {
     const id = this.theme[1];
@@ -81,7 +81,7 @@ export default {
     } else {
       this.themeDetail = result.data;
     }
-  },
+  }
 };
 </script>
 

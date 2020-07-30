@@ -17,14 +17,19 @@
       isTyping && Object.values(isTyping).length ? '36px' : '5px'
     "
   >
-    <div class="load-more-button" v-if="loadMoreTop.show && currentChannelMessages.length >= 50">
+    <div
+      class="load-more-button"
+      v-if="loadMoreTop.show && currentChannelMessages.length >= 50"
+    >
       <spinner :size="30" v-if="loadMoreTop.loading" />
-      <div class="text" v-if="!loadMoreTop.loading" @click="loadMoreMessages">Load more</div>
+      <div class="text" v-if="!loadMoreTop.loading" @click="loadMoreMessages">
+        Load more
+      </div>
     </div>
     <message
       v-for="(msg, index) in currentChannelMessages"
       :class="{
-        'show-message-animation': index === currentChannelMessages.length - 1,
+        'show-message-animation': index === currentChannelMessages.length - 1
       }"
       :ref="`message-${msg.messageID}`"
       :key="msg.tempID || msg.messageID"
@@ -36,9 +41,18 @@
     />
     <!-- {{ groupedMessages }} -->
     <uploadsQueue v-if="uploadQueue !== undefined" :queue="uploadQueue" />
-    <div class="load-more-button" v-if="loadMoreBottom.show && currentChannelMessages.length >= 50">
+    <div
+      class="load-more-button"
+      v-if="loadMoreBottom.show && currentChannelMessages.length >= 50"
+    >
       <spinner :size="30" v-if="loadMoreBottom.loading" />
-      <div class="text" v-if="!loadMoreBottom.loading" @click="loadBottomMessages">Load more</div>
+      <div
+        class="text"
+        v-if="!loadMoreBottom.loading"
+        @click="loadBottomMessages"
+      >
+        Load more
+      </div>
     </div>
   </CustomScroller>
   <!-- </div> -->
@@ -249,7 +263,7 @@ export default {
           block: "center",
           inline: "center"
         });
-        this.highlightMessage(messageID)
+        this.highlightMessage(messageID);
         return;
       }
 
@@ -277,7 +291,7 @@ export default {
               status: true
             });
             this.$set(this.loadMoreBottom, "show", true);
-            this.highlightMessage(messageID)
+            this.highlightMessage(messageID);
           })
         )
       );
@@ -290,15 +304,15 @@ export default {
         el.classList.remove("active");
       }, 3000);
     },
-    setNotificationLastMessageID(){
+    setNotificationLastMessageID() {
       if (this.channelNotifications) {
-        this.notificationLastMessageID = this.channelNotifications.lastMessageID
+        this.notificationLastMessageID = this.channelNotifications.lastMessageID;
       }
     }
   },
 
   mounted() {
-    this.setNotificationLastMessageID()
+    this.setNotificationLastMessageID();
     this.scrollEl = this.$refs.customScroller.$el.children[0];
     this.scrollEl.addEventListener("scroll", this.scrollEvent);
     this.currentChannelID = this.$store.getters.currentChannelID;
@@ -331,7 +345,7 @@ export default {
   watch: {
     "channelNotifications.count"() {
       if (!document.hasFocus()) {
-        this.setNotificationLastMessageID()
+        this.setNotificationLastMessageID();
       }
     },
     currentChannelMessages(newVal) {
@@ -349,7 +363,7 @@ export default {
     },
     currentChannelID(channelID) {
       if (!channelID) return;
-      this.setNotificationLastMessageID()
+      this.setNotificationLastMessageID();
       this.dismissNotification(channelID);
     },
     uploadQueue() {
@@ -366,7 +380,7 @@ export default {
     scrolledDown(scrolledDown) {
       bus.$emit("scrolledDown", scrolledDown);
       if (scrolledDown) this.scrolledDownEvent();
-    },
+    }
   },
   computed: {
     channelNotifications() {

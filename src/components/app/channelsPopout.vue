@@ -31,7 +31,7 @@ export default {
       const mention = event.target.closest(".item");
       const parent = event.target.parentElement.children;
       if (!mention) return;
-      const index = [...parent].findIndex((el) => el === mention);
+      const index = [...parent].findIndex(el => el === mention);
       if (index >= 0) this.index = index;
     },
     KeySwitch(key) {
@@ -46,9 +46,9 @@ export default {
       }
     },
     clickEvent() {
-      this.$emit("chosen")
-    },
-  },
+      this.$emit("chosen");
+    }
+  }
 };
 </script>
 

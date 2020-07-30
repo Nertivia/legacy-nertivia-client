@@ -1,9 +1,11 @@
 <template>
-  <div class="button" :class="{disabled: posting}" @click="onButtonClick">{{button.name}}</div>
+  <div class="button" :class="{ disabled: posting }" @click="onButtonClick">
+    {{ button.name }}
+  </div>
 </template>
 
 <script>
-import messagesService from '../../services/messagesService';
+import messagesService from "../../services/messagesService";
 export default {
   props: ["message", "button"],
   data() {
@@ -16,8 +18,15 @@ export default {
     async onButtonClick() {
       if (this.posting) return;
       this.posting = true;
-      this.$socket.client.once("message_button_click_callback", this.onCallback)
-      messagesService.buttonClick(this.message.channelID, this.message.messageID, this.button.id)
+      this.$socket.client.once(
+        "message_button_click_callback",
+        this.onCallback
+      );
+      messagesService.buttonClick(
+        this.message.channelID,
+        this.message.messageID,
+        this.button.id
+      );
       this.timeout = setTimeout(() => {
         this.posting = false;
       }, 20000);

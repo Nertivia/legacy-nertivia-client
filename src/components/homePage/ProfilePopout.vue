@@ -64,7 +64,7 @@ export default {
   position: absolute;
   display: flex;
   background: $box-secondary-color;
-  box-shadow: 2px 2px 5px 0px rgba(0, 0, 0,.49);
+  box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.49);
   backdrop-filter: blur(10px);
   border-radius: 5px;
   width: 300px;

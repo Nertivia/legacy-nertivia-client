@@ -8,12 +8,18 @@
     >
       <div
         class="verified"
-        v-if="!toolTipLocalName && servers[toolTipServerID] && servers[toolTipServerID].verified"
+        v-if="
+          !toolTipLocalName &&
+            servers[toolTipServerID] &&
+            servers[toolTipServerID].verified
+        "
         title="Verified Server"
       >
         <span class="material-icons">check</span>
       </div>
-      <div class="name">{{ toolTipLocalName || servers[toolTipServerID].name }}</div>
+      <div class="name">
+        {{ toolTipLocalName || servers[toolTipServerID].name }}
+      </div>
     </div>
     <div class="container" @mouseleave="mouseLeaveEvent">
       <div class="scrollable">
@@ -26,7 +32,10 @@
             @end="onEnd"
             @start="onStart"
           >
-            <transition-group type="transition" :name="!drag ? 'flip-list' : null">
+            <transition-group
+              type="transition"
+              :name="!drag ? 'flip-list' : null"
+            >
               <server-template
                 class="sortable"
                 v-for="data in serversArr"
@@ -43,13 +52,17 @@
         class="item material-icons"
         @click="addFriend"
         @mouseenter="localToolTipEvent($t('add-friend'), $event)"
-      >person_add</div>
+      >
+        person_add
+      </div>
       <div
         data-name="Add Server"
         class="item material-icons"
         @click="addServer"
         @mouseenter="localToolTipEvent($t('add-server'), $event)"
-      >add</div>
+      >
+        add
+      </div>
     </div>
   </div>
 </template>
@@ -117,8 +130,12 @@ export default {
       this.toolTipLocalName = name;
       this.toolTipShown = true;
       this.$nextTick(() => {
-        this.toolTipTopPosition = (rect.top - this.topHeight() + 70 / 2) - this.$refs["toolTip"].clientHeight / 2
-      })
+        this.toolTipTopPosition =
+          rect.top -
+          this.topHeight() +
+          70 / 2 -
+          this.$refs["toolTip"].clientHeight / 2;
+      });
     },
     serverToolTipEvent({ serverID, top }) {
       if (this.drag) return;
@@ -126,11 +143,15 @@ export default {
       this.toolTipServerID = serverID;
       this.toolTipShown = true;
       this.$nextTick(() => {
-          this.toolTipTopPosition = (top - this.topHeight() + 55 / 2 ) - this.$refs["toolTip"].clientHeight / 2
+        this.toolTipTopPosition =
+          top -
+          this.topHeight() +
+          55 / 2 -
+          this.$refs["toolTip"].clientHeight / 2;
       });
     },
     topHeight() {
-      return this.$refs["navigation"].getBoundingClientRect().top
+      return this.$refs["navigation"].getBoundingClientRect().top;
     },
     mouseLeaveEvent() {
       this.toolTipShown = false;
@@ -342,5 +363,4 @@ export default {
   .name {
   }
 }
-
 </style>

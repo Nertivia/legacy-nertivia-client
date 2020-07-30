@@ -16,33 +16,33 @@
 export default {
   data() {
     return {
-      view: "Click on tabs above to see data.",
-    }
+      view: "Click on tabs above to see data."
+    };
   },
   methods: {
     vuexLogButton() {
-      alert("Vuex logged to console.")
+      alert("Vuex logged to console.");
       console.log(this.$store);
     },
     printUser() {
       const user = JSON.parse(this.stateFiltered).user.user;
       user.friends = undefined;
-      this.view = JSON.stringify(user, null, 2);;
+      this.view = JSON.stringify(user, null, 2);
     },
     printNotifications() {
-      const notifications = this.$store.state.notificationsModule
+      const notifications = this.$store.state.notificationsModule;
       this.view = JSON.stringify(notifications, null, 2);
     },
     printAll() {
       this.view = this.stateFiltered;
-    },
+    }
   },
   computed: {
     stateFiltered() {
       // without stringifying it, data is still reactive.
       const state = { ...JSON.parse(JSON.stringify(this.$store.state)) };
       state.user.token = "hidden";
-      state.user.user.email = "hidden"
+      state.user.user.email = "hidden";
       return JSON.stringify(state, null, 2);
     }
   }

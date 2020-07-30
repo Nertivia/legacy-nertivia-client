@@ -5,8 +5,6 @@
 </template>
 
 <script>
-import { bus } from "@/main";
-
 export default {
   props: ["link"],
   methods: {
@@ -20,10 +18,9 @@ export default {
   },
   computed: {
     linkHttp() {
-      return this.link.startsWith('http') ? this.link : `http://${this.link}`
+      return this.link.startsWith("http") ? this.link : `http://${this.link}`;
     }
   }
-
 };
 </script>
 

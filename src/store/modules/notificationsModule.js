@@ -3,7 +3,7 @@ import NotificationSounds from "@/utils/notificationSound";
 
 const state = {
   notifications: [],
-  mutedChannels: [],
+  mutedChannels: []
 };
 
 const getters = {

@@ -22,15 +22,15 @@
         </div>
       </div>
       <div class="details" v-if="channels[currentChannelIndex]">
-          <custom-input
-            ref="name-input"
-            theme="light"
-            class="input"
-            type="text"
-            @input="inputEvent('name', $event)"
-            :default-value="channels[currentChannelIndex].name"
-            name="Channel Name"
-          />
+        <custom-input
+          ref="name-input"
+          theme="light"
+          class="input"
+          type="text"
+          @input="inputEvent('name', $event)"
+          :default-value="channels[currentChannelIndex].name"
+          name="Channel Name"
+        />
         <div class="perm-input">
           <div class="input-title">Permissions</div>
           <div class="check-box" @click="updatePermissions('send_message')">
@@ -107,7 +107,9 @@ export default {
       );
       if (ok) {
         this.update = { name: null };
-        this.$refs["name-input"].updateVal(this.channels[this.currentChannelIndex].name)
+        this.$refs["name-input"].updateVal(
+          this.channels[this.currentChannelIndex].name
+        );
       } else {
         if (error.response) {
           if (error.response.data.message)
@@ -137,7 +139,9 @@ export default {
     },
     channelClick(event, index) {
       this.currentChannelIndex = index;
-      this.$refs["name-input"].updateVal(this.channels[this.currentChannelIndex].name)
+      this.$refs["name-input"].updateVal(
+        this.channels[this.currentChannelIndex].name
+      );
       this.update = { name: null };
       this.deleteButtonConfirmed = false;
     },
@@ -210,15 +214,23 @@ export default {
   background: rgba(255, 255, 255, 0.1);
 }
 .channel.selected {
-  background: rgba(255, 255, 255, 0.2)
+  background: rgba(255, 255, 255, 0.2);
 }
 .add-channel-button {
-  background: linear-gradient(137deg, rgba(45,136,255,1) 0%, rgba(87,160,255,1) 100%);
+  background: linear-gradient(
+    137deg,
+    rgba(45, 136, 255, 1) 0%,
+    rgba(87, 160, 255, 1) 100%
+  );
   opacity: 0.8;
   transition: 0.3s;
 }
 .add-channel-button:hover {
-  background: linear-gradient(137deg, rgba(45,136,255,1) 0%, rgba(87,160,255,1) 100%);
+  background: linear-gradient(
+    137deg,
+    rgba(45, 136, 255, 1) 0%,
+    rgba(87, 160, 255, 1) 100%
+  );
   opacity: 1;
 }
 .details {
@@ -228,7 +240,11 @@ export default {
   overflow: hidden;
 }
 .button {
-  background: linear-gradient(137deg, rgba(45,136,255,1) 0%, rgba(87,160,255,1) 100%);
+  background: linear-gradient(
+    137deg,
+    rgba(45, 136, 255, 1) 0%,
+    rgba(87, 160, 255, 1) 100%
+  );
   opacity: 0.8;
   padding: 10px;
   align-self: center;
@@ -267,7 +283,7 @@ export default {
   border-radius: 0;
   text-align: center;
 }
-.input  {
+.input {
   align-self: center;
   margin: 10px;
   margin-top: 20px;

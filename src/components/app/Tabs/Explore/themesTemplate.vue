@@ -23,20 +23,34 @@
           {{theme.stars}}
         </div>-->
         <div class="button clone-button" @click="cloneButton">
-          <span>{{cloneStatus === null ? $t('clone') : cloneStatus === false ? $t('cloning') : $t('cloned') }}</span>
+          <span>{{
+            cloneStatus === null
+              ? $t("clone")
+              : cloneStatus === false
+              ? $t("cloning")
+              : $t("cloned")
+          }}</span>
         </div>
-        <div class="button copy-button" @click="copyButton" :title="$t('copy-link')">
+        <div
+          class="button copy-button"
+          @click="copyButton"
+          :title="$t('copy-link')"
+        >
           <span class="material-icons">link</span>
         </div>
-        <div class="button un-apply" v-if="appliedTheme === theme.id" @click="unApplyButton">
-          <span>{{$t('unapply')}}</span>
+        <div
+          class="button un-apply"
+          v-if="appliedTheme === theme.id"
+          @click="unApplyButton"
+        >
+          <span>{{ $t("unapply") }}</span>
         </div>
         <div v-else class="button apply" @click="applyButton">
-          <span>{{$t('apply')}}</span>
+          <span>{{ $t("apply") }}</span>
         </div>
       </div>
       <div class="created-by">
-        {{this.$t('created-by')}}
+        {{ this.$t("created-by") }}
         <span @click="openUserInformation">{{ theme.creator.username }}</span>
       </div>
     </div>
@@ -45,16 +59,15 @@
 
 <script>
 import config from "@/config.js";
-import exploreService from '../../../../services/exploreService';
-import ThemeService from '../../../../services/ThemeService';
-
+import exploreService from "../../../../services/exploreService";
+import ThemeService from "../../../../services/ThemeService";
 
 export default {
   props: ["theme", "appliedTheme"],
   data() {
     return {
       bannerDomain: config.domain + "/media/",
-      cloneStatus: null,
+      cloneStatus: null
     };
   },
   methods: {
@@ -70,9 +83,9 @@ export default {
     async cloneButton() {
       if (this.cloneStatus === false || this.cloneStatus === true) return;
       this.cloneStatus = false;
-      const {result} = await exploreService.applyTheme(this.theme.id);
-      const css = result.data.css 
-      const name = result.data.theme.name 
+      const { result } = await exploreService.applyTheme(this.theme.id);
+      const css = result.data.css;
+      const name = result.data.theme.name;
       const response = await ThemeService.save({ name, css });
       if (response.ok) {
         this.cloneStatus = true;
@@ -223,7 +236,7 @@ export default {
       margin-right: 10px;
       margin-left: 10px;
 
-      &.apply{
+      &.apply {
         margin-left: 5px;
       }
       cursor: pointer;

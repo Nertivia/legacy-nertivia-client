@@ -9,7 +9,7 @@
             slideBack();
           "
         >
-          {{$t('create')}}
+          {{ $t("create") }}
         </div>
         <div
           :class="{ tab: true, selected: tab == 1 || tab == 2 }"
@@ -18,7 +18,7 @@
             slideForward();
           "
         >
-          {{$t('join')}}
+          {{ $t("join") }}
         </div>
       </div>
       <transition-group tag="div" class="slider" :name="slideInDirection">
@@ -27,11 +27,7 @@
 
           <div class="inner-content">
             <div class="add-server">
-              <profile-picture
-                class="avatar"
-                size="90px"
-                :avatar="undefined"
-              />
+              <profile-picture class="avatar" size="90px" :avatar="undefined" />
               <custom-input
                 theme="light"
                 class="input"
@@ -43,7 +39,7 @@
                 serverNameError
               }}</span>
               <div class="button create-button" @click="createButton">
-                {{$t('create')}}
+                {{ $t("create") }}
               </div>
             </div>
           </div>
@@ -51,14 +47,14 @@
         <div v-if="tab == 1" key="check-invite" class="content">
           <i class="material-icons icon">forum</i>
           <div class="title">Join A Server</div>
-            <custom-input
-              theme="light"
-              class="input"
-              type="text"
-              :error="inviteCodeError"
-              v-model="inviteCode"
-              name="Invite Code"
-            />
+          <custom-input
+            theme="light"
+            class="input"
+            type="text"
+            :error="inviteCodeError"
+            v-model="inviteCode"
+            name="Invite Code"
+          />
           <div class="button check-button" @click="checkInviteCode">Check</div>
         </div>
         <div v-if="tab == 2" key="join-server" class="content server">
@@ -76,13 +72,13 @@
               class="button join-button"
               @click="joinButton"
             >
-              {{$t('join')}}
+              {{ $t("join") }}
             </div>
             <div
               v-if="servers[server.server_id]"
               class="button join-button button-clicked"
             >
-              {{$t('joined')}}
+              {{ $t("joined") }}
             </div>
             <div
               class="button cancel-button"
@@ -103,8 +99,6 @@
 </template>
 
 <script>
-
-
 import ServerService from "@/services/ServerService";
 import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
 import ErrorsListTemplate from "@/components/app/errorsListTemplate";

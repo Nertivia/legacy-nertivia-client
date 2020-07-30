@@ -119,10 +119,10 @@ export default {
     };
   },
   mounted() {
-    bus.$on('channels:changeCurrentIndex', this.changeCurrentChannelIndex);
+    bus.$on("channels:changeCurrentIndex", this.changeCurrentChannelIndex);
   },
   destroyed() {
-    bus.$off('channels:changeCurrentIndex', this.changeCurrentChannelIndex);
+    bus.$off("channels:changeCurrentIndex", this.changeCurrentChannelIndex);
   },
   methods: {
     async onEnd() {
@@ -293,7 +293,6 @@ export default {
   position: relative;
 }
 .mobile {
-
   width: initial;
   .item {
     width: 40px;

@@ -2,7 +2,7 @@
   <div :key="avatar" class="outer-profile-picture">
     <div
       :class="`profile-picture ${admin && adminType ? adminType.name : ''}`"
-      :style="{padding: animationPadding || '3px'}"
+      :style="{ padding: animationPadding || '3px' }"
     >
       <!-- :style="`padding: ${$props.animationPadding || '3px'}`" -->
       <img
@@ -267,4 +267,3 @@ export default {
   }
 }
 </style>
- 

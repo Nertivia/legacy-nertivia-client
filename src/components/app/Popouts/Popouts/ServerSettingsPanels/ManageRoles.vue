@@ -25,7 +25,9 @@
             :class="{ selected: index === selectedRoleIndex }"
             @click="roleClick($event, index)"
           >
-            <div class="name" :style="{ color: role.color }">{{ role.name }}</div>
+            <div class="name" :style="{ color: role.color }">
+              {{ role.name }}
+            </div>
           </div>
         </draggable>
         <div
@@ -33,7 +35,9 @@
           :class="{ selected: roles.length - 1 === selectedRoleIndex }"
           @click="roleClick($event, roles.length - 1)"
         >
-          <div class="name" :style="{ color: defaultRole.color }">{{ defaultRole.name }}</div>
+          <div class="name" :style="{ color: defaultRole.color }">
+            {{ defaultRole.name }}
+          </div>
         </div>
       </div>
       <div class="details" v-if="roles && roles[selectedRoleIndex]">
@@ -43,8 +47,8 @@
             <div
               class="role-color"
               :style="{
-              backgroundColor: update.color || roles[selectedRoleIndex].color
-            }"
+                backgroundColor: update.color || roles[selectedRoleIndex].color
+              }"
             >
               <div class="color-picker" @click="$refs.colorPic.click()">
                 <input
@@ -71,11 +75,19 @@
             <div class="check-box" @click="updateSettings('hideRole')">
               <div
                 class="box"
-                :class="{ checked: update.hideRole !== undefined ? update.hideRole :  roles[selectedRoleIndex].hideRole  }"
+                :class="{
+                  checked:
+                    update.hideRole !== undefined
+                      ? update.hideRole
+                      : roles[selectedRoleIndex].hideRole
+                }"
               />
               <div>
                 <div class="name">Hide Role</div>
-                <div class="info">Display members with this role along with all the default members.</div>
+                <div class="info">
+                  Display members with this role along with all the default
+                  members.
+                </div>
               </div>
             </div>
           </div>
@@ -97,9 +109,16 @@
         </div>
         <div
           class="button"
-          v-if="(update.name || update.permissions !== undefined || update.color) || update.hideRole !== undefined"
+          v-if="
+            update.name ||
+              update.permissions !== undefined ||
+              update.color ||
+              update.hideRole !== undefined
+          "
           @click="updateRole"
-        >Save Changes</div>
+        >
+          Save Changes
+        </div>
         <div
           class="button warn delete-server disabled"
           v-if="
@@ -108,9 +127,9 @@
           "
         >
           {{
-          roles[selectedRoleIndex].default
-          ? "Cannot delete default role."
-          : "Cannot delete this role."
+            roles[selectedRoleIndex].default
+              ? "Cannot delete default role."
+              : "Cannot delete this role."
           }}
         </div>
         <div
@@ -121,7 +140,9 @@
               !roles[selectedRoleIndex].default === true
           "
           @click="deleteRole"
-        >{{ deleteButtonConfirmed ? "ARE YOU SURE?" : "Delete Role" }}</div>
+        >
+          {{ deleteButtonConfirmed ? "ARE YOU SURE?" : "Delete Role" }}
+        </div>
       </div>
     </div>
   </div>
@@ -161,7 +182,9 @@ export default {
       if (oldIndex === this.selectedRoleIndex) {
         this.selectedRoleIndex = newIndex;
       } else {
-        this.selectedRoleIndex = this.roles.findIndex(r => r.id === this.selectedRoleID);
+        this.selectedRoleIndex = this.roles.findIndex(
+          r => r.id === this.selectedRoleID
+        );
       }
       const role = this.roles[newIndex];
       const sendObj = { roleID: role.id, order: newIndex };

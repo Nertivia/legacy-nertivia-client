@@ -30,8 +30,7 @@
               backgroundImage: `url(${update.banner ||
                 `${imageDomain}${server.banner}`})`
             }"
-          >
-          </div>
+          ></div>
           <div class="button" @click="$refs.bannerBrowser.click()">
             Edit Banner
           </div>
@@ -243,7 +242,7 @@ export default {
     padding: 5px;
     margin-left: 2px;
     .button {
-        background: rgba(0, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.2);
     }
     .banner-image {
       position: relative;
@@ -282,7 +281,11 @@ export default {
   margin-left: 2px;
 }
 .button {
-  background: linear-gradient(137deg, rgba(45,136,255,1) 0%, rgba(87,160,255,1) 100%);
+  background: linear-gradient(
+    137deg,
+    rgba(45, 136, 255, 1) 0%,
+    rgba(87, 160, 255, 1) 100%
+  );
   opacity: 0.8;
   border-radius: 4px;
   padding: 10px;

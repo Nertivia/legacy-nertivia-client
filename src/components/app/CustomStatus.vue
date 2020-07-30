@@ -19,15 +19,15 @@
 
 <script>
 import Markup from "@/components/app/Markup.vue";
-import settingsService from '../../services/settingsService';
+import settingsService from "../../services/settingsService";
 export default {
   components: {
-    Markup,
+    Markup
   },
   data() {
     return {
       showTextArea: false,
-      statusText: null,
+      statusText: null
     };
   },
   mounted() {
@@ -56,18 +56,18 @@ export default {
         e.preventDefault();
         this.$refs.textArea.blur();
       }
-    },
+    }
   },
   watch: {
     userStatus(newStatus) {
       this.statusText = newStatus;
-    },
+    }
   },
   computed: {
     userStatus() {
       return this.$store.getters.user.custom_status;
-    },
-  },
+    }
+  }
 };
 </script>
 

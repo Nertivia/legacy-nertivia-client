@@ -349,7 +349,7 @@ export default {
         ]
       ],
       tabLeftPos: null,
-      tabShown: false,
+      tabShown: false
     };
   },
 

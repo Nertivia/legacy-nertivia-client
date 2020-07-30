@@ -6,10 +6,9 @@ export default (miliseconds, type) => {
   const messageDate = new Date(miliseconds);
 
   if (sameDay(now, messageDate)) {
-    friendlyDate = i18n.t("today-at", [getFullTime(messageDate, type)])
+    friendlyDate = i18n.t("today-at", [getFullTime(messageDate, type)]);
   } else if (yesterDay(messageDate)) {
-    
-    friendlyDate = i18n.t("yesterday-at", [getFullTime(messageDate, type)])
+    friendlyDate = i18n.t("yesterday-at", [getFullTime(messageDate, type)]);
   } else {
     friendlyDate = getFullDateWithTime(messageDate, type);
   }
@@ -30,7 +29,7 @@ function sameDay(d1, d2) {
 function yesterDay(date) {
   var yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
-  return sameDay(yesterday, date)
+  return sameDay(yesterday, date);
 }
 
 function getFullTime(date, type) {

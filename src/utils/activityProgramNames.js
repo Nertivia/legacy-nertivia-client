@@ -5,9 +5,5 @@ module.exports = {
     "Discord.exe": "Discord",
     "Battle.net.exe": "Blizzard Battle.net"
   },
-  blacklist: [
-    "RtkNGUI64.exe",
-    "GameBar.exe",
-    "Agent.exe"
-  ]
-}
+  blacklist: ["RtkNGUI64.exe", "GameBar.exe", "Agent.exe"]
+};

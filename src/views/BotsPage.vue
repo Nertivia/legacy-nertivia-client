@@ -24,9 +24,13 @@
                 <div class="perms-box">
                   <div class="sub-title">Permissions:</div>
                   <div class="perms">
-                    <div class="perm" v-for="perm in permsFiltered" :key="perm.value">
+                    <div
+                      class="perm"
+                      v-for="perm in permsFiltered"
+                      :key="perm.value"
+                    >
                       <div class="circle-box" />
-                      <div class="name">{{perm.name}}</div>
+                      <div class="name">{{ perm.name }}</div>
                     </div>
                   </div>
                 </div>
@@ -35,7 +39,9 @@
                   class="dropdown"
                   :items="servers"
                   selectBy="server_id"
-                  :selectedItem="selectedServer ? selectedServer.server_id: null"
+                  :selectedItem="
+                    selectedServer ? selectedServer.server_id : null
+                  "
                   :noneSelect="true"
                   name="Select Server:"
                   @change="selectedServer = $event"
@@ -44,10 +50,14 @@
                   <div
                     v-if="loggedIn"
                     class="button join-button"
-                    :class="{disabled: !selectedServer}"
+                    :class="{ disabled: !selectedServer }"
                     @click="addBotButton"
-                  >Add bot to server</div>
-                  <div v-else class="button join-button" @click="loginButton">Login to add bots</div>
+                  >
+                    Add bot to server
+                  </div>
+                  <div v-else class="button join-button" @click="loginButton">
+                    Login to add bots
+                  </div>
                 </div>
               </div>
             </div>
@@ -130,7 +140,6 @@ body {
   height: 100%;
 }
 </style>
-
 
 <style scoped lang="scss">
 @import "@/styles/global";
@@ -228,7 +237,8 @@ body {
   width: 100%;
   align-content: center;
   justify-content: center;
-  .top, .bottom {
+  .top,
+  .bottom {
     display: flex;
     flex: 1;
     flex-direction: column;

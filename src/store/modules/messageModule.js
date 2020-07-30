@@ -136,12 +136,12 @@ const actions = {
     // }
     messages.find((obj, index) => {
       if (obj.messageID === messageID) {
-        let newObj = {}
+        let newObj = {};
         if (message.replace) {
           newObj = message;
-          newObj.tempID = obj.tempID
+          newObj.tempID = obj.tempID;
         } else {
-          newObj = Object.assign({}, obj, message)
+          newObj = Object.assign({}, obj, message);
         }
         context.commit("updateMessage", { message: newObj, index });
         return true;

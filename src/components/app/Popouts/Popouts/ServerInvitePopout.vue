@@ -3,12 +3,14 @@
     <div class="bottom">
       <div
         class="custom-links"
-        :class="{notAllowed: !server.verified}"
+        :class="{ notAllowed: !server.verified }"
         v-if="invites !== null && checkServerCreator"
       >
         <div class="title">Create custom link (Verified servers only)</div>
         <div class="custom-link-input">
-          <div class="link" @click="$refs.customLinkInput.focus()">https://nertivia.tk/invites/</div>
+          <div class="link" @click="$refs.customLinkInput.focus()">
+            https://nertivia.tk/invites/
+          </div>
           <input
             ref="customLinkInput"
             v-model="customLink"
@@ -23,7 +25,8 @@
 
       <div class="strip">
         <div class="button" @click="createInviteButton">
-          <div class="material-icons">add</div>Create New Invite
+          <div class="material-icons">add</div>
+          Create New Invite
         </div>
       </div>
       <spinner v-if="invites === null" />
@@ -38,15 +41,18 @@
                 <span
                   class="username"
                   @click="showUser(invite.creator.uniqueID)"
-                >{{invite.creator.username}}:{{invite.creator.tag}}</span>
+                  >{{ invite.creator.username }}:{{ invite.creator.tag }}</span
+                >
                 <span class="sub-title">Uses:</span>
-                {{invite.uses}}
+                {{ invite.uses }}
               </div>
             </div>
           </div>
           <div class="buttons">
             <div class="copy-button" @click="copy(invite)">Copy</div>
-            <div class="copy-button delete" @click="deleteInvite(invite)">Delete</div>
+            <div class="copy-button delete" @click="deleteInvite(invite)">
+              Delete
+            </div>
           </div>
         </div>
       </div>

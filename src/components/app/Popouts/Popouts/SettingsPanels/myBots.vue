@@ -1,28 +1,47 @@
 <template>
   <div class="panel">
-    <manage-bot v-if="clickedBotIndex !== undefined" @update="updateBot"  :bot="bots[clickedBotIndex]" @back="clickedBotIndex = undefined"/>
+    <manage-bot
+      v-if="clickedBotIndex !== undefined"
+      @update="updateBot"
+      :bot="bots[clickedBotIndex]"
+      @back="clickedBotIndex = undefined"
+    />
     <div class="content" v-else>
       <error-list v-if="errors" :errors="errors" />
-      <div class="title main">Create bot users which will allow you to use our API to create your own fancy bots.</div>
+      <div class="title main">
+        Create bot users which will allow you to use our API to create your own
+        fancy bots.
+      </div>
       <div class="button" @click="createBotButton">Create Bot</div>
       <div class="sub-head">Your bots:</div>
       <div class="bots-list">
-        <div class="bot" v-for="(bot, i) in botsReverse" :key="bot.uniqueID" @click="clickedBotIndex = i">
-          <profile-picture :uniqueID="bot.uniqueID" :avatar="bot.avatar" size="30px" :hover="true" animation-padding="4px" />
-          <div class="username">{{bot.username}}<span class="tag">:{{bot.tag}}</span></div>
+        <div
+          class="bot"
+          v-for="(bot, i) in botsReverse"
+          :key="bot.uniqueID"
+          @click="clickedBotIndex = i"
+        >
+          <profile-picture
+            :uniqueID="bot.uniqueID"
+            :avatar="bot.avatar"
+            size="30px"
+            :hover="true"
+            animation-padding="4px"
+          />
+          <div class="username">
+            {{ bot.username }}<span class="tag">:{{ bot.tag }}</span>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-
-
 <script>
 import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
-import ErrorList from '@/components/app/errorsListTemplate';
-import manageBot from './manageBot';
-import botsService from '../../../../../services/botsService';
+import ErrorList from "@/components/app/errorsListTemplate";
+import manageBot from "./manageBot";
+import botsService from "../../../../../services/botsService";
 
 export default {
   components: { manageBot, ProfilePicture, ErrorList },
@@ -35,22 +54,25 @@ export default {
   },
   methods: {
     updateBot(data) {
-      this.$set(this.bots, this.clickedBotIndex, {...this.bots[this.clickedBotIndex], ...data})
+      this.$set(this.bots, this.clickedBotIndex, {
+        ...this.bots[this.clickedBotIndex],
+        ...data
+      });
     },
     async createBotButton() {
-      const {result, ok, error} = await botsService.createBot();
+      const { result, ok, error } = await botsService.createBot();
       if (ok) {
-        this.bots.push(result.data)
+        this.bots.push(result.data);
       } else {
         if (error.response === undefined) {
-          this.errors = [{msg: "Cannot connect to server. Try again later."}]
+          this.errors = [{ msg: "Cannot connect to server. Try again later." }];
         } else {
-          this.errors = [{msg: error.response.data.message}]
+          this.errors = [{ msg: error.response.data.message }];
         }
       }
     },
     async getBots() {
-      const {result} = await botsService.getBots();
+      const { result } = await botsService.getBots();
       this.bots = result.data;
     }
   },
@@ -63,7 +85,6 @@ export default {
       return bots.reverse();
     }
   }
-
 };
 </script>
 
@@ -84,10 +105,13 @@ export default {
   font-size: 14px;
   color: rgba(255, 255, 255, 0.9);
   margin: 10px;
-
 }
 .button {
-  background: linear-gradient(137deg, rgba(45,136,255,1) 0%, rgba(87,160,255,1) 100%);
+  background: linear-gradient(
+    137deg,
+    rgba(45, 136, 255, 1) 0%,
+    rgba(87, 160, 255, 1) 100%
+  );
   align-self: center;
   padding: 5px;
   border-radius: 4px;

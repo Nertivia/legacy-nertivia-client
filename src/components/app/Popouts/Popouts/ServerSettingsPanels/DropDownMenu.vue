@@ -27,7 +27,9 @@
         >
           <div class="emoji" v-if="item.emoji" v-html="item.emoji"></div>
           <div class="name">{{ item.name }}</div>
-          <div class="name secondary" v-if="item.filename">({{ item.filename }})</div>
+          <div class="name secondary" v-if="item.filename">
+            ({{ item.filename }})
+          </div>
         </div>
       </div>
     </div>
@@ -154,7 +156,7 @@ export default {
   white-space: nowrap;
   display: flex;
   cursor: pointer;
-  font-size: 14px;;  
+  font-size: 14px;
 }
 .item div {
   align-self: center;

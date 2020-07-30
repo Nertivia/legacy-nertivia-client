@@ -1,8 +1,10 @@
 <template>
   <div class="panel">
-    <div
-      class="information"
-    >Share what programs or games you are running by adding apps below. This will replace your custom status when a program is opened and revert back when the program is closed.</div>
+    <div class="information">
+      Share what programs or games you are running by adding apps below. This
+      will replace your custom status when a program is opened and revert back
+      when the program is closed.
+    </div>
     <drop-down-template
       class="activity dropdown"
       :items="items"
@@ -14,7 +16,11 @@
       @change="changeEvent"
     />
     <div class="programs-list">
-      <div class="item" v-for="program in storedPrograms" :key="program.filename">
+      <div
+        class="item"
+        v-for="program in storedPrograms"
+        :key="program.filename"
+      >
         <div class="details">
           <div class="input-box">
             <div class="text">Action:</div>
@@ -44,13 +50,16 @@
             />
           </div>
         </div>
-        <div class="delete-button material-icons" @click="deleteButton(program)">close</div>
+        <div
+          class="delete-button material-icons"
+          @click="deleteButton(program)"
+        >
+          close
+        </div>
       </div>
     </div>
   </div>
 </template>
-
-
 
 <script>
 const { ipcRenderer } = window.require("electron");
@@ -120,7 +129,7 @@ export default {
       this.getItems();
     },
     async getItems() {
-      ipcRenderer.send("get_all_running_programs", this.storedPrograms)
+      ipcRenderer.send("get_all_running_programs", this.storedPrograms);
     },
     getItemsReturn(_, data) {
       this.items = [{ name: "Add", filename: "Click me.exe" }, ...data];
@@ -137,10 +146,10 @@ export default {
 
   mounted() {
     this.getItems();
-    ipcRenderer.on("all_running_programs", this.getItemsReturn)
+    ipcRenderer.on("all_running_programs", this.getItemsReturn);
   },
   destroyed() {
-    ipcRenderer.off("all_running_programs", this.getItemsReturn)
+    ipcRenderer.off("all_running_programs", this.getItemsReturn);
   },
   computed: {}
 };
@@ -220,9 +229,6 @@ export default {
   }
 }
 </style>
-
-
-
 
 <style>
 .activity.dropdown {

@@ -9,7 +9,9 @@
           <div class="name">Nertivia</div>
           <div class="links">
             <!-- <div v-if="!loggedIn" class="link" @click="showSignupPage = true">Sign up</div> -->
-            <div v-if="!loggedIn" class="link" @click="registerPage">Sign up</div>
+            <div v-if="!loggedIn" class="link" @click="registerPage">
+              Sign up
+            </div>
             <div v-if="!loggedIn" class="link" @click="loginPage">Login</div>
             <spinner
               v-if="loggedIn && !user"
@@ -49,7 +51,7 @@
             <div class="button" @click="openApp">
               <div class="material-icons">open_in_browser</div>
               Open In Browser
-              </div>
+            </div>
             <div class="button download" @click="showDownloadsPopout = true">
               <div class="material-icons">vertical_align_bottom</div>
               Download App
@@ -83,7 +85,7 @@
     </div>
     <div class="popouts">
       <transition name="fade">
-        <RegisterPopout v-if="showSignupPage" @close="showSignupPage = false"/>
+        <RegisterPopout v-if="showSignupPage" @close="showSignupPage = false" />
         <download-app-popout
           v-if="showDownloadsPopout"
           @close="showDownloadsPopout = false"
@@ -102,7 +104,13 @@ import RegisterPopout from "@/components/homePage/RegisterPopout.vue";
 import AuthenticationService from "@/services/AuthenticationService.js";
 
 export default {
-  components: { Spinner, ProfilePicture, ProfilePopout, DownloadAppPopout, RegisterPopout },
+  components: {
+    Spinner,
+    ProfilePicture,
+    ProfilePopout,
+    DownloadAppPopout,
+    RegisterPopout
+  },
   data() {
     return {
       showDownloadsPopout: false,
@@ -337,9 +345,6 @@ body {
 .button .material-icons {
   margin-right: 5px;
 }
-
-
-
 
 .features-list {
   margin-top: 20px;

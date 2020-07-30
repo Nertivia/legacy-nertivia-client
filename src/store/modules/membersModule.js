@@ -55,21 +55,21 @@ const actions = {
   },
   updateMember(context, data) {
     context.commit("UPDATE_MEMBER", data);
-  },
+  }
 };
 
 const mutations = {
   ADD_PROGRAM_ACTIVITY(state, programActivityObj) {
-    state.programActivity = {...state.programActivity, ...programActivityObj}
+    state.programActivity = { ...state.programActivity, ...programActivityObj };
   },
   ADD_CUSTOM_STATUS_ARR(state, customStatusArr) {
     state.customStatusArr = { ...state.customStatusArr, ...customStatusArr };
   },
-  UPDATE_PRGORAM_ACTIVITY(state, {  uniqueID, name, status }) {
+  UPDATE_PRGORAM_ACTIVITY(state, { uniqueID, name, status }) {
     if (!uniqueID || !name) {
-      Vue.delete(state.programActivity, uniqueID)
+      Vue.delete(state.programActivity, uniqueID);
     } else {
-      Vue.set(state.programActivity, uniqueID, {name, status});
+      Vue.set(state.programActivity, uniqueID, { name, status });
     }
   },
   UPDATE_CUSTOM_STATUS(state, { uniqueID, custom_status }) {
@@ -95,7 +95,7 @@ const mutations = {
   },
   UPDATE_MEMBER(state, data) {
     const newMembers = state.members;
-    newMembers[data.uniqueID] = {...newMembers[data.uniqueID], ...data};
+    newMembers[data.uniqueID] = { ...newMembers[data.uniqueID], ...data };
     state.members = Object.assign({}, newMembers);
   }
 };

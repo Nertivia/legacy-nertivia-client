@@ -86,12 +86,15 @@ export const router = new VueRouter({
           localStorage.setItem("lang", "en");
         }
         if (lang !== "en") {
-          import(`@/lang/${lang}.json`).then(msgs => {
-            i18n.setLocaleMessage(lang, msgs.default);
-            i18n.locale = lang;
-          }).catch(() => {console.log("Invalid Language")})
+          import(`@/lang/${lang}.json`)
+            .then(msgs => {
+              i18n.setLocaleMessage(lang, msgs.default);
+              i18n.locale = lang;
+            })
+            .catch(() => {
+              console.log("Invalid Language");
+            });
         }
-
 
         Vue.use(VueSocketio, io(config.socketIP), { store });
         Vue.use(VueMq, {

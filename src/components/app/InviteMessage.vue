@@ -1,5 +1,8 @@
 <template>
-  <div class="invite-content" :class="{verified: inviteDetail && inviteDetail.verified}">
+  <div
+    class="invite-content"
+    :class="{ verified: inviteDetail && inviteDetail.verified }"
+  >
     <div class="pfp" v-if="inviteDetail">
       <profile-picture
         class="avatar"
@@ -10,11 +13,17 @@
         :hover="true"
       />
 
-      <div class="verified" v-if="inviteDetail &&inviteDetail.verified" title="Verified Server">
+      <div
+        class="verified"
+        v-if="inviteDetail && inviteDetail.verified"
+        title="Verified Server"
+      >
         <span class="material-icons">check</span>
       </div>
     </div>
-    <div class="name" v-if="inviteDetail === undefined">Getting Invite Details...</div>
+    <div class="name" v-if="inviteDetail === undefined">
+      Getting Invite Details...
+    </div>
     <div class="name" v-if="inviteDetail === null">Invalid Invite</div>
     <div class="info" v-if="inviteDetail">
       <div class="name">{{ inviteDetail.name }}</div>
@@ -105,7 +114,7 @@ export default {
   font-size: 40px;
 }
 .verified .avatar {
-    border: solid 3px rgba(30, 146, 255, 0.856);
+  border: solid 3px rgba(30, 146, 255, 0.856);
 }
 .avatar {
   background: rgba(0, 0, 0, 0.5);

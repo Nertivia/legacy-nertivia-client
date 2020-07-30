@@ -12,13 +12,13 @@
         :style="`border-color: ${status.statusColor};`"
         @click="openUserInformation"
       >
-          <profile-picture
-            class="avatar"
-            :uniqueID="recipient.uniqueID"
-            :avatar="recipient.avatar"
-            animationPadding="0"
-            :hover="hover"
-            size="30px"
+        <profile-picture
+          class="avatar"
+          :uniqueID="recipient.uniqueID"
+          :avatar="recipient.avatar"
+          animationPadding="0"
+          :hover="hover"
+          size="30px"
         />
         <div
           class="status"
@@ -28,10 +28,16 @@
       <div class="information">
         <div class="username">{{ recipient.username }}</div>
         <div class="status-name">{{ status.statusName }}</div>
-        <div v-if="programActivityStatus && status.status" class="custom-status program" :title="`${programActivityStatus.status} ${programActivityStatus.name}`">
+        <div
+          v-if="programActivityStatus && status.status"
+          class="custom-status program"
+          :title="
+            `${programActivityStatus.status} ${programActivityStatus.name}`
+          "
+        >
           <span class="icon material-icons">widgets</span>
-          <strong>{{programActivityStatus.status}}</strong>
-          <span>{{programActivityStatus.name}}</span>
+          <strong>{{ programActivityStatus.status }}</strong>
+          <span>{{ programActivityStatus.name }}</span>
         </div>
         <Markup
           v-else-if="customStatus && status.status"
@@ -56,17 +62,17 @@
 <script>
 import channelService from "@/services/channelService";
 import Markup from "@/components/app/Markup.vue";
-import ProfilePicture from '@/components/global/ProfilePictureTemplate';
+import ProfilePicture from "@/components/global/ProfilePictureTemplate";
 import statuses from "@/utils/statuses";
 import { bus } from "@/main";
-import config from '@/config';
+import config from "@/config";
 
 export default {
   props: ["friend", "recents", "recipient"],
   components: { Markup, ProfilePicture },
   data() {
     return {
-      hover: false,
+      hover: false
     };
   },
   computed: {
@@ -105,8 +111,10 @@ export default {
       ];
     },
     programActivityStatus() {
-      const programActivityJson = this.$store.getters["members/programActivity"];
-      return programActivityJson[this.recipient.uniqueID]
+      const programActivityJson = this.$store.getters[
+        "members/programActivity"
+      ];
+      return programActivityJson[this.recipient.uniqueID];
     },
     status() {
       const presences = this.$store.getters["members/presences"];
@@ -120,14 +128,14 @@ export default {
         statusName: statuses[parseInt(status)].name,
         statusURL: statuses[parseInt(status)].url,
         statusColor: statuses[parseInt(status)].color,
-        bgColor: statuses[parseInt(status)].bgColor,
+        bgColor: statuses[parseInt(status)].bgColor
       };
     },
     uniqueIDSelected() {
       return (
         this.$store.getters.selectedUserUniqueID === this.recipient.uniqueID
       );
-    },
+    }
   },
   methods: {
     async closeChannel() {
@@ -143,13 +151,13 @@ export default {
       this.$store.dispatch("openChat", {
         uniqueID: this.recipient.uniqueID,
         channelID: this.friend.channelID,
-        channelName: this.recipient.username,
+        channelName: this.recipient.username
       });
     },
     openUserInformation() {
       this.$store.dispatch("setUserInformationPopout", this.recipient.uniqueID);
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -187,7 +195,11 @@ export default {
   }
 
   &.selected {
-    background: linear-gradient(137deg, rgba(45,136,255,1) 0%, rgba(87,160,255,1) 100%);
+    background: linear-gradient(
+      137deg,
+      rgba(45, 136, 255, 1) 0%,
+      rgba(87, 160, 255, 1) 100%
+    );
     color: white;
   }
 

@@ -39,18 +39,19 @@
         <div class="details">
           <div class="title">Quoting Messages</div>
           <div class="description">
-            Easily quote messages to easily identify
-            who’s talking to who.
+            Easily quote messages to easily identify who’s talking to who.
           </div>
         </div>
       </div>
       <div class="feature">
-        <img src="@/assets/graphics/UploadFileExample.png" class="image upload" />
+        <img
+          src="@/assets/graphics/UploadFileExample.png"
+          class="image upload"
+        />
         <div class="details">
           <div class="title">Uploading Files</div>
           <div class="description">
-            Upload files up to 50MB when linking your
-            account with Google Drive.
+            Upload files up to 50MB when linking your account with Google Drive.
           </div>
         </div>
       </div>
@@ -59,15 +60,22 @@
         <div class="details">
           <div class="title">Create Themes</div>
           <div class="description">
-            Create themes using CSS and apply themes made by others in the explore tab.
+            Create themes using CSS and apply themes made by others in the
+            explore tab.
           </div>
         </div>
       </div>
     </div>
     <div class="popouts">
       <transition name="fade">
-        <download-popout @close="setPopout(null)" v-if="$route.hash === '#download'" />
-        <register-popout @close="setPopout(null)" v-if="$route.hash  === '#register'" />
+        <download-popout
+          @close="setPopout(null)"
+          v-if="$route.hash === '#download'"
+        />
+        <register-popout
+          @close="setPopout(null)"
+          v-if="$route.hash === '#register'"
+        />
       </transition>
     </div>
   </div>
@@ -204,7 +212,6 @@ a {
   margin-bottom: 50px;
   align-self: center;
   .feature {
-
     margin-top: 40px;
     .details {
       max-width: 350px;
@@ -232,7 +239,6 @@ a {
         width: 250px;
         height: auto;
         margin-left: 50px;
-
       }
     }
     display: flex;

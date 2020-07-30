@@ -10,7 +10,7 @@ export default {
     return wrapper(instance().get(domain + `user/${uniqueID}`));
   },
   update(data, socketID) {
-    return wrapper(instance().patch(domain + `user`, {...data, socketID}));
+    return wrapper(instance().patch(domain + `user`, { ...data, socketID }));
   },
   getSurvey() {
     return wrapper(instance().get(domain + "/user/survey"));

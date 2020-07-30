@@ -2,7 +2,7 @@
   <div class="dark-background generic-popout" @mousedown="backgroundClick">
     <div class="inner">
       <div class="text">You are being taken to the following link:</div>
-      <div class="link">{{details.link}} </div>
+      <div class="link">{{ details.link }}</div>
       <div class="buttons">
         <div class="button" @click="closeMenu">Back</div>
         <div class="button alert" @click="visit">Visit</div>
@@ -17,7 +17,7 @@ export default {
     closeMenu() {
       this.$store.dispatch("setAllPopout", {
         show: false,
-        type: null,
+        type: null
       });
     },
 
@@ -27,7 +27,7 @@ export default {
       }
     },
     visit() {
-      var win = window.open(this.details.link, '_blank');
+      var win = window.open(this.details.link, "_blank");
       win.focus();
     }
   },
@@ -35,7 +35,7 @@ export default {
   computed: {
     details() {
       return this.$store.getters.popouts.allPopout;
-    },
+    }
   }
 };
 </script>
@@ -57,7 +57,7 @@ export default {
   width: 450px;
   max-height: 100%;
   background: $box-secondary-color;
-  box-shadow: 2px 2px 5px 0px rgba(0, 0, 0,.49);
+  box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.49);
   display: flex;
   flex-direction: column;
   color: white;

@@ -4,7 +4,9 @@
     <div class="title">Nertivia</div>
     <div class="buttons" v-if="!loggedIn">
       <a href="/login" class="button">Log In</a>
-      <div class="button join" @click="$emit('registerButton')">Join Nertivia</div>
+      <div class="button join" @click="$emit('registerButton')">
+        Join Nertivia
+      </div>
     </div>
     <div class="profile" v-if="loggedIn">
       <spinner v-if="loggedIn && !user" class="spinner-profile" :size="50" />
@@ -20,15 +22,18 @@
         @click.native="showProfilePopout = !showProfilePopout"
       />
       <div class="details" v-if="loggedIn && user">
-        <div class="username">{{user.username}}</div>
-        <div class="tag">:{{user.tag}}</div>
+        <div class="username">{{ user.username }}</div>
+        <div class="tag">:{{ user.tag }}</div>
       </div>
       <transition name="fall-down-fast">
         <profile-popout
           v-if="user && loggedIn && showProfilePopout"
           v-click-outside="closeProfilePopout"
           :user="user"
-          @logout="loggedIn = null; user = null"
+          @logout="
+            loggedIn = null;
+            user = null;
+          "
         />
       </transition>
     </div>
@@ -79,7 +84,6 @@ export default {
 };
 </script>
 
-
 <style scoped lang="scss">
 @import "@/styles/global";
 
@@ -91,8 +95,6 @@ export default {
   transform: translateY(-20px);
   opacity: 0;
 }
-
-
 
 .header {
   display: flex;

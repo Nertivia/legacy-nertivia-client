@@ -19,11 +19,11 @@ export default {
   methods: {
     logoutButton() {
       this.$store.dispatch("logout");
-      location.href = "/"
+      location.href = "/";
     }
   },
-  computed: { 
-    errMessage () {
+  computed: {
+    errMessage() {
       return this.$store.getters.connectionErrorMessage;
     },
     status() {

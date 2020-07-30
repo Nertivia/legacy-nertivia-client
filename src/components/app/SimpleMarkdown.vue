@@ -1,5 +1,10 @@
 <template>
-  <div class="formatted-content" ref="content" @click="textClicked" v-html="markdown"></div>
+  <div
+    class="formatted-content"
+    ref="content"
+    @click="textClicked"
+    v-html="markdown"
+  ></div>
 </template>
 
 <script>
@@ -9,7 +14,7 @@ import { bus } from "../../main";
 export default {
   props: {
     message: String,
-    content: Object,
+    content: Object
   },
   mounted() {
     this.setEmojiSize();
@@ -25,11 +30,11 @@ export default {
         }
         return;
       }
-      if(event.target.classList[0] ==='quote-username') {
-         this.$store.dispatch("setUserInformationPopout", event.target.id);
-         return;
+      if (event.target.classList[0] === "quote-username") {
+        this.$store.dispatch("setUserInformationPopout", event.target.id);
+        return;
       }
-      if (event.target.classList[0] === 'quote-gtm') {
+      if (event.target.classList[0] === "quote-gtm") {
         bus.$emit("message:scrollTo", event.target.id);
       }
     },
@@ -56,7 +61,10 @@ export default {
             break;
           }
           // element.data !== "️" contains some weird unicode which some emojis contain for some reason.
-          if (element.data !== "️" && element.data.replace(/\s+/g, "").trim().length !== 0) {
+          if (
+            element.data !== "️" &&
+            element.data.replace(/\s+/g, "").trim().length !== 0
+          ) {
             // dont enlargen emoji since it contains text.
             notEmoji = true;
             break;
@@ -156,7 +164,7 @@ img.emoji[alt] {
   margin-top: 5px;
 }
 
-.formatted-content .quote .quote-profile{ 
+.formatted-content .quote .quote-profile {
   display: flex;
   background: rgba(0, 0, 0, 0.5);
   padding: 5px;
@@ -164,14 +172,14 @@ img.emoji[alt] {
 }
 .formatted-content .quote .quote-username {
   font-weight: initial;
-  cursor: pointer; 
+  cursor: pointer;
 }
 
 .formatted-content .quote .quote-username:hover {
   text-decoration: underline;
 }
 
-.formatted-content .quote .quote-message{
+.formatted-content .quote .quote-message {
   padding: 5px;
 }
 .quote .quote-gtm {
@@ -179,8 +187,7 @@ img.emoji[alt] {
   color: rgba(255, 255, 255, 0.8);
   user-select: none;
 }
-.quote .quote-gtm:hover { 
+.quote .quote-gtm:hover {
   color: white;
 }
-
 </style>

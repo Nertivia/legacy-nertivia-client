@@ -10,7 +10,10 @@
             <electron-frame-buttons />
           </div>
         </div>
-        <main-nav class="nav" v-if="$mq !== 'mobile' || currentTab === 3 || currentTab === 4" />
+        <main-nav
+          class="nav"
+          v-if="$mq !== 'mobile' || currentTab === 3 || currentTab === 4"
+        />
         <div class="panel-layout">
           <news v-if="currentTab == 3" />
           <servers v-if="currentTab == 1 || currentTab == 2" />
@@ -99,23 +102,23 @@ export default {
         if (!event.ctrlKey) {
           event.preventDefault();
           if (event.key === "ArrowUp") {
-            bus.$emit("channels:changeCurrentIndex", "up")
+            bus.$emit("channels:changeCurrentIndex", "up");
           }
           if (event.key === "ArrowDown") {
-            bus.$emit("channels:changeCurrentIndex", "down")
+            bus.$emit("channels:changeCurrentIndex", "down");
           }
           if (event.key === "ArrowLeft") {
-            bus.$emit("channels:changeCurrentIndex", "left")
+            bus.$emit("channels:changeCurrentIndex", "left");
           }
           if (event.key === "ArrowRight") {
-            bus.$emit("channels:changeCurrentIndex", "right")
+            bus.$emit("channels:changeCurrentIndex", "right");
           }
         } else {
           if (event.key === "ArrowUp") {
-            bus.$emit("servers:changeCurrentIndex", "up")
+            bus.$emit("servers:changeCurrentIndex", "up");
           }
           if (event.key === "ArrowDown") {
-            bus.$emit("servers:changeCurrentIndex", "down")
+            bus.$emit("servers:changeCurrentIndex", "down");
           }
         }
       }
@@ -198,30 +201,42 @@ export default {
     activityStatusChanged(event, filename) {
       if (!filename) {
         this.currentActiveProgram = undefined;
-        this.$socket.client.emit('programActivity:set', undefined);
+        this.$socket.client.emit("programActivity:set", undefined);
         return;
       }
-      const storedPrograms = JSON.parse(localStorage.getItem("activity_status"));
+      const storedPrograms = JSON.parse(
+        localStorage.getItem("activity_status")
+      );
       if (!storedPrograms) return undefined;
       const program = storedPrograms.find(sp => sp.filename === filename);
-      this.currentActiveProgram = program; 
-      this.$socket.client.emit('programActivity:set', {name: program.name, status: program.status})
+      this.currentActiveProgram = program;
+      this.$socket.client.emit("programActivity:set", {
+        name: program.name,
+        status: program.status
+      });
     },
-    emitActivity(){
+    emitActivity() {
       if (this.currentActiveProgram) {
-        this.$socket.client.emit('programActivity:set', {name: this.currentActiveProgram.name, status: this.currentActiveProgram.status})
+        this.$socket.client.emit("programActivity:set", {
+          name: this.currentActiveProgram.name,
+          status: this.currentActiveProgram.status
+        });
       }
       this.programActivityTimeout = setTimeout(this.emitActivity, 180000); // 3 minutes
     },
     setNotification() {
       const notification = this.latestNotification;
       if (!notification) {
-        document.querySelector("link[rel='icon']").setAttribute("href", "/favicon.ico")
-        bus.$emit("title:change", "Nertivia")
-        return; 
+        document
+          .querySelector("link[rel='icon']")
+          .setAttribute("href", "/favicon.ico");
+        bus.$emit("title:change", "Nertivia");
+        return;
       }
-      bus.$emit("title:change", `${notification.sender.username} - Nertivia`)
-      document.querySelector("link[rel='icon']").setAttribute("href", "/favicon-notification.ico")
+      bus.$emit("title:change", `${notification.sender.username} - Nertivia`);
+      document
+        .querySelector("link[rel='icon']")
+        .setAttribute("href", "/favicon-notification.ico");
     }
   },
   watch: {
@@ -234,13 +249,14 @@ export default {
       });
       if (this.isElectron) {
         if (!val) {
-          clearTimeout(this.programActivityTimeout)
+          clearTimeout(this.programActivityTimeout);
           this.programActivityTimeout = undefined;
           this.currentActiveProgram = undefined;
         } else {
-          const storedPrograms = JSON.parse(localStorage.getItem("activity_status")) || [];
-          const programNameArr = storedPrograms.map(sp => sp.filename)
-          ipcRenderer.send("activity_status:update", programNameArr)
+          const storedPrograms =
+            JSON.parse(localStorage.getItem("activity_status")) || [];
+          const programNameArr = storedPrograms.map(sp => sp.filename);
+          ipcRenderer.send("activity_status:update", programNameArr);
           setTimeout(this.emitActivity, 180000); // 3 minutes
         }
       }
@@ -253,12 +269,11 @@ export default {
     }
   },
   async mounted() {
-    this.setNotification()
+    this.setNotification();
     if (this.isElectron) {
-      ipcRenderer.on("activity_status:changed", this.activityStatusChanged)
-
+      ipcRenderer.on("activity_status:changed", this.activityStatusChanged);
     }
-    window.addEventListener('keydown', this.keyDown)
+    window.addEventListener("keydown", this.keyDown);
     this.sendElectronNotification(false);
     if (this.loggedIn) {
       this.ready = true;
@@ -284,9 +299,9 @@ export default {
   },
   destroyed() {
     if (this.isElectron) {
-      ipcRenderer.off("activity_status:changed", this.activityStatusChanged)
+      ipcRenderer.off("activity_status:changed", this.activityStatusChanged);
     }
-    window.removeEventListener('keydown', this.keyDown)
+    window.removeEventListener("keydown", this.keyDown);
   },
 
   computed: {
@@ -304,9 +319,9 @@ export default {
     },
     latestNotification() {
       if (!this.notificationExists) return;
-      const notifications = this.$store.getters.notifications
+      const notifications = this.$store.getters.notifications;
       const latestMessage = notifications[notifications.length - 1];
-      return latestMessage
+      return latestMessage;
     },
     friendRequestExists() {
       if (!this.$store.getters.user) return;

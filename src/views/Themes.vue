@@ -10,12 +10,12 @@
               <div class="invalid">{{ errorMsg }}</div>
             </div>
             <div v-if="server" class="server">
-            <img
-              class="avatar"
-              v-if="server"
-              :src="mediaDomain + server.screenshot"
-              alt=""
-            />
+              <img
+                class="avatar"
+                v-if="server"
+                :src="mediaDomain + server.screenshot"
+                alt=""
+              />
               <div class="server-name">{{ server.name }}</div>
               <div class="buttons">
                 <div
@@ -41,7 +41,7 @@
 import config from "@/config";
 import HeaderLogin from "@/components/global/HeaderLoginTemplate.vue";
 import Spinner from "@/components/global/Spinner.vue";
-import exploreService from '../services/exploreService';
+import exploreService from "../services/exploreService";
 export default {
   components: { HeaderLogin, Spinner },
   data() {
@@ -61,19 +61,18 @@ export default {
       if (error.response === undefined) {
         this.errorMsg = "Cannot connect to server. Try again later.";
       } else {
-        this.errorMsg =
-          "Invalid Theme.";
+        this.errorMsg = "Invalid Theme.";
       }
       this.server = undefined;
     }
   },
   methods: {
     applyThemeButton() {
-        localStorage.setItem("appliedThemeId", this.server.id);
-        this.$router.push(`/app`);
+      localStorage.setItem("appliedThemeId", this.server.id);
+      this.$router.push(`/app`);
     },
     loginButton() {
-      const themeID =  this.$route.params.theme_id;
+      const themeID = this.$route.params.theme_id;
       this.$router.push(`/login?to=themes&id=${themeID}`);
     }
   }
@@ -116,7 +115,7 @@ body {
   flex-direction: column;
   color: white;
   height: 100%;
-  background: $bg-color
+  background: $bg-color;
 }
 .app-content {
   display: flex;

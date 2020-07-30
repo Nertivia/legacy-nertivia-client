@@ -18,7 +18,6 @@
 </template>
 
 <script>
-
 const zip = () => import("@/utils/zip");
 
 import "codemirror/mode/css/css.js";
@@ -95,10 +94,11 @@ export default {
     if (ok) {
       zip().then(utils => {
         this.cmOptions.orig = utils.unzip(result.data.css) || result.data.css;
-        this.cmOptions.value = utils.unzip(result.data.updatedCss) || result.data.updatedCss;
+        this.cmOptions.value =
+          utils.unzip(result.data.updatedCss) || result.data.updatedCss;
         this.details = result.data;
         this.details.css = utils.unzip(this.details.css) || this.details.css;
-      })
+      });
     }
   },
   computed: {

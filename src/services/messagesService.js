@@ -1,32 +1,39 @@
 import { instance, wrapper } from "./Api";
 
-const config = require('../config.js');
+const config = require("../config.js");
 
 let domain = "";
-if (config.serverURL) domain = config.serverURL+"/"
+if (config.serverURL) domain = config.serverURL + "/";
 
 export default {
   // TODO: add ?continue=id
   get(channelID, continueMessageID, beforeMessageID, aroundMessageID) {
     return wrapper(
       instance().get(
-        domain+`messages/channels/${channelID}${
-          continueMessageID ? "?continue=" + continueMessageID
-            : beforeMessageID ? "?before=" + beforeMessageID
-            : aroundMessageID ? "?around=" + aroundMessageID
-            : ""
-        }`
+        domain +
+          `messages/channels/${channelID}${
+            continueMessageID
+              ? "?continue=" + continueMessageID
+              : beforeMessageID
+              ? "?before=" + beforeMessageID
+              : aroundMessageID
+              ? "?around=" + aroundMessageID
+              : ""
+          }`
       )
     );
   },
   delete(messageID, channelID) {
     return wrapper(
-      instance().delete(domain+`messages/${messageID}/channels/${channelID}`)
+      instance().delete(domain + `messages/${messageID}/channels/${channelID}`)
     );
   },
   update(messageID, channelID, data) {
     return wrapper(
-      instance().patch(domain+`messages/${messageID}/channels/${channelID}`, data)
+      instance().patch(
+        domain + `messages/${messageID}/channels/${channelID}`,
+        data
+      )
     );
   },
 
@@ -48,9 +55,14 @@ export default {
       }
     };
 
-    return wrapper(instance().post(domain+url, data, config));
+    return wrapper(instance().post(domain + url, data, config));
   },
   buttonClick(channelID, messageID, buttonID) {
-    return wrapper(instance().post(domain+ `channels/${channelID}/messages/${messageID}/button/${buttonID}`));
+    return wrapper(
+      instance().post(
+        domain +
+          `channels/${channelID}/messages/${messageID}/button/${buttonID}`
+      )
+    );
   }
 };

@@ -14,7 +14,9 @@
         </div>
       </div>
       <div class="content">
-      <div class="close-button-desktop" @click="closeMenu"><div class="material-icons">close</div></div>
+        <div class="close-button-desktop" @click="closeMenu">
+          <div class="material-icons">close</div>
+        </div>
         <div class="header" :class="{ critical: tabs[index].critical }">
           <div class="material-icons">{{ tabs[index].icon }}</div>
           <div>{{ tabs[index].title }}</div>
@@ -43,7 +45,6 @@ const ManageRoles = () => import("./ManageRoles.vue");
 const ManageBans = () => import("./ManageBans.vue");
 const ServerVisibility = () => import("./ServerVisibility.vue");
 const ServerInvitePopout = () => import("../ServerInvitePopout");
-
 
 import { permissions, containsPerm } from "@/utils/RolePermissions";
 
@@ -213,7 +214,7 @@ export default {
   display: flex;
   flex-direction: column;
   background: #272e37da;
-  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5); 
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
   height: 100%;
   width: 180px;
   flex-shrink: 0;
@@ -258,13 +259,17 @@ export default {
   align-self: center;
 }
 .tab:hover {
-  background: rgba(255, 255, 255, 0.1)
+  background: rgba(255, 255, 255, 0.1);
 }
 .critical {
   color: red;
 }
 .tab.selected {
-  background: linear-gradient(137deg, rgba(45,136,255,1) 0%, rgba(87,160,255,1) 100%);
+  background: linear-gradient(
+    137deg,
+    rgba(45, 136, 255, 1) 0%,
+    rgba(87, 160, 255, 1) 100%
+  );
 }
 .header {
   background: rgba(0, 0, 0, 0.4);

@@ -6,7 +6,7 @@ export default {
   methods: {
     clickEvent(e) {
       e.preventDefault();
-      const target = e.target.closest("a")
+      const target = e.target.closest("a");
       if (target) {
         const link = target.getAttribute("href");
         if (!link) return;
@@ -27,39 +27,51 @@ export default {
     },
     contentTemplate(json) {
       if (json.attributes && json.attributes.href) {
-        json.attributes.href = json.attributes.href.startsWith('http') ? json.attributes.href : 'https://' + json.attributes.href
+        json.attributes.href = json.attributes.href.startsWith("http")
+          ? json.attributes.href
+          : "https://" + json.attributes.href;
       }
       if (json.styles && json.styles.backgroundImage) {
-        json.styles.backgroundImage = `url("https://proxi.bree.workers.dev/cdn/${ encodeURIComponent(json.styles.backgroundImage)}")`
+        json.styles.backgroundImage = `url("https://proxi.bree.workers.dev/cdn/${encodeURIComponent(
+          json.styles.backgroundImage
+        )}")`;
       }
 
-      const el = this.$createElement(json.tag, { on: {click: this.clickEvent}, style: json.styles, attrs: json.attributes});
+      const el = this.$createElement(json.tag, {
+        on: { click: this.clickEvent },
+        style: json.styles,
+        attrs: json.attributes
+      });
       el.children = [];
 
       if (typeof json.content === "object") {
-		      if (Array.isArray(json.content)) {
-            for (let c = 0; c < json.content.length; c++) {
-              const jsonContent = json.content[c];
-              el.children.push(this.contentTemplate(jsonContent));
-            }
-            return el;
-          } else {
-              el.children.push(this.contentTemplate(json.content));
-			        return el
+        if (Array.isArray(json.content)) {
+          for (let c = 0; c < json.content.length; c++) {
+            const jsonContent = json.content[c];
+            el.children.push(this.contentTemplate(jsonContent));
           }
+          return el;
+        } else {
+          el.children.push(this.contentTemplate(json.content));
+          return el;
+        }
       }
 
       if (json.content) {
-        el.children = [<Markup class='content' text={json.content} />];
+        el.children = [<Markup class="content" text={json.content} />];
       }
 
-      return el
-    },
+      return el;
+    }
   },
-  render(ce) {
+  render() {
     const obj = JSON.parse(unzipAlt(this.embed));
     const content = this.contentTemplate(obj);
-    return this.$createElement('div', { class: 'html-embed', on: {click: this.clickEvent}, }, [content]);
+    return this.$createElement(
+      "div",
+      { class: "html-embed", on: { click: this.clickEvent } },
+      [content]
+    );
   }
 };
 </script>

@@ -21,10 +21,12 @@
     <!-- <div class="custom-status-button material-icons">
       edit
     </div> -->
-    <div class="status-button"
+    <div
+      class="status-button"
       @click="status.isPoppedOut = !status.isPoppedOut"
     >
-      <statusList class="status-popout"
+      <statusList
+        class="status-popout"
         v-if="status.isPoppedOut"
         v-click-outside="closeMenus"
       />
@@ -112,9 +114,13 @@ export default {
   padding-left: 5px;
   padding-right: 5px;
   transition: 0.3s;
-  background: linear-gradient(137deg, rgba(133,150,255,1) 0%, rgba(94,200,255,1) 100%);
+  background: linear-gradient(
+    137deg,
+    rgba(133, 150, 255, 1) 0%,
+    rgba(94, 200, 255, 1) 100%
+  );
   border-radius: 10px;
-  box-shadow: 0px 0px 5px 0px rgba(133,150,255,1);
+  box-shadow: 0px 0px 5px 0px rgba(133, 150, 255, 1);
   margin: 5px;
 }
 

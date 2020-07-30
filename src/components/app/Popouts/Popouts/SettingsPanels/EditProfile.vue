@@ -24,10 +24,10 @@
         />
         <div class="details">
           <div class="username">
-            <span>{{user.username}}</span>
-            <span class="tag">:{{user.tag}}</span>
+            <span>{{ user.username }}</span>
+            <span class="tag">:{{ user.tag }}</span>
           </div>
-          <div class="email">{{user.email}}</div>
+          <div class="email">{{ user.email }}</div>
         </div>
       </div>
       <div class="edit-information">
@@ -76,14 +76,18 @@
           name="New Password"
         />
       </div>
-      <div class="link" v-if="!resetPassword" @click="resetPassword = true">Reset Password</div>
+      <div class="link" v-if="!resetPassword" @click="resetPassword = true">
+        Reset Password
+      </div>
       <div class="link" @click="linkGoogleDrive">Re-link Google Drive</div>
       <div
         class="button save-button"
         :class="{ disabled: requestSent }"
         @click="updateProfile"
         v-if="changed"
-      >{{ requestSent ? "Saving..." : "Update" }}</div>
+      >
+        {{ requestSent ? "Saving..." : "Update" }}
+      </div>
     </div>
 
     <div style="display: none">
@@ -127,7 +131,13 @@
                 @input="inputEvent('password', $event)"
               />
             </div>
-            <div class="link" v-if="!resetPassword" @click="resetPassword = true">Reset Password</div>
+            <div
+              class="link"
+              v-if="!resetPassword"
+              @click="resetPassword = true"
+            >
+              Reset Password
+            </div>
             <div class="outer-input" v-if="resetPassword">
               <div class="title">New Password</div>
               <input
@@ -136,7 +146,9 @@
                 @input="inputEvent('new_password', $event)"
               />
             </div>
-            <div class="link" @click="linkGoogleDrive">Re-link Google Drive</div>
+            <div class="link" @click="linkGoogleDrive">
+              Re-link Google Drive
+            </div>
           </form>
         </div>
 
@@ -161,7 +173,9 @@
         :class="{ disabled: requestSent }"
         @click="updateProfile"
         v-if="changed"
-      >{{ requestSent ? "Saving..." : "Update" }}</div>
+      >
+        {{ requestSent ? "Saving..." : "Update" }}
+      </div>
     </div>
   </div>
 </template>
@@ -345,7 +359,7 @@ export default {
   margin-top: 10px;
   opacity: 0.8;
   &:hover {
-      opacity: 1;
+    opacity: 1;
   }
 }
 .link {
@@ -384,7 +398,7 @@ export default {
   position: relative;
   &:after {
     position: absolute;
-    content: '';
+    content: "";
     top: 0;
     bottom: 0;
     left: 0;
@@ -395,7 +409,7 @@ export default {
   &:hover {
     &:after {
       position: absolute;
-      content: 'Edit';
+      content: "Edit";
       top: 0;
       bottom: 0;
       left: 0;
@@ -409,6 +423,5 @@ export default {
       cursor: pointer;
     }
   }
-
 }
 </style>

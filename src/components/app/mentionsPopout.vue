@@ -8,12 +8,12 @@
       @click="clickEvent"
     >
       <profile-picture
-          class="avatar"
-          :avatar="member.avatar"
-          :uniqueID="member.uniqueID"
-          animationPadding="0"
-          :hover="false"
-          size="25px"
+        class="avatar"
+        :avatar="member.avatar"
+        :uniqueID="member.uniqueID"
+        animationPadding="0"
+        :hover="false"
+        size="25px"
       />
       <div class="username">{{ member.username }}</div>
       <div class="tag">:{{ member.tag }}</div>
@@ -23,27 +23,27 @@
 
 <script>
 import config from "@/config.js";
-import ProfilePicture from '@/components/global/ProfilePictureTemplate';
+import ProfilePicture from "@/components/global/ProfilePictureTemplate";
 export default {
-  components: {ProfilePicture},
+  components: { ProfilePicture },
   props: ["list"],
   data() {
     return {
       avatarPath: config.nertiviaCDN,
-      index: 0,
+      index: 0
     };
   },
   watch: {
     list() {
       this.index = 0;
-    },
+    }
   },
   methods: {
     hoverEvent(event) {
       const mention = event.target.closest(".item");
       const parent = event.target.parentElement.children;
       if (!mention) return;
-      const index = [...parent].findIndex((el) => el === mention);
+      const index = [...parent].findIndex(el => el === mention);
       if (index >= 0) this.index = index;
     },
     KeySwitch(key) {
@@ -58,9 +58,9 @@ export default {
       }
     },
     clickEvent() {
-      this.$emit("chosen")
-    },
-  },
+      this.$emit("chosen");
+    }
+  }
 };
 </script>
 

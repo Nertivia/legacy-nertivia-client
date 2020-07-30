@@ -4,7 +4,7 @@
     <div class="name">{{ name }}</div>
     <input
       ref="input"
-      v-if="type === undefined | type !== 'textarea'"
+      v-if="(type === undefined) | (type !== 'textarea')"
       class="text-input"
       @input="event('input', $event)"
       :value="value"

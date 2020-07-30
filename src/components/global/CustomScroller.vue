@@ -13,7 +13,7 @@
       class="scroll-bar"
       :style="{
         marginTop: scrollbarTop,
-        height: `calc(100% - ${scrollbarTop} - ${scrollbarBottom})`,
+        height: `calc(100% - ${scrollbarTop} - ${scrollbarBottom})`
       }"
       ref="scrollBar"
       @wheel="onWheel"
@@ -35,13 +35,13 @@ export default {
     spacingTop: String,
     spacingBottom: String,
     scrollbarTop: String,
-    scrollbarBottom: String,
+    scrollbarBottom: String
   },
   data() {
     return {
       pos2: 0,
       pos4: 0,
-      showScroll: false,
+      showScroll: false
     };
   },
   updated() {
@@ -57,7 +57,7 @@ export default {
   methods: {
     onWheel(e) {
       this.$refs.content.scrollBy({
-        top: this.getDeltaFromEvent(e)[1],
+        top: this.getDeltaFromEvent(e)[1]
       });
     },
     getDeltaFromEvent(e) {
@@ -95,13 +95,14 @@ export default {
       const handle = this.$refs.handle;
 
       const maxScroll = scrollBar.clientHeight;
-      const currentScroll = (e.clientY - scrollBar.offsetTop ) - handle.clientHeight / 2 ;
+      const currentScroll =
+        e.clientY - scrollBar.offsetTop - handle.clientHeight / 2;
       content.scroll({
         top:
           (currentScroll / maxScroll) *
           (content.scrollHeight - content.clientHeight),
         left: 0,
-        behavior: "smooth",
+        behavior: "smooth"
       });
     },
     setHandleHeight() {
@@ -127,8 +128,8 @@ export default {
       e = e || window.event;
       e.preventDefault();
       this.pos4 = e.clientY;
-      document.onpointerup = (e) => this.mouseUp(e);
-      document.onpointermove = (e) => this.mouseMove(e);
+      document.onpointerup = e => this.mouseUp(e);
+      document.onpointermove = e => this.mouseMove(e);
     },
     mouseMove(e) {
       e = e || window.event;
@@ -190,7 +191,7 @@ export default {
     },
     onScroll() {
       this.setHandlePosition();
-    },
+    }
   },
   watch: {
     scrollbarBottom() {
@@ -200,22 +201,22 @@ export default {
           this.setHandleHeight();
           this.setHandlePosition();
         }, 200);
-      })
+      });
     },
     getWindowSize() {
       this.showScroller();
       this.setHandleHeight();
       this.setHandlePosition();
-    },
+    }
   },
   computed: {
     getWindowSize() {
       return {
         width: windowProperties.resizeWidth,
-        height: windowProperties.resizeHeight,
+        height: windowProperties.resizeHeight
       };
-    },
-  },
+    }
+  }
 };
 </script>
 

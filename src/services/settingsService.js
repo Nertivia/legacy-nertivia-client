@@ -25,15 +25,15 @@ export default {
   setApperance(apperance, boolean) {
     return wrapper(
       instance().put(domain + "/settings/apperance", {
-        [apperance]: boolean,
+        [apperance]: boolean
       })
     );
   },
   setServerPositions(ServerIDArr) {
     return wrapper(
       instance().put(domain + "/settings/server_position", {
-        server_position: ServerIDArr,
+        server_position: ServerIDArr
       })
     );
-  },
+  }
 };

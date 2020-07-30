@@ -66,7 +66,10 @@
         key="dp"
         v-if="popouts.allPopout.unclosableType === 'DRAW_POPOUT'"
       />
-      <NotificationPopout key="np" v-if="popouts.allPopout.type === 'NOTIFICATION_POPOUT'" />
+      <NotificationPopout
+        key="np"
+        v-if="popouts.allPopout.type === 'NOTIFICATION_POPOUT'"
+      />
     </transition-group>
   </div>
 </template>

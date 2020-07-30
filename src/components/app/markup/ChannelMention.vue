@@ -1,5 +1,5 @@
 <template>
-  <span class="channel" v-on:click="goToChannel">#{{this.channel.name}}</span>
+  <span class="channel" v-on:click="goToChannel">#{{ this.channel.name }}</span>
 </template>
 
 <script>
