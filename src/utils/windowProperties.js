@@ -5,7 +5,8 @@ const WindowProperties = new Vue({
   data() {
     return {
       resizeWidth: 0,
-      resizeHeight: 0
+      resizeHeight: 0,
+      isfocused: document.hasFocus(),
     };
   },
   created() {
@@ -14,6 +15,12 @@ const WindowProperties = new Vue({
 
     this.debouncedResize = throttle(this.onResize, 70);
     window.addEventListener("resize", this.debouncedResize);
+    window.addEventListener("focus", () => {
+      this.isfocused = true;
+    })
+    window.addEventListener("blur", () => {
+      this.isfocused = false
+    })
   },
   methods: {
     onResize() {

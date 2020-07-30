@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import windowProperties from "@/utils/windowProperties";
 export default {
   props: ["text"],
   data: () => ({
@@ -59,14 +60,25 @@ export default {
       }
     }
   },
+  watch: {
+    focused(val) {
+      if (this.focused)
+        this.interval = setInterval(this.obfuscateNodes, 60);
+      else clearInterval(this.interval)
+    }
+  },
   computed: {
+    focused() {
+      return windowProperties.isfocused
+    },
     textNodes: function() {
       return [...this.getTextNodes()];
     }
   },
   mounted() {
     this.content = this.obfuscateNodes();
-    this.interval = setInterval(this.obfuscateNodes, 60);
+    if (this.focused)
+      this.interval = setInterval(this.obfuscateNodes, 60);
   },
   beforeDestroy() {
     clearInterval(this.interval);
