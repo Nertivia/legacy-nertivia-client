@@ -268,7 +268,7 @@ export default {
     const parseChildren = children => {
       switch (true) {
         case typeof children === "string":
-          if (children.length >= 1) {
+          if (children.trim().length >= 1) {
             textCount += 1;
           }
           // todo(@brecert): maybe make this part of the initial parsing process for possible performance.
