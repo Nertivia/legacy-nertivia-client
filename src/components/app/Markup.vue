@@ -426,7 +426,7 @@ export default {
               return parseEntity({
                 type: "link",
                 link: url,
-                children: parseRichText(text)
+                children: parseRichText(text || "")
               }, entities)
             }
             case "#":
@@ -444,15 +444,13 @@ export default {
                 const [, below, above] = match;
                 characters.push(
                   <div>
-                    <rb>{below}</rb>
+                    <rb>{parse(below)}</rb>
                     <rp>(</rp>
-                    <rt>{above}</rt>
+                    <rt>{parse(above)}</rt>
                     <rp>)</rp>
                   </div>
                 );
               }
-
-              textCount += 1;
               return <ruby>{characters}</ruby>;
             }
             default:
