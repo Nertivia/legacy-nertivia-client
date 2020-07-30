@@ -27,6 +27,9 @@ const generateRegex = parts => {
 
 const MARKUP_PARTS = {
   bold: /\*\*([^*]+?)\*\*/,
+  // match * then capture one or more of ** or anything but *
+  // then match * and assert there's no * ahead
+  italic1: /\*((?:\*\*|[^*])+?)\*(?!\*)/,
   italic: /\/\/([^_]+?)\/\//,
   underline: /__([^_]+?)__/,
   strike: /~~([^~]+?)~~/,
@@ -105,9 +108,15 @@ const eggs = {
 function transformEntity(entity, root = true) {
   switch (entity.type) {
     case "bold":
-    case "italic":
     case "underline":
     case "strike": {
+      entity.innerText = entity.params[0];
+      entity.children = parseRichText(entity.innerText, false);
+      return entity;
+    }
+    case "italic":
+    case "italic1": {
+      entity.type = "italic";
       entity.innerText = entity.params[0];
       entity.children = parseRichText(entity.innerText, false);
       return entity;
@@ -127,7 +136,7 @@ function transformEntity(entity, root = true) {
     }
     case "code":
     case "code1": {
-      entity.type = "code"
+      entity.type = "code";
       entity.innerText = entity.params[0];
       entity.children = entity.innerText;
       return entity;
@@ -308,7 +317,9 @@ export default {
         case "reset":
           return <span class="reset">{parseChildren(entity.children)}</span>;
         case "link":
-          return <Link link={entity.link}>{parseChildren(entity.children)}</Link>
+          return (
+            <Link link={entity.link}>{parseChildren(entity.children)}</Link>
+          );
         case "escape":
           textCount += 1;
           return entity.token;
@@ -393,7 +404,7 @@ export default {
               after.push(parseEntity(ent, entities));
               break;
             }
-            if(ent.consume_type !== entity.consume_type) {
+            if (ent.consume_type !== entity.consume_type) {
               consumed.push(ent);
             }
           }
@@ -426,11 +437,14 @@ export default {
               const [url, text] = entity.expression
                 .split("->")
                 .map(s => s.trim());
-              return parseEntity({
-                type: "link",
-                link: url,
-                children: parseRichText(text || "")
-              }, entities)
+              return parseEntity(
+                {
+                  type: "link",
+                  link: url,
+                  children: parseRichText(text || "")
+                },
+                entities
+              );
             }
             case "#":
               return parseEntity(
