@@ -33,6 +33,7 @@ const MARKUP_PARTS = {
   codeblock: /```(\w*?)\n([^]+?)\n?```/,
   inlineCodeblock: /```([^`]+?)```/,
   code: /``([^`]+?)``/,
+  code1: /`([^`]+?)`/,
   link: /https?:\/\/\S+\.\S+/,
   escape: /\\([*_~`\\>])/,
   blockquote: /((?:^|\n)> )([^]+?)(?=(?:\n[^>])|$)/,
@@ -124,7 +125,9 @@ function transformEntity(entity, root = true) {
       );
       return entity;
     }
-    case "code": {
+    case "code":
+    case "code1": {
+      entity.type = "code"
       entity.innerText = entity.params[0];
       entity.children = entity.innerText;
       return entity;
