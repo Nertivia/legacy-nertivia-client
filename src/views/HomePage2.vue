@@ -47,10 +47,19 @@
       <div class="feature">
         <img src="@/assets/graphics/UploadFileExample.png" class="image upload" />
         <div class="details">
-          <div class="title">Quoting Messages</div>
+          <div class="title">Uploading Files</div>
           <div class="description">
-            Easily quote messages to easily identify
-            who’s talking to who.
+            Upload files up to 50MB when linking your
+            account with Google Drive.
+          </div>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="image material-icons">palette</div>
+        <div class="details">
+          <div class="title">Create Themes</div>
+          <div class="description">
+            Create themes using CSS and apply themes made by others in the explore tab.
           </div>
         </div>
       </div>
@@ -209,6 +218,12 @@ a {
     }
     .description {
       opacity: 0.7;
+    }
+    .material-icons {
+      font-size: 150px;
+      align-self: center;
+      height: initial !important;
+      margin: auto;
     }
     .image {
       height: 200px;
