@@ -1,12 +1,14 @@
 <template>
-  <a :href="linkHttp" target="_blank" @click.prevent="showLinkWarning">{{name}}</a>
+  <a :href="linkHttp" target="_blank" @click.prevent="showLinkWarning">
+    <slot></slot>
+  </a>
 </template>
 
 <script>
 import { bus } from "@/main";
 
 export default {
-  props: ["name", "link"],
+  props: ["link"],
   methods: {
     showLinkWarning() {
       this.$store.dispatch("setAllPopout", {
@@ -24,3 +26,14 @@ export default {
 
 };
 </script>
+
+<style scoped>
+a {
+  color: #ffa700;
+  text-decoration: underline rgba(255, 255, 255, 0.2);
+}
+
+a:hover {
+  text-decoration: underline;
+}
+</style>

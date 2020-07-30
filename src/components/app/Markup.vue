@@ -305,12 +305,7 @@ export default {
         case "reset":
           return <span class="reset">{parseChildren(entity.children)}</span>;
         case "link":
-          textCount += 1;
-          return (
-            <a class="link" href={entity.link} target="_blank">
-              {parseChildren(entity.children)}
-            </a>
-          );
+          return <Link link={entity.link}>{parseChildren(entity.children)}</Link>
         case "escape":
           textCount += 1;
           return entity.token;
@@ -426,8 +421,11 @@ export default {
               const [url, text] = entity.expression
                 .split("->")
                 .map(s => s.trim());
-              textCount += 1;
-              return <Link class="link" name={text} link={url} />;
+              return parseEntity({
+                type: "link",
+                link: url,
+                children: parseRichText(text)
+              }, entities)
             }
             case "#":
               return parseEntity(
@@ -553,15 +551,6 @@ img.emoji[alt] {
 .large-emojis .emoji {
   height: 5em;
   width: 5em;
-}
-
-.link {
-  color: #ffa700;
-  text-decoration: underline rgba(255, 255, 255, 0.2);
-}
-
-.link:hover {
-  text-decoration: underline;
 }
 </style>
 
