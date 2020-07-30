@@ -390,7 +390,9 @@ export default {
               after.push(parseEntity(ent, entities));
               break;
             }
-            consumed.push(ent);
+            if(ent.consume_type !== entity.consume_type) {
+              consumed.push(ent);
+            }
           }
           entity.children = consumed.values();
           entity.type = entity.consume_type;
