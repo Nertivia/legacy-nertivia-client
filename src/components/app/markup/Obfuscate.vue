@@ -32,7 +32,7 @@ export default {
       return arr.join("");
     },
     obfuscateNodes(delta) {
-      for (let node of this.textNodes()) {
+      for (let node of this.textNodes) {
         if (!node.parentElement.dataset.originalValue) {
           node.parentElement.dataset.originalValue = node.textContent;
           if (!node.parentElement.hasAttribute("title")) {
@@ -45,7 +45,7 @@ export default {
         node.textContent = this.obfuscateText(node.textContent, delta);
       }
     },
-    *textNodes() {
+    *getTextNodes() {
       const walker = document.createTreeWalker(
         this.$el,
         NodeFilter.SHOW_TEXT,
@@ -57,6 +57,11 @@ export default {
       while ((node = walker.nextNode())) {
         yield node;
       }
+    }
+  },
+  computed: {
+    textNodes: function() {
+      return [...this.getTextNodes()];
     }
   },
   mounted() {

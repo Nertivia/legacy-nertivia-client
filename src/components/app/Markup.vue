@@ -27,12 +27,16 @@ const generateRegex = parts => {
 
 const MARKUP_PARTS = {
   bold: /\*\*([^*]+?)\*\*/,
+  // match * then capture one or more of ** or anything but *
+  // then match * and assert there's no * ahead
+  italic1: /\*((?:\*\*|[^*])+?)\*(?!\*)/,
   italic: /\/\/([^_]+?)\/\//,
   underline: /__([^_]+?)__/,
   strike: /~~([^~]+?)~~/,
   codeblock: /```(\w*?)\n([^]+?)\n?```/,
   inlineCodeblock: /```([^`]+?)```/,
   code: /``([^`]+?)``/,
+  code1: /`([^`]+?)`/,
   link: /https?:\/\/\S+\.\S+/,
   escape: /\\([*_~`\\>])/,
   blockquote: /((?:^|\n)> )([^]+?)(?=(?:\n[^>])|$)/,
@@ -104,9 +108,15 @@ const eggs = {
 function transformEntity(entity, root = true) {
   switch (entity.type) {
     case "bold":
-    case "italic":
     case "underline":
     case "strike": {
+      entity.innerText = entity.params[0];
+      entity.children = parseRichText(entity.innerText, false);
+      return entity;
+    }
+    case "italic":
+    case "italic1": {
+      entity.type = "italic";
       entity.innerText = entity.params[0];
       entity.children = parseRichText(entity.innerText, false);
       return entity;
@@ -124,7 +134,9 @@ function transformEntity(entity, root = true) {
       );
       return entity;
     }
-    case "code": {
+    case "code":
+    case "code1": {
+      entity.type = "code";
       entity.innerText = entity.params[0];
       entity.children = entity.innerText;
       return entity;
@@ -305,11 +317,8 @@ export default {
         case "reset":
           return <span class="reset">{parseChildren(entity.children)}</span>;
         case "link":
-          textCount += 1;
           return (
-            <a class="link" href={entity.link} target="_blank">
-              {parseChildren(entity.children)}
-            </a>
+            <Link link={entity.link}>{parseChildren(entity.children)}</Link>
           );
         case "escape":
           textCount += 1;
@@ -395,7 +404,9 @@ export default {
               after.push(parseEntity(ent, entities));
               break;
             }
-            consumed.push(ent);
+            if (ent.consume_type !== entity.consume_type) {
+              consumed.push(ent);
+            }
           }
           entity.children = consumed.values();
           entity.type = entity.consume_type;
@@ -426,8 +437,14 @@ export default {
               const [url, text] = entity.expression
                 .split("->")
                 .map(s => s.trim());
-              textCount += 1;
-              return <Link class="link" name={text} link={url} />;
+              return parseEntity(
+                {
+                  type: "link",
+                  link: url,
+                  children: parseRichText(text || "")
+                },
+                entities
+              );
             }
             case "#":
               return parseEntity(
@@ -444,15 +461,13 @@ export default {
                 const [, below, above] = match;
                 characters.push(
                   <div>
-                    <rb>{below}</rb>
+                    <rb>{parse(below)}</rb>
                     <rp>(</rp>
-                    <rt>{above}</rt>
+                    <rt>{parse(above)}</rt>
                     <rp>)</rp>
                   </div>
                 );
               }
-
-              textCount += 1;
               return <ruby>{characters}</ruby>;
             }
             default:
@@ -553,15 +568,6 @@ img.emoji[alt] {
 .large-emojis .emoji {
   height: 5em;
   width: 5em;
-}
-
-.link {
-  color: #ffa700;
-  text-decoration: underline rgba(255, 255, 255, 0.2);
-}
-
-.link:hover {
-  text-decoration: underline;
 }
 </style>
 
