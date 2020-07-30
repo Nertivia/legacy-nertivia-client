@@ -1,5 +1,12 @@
 const config = [
   {
+    version: "1.3.2",
+    title: "New Homepage",
+    shortTitle: "",
+    date: "30 July 2020",
+    new: ["Re-designed homepage"]
+  },
+  {
     version: "1.3.1",
     title: "New Markdown",
     shortTitle: "",

@@ -10,9 +10,9 @@ import { i18n } from "./i18n";
 
 const MainApp = () =>
   import(/* webpackChunkName: "MainApp" */ "../src/views/App.vue");
-const HomePage = () =>
+const HomePageOld = () =>
   import(/* webpackChunkName: "HomePage" */ "../src/views/HomePage.vue");
-const HomePage2 = () =>
+const HomePage = () =>
   import(/* webpackChunkName: "HomePage2" */ "../src/views/HomePage2.vue");
 const GDriveCallback = () =>
   import(
@@ -39,14 +39,14 @@ export const router = new VueRouter({
   routes: [
     { name: "404", path: "*", component: PageNotFound },
     {
+      path: "/old",
+      name: "HomePageOld",
+      component: HomePageOld
+    },
+    {
       path: "/",
       name: "HomePage",
       component: HomePage
-    },
-    {
-      path: "/2",
-      name: "HomePage2",
-      component: HomePage2
     },
     {
       path: "/login",

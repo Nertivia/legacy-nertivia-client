@@ -34,11 +34,11 @@ export default {
   position: absolute;
   display: flex;
   flex-direction: column;
-  right: 10px;
+  left: 0;
   top: 50px;
 }
 .inner {
-  right: 0;
+  left: -30px;
   top: 15px;
   position: absolute;
   display: flex;

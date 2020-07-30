@@ -33,6 +33,7 @@
       <div class="name">Features</div>
       <div class="material-icons">keyboard_arrow_down</div>
     </div>
+
     <div class="features-list">
       <div class="feature">
         <img src="@/assets/graphics/QuotingExample.png" class="image" />
@@ -62,6 +63,24 @@
           <div class="description">
             Create themes using CSS and apply themes made by others in the
             explore tab.
+          </div>
+        </div>
+      </div>
+      <div class="feature">
+        <img src="@/assets/graphics/ActivityStatusExample.png" class="image" />
+        <div class="details">
+          <div class="title">Activity Status</div>
+          <div class="description">
+            Share which programs you are currently interacting with.
+          </div>
+        </div>
+      </div>
+      <div class="feature">
+        <img src="@/assets/graphics/ExploreTabExample.png" class="image" />
+        <div class="details">
+          <div class="title">Explore</div>
+          <div class="description">
+            Explore servers, themes and more inside Nertivia.
           </div>
         </div>
       </div>

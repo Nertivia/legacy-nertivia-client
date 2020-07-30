@@ -8,7 +8,8 @@
             <div class="date">Updated on {{ change.date }}</div>
             <div class="changes-title">{{ change.title }}</div>
           </div>
-          <div class="information">
+          <news-template :change="change" />
+          <!-- <div class="information">
             <div v-if="change.new">
               <strong>What's new?</strong>
               <br />
@@ -43,7 +44,7 @@
               </ul>
             </div>
             <div v-if="change.msg" v-html="change.msg" />
-          </div>
+          </div> -->
         </div>
         <div class="see-all-button" v-if="!showAll" @click="showAll = true">
           View older changes
@@ -55,9 +56,10 @@
 
 <script>
 import Navigation from "@/components/app/Navigation";
+import NewsTemplate from "@/components/global/NewsTemplate";
 import changelog from "@/utils/changelog.js";
 export default {
-  components: { Navigation },
+  components: { Navigation, NewsTemplate },
   data() {
     return {
       showAll: false

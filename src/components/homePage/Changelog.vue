@@ -9,6 +9,7 @@
         :class="{ primary: !i }"
       >
         <div class="line title">{{ log.title }}</div>
+        <div class="line details" v-html="getLogDetails[i]" />
         <div class="line secondary-detail">
           v{{ log.version }}
           <span class="dot" />
@@ -26,6 +27,30 @@ export default {
     return {
       logs: changelog.splice(0, 3)
     };
+  },
+  computed: {
+    getLogDetails() {
+      const log = this.logs.map(c => {
+        let str = "";
+        if (c.new && c.new.length) {
+          for (let i = 0; i < c.new.length; i++) {
+            const newStr = c.new[i];
+            str += " " + newStr;
+          }
+        }
+        if (c.fix && c.fix.length) {
+          for (let i = 0; i < c.fix.length; i++) {
+            const fixStr = c.fix[i];
+            str += " " + fixStr;
+          }
+        }
+        if (c.msg) {
+          str += " " + c.msg;
+        }
+        return str;
+      });
+      return log;
+    }
   }
 };
 </script>
@@ -66,5 +91,17 @@ export default {
 }
 .line.title {
   margin: 5px;
+}
+.line.details {
+  display: block;
+  font-size: 14px;
+  opacity: 0.8;
+  margin-top: -5px;
+  margin-left: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 5px;
+  height: 20px;
 }
 </style>

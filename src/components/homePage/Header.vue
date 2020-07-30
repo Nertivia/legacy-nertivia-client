@@ -133,6 +133,7 @@ export default {
   display: flex;
   align-items: center;
   align-content: center;
+  position: relative;
   .avatar {
     margin-right: 10px;
   }
@@ -155,6 +156,9 @@ export default {
   }
   .title {
     display: none;
+  }
+  .profile {
+    margin: auto;
   }
 }
 </style>
