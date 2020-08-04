@@ -4,9 +4,9 @@ const config = [
     title: "Bug Fixes",
     shortTitle: "",
     date: "04 August 2020",
-    new: ["Added custom emoji counter"],
+    new: ["Added custom emoji counter."],
     fix: [
-      "Channels could be mentioned even after deleting them",
+      "Channels could be mentioned even after deleting them.",
       "Server would show as selected when in other tabs."
     ]
   },
