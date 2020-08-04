@@ -3,7 +3,7 @@
     class="server"
     :data-servername="serverData.name"
     :class="{
-      selected: currentServerID === serverData.server_id,
+      selected: currentServerID === serverData.server_id && currentTab === 2,
       notifyAnimation: notification.notification,
       mentioned: notification.mentioned
     }"
@@ -35,6 +35,9 @@ export default {
     };
   },
   computed: {
+    currentTab() {
+      return this.$store.getters.currentTab;
+    },
     user() {
       return this.$store.getters.user;
     },
