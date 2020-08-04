@@ -1,5 +1,16 @@
 const config = [
   {
+    version: "1.3.3",
+    title: "Bug Fixes",
+    shortTitle: "",
+    date: "04 August 2020",
+    new: ["Added custom emoji counter"],
+    fix: [
+      "Channels could be mentioned even after deleting them",
+      "Server would show as selected when in other tabs."
+    ]
+  },
+  {
     version: "1.3.2",
     title: "New Homepage",
     shortTitle: "",
