@@ -9,7 +9,7 @@
         <i class="material-icons">add_box</i>Add Emoji
       </div>
     </div>
-
+    <div class="text">You have {{ customEmojis.length }}/50 emojis</div>
     <div class="emojis-list">
       <div v-for="emoji in customEmojis" :key="emoji.emojiID" class="emoji">
         <img
@@ -201,6 +201,10 @@ input:focus {
   background: rgba(0, 0, 0, 0.5);
 }
 
+.text {
+  margin-left: 25px;
+  opacity: 0.7;
+}
 .delete-button {
   display: flex;
   align-items: right;
