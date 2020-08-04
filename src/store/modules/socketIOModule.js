@@ -569,6 +569,7 @@ const actions = {
   ["socket_server:removeChannel"](context, { server_id, channelID }) {
     context.dispatch("servers/removeServerChannel", { server_id, channelID });
     context.dispatch("dismissNotification", channelID);
+    context.dispatch("removeChannel", { channelID });
   },
   ["socket_server:updateServer"](context, data) {
     context.dispatch("servers/updateServer", {
