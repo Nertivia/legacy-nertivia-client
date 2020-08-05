@@ -27,7 +27,7 @@ export default {
       }
     },
     visit() {
-      var win = window.open(this.details.link, "_blank");
+      let win = window.open(this.details.link, "_blank");
       win.focus();
     }
   },

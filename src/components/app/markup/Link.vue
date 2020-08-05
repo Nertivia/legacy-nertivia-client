@@ -9,6 +9,11 @@ export default {
   props: ["link"],
   methods: {
     showLinkWarning() {
+      if (this.$slots.default[0].text === this.linkHttp) {
+        let win = window.open(this.$slots.default[0].text, "_blank");
+        win.focus();
+        return;
+      }
       this.$store.dispatch("setAllPopout", {
         show: true,
         type: "OPEN_LINK_CONFIRM",
