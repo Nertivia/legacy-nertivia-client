@@ -8,12 +8,14 @@
       v-if="showTextArea"
       placeholder="Click to add status."
     />
-    <Markup
-      class="status-text"
-      @click.native="statusTextClicked"
-      v-if="!showTextArea"
-      :text="!userStatus ? 'Click to add status.' : userStatus"
-    />
+    <div class="wrapper" @click="statusTextClicked">
+      <Markup
+        class="status-text"
+        v-if="!showTextArea"
+        :text="!userStatus ? 'Click to add status.' : userStatus"
+      />
+      <div class="cover"></div>
+    </div>
   </div>
 </template>
 
@@ -72,6 +74,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.wrapper {
+  position: relative;
+  z-index: 1;
+  .cover {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    cursor: pointer;
+  }
+}
 .status-textarea {
   color: white;
   background: none;
