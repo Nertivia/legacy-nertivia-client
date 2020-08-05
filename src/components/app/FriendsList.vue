@@ -38,6 +38,7 @@
 <script>
 import RecentFriendsTab from "./relationships/RecentFriendsTab.vue";
 import FriendsTab from "./relationships/FriendsTab.vue";
+import { bus } from "@/main";
 
 export default {
   components: {
@@ -56,6 +57,7 @@ export default {
   },
   methods: {
     saveNotesBtn() {
+      bus.$emit("closeLeftMenu");
       this.$store.dispatch("openChat", {
         uniqueID: this.user.uniqueID,
         channelName: "Saved Notes"
