@@ -2,7 +2,7 @@
   <div class="popouts">
     <transition-group name="show" mode="out-in">
       <settings key="settings" v-if="popouts.settings" />
-      <upload-dialog key="upload-dialog" v-if="popouts.uploadDialog" />
+      <!-- <upload-dialog key="upload-dialog" v-if="popouts.uploadDialog" /> -->
       <GDriveLinkMenu key="GDriveLinkMenu" v-if="popouts.GDLinkMenu" />
       <image-large-preview key="ilp" v-if="popouts.ImagePreviewURL" />
       <drag-drop-file-upload-dialog key="ddfud" v-if="showUploadDrapDrop" />
@@ -91,7 +91,7 @@ const AddServer = () => import("./Popouts/AddServer.vue");
 const AddFriend = () => import("./Popouts/AddFriend");
 const Settings = () => import("./Popouts/Settings.vue");
 const TakeSurveyPopout = () => import("./Popouts/TakeSurveyPopout.vue");
-const uploadDialog = () => import("./Popouts/uploadDialog.vue");
+// const uploadDialog = () => import("./Popouts/uploadDialog.vue");
 const GDriveLinkMenu = () => import("./Popouts/GDriveLinkMenu.vue");
 const imageLargePreview = () => import("./Popouts/imageLargePreview.vue");
 const DragDropFileUploadDialog = () =>
@@ -112,7 +112,7 @@ const OpenLinkConfirm = () => import("./Popouts/openLinkConfirm");
 export default {
   components: {
     Settings,
-    uploadDialog,
+    // uploadDialog,
     GDriveLinkMenu,
     userInformationPopout,
     DragDropFileUploadDialog,

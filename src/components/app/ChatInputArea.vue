@@ -1,11 +1,16 @@
 <template>
   <div class="chat-input-area">
-    <div class="typing-outer">
-      <typing-status
-        v-if="typingRecipients[currentChannelID]"
-        :recipients="typingRecipients[currentChannelID]"
+    <typing-status
+      v-if="typingRecipients[currentChannelID]"
+      :recipients="typingRecipients[currentChannelID]"
+    />
+    <transition name="fade-up">
+      <file-upload-panel
+        v-if="showUploadPanel"
+        :sendFileFunc="sendFileMessage"
+        @change="uploadOptsChangeEvent"
       />
-    </div>
+    </transition>
     <div style="position: relative;">
       <transition name="show-up">
         <div
@@ -72,7 +77,7 @@
         class="chat-input"
         rows="1"
         ref="input-box"
-        :placeholder="$t('send-a-message')"
+        :placeholder="showUploadPanel ? 'Attach message' : $t('send-a-message')"
         @keydown="keyDown"
         @keyup="keyUp"
         @change="resize"
@@ -136,10 +141,13 @@ const emojiSuggestions = () =>
   import("@/components/app/EmojiPanels/emojiSuggestions.vue");
 const emojiPanel = () => import("@/components/app/EmojiPanels/emojiPanel.vue");
 const EditPanel = () => import("@/components/app/EditPanel.vue");
+const FileUploadPanel = () => import("@/components/app/FileUploadPanel.vue");
+import filesize from "filesize";
 
 export default {
   props: ["typingRecipients", "type"],
   components: {
+    FileUploadPanel,
     emojiSuggestions,
     emojiPanel,
     EditPanel,
@@ -158,7 +166,8 @@ export default {
 
       emojiSuggestionsArr: [],
       mentionSuggestionsArr: [],
-      channelSuggestionsArr: []
+      channelSuggestionsArr: [],
+      fileUpload: {}
     };
   },
   methods: {
@@ -377,8 +386,12 @@ export default {
       this.$refs["input-box"].focus();
       this.message = this.message.trim();
 
-      if (this.message == "") return;
       if (this.message.length > 5000) return;
+      if (this.showUploadPanel) {
+        this.sendFileMessage();
+        return;
+      }
+      if (this.message == "") return;
       this.emojiSuggestionsArr = [];
       clearInterval(this.postTimerID);
       this.postTimerID = null;
@@ -461,6 +474,97 @@ export default {
           }
         });
       }
+    },
+    uploadOptsChangeEvent(evt) {
+      this.fileUpload = { ...this.fileUpload, ...evt };
+    },
+    async sendFileMessage() {
+      const maxSize = 52424000;
+      if (this.fileToUpload.size > maxSize) {
+        this.$store.dispatch("setPopoutVisibility", {
+          name: "uploadDialog",
+          visibility: false
+        });
+        this.sendMessage();
+        return;
+      }
+      if (this.fileUpload.upload_cdn === 0 && !this.GDriveLinked) {
+        this.$store.dispatch("setPopoutVisibility", {
+          name: "GDLinkMenu",
+          visibility: true
+        });
+        return;
+      }
+      const tempID = this.generateNum(25);
+      const formData = new FormData();
+      if (this.message.length) {
+        formData.append("message", this.messageSetup().msg);
+      }
+      this.message = "";
+      if (this.fileUpload.image) {
+        formData.append("compress", this.fileUpload.compress);
+      }
+      formData.append("upload_cdn", this.fileUpload.upload_cdn);
+      formData.append("file", this.fileToUpload);
+      this.$store.dispatch("setPopoutVisibility", {
+        name: "uploadDialog",
+        visibility: false
+      });
+      this.$store.dispatch("addUpload", {
+        channelID: this.currentChannelID,
+        tempID,
+        name: this.fileToUpload.name,
+        size: filesize(this.fileToUpload.size),
+        percent: 0,
+        created: new Date()
+      });
+
+      const { ok, error } = await messagesService.post(
+        this.currentChannelID,
+        formData,
+        percent => {
+          this.$store.dispatch("updatePercentUpload", {
+            tempID,
+            percent
+          });
+        }
+      );
+      if (ok) {
+        this.$store.dispatch("removeUpload", tempID);
+      } else {
+        this.$store.dispatch("removeUpload", tempID);
+        let message;
+
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
+          message = error.response.data.message;
+        } else {
+          message = "Something went wrong while sending the message.";
+        }
+        this.$store.dispatch("addMessage", {
+          channelID: this.currentChannelID,
+          message: {
+            creator: {
+              username: "Whoopsies!",
+              uniqueID: "12345678",
+              bot: true
+            },
+            message: message,
+            messageID: Math.floor(Math.random() * 10999 + 0).toString(),
+            color: "#ff4d4d",
+            channelID: this.currentChannelID,
+            created: new Date()
+          }
+        });
+      }
+
+      this.$store.dispatch("setPopoutVisibility", {
+        name: "uploadDialog",
+        visibility: false
+      });
     },
     async updateMessage() {
       const editMessage = this.editMessage;
@@ -849,6 +953,15 @@ export default {
     }
   },
   computed: {
+    GDriveLinked() {
+      return this.$store.getters["settingsModule/settings"].GDriveLinked;
+    },
+    showUploadPanel() {
+      return this.$store.getters.popouts.uploadDialog;
+    },
+    fileToUpload() {
+      return this.$store.getters.popouts.fileToUpload;
+    },
     currentTab() {
       return this.$store.getters.currentTab;
     },
@@ -964,6 +1077,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.fade-up-enter-active,
+.fade-up-leave-active {
+  transition: 0.3s;
+}
+.fade-up-enter, .fade-up-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
 .show-up-enter-active,
 .show-up-leave-active {
   transition: 0.3s;
@@ -1059,16 +1181,6 @@ export default {
   .material-icons {
     margin: auto;
   }
-}
-
-.typing-outer {
-  display: flex;
-  margin-bottom: 5px;
-  position: absolute;
-  top: -31px;
-  left: 0;
-  right: 0;
-  z-index: 1;
 }
 
 .emojis-button {

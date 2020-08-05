@@ -1,5 +1,14 @@
 const config = [
   {
+    version: "1.4.3",
+    title: "New Upload Panel!",
+    shortTitle: "",
+    date: "05 August 2020",
+    new: [
+      "New upload panel has been added and replaced by the popup. This means that you can now mention or add custom emojis while uploading a file."
+    ]
+  },
+  {
     version: "1.3.3",
     title: "Bug Fixes",
     shortTitle: "",

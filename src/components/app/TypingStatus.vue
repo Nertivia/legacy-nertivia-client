@@ -88,6 +88,15 @@ export default {
   align-content: center;
   align-content: center;
   height: 20px;
+
+  display: flex;
+  margin-bottom: 5px;
+  position: absolute;
+  top: -31px;
+  left: 0;
+  right: 0;
+  z-index: 1;
+
 }
 .animation {
   height: 20px;

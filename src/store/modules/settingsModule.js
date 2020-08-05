@@ -99,7 +99,7 @@ const mutations = {
     Vue.set(state.apperance, Object.keys(data)[0], data[Object.keys(data)[0]]);
   },
   setSettings(state, settings) {
-    Vue.set(state, Object.assign(state, settings));
+    Object.assign(state, settings);
   },
   GoogleDriveLinked(state, status) {
     Vue.set(state, "GDriveLinked", status);
