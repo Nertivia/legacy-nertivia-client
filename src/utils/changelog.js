@@ -1,5 +1,12 @@
 const config = [
   {
+    version: "1.4.4",
+    title: "I Forgot My Password!",
+    shortTitle: "",
+    date: "06 August 2020",
+    new: ["You can now reset your password through the login page"]
+  },
+  {
     version: "1.4.3",
     title: "New Upload Panel!",
     shortTitle: "",

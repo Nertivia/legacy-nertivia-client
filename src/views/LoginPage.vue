@@ -46,6 +46,9 @@
                 style="text-align: center;"
                 >{{ otherError }}</span
               >
+              <div class="forgot-link" @click="currentPage = 3">
+                Forgot Password?
+              </div>
               <div class="buttons">
                 <button
                   type="submit"
@@ -89,6 +92,33 @@
                   placeholder="Code"
                   autocomplete="off"
                 />
+              </div>
+            </div>
+            <div class="form" v-if="currentPage === 3">
+              <div class="info" style="opacity: 0.7;">
+                Enter your email to reset your password:
+              </div>
+              <div class="input">
+                <div class="input-text">
+                  Email
+                  <span v-if="email.alert" class="error"
+                    >- {{ email.alert }}</span
+                  >
+                </div>
+                <input v-model="email.value" type="text" autocomplete="off" />
+              </div>
+              <div class="captcha" style="align-self: center">
+                <Recaptcha ref="recaptcha" @verify="captchaToken = $event" />
+              </div>
+              <div class="buttons" @click="resetPassword">
+                <button type="submit" class="button" :class="{ deactive }">
+                  Reset
+                </button>
+              </div>
+            </div>
+            <div class="form" v-if="currentPage === 4">
+              <div class="info" style="opacity: 0.7;">
+                Check your email
               </div>
             </div>
           </div>
@@ -144,6 +174,41 @@ export default {
       if (event.keyCode === 13) {
         event.preventDefault();
         this.submitForm();
+      }
+    },
+    async resetPassword() {
+      if (this.deactive === true) return;
+      this.resetValues();
+      const email = this.email.value.trim();
+      if (!email) {
+        this.email.alert = "Email is required.";
+        return;
+      }
+      if (!this.captchaToken) {
+        this.email.alert = "Confirm the Captcha.";
+        return;
+      }
+      const { ok, error } = await AuthenticationService.resetPassword({
+        email,
+        token: this.captchaToken
+      });
+
+
+      if (ok) {
+        this.currentPage = 4;
+      } else {
+        this.deactive = false;
+        this.captchaToken = null;
+        this.$refs.recaptcha.resetRecaptcha();
+        if (error.response === undefined) {
+          this.email.alert = "Can't connect to server.";
+          return;
+        }
+        const errors = error.response.data.errors;
+        for (let index in errors) {
+          const message = errors[index].msg;
+          this.email.alert = message;
+        }
       }
     },
     async login() {
@@ -401,5 +466,11 @@ input {
 }
 .error {
   color: red;
+}
+.forgot-link {
+  font-size: 14px;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-left: 40px;
 }
 </style>

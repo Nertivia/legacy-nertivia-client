@@ -20,6 +20,10 @@ const GDriveCallback = () =>
   );
 const LoginPage = () =>
   import(/* webpackChunkName: "LoginPage" */ "../src/views/LoginPage.vue");
+const ResetPasswordPage = () =>
+  import(
+    /* webpackChunkName: "ResetPasswordPage" */ "../src/views/ResetPasswordPage.vue"
+  );
 const InvitesPage = () =>
   import(/* webpackChunkName: "Invites" */ "../src/views/Invites.vue");
 const ThemesPage = () =>
@@ -52,6 +56,17 @@ export const router = new VueRouter({
       path: "/login",
       name: "Login",
       component: LoginPage,
+      beforeEnter(to, from, next) {
+        if (localStorage.getItem("hauthid")) {
+          return router.push({ path: "/app" });
+        }
+        next();
+      }
+    },
+    {
+      path: "/reset",
+      name: "Reset Password",
+      component: ResetPasswordPage,
       beforeEnter(to, from, next) {
         if (localStorage.getItem("hauthid")) {
           return router.push({ path: "/app" });

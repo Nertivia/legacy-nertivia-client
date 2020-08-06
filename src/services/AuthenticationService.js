@@ -17,6 +17,17 @@ export default {
   login(credentials) {
     return wrapper(instance().post(domain + "user/login", credentials));
   },
+  resetPassword(credentials) {
+    return wrapper(instance().post(domain + "user/reset/request", credentials));
+  },
+  resetPasswordCode(code, password, uniqueID) {
+    return wrapper(
+      instance().post(domain + `user/reset/code/${code}`, {
+        password,
+        uniqueID
+      })
+    );
+  },
   logout() {
     return wrapper(instance().delete(domain + "user/logout"));
   },
