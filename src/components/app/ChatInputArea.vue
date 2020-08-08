@@ -48,16 +48,22 @@
     <ChatMarkdownArea
       v-model="customColor"
       v-if="
-        (sendChannelMessagePermission === true && roleSendMessagePermission) ||
-          editMessage
+        hasAdminRole
+          ? true
+          : (sendChannelMessagePermission === true &&
+              roleSendMessagePermission) ||
+            editMessage
       "
     />
 
     <div
       class="message-area"
       v-if="
-        (sendChannelMessagePermission === true && roleSendMessagePermission) ||
-          editMessage
+        hasAdminRole
+          ? true
+          : (sendChannelMessagePermission === true &&
+              roleSendMessagePermission) ||
+            editMessage
       "
     >
       <input
@@ -1031,14 +1037,22 @@ export default {
       if (this.channel.permissions.send_message === undefined) return true;
       return this.channel.permissions.send_message;
     },
+    hasAdminRole() {
+      return !!containsPerm(
+        this.myRolePermissions || 0,
+        permissions.ADMIN.value
+      );
+    },
     roleSendMessagePermission() {
       if (this.type !== 1) return true;
       if (!this.channel) return null;
 
       if (!this.server) return false;
-      return !!containsPerm(
-        this.myRolePermissions || 0,
-        permissions.SEND_MESSAGES.value
+      return (
+        !!containsPerm(
+          this.myRolePermissions || 0,
+          permissions.SEND_MESSAGES.value
+        ) || this.hasAdminRole
       );
     },
     channel() {

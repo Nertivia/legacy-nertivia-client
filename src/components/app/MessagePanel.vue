@@ -40,8 +40,10 @@
     <div
       class="no-message-permission"
       v-if="
-        sendChannelMessagePermission === false ||
-          roleSendMessagePermission === false
+        hasAdminRole
+          ? false
+          : sendChannelMessagePermission === false ||
+            roleSendMessagePermission === false
       "
     >
       You don't have permission to send messages in this channel.
@@ -240,14 +242,22 @@ export default {
       if (this.channel.permissions.send_message === undefined) return true;
       return this.channel.permissions.send_message;
     },
+    hasAdminRole() {
+      return !!containsPerm(
+        this.myRolePermissions || 0,
+        permissions.ADMIN.value
+      );
+    },
     roleSendMessagePermission() {
       if (this.type !== 1) return true;
       if (!this.channel) return null;
 
       if (!this.server) return false;
-      return !!containsPerm(
-        this.myRolePermissions || 0,
-        permissions.SEND_MESSAGES.value
+      return (
+        !!containsPerm(
+          this.myRolePermissions || 0,
+          permissions.SEND_MESSAGES.value
+        ) || this.hasAdminRole
       );
     }
   }
@@ -309,11 +319,17 @@ export default {
   opacity: 0;
 }
 .no-message-permission {
-  background: rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.6);
+  background: #1f2329;
   color: white;
   text-align: center;
   padding: 5px;
+  min-height: 50px;
+  justify-content: center;
   user-select: none;
+  display: flex;
+  align-items: center;
+  align-content: center;
   cursor: default;
 }
 </style>

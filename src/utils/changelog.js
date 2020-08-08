@@ -1,5 +1,15 @@
 const config = [
   {
+    version: "1.4.5",
+    title: "More Bug Fixes!",
+    shortTitle: "",
+    date: "08 August 2020",
+    fix: [
+      "Fixed a bug where admins could not type in locked channels.",
+      "Fixed a but where admins could not delete messages created by others."
+    ]
+  },
+  {
     version: "1.4.4",
     title: "I Forgot My Password!",
     shortTitle: "",
