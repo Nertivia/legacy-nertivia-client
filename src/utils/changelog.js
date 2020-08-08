@@ -6,7 +6,7 @@ const config = [
     date: "08 August 2020",
     fix: [
       "Fixed a bug where admins could not type in locked channels.",
-      "Fixed a but where admins could not delete messages created by others."
+      "Fixed a bug where admins could not delete messages created by others."
     ]
   },
   {
