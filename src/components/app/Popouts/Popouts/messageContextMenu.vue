@@ -210,9 +210,7 @@ export default {
     },
     myRolePermissions() {
       if (!this.selfServerMember) return undefined;
-      const roles = this.$store.getters["servers/roles"][
-        this.contextDetails.serverID
-      ];
+      const roles = this.$store.getters["servers/roles"][this.serverID];
       if (!roles) return undefined;
 
       let perms = 0;
