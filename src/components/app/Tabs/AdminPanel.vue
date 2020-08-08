@@ -2,6 +2,7 @@
   <div class="admin-panel-tab">
     <users-panel />
     <online-users-panel />
+    <servers-panel />
     <themes-panel />
   </div>
 </template>
@@ -10,10 +11,11 @@
 import { bus } from "@/main";
 import UsersPanel from "./AdminPanel/UsersPanel";
 import OnlineUsersPanel from "./AdminPanel/OnlineUsersPanel";
+import ServersPanel from "./AdminPanel/ServersPanel";
 import ThemesPanel from "./AdminPanel/ThemesPanel";
 
 export default {
-  components: { UsersPanel, OnlineUsersPanel, ThemesPanel },
+  components: { UsersPanel, OnlineUsersPanel, ThemesPanel, ServersPanel },
   data() {
     return {};
   },

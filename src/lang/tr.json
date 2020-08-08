@@ -1,0 +1,67 @@
+{
+    "explore": "Keşfet",
+    "explore-desc": "Yeni serverler, emojiler ve daha fazlasını bul!",
+    "servers": "Serverler",
+    "join-server": "Servere Katıl",
+    "themes": "Temalar",
+    "emoji-packs": "Emoji Paketleri",
+    "message-styles": "Mesaj Stilleri",
+    "created-by": "Yaratan",
+    "filter": "Filter",
+    "sort-by": "Sırala",
+
+    "all": "Hepsi",
+    "verified": "Onaylanmış",
+    "most-users": "En Çok Üye",
+    "least-users": "En Az Üye",
+    "alphabetical": "Alfabete göre",
+    "date-added": "En Eski",
+
+    "explore-support-message": "Nertivia'ya herangi bir miktar para bahış ederek yardımda bulunun. Destekçi rözeti ve gelecekte daha çok özellik elde edeceksin.",
+    "support-message-settings": "Nertivia'ya destek çık. Rozet alıcaksın.",
+    "donate": "Bahış",
+
+    "join": "Katıl",
+    "join-card-message": "Resmi Nertivia serverine katıl",
+    "coming-soon!": "Yakında gelecek!",
+
+    "joined": "Katılındı",
+    "apply": "Uygula",
+    "unapply": "Uygulamayı geri al",
+    "copy-link": "Linki kopyala",
+
+    "clone": "Klon",
+    "cloning": "Klonlanıyor...",
+    "cloned": "Klonlandı!",
+    "theme-safe-message": "Aşağıdaki Temalar güvenlidir ve manuel bir şekilde test edilir.",
+
+    "friends": "Arkadaşlar",
+    "pending": "Bekleniyor",
+    "recents": "Son işlemler",
+
+    "online": "Online",
+    "away": "Dışarıda",
+    "busy": "Meşgül",
+    "looking-to-play": "Oynamak istiyor",
+    "offline": "Offline",
+
+    "add-friends-message": "Arkadaş ekle.",
+    "offline-message": "Arkadaşlarının hepsi offline.",
+    "saved-notes": "Kaydedilmiş Notlar",
+    "select-person-message": "Mesajlaşmak için birini seç!",
+    "message": "Mesaj",
+
+    "add-server": "Server Ekle",
+    "add-friend": "Arkadaş Ekle",
+    "add-friend-message": "Üye isim ve taglarını kullanarak arkadaş ekle..",
+    "adding": "Ekleniyor...",
+    "create": "Yarat",
+
+    "new-messages": "Yeni mesajlar",
+
+    "today-at": "Bugün saat {0}",
+    "yesterday-at": "Dün saat {0}",
+    "send-a-message": "Bir mesaj gönder",
+
+    "Translated-By": "Translated by Cossack:1738"
+}

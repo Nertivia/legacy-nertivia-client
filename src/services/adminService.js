@@ -4,8 +4,15 @@ export default {
   fetchRecentCreatedUsers() {
     return wrapper(instance().get(`admin/users/recent`));
   },
+
   fetchSearchUsers(search) {
     return wrapper(instance().get(`admin/users/search/${search}`));
+  },
+  fetchRecentCreatedServers() {
+    return wrapper(instance().get(`admin/servers/recent`));
+  },
+  fetchSearchServers(search) {
+    return wrapper(instance().get(`admin/servers/search/${search}`));
   },
   fetchOnlineUsers() {
     return wrapper(instance().get(`admin/users/online`));

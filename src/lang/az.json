@@ -1,0 +1,65 @@
+{
+    "explore": "Kəşf edin",
+    "explore-desc": "Yeni serverlər, Emojis və daha çoxunu tapın!",
+    "servers": "Serverlər",
+    "join-server": "Serverə qoşulun",
+    "themes": "Temalar",
+    "emoji-packs": "Emoji Paketi",
+    "message-styles": "Mesaj Stili",
+    "created-by": "Yaradılıb",
+    "filter": "Süzgəc",
+    "sort-by": "Sırala",
+
+    "all": "Hamısı",
+    "verified": "Təsdiqlənmişdir",
+    "most-users": "Ən çox istifadəçi",
+    "least-users": "Ən az istifadəçi",
+    "alphabetical": "Əlifba sırası ilə",
+    "date-added": "Tarix əlavə edildi",
+
+    "explore-support-message": "Nertivia'ya istənilən miqdarda pul bağışlayaraq dəstək verin. Gələcəkdə bir dəstəkçi nişanı və daha çox xüsusiyyət əldə edəcəksiniz.",
+    "support-message-settings": "Nertivia-ya dəstək olun. Bir nişan alacaqsınız.",
+    "donate": "Dəstək ol",
+
+    "join": "Qoşulun",
+    "join-card-message": "Rəsmi Nertivia serverinə qoşulun",
+    "coming-soon!": "Tezliklə!",
+
+    "joined": "Qoşuldu",
+    "apply": "Tətbiq et",
+    "unapply": "Müraciət etmə",
+    "copy-link": "Link kopyalayın",
+
+    "clone": "Klon",
+    "cloning": "Klonlaşdırma...",
+    "cloned": "Klonlaşdırıldı",
+    "theme-safe-message": "Aşağıdakı mövzular təhlükəsiz və əl ilə nəzərdən keçirilir.",
+
+    "friends": "Dostlar",
+    "pending": "Gözləyən",
+    "recents": "Tecili",
+
+    "online": "Onlayn",
+    "away": "Uzaq",
+    "busy": "Məşğul",
+    "looking-to-play": "Oynamaq üçün baxıram",
+    "offline": "Oflayn",
+
+    "add-friends-message": "Bəzi dostlar əlavə edin.",
+    "offline-message": "Bütün dostlarınız oflayndır.",
+    "saved-notes": "Saxlanılan qeydlər",
+    "select-person-message": "Mesaj göndərmək üçün bir adam seçin!",
+    "message": "Mesaj",
+
+    "add-server": "Server əlavə edin",
+    "add-friend": "Dost əlavə et",
+    "add-friend-message": "İstifadəçi adlarını və etiketlərini istifadə edərək dostlar əlavə edin.",
+    "adding": "Əlavə olunur...",
+    "create": "Yarat",
+
+    "new-messages": "Yeni mesajlar",
+
+    "today-at": "Bu gün {0}",
+    "yesterday-at": "Dünən {0}",
+    "send-a-message": "Mesaj göndərin"
+}

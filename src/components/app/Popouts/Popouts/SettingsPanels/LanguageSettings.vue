@@ -94,6 +94,14 @@ export default {
         owo: {
           name: "OwO",
           emoji: require(`@/assets/twemoji/1f431.svg`)
+        },
+        tr: {
+          name: "Turkish",
+          emoji: require(`@/assets/twemoji/1f1f9-1f1f7.svg`)
+        },
+        az: {
+          name: "Azerbaijan",
+          emoji: require(`@/assets/twemoji/1f1e6-1f1ff.svg`)
         }
       }
     };
