@@ -553,6 +553,13 @@ blockquote {
   background: #efeffc22;
 }
 
+.large-emojis .emoji {
+  height: 5em;
+  width: 5em;
+}
+</style>
+
+<style>
 img.emoji {
   object-fit: contain;
   height: 2em;
@@ -563,11 +570,6 @@ img.emoji {
 
 img.emoji[alt] {
   text-indent: -9999px;
-}
-
-.large-emojis .emoji {
-  height: 5em;
-  width: 5em;
 }
 </style>
 
