@@ -1,6 +1,6 @@
 <template>
   <div class="item" @mouseenter="hover = true" @mouseleave="hover = false">
-    <div class="top" >
+    <div class="top">
       <div
         @click="bannerImageClicked"
         class="background-dark"

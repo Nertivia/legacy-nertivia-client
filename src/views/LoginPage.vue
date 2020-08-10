@@ -193,7 +193,6 @@ export default {
         token: this.captchaToken
       });
 
-
       if (ok) {
         this.currentPage = 4;
       } else {

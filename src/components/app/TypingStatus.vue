@@ -96,7 +96,6 @@ export default {
   left: 0;
   right: 0;
   z-index: 1;
-
 }
 .animation {
   height: 20px;

@@ -26,7 +26,7 @@ export default {
   computed: {
     date() {
       return friendlyDate(this.server.created);
-    },
+    }
   },
   methods: {
     openManageUser() {
