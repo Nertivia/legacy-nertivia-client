@@ -1,12 +1,13 @@
 <template>
-  <div class="item">
-    <div class="top">
+  <div class="item" @mouseenter="hover = true" @mouseleave="hover = false">
+    <div class="top" >
       <div
         @click="bannerImageClicked"
         class="background-dark"
         :style="{
-          backgroundImage: `url(${bannerDomain +
-            theme.screenshot}${'?type=webp'})`
+          backgroundImage: `url(${bannerDomain + theme.screenshot}${
+            !hover ? '?type=webp' : ''
+          })`
         }"
       />
     </div>
@@ -67,7 +68,8 @@ export default {
   data() {
     return {
       bannerDomain: config.domain + "/media/",
-      cloneStatus: null
+      cloneStatus: null,
+      hover: false
     };
   },
   methods: {
