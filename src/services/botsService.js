@@ -7,6 +7,9 @@ export default {
   getBots() {
     return wrapper(instance().get(`/bots`));
   },
+  getCommands(bot_ids) {
+    return wrapper(instance().get(`/bots/commands`, { params: bot_ids }));
+  },
   updateBot(data, bot_id) {
     return wrapper(instance().post(`/bots/${bot_id}`, data));
   },

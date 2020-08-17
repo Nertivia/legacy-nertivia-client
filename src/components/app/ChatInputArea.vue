@@ -40,6 +40,12 @@
         v-if="channelSuggestionsArr.length"
         :list="channelSuggestionsArr"
       />
+        <!-- @chosen="enterChannel" -->
+      <commands-popout
+        ref="commandsSuggestionsList"
+        v-if="commandsSuggestionsArr.length"
+        :list="commandsSuggestionsArr"
+      />
 
       <emoji-panel v-if="showEmojiPanel" @close="showEmojiPanel = false" />
     </div>
@@ -141,6 +147,7 @@ import emojiParser from "../../utils/emojiParser";
 import { isMobile } from "../../utils/Mobile";
 import ChatMarkdownArea from "@/components/app/ChatMarkdownArea";
 
+const commandsPopout = () => import("@/components/app/commandsPopout.vue");
 const mentionsPopout = () => import("@/components/app/mentionsPopout.vue");
 const channelsPopout = () => import("@/components/app/channelsPopout.vue");
 const emojiSuggestions = () =>
@@ -160,7 +167,8 @@ export default {
     TypingStatus,
     mentionsPopout,
     ChatMarkdownArea,
-    channelsPopout
+    channelsPopout,
+    commandsPopout
   },
   data() {
     return {
@@ -173,6 +181,7 @@ export default {
       emojiSuggestionsArr: [],
       mentionSuggestionsArr: [],
       channelSuggestionsArr: [],
+      commandsSuggestionsArr: [],
       fileUpload: {}
     };
   },
@@ -183,6 +192,7 @@ export default {
       this.uploadFile(file);
     },
     keyDown(event) {
+      // scroll through using up and down keys
       this.mentionsSwitchKey(event);
       this.emojiSwitchKey(event);
       this.channelsSwitchKey(event);
@@ -239,6 +249,7 @@ export default {
         this.showMentionsPopout(event);
         this.showChannelsPopout(event);
         this.showEmojiPopout(event);
+        this.showCommandsPopout(event);
       }, 10);
     },
     resize() {
@@ -665,6 +676,37 @@ export default {
 
       this.emojiSuggestionsArr = searchArr.slice(0, 10);
     },
+    showCommandsPopout(event) {
+      // up/down
+      if (event.keyCode == 38 || event.keyCode == 40 || event.keyCode == 16)
+        return;
+      if (!this.$refs["input-box"]) return;
+      const message = this.$refs["input-box"].value;
+      const [cmd, ...args] = message.trim().split(" ");
+      if (args.length || cmd.length >= 45) {
+        this.commandsSuggestionsArr = []
+        return;
+      }
+      if (!this.currentServerBots.length) return;
+      const filteredPrefixes = this.botWithPrefix.filter(({ member }) => {
+        const prefixMatch = cmd.startsWith(member.botPrefix);
+        return prefixMatch;
+      });
+      const matchedCommands = [];
+      for (let index = 0; index < filteredPrefixes.length; index++) {
+        const { member } = filteredPrefixes[index];
+        if (!member.botCommands || !member.botCommands.length) continue;
+        for (let i = 0; i < member.botCommands.length; i++) {
+          const botCommand = member.botCommands[i];
+          if (!(member.botPrefix + botCommand.c).startsWith(cmd)) continue;
+          matchedCommands.push({ botCommand, member });
+        }
+
+      }
+      this.commandsSuggestionsArr = matchedCommands;
+      console.log(this.commandsSuggestionsArr)
+      //console.log(this.members)
+    },
     showMentionsPopout(event) {
       if (event.keyCode == 38 || event.keyCode == 40) return; // up/down
       if (!this.$refs["input-box"]) return;
@@ -991,6 +1033,15 @@ export default {
     serverMembers() {
       const serverMembers = this.$store.getters["servers/serverMembers"];
       return serverMembers.reverse();
+    },
+    currentServerBots() {
+      return this.$store.getters["servers/serverMembers"].filter(
+        sm => sm.server_id === this.server.server_id && sm.member.bot
+      );
+    },
+    botWithPrefix() {
+      const filter = this.currentServerBots.filter(b => b.member.botPrefix);
+      return filter;
     },
     serverMember() {
       return this.$store.getters["servers/serverMembers"].find(

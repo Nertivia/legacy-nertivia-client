@@ -1,22 +1,24 @@
 <template>
   <div class="list">
     <div
-      v-for="(member, i) in list"
-      :key="member.uniqueID"
+      v-for="(item, i) in list"
+      :key="i"
       :class="{ item: true, selected: index === i }"
       @mouseenter="hoverEvent"
       @click="clickEvent"
     >
+      <div class="material-icons icon">code</div>
+      <div class="command-name">{{ item.botCommand.c }}</div>
+      <div class="tag">{{ item.botCommand.a }}</div>
       <profile-picture
         class="avatar"
-        :avatar="member.avatar"
-        :uniqueID="member.uniqueID"
+        :avatar="item.member.avatar"
+        :uniqueID="item.member.uniqueID"
         animationPadding="0"
         :hover="false"
-        size="25px"
+        size="15px"
       />
-      <div class="username">{{ member.username }}</div>
-      <div class="tag">:{{ member.tag }}</div>
+      <div class="username">{{ item.member.username }}</div>
     </div>
   </div>
 </template>
@@ -86,10 +88,15 @@ export default {
   cursor: default;
 }
 .avatar {
-  width: 25px;
-  height: 25px;
+  width: 15px;
+  height: 15px;
   margin-right: 5px;
   border-radius: 50%;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  margin: auto;
+  margin-right: 5px;
 }
 
 .item {
@@ -99,12 +106,27 @@ export default {
   align-items: center;
   cursor: pointer;
 }
+.username {
+  font-size: 14px;
+  opacity: 0.6;
+}
+.command-name {
+  font-size: 14px;
+}
 .tag {
-  color: rgba(255, 255, 255, 0.3);
+  margin-left: 5px;
+  color: rgb(255, 117, 24);
+  font-size: 14px;
+  margin-right: 10px;
 }
 @media (max-height: 441px) {
   .list {
     max-height: 150px;
   }
+}
+.icon {
+  opacity: 0.4;
+  margin-right: 5px;
+  font-size: 14px;
 }
 </style>

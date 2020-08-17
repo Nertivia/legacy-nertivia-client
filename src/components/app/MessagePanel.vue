@@ -14,7 +14,7 @@
       :name="currentChannelID ? channelName : `Welcome back, ${user.username}!`"
     />
     <transition name="fade" mode="out-in">
-      <div class="loading" v-if="currentChannelID && !currentChannelMessages">
+      <div class="loading" v-if="loadingMessages">
         <spinner />
       </div>
       <message-logs
@@ -59,6 +59,7 @@ import heading from "@/components/app/MessagePanel/Heading.vue";
 import MessageLogs from "@/components/app/MessageLogs.vue";
 import windowProperties from "@/utils/windowProperties";
 import { containsPerm, permissions } from "../../utils/RolePermissions";
+import botsService from "@/services/botsService";
 
 export default {
   props: ["type"], // type 0: dm; type 1: server
@@ -131,6 +132,20 @@ export default {
         },
         3500
       );
+    },
+    async loadBotCommands() {
+      if (!this.server) return;
+      const botIds = this.serverBots
+        .filter(b => !b.member.botCommands)
+        .map(b => b.uniqueID);
+      if (!botIds.length) return;
+      const { result, ok } = await botsService.getCommands(botIds);
+      if (ok) {
+        for (let i = 0; i < result.data.length; i++) {
+          const bot = result.data[i];
+          this.$store.dispatch("members/updateMember", bot);
+        }
+      }
     }
   },
   mounted() {
@@ -146,7 +161,17 @@ export default {
 
     this.$socket.client.off("typingStatus", this.onTyping);
   },
+  watch: {
+    loadingMessages(val) {
+      if (!val) {
+        this.loadBotCommands();
+      }
+    }
+  },
   computed: {
+    loadingMessages() {
+      return this.currentChannelID && !this.currentChannelMessages;
+    },
     message: {
       get: function() {
         return this.$store.getters.message;
@@ -181,6 +206,11 @@ export default {
       return (
         this.$store.getters["servers/servers"][this.channel.server_id] ||
         undefined
+      );
+    },
+    serverBots() {
+      return this.$store.getters["servers/serverMembers"].filter(
+        sm => sm.server_id === this.server.server_id && sm.member.bot
       );
     },
     serverMember() {

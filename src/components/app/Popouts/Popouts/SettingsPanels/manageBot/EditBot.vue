@@ -97,7 +97,7 @@
 
 <script>
 import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
-import botsService from "../../../../../services/botsService";
+import botsService from "@/services/botsService";
 import ErrorList from "@/components/app/errorsListTemplate";
 import path from "path";
 

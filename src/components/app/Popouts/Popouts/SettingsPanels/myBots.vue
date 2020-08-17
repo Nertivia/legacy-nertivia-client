@@ -40,8 +40,8 @@
 <script>
 import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
 import ErrorList from "@/components/app/errorsListTemplate";
-import manageBot from "./manageBot";
-import botsService from "../../../../../services/botsService";
+import manageBot from "./manageBot/Manage";
+import botsService from "@/services/botsService";
 
 export default {
   components: { manageBot, ProfilePicture, ErrorList },
