@@ -40,8 +40,8 @@
         v-if="channelSuggestionsArr.length"
         :list="channelSuggestionsArr"
       />
-        <!-- @chosen="enterChannel" -->
       <commands-popout
+        @chosen="enterCommand"
         ref="commandsSuggestionsList"
         v-if="commandsSuggestionsArr.length"
         :list="commandsSuggestionsArr"
@@ -196,6 +196,7 @@ export default {
       this.mentionsSwitchKey(event);
       this.emojiSwitchKey(event);
       this.channelsSwitchKey(event);
+      this.commandsSwitchKey(event);
       // when enter is press
 
       if (event.ctrlKey && event.key === "e") {
@@ -683,7 +684,7 @@ export default {
       if (!this.$refs["input-box"]) return;
       const message = this.$refs["input-box"].value;
       const [cmd, ...args] = message.trim().split(" ");
-      if (args.length || cmd.length >= 45) {
+      if (message.includes(" ") || args.length || cmd.length >= 45) {
         this.commandsSuggestionsArr = []
         return;
       }
@@ -704,8 +705,6 @@ export default {
 
       }
       this.commandsSuggestionsArr = matchedCommands;
-      console.log(this.commandsSuggestionsArr)
-      //console.log(this.members)
     },
     showMentionsPopout(event) {
       if (event.keyCode == 38 || event.keyCode == 40) return; // up/down
@@ -796,6 +795,7 @@ export default {
     },
 
     enterPopout() {
+      // enter event
       if (this.emojiSuggestionsArr.length) {
         this.enterEmojiSuggestion();
         return true;
@@ -806,6 +806,10 @@ export default {
       }
       if (this.channelSuggestionsArr.length) {
         this.enterChannel();
+        return true;
+      }
+      if (this.commandsSuggestionsArr.length) {
+        this.enterCommand();
         return true;
       }
     },
@@ -863,6 +867,23 @@ export default {
         `#${channel.name}#` +
         this.message.substring(end);
     },
+    enterCommand() {
+      const command = this.commandsSuggestionsArr[
+        this.$refs.commandsSuggestionsList.index
+      ];
+      if (!command) return;
+      this.commandsSuggestionsArr = [];
+      const cursorPosition = this.$refs["input-box"].selectionStart;
+      const cursorWord = this.cursorWord(this.message, cursorPosition);
+      const start = cursorPosition - cursorWord.length;
+      const end = cursorPosition;
+
+      this.message =
+        this.message.substring(0, start) +
+        `${command.member.botPrefix}${command.botCommand.c} ` +
+        this.message.substring(end);
+      this.$refs["input-box"].focus();
+    },
 
     enterEmojiPanel(shortcode) {
       const target = this.$refs["input-box"];
@@ -903,6 +924,19 @@ export default {
       }
       if (event.keyCode === 40) {
         this.$refs.channelSuggestionsList.KeySwitch("down");
+        event.preventDefault();
+        return;
+      }
+    },
+    commandsSwitchKey(event) {
+      if (!this.commandsSuggestionsArr.length) return;
+      if (event.keyCode === 38) {
+        this.$refs.commandsSuggestionsList.KeySwitch("up");
+        event.preventDefault();
+        return;
+      }
+      if (event.keyCode === 40) {
+        this.$refs.commandsSuggestionsList.KeySwitch("down");
         event.preventDefault();
         return;
       }

@@ -1,5 +1,15 @@
 const config = [
   {
+    version: "1.4.6",
+    title: "Bot Commands List",
+    shortTitle: "",
+    date: "19 August 2020",
+    new: [
+      "Added a bot commands list where you can easily see which command a bot has."
+    ],
+    msg: "Note: This feature will probably receive more updates and features."
+  },
+  {
     version: "1.4.5",
     title: "More Bug Fixes!",
     shortTitle: "",
