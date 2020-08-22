@@ -26,8 +26,7 @@
     <message-panel :type="currentTab === 1 ? 0 : currentTab === 2 ? 1 : null" />
     <transition :name="$mq !== 'desktop' ? 'slide-right' : 'none'">
       <members-list
-      :key="currentServerID"
-        v-show="
+        v-if="
           currentServerID &&
             currentTab === 2 &&
             ((($mq === 'members_panel' || $mq === 'mobile') &&

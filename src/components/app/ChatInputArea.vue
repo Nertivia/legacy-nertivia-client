@@ -685,7 +685,7 @@ export default {
       const message = this.$refs["input-box"].value;
       const [cmd, ...args] = message.trim().split(" ");
       if (message.includes(" ") || args.length || cmd.length >= 45) {
-        this.commandsSuggestionsArr = []
+        this.commandsSuggestionsArr = [];
         return;
       }
       if (!this.currentServerBots.length) return;
@@ -702,7 +702,6 @@ export default {
           if (!(member.botPrefix + botCommand.c).startsWith(cmd)) continue;
           matchedCommands.push({ botCommand, member });
         }
-
       }
       this.commandsSuggestionsArr = matchedCommands;
     },
@@ -751,14 +750,13 @@ export default {
         for (let index = 0; index < this.serverMembers.length; index++) {
           const serverMember = this.serverMembers[index];
           if (serverMember.server_id != this.server.server_id) continue;
-          const member = this.members[serverMember.uniqueID];
           if (
-            member.username
+            serverMember.member.username
               .toLowerCase()
               .replace(/\s/g, "")
               .includes(wordWithoutBegining)
           ) {
-            searchedMembers.push(member);
+            searchedMembers.push(serverMember.member);
           }
         }
       }
@@ -1085,8 +1083,7 @@ export default {
       );
     },
     members() {
-      const members = this.$store.getters["members/members"];
-      return members;
+      return this.$store.getters["members/members"];
     },
     editMessage() {
       return this.$store.getters.popouts.editMessage;

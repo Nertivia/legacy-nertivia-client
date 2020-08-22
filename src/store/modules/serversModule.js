@@ -18,8 +18,12 @@ const getters = {
   channelsIDs(state) {
     return state.channelsIDs;
   },
-  serverMembers(state) {
-    return state.serverMembers;
+  serverMembers(state, getters, rootState, rootGetters) {
+    const members = rootGetters["members/members"];
+
+    return state.serverMembers.map(sm => {
+      return { ...sm, member: members[sm.uniqueID] };
+    });
   },
   currentServerID(state) {
     return state.currentServerID;

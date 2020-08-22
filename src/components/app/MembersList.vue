@@ -109,7 +109,6 @@ export default {
       return this.$store.getters["servers/currentServerID"];
     },
     members() {
-      const members = this.$store.getters["members/members"];
       const serverMembers = this.$store.getters["servers/serverMembers"];
 
       const presences = this.$store.getters["members/presences"];
@@ -119,8 +118,6 @@ export default {
       );
 
       let getMember = filteredSM.map(sm => {
-        sm.member = members[sm.uniqueID];
-
         // attach presense
         if (sm.uniqueID === this.$store.getters.user.uniqueID) {
           sm.presense = this.$store.getters.user.status || 0;
