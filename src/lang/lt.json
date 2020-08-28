@@ -1,0 +1,65 @@
+{
+    "explore": "Tyrinėti",
+    "explore-desc": "Rasti naujų serverių, emociukų ir daugiau!",
+    "servers": "Serveriai",
+    "join-server": "Prisijungti prie serverio",
+    "themes": "Themes",
+    "emoji-packs": "Emociukų pąkuotės",
+    "message-styles": "Žinučių stilius",
+    "created-by": "Sukurta",
+    "filter": "Filtruoti",
+    "sort-by": "Rūšiuoti pagal",
+
+    "all": "Visi",
+    "verified": "Patvirtinti",
+    "most-users": "Didžioji dalis naudotojų",
+    "least-users": "Mažiausioji dalis naudotojų",
+    "alphabetical": "Pagal abėcėlę",
+    "date-added": "Data pridėta",
+
+    "explore-support-message": "Remkite Nertivia paaukodami bet kokią pinigų sumą, jūs gausite remėjų ženkliuką ir daugiau funkcijų ateityje.",
+    "support-message-settings": "Remkite Nertivia. Gausite ženkliuką.",
+    "donate": "Remti",
+
+    "join": "Prisijungti",
+    "join-card-message": "Prisijungite prie officialaus Nertivia serverio.",
+    "coming-soon!": "Atsiras ateityje!",
+
+    "joined": "Prisijungta",
+    "apply": "Kreiptis",
+    "unapply": "Atsiimti prašymą",
+    "copy-link": "Kopijuoti nuorodą",
+
+    "clone": "Klonuoti",
+    "cloning": "Klonuojama...",
+    "cloned": "Nuklonuota",
+    "theme-safe-message": "Themes žemiau yra saugios ir patvirtintos rankiniu būdu.",
+
+    "friends": "Draugai",
+    "pending": "Laukiama",
+    "recents": "Naujausi",
+
+    "online": "Prisijungę",
+    "away": "Išėję",
+    "busy": "Užsiemę",
+    "looking-to-play": "Ieškantįs žmonių su kuriais galėtų žaisti",
+    "offline": "Neprisijungę",
+
+    "add-friends-message": "Pridėti draugų",
+    "offline-message": "Visi jūsų draugai nėra prisijungę",
+    "saved-notes": "Išsaugotos pastabos",
+    "select-person-message": "Pasirinktite žmogų kuriam parašyti!",
+    "message": "Parašyti",
+
+    "add-server": "Pridėti serverį",
+    "add-friend": "Pridėti draugą",
+    "add-friend-message": "Pridėkite draugų naudodami jų pavadinima ir tegą.",
+    "adding": "Pridedama",
+    "create": "Sukurti",
+
+    "new-messages": "Naujos žinutės",
+
+    "today-at": "Šiandien {0} valandą",
+    "yesterday-at": "Vakar {0} valandą",
+    "send-a-message": "Išsiųsti žinutę"
+}

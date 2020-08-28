@@ -100,13 +100,21 @@
   </div>
 </template>
 
-<script>
+
+<script lang="ts">
+import Vue from "vue";
 import Changelog from "@/components/homePage/Changelog";
 import CustomHeader from "@/components/homePage/Header";
 import DownloadPopout from "@/components/homePage/DownloadAppPopout.vue";
 import RegisterPopout from "@/components/homePage/RegisterPopout";
-export default {
-  components: { Changelog, CustomHeader, DownloadPopout, RegisterPopout },
+
+export default Vue.extend({
+  components: {
+    Changelog,
+    CustomHeader,
+    DownloadPopout,
+    RegisterPopout
+  },
   methods: {
     setPopout(val) {
       if (!val) {
@@ -116,7 +124,7 @@ export default {
       this.$router.push(`#${val}`);
     }
   }
-};
+});
 </script>
 
 <style scoped lang="scss">

@@ -102,6 +102,10 @@ export default {
         az: {
           name: "Azerbaijan",
           emoji: require(`@/assets/twemoji/1f1e6-1f1ff.svg`)
+        },
+        lt: {
+          name: "Lithuanian",
+          emoji: require(`@/assets/twemoji/1f1f1-1f1f9.svg`)
         }
       }
     };

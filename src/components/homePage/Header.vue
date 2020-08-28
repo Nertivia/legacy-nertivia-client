@@ -40,12 +40,14 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
 import ProfilePopout from "@/components/homePage/ProfileContext.vue";
 import Spinner from "@/components/global/Spinner.vue";
 import AuthenticationService from "../../services/AuthenticationService";
-export default {
+import Vue from "vue";
+
+export default Vue.extend({
   components: { Spinner, ProfilePicture, ProfilePopout },
   data() {
     return {
@@ -54,7 +56,13 @@ export default {
       user: null
     };
   },
+  mounted() {
+    if (this.loggedIn) {
+      this.getUser();
+    }
+  },
   methods: {
+    // : { target: Element }
     closeProfilePopout(event) {
       if (!event.target.closest(".avatar")) this.showProfilePopout = false;
     },
@@ -75,13 +83,8 @@ export default {
         this.user = result.data.user;
       }
     }
-  },
-  mounted() {
-    if (this.loggedIn) {
-      this.getUser();
-    }
   }
-};
+});
 </script>
 
 <style scoped lang="scss">
