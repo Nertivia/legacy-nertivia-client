@@ -3,7 +3,8 @@ import NotificationSounds from "@/utils/notificationSound";
 
 const state = {
   notifications: [],
-  mutedChannels: []
+  mutedChannels: [],
+  mutedServers: []
 };
 
 const getters = {
@@ -22,6 +23,12 @@ const actions = {
   setMutedChannels(context, mutedChannelArr) {
     context.commit("setMutedChannels", mutedChannelArr);
   },
+  setMutedServers(context, mutedServersArr) {
+    context.commit("setMutedServers", mutedServersArr);
+  },
+  setMutedServerType(context, { server_id, muted }) {
+    context.commit("setMutedServerType", { server_id, muted });
+  },
   addMutedChannel(context, channelID) {
     context.commit("addMutedChannel", channelID);
   },
@@ -29,17 +36,26 @@ const actions = {
     context.commit("removeMutedChannel", channelID);
   },
   messageCreatedNotification(context, notification) {
-    const { channelID, lastMessageID, sender, mentioned } = notification;
+    const {
+      channelID,
+      lastMessageID,
+      sender,
+      mentioned,
+      muteSound
+    } = notification;
     const currentTab = context.rootGetters.currentTab;
 
     // dont display a notification if the channel is selected.
-    if (
-      context.rootState.channelModule.currentChannelID !== channelID ||
-      (currentTab !== 1 && currentTab !== 2) ||
-      !document.hasFocus()
-    ) {
-      NotificationSounds.notification(mentioned);
+    const isMessagingTab = currentTab === 1 || currentTab === 2;
+    const isChannelSelected =
+      context.rootState.channelModule.currentChannelID === channelID;
+
+    if (!isChannelSelected || !isMessagingTab || !document.hasFocus()) {
+      if (!muteSound){
+        NotificationSounds.notification(mentioned);
+      }
     }
+
     let find = context.state.notifications.find(item => {
       return item.channelID === channelID;
     });
@@ -75,8 +91,19 @@ const mutations = {
   setMutedChannels(state, mutedChannelArr) {
     Vue.set(state, "mutedChannels", mutedChannelArr);
   },
+  setMutedServers(state, mutedServerArr) {
+    Vue.set(state, "mutedServers", mutedServerArr);
+  },
   addMutedChannel(state, channelID) {
     state.mutedChannels.push(channelID);
+  },
+  setMutedServerType(state, { server_id, muted }) {
+    const i = state.mutedServers.findIndex(ms => ms.server_id === server_id);
+    if (i === -1) {
+      state.mutedServers.push({ server_id, muted });
+      return;
+    }
+    Vue.set(state.mutedServers, i, { server_id, muted });
   },
   removeMutedChannel(state, channelID) {
     state.mutedChannels = state.mutedChannels.filter(mc => mc !== channelID);

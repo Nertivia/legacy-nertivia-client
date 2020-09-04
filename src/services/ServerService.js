@@ -57,6 +57,12 @@ export default {
       instance().put(domain + `/servers/${serverID}/channels`, { name })
     );
   },
+
+  muteServer(serverID, type) {
+    return wrapper(
+      instance().put(domain + `/servers/${serverID}/mute`, { type })
+    );
+  },
   channelPosition(serverID, channelIDArr) {
     return wrapper(
       instance().put(domain + `/servers/${serverID}/channels/position`, {

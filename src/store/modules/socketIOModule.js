@@ -37,6 +37,7 @@ const actions = {
       serverRoles,
       dms,
       mutedChannels,
+      mutedServers,
       notifications,
       customStatusArr,
       memberStatusArr,
@@ -194,6 +195,7 @@ const actions = {
     }
     context.commit("addAllChannels", channelsObject);
     context.dispatch("setMutedChannels", mutedChannels);
+    context.dispatch("setMutedServers", mutedServers);
     context.dispatch("addAllNotifications", notifications);
     context.dispatch("settingsModule/setSettings", settings);
   },
@@ -226,14 +228,18 @@ const actions = {
     context.commit("removeFriend", uniqueID);
   },
   socket_receiveMessage(context, data) {
-    if (data.message.type === 1) {
-      if (context.getters.user.uniqueID === data.message.creator.uniqueID) {
-        return;
-      }
+    const isMessageCreatedByMe =
+      context.getters.user.uniqueID === data.message.creator.uniqueID;
+
+    if (data.message.type === 1 && isMessageCreatedByMe) {
+      return;
     }
+
     if (context.getters.channels[data.message.channelID]) {
       context.dispatch("updateChannelLastMessage", data.message.channelID);
     }
+
+    // if channel is opened
     if (context.getters.messages[data.message.channelID]) {
       context.dispatch("addMessage", {
         message: data.message,
@@ -242,10 +248,15 @@ const actions = {
       });
     }
 
+    const channel = context.getters.channels[data.message.channelID];
+
+    const type = findServerMuteType(channel.server_id);
+
     // muted channel
     if (context.rootGetters.mutedChannels.includes(data.message.channelID))
       return;
     if (data.message.creator.uniqueID === context.getters.user.uniqueID) return;
+    if (type === 2) return;
 
     const currentTab = context.rootGetters.currentTab;
     const currentChannelID = context.rootState.channelModule.currentChannelID;
@@ -264,7 +275,8 @@ const actions = {
       sender: data.message.creator,
       mentioned: !!data.message.mentions.find(
         m => m.uniqueID === context.rootState.user.user.uniqueID
-      )
+      ),
+      muteSound: type === 1
     };
     const notificationExists = context.rootGetters.notifications.find(
       n => n.channelID === data.message.channelID
@@ -276,9 +288,20 @@ const actions = {
     }
 
     context.dispatch("messageCreatedNotification", notification);
+
+    function findServerMuteType(server_id) {
+      let serverMuteType = 0; // 0 = no mute
+
+      if (channel.server_id) {
+        const mutedServers = context.rootState.notificationsModule.mutedServers;
+        if (!mutedServers || !mutedServers.length) return serverMuteType;
+        const findServer = mutedServers.find(ms => ms.server_id === server_id);
+        if (!findServer) return serverMuteType;
+        return findServer.muted;
+      }
+    }
     function desktopNotification() {
       // send desktop notification
-      const channel = context.getters.channels[data.message.channelID];
       const disableDesktopNotification =
         context.rootGetters["settingsModule/settings"].notification
           .disableDesktopNotification;
@@ -641,6 +664,9 @@ const actions = {
   },
   ["socket_channel:mute"](context, { channelID }) {
     context.dispatch("addMutedChannel", channelID);
+  },
+  ["socket_server:mute"](context, { server_id, muted }) {
+    context.dispatch("setMutedServerType", { server_id, muted });
   },
   ["socket_channel:unmute"](context, { channelID }) {
     context.dispatch("removeMutedChannel", channelID);

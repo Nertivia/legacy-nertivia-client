@@ -16,6 +16,10 @@
       <div class="material-icons">exit_to_app</div>
       <div class="name">Leave Server</div>
     </div>
+    <div class="item" @click="showManageNotification">
+      <div class="material-icons">notifications</div>
+      <div class="name">Manage Notifications</div>
+    </div>
     <div class="item" @click="copyServerID">
       <div class="material-icons">developer_board</div>
       <div class="name">Copy ID</div>
@@ -62,11 +66,18 @@ export default {
         serverID: this.contextDetails.serverID
       });
     },
+    showManageNotification() {
+      this.closeMenu();
+      this.$store.dispatch("setServerSettings", {
+        serverID: this.contextDetails.serverID,
+        tab: "manage-notifications"
+      });
+    },
     createInvite() {
       this.closeMenu();
       this.$store.dispatch("setServerSettings", {
         serverID: this.contextDetails.serverID,
-        index: 3
+        tab: "manage-invites"
       });
       // this.$store.dispatch("setPopoutVisibility", {
       //   name: "showServerInviteMenu",

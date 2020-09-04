@@ -1,5 +1,13 @@
 const config = [
   {
+    version: "1.4.7",
+    title: "Notification Settings and Bug fix",
+    shortTitle: "",
+    date: "31 August 2020",
+    new: ["Decreased notification sound by 10 decibels"],
+    fix: ["Fixed a bug where invite link uses would not increment."],
+  },
+  {
     version: "1.4.6",
     title: "Bot Commands List",
     shortTitle: "",

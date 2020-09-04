@@ -20,7 +20,7 @@ const state = {
 
   serverSettings: {
     serverID: null,
-    index: null
+    tab: null
   },
   editMessage: null,
   serverMemberContext: {
@@ -53,8 +53,8 @@ const actions = {
   setAllPopout({ commit, state }, data) {
     commit("setAllPopout", { ...state.allPopout, ...data });
   },
-  setServerSettings({ commit }, { serverID, index }) {
-    commit("setServerSettings", { serverID, index });
+  setServerSettings({ commit }, { serverID, tab }) {
+    commit("setServerSettings", { serverID, tab });
   },
   setUserInformationPopout({ commit }, id) {
     commit("setUserInformationPopout", id);
@@ -95,8 +95,8 @@ const mutations = {
   setGenericMessage(state, message) {
     Vue.set(state, "genericMessage", message);
   },
-  setServerSettings(state, { serverID, index }) {
-    Vue.set(state, "serverSettings", { serverID, index });
+  setServerSettings(state, { serverID, tab }) {
+    Vue.set(state, "serverSettings", { serverID, tab });
   },
   setUserInformationPopout(state, id) {
     Vue.set(state, "userInformationPopoutID", id);

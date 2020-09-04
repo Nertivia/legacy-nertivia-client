@@ -24,13 +24,20 @@
             <div class="material-icons">close</div>
           </div>
         </div>
-        <general v-if="index === 0" />
-        <manage-channels v-if="index === 1" />
-        <manage-roles v-if="index === 2" />
-        <server-invite-popout v-if="index === 3" />
-        <manage-bans v-if="index === 4" />
-        <server-visibility v-if="index === 5" />
-        <delete-server v-if="index === 6" />
+        <general v-if="index === tabsConstants.general" />
+        <manage-channels v-if="index === tabsConstants['manage-channel']" />
+        <manage-roles v-if="index === tabsConstants['manage-roles']" />
+        <server-invite-popout
+          v-if="index === tabsConstants['manage-invites']"
+        />
+        <manage-bans v-if="index === tabsConstants['manage-bans']" />
+        <server-visibility
+          v-if="index === tabsConstants['manage-visibility']"
+        />
+        <delete-server v-if="index === tabsConstants['delete-server']" />
+        <ManageServerNotification
+          v-if="index === tabsConstants['manage-notifications']"
+        />
       </div>
     </div>
   </div>
@@ -44,12 +51,12 @@ const ManageChannels = () => import("./ManageChannels.vue");
 const ManageRoles = () => import("./ManageRoles.vue");
 const ManageBans = () => import("./ManageBans.vue");
 const ServerVisibility = () => import("./ServerVisibility.vue");
+const ManageServerNotification = () => import("./ManageServerNotification");
 const ServerInvitePopout = () => import("../ServerInvitePopout");
 
 import { permissions, containsPerm } from "@/utils/RolePermissions";
 
 export default {
-  props: ["defaultIndex"],
   components: {
     General,
     DeleteServer,
@@ -57,18 +64,34 @@ export default {
     ServerVisibility,
     ServerInvitePopout,
     ManageBans,
-    ManageRoles
+    ManageRoles,
+    ManageServerNotification
   },
   data() {
     return {
-      index: this.$store.state.popoutsModule.serverSettings.index || 0
+      tabsConstants: {
+        general: 0,
+        "manage-channels": 1,
+        "manage-roles": 2,
+        "manage-invites": 3,
+        "manage-notifications": 4,
+        "manage-bans": 5,
+        "manage-visibility": 6,
+        "delete-server": 7
+      },
+      index: null
     };
   },
-
+  beforeMount() {
+    this.index =
+      this.tabsConstants[this.$store.state.popoutsModule.serverSettings.tab] ||
+      0;
+  },
   methods: {
     closeMenu() {
       this.$store.dispatch("setServerSettings", {
-        serverID: null
+        serverID: null,
+        tab: null
       });
     }
   },
@@ -116,13 +139,13 @@ export default {
         {
           title: "General",
           icon: "info",
-          index: 0,
+          index: this.tabsConstants.general,
           shown: this.checkServerCreator
         },
         {
           title: "Channels",
           icon: "storage",
-          index: 1,
+          index: this.tabsConstants["manage-channels"],
           shown:
             this.checkServerCreator ||
             !!containsPerm(
@@ -133,7 +156,7 @@ export default {
         {
           title: "Roles",
           icon: "extension",
-          index: 2,
+          index: this.tabsConstants["manage-roles"],
           shown:
             this.checkServerCreator ||
             !!containsPerm(
@@ -145,26 +168,32 @@ export default {
         {
           title: "Manage Invites",
           icon: "settings",
-          index: 3,
+          index: this.tabsConstants["manage-invites"],
+          shown: true
+        },
+        {
+          title: "Manage Notifications",
+          icon: "notifications",
+          index: this.tabsConstants["manage-notifications"],
           shown: true
         },
         {
           title: "Banned Members",
           icon: "lock",
-          index: 4,
+          index: this.tabsConstants["manage-bans"],
           shown: this.checkServerCreator
         },
         {
           title: "Server Visibility",
           icon: "visibility",
-          index: 5,
+          index: this.tabsConstants["manage-visibility"],
           shown: this.checkServerCreator
         },
         {
           title: "Delete Server",
           icon: "warning",
           critical: true,
-          index: 6,
+          index: this.tabsConstants["delete-server"],
           shown: this.checkServerCreator
         }
       ];
@@ -216,7 +245,7 @@ export default {
   background: #272e37da;
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
   height: 100%;
-  width: 180px;
+  width: 205px;
   flex-shrink: 0;
 }
 .tab {
