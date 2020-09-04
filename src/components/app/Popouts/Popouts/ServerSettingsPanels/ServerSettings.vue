@@ -25,7 +25,7 @@
           </div>
         </div>
         <general v-if="index === tabsConstants.general" />
-        <manage-channels v-if="index === tabsConstants['manage-channel']" />
+        <manage-channels v-if="index === tabsConstants['manage-channels']" />
         <manage-roles v-if="index === tabsConstants['manage-roles']" />
         <server-invite-popout
           v-if="index === tabsConstants['manage-invites']"
