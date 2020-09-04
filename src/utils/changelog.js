@@ -1,11 +1,14 @@
 const config = [
   {
-    version: "1.4.7",
+    version: "1.5.6",
     title: "Notification Settings and Bug fix",
     shortTitle: "",
-    date: "31 August 2020",
-    new: ["Decreased notification sound by 10 decibels"],
-    fix: ["Fixed a bug where invite link uses would not increment."],
+    date: "04 September 2020",
+    new: [
+      "Decreased notification sound by 10 decibels.",
+      "Added new server notification mute options."
+    ],
+    fix: ["Fixed a bug where invite link uses would not increment."]
   },
   {
     version: "1.4.6",
