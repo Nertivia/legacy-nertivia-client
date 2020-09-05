@@ -95,14 +95,11 @@ export default {
   animation-iteration-count: infinite;
 }
 @keyframes blink {
-  20%,
+  24%,
   100% {
-    height: 0px;
+    height: 0;
   }
-  0% {
-    height: 0 px;
-  }
-  10% {
+  3% {
     height: 33px;
   }
 }
