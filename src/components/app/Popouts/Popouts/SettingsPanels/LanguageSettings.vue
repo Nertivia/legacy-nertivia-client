@@ -106,6 +106,10 @@ export default {
         lt: {
           name: "Lithuanian",
           emoji: require(`@/assets/twemoji/1f1f1-1f1f9.svg`)
+        },
+        es: {
+          name: "Spanish",
+          emoji: require(`@/assets/twemoji/1f1ea-1f1f8.svg`)
         }
       }
     };
