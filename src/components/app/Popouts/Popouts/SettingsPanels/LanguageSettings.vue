@@ -110,6 +110,10 @@ export default {
         es: {
           name: "Spanish",
           emoji: require(`@/assets/twemoji/1f1ea-1f1f8.svg`)
+        },
+        da: {
+          name: "Danish",
+          emoji: require(`@/assets/twemoji/1f1e9-1f1f0.svg`)
         }
       }
     };
