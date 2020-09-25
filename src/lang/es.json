@@ -1,0 +1,66 @@
+{
+  "explore": "Explorar",
+  "explore-desc": "¡Encuentra nuevos servidores, emojis y más!",
+  "servers": "Servidores",
+  "join-server": "Unirse al servidor",
+  "themes": "Estilos",
+  "emoji-packs": "Packs de emoji",
+  "message-styles": "Estilos de mensaje",
+  "created-by": "Creado Por",
+  "filter": "Filtro",
+  "sort-by": "Ordenar Por",
+
+  "all": "Todo",
+  "verified": "Verificado",
+  "most-users": "Más Usuarios",
+  "least-users": "Menos Usuarios",
+  "alphabetical": "Alfabético",
+  "date-added": "Fecha de adición",
+
+  "explore-support-message": "Apoya a Nertivia realizando cualquier donación. Obtendrás una medalla de apoyo y más actualizaciones en el futuro.",
+  "support-message-settings": "Apoya a Nertivia. Obtendrás una medalla.",
+  "donate": "Donar",
+
+  "join": "Unirse",
+  "join-card-message": "Únete al servidor oficial de Nertivia.",
+  "coming-soon!": "¡Pronto!",
+
+  "joined": "Unido",
+  "apply": "Aplicar",
+  "unapply": "Desaplicar",
+  "copy-link": "Copiar Enlace",
+
+  "clone": "Clonar",
+  "cloning": "Clonando...",
+  "cloned": "Clonado",
+  "theme-safe-message": "Los estilos que aparecen son seguros y revisados manualmente.",
+
+  "friends": "Amigos",
+  "pending": "Pendiente",
+  "recents": "Reciente",
+
+  "online": "En línea",
+  "away": "Inactivo",
+  "busy": "Ocupado",
+  "looking-to-play": "Buscando jugar",
+  "offline": "Desconectado",
+
+  "add-friends-message": "Añade algunos amigos.",
+  "offline-message": "Todos tus amigos están desconectados.",
+  "saved-notes": "Notas guardadas",
+  "select-person-message": "¡Escoje una persona para mensajear!",
+  "message": "Mensaje",
+
+  "add-server": "Añadir servidor",
+  "add-friend": "Añadir amigo",
+  "add-friend-message": "Añade amigos usando su nombre de usuario y etiqueta.",
+  "adding": "Añadiendo...",
+  "create": "Crear",
+
+  "new-messages": "Nuevos mensajes",
+
+  "today-at": "Hoy a las {0}",
+  "yesterday-at": "Ayer a las {0}",
+  "send-a-message": "Enviar un mensaje"
+}
+
