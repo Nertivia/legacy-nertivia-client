@@ -8,6 +8,7 @@ import Obfuscate from "./markup/Obfuscate.vue";
 import config from "@/config.js";
 import emojis from "@/utils/emojiData/emojis.json";
 import emojiParser from "@/utils/emojiParser";
+import hljs from "highlight.js";
 
 let testElement = document.createElement("div");
 const isValidColor = color => {
@@ -325,11 +326,24 @@ export default {
           textCount += 1;
           return entity.token;
         case "codeblock":
-          return (
-            <pre class="codeblock">
-              <code>{parseChildren(entity.children)}</code>
-            </pre>
-          );
+          if (entity.lang != null && hljs.getLanguage(entity.lang) != null) {
+            return (
+              <pre class="codeblock">
+                <code
+                  domPropsInnerHTML={
+                    hljs.highlight(entity.lang, parseChildren(entity.children))
+                      .value
+                  }
+                ></code>
+              </pre>
+            );
+          } else {
+            return (
+              <pre class="codeblock">
+                <code>{parseChildren(entity.children)}</code>
+              </pre>
+            );
+          }
         case "blockquote":
           textCount += 1;
           return <blockquote>{parseChildren(entity.children)}</blockquote>;
@@ -383,7 +397,7 @@ export default {
                 />
               );
             } else {
-              return entity.text
+              return entity.text;
             }
           }
         }
