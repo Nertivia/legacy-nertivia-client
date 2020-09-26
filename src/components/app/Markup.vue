@@ -264,6 +264,7 @@ export default {
     let depth = 0;
     let emojiCount = 0;
     let textCount = 0;
+    let quoteCount = 0;
     const parse = text => parseEntities(parseRichText(text));
     const parseChildren = children => {
       switch (true) {
@@ -355,16 +356,35 @@ export default {
           const quote = this?.message?.quotes?.find(
             q => q.messageID === entity.message_id
           );
-          if (quote != null) {
-            return (
-              <MessageQuote
-                quote={quote}
-                formattingEnabled={entity.message_id !== this.message.uniqueID}
-                message={this.message}
-              />
-            );
+
+          if (quoteCount <= 2) {
+            quoteCount += 1;
+
+            if (quote != null) {
+              return (
+                <MessageQuote
+                  quote={quote}
+                  formattingEnabled={
+                    entity.message_id !== this.message.uniqueID
+                  }
+                  message={this.message}
+                />
+              );
+            } else {
+              return entity.text;
+            }
           } else {
-            return entity.text;
+            if (quote != null) {
+              return (
+                <MessageQuote
+                  quote={quote}
+                  formattingEnabled={false}
+                  message={this.message}
+                />
+              );
+            } else {
+              return entity.text
+            }
           }
         }
         case "emoji": {
