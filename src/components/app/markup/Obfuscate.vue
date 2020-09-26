@@ -46,7 +46,7 @@ export default {
         node.textContent = this.obfuscateText(node.textContent, delta);
       }
     },
-    *getTextNodes() {
+    getTextNodes() {
       const walker = document.createTreeWalker(
         this.$el,
         NodeFilter.SHOW_TEXT,
@@ -55,9 +55,11 @@ export default {
       );
 
       let node;
+      let nodes = [];
       while ((node = walker.nextNode())) {
-        yield node;
+        nodes.push(node);
       }
+      return nodes;
     }
   },
   watch: {
@@ -71,7 +73,7 @@ export default {
       return windowProperties.isfocused;
     },
     textNodes: function() {
-      return [...this.getTextNodes()];
+      return this.getTextNodes();
     }
   },
   mounted() {

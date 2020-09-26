@@ -1,5 +1,5 @@
 <template>
-  <article class="quote">
+  <article class="quote" v-bind:class="{ quoteFailed: failMessage == null }">
     <header class="section">
       Quoted:
       <span class="username">{{ this.quote.creator.username }}</span>
@@ -10,13 +10,20 @@
         >keyboard_arrow_up</i
       >
     </header>
-    <main class="message">
+    <main class="message" v-if="failMessage != null">
       <Markup
         v-if="formattingEnabled"
         :text="quote.message"
         :message="message"
       />
       <div v-else>{{ this.quote.message }}</div>
+    </main>
+    <main v-else class="fail-message">
+      <!-- This quote is too long to be displayed. -->
+      <Markup
+        text="This quote is too long to be displayed."
+        :message="message"
+      />
     </main>
   </article>
 </template>
@@ -28,6 +35,15 @@ export default {
   props: ["quote", "formattingEnabled", "message"],
   components: {
     Markup: () => import("../Markup.vue")
+  },
+  computed: {
+    failMessage: function() {
+      if (this.quote.message.length < 1000) {
+        return "This quote is too long to be displayed.";
+      } else {
+        return null;
+      }
+    }
   },
   methods: {
     openUserInfo: function() {
@@ -90,5 +106,14 @@ export default {
   align-self: center;
   flex-shrink: 0;
   font-size: 1.25rem;
+}
+
+.quoteFailed {
+  background: #a93e3e;
+}
+
+.fail-message {
+  color: #fff;
+  padding: 0.5em;
 }
 </style>
