@@ -1,28 +1,65 @@
 {
     "explore": "Explorează",
-    "explore-desc": "Găsește noi servere, Emoji-uri și multe altele!",
+    "explore-desc": "Găsește servere, emoji-uri și multe altele!",
     "servers": "Servere",
-    "join-server": "Alătură-te serverului",
+    "join-server": "Alătură-te",
     "themes": "Teme",
-    "emoji-packs": "Pachete de Emoji",
+    "emoji-packs": "Pachete de emoji",
     "message-styles": "Stiluri de mesaje",
     "created-by": "Creat de",
     "filter": "Filtru",
     "sort-by": "Sortează după",
 
     "all": "Toate",
-    "verified": "Verificat",
-    "most-users": "Majoritatea utilizatorilor",
-    "least-users": "Cei mai puțini utilizatori",
+    "verified": "Verificate",
+    "most-users": "Cu cei mai mulți utilizatori",
+    "least-users": "Cu cei mai puțini utilizatori",
     "alphabetical": "Alfabetic",
-    "date-added": "Data adăugată",
+    "date-added": "Data adăugării",
 
-    "explore-support-message": "Sprijină Nervitia prin donarea oricărei sume de bani dorite. Vei primi o insignă de suporter și mai multe caracteristici în viitor.",
-    "support-message-settings": "Sprijină Nervitia. Vei primi o insignă.",
+    "explore-support-message": "Sprijină Nertivia donând orice sumă de bani. Vei primi o insignă de suporter și mai multe caracteristici pe viitor.",
+    "support-message-settings": "Sprijină Nertivia. Vei primi o insignă.",
     "donate": "Donează",
 
     "join": "Alătură-te",
-    "join-card-message": "Alătură-te serverului oficial Nervitia",
-    "coming-soon!": "În curând!"
+    "join-card-message": "Alătură-te serverului oficial Nertivia",
+    "coming-soon!": "În curând!",
 
+    "joined": "Te-ai alăturat",
+    "apply": "Aplică",
+    "unapply": "Dezaplică",
+    "copy-link": "Copiază linkul",
+
+    "clone": "Clonează",
+    "cloning": "Se clonează...",
+    "cloned": "Clonată",
+    "theme-safe-message": "Aceste teme sunt sigure și verificate manual.",
+
+    "friends": "Prieteni",
+    "pending": "În așteptare",
+    "recents": "Recente",
+
+    "online": "Online",
+    "away": "Plecat",
+    "busy": "Ocupat",
+    "looking-to-play": "Dorește să (se) joace",
+    "offline": "Offline",
+
+    "add-friends-message": "Adaugă niște prieteni.",
+    "offline-message": "Toți prietenii tăi sunt ofline.",
+    "saved-notes": "Notițe salvate",
+    "select-person-message": "Alege o persoană pentru a-i trimite un mesaj!",
+    "message": "Mesaj",
+
+    "add-server": "Adaugă un server",
+    "add-friend": "Adaugă un prieten",
+    "add-friend-message": "Adaugă prieteni folosindu-le username-ul și tag-ul.",
+    "adding": "Se adaugă...",
+    "create": "Creează",
+
+    "new-messages": "Mesaje noi",
+
+    "today-at": "Azi la {0}",
+    "yesterday-at": "Ieri la {0}",
+    "send-a-message": "Trimite un mesaj"
 }
