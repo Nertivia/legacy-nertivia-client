@@ -251,6 +251,9 @@ const actions = {
     }
 
     const channel = context.getters.channels[data.message.channelID];
+    if (isMessageCreatedByMe && channel && channel.server_id) {
+      context.dispatch("dismissServerNotification", data.message.channelID);
+    }
 
     const type = !channel ? 0 : findServerMuteType(channel.server_id);
 
