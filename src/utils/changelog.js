@@ -1,5 +1,19 @@
 const config = [
   {
+    version: "1.5.7",
+    title: "Slow Down fixes",
+    shortTitle: "",
+    date: "27 September 2020",
+
+    fix: ["Re-worked on server notifications and the way they are handled."],
+    msg: `ALL existing notifications will be deleted.<br>
+
+    After the update, every single server channel will have a notification new.
+    Just right click on the server and click "mark as read".<br>
+    
+    This update should make sending messages faster.`
+  },
+  {
     version: "1.5.6",
     title: "Notification Settings and Bug fix",
     shortTitle: "",
