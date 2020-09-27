@@ -42,7 +42,8 @@ const actions = {
       customStatusArr,
       memberStatusArr,
       programActivityArr,
-      settings
+      settings,
+      lastSeenServerChannels
     } = data;
 
     const friendsArr = user.friends;
@@ -197,6 +198,7 @@ const actions = {
     context.dispatch("setMutedChannels", mutedChannels);
     context.dispatch("setMutedServers", mutedServers);
     context.dispatch("addAllNotifications", notifications);
+    context.dispatch("addAllLastSeenServerChannels", lastSeenServerChannels);
     context.dispatch("settingsModule/setSettings", settings);
   },
   socket_relationshipAdd(context, friend) {
@@ -250,7 +252,7 @@ const actions = {
 
     const channel = context.getters.channels[data.message.channelID];
 
-    const type = findServerMuteType(channel.server_id);
+    const type = !channel ? 0 : findServerMuteType(channel.server_id);
 
     // muted channel
     if (context.rootGetters.mutedChannels.includes(data.message.channelID))
@@ -270,24 +272,48 @@ const actions = {
       desktopNotification();
     }
 
-    const notification = {
-      channelID: data.message.channelID,
-      sender: data.message.creator,
-      mentioned: !!data.message.mentions.find(
-        m => m.uniqueID === context.rootState.user.user.uniqueID
-      ),
-      muteSound: type === 1
-    };
-    const notificationExists = context.rootGetters.notifications.find(
-      n => n.channelID === data.message.channelID
-    );
-    if (notificationExists) {
-      notification.lastMessageID = notificationExists.lastMessageID;
-    } else {
-      notification.lastMessageID = data.message.messageID;
+    if (channel && channel.server_id) {
+      const notification = {
+        channelID: data.message.channelID,
+        sender: data.message.creator,
+        mentioned: !!data.message.mentions.find(
+          m => m.uniqueID === context.rootState.user.user.uniqueID
+        ),
+        muteSound: type === 1,
+        isServer: true
+      };
+      const notificationExists = context.rootGetters.notifications.find(
+        n => n.channelID === data.message.channelID
+      );
+      if (notificationExists) {
+        notification.lastMessageID = notificationExists.lastMessageID;
+      } else {
+        notification.lastMessageID = data.message.messageID;
+      }
+
+      context.dispatch("messageCreatedNotification", notification);
     }
 
-    context.dispatch("messageCreatedNotification", notification);
+    if (!channel || !channel.server_id) {
+      const notification = {
+        channelID: data.message.channelID,
+        sender: data.message.creator,
+        mentioned: !!data.message.mentions.find(
+          m => m.uniqueID === context.rootState.user.user.uniqueID
+        ),
+        muteSound: type === 1
+      };
+      const notificationExists = context.rootGetters.notifications.find(
+        n => n.channelID === data.message.channelID
+      );
+      if (notificationExists) {
+        notification.lastMessageID = notificationExists.lastMessageID;
+      } else {
+        notification.lastMessageID = data.message.messageID;
+      }
+
+      context.dispatch("messageCreatedNotification", notification);
+    }
 
     function findServerMuteType(server_id) {
       let serverMuteType = 0; // 0 = no mute
@@ -402,7 +428,10 @@ const actions = {
     context.dispatch("removeChannel", { channelID });
   },
   ["socket_notification:dismiss"](context, data) {
-    const { channelID } = data;
+    const { channelID, serverNotification } = data;
+    if (serverNotification) {
+      context.dispatch("dismissServerNotification", channelID);
+    }
     context.dispatch("dismissNotification", channelID);
   },
   ["socket_googleDrive:linked"](context) {

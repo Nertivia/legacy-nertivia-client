@@ -6,36 +6,31 @@
     <div class="dot" v-if="!isMuted" />
     <div class="mute-icon material-icons" v-else>notifications_off</div>
     <div class="channel-name">{{ channelData.name }}</div>
-    <div
-      class="notification"
-      v-if="hasNotifications"
-      :title="hasNotifications.count"
-    >
-      {{ hasNotifications.count > 99 ? "99+" : hasNotifications.count }}
+    <div class="notification" v-if="hasNotifications">
+      !
     </div>
   </div>
 </template>
 
 <script>
+import windowProperties from "../../../utils/windowProperties";
 export default {
   props: ["channelData"],
   computed: {
     currentChannelID() {
       return this.$store.getters.currentChannelID;
     },
+    focused() {
+      return windowProperties.isfocused;
+    },
     hasNotifications() {
-      const notifications = this.$store.getters.notifications;
+      const isCurrentChannel =
+        this.currentChannelID === this.channelData.channelID;
+      if (this.focused && isCurrentChannel) return false;
 
-      if (
-        document.hasFocus() &&
-        this.currentChannelID === this.channelData.channelID
-      ) {
-        return false;
-      }
-      const find = notifications.find(
-        n => n.channelID === this.channelData.channelID
-      );
-      return find;
+      return this.$store.getters
+        .serverNotifications(this.channelData.server_id)
+        .find(c => c.channelID === this.channelData.channelID);
     },
     isMuted() {
       const mutedChannels = this.$store.getters.mutedChannels;

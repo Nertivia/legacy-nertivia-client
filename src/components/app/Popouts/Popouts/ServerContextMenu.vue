@@ -26,7 +26,7 @@
     </div>
     <div
       class="item"
-      :class="{ disabled: !channelNotifications.length }"
+      :class="{ disabled: !channelNotificationIDs.length }"
       @click="markAsReadButton"
     >
       <div class="material-icons">markunread_mailbox</div>
@@ -93,12 +93,12 @@ export default {
       this.$clipboard(this.contextDetails.serverID);
     },
     markAsReadButton() {
-      if (!this.channelNotifications.length) return;
+      if (!this.channelNotificationIDs.length) return;
       this.closeMenu();
-      for (let index = 0; index < this.channelNotifications.length; index++) {
-        const notification = this.channelNotifications[index];
+      for (let index = 0; index < this.channelNotificationIDs.length; index++) {
+        const channel = this.channelNotificationIDs[index];
         this.$socket.client.emit("notification:dismiss", {
-          channelID: notification.channelID
+          channelID: channel.channelID
         });
       }
     }
@@ -163,10 +163,9 @@ export default {
       ];
       return channelIds;
     },
-    channelNotifications() {
-      const notifications = this.$store.getters.notifications;
-      return notifications.filter(n =>
-        this.serverChannelIds.includes(n.channelID)
+    channelNotificationIDs() {
+      return this.$store.getters.serverNotifications(
+        this.contextDetails.serverID
       );
     }
   }

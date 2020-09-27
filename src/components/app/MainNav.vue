@@ -36,8 +36,8 @@
           class="item material-icons"
           :class="{
             selected: currentTab == 2,
-            notifyAnimation: serverNotification.notification,
-            mentioned: serverNotification.mentioned
+            notifyAnimation: serverNotificationv2.length,
+            mentioned: serverNotification && serverNotificationv2.length
           }"
           @click="switchTab(2)"
           @mouseenter="localToolTipEvent('Servers', $event)"
@@ -106,6 +106,7 @@ import config from "@/config.js";
 import settingsService from "@/services/settingsService";
 import { isMobile } from "@/utils/Mobile";
 import statuses from "@/utils/statuses";
+import windowProperties from "@/utils/windowProperties";
 export default {
   data() {
     return {
@@ -234,6 +235,22 @@ export default {
     currentServerID() {
       return this.$store.getters["servers/currentServerID"];
     },
+    focused() {
+      return windowProperties.isfocused;
+    },
+    serverNotificationv2() {
+      const allNotifications = this.$store.getters.allServerNotifications;
+      const currentChannelID = this.$store.getters.currentChannelID;
+      const currentTab = this.currentTab;
+      return allNotifications.filter(c => {
+        const matchChannelID = c.channelID === currentChannelID;
+        if (matchChannelID && currentTab === 2 && this.focused) {
+          return false;
+        } else {
+          return true;
+        }
+      });
+    },
     serverNotification() {
       const notifications = this.$store.getters.notifications;
       const channels = this.$store.getters.channels;
@@ -242,15 +259,13 @@ export default {
           channels[e.channelID] &&
           channels[e.channelID].server_id &&
           (e.channelID !== this.$store.getters.currentChannelID ||
-            !document.hasFocus() ||
+            !this.focused ||
             this.currentTab !== 2)
         );
       });
       const mentioned = notificationsFiltered.find(m => m.mentioned);
-      return {
-        notification: !!notificationsFiltered.length,
-        mentioned: !!mentioned
-      };
+      if (mentioned) return true;
+      return false;
     },
     DMNotification() {
       const notifications = this.$store.getters.notifications;

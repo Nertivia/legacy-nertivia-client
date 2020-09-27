@@ -4,8 +4,8 @@
     :data-servername="serverData.name"
     :class="{
       selected: currentServerID === serverData.server_id && currentTab === 2,
-      notifyAnimation: notification.notification,
-      mentioned: notification.mentioned
+      notifyAnimation: notificationv2.length,
+      mentioned: notification.mentioned && notificationv2.length
     }"
     @contextmenu.prevent="contextEvent"
     @mouseenter="hoverEvent"
@@ -25,7 +25,7 @@
 <script>
 import { bus } from "../../../main.js";
 import ProfilePicture from "@/components/global/ProfilePictureTemplate.vue";
-
+import windowProperties from "../../../utils/windowProperties";
 export default {
   components: { ProfilePicture },
   props: ["serverData"],
@@ -46,6 +46,39 @@ export default {
     },
     currentChannelID() {
       return this.$store.getters.currentChannelID;
+    },
+    focused() {
+      return windowProperties.isfocused;
+    },
+    notificationv2() {
+      const notificationChannels = this.$store.getters.serverNotifications(
+        this.serverData.server_id
+      );
+      return notificationChannels.filter(c => {
+        if (this.currentChannelID === c.channelID && this.focused) {
+          return false;
+        } else {
+          return true;
+        }
+      });
+    },
+    serverNotification() {
+      const notifications = this.$store.getters.notifications;
+      const channels = this.$store.getters.channels;
+      const notificationsFiltered = notifications.filter(e => {
+        return (
+          channels[e.channelID] &&
+          channels[e.channelID].server_id &&
+          (e.channelID !== this.$store.getters.currentChannelID ||
+            !document.hasFocus() ||
+            this.currentTab !== 2)
+        );
+      });
+      const mentioned = notificationsFiltered.find(m => m.mentioned);
+      return {
+        notification: !!notificationsFiltered.length,
+        mentioned: !!mentioned
+      };
     },
     notification() {
       const notifications = this.$store.getters.notifications;
