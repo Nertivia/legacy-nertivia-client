@@ -5,6 +5,7 @@ import Link from "./markup/Link.vue";
 import ChannelMention from "./markup/ChannelMention.vue";
 import MessageQuote from "./markup/MessageQuote.vue";
 import Obfuscate from "./markup/Obfuscate.vue";
+import Spoiler from "./markup/Spoiler.vue";
 import config from "@/config.js";
 import emojis from "@/utils/emojiData/emojis.json";
 import emojiParser from "@/utils/emojiParser";
@@ -38,8 +39,9 @@ const MARKUP_PARTS = {
   inlineCodeblock: /```([^`]+?)```/,
   code: /``([^`]+?)``/,
   code1: /`([^`]+?)`/,
+  spoiler: /\|\|([^|]+?)\|\|/,
   link: /https?:\/\/\S+\.\S+/,
-  escape: /\\([*_~`\\>])/,
+  escape: /\\([*_~`\\|>])/,
   blockquote: /((?:^|\n)> )([^]+?)(?=(?:\n[^>])|$)/,
   userMention: /<@(\d+)>/,
   channelMention: /<#(\d+)>/,
@@ -140,6 +142,11 @@ function transformEntity(entity, root = true) {
       entity.type = "code";
       entity.innerText = entity.params[0];
       entity.children = entity.innerText;
+      return entity;
+    }
+    case "spoiler": {
+      entity.innerText = entity.params[0];
+      entity.children = parseRichText(entity.innerText, false);
       return entity;
     }
     case "link": {
@@ -314,6 +321,9 @@ export default {
           return (
             <span class="underline">{parseChildren(entity.children)}</span>
           );
+        case "spoiler": {
+          return <Spoiler>{parseChildren(entity.children)}</Spoiler>;
+        }
         case "obfuscate":
           return <Obfuscate>{parseChildren(entity.children)}</Obfuscate>;
         case "reset":
