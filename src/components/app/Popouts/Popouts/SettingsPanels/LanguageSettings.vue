@@ -84,7 +84,7 @@ export default {
           emoji: require(`@/assets/twemoji/1f1f7-1f1fa.svg`)
         },
         hr: {
-          name: "Croatia",
+          name: "Croatian",
           emoji: require(`@/assets/twemoji/1f1ed-1f1f7.svg`)
         },
         ptbr: {
