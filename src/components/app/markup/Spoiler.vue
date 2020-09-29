@@ -42,24 +42,35 @@ export default {
 
 <style>
 :root {
-  --spoiler-color: 50, 50, 60;
+  --spoiler-color: 30, 30, 40;
 }
 </style>
 
 <style scoped>
 .spoiler {
-  display: inline-flex;
   position: relative;
+  display: inline-flex;
   border-radius: 3px;
-  color: rgb(var(--spoiler-color));
-  background-color: rgb(var(--spoiler-color));
-  cursor: pointer;
   overflow: hidden;
 }
 
+.spoiler::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgb(var(--spoiler-color));
+  cursor: pointer;
+  z-index: 1;
+}
+
 .spoiler.spoiled {
-  color: unset;
   background-color: rgb(var(--spoiler-color), 0.2);
-  cursor: unset;
+}
+
+.spoiler.spoiled::after {
+  visibility: hidden;
 }
 </style>
