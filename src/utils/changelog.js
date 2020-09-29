@@ -1,5 +1,14 @@
 const config = [
   {
+    version: "1.5.8",
+    title: "Spoiler tag",
+    shortTitle: "",
+    date: "29 September 2020",
+    new: ["Added new spoiler tag. Usage: ||You're Ugly!||"],
+    msg:
+      "Thanks to bree who added this feature. Also thank you all for the donations, especially Arisstath for the HUGE donation."
+  },
+  {
     version: "1.5.7",
     title: "Slow Down fixes",
     shortTitle: "",
