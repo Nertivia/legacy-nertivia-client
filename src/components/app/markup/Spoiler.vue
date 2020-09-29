@@ -40,20 +40,26 @@ export default {
 // };
 </script>
 
+<style>
+:root {
+  --spoiler-color: 50, 50, 60;
+}
+</style>
+
 <style scoped>
 .spoiler {
   display: inline-flex;
   position: relative;
   border-radius: 3px;
-  color: #010101;
-  background-color: #010101;
+  color: rgb(var(--spoiler-color));
+  background-color: rgb(var(--spoiler-color));
   cursor: pointer;
   overflow: hidden;
 }
 
 .spoiler.spoiled {
   color: unset;
-  background-color: #01010120;
+  background-color: rgb(var(--spoiler-color), 0.2);
   cursor: unset;
 }
 </style>
