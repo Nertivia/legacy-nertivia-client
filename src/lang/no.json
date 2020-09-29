@@ -1,0 +1,65 @@
+{
+    "explore": "Utforsk",
+    "explore-desc": "Utforsk nye servere, Emojis og mer!",
+    "servers": "Servere",
+    "join-server": "Delta i server",
+    "themes": "Temaer",
+    "emoji-packs": "Emoji Pakker",
+    "message-styles": "Beskjed Stiler",
+    "created-by": "Laget Av",
+    "filter": "Filter",
+    "sort-by": "Sorter Etter",
+
+    "all": "Alle",
+    "verified": "Verifisert",
+    "most-users": "Flest Brukere",
+    "least-users": "Minst Brukere",
+    "alphabetical": "Alfabetisk",
+    "date-added": "Dato Lagt Til",
+
+    "explore-support-message": "Støtt Nertivia ved å donere et hvilket som helst pengebeløp. Du vil få et supportermerke og flere funksjoner i fremtiden.",
+    "support-message-settings": "Støtt Nertivia. Du vil få et merke",
+    "donate": "Doner",
+
+    "join": "Bli Med",
+    "join-card-message": "Bli med i den offisielle Nertivia serveren",
+    "coming-soon!": "Kommer Snart!",
+
+    "joined": "Ble med",
+    "apply": "Bruk",
+    "unapply": "Ikke Bruk",
+    "copy-link": "Kopier Link",
+
+    "clone": "Klone",
+    "cloning": "Kloner...",
+    "cloned": "Klonert",
+    "theme-safe-message": "Temaer nedenfor er trygge og moderert.",
+
+    "friends": "Venner",
+    "pending": "Avventer",
+    "recents": "Nylig",
+
+    "online": "Pålogget",
+    "away": "Borte",
+    "busy": "Opptatt",
+    "looking-to-play": "Vil spille",
+    "offline": "Avlogget",
+
+    "add-friends-message": "Legg til venner.",
+    "offline-message": "Alle vennene dine er avlogget.",
+    "saved-notes": "Lagret Notater",
+    "select-person-message": "Velg en person å behandle",
+    "message": "Beskjed",
+
+    "add-server": "Legg Til Server",
+    "add-friend": "Legg Til Venn",
+    "add-friend-message": "Legg til venner ved å bruke deres brukernavn og tagg.",
+    "adding": "Legger til...",
+    "create": "Lag",
+
+    "new-messages": "Nye beskjeder",
+
+    "today-at": "I dag {0}",
+    "yesterday-at": "I går {0}",
+    "send-a-message": "Send en beskjed"
+}
