@@ -114,6 +114,10 @@ export default {
         da: {
           name: "Danish",
           emoji: require(`@/assets/twemoji/1f1e9-1f1f0.svg`)
+        },
+        no: {
+          name: "Norwegian",
+          emoji: require(`@/assets/twemoji/1f1f3-1f1f4.svg`)
         }
       }
     };
