@@ -6,7 +6,7 @@ const config = [
     date: "29 September 2020",
     new: ["Added new spoiler tag. Usage: ||You're Ugly!||"],
     msg:
-      "Thanks to bree who added this feature. Also thank you all for the donations, especially Arisstath for the HUGE donation."
+      "Thanks to bree who added this feature. Also thank you for those of you who donated, especially Arisstath for the HUGE donation."
   },
   {
     version: "1.5.7",
