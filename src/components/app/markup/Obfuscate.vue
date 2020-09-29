@@ -91,6 +91,5 @@ export default {
   white-space: pre-wrap;
   font-family: monospace;
   letter-spacing: 2px;
-  line-height: 2px;
 }
 </style>
