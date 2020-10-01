@@ -21,7 +21,11 @@
         <img
           v-if="!playVideo"
           ref="image"
-          :src="`//proxi.bree.workers.dev/cdn/${encodeURIComponent(imageURL)}`"
+          :src="
+            `//proxi.bree.workers.dev/cdn/${encodeURIComponent(
+              imageURL.trim()
+            )}`
+          "
           alt
         />
         <iframe
@@ -81,7 +85,7 @@ export default {
       this.$store.dispatch(
         "setImagePreviewURL",
         `https://proxi.bree.workers.dev/cdn/${encodeURIComponent(
-          this.imageURL
+          this.imageURL.trim()
         )}`
       );
     },
@@ -145,7 +149,7 @@ export default {
         show: true,
         type: "IMAGE_CONTEXT",
         url: `https://proxi.bree.workers.dev/cdn/${encodeURIComponent(
-          this.imageURL
+          this.imageURL.trim()
         )}`,
         x: event.clientX,
         y: event.clientY
