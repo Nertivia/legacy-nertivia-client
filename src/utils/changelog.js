@@ -1,5 +1,14 @@
 const config = [
   {
+    version: "1.5.9",
+    title: "Sorry.",
+    shortTitle: "",
+    date: "01 October 2020",
+    new: ["All user will now be & are hashed."],
+    msg:
+      "I apologize for storing everyone's IPs without hashing them. I will also working adding age restrictions upon sign up and adding a report feature. I will also be working on writing a TOS and privacy policy soon."
+  },
+  {
     version: "1.5.8",
     title: "Spoiler tag",
     shortTitle: "",
