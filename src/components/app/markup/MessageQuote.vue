@@ -2,7 +2,9 @@
   <article class="quote" v-bind:class="{ quoteFailed: failMessage == null }">
     <header class="section">
       Quoted:
-      <span class="username">{{ this.quote.creator.username }}</span>
+      <span class="username" @click="openUserInfo">{{
+        this.quote.creator.username
+      }}</span>
       <i
         title="Go to message"
         class="go-to-message material-icons"
