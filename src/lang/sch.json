@@ -1,0 +1,65 @@
+{
+    "explore": "探索",
+    "explore-desc": "查找新服务器，表情符号等！",
+    "servers": "伺服器",
+    "join-server": "加入服务器",
+    "themes": "艺术",
+    "emoji-packs": "表情符号",
+    "message-styles": "讯息风格",
+    "created-by": "制作：",
+    "filter": "过滤",
+    "sort-by": "排序方式",
+
+    "all": "所有",
+    "verified": "已验证",
+    "most-users": "大多数使用者",
+    "least-users": "最少的用户",
+    "alphabetical": "按字母顺序",
+    "date-added": "添加日期",
+
+    "explore-support-message": "通过捐赠任何金额来支持Nertivia。 将来，您将获得支持者徽章和更多功能。",
+    "support-message-settings": "支持Nertivia。 您将获得一个徽章。",
+    "donate": "捐",
+
+    "join": "加入",
+    "join-card-message": "加入官方Nertivia服务器",
+    "coming-soon!": "Coming soon!",
+
+    "joined": "已加入",
+    "apply": "应用",
+    "unapply": "不适用",
+    "copy-link": "复制链接",
+
+    "clone": "克隆",
+    "cloning": "在克隆。。。",
+    "cloned": "克隆好了",
+    "theme-safe-message": "以下的艺术是安全的，手动检查。",
+
+    "friends": "朋友",
+    "pending": "待定",
+    "recents": "最近",
+
+    "online": "线上",
+    "away": "远",
+    "busy": "忙",
+    "looking-to-play": "想要玩",
+    "offline": "下线",
+
+    "add-friends-message": "找一些朋友",
+    "offline-message": "您所有的朋友都下线",
+    "saved-notes": "保存的笔记",
+    "select-person-message": "选择要发消息的人！",
+    "message": "Message",
+
+    "add-server": "添加服务器",
+    "add-friend": "找朋友",
+    "add-friend-message": "使用用户名和标签添加朋友。",
+    "adding": "在加。。。",
+    "create": "创造",
+
+    "new-messages": "新消息",
+
+    "today-at": "今天，在 {0}",
+    "yesterday-at": "昨天，在 {0}",
+    "send-a-message": "发信息"
+}

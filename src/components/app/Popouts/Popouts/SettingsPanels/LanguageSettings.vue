@@ -118,6 +118,10 @@ export default {
         no: {
           name: "Norwegian",
           emoji: require(`@/assets/twemoji/1f1f3-1f1f4.svg`)
+        },
+        sch: {
+          name: "Simplified Chinese",
+          emoji: require(`@/assets/twemoji/1f1e8-1f1f3.svg`)
         }
       }
     };
