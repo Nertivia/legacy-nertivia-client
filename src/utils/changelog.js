@@ -1,5 +1,12 @@
 const config = [
   {
+    version: "1.6.0",
+    title: "TOS and Privacy Policy",
+    shortTitle: "",
+    date: "4 October 2020",
+    new: ["Added TOS and a Privacy Policy"]
+  },
+  {
     version: "1.5.9",
     title: "Sorry.",
     shortTitle: "",

@@ -4,22 +4,45 @@
       <div class="cat-face">
         <div class="eye" />
       </div>
-      <div class="message">
-        {{ message }}
+      <div class="items" v-if="message !== 'terms_not_agreed'">
+        <div class="message">
+          {{ message }}
+        </div>
+        <div class="button" v-if="errMessage" @click="logoutButton">
+          Logout
+        </div>
       </div>
-      <div class="button" v-if="errMessage" @click="logoutButton">
-        Logout
+      <div class="items" v-else>
+        Changes to the Terms and conditions and the Privacy Policy
+        <AgreeingToLegalStuff
+          msg="By clicking on 'I Agree', you are agreeing to the updated"
+        />
+        <div class="button primary" @click="agreeClicked">
+          I Agree
+        </div>
+        <a
+          class="button warn"
+          href="mailto:nertivia@gmail.com?subject=Delete%20My%20Account"
+          >Request To Delete Account</a
+        >
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import AgreeingToLegalStuff from "@/components/global/AgreeingToLegalStuff";
+import userService from "@/services/userService.js";
 export default {
+  components: { AgreeingToLegalStuff },
   methods: {
     logoutButton() {
       this.$store.dispatch("logout");
       location.href = "/";
+    },
+    async agreeClicked() {
+      await userService.agreePolicies();
+      location.reload();
     }
   },
   computed: {
@@ -99,6 +122,13 @@ export default {
   align-content: center;
   justify-content: center;
 }
+.items {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
 .message {
   text-align: center;
 }
@@ -112,6 +142,20 @@ export default {
   transition: 0.2s;
   &:hover {
     background: rgba(0, 0, 0, 0.5);
+  }
+}
+.primary {
+  background: rgba(0, 162, 255, 0.5);
+  &:hover {
+    background: rgb(0, 162, 255);
+  }
+}
+.warn {
+  background: rgba(255, 72, 72, 0.5);
+  text-decoration: none;
+  color: white;
+  &:hover {
+    background: rgb(255, 72, 72);
   }
 }
 </style>

@@ -24,6 +24,9 @@ export default {
   block(uniqueID) {
     return wrapper(instance().post(domain + "/user/block", { uniqueID }));
   },
+  agreePolicies() {
+    return wrapper(instance().post(domain + "/user/agreeingPolicies"));
+  },
   unblock(uniqueID) {
     return wrapper(
       instance().delete(domain + "/user/block", { data: { uniqueID } })

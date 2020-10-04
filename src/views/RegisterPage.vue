@@ -70,6 +70,9 @@
                 style="text-align: center;"
                 >{{ otherError }}</span
               >
+              <AgreeingToLegalStuff
+                style="max-width: 320px; align-self: center;"
+              />
               <div class="buttons">
                 <button
                   type="submit"
@@ -121,12 +124,18 @@
 import Recaptcha from "@/components/global/Recaptcha.vue";
 import HeaderLogin from "@/components/global/HeaderLoginTemplate.vue";
 import AuthenticationService from "@/services/AuthenticationService";
+import AgreeingToLegalStuff from "@/components/global/AgreeingToLegalStuff.vue";
 
 const ElectronFrameButtons = () =>
   import("@/components/ElectronJS/FrameButtons.vue");
 
 export default {
-  components: { HeaderLogin, Recaptcha, ElectronFrameButtons },
+  components: {
+    HeaderLogin,
+    Recaptcha,
+    ElectronFrameButtons,
+    AgreeingToLegalStuff
+  },
   data() {
     return {
       isElectron: window && window.process && window.process.type,

@@ -1,7 +1,12 @@
 <template>
   <div class="header">
-    <img class="logo" src="@/assets/transparentLogo.svg" alt />
-    <div class="title">Nertivia</div>
+    <img
+      class="logo"
+      src="@/assets/transparentLogo.svg"
+      alt
+      @click="$router.push('/')"
+    />
+    <div class="title" @click="$router.push('/')">Nertivia</div>
     <div class="buttons" v-if="!loggedIn">
       <a href="/login" class="button">Log In</a>
       <div class="button join" @click="$emit('registerButton')">
@@ -99,6 +104,9 @@ export default Vue.extend({
   opacity: 0;
 }
 
+.title {
+  cursor: pointer;
+}
 .header {
   display: flex;
   height: 60px;
@@ -152,6 +160,7 @@ export default Vue.extend({
   margin-right: 10px;
   height: 50px;
   width: 50px;
+  cursor: pointer;
 }
 @media (max-width: 374px) {
   .logo {

@@ -3,8 +3,8 @@
     <div class="box">
       <div class="material-icons heart">favorite</div>
       <div class="text">Thanks for trying out Nertivia!</div>
-      <div class="sub-text text" v-if="!showCaptcha">
-        Fill in the information below to create your account.
+      <div class="sub-text text">
+        Notice: Users must be at least 14 years old to use Nertivia.
       </div>
       <div class="error" v-if="error">{{ error }}</div>
       <form
@@ -41,6 +41,7 @@
           <a href="/login" class="link">Login to your account</a>
           <!-- <div class="link disabled" style="cursor: not-allowed;" title="This feature is coming soon.">Reset password</div> -->
         </div>
+        <AgreeingToLegalStuff />
         <button class="button" @click="showCaptcha = true">
           <span class="material-icons">check</span>
         </button>
@@ -71,9 +72,10 @@
 <script>
 import CustomInput from "@/components/global/CustomInput";
 import Recaptcha from "@/components/global/Recaptcha.vue";
+import AgreeingToLegalStuff from "@/components/global/AgreeingToLegalStuff.vue";
 import AuthenticationService from "@/services/AuthenticationService";
 export default {
-  components: { CustomInput, Recaptcha },
+  components: { CustomInput, Recaptcha, AgreeingToLegalStuff },
   data() {
     return {
       email: "",

@@ -10,10 +10,16 @@ import { i18n } from "./i18n";
 
 const MainApp = () =>
   import(/* webpackChunkName: "MainApp" */ "../src/views/App.vue");
-const HomePageOld = () =>
-  import(/* webpackChunkName: "HomePage" */ "../src/views/HomePage.vue");
 const HomePage = () =>
   import(/* webpackChunkName: "HomePage2" */ "../src/views/HomePage2.vue");
+
+const Privacy = () =>
+  import(/* webpackChunkName: "Privacy" */ "../src/views/Privacy.vue");
+const TermsAndConditions = () =>
+  import(
+    /* webpackChunkName: "TermsAndConditions" */ "../src/views/TermsAndConditions.vue"
+  );
+
 const GDriveCallback = () =>
   import(
     /* webpackChunkName: "GDriveCallback" */ "../src/views/GDriveCallback.vue"
@@ -43,14 +49,19 @@ export const router = new VueRouter({
   routes: [
     { name: "404", path: "*", component: PageNotFound },
     {
-      path: "/old",
-      name: "HomePageOld",
-      component: HomePageOld
-    },
-    {
       path: "/",
       name: "HomePage",
       component: HomePage
+    },
+    {
+      path: "/privacy",
+      name: "Privacy",
+      component: Privacy
+    },
+    {
+      path: "/terms-and-conditions",
+      name: "TermsAndConditions",
+      component: TermsAndConditions
     },
     {
       path: "/login",

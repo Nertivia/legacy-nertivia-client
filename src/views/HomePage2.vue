@@ -97,9 +97,12 @@
         />
       </transition>
     </div>
+    <div class="footer">
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/terms-and-conditions">Terms And Conditions</a>
+    </div>
   </div>
 </template>
-
 
 <script lang="ts">
 import Vue from "vue";
@@ -270,6 +273,21 @@ a {
     }
     display: flex;
   }
+}
+.footer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  min-height: 30px;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  justify-content: center;
+}
+.footer a {
+  color: #68aaff;
+  text-decoration: underline;
+  margin: 10px;
 }
 @media (max-width: 790px) {
   .slideshow {
