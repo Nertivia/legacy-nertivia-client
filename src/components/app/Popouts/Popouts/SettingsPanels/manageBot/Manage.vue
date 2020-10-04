@@ -2,10 +2,10 @@
   <div class="manage-bot">
     <div class="tabs">
       <div class="tab" :class="{ selected: tab === 0 }" @click="tab = 0">
-        Edit Bot
+        {{ $t("edit-bot") }}
       </div>
       <div class="tab" :class="{ selected: tab === 1 }" @click="tab = 1">
-        Edit Commands
+        {{ $t("edit-commands") }}
       </div>
     </div>
     <edit-bot :bot="bot" v-if="tab === 0" />

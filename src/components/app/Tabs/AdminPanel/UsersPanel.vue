@@ -1,6 +1,6 @@
 <template>
   <div class="users-panel">
-    <div class="title">Manage Accounts</div>
+    <div class="title">{{ $t("manage-accounts") }}</div>
     <input
       class="search"
       autocomplete="off"

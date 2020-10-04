@@ -5,15 +5,15 @@
         class="theme-name"
         v-model="name"
         type="text"
-        placeholder="Theme name"
+        :placeholder="$t('theme-name')"
       />
       <div class="button" @click="saveButton">
         <div class="material-icons">save</div>
-        {{ savingStatus ? "Saving..." : "Save & Apply" }}
+        {{ savingStatus ? this.$t('saving') : this.$t('save-and-apply') }}
       </div>
       <div class="button" @click="closeButton">
         <div class="material-icons">clear</div>
-        Close
+        {{ $t("close") }}
       </div>
     </div>
     <!-- <prism-editor class="editor" v-model="code" language="css"></prism-editor> -->
@@ -26,7 +26,7 @@
     <div class="notice">
       <div class="material-icons">warning</div>
       <div class="notice-message">
-        Warning: Pasting someone elses code could be dangerous.
+        {{ $t("theme-editor-warning" )}}
       </div>
     </div>
   </div>

@@ -1,8 +1,8 @@
 <template>
   <div class="edit-panel" v-if="currentChannelID === data.channelID">
-    <div class="title">Edit Message:</div>
+    <div class="title">{{ $t("edit-message") }}</div>
     <Markup class="message" :text="data.message" />
-    <div class="close-button" @click="close">Cancel</div>
+    <div class="close-button" @click="close">{{ $t("cancel") }}</div>
   </div>
 </template>
 

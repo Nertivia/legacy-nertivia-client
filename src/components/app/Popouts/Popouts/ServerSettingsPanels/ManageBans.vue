@@ -19,7 +19,7 @@
             <div class="tag">@{{ ban.user.tag }}</div>
           </div>
           <div class="unban-button" @click="unban(ban.user.uniqueID)">
-            {{ unbanStatus ? "Unbanning..." : "Unban" }}
+            {{ unbanStatus ? this.$t('unbanning') : this.$t('unban') }}
           </div>
         </div>
       </div>

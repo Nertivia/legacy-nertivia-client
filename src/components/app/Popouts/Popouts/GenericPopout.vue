@@ -2,7 +2,7 @@
   <div class="dark-background generic-popout" @mousedown="backgroundClick">
     <div class="inner">
       <div class="text">{{ message }}</div>
-      <div class="button" @click="closeMenu()">Okay</div>
+      <div class="button" @click="closeMenu()">{{ $t("okay") }}</div>
     </div>
   </div>
 </template>

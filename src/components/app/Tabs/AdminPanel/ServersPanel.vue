@@ -1,6 +1,6 @@
 <template>
   <div class="users-panel">
-    <div class="title">Manage Servers</div>
+    <div class="title">{{ $t("manage-servers") }}</div>
     <input
       class="search"
       autocomplete="off"

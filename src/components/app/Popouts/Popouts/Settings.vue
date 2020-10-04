@@ -14,7 +14,7 @@
         </div>
         <div class="tab warn" @click="logout">
           <div class="material-icons">exit_to_app</div>
-          <div class="tab-name">Logout</div>
+          <div class="tab-name">{{ $t("logout") }}</div>
         </div>
       </div>
       <div class="panel">
@@ -76,35 +76,35 @@ export default {
       currentTab: 0,
       tabs: [
         {
-          name: "My Profile",
+          name: this.$t("my-profile"),
           tabName: "My Profile",
           icon: "account_circle",
           component: "my-profile",
           index: 0
         },
         {
-          name: "Message Design",
+          name: this.$t("message-design"),
           tabName: "Message Design",
           icon: "palette",
           component: "message-design",
           index: 1
         },
         {
-          name: "My Themes",
+          name: this.$t("my-themes"),
           tabName: "My Themes",
           icon: "palette",
           component: "my-themes",
           index: 2
         },
         {
-          name: "Manage Emojis",
+          name: this.$t("manage-emojis"),
           tabName: "Manage Emojis",
           icon: "face",
           component: "manage-emojis",
           index: 3
         },
         {
-          name: "Notifications",
+          name: this.$t("notifications"),
           tabName: "Notifications",
           icon: "message",
           component: "notifications",
@@ -112,7 +112,7 @@ export default {
           index: 4
         },
         {
-          name: "Activity Status",
+          name: this.$t("activity-status"),
           tabName: "Activity Status BETA",
           icon: "widgets",
           component: "activity-status",
@@ -120,7 +120,7 @@ export default {
           index: 5
         },
         {
-          name: "App Settings",
+          name: this.$t("app-settings"),
           tabName: "App Settings",
           icon: "desktop_windows",
           component: "app-settings",
@@ -128,21 +128,21 @@ export default {
           index: 6
         },
         {
-          name: "My Bots",
+          name: this.$t("my-bots"),
           tabName: "My Bots",
           icon: "adb",
           component: "my-bots",
           index: 7
         },
         {
-          name: "Language BETA",
+          name: this.$t("language"),
           tabName: "Language",
           icon: "flag",
           component: "language-settings",
           index: 8
         },
         {
-          name: "Debug",
+          name: this.$t("debug"),
           tabName: "Debug",
           icon: "bug_report",
           component: "debug-settings",

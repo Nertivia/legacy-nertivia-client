@@ -19,11 +19,11 @@
             @click="toggleCompressButton"
           >
             <div class="box" />
-            <div class="name">Compress Image</div>
+            <div class="name">{{ $t("compress-image") }}</div>
           </div>
 
           <div class="upload-cdn" v-if="image">
-            <div class="title">Upload to:</div>
+            <div class="title">{{ $t("upload-to") }}</div>
             <div
               class="radio"
               :class="{ selected: !upload_cdn }"
@@ -50,7 +50,7 @@
       </div>
     </div>
     <div class="exceed" v-else>
-      <div class="message">File must be less than 50MB!</div>
+      <div class="message">{{ $t("file-limit-notice") }}</div>
     </div>
   </div>
 </template>

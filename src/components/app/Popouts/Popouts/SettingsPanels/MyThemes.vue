@@ -18,7 +18,7 @@
       <div class="bar">
         <div class="button" @click="exploreButton">
           <div class="material-icons">explore</div>
-          Explore
+          {{ $t("explore") }}
         </div>
         <div class="button" @click="createButton">
           <div class="material-icons">add</div>

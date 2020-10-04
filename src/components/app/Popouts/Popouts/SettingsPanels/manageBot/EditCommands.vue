@@ -1,8 +1,7 @@
 <template>
   <div class="content">
     <div class="description">
-      Add bot commands to easily let users know which commands exist for your
-      bot
+      {{ $t("add-bot-commands-notice") }}
     </div>
     <errors-list-template :errors="errors" v-if="errors" />
     <custom-input
@@ -15,11 +14,11 @@
       placeholder="!"
     />
     <div class="inner-content">
-      <div class="button add-command" @click="addCommand">Add Command</div>
+      <div class="button add-command" @click="addCommand">{{ $t("add-command") }}</div>
       <div class="commands-list">
         <div class="titles">
-          <div class="title">Command</div>
-          <div class="title">Arguments</div>
+          <div class="title">{{ $t("command") }}</div>
+          <div class="title">{{ $t("arguments") }}</div>
         </div>
 
         <command-template
@@ -39,7 +38,7 @@
       :class="{ disabled: saving }"
       @click="saveButton"
     >
-      Save Changes
+      {{ $t("save-changes") }}
     </div>
   </div>
 </template>

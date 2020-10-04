@@ -46,7 +46,7 @@ export default {
         node.textContent = this.obfuscateText(node.textContent, delta);
       }
     },
-    getTextNodes() {
+    *getTextNodes() {
       const walker = document.createTreeWalker(
         this.$el,
         NodeFilter.SHOW_TEXT,
@@ -55,11 +55,9 @@ export default {
       );
 
       let node;
-      let nodes = [];
       while ((node = walker.nextNode())) {
-        nodes.push(node);
+        yield node;
       }
-      return nodes;
     }
   },
   watch: {
@@ -73,7 +71,7 @@ export default {
       return windowProperties.isfocused;
     },
     textNodes: function() {
-      return this.getTextNodes();
+      return [...this.getTextNodes()];
     }
   },
   mounted() {
@@ -91,5 +89,6 @@ export default {
   white-space: pre-wrap;
   font-family: monospace;
   letter-spacing: 2px;
+  line-height: 2px;
 }
 </style>

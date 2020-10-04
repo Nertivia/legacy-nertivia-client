@@ -3,7 +3,7 @@
     <div class="emoji-panel-inner">
       <div class="emojis-list">
         <virtual-list :size="37" :remain="11" ref="virtualList">
-          <div class="category">Recents</div>
+          <div class="category">{{ $t("recents") }}</div>
 
           <div
             class="emoji-row"
@@ -19,7 +19,7 @@
               />
             </div>
           </div>
-          <div class="category">Custom Emojis</div>
+          <div class="category">{{ $t("custom-emojis") }}</div>
           <div
             class="emoji-row"
             v-for="(e, i) in allCustomEmojis"

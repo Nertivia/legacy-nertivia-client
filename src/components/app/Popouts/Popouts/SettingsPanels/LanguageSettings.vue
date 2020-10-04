@@ -1,9 +1,7 @@
 <template>
   <div class="panel">
     <div class="desc">
-      Change the language by selecting one below. Note that some of these
-      translations may be incorrect. You can submit more languages or fix some
-      translations at
+      {{ $t("language-notice") }}
       <a
         href="https://github.com/supertiger1234/Nertivia-Client/tree/master/src/lang"
         target="_blank"

@@ -44,7 +44,7 @@
                   @click="AddFriendButton"
                 >
                   <div class="material-icons">person_add</div>
-                  <div>Add Friend</div>
+                  <div>{{ $t("add-friend") }}</div>
                 </div>
                 <div
                   class="button"
@@ -52,7 +52,7 @@
                   @click="RemoveFriendButton"
                 >
                   <div class="material-icons">hourglass_empty</div>
-                  <div>Request Sent</div>
+                  <div>{{ $t("friend-request-sent") }}</div>
                 </div>
                 <div
                   class="button green"
@@ -60,7 +60,7 @@
                   @click="AcceptFriendButton"
                 >
                   <div class="material-icons">check</div>
-                  <div>Accept Friend</div>
+                  <div>{{ $t("friend-request-accept") }}</div>
                 </div>
               </div>
               <div class="button" @click="openChat">
@@ -73,7 +73,7 @@
                 @click="RemoveFriendButton"
               >
                 <div class="material-icons">person_add_disabled</div>
-                <div>Remove Friend</div>
+                <div>{{ $t("remove-friend") }}</div>
               </div>
               <div
                 class="button warn"
@@ -81,18 +81,18 @@
                 @click="unblockFriendButton"
               >
                 <div class="material-icons">block</div>
-                <div>Unblock</div>
+                <div>{{ $t("unblock") }}</div>
               </div>
               <div class="button warn" v-else @click="blockFriendButton">
                 <div class="material-icons">block</div>
-                <div>Block</div>
+                <div>{{ $t("block") }}</div>
               </div>
             </div>
           </div>
         </div>
         <div class="scrollable">
           <div class="playing-status" v-if="programActivityStatus && status">
-            <div class="title">Activity Status:</div>
+            <div class="title">{{ $t("activity-status") }}:</div>
             <div class="status program-activity">
               <span class="icon material-icons">widgets</span>
               <strong>{{ programActivityStatus.status }}</strong>
@@ -100,7 +100,7 @@
             </div>
           </div>
           <div v-else-if="customStatus && status" class="playing-status">
-            <div class="title">Custom Status:</div>
+            <div class="title">{{ $t("custom-status") }}:</div>
             <div class="status program-activity">
               <Markup class="custom-status" :text="customStatus" />
             </div>
@@ -117,8 +117,8 @@
                 v-if="aboutMe"
                 :class="{
                   infoAboutMe:
-                    aboutItem.key === 'About me' ||
-                    aboutItem.key === 'Suspend Reason'
+                    aboutItem.key === this.$t('about-me') ||
+                    aboutItem.key === this.$t('suspend-reason')
                 }"
               >
                 <div class="key">{{ aboutItem.key }}:</div>
@@ -129,7 +129,7 @@
                 ></div>
                 <Markup
                   class="name"
-                  v-if="aboutItem.key === 'About me'"
+                  v-if="aboutItem.key === this.$t('about-me')"
                   :text="aboutItem.name"
                 />
                 <div class="name" v-else>{{ aboutItem.name }}</div>
@@ -142,7 +142,7 @@
               </div>
             </div>
             <div class="about-item">
-              <div class="key">Joined:</div>
+              <div class="key">{{ $t("joined") }}:</div>
               <div class="name">{{ joinedDate }}</div>
             </div>
           </div>
@@ -154,7 +154,7 @@
         class="second-box-inner roles-box"
         v-if="currentServerID && serverMember"
       >
-        <div class="title">Server Roles</div>
+        <div class="title">{{ $t("server-roles") }}</div>
         <div class="roles-list" v-if="memberRoles && memberRoles.length">
           <div
             class="role"
@@ -165,13 +165,13 @@
             {{ role.name }}
           </div>
         </div>
-        <div v-else class="no-roles">This member has no roles.</div>
+        <div v-else class="no-roles">{{ $t("no-server-roles") }}</div>
       </div>
       <div
         class="second-box-inner common-friends-box"
         v-if="!user || !user.bot"
       >
-        <div class="title">Common Friends</div>
+        <div class="title">{{ $t("common-friends") }}</div>
         <div class="list">
           <div
             class="item"
@@ -192,7 +192,7 @@
         </div>
       </div>
       <div class="second-box-inner common-servers-box">
-        <div class="title">Common Servers</div>
+        <div class="title">{{ $t("common-servers") }}</div>
         <div class="list">
           <div
             class="item"

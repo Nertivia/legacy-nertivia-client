@@ -45,16 +45,16 @@ export default {
     messageType() {
       switch (this.type) {
         case 1:
-          return ["joined the server!", "join"];
+          return [this.$t("joined-the-server"), "join"];
           break;
         case 2:
-          return ["left the server.", "leave"];
+          return [this.$t("left-the-server"), "leave"];
           break;
         case 3:
-          return ["has been kicked.", "kick"];
+          return [this.$t("has-been-kicked"), "kick"];
           break;
         case 4:
-          return ["has been banned.", "ban"];
+          return [this.$t("has-been-banneed"), "ban"];
           break;
         default:
           return null;

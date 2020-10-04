@@ -10,7 +10,7 @@
           class="emoji"
           v-html="updateItems[selected].emoji || ''"
         />
-        {{ selected === null ? "Select One" : updateItems[selected].name }}
+        {{ selected === null ? this.$t('select-one') : updateItems[selected].name }}
       </div>
       <i class="material-icons">expand_more</i>
     </div>

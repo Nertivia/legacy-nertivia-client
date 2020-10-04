@@ -6,7 +6,7 @@
     <div class="information">
       <div class="info">{{ file.fileName }}</div>
       <a :href="file.url" download target="_blank">
-        <div class="download-button">Download</div>
+        <div class="download-button">{{ $t("download") }}</div>
       </a>
     </div>
   </div>

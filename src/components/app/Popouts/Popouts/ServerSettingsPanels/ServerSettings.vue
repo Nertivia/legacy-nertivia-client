@@ -137,13 +137,13 @@ export default {
     tabs() {
       return [
         {
-          title: "General",
+          title: this.$t("general"),
           icon: "info",
           index: this.tabsConstants.general,
           shown: this.checkServerCreator
         },
         {
-          title: "Channels",
+          title: this.$t("channels"),
           icon: "storage",
           index: this.tabsConstants["manage-channels"],
           shown:
@@ -154,7 +154,7 @@ export default {
             )
         },
         {
-          title: "Roles",
+          title: this.$t("roles"),
           icon: "extension",
           index: this.tabsConstants["manage-roles"],
           shown:
@@ -166,31 +166,31 @@ export default {
         },
         // {title: "Manage Invites", icon: "local_post_office"},
         {
-          title: "Manage Invites",
+          title: this.$t("manage-invites"),
           icon: "settings",
           index: this.tabsConstants["manage-invites"],
           shown: true
         },
         {
-          title: "Manage Notifications",
+          title: this.$t("manage-notifications"),
           icon: "notifications",
           index: this.tabsConstants["manage-notifications"],
           shown: true
         },
         {
-          title: "Banned Members",
+          title: this.$t("banned-members"),
           icon: "lock",
           index: this.tabsConstants["manage-bans"],
           shown: this.checkServerCreator
         },
         {
-          title: "Server Visibility",
+          title: this.$t("server-visibility"),
           icon: "visibility",
           index: this.tabsConstants["manage-visibility"],
           shown: this.checkServerCreator
         },
         {
-          title: "Delete Server",
+          title: this.$t("delete-server"),
           icon: "warning",
           critical: true,
           index: this.tabsConstants["delete-server"],

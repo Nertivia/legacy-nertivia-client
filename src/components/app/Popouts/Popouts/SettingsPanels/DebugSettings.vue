@@ -1,10 +1,10 @@
 <template>
   <div class="panel">
     <div class="toolbar">
-      <div class="button" @click="printUser">User</div>
-      <div class="button" @click="printNotifications">Notifications</div>
-      <div class="button" @click="printAll">All</div>
-      <div class="button" @click="vuexLogButton">Log Vuex</div>
+      <div class="button" @click="printUser">{{ $t("user") }}</div>
+      <div class="button" @click="printNotifications">{{ $t("notifications") }}</div>
+      <div class="button" @click="printAll">{{ $t("all") }}</div>
+      <div class="button" @click="vuexLogButton">{{ $t("log-vuex") }}</div>
     </div>
     <div class="log">
       <code>{{ view }}</code>
@@ -16,12 +16,12 @@
 export default {
   data() {
     return {
-      view: "Click on tabs above to see data."
+      view: this.$t("debug-desc")
     };
   },
   methods: {
     vuexLogButton() {
-      alert("Vuex logged to console.");
+      alert("Vuex has been logged");
       console.log(this.$store);
     },
     printUser() {

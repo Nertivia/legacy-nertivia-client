@@ -27,7 +27,7 @@
             notifyAnimation: DMNotification || friendRequestExists
           }"
           @click="switchTab(1)"
-          @mouseenter="localToolTipEvent('Direct Message', $event)"
+          @mouseenter="localToolTipEvent($t('direct-message'), $event)"
         >
           forum
         </div>
@@ -36,11 +36,11 @@
           class="item material-icons"
           :class="{
             selected: currentTab == 2,
-            notifyAnimation: serverNotificationv2.length,
-            mentioned: serverNotification && serverNotificationv2.length
+            notifyAnimation: serverNotification.notification,
+            mentioned: serverNotification.mentioned
           }"
           @click="switchTab(2)"
-          @mouseenter="localToolTipEvent('Servers', $event)"
+          @mouseenter="localToolTipEvent($t('servers'), $event)"
         >
           dns
         </div>
@@ -49,7 +49,7 @@
           class="item material-icons"
           :class="{ selected: currentTab == 3 }"
           @click="switchTab(3)"
-          @mouseenter="localToolTipEvent('Changelog', $event)"
+          @mouseenter="localToolTipEvent($t('changelog'), $event)"
         >
           import_contacts
         </div>
@@ -58,7 +58,7 @@
           v-if="!user.survey_completed"
           class="item material-icons"
           @click="openSurvey"
-          @mouseenter="localToolTipEvent('Click Me', $event)"
+          @mouseenter="localToolTipEvent($t('click-me'), $event)"
         >
           error
         </div>
@@ -67,7 +67,7 @@
           class="item material-icons"
           :class="{ selected: currentTab == 4 }"
           @click="switchTab(4)"
-          @mouseenter="localToolTipEvent('Admin Panel', $event)"
+          @mouseenter="localToolTipEvent($t('admin-panel'), $event)"
         >
           security
         </div>
@@ -92,7 +92,7 @@
         class="item material-icons settings"
         @click="openSettings"
         @mouseleave="mouseLeaveEvent"
-        @mouseenter="localToolTipEvent('Settings', $event)"
+        @mouseenter="localToolTipEvent($t('settings'), $event)"
       >
         settings
       </div>
@@ -106,7 +106,6 @@ import config from "@/config.js";
 import settingsService from "@/services/settingsService";
 import { isMobile } from "@/utils/Mobile";
 import statuses from "@/utils/statuses";
-import windowProperties from "@/utils/windowProperties";
 export default {
   data() {
     return {
@@ -235,22 +234,6 @@ export default {
     currentServerID() {
       return this.$store.getters["servers/currentServerID"];
     },
-    focused() {
-      return windowProperties.isfocused;
-    },
-    serverNotificationv2() {
-      const allNotifications = this.$store.getters.allServerNotifications;
-      const currentChannelID = this.$store.getters.currentChannelID;
-      const currentTab = this.currentTab;
-      return allNotifications.filter(c => {
-        const matchChannelID = c.channelID === currentChannelID;
-        if (matchChannelID && currentTab === 2 && this.focused) {
-          return false;
-        } else {
-          return true;
-        }
-      });
-    },
     serverNotification() {
       const notifications = this.$store.getters.notifications;
       const channels = this.$store.getters.channels;
@@ -259,13 +242,15 @@ export default {
           channels[e.channelID] &&
           channels[e.channelID].server_id &&
           (e.channelID !== this.$store.getters.currentChannelID ||
-            !this.focused ||
+            !document.hasFocus() ||
             this.currentTab !== 2)
         );
       });
       const mentioned = notificationsFiltered.find(m => m.mentioned);
-      if (mentioned) return true;
-      return false;
+      return {
+        notification: !!notificationsFiltered.length,
+        mentioned: !!mentioned
+      };
     },
     DMNotification() {
       const notifications = this.$store.getters.notifications;

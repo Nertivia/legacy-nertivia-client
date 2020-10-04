@@ -9,7 +9,7 @@
           @click="createChannel()"
         >
           <div class="material-icons">add</div>
-          <div>Create Channel</div>
+          <div>{{ $t("create-channel") }}</div>
         </div>
         <div
           class="channel"
@@ -29,13 +29,13 @@
           type="text"
           @input="inputEvent('name', $event)"
           :default-value="channels[currentChannelIndex].name"
-          name="Channel Name"
+          :name="$t('channel-name')"
         />
         <div class="perm-input">
-          <div class="input-title">Permissions</div>
+          <div class="input-title">{{ $t("permissions") }}</div>
           <div class="check-box" @click="updatePermissions('send_message')">
             <div class="box" :class="{ checked: sendMessagePermission }" />
-            <div class="name">Send Messages</div>
+            <div class="name">{{ $t("send-messages-permission") }}</div>
           </div>
         </div>
 
@@ -44,7 +44,7 @@
           v-if="update.name || update.permissions"
           @click="updateChannel"
         >
-          Save Changes
+          {{ $t("save-changes") }}
         </div>
         <div
           class="button warn delete-server disabled"
@@ -53,7 +53,7 @@
               channels[currentChannelIndex].channelID
           "
         >
-          Cannot delete default channel
+          {{ $t("cannot-delete-default-channel") }}
         </div>
         <div
           class="button warn delete-server"
@@ -64,7 +64,7 @@
           "
           @click="deleteChannel"
         >
-          {{ deleteButtonConfirmed ? "ARE YOU SURE?" : "Delete Channel" }}
+          {{ deleteButtonConfirmed ? this.$t('are-you-sure').toUpperCase() : $t('delete-channel') }}
         </div>
       </div>
     </div>

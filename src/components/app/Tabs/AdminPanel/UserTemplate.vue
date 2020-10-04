@@ -15,7 +15,7 @@
       </div>
       <div class="date" v-if="!presence">{{ date }}</div>
       <div class="presence" v-if="presence">{{ presence }}</div>
-      <div class="suspended" v-if="user.banned">Suspended</div>
+      <div class="suspended" v-if="user.banned">{{ $t("suspended") }}</div>
     </div>
   </div>
 </template>

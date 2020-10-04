@@ -22,13 +22,13 @@
       </div>
     </div>
     <div class="name" v-if="inviteDetail === undefined">
-      Getting Invite Details...
+      {{ $t("getting-invite-details") }}
     </div>
     <div class="name" v-if="inviteDetail === null">Invalid Invite</div>
     <div class="info" v-if="inviteDetail">
       <div class="name">{{ inviteDetail.name }}</div>
-      <div class="button" v-if="joinedServer" @click="visitServer">Visit</div>
-      <div class="button" v-else @click="joinServer">Join</div>
+      <div class="button" v-if="joinedServer" @click="visitServer">{{ $t("visit") }}</div>
+      <div class="button" v-else @click="joinServer">{{ $t("join") }}</div>
     </div>
   </div>
 </template>

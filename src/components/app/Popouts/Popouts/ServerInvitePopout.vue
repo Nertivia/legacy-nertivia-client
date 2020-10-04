@@ -6,7 +6,7 @@
         :class="{ notAllowed: !server.verified }"
         v-if="invites !== null && checkServerCreator"
       >
-        <div class="title">Create custom link (Verified servers only)</div>
+        <div class="title">{{ $t("create-custom-invite") }}</div>
         <div class="custom-link-input">
           <div class="link" @click="$refs.customLinkInput.focus()">
             https://nertivia.tk/invites/
@@ -26,7 +26,7 @@
       <div class="strip">
         <div class="button" @click="createInviteButton">
           <div class="material-icons">add</div>
-          Create New Invite
+          {{ $t("create-new-invite") }}
         </div>
       </div>
       <spinner v-if="invites === null" />
@@ -37,7 +37,7 @@
               <span class="link">https://nertivia.tk/invites/</span>
               <span>{{ invite.invite_code }}</span>
               <div class="other-info">
-                <span class="sub-title">Created By:</span>
+                <span class="sub-title">{{ $t("created-by") }}:</span>
                 <span
                   class="username"
                   @click="showUser(invite.creator.uniqueID)"
@@ -49,9 +49,9 @@
             </div>
           </div>
           <div class="buttons">
-            <div class="copy-button" @click="copy(invite)">Copy</div>
+            <div class="copy-button" @click="copy(invite)">{{ $t("copy") }}</div>
             <div class="copy-button delete" @click="deleteInvite(invite)">
-              Delete
+              {{ $t("delete") }}
             </div>
           </div>
         </div>

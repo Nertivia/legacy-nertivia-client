@@ -1,15 +1,15 @@
 <template>
   <div class="dark-background generic-popout" @mousedown="backgroundClick">
     <div class="inner">
-      <div class="text">Are you sure you want to delete this message?</div>
+      <div class="text">{{ $t("message-delete-confirm") }}</div>
       <MessageTemplate
         class="message"
         :creator="message.creator"
         :message="message"
       />
       <div class="buttons">
-        <div class="button" @click="closeMenu">Back</div>
-        <div class="button alert" @click="deleteMessage">Delete</div>
+        <div class="button" @click="closeMenu">{{ $t("back") }}</div>
+        <div class="button alert" @click="deleteMessage">{{ $t("delete") }}</div>
       </div>
     </div>
   </div>

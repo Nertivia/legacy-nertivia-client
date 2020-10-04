@@ -9,11 +9,10 @@
     <div class="content" v-else>
       <error-list v-if="errors" :errors="errors" />
       <div class="title main">
-        Create bot users which will allow you to use our API to create your own
-        fancy bots.
+        {{ $t("mybots-notice") }}
       </div>
       <div class="button" @click="createBotButton">Create Bot</div>
-      <div class="sub-head">Your bots:</div>
+      <div class="sub-head">{{ $t("your-bots") }}</div>
       <div class="bots-list">
         <div
           class="bot"

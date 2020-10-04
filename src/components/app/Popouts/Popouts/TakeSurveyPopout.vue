@@ -5,18 +5,17 @@
         <i class="material-icons">error</i>
       </div>
       <div class="text">
-        There is a survey you can complete about yourself. Would you like to
-        take it?
+        {{ $t("survey-notification") }}
       </div>
       <div class="text">
-        You can always take the survey again by going to settings.
+        {{ $t("survey-take-again-info") }}
       </div>
       <div class="buttons">
         <div class="button warning" @click="laterButtonClickEvent">
-          Later
+          {{ $t("later") }}
         </div>
         <div class="button valid" @click="TakeThereClickEvent">
-          Take Me There
+          {{ $t("take-me-there") }}
         </div>
       </div>
     </div>

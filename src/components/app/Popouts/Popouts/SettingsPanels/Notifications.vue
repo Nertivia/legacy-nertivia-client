@@ -6,7 +6,7 @@
           class="checkbox-box"
           :class="{ selected: !notificationSettings.disableNotificationSound }"
         />
-        <div class="checkbox-name">Notification Sounds</div>
+        <div class="checkbox-name">{{ $t("notification-sounds") }}</div>
       </div>
       <div class="checkbox" @click="toggleNotification()">
         <div
@@ -15,7 +15,7 @@
             selected: !notificationSettings.disableDesktopNotification
           }"
         />
-        <div class="checkbox-name">Desktop Notifications</div>
+        <div class="checkbox-name">{{ $t("desktop-notifications") }}</div>
       </div>
     </div>
   </div>

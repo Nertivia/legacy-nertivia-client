@@ -10,12 +10,12 @@
       v-if="!isPrecense && highlightedText"
     >
       <div class="material-icons">developer_board</div>
-      <div class="name">Copy</div>
+      <div class="name">{{ $t("copy") }}</div>
     </div>
 
     <div class="item" @click="showProfile" v-if="!serverMember">
       <div class="material-icons">account_circle</div>
-      <div class="name">View Profile</div>
+      <div class="name">{{ $t("view-profile") }}</div>
     </div>
     <div class="item" @click="showMemberContext" v-if="serverMember">
       <div class="material-icons">account_circle</div>
@@ -28,7 +28,7 @@
       v-if="!isPrecense && !highlightedText"
     >
       <div class="material-icons">format_quote</div>
-      <div class="name">Quote</div>
+      <div class="name">{{ $t("quote") }}</div>
     </div>
     <div
       class="item"
@@ -36,11 +36,11 @@
       v-if="!isPrecense && !highlightedText"
     >
       <div class="material-icons">developer_board</div>
-      <div class="name">Copy</div>
+      <div class="name">{{ $t("copy") }}</div>
     </div>
     <div class="item" @click="editMessage" v-if="showEditOption && !isPrecense">
       <div class="material-icons">edit</div>
-      <div class="name">Edit</div>
+      <div class="name">{{ $t("edit") }}</div>
     </div>
     <div
       class="item warn"
@@ -48,7 +48,7 @@
       v-if="showDeleteOption || hasAdminRole"
     >
       <div class="material-icons">delete</div>
-      <div class="name">Delete</div>
+      <div class="name">{{ $t("delete") }}</div>
     </div>
   </div>
 </template>

@@ -33,7 +33,7 @@
                 class="input"
                 type="text"
                 v-model="serverName"
-                name="Server Name"
+                :name="$t('server-name')"
               />
               <span v-if="serverNameError" class="warn">{{
                 serverNameError
@@ -46,7 +46,7 @@
         </div>
         <div v-if="tab == 1" key="check-invite" class="content">
           <i class="material-icons icon">forum</i>
-          <div class="title">Join A Server</div>
+          <div class="title">{{ $t("join-a-server") }}</div>
           <custom-input
             theme="light"
             class="input"
@@ -89,7 +89,7 @@
                 slideBack();
               "
             >
-              Cancel
+              {{ $t("cancel") }}
             </div>
           </div>
         </div>

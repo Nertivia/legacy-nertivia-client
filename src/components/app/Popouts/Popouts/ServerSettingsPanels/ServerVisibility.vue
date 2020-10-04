@@ -2,12 +2,11 @@
   <div class="content-inner server-visibility" v-if="server && loaded">
     <errors-template class="errors" v-if="errors" :errors="errors" />
     <div class="details">
-      Making your server visibility public means that your server will be shown
-      publicly in the Nertivia's "Explore" tab.
+      {{ $t("server-visibility-notice") }}
     </div>
     <div class="content">
       <div class="toggle">
-        <div class="title">Server Visibility</div>
+        <div class="title">{{ $t("server-visibility") }}</div>
         <div class="item" @click="privateServer = true">
           <div class="box" :class="{ selected: privateServer }"></div>
           Private
@@ -20,12 +19,12 @@
       <div class="public-settings" v-if="!privateServer">
         <div class="input">
           <div class="title">
-            Description (<span :class="{ warn: description.length > 150 }">{{
+            {{ $t("description") }} (<span :class="{ warn: description.length > 150 }">{{
               description.length
             }}</span
             >/150)
           </div>
-          <textarea placeholder="Description" v-model="description"></textarea>
+          <textarea :placeholder="$t('description')" v-model="description"></textarea>
         </div>
       </div>
       <div
@@ -34,7 +33,7 @@
         v-if="showSaveButton && privateServer"
         @click="deleteButton"
       >
-        {{ saving ? "Deleting..." : "Delete" }}
+        {{ saving ? this.$t('deleting') : this.$t('delete') }}
       </div>
       <div
         class="button"
@@ -42,7 +41,7 @@
         v-if="alreadyPublic && showSaveButton && !privateServer"
         @click="updateButton"
       >
-        {{ saving ? "Updating..." : "Update" }}
+        {{ saving ? this.$t('updating') : this.$t('update') }}
       </div>
       <div
         class="button"
@@ -50,7 +49,7 @@
         v-if="!alreadyPublic && showSaveButton && !privateServer"
         @click="saveButton"
       >
-        {{ saving ? "Saving..." : "Save" }}
+        {{ saving ? "this.$t('saving') : this.$t('save') }}
       </div>
     </div>
   </div>

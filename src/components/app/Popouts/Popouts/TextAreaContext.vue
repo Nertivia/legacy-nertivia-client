@@ -1,15 +1,15 @@
 <template>
   <div class="drop-down-menu" v-click-outside="outsideClick">
     <div class="item" @click="cutButton">
-      <div class="name">Cut</div>
+      <div class="name">{{ $t("cut") }}</div>
     </div>
 
     <div class="item" @click="copyButton">
-      <div class="name">Copy</div>
+      <div class="name">{{ $t("copy") }}</div>
     </div>
 
     <div class="item" @click="pasteButton">
-      <div class="name">Paste</div>
+      <div class="name">{{ $t("paste") }}</div>
     </div>
   </div>
 </template>

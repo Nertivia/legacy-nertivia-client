@@ -17,7 +17,7 @@
       />
       <div class="gradient" @click="bannerImageClicked" v-if="server.banner" />
       <div class="sub-banner">
-        <div class="verified" v-if="server.verified" title="Verified Server">
+        <div class="verified" v-if="server.verified" :title="$t('verified-server')">
           <span class="material-icons">check</span>
         </div>
         <div class="text" :title="servers[currentServerID].name">
@@ -32,7 +32,7 @@
       <channels-list v-if="currentServerID" :server-i-d="currentServerID" />
       <div v-else class="not-selected">
         <div class="material-icons">dns</div>
-        <div>Select a server</div>
+        <div>{{ $t("select-a-server") }}</div>
       </div>
     </div>
   </div>

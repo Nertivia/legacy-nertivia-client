@@ -10,19 +10,19 @@
     <div class="context" v-if="theme.id == selectedThemeID">
       <div class="button" @click="applyButton">
         <div class="material-icons">check</div>
-        <div class="btn-name">Apply</div>
+        <div class="btn-name">{{ $t("apply") }}</div>
       </div>
       <div class="button" @click="editButton">
         <div class="material-icons">edit</div>
-        <div class="btn-name">Edit</div>
+        <div class="btn-name">{{ $t("edit") }}</div>
       </div>
       <div class="button" @click="makePublicButton">
         <div class="material-icons">public</div>
-        <div class="btn-name">Manage Public</div>
+        <div class="btn-name">{{ $t("manage-public") }}</div>
       </div>
       <div class="button delete-button" @click="deleteButton">
         <div class="material-icons">delete</div>
-        <div class="btn-name">Delete</div>
+        <div class="btn-name">{{ $t("delete") }}</div>
       </div>
     </div>
   </div>

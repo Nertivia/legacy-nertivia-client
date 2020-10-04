@@ -12,7 +12,7 @@
         :code="details.css"
         :options="cmOptions"
       />
-      <div class="button" @click="applyButton">Apply</div>
+      <div class="button" @click="applyButton">{{ $t("apply") }}</div>
     </div>
   </div>
 </template>

@@ -1,6 +1,6 @@
 <template>
   <div class="panel">
-    <div class="title">Unapproved Themes</div>
+    <div class="title">{{ $t("unapproved-themes") }}</div>
     <div class="list">
       <theme-template v-for="theme in themes" :key="theme.id" :theme="theme" />
     </div>

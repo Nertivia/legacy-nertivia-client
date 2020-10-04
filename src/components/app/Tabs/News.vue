@@ -5,13 +5,13 @@
       <div class="change-log">
         <div v-for="(change, index) in changelog" :key="index" class="change">
           <div class="heading" :class="{ 'latest-color': index === 0 }">
-            <div class="date">Updated on {{ change.date }}</div>
+            <div class="date">{{ $t("updated-on") }} {{ change.date }}</div>
             <div class="changes-title">{{ change.title }}</div>
           </div>
           <news-template :change="change" />
           <!-- <div class="information">
             <div v-if="change.new">
-              <strong>What's new?</strong>
+              <strong>{{ $t("whats-new") }}</strong>
               <br />
               <ul>
                 <li
@@ -22,7 +22,7 @@
               </ul>
             </div>
             <div v-if="change.fix">
-              <strong>Issues fixed</strong>
+              <strong>{{ $t("issues-fixed") }}</strong>
               <br />
               <ul>
                 <li
@@ -33,7 +33,7 @@
               </ul>
             </div>
             <div v-if="change.next">
-              <strong>Up next</strong>
+              <strong>{{ $t("up-next") }}</strong>
               <br />
               <ul>
                 <li
@@ -47,7 +47,7 @@
           </div> -->
         </div>
         <div class="see-all-button" v-if="!showAll" @click="showAll = true">
-          View older changes
+          {{ $t("view-older-changes") }}
         </div>
       </div>
     </div>

@@ -38,7 +38,7 @@
             type="text"
             @input="inputEvent('username', $event)"
             :default-value="user.username"
-            name="Username"
+            :name="$t('username')"
           />
           <custom-input
             theme="light"
@@ -64,7 +64,7 @@
           type="password"
           @input="inputEvent('password', $event)"
           autocomplete="new-password"
-          name="Current Password"
+          :name="$t('current-password')"
         />
         <custom-input
           theme="light"
@@ -73,20 +73,20 @@
           type="password"
           @input="inputEvent('new_password', $event)"
           autocomplete="new-password"
-          name="New Password"
+          :name="$t('new-password')"
         />
       </div>
       <div class="link" v-if="!resetPassword" @click="resetPassword = true">
-        Reset Password
+        {{ $t("reset-password") }}
       </div>
-      <div class="link" @click="linkGoogleDrive">Re-link Google Drive</div>
+      <div class="link" @click="linkGoogleDrive">{{ $t("relink-gdrive") }}</div>
       <div
         class="button save-button"
         :class="{ disabled: requestSent }"
         @click="updateProfile"
         v-if="changed"
       >
-        {{ requestSent ? "Saving..." : "Update" }}
+        {{ requestSent ? this.$t('saving') : this.$t('update') }}
       </div>
     </div>
 

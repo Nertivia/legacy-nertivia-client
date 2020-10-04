@@ -2,9 +2,9 @@
   <div class="theme-content">
     <div class="name" v-if="themeDetail">{{ themeDetail.name }}</div>
     <div class="name center" v-if="themeDetail === undefined">
-      Getting Theme Details...
+      {{ $t("getting-theme-details") }}
     </div>
-    <div class="name center" v-if="themeDetail === null">Invalid Theme</div>
+    <div class="name center" v-if="themeDetail === null">{{ $t("invalid-theme") }}</div>
     <img
       class="avatar"
       v-if="themeDetail"
@@ -17,9 +17,9 @@
         @click="unapplyTheme"
         v-if="applied === themeDetail.id"
       >
-        Unapply Theme
+        {{ $t("unapply-theme") }}
       </div>
-      <div class="button" v-else @click="applyTheme">Apply Theme</div>
+      <div class="button" v-else @click="applyTheme">{{ $t("apply-theme") }}</div>
     </div>
   </div>
 </template>

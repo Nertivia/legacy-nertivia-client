@@ -2,7 +2,7 @@
   <div class="dark-background upload-dialog-popout">
     <div class="inner exceed" v-if="exceededSize" v-click-outside="closeButton">
       <div class="material-icons icon">close</div>
-      <div class="message">File size exceeded 50MB</div>
+      <div class="message">{{ $t("file-limit-exceed") }}</div>
     </div>
     <div v-else class="inner">
       <div class="info">
@@ -12,11 +12,11 @@
         </div>
         <div class="data">
           <div class="name">
-            <strong>Name:</strong>
+            <strong>{{ $t("name") }}:</strong>
             {{ name }}
           </div>
           <div class="size">
-            <strong>Size:</strong>
+            <strong>{{ $t("size") }}:</strong>
             {{ size }}
           </div>
           <div
@@ -26,12 +26,12 @@
             @click="toggleCompressButton"
           >
             <div class="box" />
-            <div class="name">Compress Image</div>
+            <div class="name">{{ $t("compress-image") }}</div>
           </div>
         </div>
       </div>
       <div class="upload-cdn" v-if="image">
-        <div class="title">Upload to:</div>
+        <div class="title">{{ $t("upload-to") }}:</div>
         <div
           class="radio"
           :class="{ selected: !upload_cdn }"
@@ -39,7 +39,7 @@
         >
           <div class="box" />
           <div class="text">
-            Google Drive <span class="notice">(Does not work sometimes.)</span>
+            Google Drive <span class="notice">({{ $t("google-drive-notice") }})</span>
           </div>
         </div>
         <div
@@ -51,7 +51,7 @@
           <div class="text">
             Nertivia CDN
             <span class="notice"
-              >(Data is not guaranteed to stay + Images only.)</span
+              >({{ $t("nertivia-cdn-notice) }})</span
             >
           </div>
         </div>

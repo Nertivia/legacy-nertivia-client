@@ -1,12 +1,12 @@
 <template>
   <article class="quote" v-bind:class="{ quoteFailed: failMessage == null }">
     <header class="section">
-      Quoted:
+      {{ $t("quoted") }}:
       <span class="username" @click="openUserInfo">{{
         this.quote.creator.username
       }}</span>
       <i
-        title="Go to message"
+        :title="$t('go-to-message')"
         class="go-to-message material-icons"
         v-on:click="goToMessage"
         >keyboard_arrow_up</i
@@ -23,7 +23,7 @@
     <main v-else class="fail-message">
       <!-- This quote is too long to be displayed. -->
       <Markup
-        text="This quote is too long to be displayed."
+        :text="$t('to-long-quote')"
         :message="message"
       />
     </main>
@@ -41,7 +41,7 @@ export default {
   computed: {
     failMessage: function() {
       if (this.quote.message.length < 1000) {
-        return "This quote is too long to be displayed.";
+        return this.$t('too-long-quote');
       } else {
         return null;
       }

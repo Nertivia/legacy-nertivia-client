@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div class="right-panel">
     <heading
       :uniqueID="
@@ -11,7 +11,7 @@
           ? 2
           : 0
       "
-      :name="currentChannelID ? channelName : `Welcome back, ${user.username}!`"
+      :name="currentChannelID ? channelName : `${$t('welcome-back')}, ${user.username}!`"
     />
     <transition name="fade" mode="out-in">
       <div class="loading" v-if="loadingMessages">
@@ -28,7 +28,7 @@
           {{ type === 0 ? "forum" : type === 1 ? "dns" : "question" }}
         </div>
         <div class="message">
-          {{ (!type && $t("select-person-message")) || "Select a server!" }}
+          {{ (!type && $t("select-person-message")) || $t("select-a-server") }}
         </div>
       </div>
     </transition>
@@ -46,7 +46,7 @@
             roleSendMessagePermission === false
       "
     >
-      You don't have permission to send messages in this channel.
+      $t("missing-send-messages-permission")
     </div>
   </div>
 </template>
@@ -94,10 +94,6 @@ export default {
     async onFocus() {
       if (!this.$store.getters.currentChannelID) return;
       //dismiss notification on focus
-      if (this.channel.server_id) {
-        this.dismissServerNotification();
-        return;
-      }
       const find = this.$store.getters.notifications.find(notification => {
         return notification.channelID === this.$store.getters.currentChannelID;
       });
@@ -107,13 +103,6 @@ export default {
             channelID: this.$store.getters.currentChannelID
           });
         }, 500);
-      }
-    },
-    dismissServerNotification() {
-      if (this.hasNotifications) {
-        this.$socket.client.emit("notification:dismiss", {
-          channelID: this.channel.channelID
-        });
       }
     },
     onTyping(data) {
@@ -180,11 +169,6 @@ export default {
     }
   },
   computed: {
-    hasNotifications() {
-      return this.$store.getters
-        .serverNotifications(this.channel.server_id)
-        .find(c => c.channelID === this.channel.channelID);
-    },
     loadingMessages() {
       return this.currentChannelID && !this.currentChannelMessages;
     },

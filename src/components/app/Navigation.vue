@@ -13,7 +13,7 @@
             servers[toolTipServerID] &&
             servers[toolTipServerID].verified
         "
-        title="Verified Server"
+        :title="$t('verified-server')"
       >
         <span class="material-icons">check</span>
       </div>

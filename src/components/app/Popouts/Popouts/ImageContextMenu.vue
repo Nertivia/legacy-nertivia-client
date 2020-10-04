@@ -2,12 +2,12 @@
   <div class="drop-down-menu" v-click-outside="outsideClick">
     <div class="item" @click="copyLinkButton">
       <div class="material-icons">link</div>
-      <div class="name">Copy URL</div>
+      <div class="name">{{ $t("copy-url") }}</div>
     </div>
 
     <div class="item" @click="openURL">
       <div class="material-icons">open_in_new</div>
-      <div class="name">Open URL</div>
+      <div class="name">{{ $t("open-url") }}</div>
     </div>
   </div>
 </template>

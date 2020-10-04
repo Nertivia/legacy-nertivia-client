@@ -1,8 +1,8 @@
 <template>
   <div class="inner" :class="{ fullscreen }">
     <div class="tool-bar">
-      <div class="button material-icons" title="Undo" @click="undo">undo</div>
-      <div class="button material-icons" title="Redo" @click="redo">redo</div>
+      <div class="button material-icons" :title="$t('undo')" @click="undo">undo</div>
+      <div class="button material-icons" :title="$t('redo')" @click="redo">redo</div>
       <input
         style="display: none;"
         type="color"
@@ -15,14 +15,14 @@
           v-for="(color, index) in colors"
           :key="color"
           @click="colorChange($event, index)"
-          title="Pen Color"
+          :title="$t('pen-color')"
           :style="{ background: color }"
           :class="{ selected: selectedColor === index }"
         />
         <div
           class="color picker"
           @click="colorPickerClicked"
-          title="Custom Color"
+          :title="$t('custom-color')"
           :class="{ selected: selectedColor === null }"
         >
           <div class="icon material-icons" :style="{ color: customColor }">
@@ -37,7 +37,7 @@
           v-for="(size, index) in penSize"
           :key="size"
           @click="changePenSize(size, index)"
-          title="Pen Size"
+          :title="$t('pen-size')"
           :class="{ selected: selectedPenSize === index }"
         >
           <div
@@ -51,12 +51,12 @@
       <canvas class="canvas" ref="canvas" />
     </div>
     <div class="bottom-tool-bar">
-      <div class="button material-icons" title="Close" @click="closeMenu">
+      <div class="button material-icons" :title="$t('close')" @click="closeMenu">
         close
       </div>
       <div
         class="button material-icons"
-        title="Fullscreen"
+        :title="$t('fullscreen')"
         @click="fullscreen = !fullscreen"
       >
         fullscreen
@@ -64,7 +64,7 @@
       <div
         class="button material-icons"
         :class="{ confirm: deleteConfirm }"
-        title="Delete"
+        :title="$t('delete')"
         @click="deleteButton"
       >
         delete
@@ -72,7 +72,7 @@
       <div
         class="button material-icons"
         @click="sendButton"
-        :title="currentChannelID ? 'Send' : 'Select a channel to send'"
+        :title="currentChannelID ? this.$t('send') : this.$t('send-no-channel')"
         :class="{ disabled: !currentChannelID }"
       >
         send

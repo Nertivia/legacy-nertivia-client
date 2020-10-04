@@ -437,9 +437,7 @@ export default {
 
       let input = this.$refs["input-box"];
       input.style.height = "1em";
-      if (this.currentTab !== 2) {
-        this.$store.dispatch("updateChannelLastMessage", this.currentChannelID);
-      }
+      this.$store.dispatch("updateChannelLastMessage", this.currentChannelID);
       const post = {
         message: msg,
         color: this.customColor,

@@ -1,9 +1,9 @@
 <template>
   <div class="survey">
     <div class="inner-content">
-      <div class="title"><i class="material-icons">error</i>Take Survey</div>
+      <div class="title"><i class="material-icons">error</i>{{ $t("take-survey") }}</div>
       <div class="notice">
-        Note: Everyone will be able to see your survey in your profile.
+        {{ $t("note") }} {{ $t("survey-notice") }}
       </div>
       <spinner v-if="!loaded" />
       <div class="survey-inner" v-if="loaded">
@@ -13,7 +13,7 @@
             <custom-input
               theme="light"
               class="input"
-              name="Name"
+              :name="$t('survey-name')"
               v-model="items.name"
             />
 
@@ -24,7 +24,7 @@
               selectBy="name"
               :selectedItem="items.gender"
               :noneSelect="true"
-              name="Gender"
+              :name="$t('gender')"
               @change="changeEvent('gender', $event)"
             />
             <!-- Age -->
@@ -34,7 +34,7 @@
               selectBy="name"
               :selectedItem="items.age"
               :noneSelect="true"
-              name="Age"
+              :name="$t('age')"
               @change="changeEvent('age', $event)"
             />
           </div>
@@ -46,7 +46,7 @@
               selectBy="name"
               :selectedItem="items.continent"
               :noneSelect="true"
-              name="Continent"
+              :name="$t('continent')"
               @change="changeEvent('continent', $event)"
             />
             <!-- Countries -->
@@ -57,14 +57,14 @@
               selectBy="name"
               :selectedItem="items.country"
               :noneSelect="true"
-              name="Country"
+              :name="$t('country')"
               @change="changeEvent('country', $event)"
             />
             <!-- About me -->
             <custom-input
               theme="light"
               class="input"
-              name="About me"
+              :name="$t('about-me')"
               type="textarea"
               v-model="items.about_me"
             />
@@ -78,7 +78,7 @@
     <div class="survey-valid" v-if="surveyValidMessage">
       {{ surveyValidMessage }}
     </div>
-    <div class="button" v-if="loaded" @click="surveySubmitButton">Save</div>
+    <div class="button" v-if="loaded" @click="surveySubmitButton">{{ $t("save") }}</div>
   </div>
 </template>
 
@@ -125,23 +125,23 @@ export default {
       this.surveyValidMessage = null;
       this.surveyErrorMessage = null;
 
-      this.surveyValidMessage = "Saving...";
+      this.surveyValidMessage = this.$t("saving");
       //gets the country index after unfiltering.
 
       if (this.items.name && this.items.name.length > 100) {
-        this.surveyErrorMessage = "Name must be less that 100 characters.";
+        this.surveyErrorMessage = this.$t("name-limitt-notice");
         this.surveyValidMessage = null;
         return;
       }
       if (this.items.about_me && this.items.about_me.length > 500) {
-        this.surveyErrorMessage = "About me must be less that 500 characters.";
+        this.surveyErrorMessage = this.$t("about-me-limit-notice");
         this.surveyValidMessage = null;
         return;
       }
 
       const { ok, error } = await userService.setSurvey(this.items);
       if (ok) {
-        this.surveyValidMessage = "Saved!";
+        this.surveyValidMessage = this.$t("saved");
       } else {
         this.surveyValidMessage = null;
         this.surveyErrorMessage =
@@ -159,7 +159,7 @@ export default {
       if (!continent) return null;
       return [
         ...this.surveyItems.countries.filter(c => c.code === continent.code),
-        ...[{ emoji: "😶", name: "Rather not say", code: "no" }]
+        ...[{ emoji: "😶", name: this.$t("rather-not-say"), code: "no" }]
       ];
     }
   }

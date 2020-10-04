@@ -2,7 +2,7 @@
   <div class="drop-down-menu" v-click-outside="outsideClick">
     <div class="item" @click="createInvite">
       <div class="material-icons">settings</div>
-      <div class="name">Manage Invites</div>
+      <div class="name">{{ $t("manage-invites") }}</div>
     </div>
     <div
       class="item"
@@ -10,27 +10,27 @@
       @click="showSettings"
     >
       <div class="material-icons">settings</div>
-      <div class="name">Server Settings</div>
+      <div class="name">{{ $t("server-settings") }}</div>
     </div>
     <div class="item warn" v-if="!checkServerCreator" @click="leaveServer">
       <div class="material-icons">exit_to_app</div>
-      <div class="name">Leave Server</div>
+      <div class="name">{{ $t("leave-server") }}</div>
     </div>
     <div class="item" @click="showManageNotification">
       <div class="material-icons">notifications</div>
-      <div class="name">Manage Notifications</div>
+      <div class="name">{{ $t("manage-notifications") }}</div>
     </div>
     <div class="item" @click="copyServerID">
       <div class="material-icons">developer_board</div>
-      <div class="name">Copy ID</div>
+      <div class="name">{{ $t("copy-id") }}</div>
     </div>
     <div
       class="item"
-      :class="{ disabled: !channelNotificationIDs.length }"
+      :class="{ disabled: !channelNotifications.length }"
       @click="markAsReadButton"
     >
       <div class="material-icons">markunread_mailbox</div>
-      <div class="name">Mark As Read</div>
+      <div class="name">{{ $t("mark-as-read") }}</div>
     </div>
   </div>
 </template>
@@ -93,12 +93,12 @@ export default {
       this.$clipboard(this.contextDetails.serverID);
     },
     markAsReadButton() {
-      if (!this.channelNotificationIDs.length) return;
+      if (!this.channelNotifications.length) return;
       this.closeMenu();
-      for (let index = 0; index < this.channelNotificationIDs.length; index++) {
-        const channel = this.channelNotificationIDs[index];
+      for (let index = 0; index < this.channelNotifications.length; index++) {
+        const notification = this.channelNotifications[index];
         this.$socket.client.emit("notification:dismiss", {
-          channelID: channel.channelID
+          channelID: notification.channelID
         });
       }
     }
@@ -163,9 +163,10 @@ export default {
       ];
       return channelIds;
     },
-    channelNotificationIDs() {
-      return this.$store.getters.serverNotifications(
-        this.contextDetails.serverID
+    channelNotifications() {
+      const notifications = this.$store.getters.notifications;
+      return notifications.filter(n =>
+        this.serverChannelIds.includes(n.channelID)
       );
     }
   }

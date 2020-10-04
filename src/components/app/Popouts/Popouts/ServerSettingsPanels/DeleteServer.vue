@@ -1,11 +1,10 @@
 <template>
   <div class="content-inner delete-server-popout" v-if="server">
     <div class="warning">
-      Are you sure you want to delete <strong>{{ server.name }}</strong
-      >? This cannot be <strong>UNDONE!</strong>
+      {{ $t("are-you-sure-to-delete") }} <strong>{{ server.name }}</strong>? {{ $t("this-cannot-be-undone") }}
     </div>
     <div class="button" @click="deleteServer()">
-      {{ confirmed ? "ARE YOU SURE?" : "DELETE SERVER" }}
+      {{ confirmed ? $t('are-you-sure').toUpperCase() : $t("delete-server").toUpperCase() }}
     </div>
   </div>
 </template>

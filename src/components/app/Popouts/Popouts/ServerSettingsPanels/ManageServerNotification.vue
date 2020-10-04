@@ -2,11 +2,10 @@
   <div class="content">
     <div class="center">
       <div class="information">
-        Change notifications settings. These settings will only apply to you and
-        wont affect others.
+        {{ $t("notification-settings-notice") }}
       </div>
       <div class="box">
-        <div class="title">Server Settings</div>
+        <div class="title">{{ $t("server-settings") }}</div>
         <div
           class="radio-box"
           :class="{
@@ -15,7 +14,7 @@
           @click="muteServer(0)"
         >
           <div class="circle" />
-          <div class="name">Enable Notifications</div>
+          <div class="name">{{ $t("enable-notifications") }}</div>
         </div>
         <div
           class="radio-box"
@@ -25,7 +24,7 @@
           @click="muteServer(1)"
         >
           <div class="circle" />
-          <div class="name">Mute Sound</div>
+          <div class="name">{{ $t("mute-sound") }}</div>
         </div>
         <div
           class="radio-box"
@@ -35,11 +34,11 @@
           @click="muteServer(2)"
         >
           <div class="circle" />
-          <div class="name">Disable Notifications</div>
+          <div class="name">{{ $t("disable-notifications") }}</div>
         </div>
       </div>
       <div class="box">
-        <div class="title">Channel Settings SOON</div>
+        <div class="title">{{ $t("channel-settings-soon" ) }}</div>
       </div>
     </div>
   </div>

@@ -9,7 +9,7 @@
           @click="addRole()"
         >
           <div class="material-icons">add</div>
-          <div>Add Role</div>
+          <div>{{ $t("add-role") }}</div>
         </div>
         <draggable
           v-model="roles"
@@ -43,7 +43,7 @@
       <div class="details" v-if="roles && roles[selectedRoleIndex]">
         <div class="inner-details">
           <div class="input role-input">
-            <div class="input-title">Role Name</div>
+            <div class="input-title">{{ $t("role-name") }}</div>
             <div
               class="role-color"
               :style="{
@@ -71,7 +71,7 @@
           </div>
 
           <div class="input" v-if="!roles[selectedRoleIndex].default">
-            <div class="input-title">Settings</div>
+            <div class="input-title">{{ $t("settings") }}</div>
             <div class="check-box" @click="updateSettings('hideRole')">
               <div
                 class="box"
@@ -83,16 +83,15 @@
                 }"
               />
               <div>
-                <div class="name">Hide Role</div>
+                <div class="name">{{ $t("hide-role") }}</div>
                 <div class="info">
-                  Display members with this role along with all the default
-                  members.
+                  {{ $t("hide-role-desc") }}
                 </div>
               </div>
             </div>
           </div>
           <div class="input">
-            <div class="input-title">Permissions</div>
+            <div class="input-title">{{ $t("permissions") }}</div>
             <div
               class="check-box"
               @click="updatePermissions(perm.value)"
@@ -117,7 +116,7 @@
           "
           @click="updateRole"
         >
-          Save Changes
+          {{ $t("save-changes") }}
         </div>
         <div
           class="button warn delete-server disabled"
@@ -128,8 +127,8 @@
         >
           {{
             roles[selectedRoleIndex].default
-              ? "Cannot delete default role."
-              : "Cannot delete this role."
+              ? this.$t('cannot-delete-default-role')
+              : this.$t('cannot-delete-this-role')
           }}
         </div>
         <div
@@ -141,7 +140,7 @@
           "
           @click="deleteRole"
         >
-          {{ deleteButtonConfirmed ? "ARE YOU SURE?" : "Delete Role" }}
+          {{ deleteButtonConfirmed ? this.$t('are-you-sure').toUpperCase() : this.$t('delete-role') }}
         </div>
       </div>
     </div>

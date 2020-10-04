@@ -13,11 +13,11 @@
         <div class="button" v-if="theme.approved" @click="openEditor">
           Compare
         </div>
-        <div class="button" v-else @click="openEditor">View code</div>
+        <div class="button" v-else @click="openEditor">{{ $t("view-code" ) }}</div>
         <div class="button" v-if="theme.approved" @click="approveButton">
           Update
         </div>
-        <div class="button" v-else @click="approveButton">Approve</div>
+        <div class="button" v-else @click="approveButton">{{ $t("appvove") }}</div>
         <div class="button">Decline</div>
       </div>
     </div>

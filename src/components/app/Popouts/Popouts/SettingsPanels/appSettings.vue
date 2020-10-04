@@ -4,13 +4,13 @@
       <div class="checkbox" @click="toggleStart">
         <div class="checkbox-box" :class="{ selected: startApp }" />
         <div class="checkbox-name">
-          Start Nertivia when Windows starts.
+          {{ $t("start-with-windows") }}
         </div>
       </div>
       <div class="checkbox" v-if="startApp" @click="toggleStartMinimized">
         <div class="checkbox-box" :class="{ selected: startMinimized }" />
         <div class="checkbox-name">
-          Start minimized.
+          {{ $t("start-minimalized") }}
         </div>
       </div>
     </div>

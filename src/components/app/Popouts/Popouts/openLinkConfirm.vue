@@ -1,11 +1,11 @@
 <template>
   <div class="dark-background generic-popout" @mousedown="backgroundClick">
     <div class="inner">
-      <div class="text">You are being taken to the following link:</div>
+      <div class="text">{{ $t("taken-to-link") }}:</div>
       <div class="link">{{ details.link }}</div>
       <div class="buttons">
-        <div class="button" @click="closeMenu">Back</div>
-        <div class="button alert" @click="visit">Visit</div>
+        <div class="button" @click="closeMenu">{{ $t("back") }}</div>
+        <div class="button alert" @click="visit">{{ $t("visit") }}</div>
       </div>
     </div>
   </div>

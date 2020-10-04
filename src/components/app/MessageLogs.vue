@@ -246,20 +246,12 @@ export default {
       this.backToBottomLoading = false;
     },
     dismissNotification(channelID) {
-      if (this.channel.server_id) return this.dismissServerNotification();
       const notifications = this.channelNotifications;
       if (notifications && notifications.count >= 1 && document.hasFocus()) {
         setTimeout(() => {
           this.$socket.client.emit("notification:dismiss", { channelID });
         }, 500);
       }
-    },
-    dismissServerNotification() {
-      if (!this.hasServerNotifications) return;
-      if (!document.hasFocus()) return;
-      this.$socket.client.emit("notification:dismiss", {
-        channelID: this.channel.channelID
-      });
     },
     async scrollTo(messageID) {
       if (
@@ -391,12 +383,6 @@ export default {
     }
   },
   computed: {
-    hasServerNotifications() {
-      if (!this.channel.server_id) return false;
-      return this.$store.getters
-        .serverNotifications(this.channel.server_id)
-        .find(c => c.channelID === this.channel.channelID);
-    },
     channelNotifications() {
       return this.$store.getters.notifications.find(e => {
         return e.channelID === this.currentChannelID;

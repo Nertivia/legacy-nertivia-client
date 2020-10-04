@@ -2,14 +2,13 @@
   <div class="manage-emoji-panel">
     <div class="info">
       <div class="title">
-        Upload your own pretty emojis for free! Emojis must be 3MB or less.
-        (png, jpg, gif)
+        {{ $t("emoji-notice") }}
       </div>
       <div class="button" @click="addEmojiBtn">
-        <i class="material-icons">add_box</i>Add Emoji
+        <i class="material-icons">add_box</i>{{ $t("add-emoji") }}
       </div>
     </div>
-    <div class="text">You have {{ customEmojis.length }}/50 emojis</div>
+    <div class="text">{{ $t("you-have") }} {{ customEmojis.length }}/50 emojis</div>
     <div class="emojis-list">
       <div v-for="emoji in customEmojis" :key="emoji.emojiID" class="emoji">
         <img
@@ -52,7 +51,7 @@ export default {
   components: {},
   data() {
     return {
-      domain: config.nertiviaCDN + "/emojis/"
+      domain: config.nertiviaCDN + "emojis/"
     };
   },
   methods: {

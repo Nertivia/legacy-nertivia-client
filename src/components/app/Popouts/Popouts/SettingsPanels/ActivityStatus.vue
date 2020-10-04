@@ -1,9 +1,7 @@
 <template>
   <div class="panel">
     <div class="information">
-      Share what programs or games you are running by adding apps below. This
-      will replace your custom status when a program is opened and revert back
-      when the program is closed.
+      {{ $t("activity-status-notice") }}
     </div>
     <drop-down-template
       class="activity dropdown"
@@ -12,7 +10,7 @@
       selectBy="name"
       :selectedItem="0"
       :noneSelect="true"
-      name="Add A Program"
+      :name="$t('add-a-program')"
       @change="changeEvent"
     />
     <div class="programs-list">
@@ -23,7 +21,7 @@
       >
         <div class="details">
           <div class="input-box">
-            <div class="text">Action:</div>
+            <div class="text">{{ $t("action") }}:</div>
             <input
               type="text"
               @blur="updateStatus(program, $event)"
@@ -32,7 +30,7 @@
             />
           </div>
           <div class="input-box">
-            <div class="text">Name:</div>
+            <div class="text">{{ $t("name") }}:</div>
             <input
               type="text"
               @blur="updateName(program, $event)"
@@ -41,7 +39,7 @@
             />
           </div>
           <div class="input-box">
-            <div class="text">Filename:</div>
+            <div class="text">{{ $t("filename") }}:</div>
             <input
               type="text"
               @blur="updatefilename(program, $event)"

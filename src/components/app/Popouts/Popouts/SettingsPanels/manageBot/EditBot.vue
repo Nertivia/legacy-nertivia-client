@@ -12,7 +12,7 @@
           animation-padding="4px"
         />
         <div class="button" @click="$refs.avatarBrowser.click()">
-          Change Avatar
+          {{ $t("change-avatar") }}
         </div>
         <input
           ref="avatarBrowser"
@@ -23,7 +23,7 @@
         />
       </div>
       <div class="outer-input">
-        <div class="title">Username</div>
+        <div class="title">{{ $t("username") }}</div>
         <div class="user-tag">
           <input
             :default-value.prop="bot.username"
@@ -41,7 +41,7 @@
         </div>
       </div>
       <div class="invite-link">
-        <div class="sub-title">Bot Invite Link:</div>
+        <div class="sub-title">{{ $t("bot-invite-link") }}</div>
         <div class="link">
           <a
             :href="
@@ -53,7 +53,7 @@
             }}</a
           >
         </div>
-        <div class="sub-title">Permissions:</div>
+        <div class="sub-title">{{ $t("permissions") }}</div>
         <div class="perms-list">
           <div
             class="perms-check-box"
@@ -68,7 +68,7 @@
       </div>
       <div class="token">
         <div class="reveal-link" @click="showToken = !showToken">
-          {{ showToken ? "Hide Token" : "Show Token" }}
+          {{ showToken ? this.$t('hide-token') : this.$t('show-token') }}
         </div>
         <input
           class="token-inner"
@@ -76,20 +76,20 @@
           :value="token"
           readonly="readonly"
         />
-        <div class="copy-token-button" @click="copyToken">Copy</div>
-        <div class="copy-token-button" @click="resetToken">Reset Token</div>
+        <div class="copy-token-button" @click="copyToken">{{ $t("copy") }}</div>
+        <div class="copy-token-button" @click="resetToken">{{ $t("reset-token") }}</div>
       </div>
-      <div class="button" @click="showMore = !showMore">Show More Options</div>
+      <div class="button" @click="showMore = !showMore">{{ $t("show-more-options") }}</div>
       <div class="more-options" v-if="showMore">
         <div class="button" @click="deleteButton">
-          {{ deleteSure ? "Are you sure?" : "Delete Bot" }}
+          {{ deleteSure ? this.$t('are-you-sure') : this.$t('delete-bot') }}
         </div>
       </div>
     </div>
     <div class="buttons">
-      <div class="button" @click="$emit('back')">Back</div>
+      <div class="button" @click="$emit('back')">{{ $t("back") }}</div>
       <div class="button" @click="saveButton">
-        {{ saving ? "Saving..." : "Save" }}
+        {{ saving ? this.$t('saving') : this.$t('save') }}
       </div>
     </div>
   </div>

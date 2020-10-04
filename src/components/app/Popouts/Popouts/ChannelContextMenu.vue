@@ -6,22 +6,22 @@
       :class="{ disabled: !notificationsExist }"
     >
       <div class="material-icons">markunread_mailbox</div>
-      <div class="name">Mark As Read</div>
+      <div class="name">{{ $t("mark-as-read") }}</div>
     </div>
 
     <div class="item" v-if="isMuted" @click="unmuteServer">
       <div class="material-icons">notifications</div>
-      <div class="name">Unmute Channel</div>
+      <div class="name">{{ $t("unmute-channel") }}</div>
     </div>
 
     <div class="item warn" v-else @click="muteServer">
       <div class="material-icons">notifications_off</div>
-      <div class="name">Mute Channel</div>
+      <div class="name">{{ $t("mute-channel") }}</div>
     </div>
 
     <div class="item" @click="copyChannelID">
       <div class="material-icons">developer_board</div>
-      <div class="name">Copy ID</div>
+      <div class="name">{{ $t("copy-id") }}</div>
     </div>
   </div>
 </template>
@@ -111,9 +111,10 @@ export default {
       );
     },
     notificationsExist() {
-      return this.$store.getters
-        .serverNotifications(this.contextDetails.serverID)
-        .find(c => c.channelID === this.contextDetails.channelID);
+      const notifications = this.$store.getters.notifications;
+      return notifications.find(
+        n => n.channelID === this.contextDetails.channelID
+      );
     }
   }
 };

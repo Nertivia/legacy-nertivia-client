@@ -3,30 +3,29 @@
     <Spinner v-if="details === null" />
     <div v-else class="main-container" ref="scroll">
       <div class="notice">
-        <strong>Note:</strong> Making your theme public requires reviewing. This
-        may take some days to review.
+        <strong>{{ $t("note") }}</strong> {{ $t("themes-public-notice") )}
       </div>
       <ErrorList v-if="errors" :errors="errors" />
       <div class="container">
         <div class="block">
           Theme Status
-          <div v-if="details === false"><strong>Not published</strong></div>
+          <div v-if="details === false"><strong>{{ $t("not-published") }}</strong></div>
           <div class="warn" v-else-if="details.updatedCss">
             <strong>Update Getting Reviewed.</strong>
           </div>
           <div class="warn" v-else-if="details.approved === false">
             <strong>Getting Reviewed.</strong>
           </div>
-          <div class="valid" v-else><strong>Theme is public!</strong></div>
+          <div class="valid" v-else><strong>{{ $("theme-is-public") }}</strong></div>
         </div>
         <div class="block">
-          Name:
+          {{ $t("name") }}
           <div>
             <strong>{{ name }}</strong>
           </div>
         </div>
         <div class="block">
-          Theme Preview
+          {{ $t("theme-preview") }}
           <div
             class="preview"
             :style="{
@@ -35,7 +34,7 @@
             }"
           />
           <div class="button" @click="$refs.screenshotBrowser.click()">
-            Upload
+            {{ $t("upload") }}
           </div>
           <input
             ref="screenshotBrowser"
@@ -50,7 +49,7 @@
             class="title"
             v-if="update.description === undefined && !details"
           >
-            Description (0/150)
+            {{ $t("description") }} (0/150)
           </div>
           <div class="title" v-if="update.description !== undefined">
             Description (<span
@@ -65,18 +64,18 @@
             >/150)
           </div>
           <textarea
-            placeholder="Description"
+            :placeholder="$t('description')"
             :default-value.prop="details.description || ''"
             @input="descriptionInput"
           ></textarea>
         </div>
         <div class="buttons">
-          <div class="button" @click="backButton">Back</div>
+          <div class="button" @click="backButton">$t('back')</div>
           <div class="button" v-if="details" @click="updateButton">
-            {{ submitClicked ? "Updating..." : "Update" }}
+            {{ submitClicked ? this.$t('updating') : this.$t('update') }}
           </div>
           <div class="button" @click="sendForReviewButton" v-else>
-            {{ submitClicked ? "Sending..." : "Send For Review" }}
+            {{ submitClicked ? this.$t('sending') : this.$t('send-for-review') }}
           </div>
         </div>
       </div>

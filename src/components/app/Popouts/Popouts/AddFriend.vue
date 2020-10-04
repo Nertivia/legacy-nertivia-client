@@ -71,7 +71,7 @@ export default {
         split[1].length !== 4
       ) {
         this.requestSent = false;
-        this.error = "Invalid username or tag.";
+        this.error = this.$t("add-friend-error");
         return;
       }
       const username = split[0];
@@ -86,7 +86,7 @@ export default {
         this.success = result.data.message;
       } else {
         if (error.response === undefined) {
-          this.error = "Can't connect to server.";
+          this.error = this.$t("cant-connect-to-server");
           return;
         }
         this.error = error.response.data.errors[0].msg;

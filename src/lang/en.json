@@ -49,11 +49,14 @@
     "offline-message": "All of your friends are offline.",
     "saved-notes": "Saved Notes",
     "select-person-message": "Select a person to message!",
+    "select-a-server": "Select a server!",
+    "server-name": "Server Name",
     "message": "Message",
 
     "add-server": "Add Server",
     "add-friend": "Add Friend",
     "add-friend-message": "Add friends by using their username and tag.",
+    "add-friend-error": "Invalid username or tag.",
     "adding": "Adding...",
     "create": "Create",
 
@@ -61,5 +64,294 @@
 
     "today-at": "Today at {0}",
     "yesterday-at": "Yesterday at {0}",
-    "send-a-message": "Send a message"
+    "send-a-message": "Send a message",
+
+    "connecting": "Connecting...",
+    "authenticating": "Authenticating...",
+    "ready": "Ready!",
+
+    "welcome-back": "Welcome back",
+    "missing-send-messages-permission": "You don't have permission to send messages in this channel.",
+    "verified-server": "Verified Server",
+    "join-a-server": "Join A Server",
+    "server-connection-problem": "Can't connect to server.",
+    "delete": "Delete",
+
+    "custom-emojis": "Custom Emojis",
+    "go-to-message": "Go to message",
+    "too-long-quote": "This quote is too long to be displayed.",
+    "quoted": "Quoted",
+
+    "are-you-sure": "Are you sure?",
+    "suspend-user": "Suspend User",
+    "suspend-reason": "Suspend Reason",
+
+    "current-password": "Current Password",
+    "new-password": "New Password",
+    "confirm-password": "Confirm Password",
+    "reset-password": "Reset Password",
+    "relink-gdrive": "Re-link Google Drive",
+    "username": "Username",
+
+    "mark-as-read": "Mark As Read",
+    "unmute-channel": "Unmute Channel",
+    "mute-channel": "Mute Channel",
+    "copy-id": "Copy ID",
+
+    "message-delete-confirm": "Are you sure you want to delete this message?",
+
+    "back": "Back",
+    "close": "Close",
+
+    "drop-file": "Drop file",
+
+    "undo": "Undo",
+    "redo": "Redo",
+    "pen-color": "Pen Color",
+    "custom-color": "Custom Color",
+    "pen-size": "Pen Size",
+    "fullscreen": "Fullscreen",
+    "send": "Send",
+    "send-no-channel": "Select a channel to send",
+
+    "GDrive-notice": "To upload files, You must link your Google Drive account with your Nertivia account.",
+    "link": "Link me",
+    "no-thanks": "No thanks",
+    
+    "okay": "Okay",
+    
+    "copy-url": "Copy URL",
+    "open-url": "Open URL",
+
+    "copy": "Copy",
+    "view-profile": "View Profile",
+    "quote": "Quote",
+    "edit": "Edit",
+
+    "taken-to-link": "You are being taken to the following link",
+    "visit": "Visit",
+
+    "manage-invites": "Manage Invites",
+    "server-settings": "Server Settings",
+    "leave-server": "Leave Server",
+    "manage-notifications": "Manage Notifications",
+
+    "create-custom-invite": "Create custom link (Verified servers only)",
+    "create-new-invite": "Create New Invite",
+
+    "copy-user-tag": "Copy User:Tag",
+    "kick": "Kick",
+    "ban": "Ban",
+
+    "survey": "Survey",
+    "survey-reminder": "There is a survey you can complete about yourself. Would you like to take it?",
+    "survey-take-again-info": "You can always take the survey again by going to settings.",
+    "later": "Later",
+    "take-me-there": "Take Me There",
+
+    "cut": "Cut",
+    "paste": "Paste",
+    "file-limit-excteed": "File size exceeded 50MB",
+    "name": "Name",
+    "size": "Size",
+    "compress-image": "Compress Image",
+    "upload-to": "Upload to",
+    "google-drive-notice": "Does not work sometimes.",
+    "nertivia-cdn-notice": "Data is not guaranteed to stay + Images only.",
+
+    "friend-request-sent": "Request Sent",
+    "friend-request-accept": "Accept Friend",
+    "remove-friend": "Remove Friend",
+    "unblock": "Unblock",
+    "block": "Block",
+    "activity-status": "Activity Status",
+    "custom-status": "Custom Status",
+    "about-me": "About me",
+    "server-roles": "Server Roles",
+    "no-server-roles": "This member has no roles.",
+    "common-friends": "Common Friends",
+    "common-servers": "Common Servers",
+    "members": "Members",
+
+    "are-you-sure-to-delete": "Are you sure you want to delete",
+    "this-cannot-be-undone": "This cannot be <strong>UNDONE!</strong>",
+    "delete-server": "Delete Server",
+
+    "general": "General",
+    "edit-avatar": "Edit Avatar",
+    "edit-banner": "Edit Banner",
+    "default-channel": "Default Channel",
+    "saving": "Saving...",
+    "save-changes": "Save Changes",
+
+    "banned-members": "Banned Members",
+    "unbanning": "Unbanning...",
+    "unban": "Unban",
+
+    "channels": "Channels",
+    "create-channel": "Create Channel",
+    "channel-name": "Channel Name",
+    "permissions": "Permissions",
+    "send-messages-permission": "Send Messages",
+    "cannot-delete-default-channel": "Cannot delete default channel",
+    "delete-channel": "Delete Channel",
+
+    "roles": "Roles",
+    "add-role": "Add Role",
+    "role-name": "Role Name",
+    "settings": "Settings",
+    "hide-role": "Hide Role",
+    "hide-role-desc": "Display members with this role along with all the default members.",
+    "cannot-delete-default-role": "Cannot delete default role.",
+    "cannot-delete-this-role": "Cannot delete this role.",
+    "delete-role": "Delete role.",
+
+    "notification-settings-notice": "Change notifications settings. These settings will only apply to you and wont affect others.",
+    "enable-notifications": "Enable Notifications",
+    "mute-sound": "Mute Sound",
+    "disable-notifications": "Disalbe Notifications",
+    "channel-settings-soon": "Channel Settings SOON",
+
+    "server-visibility-notice": "Making your server visibility public means that your server will be shown publicly in the Nertivia's \"Explore\" tab.",
+    "server-visibility": "Server Visibility",
+    "deleting": "Deleting...",
+    "description": "Description",
+    "updating": "Updating...",
+    "update": "Update",
+    "save": "Save",
+
+    "activity-status-notice": "Share what programs or games you are running by adding apps below. This will replace your custom status when a program is opened and revert back when the program is closed.",
+    "add-a-program": "Add A Program",
+    "action": "Action",
+    "filename": "Filename",
+
+    "start-with-windows": "Start Nertivia when Windows starts.",
+    "start-minimalized": "Start minimalized.",
+
+    "user": "User",
+    "notifications": "Notifications",
+    "log-vuex": "Log Vuex",
+    "debug-desc": "Click on tabs above to see data.",
+    "vuex-logged": "Vuex logged to console.",
+
+    "select-one": "Select One",
+
+    "language-notice": "Change the language by selecting one below. Note that some of these translations may be incorrect. You can submit more languages or fix some translations at",
+
+    "emoji-notice": "Upload your own pretty emojis for free! Emojis must be 3MB or less. (png, jpg, gif)",
+    "add-emoji": "Add Emoji",
+    "you-have": "You have",
+
+    "hi": "Hi",
+    "hello": "Hello.",
+    "whaddup": "Whaddup",
+    "nothing-bye": "Nothing, bye.",
+    "options": "Options",
+    "right-sided-messages": "Show my messages on the right side.",
+    "12-hour-time": "Show time in 12 hour.",
+
+    "mybots-notice": "Create bot users which will allow you to use our API to create your own fancy bots.",
+    "your-bots": "Your bots:",
+
+    "manage-public": "Manage Public",
+    "note": "Note:",
+    "themes-public-notice": "Making your theme public requires reviewing. This may take some days to review.",
+    "not-published": "Not published.",
+    "theme-is-public": "Theme is public!",
+    "theme-preview": "Theme Preview",
+    "upload": "Upload",
+    "send-for-review": "Send For Review",
+
+    "notification-sounds": "Notification Sounds",
+    "desktop-notifications": "Desktop Norifications",
+
+    "take-survey": "Take Survey",
+    "survey-notice": "Everyone will be able to see your survey in your profile.",
+    "survey-name": "Name",
+    "gender": "Gender",
+    "age": "Age",
+    "continent": "Continent",
+    "country": "Country",
+
+    "theme-name": "Theme name",
+    "save-and-apply": "Save & Apply",
+    "theme-editor-warning": "Warning: Pasting someone elses code could be dangerous.",
+
+    "updated-on": "Updated on",
+    "whats-new": "What's new?",
+    "issues-fixed": "Issues fixed",
+    "up-next": "Up next",
+    "view-older-changes": "View older changes",
+
+    "online-users": "Online Users",
+    "manage-servers": "Manage Servers",
+    "unapproved-themes": "Unapproved Themes",
+
+    "view-code": "View code",
+    "approve": "Approve",
+
+    "manage-accounts": "Manage Accounts",
+
+    "suspended": "Suspended",
+
+    "add-user-status": "Click to add status.",
+
+    "edit-message": "Edit Message:",
+
+    "fix-these-mistakes": "Fix these mistakes:",
+
+    "download": "Download",
+
+    "file-limit-notice": "File must be less than 50MB!",
+
+    "getting-invite-details": "Getting Invite Details...",
+
+    "direct-message": "Direct Message",
+    "changelog": "Changelog",
+    "admin-panel": "Admin Panel",
+    "click-me": "Click Me",
+
+    "owner": "Owner",
+
+    "joined-the-server": "joined the server!",
+    "left-the-server": "left the server.",
+    "has-been-kicked": "has been kicked.",
+    "has-been-banned": "has been banned.",
+
+    "getting-theme-details": "Getting Theme Details...",
+    "invalid-theme": "Invalid Theme",
+    "unapply-theme": "Unapply Theme",
+    "apply-theme": "Apply Theme",
+
+    "change-avatar": "Change Avatar",
+    "bot-invite-link": "Bot Invite Link:",
+    "hide-token": "Hide Token",
+    "show-token": "Show Token",
+    "reset-token": "Reset Token",
+    "show-more-options": "Show More Options",
+    "delete-bot": "Delete Bot",
+
+    "add-bot-commands-notice": "Add bot commands to easily let users know which commands exist for your bot",
+    "add-command": "Add Command",
+    "command": "Command",
+    "arguments": "Arguments",
+
+    "edit-bot": "Edit Bot",
+    "edit-commands": "Edit Commands",
+
+    "edit-profile": "Edit Profile",
+
+    "saved": "Saved!",
+    "about-me-limit-notice": "About me must be less that 500 characters.",
+    "name-limit-notice": "Name must be less that 100 characters.",
+
+    "logout": "Logout",
+    "my-profile": "My Profile",
+    "message-design": "Message Design",
+    "my-themes": "My Themes",
+    "manage-emojis": "Manage Emojis",
+    "app-settings": "App Settings",
+    "my-bots": "My Bots",
+    "language": "Language BETA",
+    "debug": "Debug"
 }

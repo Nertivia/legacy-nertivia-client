@@ -1,7 +1,7 @@
 <template>
   <div class="members-list">
     <div class="header">
-      <div class="title">Members ({{ members.length }})</div>
+      <div class="title">{{ $t("members") }} ({{ members.length }})</div>
     </div>
     <transition name="fade" mode="out-in">
       <div class="members" :key="currentServerID" ref="members-list">
@@ -52,7 +52,7 @@
             v-if="offlineMembers.length"
             :style="{ height: '29' + 'px' }"
           >
-            Offline ({{ offlineMembers.length }})
+            {{ $t("offline") }} ({{ offlineMembers.length }})
           </div>
           <member-template
             v-for="member in offlineMembers"

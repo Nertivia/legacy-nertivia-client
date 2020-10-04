@@ -2,30 +2,30 @@
   <div class="my-profile-panel message-design">
     <div class="message-example">
       <message-template
-        :message="{ message: 'Hi', created: Date.now() }"
+        :message="{ message: $t('hi'), created: Date.now() }"
         :creator="user"
         :date="Date.now()"
         :admin="user.admin"
       />
       <message-template
-        :message="{ message: 'Hello.', created: Date.now() }"
+        :message="{ message: $t('hello'), created: Date.now() }"
         :creator="dummyUser"
         :date="Date.now()"
       />
       <message-template
-        :message="{ message: 'Whaddup', created: Date.now() }"
+        :message="{ message: $t('whaddup'), created: Date.now() }"
         :creator="user"
         :date="Date.now()"
         :admin="user.admin"
       />
       <message-template
-        :message="{ message: 'Nothing, bye.', created: Date.now() }"
+        :message="{ message: $t('nothing-bye'), created: Date.now() }"
         :creator="dummyUser"
       />
     </div>
     <div class="options">
       <div class="title">
-        Options
+        {{ $t("options") }}
       </div>
       <div class="switches">
         <div class="checkbox" @click="toggleAppearance">
@@ -41,7 +41,7 @@
             "
           />
           <div class="checkbox-name">
-            Show my messages on the right side.
+            {{ $t("right-sided-messages") }}
           </div>
         </div>
         <div class="checkbox" @click="toggleTime">
@@ -57,7 +57,7 @@
             "
           />
           <div class="checkbox-name">
-            Show time in 12 hour.
+            {{ $t("12-hour-time") }}
           </div>
         </div>
       </div>

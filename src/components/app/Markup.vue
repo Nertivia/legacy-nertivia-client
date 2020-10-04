@@ -5,11 +5,9 @@ import Link from "./markup/Link.vue";
 import ChannelMention from "./markup/ChannelMention.vue";
 import MessageQuote from "./markup/MessageQuote.vue";
 import Obfuscate from "./markup/Obfuscate.vue";
-import Spoiler from "./markup/Spoiler.vue";
 import config from "@/config.js";
 import emojis from "@/utils/emojiData/emojis.json";
 import emojiParser from "@/utils/emojiParser";
-import hljs from "highlight.js";
 
 let testElement = document.createElement("div");
 const isValidColor = color => {
@@ -39,9 +37,8 @@ const MARKUP_PARTS = {
   inlineCodeblock: /```([^`]+?)```/,
   code: /``([^`]+?)``/,
   code1: /`([^`]+?)`/,
-  spoiler: /\|\|([^|]+?)\|\|/,
   link: /https?:\/\/\S+\.\S+/,
-  escape: /\\([*_~`\\|>])/,
+  escape: /\\([*_~`\\>])/,
   blockquote: /((?:^|\n)> )([^]+?)(?=(?:\n[^>])|$)/,
   userMention: /<@(\d+)>/,
   channelMention: /<#(\d+)>/,
@@ -142,11 +139,6 @@ function transformEntity(entity, root = true) {
       entity.type = "code";
       entity.innerText = entity.params[0];
       entity.children = entity.innerText;
-      return entity;
-    }
-    case "spoiler": {
-      entity.innerText = entity.params[0];
-      entity.children = parseRichText(entity.innerText, false);
       return entity;
     }
     case "link": {
@@ -272,7 +264,6 @@ export default {
     let depth = 0;
     let emojiCount = 0;
     let textCount = 0;
-    let quoteCount = 0;
     const parse = text => parseEntities(parseRichText(text));
     const parseChildren = children => {
       switch (true) {
@@ -321,9 +312,6 @@ export default {
           return (
             <span class="underline">{parseChildren(entity.children)}</span>
           );
-        case "spoiler": {
-          return <Spoiler>{parseChildren(entity.children)}</Spoiler>;
-        }
         case "obfuscate":
           return <Obfuscate>{parseChildren(entity.children)}</Obfuscate>;
         case "reset":
@@ -336,24 +324,11 @@ export default {
           textCount += 1;
           return entity.token;
         case "codeblock":
-          if (entity.lang != null && hljs.getLanguage(entity.lang) != null) {
-            return (
-              <pre class="codeblock">
-                <code
-                  domPropsInnerHTML={
-                    hljs.highlight(entity.lang, parseChildren(entity.children))
-                      .value
-                  }
-                ></code>
-              </pre>
-            );
-          } else {
-            return (
-              <pre class="codeblock">
-                <code>{parseChildren(entity.children)}</code>
-              </pre>
-            );
-          }
+          return (
+            <pre class="codeblock">
+              <code>{parseChildren(entity.children)}</code>
+            </pre>
+          );
         case "blockquote":
           textCount += 1;
           return <blockquote>{parseChildren(entity.children)}</blockquote>;
@@ -380,35 +355,16 @@ export default {
           const quote = this?.message?.quotes?.find(
             q => q.messageID === entity.message_id
           );
-
-          if (quoteCount <= 2) {
-            quoteCount += 1;
-
-            if (quote != null) {
-              return (
-                <MessageQuote
-                  quote={quote}
-                  formattingEnabled={
-                    entity.message_id !== this.message.uniqueID
-                  }
-                  message={this.message}
-                />
-              );
-            } else {
-              return entity.text;
-            }
+          if (quote != null) {
+            return (
+              <MessageQuote
+                quote={quote}
+                formattingEnabled={entity.message_id !== this.message.uniqueID}
+                message={this.message}
+              />
+            );
           } else {
-            if (quote != null) {
-              return (
-                <MessageQuote
-                  quote={quote}
-                  formattingEnabled={false}
-                  message={this.message}
-                />
-              );
-            } else {
-              return entity.text;
-            }
+            return entity.text;
           }
         }
         case "emoji": {

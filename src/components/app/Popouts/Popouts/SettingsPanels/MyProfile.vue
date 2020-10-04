@@ -2,10 +2,10 @@
   <div class="my-profile-panel my-profile-popout">
     <div class="tabs">
       <div class="tab" :class="{ selected: tab == 0 }" @click="tab = 0">
-        Edit Profile
+        {{ $t("edit-profile") }}
       </div>
       <div class="tab" :class="{ selected: tab == 1 }" @click="tab = 1">
-        Survey
+        {{ $t("survey") }}
       </div>
     </div>
     <div class="content">

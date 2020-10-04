@@ -3,7 +3,7 @@
     <div class="inner">
       <div class="details">
         <div>
-          <span class="name">Username: </span>{{ popoutDetails.user.username }}
+          <span class="name">{{ $t("username") }}: </span>{{ popoutDetails.user.username }}
         </div>
         <div>
           <span class="name">Email: </span>{{ popoutDetails.user.email }}
@@ -16,19 +16,19 @@
         type="password"
         autocomplete="new-password"
         v-model="password"
-        name="Confirm Password"
+        :name="$t('confirm-password')"
       />
       <custom-input
         theme="light"
         class="input"
         type="textarea"
         v-model="reason"
-        name="Suspend Reason"
+        :name="$('suspend-reason')"
       />
       <div class="button" v-if="!confirmSuspend" @click="suspendUserButton">
-        Suspend User
+        $t("suspend-user")
       </div>
-      <div class="button" v-else @click="suspendUserButton">Are you sure?</div>
+      <div class="button" v-else @click="suspendUserButton">{{ $t("are-you-sure") }}</div>
     </div>
   </div>
 </template>

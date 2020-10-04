@@ -19,15 +19,15 @@
     <div class="main-menu" ref="main-menu">
       <div class="item" @click="viewProfile">
         <div class="material-icons icon-cat">person</div>
-        <div class="name">View Profile</div>
+        <div class="name">{{ $t("view-profile") }}</div>
       </div>
       <div class="item" @click="copyUserTag">
         <div class="material-icons icon-cat">developer_board</div>
-        <div class="name">Copy User:Tag</div>
+        <div class="name">{{ $t("copy-user-tag") }}</div>
       </div>
       <div class="item" @click="copyID">
         <div class="material-icons icon-cat">developer_board</div>
-        <div class="name">Copy ID</div>
+        <div class="name">{{ $t("copy-id") }}</div>
       </div>
       <div
         class="item"
@@ -43,7 +43,7 @@
         @click="kickMember"
       >
         <div class="material-icons icon-cat">exit_to_app</div>
-        <div class="name">Kick</div>
+        <div class="name">{{ $t("kick") }}</div>
       </div>
       <div
         class="item warn"
@@ -51,7 +51,7 @@
         @click="banMember"
       >
         <img class="icon-cat" src="../../../../assets/hammer4.0.svg" />
-        <div class="name">Ban</div>
+        <div class="name">{{ $t("ban") }}</div>
       </div>
     </div>
   </div>

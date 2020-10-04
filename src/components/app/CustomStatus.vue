@@ -6,13 +6,13 @@
       @keydown="keyDown"
       ref="textArea"
       v-if="showTextArea"
-      placeholder="Click to add status."
+      :placeholder="$t('add-user-status')"
     />
     <div class="wrapper" @click="statusTextClicked">
       <Markup
         class="status-text"
         v-if="!showTextArea"
-        :text="!userStatus ? 'Click to add status.' : userStatus"
+        :text="!userStatus ? this.$t('add-user-status') : userStatus"
       />
       <div class="cover"></div>
     </div>

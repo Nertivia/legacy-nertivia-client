@@ -49,11 +49,14 @@
     "offline-message": "Wszyscy Twoi znajomi są niedostępni.",
     "saved-notes": "Twoje Notatki",
     "select-person-message": "Wybierz osobę, z którą chcesz pisać.",
+    "select-a-server": "Wybierz serwer!",
+    "server-name": "Nazwa Serwera",
     "message": "Wiadomość",
 
     "add-server": "Dodaj Serwer",
     "add-friend": "Dodaj Znajomego",
     "add-friend-message": "Dodaj znajomych używając ich nazwy użytkownika i tagu.",
+    "add-friend-error": "Nieprawidłowa nazwa lub tag użytkownika.",
     "adding": "Dodawanie...",
     "create": "Stwórz",
 
@@ -61,6 +64,292 @@
 
     "today-at": "Dzisiaj o {0}",
     "yesterday-at": "Wczoraj o {0}",
-    "send-a-message": "Wyślij wiadomość"
+    "send-a-message": "Wyślij wiadomość",
 
+    "connecting": "Łączenie...",
+    "authenticating": "Uwierzytelnianie...",
+    "ready": "Gotowy!",
+
+    "welcome-back": "Witaj ponownie",
+    "missing-send-messages-permission": "Nie masz permisji do wysyłania wiadomości na tym kanale.",
+    "verified-server": "Zweryfikowany Serwer",
+    "join-a-server": "Dołącz Do Serwera",
+    "server-connection-problem": "Nie można się połączyć z serwerem.",
+    "delete": "Usuń",
+
+    "custom-emojis": "Niestandardowe Emotki",
+    "go-to-message": "Przejdź do wiadomości",
+    "too-long-quote": "Ten cytat jest za duży",
+    "quoted": "Cytowany",
+
+    "are-you-sure": "Czy jesteś pewien?",
+    "suspend-user": "Wyłącz konto użytkownika",
+    "suspend-reason": "Powód wyłączenia konta użytkownika",
+
+    "current-password": "Obecne Hasło",
+    "new-password": "Nowe Hasło",
+    "confirm-password": "Potwierdź hasło",
+    "reset-password": "Resetuj Hasło",
+    "relink-gdrive": "Połącz Dysk Google",
+    "username": "Nazwa uzytkownika",
+
+    "mark-as-read": "Oznacz Jako Przeczytane",
+    "unmute-channel": "Odcisz Kanał",
+    "mute-channel": "Wycisz Kanał",
+    "copy-id": "Kopiuj ID",
+
+    "message-delete-confirm": "Czy chcesz usunąć tą wiadomość?",
+
+    "back": "Powrót",
+    "close": "Zamknij",
+
+    "drop-file": "Upuść plik",
+
+    "undo": "Cofnij",
+    "redo": "Wykonaj ponownie",
+    "pen-color": "Kolor Pędzla",
+    "custom-color": "Niestandardowy Kolor",
+    "pen-size": "Rozmiar Pędzla",
+    "fullscreen": "Pełny ekran",
+    "send": "Wyślij",
+    "send-no-channel": "Wybierz kanał do wysłania",
+
+    "GDrive-notice": "Musisz połączyć swoje konto z Dyskiem Google, żeby przesyłać pliki",
+    "link": "Połącz",
+    "no-thanks": "Nie dzięki",
+    
+    "okay": "Okej",
+    
+    "copy-url": "Kopiuj URL",
+    "open-url": "Otwórz URL",
+
+    "copy": "Kopiuj",
+    "view-profile": "Zobacz Profil",
+    "quote": "Cytuj",
+    "edit": "Edytuj",
+
+    "taken-to-link": "Przechodzisz do następującego linku",
+    "visit": "Odwiedź",
+
+    "manage-invites": "Zarządzaj Zaproszeniami",
+    "server-settings": "Ustawienia Serwera",
+    "leave-server": "Opuść Serwer",
+    "manage-notifications": "Zarządzaj Powiadomieniami",
+
+    "create-custom-invite": "Stwórz niestandardowy link (Tylko serwery zweryfikowane)",
+    "create-new-invite": "Stwórz Nowe Zaproszenie",
+
+    "copy-user-tag": "Kopiuj Nazwa:Tag",
+    "kick": "Wyrzuć",
+    "ban": "Zbanuj",
+
+    "survey": "Ankieta",
+    "survey-reminder": "Jest dostępna anieka o Tobie, ktorą możesz wypełnić. Czy chiałbyś to zrobić?",
+    "survey-take-again-info": "Zawsze możesz wypelnić ankietę ponownie poprzez przejście do ustawień.",
+    "later": "Później",
+    "take-me-there": "Zabierz Mnie Tam",
+
+    "cut": "Wytnij",
+    "paste": "Wklej",
+    "file-limit-excteed": "Rozmiar pliku wynosi 50MB",
+    "name": "Nazwa",
+    "size": "Rozmiar",
+    "compress-image": "Skompresuj obraz",
+    "upload-to": "Prześlij do",
+    "google-drive-notice": "Czasami nie działa.",
+    "nertivia-cdn-notice": "Dane mogą zniknąc + Tylko zdjecia.",
+
+    "friend-request-sent": "Zaproszenie Wysłane",
+    "friend-request-accept": "Przyjmij Zaproszenie",
+    "remove-friend": "Usuń Znajomego",
+    "unblock": "Odblokuj",
+    "block": "Zablokuj",
+    "activity-status": "Status Aktywności",
+    "custom-status": "Status Własny",
+    "about-me": "O mnie",
+    "server-roles": "Role Serwerowe",
+    "no-server-roles": "Ta osoba nie ma ról.",
+    "common-friends": "Wspólni Znajomi",
+    "common-servers": "Wspólne Serwery",
+    "members": "Członkowie",
+
+    "are-you-sure-to-delete": "Czy jesteś prewien, że chcesz usunąć",
+    "this-cannot-be-undone": "Ta czynność jest <strong>NIEODWRACALNA!</strong>",
+    "delete-server": "Usuń Serwer",
+
+    "general": "Głowne",
+    "default-channel": "Kanał domyślny",
+    "saving": "Zapisywanie...",
+    "save-changes": "Zapisz zmiany",
+
+    "banned-members": "Bany",
+    "unbanning": "Odbanowywanie...",
+    "unban": "Odbanuj",
+
+    "channels": "Kanały",
+    "create-channel": "Utwórz Kanał",
+    "channel-name": "Nazwa Kanału",
+    "permissions": "Permisje",
+    "send-messages-permission": "Wysyłanie Wiadomości",
+    "cannot-delete-default-channel": "Nie możesz usunąć domysnego kanału",
+    "delete-channel": "Usuń Kanał",
+
+    "roles": "Role",
+    "add-role": "Dodaj Role",
+    "role-name": "Nazwa Roli",
+    "settings": "Ustawinia",
+    "hide-role": "Ukryj Role",
+    "hide-role-desc": "Wyświetlaj użytkowików tej roli razem ze wszystkimi członkami serwera.",
+    "cannot-delete-default-role": "Nie możesz usunąc roli domyślnej.",
+    "cannot-delete-this-role": "Nie możesz usunąć tej roli.",
+    "delete-role": "Usuń rolę.",
+
+    "notification-settings-notice": "Zmień ustawienia powiadomień. Zmienią sie one tylko dla Ciebie i nie dotkną innych.",
+    "enable-notifications": "Włącz Powiadomienia",
+    "mute-sound": "Wycisz Dźwięk",
+    "disable-notifications": "Wyłącz Powiadomienia",
+    "channel-settings-soon": "Ustawienia Kanałów NIEDLUGO",
+
+    "server-visibility-notice": "Publikacja twojego serwera oznacza wyświetlanie go na karcie \"Odkrywaj\".",
+    "server-visibility": "Widoczność Serwera",
+    "deleting": "Usuwanie...",
+    "description": "Opis",
+    "updating": "Aktualizacja...",
+    "update": "Zaktualizuj",
+    "save": "Zapisz",
+
+    "activity-status-notice": "Dziel się atkywnymi programami poprzez dodanie ich poniżej. Zmieni to twoj status kiedy program zostanie otwarty i przywróci go po zamknięciu programu.",
+    "add-a-program": "Dodaj Program",
+    "action": "Akcja",
+    "filename": "Nazwa pliku",
+
+    "start-with-windows": "Uruchamiaj Nertivie wraz z Windowsem.",
+    "start-minimalized": "Uruchamiaj zminimaline.",
+
+    "user": "Użytkownik",
+    "notifications": "Powiadomienia",
+    "log-vuex": "Loguj Vuexa",
+    "debug-desc": "Kliknij na karty powyżej żeby zobaczyć dane.",
+    "vuex-logged": "Vuex został wyprintoway do konsoli.",
+
+    "select-one": "Wybierz Jeden",
+
+    "language-notice": "Zmień język poprzez wybranie jednego poniżej. Niektore tłumaczenia mogą być nieprawidłowe. Możesz wysłać więcej języków albo poprawki na",
+
+    "emoji-notice": "Prześlij swoje piękne emotki za darmo! Emotki muszą mieć rozmiar 3MB lub mniejszy. (png, jpg, gif)",
+    "add-emoji": "Dodaj Emotki",
+    "you-have": "Posiadasz",
+
+    "hi": "Cześć",
+    "hello": "Witaj.",
+    "whaddup": "Co tam?",
+    "nothing-bye": "Nic, pa.",
+    "options": "Opcje",
+    "right-sided-messages": "Pokazuj moje wiadomości po prawej stronie.",
+    "12-hour-time": "Pokazuj czas w formacie 12-godzinnym.",
+
+    "mybots-notice": "Twórz konta botów, które polzwolą Ci używać naszego API do robienia fantastycznych botów.",
+    "your-bots": "Twoje Boty:",
+
+    "manage-public": "Zarządzaj Publikacją",
+    "note": "Notka:",
+    "themes-public-notice": "Publikacja twojego motywu wymaga sprawdzenia. Może to potrwać kilka dni.",
+    "not-published": "Nie opublikowany.",
+    "theme-is-public": "Motyw jest Publiczny!",
+    "theme-preview": "Podgląd Motywu",
+    "upload": "Wyślij",
+    "send-for-review": "Wyślij Do Sprawdzenia",
+
+    "notification-sounds": "Dźwięki Powiadomien",
+    "desktop-notifications": "Powaidomienia Na Pulpicie",
+
+    "take-survey": "Wypełnij Ankietę",
+    "survey-notice": "Każdy będzie mógł zobaczyć twoją ankietę w twoim profilu.",
+    "survey-name": "Imię",
+    "gender": "Płeć",
+    "age": "Wiek",
+    "continent": "Kontynent",
+    "country": "Kraj",
+
+    "theme-name": "Nazwa motywu",
+    "save-and-apply": "Zapisz i Zastosuj",
+    "theme-editor-warning": "Uwaga: Wklejanie kogos kodu może być niebezpieczne.",
+
+    "updated-on": "Zaktualizowano",
+    "whats-new": "Co nowego?",
+    "issues-fixed": "Naprawione Błędy",
+    "up-next": "Nastepne",
+    "view-older-changes": "Zobacz starsze zmiany",
+
+    "online-users": "Aktywni Użytkownicy",
+    "manage-servers": "Zarządzaj Serwerami",
+    "unapproved-themes": "Motywy Oczekującze Na Sprawdzenie",
+
+    "view-code": "Zobacz Kod",
+    "approve": "Zatwierdź",
+
+    "manage-accounts": "Zarządzaj kontami",
+
+    "suspended": "Konto wyłączone",
+
+    "add-user-status": "Kliknij aby dodać status.",
+
+    "edit-message": "Edytuj Wiadomość:",
+
+    "fix-these-mistakes": "Napraw błędy:",
+
+    "download": "Pobierz",
+
+    "file-limit-notice": "Rozmiar pliku musi być mniejszy niż 50MB!",
+
+    "getting-invite-details": "Pobieranie Informacji O Zaproszeniu...",
+
+    "direct-message": "Wiadomość Bezpośrednia",
+    "changelog": "Dziennik Zmian",
+    "admin-panel": "Panel Admina",
+    "click-me": "Kliknij Mnie",
+
+    "owner": "Właściciel",
+
+    "joined-the-server": "dołączył do serwera!",
+    "left-the-server": "wyszedł z serwer.",
+    "has-been-kicked": "został wyrzucony.",
+    "has-been-banned": "został zbanowany.",
+
+    "getting-theme-details": "Pobieranie Informacji O Motywie...",
+    "invalid-theme": "Motyw Niepoprawy",
+    "unapply-theme": "Usuń Motyw",
+    "apply-theme": "Zastosuj Motyw",
+
+    "change-avatar": "Zmień Awatar",
+    "bot-invite-link": "Zaproszenie Bota:",
+    "hide-token": "Ukryj Token",
+    "show-token": "Pokaż Token",
+    "reset-token": "Zresetuj Token",
+    "show-more-options": "Więcej opcji",
+    "delete-bot": "Usuń Bota",
+
+    "add-bot-commands-notice": "Dodaj komendy do botów, aby p Add bot commands to easily let users know which commands exist for your bot",
+    "add-command": "Dodaj Komendę",
+    "command": "Komendy",
+    "arguments": "Argumenty",
+
+    "edit-bot": "Edytuj Bota",
+    "edit-commands": "Edytuj Komendy",
+
+    "edit-profile": "Edytuj Profil",
+    
+    "saved": "Zapisano!",
+    "about-me-limit-notice": "O mnie musi być mniejsze niz 500 znaków.",
+    "name-limit-notice": "Imię musi być mniejsze niż 100 znaków.",
+
+    "logout": "Wyloguj się",
+    "my-profile": "Mój Profil",
+    "message-design": "Wygląd Wiadomości",
+    "my-themes": "Moje Motywy",
+    "manage-emojis": "Zarządzaj Emotkami",
+    "app-settings": "Ustawienia Aplikacji",
+    "my-bots": "Moje Boty",
+    "language": "Języki BETA",
+    "debug": "Debugowanie"
 }

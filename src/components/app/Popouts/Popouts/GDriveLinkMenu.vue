@@ -2,8 +2,7 @@
   <div class="dark-background GDrive-popout" @click="backgroundClick">
     <div class="inner">
       <div class="text">
-        To upload files, You must link your Google Drive account with your
-        Nertivia account.
+        {{ $t("GDrive-notice") }}
       </div>
       <div class="images">
         <div class="image GDrive-img" />
@@ -14,10 +13,10 @@
       </div>
       <div class="buttons">
         <div class="button deny" @click="closeMenu">
-          No thanks
+          {{ $t("no-thanks") }}
         </div>
         <div class="button" @click="link">
-          Link me
+          {{ $t("link") }}
         </div>
       </div>
     </div>

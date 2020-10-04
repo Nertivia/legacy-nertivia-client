@@ -13,7 +13,7 @@
             :avatar="update.avatar ? null : server.avatar"
           />
           <div class="button" @click="$refs.avatarBrowser.click()">
-            Edit Avatar
+            {{ $t("edit-avatar") }}
           </div>
           <input
             ref="avatarBrowser"
@@ -32,7 +32,7 @@
             }"
           ></div>
           <div class="button" @click="$refs.bannerBrowser.click()">
-            Edit Banner
+            {{ $t("edit-banner") }}
           </div>
           <input
             ref="bannerBrowser"
@@ -51,12 +51,12 @@
             type="text"
             @input="inputEvent('name', $event)"
             :default-value="server.name"
-            name="Server Name"
+            :name="$t('server-name')"
           />
           <drop-down
             :items="channels"
             :selected-item="defaultChannel"
-            name="Default Channel"
+            :name="$t('default-channel')"
             @change="changeEvent('default_channel_id', $event.channelID)"
           />
         </div>
@@ -66,7 +66,7 @@
           v-if="changed"
           @click="updateServer()"
         >
-          {{ requestSent ? "Saving..." : "Save Changes" }}
+          {{ requestSent ? this.$t('saving') : this.$t('save-changes') }}
         </div>
       </div>
     </div>

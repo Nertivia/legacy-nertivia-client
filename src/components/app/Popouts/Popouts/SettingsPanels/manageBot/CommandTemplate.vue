@@ -14,7 +14,7 @@
       type="text"
       placeholder="e.g. username 15m"
     />
-    <div class="button" @click="$emit('delete')">Delete</div>
+    <div class="button" @click="$emit('delete')">{{ $t("delete") }}</div>
   </div>
 </template>
 

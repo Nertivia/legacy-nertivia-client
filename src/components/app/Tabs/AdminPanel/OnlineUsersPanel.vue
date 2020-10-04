@@ -1,6 +1,6 @@
 <template>
   <div class="users-panel">
-    <div class="title">Online Users</div>
+    <div class="title">{{ $t("online-users") }}</div>
     <div class="list">
       <user-template v-for="user in users" :key="user.uniqueID" :user="user" />
     </div>

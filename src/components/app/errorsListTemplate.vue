@@ -1,6 +1,6 @@
 <template>
   <div class="errors">
-    <div class="errors-title">Fix these mistakes:</div>
+    <div class="errors-title">{{ $("fix-these-mistakes") }}</div>
     <li class="error" v-for="(error, index) in errors" :key="index">
       {{ error.msg }}
     </li>
