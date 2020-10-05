@@ -55,7 +55,7 @@ export default {
     message() {
       const status = this.status;
       if (this.errMessage) return this.errMessage;
-      if (status === 0) return this.$t("cnnecting");
+      if (status === 0) return this.$t("connecting");
       if (status === 1) return this.$t("authenticating");
       if (status === 2) return this.$t("ready");
       return "";
