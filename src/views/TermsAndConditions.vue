@@ -3,7 +3,7 @@
     <custom-header @registerButton="$router.push('/register')" />
     <div class="content">
       <div class="title">Nertivia Terms and Conditions of Use</div>
-      <div class="updated-date">Last updated: Friday 03 October 2020</div>
+      <div class="updated-date">Last updated: Friday 05 October 2020</div>
       <p>
         If you find something missing or have any questions, email us at
 
@@ -39,11 +39,6 @@
         or <br />
         transferring the materials to another person or "mirror" the materials
         on any other server. <br />
-        This will let Nertivia to terminate upon violations of any of these
-        restrictions. Upon termination, <br />
-        your viewing right will also be terminated and you should destroy any
-        downloaded materials in your possession whether it is printed or
-        electronic format.
       </p>
       <div class="sub-title">3. Disclaimer</div>
       <p>
@@ -114,6 +109,13 @@
         will cause your account to be suspended and server to be deleted. This
         is to ensure our members have a great environment to learn and have fun
         in.
+      </p>
+      <div class="sub-title">12. Behaviour.</div>
+      <p>
+        Racism or harassment of any kind is prohibited on Nertivia. We would
+        like everyone to have a sense of safety when using this platform. We
+        would also like to keep things positive. Anyone reported or caught
+        violating this term will be suspended immediately.
       </p>
     </div>
   </div>

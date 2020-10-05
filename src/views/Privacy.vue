@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <custom-header />
+    <custom-header @registerButton="$router.push('/register')" />
     <div class="content">
       <div class="title">Nertivia Privacy Policy</div>
       <div class="updated-date">Last updated: Friday 02 October 2020</div>
@@ -24,7 +24,7 @@
       <p>
         While using Nertivia and its services, we will store certain information
         such as a hashed version of your IP Address, your account creation date
-        and your activities such as your online status We may store this
+        and your activities such as your online status. We may store this
         information in the database owned by service providers. We may also
         track and store some details while you use Nertivia. This includes
         tracking the number of visitors on the website and the number of
