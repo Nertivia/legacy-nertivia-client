@@ -1,13 +1,13 @@
 {
     "explore": "Keşfet",
     "explore-desc": "Yeni serverler, emojiler ve daha fazlasını bul!",
-    "servers": "Serverler",
-    "join-server": "Servere Katıl",
+    "servers": "Sunucular",
+    "join-server": "Sunucuya Katıl",
     "themes": "Temalar",
     "emoji-packs": "Emoji Paketleri",
     "message-styles": "Mesaj Stilleri",
-    "created-by": "Yaratan",
-    "filter": "Filter",
+    "created-by": "Oluşturan",
+    "filter": "Filtrele",
     "sort-by": "Sırala",
 
     "all": "Hepsi",
@@ -43,19 +43,19 @@
     "away": "Dışarıda",
     "busy": "Meşgül",
     "looking-to-play": "Oynamak istiyor",
-    "offline": "Offline",
+    "offline": "Çevrim Dışı",
 
     "add-friends-message": "Arkadaş ekle.",
-    "offline-message": "Arkadaşlarının hepsi offline.",
+    "offline-message": "Arkadaşlarının hepsi çevrim dışı.",
     "saved-notes": "Kaydedilmiş Notlar",
     "select-person-message": "Mesajlaşmak için birini seç!",
     "message": "Mesaj",
 
-    "add-server": "Server Ekle",
+    "add-server": "Sunucu Ekle",
     "add-friend": "Arkadaş Ekle",
     "add-friend-message": "Üye isim ve taglarını kullanarak arkadaş ekle..",
     "adding": "Ekleniyor...",
-    "create": "Yarat",
+    "create": "Oluştur",
 
     "new-messages": "Yeni mesajlar",
 

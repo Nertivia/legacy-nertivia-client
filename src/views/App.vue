@@ -306,7 +306,14 @@ export default {
 
   computed: {
     allNotificationExists() {
-      return this.notificationExists || this.friendRequestExists;
+      return (
+        this.notificationExists ||
+        this.friendRequestExists ||
+        this.serverNotificationExists
+      );
+    },
+    serverNotificationExists() {
+      return this.$store.getters.allServerNotifications.length;
     },
     currentTab() {
       return this.$store.getters.currentTab;

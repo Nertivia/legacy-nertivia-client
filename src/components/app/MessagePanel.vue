@@ -94,6 +94,10 @@ export default {
     async onFocus() {
       if (!this.$store.getters.currentChannelID) return;
       //dismiss notification on focus
+      if (this.channel.server_id) {
+        this.dismissServerNotification();
+        return;
+      }
       const find = this.$store.getters.notifications.find(notification => {
         return notification.channelID === this.$store.getters.currentChannelID;
       });
@@ -103,6 +107,13 @@ export default {
             channelID: this.$store.getters.currentChannelID
           });
         }, 500);
+      }
+    },
+    dismissServerNotification() {
+      if (this.hasNotifications) {
+        this.$socket.client.emit("notification:dismiss", {
+          channelID: this.channel.channelID
+        });
       }
     },
     onTyping(data) {
@@ -169,6 +180,11 @@ export default {
     }
   },
   computed: {
+    hasNotifications() {
+      return this.$store.getters
+        .serverNotifications(this.channel.server_id)
+        .find(c => c.channelID === this.channel.channelID);
+    },
     loadingMessages() {
       return this.currentChannelID && !this.currentChannelMessages;
     },

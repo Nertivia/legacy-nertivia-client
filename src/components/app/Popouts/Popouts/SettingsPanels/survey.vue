@@ -159,7 +159,7 @@ export default {
       if (!continent) return null;
       return [
         ...this.surveyItems.countries.filter(c => c.code === continent.code),
-        ...[{ emoji: "😶", name: this.$t("rather-not-say"), code: "no" }]
+        ...[{ emoji: "😶", name: "Rather not say", code: "no" }]
       ];
     }
   }

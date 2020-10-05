@@ -111,10 +111,9 @@ export default {
       );
     },
     notificationsExist() {
-      const notifications = this.$store.getters.notifications;
-      return notifications.find(
-        n => n.channelID === this.contextDetails.channelID
-      );
+      return this.$store.getters
+        .serverNotifications(this.contextDetails.serverID)
+        .find(c => c.channelID === this.contextDetails.channelID);
     }
   }
 };

@@ -5,7 +5,6 @@
       :avatar="user.avatar"
       :uniqueID="user.uniqueID"
       animationPadding="0"
-      :hover="hover"
       size="30px"
       @click.native="openUserInformation"
     />
