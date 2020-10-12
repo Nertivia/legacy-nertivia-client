@@ -135,7 +135,7 @@
                 <div class="name" v-else>{{ aboutItem.name }}</div>
               </div>
             </div>
-            <div class="about-item createdBy" v-if="user.bot">
+            <div class="about-item createdBy" v-if="user.bot && user.createdBy">
               <div class="key">{{ this.$t("created-by") }}:</div>
               <div class="name" @click="switchUser(user.createdBy.uniqueID)">
                 {{ user.createdBy.username }}

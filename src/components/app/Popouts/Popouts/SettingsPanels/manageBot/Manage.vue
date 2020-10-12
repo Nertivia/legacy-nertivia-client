@@ -8,7 +8,12 @@
         Edit Commands
       </div>
     </div>
-    <edit-bot :bot="bot" v-if="tab === 0" />
+    <edit-bot
+      :bot="bot"
+      v-if="tab === 0"
+      @delete="$emit('delete')"
+      @back="$emit('back')"
+    />
     <edit-commands :bot="bot" v-if="tab === 1" />
   </div>
 </template>
@@ -23,7 +28,7 @@ export default {
     return {
       tab: 0
     };
-  },
+  }
 };
 </script>
 

@@ -5,6 +5,7 @@
       @update="updateBot"
       :bot="bots[clickedBotIndex]"
       @back="clickedBotIndex = undefined"
+      @delete="deleteBot(bots[clickedBotIndex])"
     />
     <div class="content" v-else>
       <error-list v-if="errors" :errors="errors" />
@@ -74,6 +75,9 @@ export default {
     async getBots() {
       const { result } = await botsService.getBots();
       this.bots = result.data;
+    },
+    deleteBot(bot) {
+      this.bots = this.bots.filter(b => b !== bot);
     }
   },
   mounted() {

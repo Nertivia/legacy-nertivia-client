@@ -13,6 +13,9 @@ export default {
   updateBot(data, bot_id) {
     return wrapper(instance().post(`/bots/${bot_id}`, data));
   },
+  deleteBot(bot_id) {
+    return wrapper(instance().delete(`/bots/${bot_id}`));
+  },
   addBot(bot_id, server_id, permissions) {
     return wrapper(
       instance().put(`/bots/${bot_id}/servers/${server_id}`, { permissions })

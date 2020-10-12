@@ -1,5 +1,15 @@
 const config = [
   {
+    version: "1.6.1",
+    title: "Delete bot",
+    shortTitle: "",
+    date: "12 October 2020",
+    new: ["Delete bot button now works"],
+    fix: [
+      "Fixed a bug where the back button would not work in manage bots page."
+    ]
+  },
+  {
     version: "1.6.0",
     title: "TOS and Privacy Policy",
     shortTitle: "",

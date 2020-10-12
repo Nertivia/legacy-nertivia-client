@@ -145,10 +145,15 @@ export default {
         this.token = result.data.token;
       }
     },
-    deleteButton() {
+    async deleteButton() {
       if (!this.deleteSure) {
         this.deleteSure = true;
         return;
+      }
+      const { ok } = await botsService.deleteBot(this.bot.uniqueID);
+      if (ok) {
+        this.$emit("delete");
+        this.$emit("back");
       }
     },
     togglePermission(perm) {
