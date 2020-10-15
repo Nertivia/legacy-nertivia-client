@@ -1,5 +1,12 @@
 const config = [
   {
+    version: "1.6.2",
+    title: "Delete Account",
+    shortTitle: "",
+    date: "15 October 2020",
+    new: ["You can now delete your account. Please don't leave tho :( thx"]
+  },
+  {
     version: "1.6.1",
     title: "Delete bot",
     shortTitle: "",

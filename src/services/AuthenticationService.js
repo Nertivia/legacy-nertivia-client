@@ -17,6 +17,11 @@ export default {
   login(credentials) {
     return wrapper(instance().post(domain + "user/login", credentials));
   },
+  deleteAccount(password) {
+    return wrapper(
+      instance().delete(domain + "user/delete-account", { data: { password } })
+    );
+  },
   resetPassword(credentials) {
     return wrapper(instance().post(domain + "user/reset/request", credentials));
   },

@@ -6,7 +6,7 @@
           class="tab"
           v-for="tab in tabsFiltered"
           :key="tab.index"
-          :class="{ selected: currentTab === tab.index }"
+          :class="{ selected: currentTab === tab.index, warnTab: tab.warn }"
           @click="currentTab = tab.index"
         >
           <div class="material-icons">{{ tab.icon }}</div>
@@ -57,6 +57,7 @@ const DebugSettings = () => import("./SettingsPanels/DebugSettings");
 const LanguageSettings = () => import("./SettingsPanels/LanguageSettings");
 const ActivityStatus = () => import("./SettingsPanels/ActivityStatus");
 const myBots = () => import("./SettingsPanels/myBots");
+const DeleteMyAccount = () => import("./SettingsPanels/DeleteMyAccount");
 
 export default {
   components: {
@@ -69,7 +70,8 @@ export default {
     DebugSettings,
     ActivityStatus,
     myBots,
-    LanguageSettings
+    LanguageSettings,
+    DeleteMyAccount
   },
   data() {
     return {
@@ -147,6 +149,14 @@ export default {
           icon: "bug_report",
           component: "debug-settings",
           index: 9
+        },
+        {
+          name: "Delete My Account",
+          tabName: "Delete My Account",
+          icon: "delete",
+          component: "delete-my-account",
+          index: 10,
+          warn: true
         }
       ]
     };
@@ -246,6 +256,18 @@ export default {
     rgba(45, 136, 255, 1) 0%,
     rgba(87, 160, 255, 1) 100%
   );
+}
+
+.tab.selected.warnTab {
+  background: rgb(255, 67, 67);
+  color: white;
+}
+.warnTab {
+  color: rgb(255, 67, 67);
+  &:hover {
+    background: rgb(255, 67, 67);
+    color: white;
+  }
 }
 
 .tab.warn {
