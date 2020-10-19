@@ -11,7 +11,7 @@
         <div class="material-icons heart">favorite</div>
         <div class="text">Thanks for trying out Nertivia!</div>
         <div class="sub-text text">
-          Notice: Users must be at least 14 years old to use Nertivia.
+          Notice: You must be over 14 to user Nertivia.
         </div>
         <form
           v-if="!showCaptcha"

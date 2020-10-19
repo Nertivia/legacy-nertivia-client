@@ -18,7 +18,7 @@
               </div>
               <div class="info">
                 Welcome, I Hope you enjoy Nertivia!<br />
-                Notice: Users must be at least 14 years old to use Nertivia.
+                Notice: You must be over 14 to user Nertivia.
               </div>
               <form
                 v-if="currentPage === 0"
