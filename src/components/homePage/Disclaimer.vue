@@ -2,8 +2,8 @@
   <div class="content disclaimer">
     <div class="title">Disclaimer:</div>
     <p>
-      Nertivia is just a fun project made by me and a few friends. Please don't
-      expect big features or a bug-free experience.
+      Nertivia is just an open-source fun project made by me and a few friends.
+      Please don't expect big features or a bug-free experience.
     </p>
     <p>
       Not everyone has the skill to be able to do everything. I am only an
