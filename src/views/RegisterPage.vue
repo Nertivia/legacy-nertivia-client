@@ -6,111 +6,118 @@
       <div class="content">
         <transition appear name="fade-up">
           <div v-if="visible" class="box">
-            <div class="title">
-              <i class="material-icons">account_circle</i>
-              Register
-            </div>
-            <div class="info">
-              Welcome, I Hope you enjoy Nertivia!<br />
-              Notice: Users must be at least 14 years old to use Nertivia.
-            </div>
-            <form
-              v-if="currentPage === 0"
-              action="#"
-              @submit.prevent="formSubmit"
-              @keydown="keyDownEvent"
-            >
-              <div class="input">
-                <div class="input-text">
-                  Email
-                  <span v-if="email.alert" class="error"
-                    >- {{ email.alert }}</span
-                  >
-                </div>
-                <input
-                  v-model="email.value"
-                  type="email"
-                  placeholder="Email"
-                  autocomplete="off"
-                />
+            <Disclaimer
+              v-if="showNotice"
+              :hideClose="true"
+              @understood="showNotice = false"
+            />
+            <div class="inner-content" v-if="!showNotice">
+              <div class="title">
+                <i class="material-icons">account_circle</i>
+                Register
               </div>
-
-              <div class="input">
-                <div class="input-text">
-                  Username
-                  <span v-if="username.alert" class="error"
-                    >- {{ username.alert }}</span
-                  >
-                </div>
-                <input
-                  v-model="username.value"
-                  type="text"
-                  placeholder="Username"
-                  autocomplete="off"
-                />
+              <div class="info">
+                Welcome, I Hope you enjoy Nertivia!<br />
+                Notice: Users must be at least 14 years old to use Nertivia.
               </div>
-
-              <div class="input">
-                <div class="input-text">
-                  Password
-                  <span v-if="password.alert" class="error"
-                    >- {{ password.alert }}</span
-                  >
-                </div>
-                <input
-                  v-model="password.value"
-                  type="password"
-                  autocomplete="off"
-                  placeholder="Password"
-                />
-              </div>
-              <span
-                v-if="otherError"
-                class="error"
-                style="text-align: center;"
-                >{{ otherError }}</span
+              <form
+                v-if="currentPage === 0"
+                action="#"
+                @submit.prevent="formSubmit"
+                @keydown="keyDownEvent"
               >
-              <AgreeingToLegalStuff
-                style="max-width: 320px; align-self: center;"
-              />
-              <div class="buttons">
-                <button
-                  type="submit"
-                  :class="{ button: true, deactive: deactive }"
-                >
-                  Register
-                </button>
-                <button
-                  class="button register-button"
-                  @click.prevent="loginButton"
-                >
-                  I'm already a user!
-                </button>
-              </div>
-            </form>
-            <div v-if="currentPage === 1" class="captcha-box">
-              <div class="input captcha-input">
-                <div class="input-text">Beep Boop</div>
-                <div class="captcha">
-                  <Recaptcha ref="recaptcha" @verify="captchaSubmit" />
+                <div class="input">
+                  <div class="input-text">
+                    Email
+                    <span v-if="email.alert" class="error"
+                      >- {{ email.alert }}</span
+                    >
+                  </div>
+                  <input
+                    v-model="email.value"
+                    type="email"
+                    placeholder="Email"
+                    autocomplete="off"
+                  />
                 </div>
-              </div>
-            </div>
-            <div v-if="currentPage === 2" class="form">
-              <div class="input">
-                <div class="input-text">
-                  Check your email:
-                  <span v-if="confirm_code.alert" class="error"
-                    >- {{ confirm_code.alert }}</span
-                  >
+
+                <div class="input">
+                  <div class="input-text">
+                    Username
+                    <span v-if="username.alert" class="error"
+                      >- {{ username.alert }}</span
+                    >
+                  </div>
+                  <input
+                    v-model="username.value"
+                    type="text"
+                    placeholder="Username"
+                    autocomplete="off"
+                  />
                 </div>
-                <input
-                  @input="confirmCodeInput"
-                  v-model="confirm_code.value"
-                  type="text"
-                  placeholder="Code"
-                  autocomplete="off"
+
+                <div class="input">
+                  <div class="input-text">
+                    Password
+                    <span v-if="password.alert" class="error"
+                      >- {{ password.alert }}</span
+                    >
+                  </div>
+                  <input
+                    v-model="password.value"
+                    type="password"
+                    autocomplete="off"
+                    placeholder="Password"
+                  />
+                </div>
+                <span
+                  v-if="otherError"
+                  class="error"
+                  style="text-align: center;"
+                  >{{ otherError }}</span
+                >
+                <AgreeingToLegalStuff
+                  style="max-width: 320px; align-self: center;"
                 />
+                <div class="buttons">
+                  <button
+                    type="submit"
+                    :class="{ button: true, deactive: deactive }"
+                  >
+                    Register
+                  </button>
+                  <button
+                    class="button register-button"
+                    @click.prevent="loginButton"
+                  >
+                    I'm already a user!
+                  </button>
+                </div>
+              </form>
+              <div v-if="currentPage === 1" class="captcha-box">
+                <div class="input captcha-input">
+                  <div class="input-text">Beep Boop</div>
+                  <div class="captcha">
+                    <Recaptcha ref="recaptcha" @verify="captchaSubmit" />
+                  </div>
+                </div>
+              </div>
+              <div v-if="currentPage === 2" class="form">
+                <div class="input">
+                  <div class="input-text">
+                    Check your email:
+                    <span v-if="confirm_code.alert" class="error"
+                      >- {{ confirm_code.alert }}</span
+                    >
+                  </div>
+                  <input
+                    @input="confirmCodeInput"
+                    v-model="confirm_code.value"
+                    type="text"
+                    placeholder="Code"
+                    autocomplete="off"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -121,6 +128,7 @@
 </template>
 
 <script>
+import Disclaimer from "@/components/homePage/Disclaimer.vue";
 import Recaptcha from "@/components/global/Recaptcha.vue";
 import HeaderLogin from "@/components/global/HeaderLoginTemplate.vue";
 import AuthenticationService from "@/services/AuthenticationService";
@@ -134,12 +142,13 @@ export default {
     HeaderLogin,
     Recaptcha,
     ElectronFrameButtons,
-    AgreeingToLegalStuff
+    AgreeingToLegalStuff,
+    Disclaimer
   },
   data() {
     return {
       isElectron: window && window.process && window.process.type,
-
+      showNotice: true,
       currentPage: 0,
       visible: true,
       confirm_code: { value: "", alert: "" },
@@ -291,6 +300,11 @@ body {
   height: 100%;
   margin: 10px;
   flex-shrink: 0;
+}
+.inner-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .box {
   width: 100%;

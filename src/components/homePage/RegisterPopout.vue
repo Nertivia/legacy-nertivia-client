@@ -1,87 +1,96 @@
 <template>
   <div class="bg" @mousedown="backgroundClick">
     <div class="box">
-      <div class="material-icons heart">favorite</div>
-      <div class="text">Thanks for trying out Nertivia!</div>
-      <div class="sub-text text">
-        Notice: Users must be at least 14 years old to use Nertivia.
-      </div>
       <div class="error" v-if="error">{{ error }}</div>
-      <form
-        v-if="!showCaptcha"
-        class="form"
-        action="#"
-        @submit.prevent="showCaptcha = true"
-        @keydown="keyDown"
-      >
-        <custom-input
-          :error="errors.username"
-          v-model="username"
-          theme="light"
-          class="input"
-          name="Username"
-        />
-        <custom-input
-          :error="errors.email"
-          v-model="email"
-          theme="light"
-          class="input"
-          name="Email"
-          type="email"
-        />
-        <custom-input
-          :error="errors.password"
-          v-model="password"
-          theme="light"
-          class="input"
-          name="Password"
-          type="password"
-        />
-        <div class="links">
-          <a href="/login" class="link">Login to your account</a>
-          <!-- <div class="link disabled" style="cursor: not-allowed;" title="This feature is coming soon.">Reset password</div> -->
-        </div>
-        <AgreeingToLegalStuff />
-        <button class="button" @click="showCaptcha = true">
-          <span class="material-icons">check</span>
-        </button>
-      </form>
-      <!-- HCaptcha -->
-      <div class="sub-text text" v-if="showCaptcha && !showEmailConfirm">
-        To prevent bots, we have this extra step:
-      </div>
-      <div class="captcha" v-if="showCaptcha && !showEmailConfirm">
-        <Recaptcha ref="recaptcha" @verify="register" />
-      </div>
-      <!-- Confirm Email -->
-      <div class="sub-text text" v-if="showEmailConfirm">
-        Check your email for a code
-      </div>
-      <custom-input
-        v-if="showEmailConfirm"
-        :error="errors.confirm"
-        v-model="confirm"
-        theme="light"
-        class="input"
-        name="Confirm Code"
+      <Disclaimer
+        v-if="showNotice"
+        @close="$emit('close')"
+        @understood="showNotice = false"
       />
+      <div class="content" v-if="!showNotice">
+        <div class="material-icons heart">favorite</div>
+        <div class="text">Thanks for trying out Nertivia!</div>
+        <div class="sub-text text">
+          Notice: Users must be at least 14 years old to use Nertivia.
+        </div>
+        <form
+          v-if="!showCaptcha"
+          class="form"
+          action="#"
+          @submit.prevent="showCaptcha = true"
+          @keydown="keyDown"
+        >
+          <custom-input
+            :error="errors.username"
+            v-model="username"
+            theme="light"
+            class="input"
+            name="Username"
+          />
+          <custom-input
+            :error="errors.email"
+            v-model="email"
+            theme="light"
+            class="input"
+            name="Email"
+            type="email"
+          />
+          <custom-input
+            :error="errors.password"
+            v-model="password"
+            theme="light"
+            class="input"
+            name="Password"
+            type="password"
+          />
+          <div class="links">
+            <a href="/login" class="link">Login to your account</a>
+            <!-- <div class="link disabled" style="cursor: not-allowed;" title="This feature is coming soon.">Reset password</div> -->
+          </div>
+          <AgreeingToLegalStuff />
+          <button class="button" @click="showCaptcha = true">
+            <span class="material-icons">check</span>
+          </button>
+        </form>
+        <!-- HCaptcha -->
+        <div class="sub-text text" v-if="showCaptcha && !showEmailConfirm">
+          To prevent bots, we have this extra step:
+        </div>
+        <div class="captcha" v-if="showCaptcha && !showEmailConfirm">
+          <Recaptcha ref="recaptcha" @verify="register" />
+        </div>
+        <!-- Confirm Email -->
+        <div class="sub-text text" v-if="showEmailConfirm">
+          Check your email for a code
+        </div>
+        <custom-input
+          v-if="showEmailConfirm"
+          :error="errors.confirm"
+          v-model="confirm"
+          theme="light"
+          class="input"
+          name="Confirm Code"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import Disclaimer from "@/components/homePage/Disclaimer.vue";
 import CustomInput from "@/components/global/CustomInput";
 import Recaptcha from "@/components/global/Recaptcha.vue";
 import AgreeingToLegalStuff from "@/components/global/AgreeingToLegalStuff.vue";
 import AuthenticationService from "@/services/AuthenticationService";
 export default {
-  components: { CustomInput, Recaptcha, AgreeingToLegalStuff },
+  components: { CustomInput, Recaptcha, AgreeingToLegalStuff, Disclaimer },
   data() {
     return {
       email: "",
       username: "",
       password: "",
       confirm: "",
+      showNotice: true,
       recaptcha: null,
       showCaptcha: false,
       showEmailConfirm: false,
@@ -199,6 +208,10 @@ export default {
   overflow: auto;
 
   box-shadow: 0px 0px 6px 1px black;
+}
+.content {
+  display: flex;
+  flex-direction: column;
 }
 .input {
   align-self: center;
