@@ -106,9 +106,9 @@
       <div class="sub-title">11. Servers.</div>
       <p>
         Creating a server on Nertivia affiliated with exploitation of any game
-        will cause your account to be suspended and server to be deleted. This
-        is to ensure our members have a great environment to learn and have fun
-        in.
+        or creating a NSFW based server will cause your account to be suspended
+        and server to be deleted. This is to ensure our members have a great
+        environment to learn and have fun in.
       </p>
       <div class="sub-title">12. Behaviour.</div>
       <p>

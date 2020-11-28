@@ -20,6 +20,13 @@
         but not be limited to email address username, full name, age, messages,
         images or any other content by sending a message.
       </p>
+      <div class="sub-title">Information We May Inspect</div>
+      <p>
+        To ensure users are complying with the TOS, we may view the contents of
+        your private/public channels (Message logs). We may give you a warning
+        followed by an account/server termination if you continue to not comply.
+      </p>
+
       <div class="sub-title">Data We Collect Automatically</div>
       <p>
         While using Nertivia and its services, we will store certain information
