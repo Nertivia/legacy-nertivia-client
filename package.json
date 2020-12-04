@@ -11,7 +11,7 @@
     "@hcaptcha/vue-hcaptcha": "^0.2.2",
     "axios": "^0.19.2",
     "doodlepad": "^3.0.0",
-    "highlight.js": "^10.2.0",
+    "highlight.js": "^10.4.1",
     "idb-keyval": "^3.2.0",
     "match-sorter": "^4.2.0",
     "pako": "^1.0.11",
