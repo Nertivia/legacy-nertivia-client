@@ -9,7 +9,7 @@ Nertivia is an open sourced chat client web app that allows you to:
 • Create bots that can have buttons and html embeds.  
 And more!  
 
-You can visit https://nertivia.tk to test it out!
+You can visit https://nertivia.net to test it out!
 
 # Setting up from source
 Creating your own Nertivia client and server from source is really hard and requires a lot of steps. Beware!  

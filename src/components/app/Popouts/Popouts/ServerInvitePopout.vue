@@ -9,7 +9,7 @@
         <div class="title">Create custom link (Verified servers only)</div>
         <div class="custom-link-input">
           <div class="link" @click="$refs.customLinkInput.focus()">
-            https://nertivia.tk/invites/
+            https://nertivia.net/invites/
           </div>
           <input
             ref="customLinkInput"
@@ -34,7 +34,7 @@
         <div v-for="invite in invites" :key="invite.invite_code" class="invite">
           <div class="details">
             <div class="full-link">
-              <span class="link">https://nertivia.tk/invites/</span>
+              <span class="link">https://nertivia.net/invites/</span>
               <span>{{ invite.invite_code }}</span>
               <div class="other-info">
                 <span class="sub-title">Created By:</span>
@@ -108,7 +108,7 @@ export default {
       }
     },
     copy(invite) {
-      this.$clipboard("https://nertivia.tk/invites/" + invite.invite_code);
+      this.$clipboard("https://nertivia.net/invites/" + invite.invite_code);
     },
     async deleteInvite(invite) {
       this.invites = this.invites.filter(

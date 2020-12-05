@@ -80,7 +80,7 @@ export default {
       );
     },
     copyButton() {
-      this.$clipboard(`https://nertivia.tk/themes/${this.theme.theme.id}`);
+      this.$clipboard(`https://nertivia.net/themes/${this.theme.theme.id}`);
     },
     async cloneButton() {
       if (this.cloneStatus === false || this.cloneStatus === true) return;

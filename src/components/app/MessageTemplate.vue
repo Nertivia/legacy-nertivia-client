@@ -425,12 +425,12 @@ export default {
       return false;
     },
     inviteEmbed() {
-      const regex = /nertivia\.tk\/invites\/([\S]+)/;
+      const regex = /nertivia\.net\/invites\/([\S]+)/;
       if (!this.message.message) return null;
       return this.message.message.match(regex);
     },
     themeEmbed() {
-      const regex = /nertivia\.tk\/themes\/([\w]+)/;
+      const regex = /nertivia\.net\/themes\/([\w]+)/;
       if (!this.message.message) return null;
       return this.message.message.match(regex);
     }

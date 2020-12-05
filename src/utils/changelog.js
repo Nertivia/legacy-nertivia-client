@@ -284,7 +284,7 @@ const config = [
     date: "06/04/2020",
     new: [
       "You can now tag channels in the chat. '#General#'",
-      "You can now embed themes in the chat 'nertivia.tk/themes/{id}'"
+      "You can now embed themes in the chat 'nertivia.net/themes/{id}'"
     ]
   },
   {
@@ -306,7 +306,7 @@ const config = [
     shortTitle: "",
     date: "30/03/2020",
     new: [
-      "You can now embed your own servers in chats by sending the url (nertivia.tk/invites/{invite_code})"
+      "You can now embed your own servers in chats by sending the url (nertivia.net/invites/{invite_code})"
     ],
     fix: ["Fixed a bug where when deleting a message would do nothing."]
   },
@@ -970,7 +970,7 @@ const config = [
       "Fixed a bug where when creating a server, a reload is required to show yourself in the server members list."
     ],
     next: ["Create multiple channels in a server."],
-    msg: `You might be wondering, where did the official Nertivia server go? Well, I accidentally deleted it :/ sorry. Here's the new one though! <a style="color: #00b6ff;" href="http://nertivia.supertiger.tk/invites/Db3p5n">http://nertivia.supertiger.tk/invites/Db3p5n</a>`
+    msg: `You might be wondering, where did the official Nertivia server go? Well, I accidentally deleted it :/ sorry. Here's the new one though! <a style="color: #00b6ff;" href="http://nertivia.net/invites/Db3p5n">http://nertivia.net/invites/Db3p5n</a>`
   },
   {
     version: 4.7,
@@ -1029,7 +1029,7 @@ const config = [
 
 <a style="
 color: #27a3ff;
-" href='https://nertivia.supertiger.tk/invites/8SSrCF'>here</a>`
+" href='https://nertivia.net/invites/8SSrCF'>here</a>`
   },
   {
     version: 3,

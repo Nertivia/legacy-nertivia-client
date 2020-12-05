@@ -45,7 +45,7 @@
         <div class="link">
           <a
             :href="
-              `https://nertivia.tk/bots/${this.bot.uniqueID}?perms=${perms}`
+              `https://nertivia.net/bots/${this.bot.uniqueID}?perms=${perms}`
             "
             target="_blank"
             >{{

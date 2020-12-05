@@ -10,7 +10,7 @@
           <div class="info">
             Nothing exists here.
             <br />
-            <a style="color: #00ceff;" href="https://nertivia.tk">Go home</a>
+            <a style="color: #00ceff;" href="https://nertivia.net">Go home</a>
           </div>
         </div>
       </div>
