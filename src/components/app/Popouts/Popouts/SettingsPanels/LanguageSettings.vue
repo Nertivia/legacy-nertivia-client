@@ -122,7 +122,7 @@ export default {
         sch: {
           name: "Simplified Chinese",
           emoji: require(`@/assets/twemoji/1f1e8-1f1f3.svg`)
-        }
+        },
         sv: {
           name: "Sweden",
           emoji: require(`@/assets/twemoji/1f1f8-1f1ea.svg`)
