@@ -1,0 +1,66 @@
+{
+    "explore": "Utforska",
+    "explore-desc": "Hitta nya servrar, emojis och mer!",
+    "servers": "Servrar",
+    "join-server": "Gå med i server",
+    "themes": "Teman",
+    "emoji-packs": "Emoji-paket",
+    "message-styles": "Meddelande-stilar",
+    "created-by": "Skapad Av",
+    "filter": "Filter",
+    "sort-by": "Sortera efter",
+
+    "all": "Alla",
+    "verified": "Verifierad",
+    "most-users": "Mest användare",
+    "least-users": "Minst användare",
+    "alphabetical": "Alfabetiskt",
+    "date-added": "Datum tillagt",
+
+    "explore-support-message": "Stötta Nertivia genom att donera en valfri summa pengar. Du kommer få ett stöttare-emblem och mer funktioner i framtiden.",
+    "support-message-settings": "Stötta Nertivia. Du kommer få en emblem.",
+    "donate": "Donera",
+
+    "join": "Gå med",
+    "join-card-message": "Gå med i den officiella Nertivia servern",
+    "coming-soon!": "Kommer snart!",
+
+    "joined": "Gick med",
+    "apply": "Tillämpa",
+    "unapply": "Ta bort",
+    "copy-link": "Kopiera länk",
+
+    "clone": "Klona",
+    "cloning": "Klonar...",
+    "cloned": "Klonade",
+    "theme-safe-message": "Themes below are safe and manually reviewed.",
+    "theme-safe-message": "Följande teman är säkra och manuellt säkerställda.",
+
+    "friends": "Vänner",
+    "pending": "Förfrågningar",
+    "recents": "Nyliga",
+
+    "online": "Online",
+    "away": "Inaktiv",
+    "busy": "Stör ej",
+    "looking-to-play": "Vill spela",
+    "offline": "Offline",
+
+    "add-friends-message": "Lägg till några vänner.",
+    "offline-message": "Alla dina vänner är offline.",
+    "saved-notes": "Sparade anteckningar",
+    "select-person-message": "Välj en person att meddela!",
+    "message": "Meddelande",
+
+    "add-server": "Lägg till server",
+    "add-friend": "Lägg till vän",
+    "add-friend-message": "Lägg till vänner genom att använda deras användarnamn och tagg.",
+    "adding": "Lägger till...",
+    "create": "Skapa",
+
+    "new-messages": "Nya meddelanden",
+
+    "today-at": "Idag kl. {0}",
+    "yesterday-at": "Igår kl. {0}",
+    "send-a-message": "Skicka ett meddelande"
+}
