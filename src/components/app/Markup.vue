@@ -32,7 +32,7 @@ const MARKUP_PARTS = {
   // match * then capture one or more of ** or anything but *
   // then match * and assert there's no * ahead
   italic1: /\*((?:\*\*|[^*])+?)\*(?!\*)/,
-  italic: /\/\/([^_]+?)\/\//,
+  italic: /\/\/([^/]+?)\/\//,
   underline: /__([^_]+?)__/,
   strike: /~~([^~]+?)~~/,
   codeblock: /```(\w*?)\n([^]+?)\n?```/,
