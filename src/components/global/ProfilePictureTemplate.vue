@@ -219,6 +219,9 @@ export default {
 .translator {
   background: #1fffb4 100%;
 }
+.contributor {
+  background: #cf24ff 100%;
+}
 .translator .emote {
   z-index: 9999999;
   top: -3px;
