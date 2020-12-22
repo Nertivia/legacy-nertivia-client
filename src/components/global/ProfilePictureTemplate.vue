@@ -124,6 +124,11 @@ export default {
           name: "translator",
           emotePath: require("../../assets/twemoji/1f4dd.svg")
         };
+      if (this.$props.admin == 9)
+        return {
+          name: "contributor",
+          emotePath: require("../../assets/twemoji/1f5a5.svg")
+        };
 
       return "";
     },
