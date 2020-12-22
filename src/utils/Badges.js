@@ -33,5 +33,10 @@ module.exports = {
     name: "Translator",
     icon: require("../assets/twemoji/1f4dd.svg"),
     color: "#1fffb4"
+  },
+  7: {
+    name: "Contributor",
+    icon: require("../assets/twemoji/1f5a5.svg"),
+    color: "#cf24ff"
   }
 };
