@@ -12,7 +12,10 @@ And more!
 You can visit https://nertivia.net to test it out!
 
 # (NEW) Automated install
-You can now setup your own Nertivia client, with little to no effort at all!
+You can now setup your own Nertivia client using Docker, with little to no effort at all!
 This method was tested and working on Linux operating systems, but Windows users may be able to use this method.
+
+## Requirements
+- Docker
 
 ![Click here](https://docs.nertivia-docker.clinx.tk/setup/the-easiest-and-almost-automated-way) to view the instructions.
