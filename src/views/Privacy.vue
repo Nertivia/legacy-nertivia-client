@@ -3,7 +3,7 @@
     <custom-header @registerButton="$router.push('/register')" />
     <div class="content">
       <div class="title">Nertivia Privacy Policy</div>
-      <div class="updated-date">Last updated: Friday 02 October 2020</div>
+      <div class="updated-date">Last updated: Friday 27 December 2020</div>
       <p>
         If you find something missing or have any questions, email us at
 
