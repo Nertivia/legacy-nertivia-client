@@ -44,7 +44,11 @@
         functionality (For example, uploading images or files to Google Drive).
         After you connect your account with third-party services, we may collect
         refresh tokens or some user details from the services and save them in
-        the database.
+        the database. We use third party storage solution to store media you
+        upload to Nertivia (Nertivia CDN option). You may read their
+        <a href="https://nodeclusters.com/privacy_policy.pdf"
+          >Privacy Policy Here</a
+        >.
       </p>
       <div class="sub-title">Cookies</div>
       <p>
