@@ -24,7 +24,7 @@ export default {
       if (!this.confirmed) {
         return (this.confirmed = true);
       }
-      const { ok } = await ServerService.leaveServer(this.server.server_id);
+      const { ok } = await ServerService.deleteServer(this.server.server_id);
       if (ok) {
         this.$store.dispatch("setServerSettings", { serverID: null });
       }

@@ -47,6 +47,9 @@ export default {
   leaveServer(serverID) {
     return wrapper(instance().delete(domain + `/servers/${serverID}`));
   },
+  deleteServer(serverID) {
+    return wrapper(instance().post(domain + `/servers/${serverID}/delete`));
+  },
 
   // Admin commands
   updateServer(serverID, data) {
