@@ -32,5 +32,12 @@ export default {
         data: { password, reason }
       })
     );
+  },
+  deleteServer(serverID, password) {
+    return wrapper(
+      instance().delete(`admin/servers/${serverID}`, {
+        data: { password }
+      })
+    );
   }
 };

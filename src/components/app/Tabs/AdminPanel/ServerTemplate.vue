@@ -7,8 +7,9 @@
       :uniqueID="server.server_id"
       :hover="true"
       size="40px"
+      @click.native="openManageServer"
     />
-    <div class="details" @click="openManageUser">
+    <div class="details" @click="openManageServer">
       <div class="username-tag">
         {{ server.name }}
       </div>
@@ -29,11 +30,11 @@ export default {
     }
   },
   methods: {
-    openManageUser() {
+    openManageServer() {
       this.$store.dispatch("setAllPopout", {
         show: true,
-        type: "ADMIN_MANAGE_USER",
-        user: this.user
+        type: "ADMIN_MANAGE_SERVER",
+        server: this.server
       });
     }
   }
