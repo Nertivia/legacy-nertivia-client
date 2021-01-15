@@ -9,7 +9,7 @@
       <li>Username</li>
       <li>Email</li>
       <li>Avatar</li>
-      <li>Hashed IP</li>
+      <li>IP Address</li>
       <li>Hashed Password</li>
       <li>About me</li>
       <li>Custom Status</li>

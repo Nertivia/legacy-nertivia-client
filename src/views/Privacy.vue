@@ -30,12 +30,12 @@
       <div class="sub-title">Data We Collect Automatically</div>
       <p>
         While using Nertivia and its services, we will store certain information
-        such as a hashed version of your IP Address, your account creation date
-        and your activities such as your online status. We may store this
-        information in the database owned by service providers. We may also
-        track and store some details while you use Nertivia. This includes
-        tracking the number of visitors on the website and the number of
-        messages that a user has sent.
+        such as your IP Address, your account creation date and your activities
+        such as your online status. We may store this information in the
+        database owned by service providers. We may also track and store some
+        details while you use Nertivia. This includes tracking the number of
+        visitors on the website and the number of messages that a user has sent.
+        We use IP Addresses to rate limit or ban users that may attack Nertivia.
       </p>
       <div class="sub-title">Third-Party Services</div>
       <p>
