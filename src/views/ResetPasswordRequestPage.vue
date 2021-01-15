@@ -8,90 +8,36 @@
           <div v-if="visible" class="box">
             <div class="title">
               <i class="material-icons">account_circle</i>
-              Login
+              Reset Password
             </div>
-            <div class="info">Login to access Nertivia</div>
-            <form
-              v-if="currentPage === 0"
-              action="#"
-              @submit.prevent="submitForm"
-              @keydown="keyDownEvent"
-            >
+
+            <div class="form" v-if="currentPage === 0">
+              <div class="info" style="opacity: 0.7;">
+                Enter your email to reset your password:
+              </div>
               <div class="input">
                 <div class="input-text">
-                  Email <strong>or</strong> username:tag
+                  Email
                   <span v-if="email.alert" class="error"
                     >- {{ email.alert }}</span
                   >
                 </div>
-                <input v-model="email.value" />
+                <input v-model="email.value" type="text" autocomplete="off" />
               </div>
-              <div class="input">
-                <div class="input-text">
-                  Password
-                  <span v-if="password.alert" class="error"
-                    >- {{ password.alert }}</span
-                  >
-                </div>
-                <input
-                  v-model="password.value"
-                  type="password"
-                  autocomplete="password"
-                />
-              </div>
-
-              <span
-                v-if="otherError"
-                class="error"
-                style="text-align: center;"
-                >{{ otherError }}</span
-              >
-              <div class="forgot-link" @click="resetPassword">
-                Forgot Password?
-              </div>
-              <div class="buttons">
-                <button
-                  type="submit"
-                  :class="{ button: true, deactive: deactive }"
-                >
-                  Login
+              <div class="buttons" @click="resetPassword">
+                <button type="submit" class="button" :class="{ deactive }">
+                  Reset
                 </button>
-                <button
-                  class="button register-button"
-                  @click.prevent="registerButton"
-                >
-                  I'm new!
-                </button>
-              </div>
-            </form>
-            <div v-if="currentPage === 1" class="captcha-box">
-              <div class="input captcha-input">
-                <div class="input-text">
-                  Beep Boop
-                  <span v-if="reCaptcha.alert" class="error"
-                    >- {{ reCaptcha.alert }}</span
-                  >
-                </div>
-                <div class="captcha">
-                  <Recaptcha ref="recaptcha" @verify="captchaSubmit" />
-                </div>
               </div>
             </div>
-            <div v-if="currentPage === 2" class="form">
-              <div class="input">
-                <div class="input-text">
-                  Check your email:
-                  <span v-if="confirm_code.alert" class="error"
-                    >- {{ confirm_code.alert }}</span
-                  >
-                </div>
-                <input
-                  @input="confirmCodeInput"
-                  v-model="confirm_code.value"
-                  type="text"
-                  placeholder="Code"
-                  autocomplete="off"
-                />
+            <div class="form" v-if="currentPage === 1">
+              <div class="captcha" style="align-self: center">
+                <Recaptcha ref="recaptcha" @verify="captchaVerify" />
+              </div>
+            </div>
+            <div class="form" v-if="currentPage === 2">
+              <div class="info" style="opacity: 0.7;">
+                Check your email
               </div>
             </div>
           </div>
@@ -118,8 +64,6 @@ export default {
       currentPage: 0,
       visible: true,
       email: { value: "", alert: "" },
-      password: { value: "", alert: "" },
-      confirm_code: { value: "", alert: "" },
       reCaptcha: { alert: "" },
       otherError: "",
 
@@ -132,67 +76,39 @@ export default {
     resetValues() {
       // Resets all of the alert values
       this.email.alert = "";
-      this.password.alert = "";
       this.reCaptcha.alert = "";
       this.otherError = "";
     },
 
-    captchaSubmit(token) {
+    captchaVerify(token) {
       this.captchaToken = token;
-      this.login();
-    },
-    submitForm() {
-      this.login();
-    },
-    keyDownEvent(event) {
-      if (event.keyCode === 13) {
-        event.preventDefault();
-        this.submitForm();
-      }
+      this.resetPassword();
     },
 
-    async login() {
+    async resetPassword() {
       if (this.deactive === true) return;
       this.resetValues();
       const email = this.email.value.trim();
-      const password = this.password.value.trim();
-      const captcha = this.captchaToken;
-
-      this.deactive = true;
-
-      const payload = {
-        email,
-        password
-      };
-
-      if (this.captchaRequired) {
-        payload["token"] = captcha;
+      if (!email) {
+        this.email.alert = "Email is required.";
+        return;
       }
 
-      const { ok, error, result } = await AuthenticationService.login(payload);
+      const { ok, error } = await AuthenticationService.resetPassword({
+        email,
+        token: this.captchaToken
+      });
 
       if (ok) {
-        this.visible = false;
-        this.$store.dispatch("token", result.data.token);
-        setTimeout(() => {
-          const { to, id } = this.$route.query;
-          if (to) {
-            return (window.location.href = `/${to}/${id}`);
-          }
-          window.location.href = "/app";
-        }, 1000);
+        this.currentPage = 2;
       } else {
-        this.captchaRequired = false;
         this.currentPage = 0;
+        this.captchaRequired = false;
         this.deactive = false;
         this.captchaToken = null;
         this.$refs.recaptcha && this.$refs.recaptcha.resetRecaptcha();
         if (error.response === undefined) {
-          this.otherError = "Can't connect to server.";
-          return;
-        }
-        if (error.response.data.code === "CONFIRM_EMAIL") {
-          this.currentPage = 2;
+          this.email.alert = "Can't connect to server.";
           return;
         }
         const errors = error.response.data.errors;
@@ -203,41 +119,7 @@ export default {
         }
         for (let index in errors) {
           const message = errors[index].msg;
-          const param = errors[index].param;
-          if (this[param] === undefined) {
-            this.otherError = message;
-          } else {
-            this[param].alert = message;
-          }
-        }
-      }
-    },
-    registerButton() {
-      this.$router.push("/register");
-    },
-    resetPassword() {
-      this.$router.push("/reset-password");
-    },
-    async confirmCodeInput(event) {
-      const value = event.target.value;
-      if (value.length === 10) {
-        const { ok, result, error } = await AuthenticationService.confirmEmail(
-          this.email.value,
-          value
-        );
-        if (!ok) {
-          if (error.response === undefined) {
-            this.otherError = "Can't connect to server.";
-            return;
-          }
-          this.confirm_code.alert =
-            error.response.data.error || "Something went wrong.";
-        } else {
-          this.visible = false;
-          this.$store.dispatch("token", result.data.token);
-          setTimeout(() => {
-            window.location.href = "/app";
-          }, 1000);
+          this.email.alert = message;
         }
       }
     }

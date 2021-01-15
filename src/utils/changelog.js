@@ -1,5 +1,12 @@
 const config = [
   {
+    version: "1.6.3",
+    title: "I'M NOT A BOT!",
+    shortTitle: "",
+    date: "15 January 2021",
+    new: ["You will now experience less captchas."]
+  },
+  {
     version: "1.6.2",
     title: "Delete Account",
     shortTitle: "",

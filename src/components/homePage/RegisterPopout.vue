@@ -17,7 +17,7 @@
           v-if="!showCaptcha"
           class="form"
           action="#"
-          @submit.prevent="showCaptcha = true"
+          @submit.prevent="submitForm"
           @keydown="keyDown"
         >
           <custom-input
@@ -48,7 +48,7 @@
             <!-- <div class="link disabled" style="cursor: not-allowed;" title="This feature is coming soon.">Reset password</div> -->
           </div>
           <AgreeingToLegalStuff />
-          <button class="button" @click="showCaptcha = true">
+          <button class="button" @click="submitForm">
             <span class="material-icons">check</span>
           </button>
         </form>
@@ -91,6 +91,8 @@ export default {
       password: "",
       confirm: "",
       showNotice: true,
+      captchaRequired: false,
+
       recaptcha: null,
       showCaptcha: false,
       showEmailConfirm: false,
@@ -137,7 +139,7 @@ export default {
     keyDown(event) {
       if (event.keyCode === 13) {
         event.preventDefault();
-        this.showCaptcha = true;
+        this.submitForm();
       }
     },
     resetErrors() {
@@ -146,6 +148,10 @@ export default {
       this.errors.username = "";
       this.errors.password = "";
       this.errors.confirm = "";
+    },
+
+    submitForm() {
+      this.register();
     },
     async register(captchaToken) {
       this.resetErrors();
@@ -156,13 +162,20 @@ export default {
         token: captchaToken
       });
       if (!ok) {
-        this.$refs.recaptcha.resetRecaptcha();
+        this.captchaRequired = false;
+        this.$refs.recaptcha && this.$refs.recaptcha.resetRecaptcha();
         this.showCaptcha = false;
         if (error.response === undefined) {
           this.error = "Can't connect to server.";
           return;
         }
         const errors = error.response.data.errors;
+        if (errors[0].code === 1) {
+          // captcha required
+          this.captchaRequired = true;
+          this.showCaptcha = true;
+          return;
+        }
         for (let i = 0; i < errors.length; i++) {
           const err = errors[i];
           if (typeof this.errors[err.param] === "string") {

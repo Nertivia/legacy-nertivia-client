@@ -26,6 +26,10 @@ const GDriveCallback = () =>
   );
 const LoginPage = () =>
   import(/* webpackChunkName: "LoginPage" */ "../src/views/LoginPage.vue");
+const ResetPasswordRequestPage = () =>
+  import(
+    /* webpackChunkName: "ResetPasswordRequestPage" */ "../src/views/ResetPasswordRequestPage.vue"
+  );
 const ResetPasswordPage = () =>
   import(
     /* webpackChunkName: "ResetPasswordPage" */ "../src/views/ResetPasswordPage.vue"
@@ -78,6 +82,17 @@ export const router = new VueRouter({
       path: "/reset",
       name: "Reset Password",
       component: ResetPasswordPage,
+      beforeEnter(to, from, next) {
+        if (localStorage.getItem("hauthid")) {
+          return router.push({ path: "/app" });
+        }
+        next();
+      }
+    },
+    {
+      path: "/reset-password",
+      name: "Reset Password Request",
+      component: ResetPasswordRequestPage,
       beforeEnter(to, from, next) {
         if (localStorage.getItem("hauthid")) {
           return router.push({ path: "/app" });

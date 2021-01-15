@@ -157,6 +157,7 @@ export default {
       password: { value: "", alert: "" },
       otherError: "",
 
+      captchaRequired: false,
       captchaToken: "",
       deactive: false
     };
@@ -174,7 +175,7 @@ export default {
       this.register();
     },
     formSubmit() {
-      this.currentPage = 1;
+      this.register();
     },
     keyDownEvent(event) {
       if (event.keyCode === 13) {
@@ -197,15 +198,22 @@ export default {
       if (ok) {
         this.currentPage = 2;
       } else {
+        this.captchaRequired = false;
         this.currentPage = 0;
         this.deactive = false;
         this.captchaToken = null;
-        this.$refs.recaptcha.resetRecaptcha();
+        this.$refs.recaptcha && this.$refs.recaptcha.resetRecaptcha();
         if (error.response === undefined) {
           this.otherError = "Can't connect to server.";
           return;
         }
         const errors = error.response.data.errors;
+        if (errors[0].code === 1) {
+          // captcha required
+          this.captchaRequired = true;
+          this.currentPage = 1;
+          return;
+        }
         for (let index in errors) {
           const message = errors[index].msg;
           const param = errors[index].param;
