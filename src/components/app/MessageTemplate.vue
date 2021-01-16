@@ -425,7 +425,7 @@ export default {
       return false;
     },
     inviteEmbed() {
-      const regex = /nertivia\.net\/invites\/([\S]+)/;
+      const regex = /nertivia\.net\/(invites|i)\/([\S]+)/;
       if (!this.message.message) return null;
       return this.message.message.match(regex);
     },

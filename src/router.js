@@ -156,6 +156,7 @@ export const router = new VueRouter({
     {
       path: "/invites/:invite_id",
       name: "invites",
+      alias: "/i/:invite_id",
       component: InvitesPage
     },
     {

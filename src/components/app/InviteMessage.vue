@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     async joinServer() {
-      await ServerService.joinServer(this.invite[1], {
+      await ServerService.joinServer(this.invite[2], {
         socketID: this.$socket.client.id
       });
     },
@@ -59,7 +59,7 @@ export default {
     }
   },
   async mounted() {
-    const code = this.invite[1];
+    const code = this.invite[2];
     const { ok, result } = await ServerService.getInviteDetail(code);
     if (!ok) {
       this.inviteDetail = null;
