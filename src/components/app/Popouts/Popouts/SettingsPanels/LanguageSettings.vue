@@ -126,6 +126,10 @@ export default {
         sv: {
           name: "Sweden",
           emoji: require(`@/assets/twemoji/1f1f8-1f1ea.svg`)
+        },
+        nl: {
+          name: "Dutch",
+          emoji: require(`@/assets/twemoji/1f1f3-1f1f1.svg`)
         }
       }
     };

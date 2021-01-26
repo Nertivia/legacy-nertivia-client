@@ -1,0 +1,65 @@
+{
+    "explore": "Verken Nertivia",
+    "explore-desc": "Zoek Servers! En emoji's en meer!",
+    "servers": "Servers",
+    "join-server": "Doe mee In Server",
+    "themes": "Thema's",
+    "emoji-packs": "Emoji Pakketen",
+    "message-styles": "Bericht Styles",
+    "created-by": "Gemaakt Bij:",
+    "filter": "Filter",
+    "sort-by": "Sorteer Bij",
+
+    "all": "All",
+    "verified": "Geverifieerd",
+    "most-users": "Meeste Gebruikers",
+    "least-users": "Laatste Gebruikers",
+    "alphabetical": "Alphabeties",
+    "date-added": "Tijd Toegevoed",
+
+    "explore-support-message": "Support Nertivia bij doneering een stuk van geld. Je krijgt een Supporter Badge en meer functies in de toekomst.",
+    "support-message-settings": "Support Nertivia. Je krijgt een badge.",
+    "donate": "Doneer",
+
+    "join": "Doe Mee",
+    "join-card-message": "Doe mee met de officiale Nertivia server",
+    "coming-soon!": "Kom't spoedig hier!",
+
+    "joined": "Je doet mee",
+    "apply": "Doe aan",
+    "unapply": "Doe uit",
+    "copy-link": "Kopieer Link",
+
+    "clone": "Dupliceer",
+    "cloning": "Nertivia Is dupliceren.",
+    "cloned": "Gedupliceerd",
+    "theme-safe-message": "Themas hieronder zijn veilig en handmatig onderzoekt.",
+
+    "friends": "Vrieden",
+    "pending": "In afwachting",
+    "recents": "Recent",
+
+    "online": "Beschikbaar",
+    "away": "Weg",
+    "busy": "Bezig",
+    "looking-to-play": "Kijkt uit om the spelen!",
+    "offline": "Niet Beschikbaar",
+
+    "add-friends-message": "Voeg wat vrienden toe!",
+    "offline-message": "All you vrienden zijn niet Beschikbaar!",
+    "saved-notes": "Opgeslagen Notities",
+    "select-person-message": "Kies een persoon om bericht toe te sturen!",
+    "message": "Bericht",
+
+    "add-server": "Voeg nieuwe server",
+    "add-friend": "Voeg nieuw vriend",
+    "add-friend-message": "Voeg vrienden bij hun Gebruiker's naam en label.",
+    "adding": "Voeging toe...",
+    "create": "Maak",
+
+    "new-messages": "Nieuwe Bericht",
+
+    "today-at": "Vandaag om {0}",
+    "yesterday-at": "Gisteren om {0}",
+    "send-a-message": "Stuur een bericht!"
+}
