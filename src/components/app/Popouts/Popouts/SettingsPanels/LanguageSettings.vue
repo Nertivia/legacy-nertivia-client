@@ -130,6 +130,10 @@ export default {
         nl: {
           name: "Dutch",
           emoji: require(`@/assets/twemoji/1f1f3-1f1f1.svg`)
+        },
+        fr: {
+          name: "French",
+          emoji: require(`@/assets/twemoji/1f1eb-1f1f7.svg`)
         }
       }
     };
