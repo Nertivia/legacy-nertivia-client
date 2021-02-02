@@ -92,6 +92,7 @@ export default {
       confirm: "",
       showNotice: true,
       captchaRequired: false,
+      requestSent: false,
 
       recaptcha: null,
       showCaptcha: false,
@@ -154,6 +155,8 @@ export default {
       this.register();
     },
     async register(captchaToken) {
+      if (this.requestSent) return;
+      this.requestSent = true;
       this.resetErrors();
       const { ok, error } = await AuthenticationService.register({
         email: this.email,
@@ -161,6 +164,7 @@ export default {
         password: this.password,
         token: captchaToken
       });
+      this.requestSent = false;
       if (!ok) {
         this.captchaRequired = false;
         this.$refs.recaptcha && this.$refs.recaptcha.resetRecaptcha();
