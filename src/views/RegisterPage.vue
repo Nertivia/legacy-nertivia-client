@@ -159,7 +159,8 @@ export default {
 
       captchaRequired: false,
       captchaToken: "",
-      deactive: false
+      deactive: false,
+      requestSent: false
     };
   },
   methods: {
@@ -184,6 +185,8 @@ export default {
       }
     },
     async register() {
+      if (this.requestSent) return;
+      this.requestSent = true;
       this.resetValues();
       const email = this.email.value.trim();
       const username = this.username.value.trim();
@@ -195,6 +198,8 @@ export default {
         password,
         token: this.captchaToken
       });
+      this.requestSent = false;
+
       if (ok) {
         this.currentPage = 2;
       } else {
