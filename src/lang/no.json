@@ -5,7 +5,7 @@
     "join-server": "Delta i server",
     "themes": "Temaer",
     "emoji-packs": "Emoji Pakker",
-    "message-styles": "Beskjed Stiler",
+    "message-styles": "Melding Stiler",
     "created-by": "Laget Av",
     "filter": "Filter",
     "sort-by": "Sorter Etter",
@@ -32,7 +32,7 @@
 
     "clone": "Klone",
     "cloning": "Kloner...",
-    "cloned": "Klonert",
+    "cloned": "Klonet",
     "theme-safe-message": "Temaer nedenfor er trygge og moderert.",
 
     "friends": "Venner",
@@ -49,7 +49,7 @@
     "offline-message": "Alle vennene dine er avlogget.",
     "saved-notes": "Lagret Notater",
     "select-person-message": "Velg en person å behandle",
-    "message": "Beskjed",
+    "message": "Melding",
 
     "add-server": "Legg Til Server",
     "add-friend": "Legg Til Venn",
@@ -57,9 +57,9 @@
     "adding": "Legger til...",
     "create": "Lag",
 
-    "new-messages": "Nye beskjeder",
+    "new-messages": "Nye meldinger",
 
     "today-at": "I dag {0}",
     "yesterday-at": "I går {0}",
-    "send-a-message": "Send en beskjed"
+    "send-a-message": "Send en melding"
 }
