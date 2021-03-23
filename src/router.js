@@ -137,7 +137,11 @@ export const router = new VueRouter({
             });
         }
 
-        Vue.use(VueSocketio, io(config.socketIP), { store });
+        Vue.use(
+          VueSocketio,
+          io(config.socketIP, { transports: ["websocket"] }),
+          { store }
+        );
         Vue.use(VueMq, {
           breakpoints: {
             mobile: 600,
