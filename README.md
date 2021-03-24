@@ -1,3 +1,8 @@
+# NOTICE
+I am recreating Nertivia's frontend from scratch at https://github.com/supertiger1234/nertivia-client-ts. I no longer work on this old version of the nertivia client
+
+
+
 # Nertivia---Client
 ![alt text](https://raw.githubusercontent.com/supertiger1234/nertivia-desktop-app/master/Preview.png)
 Nertivia is an open sourced chat client web app that allows you to:  
