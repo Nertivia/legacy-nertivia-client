@@ -1,5 +1,13 @@
 const config = [
   {
+    version: "1.6.4",
+    title: "Legacy",
+    shortTitle: "Legacy",
+    date: "29 January 2021",
+    msg:
+      "This version of Nertivia is soon to be retired moved to <a style='color: #00b6ff;' href='https://legacy.nertivia.net'>https://legacy.nertivia.net</a>.<br>Try out <a style='color: #00b6ff;' href='https://beta.nertivia.net'>https://beta.nertivia.net</a> for a better experience and less ram usage."
+  },
+  {
     version: "1.6.3",
     title: "I'M NOT A BOT!",
     shortTitle: "",
