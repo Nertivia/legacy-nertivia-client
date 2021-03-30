@@ -5,7 +5,6 @@
         :message="{ message: 'Hi', created: Date.now() }"
         :creator="user"
         :date="Date.now()"
-        :admin="user.admin"
       />
       <message-template
         :message="{ message: 'Hello.', created: Date.now() }"
@@ -16,7 +15,6 @@
         :message="{ message: 'Whaddup', created: Date.now() }"
         :creator="user"
         :date="Date.now()"
-        :admin="user.admin"
       />
       <message-template
         :message="{ message: 'Nothing, bye.', created: Date.now() }"

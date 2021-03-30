@@ -3,7 +3,7 @@
     <ProfilePicture
       class="avatar"
       :avatar="avatar"
-      :admin="user.admin"
+      :badges="user.badges"
       :uniqueID="user.uniqueID"
       size="35px"
       :hover="hover"

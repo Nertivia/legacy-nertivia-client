@@ -30,7 +30,7 @@
       </div>
       <div class="avatar" v-if="!hideAdditional">
         <profile-picture
-          :admin="creator.admin"
+          :badges="creator.badges"
           :hover="hover"
           :avatar="creator.avatar"
           :uniqueID="creator.uniqueID"

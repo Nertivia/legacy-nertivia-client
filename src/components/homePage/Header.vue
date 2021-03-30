@@ -21,7 +21,7 @@
         :hover="true"
         :avatar="user.avatar"
         :uniqueID="user.uniqueID"
-        :admin="user.admin"
+        :badges="user.badges"
         size="40px"
         emote-size="17px"
         @click.native="showProfilePopout = !showProfilePopout"

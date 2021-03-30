@@ -7,7 +7,7 @@
         class="avatar"
         :avatar="user.avatar"
         :uniqueID="user.uniqueID"
-        :admin="user.admin"
+        :badges="user.badges"
         :hover="true"
         size="40px"
         emote-size="17px"

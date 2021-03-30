@@ -30,7 +30,7 @@ export default {
       return this.$store.getters.user;
     },
     isAdmin() {
-      return this.user.admin === 3 || this.user.admin === 4;
+      return this.user.type === "CREATOR" || this.user.admin === "ADMIN";
     }
   }
 };

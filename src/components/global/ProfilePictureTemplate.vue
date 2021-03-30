@@ -54,13 +54,14 @@
 <script>
 import statuses from "@/utils/statuses";
 import config from "@/config";
+import badges from "@/utils/Badges.js";
 import seedColor from "seed-color";
 export default {
   props: [
     "avatar",
     "size",
     "emoteSize",
-    "admin",
+    "badges",
     "hover",
     "animationPadding",
     "status",
@@ -93,38 +94,48 @@ export default {
       // console.log(require("../../assets/logo.png"))
       return require("../../assets/transparentLogo.svg");
     },
+    admin() {
+      if (this.badges?.includes("CREATOR")) return 3;
+      if (this.badges?.includes("CUTE")) return 4;
+      if (this.badges?.includes("SUPPORTER")) return 5;
+      if (this.badges?.includes("DEVELOPER")) return 6;
+      if (this.badges?.includes("BUG_CATCHER")) return 7;
+      if (this.badges?.includes("TRANSLATOR")) return 8;
+      if (this.badges?.includes("CONTRIBUTOR")) return 9;
+      return null;
+    },
     adminType() {
-      if (this.$props.admin == 3)
+      if (this.admin == 3)
         return {
           name: "creator",
           emotePath: require("../../assets/twemoji/1f451.svg")
         };
-      if (this.$props.admin == 4)
+      if (this.admin == 4)
         return {
           name: "cute",
           emotePath: require("../../assets/twemoji/1f33a.svg")
         };
-      if (this.$props.admin == 5)
+      if (this.admin == 5)
         return {
           name: "supporter",
           emotePath: require("../../assets/twemoji/2764.svg")
         };
-      if (this.$props.admin == 6)
+      if (this.admin == 6)
         return {
           name: "developer",
           emotePath: require("../../assets/twemoji/2728.svg")
         };
-      if (this.$props.admin == 7)
+      if (this.admin == 7)
         return {
           name: "bug_catcher",
           emotePath: require("../../assets/twemoji/1f41b.svg")
         };
-      if (this.$props.admin == 8)
+      if (this.admin == 8)
         return {
           name: "translator",
           emotePath: require("../../assets/twemoji/1f4dd.svg")
         };
-      if (this.$props.admin == 9)
+      if (this.admin == 9)
         return {
           name: "contributor",
           emotePath: require("../../assets/twemoji/1f5a5.svg")
