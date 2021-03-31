@@ -54,8 +54,8 @@
 <script>
 import statuses from "@/utils/statuses";
 import config from "@/config";
-import badges from "@/utils/Badges.js";
 import seedColor from "seed-color";
+import { containsPerm } from "../../utils/RolePermissions";
 export default {
   props: [
     "avatar",
@@ -72,6 +72,17 @@ export default {
     return {
       nertiviaCDN: config.nertiviaCDN
     };
+  },
+  methods: {
+    bitwiseRemove(perms, flag) {
+      return (perms &= ~flag);
+    },
+    bitwiseAdd(perms, flag) {
+      return perms | flag;
+    },
+    bitwiseContains(perms, flag) {
+      return perms & flag;
+    }
   },
   computed: {
     color() {
@@ -95,13 +106,24 @@ export default {
       return require("../../assets/transparentLogo.svg");
     },
     admin() {
-      if (this.badges?.includes("CREATOR")) return 3;
-      if (this.badges?.includes("CUTE")) return 4;
-      if (this.badges?.includes("SUPPORTER")) return 5;
-      if (this.badges?.includes("DEVELOPER")) return 6;
-      if (this.badges?.includes("BUG_CATCHER")) return 7;
-      if (this.badges?.includes("TRANSLATOR")) return 8;
-      if (this.badges?.includes("CONTRIBUTOR")) return 9;
+      if (!this.badges) return null;
+
+      const CREATOR = 1;
+      const CUTE = 2;
+      const DEVELOPER = 4;
+      const SUPPORTER = 8;
+      const IDEA_QUEEN = 16;
+      const BUG_CATCHER = 32;
+      const TRANSLATOR = 64;
+      const CONTRIBUTOR = 128;
+
+      if (this.bitwiseContains(this.badges, CREATOR)) return 3;
+      if (this.bitwiseContains(this.badges, CUTE)) return 4;
+      if (this.bitwiseContains(this.badges, SUPPORTER)) return 5;
+      if (this.bitwiseContains(this.badges, DEVELOPER)) return 6;
+      if (this.bitwiseContains(this.badges, BUG_CATCHER)) return 7;
+      if (this.bitwiseContains(this.badges, TRANSLATOR)) return 8;
+      if (this.bitwiseContains(this.badges, CONTRIBUTOR)) return 9;
       return null;
     },
     adminType() {

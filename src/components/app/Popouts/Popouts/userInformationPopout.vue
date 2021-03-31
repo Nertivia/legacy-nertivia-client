@@ -297,6 +297,9 @@ export default {
     openServer(serverID) {
       bus.$emit("openServer", serverID);
       this.close();
+    },
+    bitwiseContains(perms, flag) {
+      return perms & flag;
     }
   },
   async mounted() {
@@ -395,7 +398,9 @@ export default {
     },
     filteredBadges() {
       if (!this.user.badges) return;
-      return this.user.badges.filter(b => this.badges[b]);
+      return Object.keys(badges).filter(op => {
+        return this.bitwiseContains(this.user.badges, op);
+      });
     },
     selfUniqueID() {
       return this.$store.getters.user.uniqueID;
