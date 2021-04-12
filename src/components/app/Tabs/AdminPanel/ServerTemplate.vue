@@ -4,7 +4,7 @@
       class="profile-picture"
       :avatar="server.avatar"
       animationPadding="0"
-      :uniqueID="server.server_id"
+      :id="server.server_id"
       :hover="true"
       size="40px"
       @click.native="openManageServer"

@@ -40,7 +40,7 @@
                 <span class="sub-title">Created By:</span>
                 <span
                   class="username"
-                  @click="showUser(invite.creator.uniqueID)"
+                  @click="showUser(invite.creator.id)"
                   >{{ invite.creator.username }}:{{ invite.creator.tag }}</span
                 >
                 <span class="sub-title">Uses:</span>
@@ -160,7 +160,7 @@ export default {
       return this.$store.getters["servers/servers"][this.serverID];
     },
     checkServerCreator() {
-      return this.server.creator.uniqueID === this.user.uniqueID;
+      return this.server.creator.id === this.user.id;
     },
     customInvite() {
       if (!this.invites) return undefined;

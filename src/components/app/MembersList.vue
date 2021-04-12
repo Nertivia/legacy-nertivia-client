@@ -21,7 +21,7 @@
             </div>
             <member-template
               v-for="member in role.members"
-              :key="member.member.uniqueID"
+              :key="member.member.id"
               :type="member.type"
               :avatar="member.member.avatar"
               :user="member.member"
@@ -39,7 +39,7 @@
           </div>
           <member-template
             v-for="member in noneRoleOnlineMembers"
-            :key="member.member.uniqueID"
+            :key="member.member.id"
             :type="member.type"
             :avatar="member.member.avatar"
             :user="member.member"
@@ -56,7 +56,7 @@
           </div>
           <member-template
             v-for="member in offlineMembers"
-            :key="member.member.uniqueID"
+            :key="member.member.id"
             :type="member.type"
             :avatar="member.member.avatar"
             :user="member.member"
@@ -119,10 +119,10 @@ export default {
 
       let getMember = filteredSM.map(sm => {
         // attach presense
-        if (sm.uniqueID === this.$store.getters.user.uniqueID) {
+        if (sm.id === this.$store.getters.user.id) {
           sm.presense = this.$store.getters.user.status || 0;
         } else {
-          sm.presense = presences[sm.uniqueID] || 0;
+          sm.presense = presences[sm.id] || 0;
         }
         return sm;
       });

@@ -13,7 +13,7 @@
       <profile-picture
         class="avatar"
         :avatar="item.member.avatar"
-        :uniqueID="item.member.uniqueID"
+        :id="item.member.id"
         animationPadding="0"
         :hover="false"
         size="15px"

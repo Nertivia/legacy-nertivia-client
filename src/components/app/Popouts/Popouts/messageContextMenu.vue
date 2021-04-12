@@ -118,19 +118,19 @@ export default {
       this.$el.style.left = x + "px";
     },
     showProfile() {
-      let uniqueID;
+      let id;
       if (this.serverMember) {
-        uniqueID = this.serverMember.uniqueID;
+        id = this.serverMember.id;
       } else {
-        uniqueID = this.contextDetails.uniqueID;
+        id = this.contextDetails.id;
       }
-      this.$store.dispatch("setUserInformationPopout", uniqueID);
+      this.$store.dispatch("setUserInformationPopout", id);
       this.closeMenu();
     },
     showMemberContext() {
       const details = {
         serverID: this.serverMember.server_id,
-        uniqueID: this.serverMember.uniqueID,
+        id: this.serverMember.id,
         x: this.contextDetails.x,
         y: this.contextDetails.y
       };
@@ -154,7 +154,7 @@ export default {
       return this.$store.getters["servers/serverMembers"].find(
         sm =>
           sm.server_id === this.currentServerID &&
-          sm.uniqueID === this.user.uniqueID
+          sm.id === this.user.id
       );
     },
     highlightedText() {
@@ -166,7 +166,7 @@ export default {
 
       return serverMembers.find(
         sm =>
-          sm.uniqueID === this.contextDetails.uniqueID &&
+          sm.id === this.contextDetails.id &&
           sm.server_id === this.currentServerID
       );
     },
@@ -192,7 +192,7 @@ export default {
       const serverMembers = this.$store.getters["servers/serverMembers"];
       return serverMembers.find(
         m =>
-          m.uniqueID === this.user.uniqueID &&
+          m.id === this.user.id &&
           m.server_id === this.serverID &&
           m.type === "OWNER"
       );
@@ -206,7 +206,7 @@ export default {
     },
     showEditOption() {
       // Only show edit option if the user is us.
-      return this.user.uniqueID === this.contextDetails.uniqueID;
+      return this.user.id === this.contextDetails.id;
     },
     myRolePermissions() {
       if (!this.selfServerMember) return undefined;
@@ -234,7 +234,7 @@ export default {
     },
     showDeleteOption() {
       // Only show delete option if the user is us or server owner is us.
-      if (this.user.uniqueID === this.contextDetails.uniqueID) {
+      if (this.user.id === this.contextDetails.id) {
         return true;
       }
       return !!this.isSelfServerOwner;

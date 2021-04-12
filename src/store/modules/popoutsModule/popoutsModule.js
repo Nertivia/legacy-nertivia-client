@@ -25,7 +25,7 @@ const state = {
   editMessage: null,
   serverMemberContext: {
     serverID: null,
-    uniqueID: null,
+    id: null,
     x: null,
     y: null
   },
@@ -35,9 +35,8 @@ const state = {
     show: false,
     type: null,
     serverID: null,
-    uniqueID: null,
-    creatorUniqueID: null,
     id: null,
+    creatorUniqueID: null,
     x: null,
     y: null
   }
@@ -77,8 +76,8 @@ const actions = {
   setEditMessage(context, data) {
     context.commit("setEditMessage", data);
   },
-  setServerMemberContext(context, { uniqueID, x, y, serverID }) {
-    context.commit("setServerMemberContext", { uniqueID, x, y, serverID });
+  setServerMemberContext(context, { id, x, y, serverID }) {
+    context.commit("setServerMemberContext", { id, x, y, serverID });
   }
 };
 

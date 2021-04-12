@@ -14,7 +14,7 @@
       >
         <profile-picture
           class="avatar"
-          :uniqueID="recipient.uniqueID"
+          :id="recipient.id"
           :avatar="recipient.avatar"
           animationPadding="0"
           :hover="hover"
@@ -83,17 +83,17 @@ export default {
       const notifications = this.$store.getters.notifications.find(function(e) {
         const channel = channels[e.channelID];
         if (channel && channel.server_id) return;
-        return e.sender.uniqueID === recipient.uniqueID;
+        return e.sender.id === recipient.id;
       });
 
       let isSelectedUser = false;
       if (this.friend.recipient) {
         isSelectedUser =
-          this.friend.recipient.uniqueID ===
+          this.friend.recipient.id ===
           this.$store.getters.selectedUserUniqueID;
       } else {
         isSelectedUser =
-          this.friend.recipients[0].uniqueID ===
+          this.friend.recipients[0].id ===
           this.$store.getters.selectedUserUniqueID;
       }
 
@@ -107,20 +107,20 @@ export default {
     },
     customStatus() {
       return this.$store.getters["members/customStatusArr"][
-        this.recipient.uniqueID
+        this.recipient.id
       ];
     },
     programActivityStatus() {
       const programActivityJson = this.$store.getters[
         "members/programActivity"
       ];
-      return programActivityJson[this.recipient.uniqueID];
+      return programActivityJson[this.recipient.id];
     },
     status() {
       const presences = this.$store.getters["members/presences"];
       let status = 0;
-      if (presences[this.recipient.uniqueID]) {
-        status = presences[this.recipient.uniqueID] || 0;
+      if (presences[this.recipient.id]) {
+        status = presences[this.recipient.id] || 0;
       }
 
       return {
@@ -133,7 +133,7 @@ export default {
     },
     uniqueIDSelected() {
       return (
-        this.$store.getters.selectedUserUniqueID === this.recipient.uniqueID
+        this.$store.getters.selectedUserUniqueID === this.recipient.id
       );
     }
   },
@@ -149,13 +149,13 @@ export default {
         return;
       bus.$emit("closeLeftMenu");
       this.$store.dispatch("openChat", {
-        uniqueID: this.recipient.uniqueID,
+        id: this.recipient.id,
         channelID: this.friend.channelID,
         channelName: this.recipient.username
       });
     },
     openUserInformation() {
-      this.$store.dispatch("setUserInformationPopout", this.recipient.uniqueID);
+      this.$store.dispatch("setUserInformationPopout", this.recipient.id);
     }
   }
 };

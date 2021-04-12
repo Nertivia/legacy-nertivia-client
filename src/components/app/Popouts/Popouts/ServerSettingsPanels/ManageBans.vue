@@ -7,18 +7,18 @@
         <div class="member" v-for="(ban, index) in bans" :key="index">
           <profile-picture
             class="avatar"
-            :uniqueID="ban.user.uniqueID"
+            :id="ban.user.id"
             :avatar="ban.user.avatar"
             size="30px"
             :hover="true"
             animation-padding="4px"
           />
 
-          <div class="details" @click="showProfile(ban.user.uniqueID)">
+          <div class="details" @click="showProfile(ban.user.id)">
             <div class="username">{{ ban.user.username }}</div>
             <div class="tag">@{{ ban.user.tag }}</div>
           </div>
-          <div class="unban-button" @click="unban(ban.user.uniqueID)">
+          <div class="unban-button" @click="unban(ban.user.id)">
             {{ unbanStatus ? "Unbanning..." : "Unban" }}
           </div>
         </div>
@@ -51,19 +51,19 @@ export default {
         this.bans = result.data;
       }
     },
-    async unban(uniqueID) {
+    async unban(id) {
       this.unbanStatus = true;
       const { ok } = await ServerService.unBanMember(
         this.server.server_id,
-        uniqueID
+        id
       );
       this.unbanStatus = false;
       if (ok) {
-        this.bans = this.bans.filter(b => b.user.uniqueID !== uniqueID);
+        this.bans = this.bans.filter(b => b.user.id !== id);
       }
     },
-    showProfile(uniqueID) {
-      this.$store.dispatch("setUserInformationPopout", uniqueID);
+    showProfile(id) {
+      this.$store.dispatch("setUserInformationPopout", id);
     }
   },
   computed: {

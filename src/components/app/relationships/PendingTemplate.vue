@@ -3,7 +3,7 @@
     <profile-picture
       class="avatar"
       :avatar="user.avatar"
-      :uniqueID="user.uniqueID"
+      :id="user.id"
       animationPadding="0"
       size="30px"
       @click.native="openUserInformation"
@@ -35,21 +35,21 @@ export default {
   props: ["friend"],
   computed: {
     user() {
-      return this.$store.getters.user.friends[this.friend.recipient.uniqueID]
+      return this.$store.getters.user.friends[this.friend.recipient.id]
         .recipient;
     }
   },
   methods: {
     deny() {
-      RelationshipService.delete(this.friend.recipient.uniqueID);
+      RelationshipService.delete(this.friend.recipient.id);
     },
     accept() {
-      RelationshipService.put(this.friend.recipient.uniqueID);
+      RelationshipService.put(this.friend.recipient.id);
     },
     openUserInformation() {
       this.$store.dispatch(
         "setUserInformationPopout",
-        this.friend.recipient.uniqueID
+        this.friend.recipient.id
       );
     }
   }

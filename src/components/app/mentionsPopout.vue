@@ -2,7 +2,7 @@
   <div class="list">
     <div
       v-for="(member, i) in list"
-      :key="member.uniqueID"
+      :key="member.id"
       :class="{ item: true, selected: index === i }"
       @mouseenter="hoverEvent"
       @click="clickEvent"
@@ -10,7 +10,7 @@
       <profile-picture
         class="avatar"
         :avatar="member.avatar"
-        :uniqueID="member.uniqueID"
+        :id="member.id"
         animationPadding="0"
         :hover="false"
         size="25px"

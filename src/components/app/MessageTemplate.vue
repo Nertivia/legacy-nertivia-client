@@ -18,9 +18,9 @@
       v-if="!message.type || message.type === 0"
       :class="{
         message: true,
-        ownMessage: user.uniqueID === creator.uniqueID,
+        ownMessage: user.id === creator.id,
         ownMessageRight:
-          user.uniqueID === creator.uniqueID &&
+          user.id === creator.id &&
           apperance &&
           apperance.own_message_right === true
       }"
@@ -33,7 +33,7 @@
           :badges="creator.badges"
           :hover="hover"
           :avatar="creator.avatar"
-          :uniqueID="creator.uniqueID"
+          :id="creator.id"
           size="50px"
           @click.native="openUserInformation"
           @contextmenu.native.prevent="openMemberContext"
@@ -219,7 +219,7 @@ export default {
       const y = event.clientY;
       this.$store.dispatch("setServerMemberContext", {
         serverID: this.$store.getters["servers/currentServerID"],
-        uniqueID: this.creator.uniqueID,
+        id: this.creator.id,
         x,
         y
       });
@@ -240,19 +240,19 @@ export default {
         channelID: this.message.channelID,
         messageID: this.message.messageID,
         message: this.message.message,
-        uniqueID: this.creator.uniqueID,
+        id: this.creator.id,
         messageType: this.message.type,
         color: this.message.color
       });
     },
     openUserInformation() {
-      this.$store.dispatch("setUserInformationPopout", this.creator.uniqueID);
+      this.$store.dispatch("setUserInformationPopout", this.creator.id);
     },
     imageClicked(event) {
       this.$store.dispatch("setImagePreviewURL", event.target.src);
     },
     editMessage() {
-      if (this.creator.uniqueID !== this.user.uniqueID) return;
+      if (this.creator.id !== this.user.id) return;
       this.dropDownVisable = false;
       this.$store.dispatch("setEditMessage", {
         channelID: this.message.channelID,
@@ -395,7 +395,7 @@ export default {
       const serverMembers = this.$store.getters["servers/serverMembers"];
       return serverMembers.find(
         m =>
-          m.uniqueID === this.creator.uniqueID &&
+          m.id === this.creator.id &&
           m.server_id === this.$store.getters["servers/currentServerID"]
       );
     },
@@ -419,7 +419,7 @@ export default {
     isMentioned() {
       if (!this.message.mentions) return;
       const mentions = this.message.mentions;
-      if (mentions.find(u => u.uniqueID === this.user.uniqueID)) {
+      if (mentions.find(u => u.id === this.user.id)) {
         return true;
       }
       return false;

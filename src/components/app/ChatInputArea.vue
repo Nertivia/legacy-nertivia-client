@@ -228,7 +228,7 @@ export default {
         if (this.editMessage) return;
         if (!this.currentChannelMessages) return;
         const messagesFiltered = this.currentChannelMessages.filter(
-          m => m.creator.uniqueID === this.user.uniqueID
+          m => m.creator.id === this.user.id
         );
 
         if (!messagesFiltered.length) return;
@@ -358,7 +358,7 @@ export default {
           m => "@" + m.username === username && m.tag === tag
         );
         if (!member) return word;
-        return `<@${member.uniqueID}>`;
+        return `<@${member.id}>`;
       });
     },
     generateNum(n) {
@@ -483,7 +483,7 @@ export default {
           message: {
             creator: {
               username: "Whoopsies!",
-              uniqueID: "12345678",
+              id: "12345678",
               bot: true
             },
             message: message,
@@ -569,7 +569,7 @@ export default {
           message: {
             creator: {
               username: "Whoopsies!",
-              uniqueID: "12345678",
+              id: "12345678",
               bot: true
             },
             message: message,
@@ -1081,7 +1081,7 @@ export default {
       return this.$store.getters["servers/serverMembers"].find(
         sm =>
           sm.server_id === this.server.server_id &&
-          sm.uniqueID === this.user.uniqueID
+          sm.id === this.user.id
       );
     },
     members() {
@@ -1116,7 +1116,7 @@ export default {
 
       if (!this.server) return false;
 
-      if (this.server.creator.uniqueID === this.user.uniqueID) return true;
+      if (this.server.creator.id === this.user.id) return true;
       if (!this.channel.permissions) return true;
       if (this.channel.permissions.send_message === undefined) return true;
       return this.channel.permissions.send_message;

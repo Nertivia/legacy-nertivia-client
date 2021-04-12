@@ -25,11 +25,11 @@ export default {
   resetPassword(credentials) {
     return wrapper(instance().post(domain + "user/reset/request", credentials));
   },
-  resetPasswordCode(code, password, uniqueID) {
+  resetPasswordCode(code, password, id) {
     return wrapper(
       instance().post(domain + `user/reset/code/${code}`, {
         password,
-        uniqueID
+        id
       })
     );
   },

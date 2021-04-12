@@ -6,7 +6,7 @@
       </div>
       <pending-template
         v-for="friend of friends[0]"
-        :key="friend.recipient.uniqueID"
+        :key="friend.recipient.id"
         :friend="friend"
         :style="{ height: '55px' }"
       />
@@ -22,7 +22,7 @@
       </div>
       <friends-template
         v-for="friend of friends[1]"
-        :key="friend.recipient.uniqueID"
+        :key="friend.recipient.id"
         :friend="friend"
         :recipient="friend.recipient"
         :style="{ height: '50px' }"
@@ -37,7 +37,7 @@
       </div>
       <friends-template
         v-for="friend of friends[2]"
-        :key="friend.recipient.uniqueID"
+        :key="friend.recipient.id"
         :friend="friend"
         :recipient="friend.recipient"
         :style="{ height: '50px' }"
@@ -79,7 +79,7 @@ export default {
           json[key].recipients &&
           json[key].recipients.length > 0 &&
           !json[key].server_id &&
-          json[key].recipients[0].uniqueID !== this.user.uniqueID
+          json[key].recipients[0].id !== this.user.id
         )
           result.push(json[key]);
       });
@@ -128,8 +128,8 @@ export default {
       let offlineFriends = [];
       for (let index = 0; index < allFriends.length; index++) {
         let friend = allFriends[index];
-        const presence = presences[friend.uniqueID];
-        friend.recipient = members[friend.uniqueID];
+        const presence = presences[friend.id];
+        friend.recipient = members[friend.id];
 
         if (friend.status < 2) {
           pendingFriends.push(friend);

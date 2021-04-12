@@ -98,19 +98,19 @@ export default {
       instance().delete(domain + `/servers/${serverID}/channels/${channelID}`)
     );
   },
-  kickMember(serverID, uniqueID) {
+  kickMember(serverID, id) {
     return wrapper(
-      instance().delete(domain + `/servers/${serverID}/members/${uniqueID}`)
+      instance().delete(domain + `/servers/${serverID}/members/${id}`)
     );
   },
-  banMember(serverID, uniqueID) {
+  banMember(serverID, id) {
     return wrapper(
-      instance().put(domain + `/servers/${serverID}/bans/${uniqueID}`)
+      instance().put(domain + `/servers/${serverID}/bans/${id}`)
     );
   },
-  unBanMember(serverID, uniqueID) {
+  unBanMember(serverID, id) {
     return wrapper(
-      instance().delete(domain + `/servers/${serverID}/bans/${uniqueID}`)
+      instance().delete(domain + `/servers/${serverID}/bans/${id}`)
     );
   },
   memberBans(serverID) {

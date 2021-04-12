@@ -19,11 +19,11 @@
         <div
           class="bot"
           v-for="(bot, i) in botsReverse"
-          :key="bot.uniqueID"
+          :key="bot.id"
           @click="clickedBotIndex = i"
         >
           <profile-picture
-            :uniqueID="bot.uniqueID"
+            :id="bot.id"
             :avatar="bot.avatar"
             size="30px"
             :hover="true"

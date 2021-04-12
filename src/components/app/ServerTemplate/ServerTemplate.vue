@@ -17,7 +17,7 @@
       class="avatar"
       :hover="hover"
       :avatar="serverData.avatar"
-      :uniqueID="serverData.server_id"
+      :id="serverData.server_id"
     />
   </div>
 </template>
@@ -115,7 +115,7 @@ export default {
         show: true,
         type: "SERVER",
         serverID: this.serverData.server_id,
-        creatorUniqueID: this.serverData.creator.uniqueID,
+        creatorUniqueID: this.serverData.creator.id,
         x: event.clientX,
         y: event.clientY
       });

@@ -6,8 +6,8 @@ let domain = "";
 if (config.serverURL) domain = config.serverURL + "/";
 
 export default {
-  get(uniqueID) {
-    return wrapper(instance().get(domain + `user/${uniqueID}`));
+  get(id) {
+    return wrapper(instance().get(domain + `user/${id}`));
   },
   update(data, socketID) {
     return wrapper(instance().patch(domain + `user`, { ...data, socketID }));
@@ -21,15 +21,15 @@ export default {
   skipSurvey() {
     return wrapper(instance().delete(domain + "/user/survey/skip"));
   },
-  block(uniqueID) {
-    return wrapper(instance().post(domain + "/user/block", { uniqueID }));
+  block(id) {
+    return wrapper(instance().post(domain + "/user/block", { id }));
   },
   agreePolicies() {
     return wrapper(instance().post(domain + "/user/agreeingPolicies"));
   },
-  unblock(uniqueID) {
+  unblock(id) {
     return wrapper(
-      instance().delete(domain + "/user/block", { data: { uniqueID } })
+      instance().delete(domain + "/user/block", { data: { id } })
     );
   }
 };

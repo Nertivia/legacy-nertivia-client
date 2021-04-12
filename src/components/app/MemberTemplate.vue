@@ -11,7 +11,7 @@
       :avatar="this.avatar"
       :hover="hover"
       size="30px"
-      :uniqueID="user.uniqueID"
+      :id="user.id"
       :status="presense"
     />
     <div class="information">
@@ -61,25 +61,25 @@ export default {
     },
     presense() {
       //attach presense
-      if (this.user.uniqueID === this.$store.getters.user.uniqueID) {
+      if (this.user.id === this.$store.getters.user.id) {
         return this.$store.getters.user.status || 0;
       }
       const presences = this.$store.getters["members/presences"];
-      const userPresense = presences[this.user.uniqueID];
+      const userPresense = presences[this.user.id];
       return userPresense || 0;
     },
     customStatus() {
-      if (this.user.uniqueID === this.$store.getters.user.uniqueID) {
+      if (this.user.id === this.$store.getters.user.id) {
         return this.$store.getters.user.custom_status;
       }
       const customStatusArr = this.$store.getters["members/customStatusArr"];
-      return customStatusArr[this.user.uniqueID];
+      return customStatusArr[this.user.id];
     },
     programActivityStatus() {
       const programActivityJson = this.$store.getters[
         "members/programActivity"
       ];
-      return programActivityJson[this.user.uniqueID];
+      return programActivityJson[this.user.id];
     },
     roles() {
       return this.$store.getters["servers/currentServerRoles"];
@@ -125,14 +125,14 @@ export default {
   },
   methods: {
     openUserInformation() {
-      this.$store.dispatch("setUserInformationPopout", this.user.uniqueID);
+      this.$store.dispatch("setUserInformationPopout", this.user.id);
     },
     rightClickEvent(event) {
       const x = event.clientX;
       const y = event.clientY;
       this.$store.dispatch("setServerMemberContext", {
         serverID: this.serverID,
-        uniqueID: this.user.uniqueID,
+        id: this.user.id,
         x,
         y
       });

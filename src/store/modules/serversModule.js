@@ -22,7 +22,7 @@ const getters = {
     const members = rootGetters["members/members"];
 
     return state.serverMembers.map(sm => {
-      return { ...sm, member: members[sm.uniqueID] };
+      return { ...sm, member: members[sm.id] };
     });
   },
   currentServerID(state) {
@@ -112,9 +112,9 @@ const actions = {
   setAllRoles(context, rolesArr) {
     context.commit("SET_ALL_ROLES", rolesArr);
   },
-  addMemberRole({ commit, state }, { role_id, uniqueID, server_id }) {
+  addMemberRole({ commit, state }, { role_id, id, server_id }) {
     const serverMemberIndex = state.serverMembers.findIndex(
-      sm => sm.uniqueID === uniqueID && sm.server_id === server_id
+      sm => sm.id === id && sm.server_id === server_id
     );
     if (serverMemberIndex < 0) return;
 
@@ -133,9 +133,9 @@ const actions = {
       index: serverMemberIndex
     });
   },
-  removeMemberRole({ commit, state }, { role_id, uniqueID, server_id }) {
+  removeMemberRole({ commit, state }, { role_id, id, server_id }) {
     const serverMemberIndex = state.serverMembers.findIndex(
-      sm => sm.uniqueID === uniqueID && sm.server_id === server_id
+      sm => sm.id === id && sm.server_id === server_id
     );
     if (serverMemberIndex < 0) return;
 
@@ -150,8 +150,8 @@ const actions = {
       index: serverMemberIndex
     });
   },
-  removeServerMember(context, { uniqueID, server_id }) {
-    context.commit("REMOVE_SERVER_MEMBER", { uniqueID, server_id });
+  removeServerMember(context, { id, server_id }) {
+    context.commit("REMOVE_SERVER_MEMBER", { id, server_id });
   },
   setcurrentServerID(context, serverID) {
     context.commit("SET_SELECTED_SERVER_ID", serverID);
@@ -165,25 +165,25 @@ const actions = {
     );
     const friends = context.rootGetters.user.friends;
     for (let member of members) {
-      if (!friends[member.uniqueID]) {
+      if (!friends[member.id]) {
         context.dispatch(
           "members/updatePresence",
-          { uniqueID: member.uniqueID, status: null },
+          { id: member.id, status: null },
           { root: true }
         );
         context.dispatch(
           "members/updateCustomStatus",
-          { uniqueID: member.uniqueID, custom_status: null },
+          { id: member.id, custom_status: null },
           { root: true }
         );
         context.dispatch(
           "members/updateProgramActivity",
-          { uniqueID: member.uniqueID },
+          { user_id: member.id },
           { root: true }
         );
       }
       context.commit("REMOVE_SERVER_MEMBER", {
-        uniqueID: member.uniqueID,
+        id: member.id,
         server_id
       });
     }
@@ -243,9 +243,7 @@ const mutations = {
       const members = serverMembersArr[index];
       if (
         state.serverMembers.find(
-          sm =>
-            sm.uniqueID === members.uniqueID &&
-            sm.server_id === members.server_id
+          sm => sm.id === members.id && sm.server_id === members.server_id
         )
       ) {
         // console.log(members);
@@ -256,9 +254,7 @@ const mutations = {
   },
   ADD_SERVER_MEMBER(state, serverMember) {
     const exists = state.serverMembers.find(
-      sm =>
-        sm.uniqueID === serverMember.uniqueID &&
-        sm.server_id === serverMember.server_id
+      sm => sm.id === serverMember.id && sm.server_id === serverMember.server_id
     );
     if (exists) return;
     state.serverMembers.push(serverMember);
@@ -269,9 +265,9 @@ const mutations = {
   UPDATE_SERVER_ROLES(state, { roles, server_id }) {
     Vue.set(state.roles, server_id, roles);
   },
-  REMOVE_SERVER_MEMBER(state, { uniqueID, server_id }) {
+  REMOVE_SERVER_MEMBER(state, { id, server_id }) {
     state.serverMembers = state.serverMembers.filter(
-      m => m.uniqueID !== uniqueID || m.server_id !== server_id
+      m => m.id !== id || m.server_id !== server_id
     );
   },
   SET_SELECTED_SERVER_ID(state, serverID) {

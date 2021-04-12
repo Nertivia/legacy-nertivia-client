@@ -122,7 +122,7 @@ export default {
     serverMember() {
       return this.$store.getters["servers/serverMembers"].find(
         sm =>
-          sm.server_id === this.serverID && sm.uniqueID === this.user.uniqueID
+          sm.server_id === this.serverID && sm.id === this.user.id
       );
     },
     myRolePermissions() {
@@ -148,7 +148,7 @@ export default {
     canManageChannels() {
       const isServerOwner =
         this.$store.getters["servers/servers"][this.serverID].creator
-          .uniqueID === this.user.uniqueID;
+          .id === this.user.id;
 
       return (
         isServerOwner ||

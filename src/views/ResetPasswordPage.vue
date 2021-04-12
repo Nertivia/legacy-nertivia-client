@@ -90,20 +90,20 @@ export default {
         return;
       }
       const code = this.$route.query.code;
-      const uniqueID = this.$route.query["unique-id"];
+      const id = this.$route.query["unique-id"];
       if (!code) {
         this.password.alert = "Code not found.";
         return;
       }
-      if (!uniqueID) {
-        this.password.alert = "uniqueID not found.";
+      if (!id) {
+        this.password.alert = "id not found.";
         return;
       }
 
       const { ok, error } = await AuthenticationService.resetPasswordCode(
         code,
         this.password.value,
-        uniqueID
+        id
       );
 
       if (ok) {

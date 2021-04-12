@@ -70,7 +70,7 @@ export default {
     closeMenu() {
       this.$store.dispatch("setServerMemberContext", {
         server_id: null,
-        uniqueID: null,
+        id: null,
         x: null,
         y: null
       });
@@ -79,34 +79,34 @@ export default {
       this.closeMenu();
     },
     viewProfile() {
-      const uniqueID = this.contextDetails.uniqueID;
+      const id = this.contextDetails.id;
       this.closeMenu();
-      this.$store.dispatch("setUserInformationPopout", uniqueID);
+      this.$store.dispatch("setUserInformationPopout", id);
     },
     copyUserTag() {
       const user = this.$store.getters["members/members"][
-        this.contextDetails.uniqueID
+        this.contextDetails.id
       ];
       const userTag = user.username + ":" + user.tag;
       this.closeMenu();
       this.$clipboard(userTag);
     },
     copyID() {
-      const uniqueID = this.contextDetails.uniqueID;
-      this.$clipboard(uniqueID);
+      const id = this.contextDetails.id;
+      this.$clipboard(id);
       this.closeMenu();
     },
     async kickMember() {
       const serverID = this.contextDetails.serverID;
-      const uniqueID = this.contextDetails.uniqueID;
+      const id = this.contextDetails.id;
       this.closeMenu();
-      await ServerService.kickMember(serverID, uniqueID);
+      await ServerService.kickMember(serverID, id);
     },
     async banMember() {
       const serverID = this.contextDetails.serverID;
-      const uniqueID = this.contextDetails.uniqueID;
+      const id = this.contextDetails.id;
       this.closeMenu();
-      await ServerService.banMember(serverID, uniqueID);
+      await ServerService.banMember(serverID, id);
     },
     editRoleHoverEvent() {
       this.editRoleHovered = true;
@@ -144,25 +144,25 @@ export default {
     async addRole(roleID) {
       this.$store.dispatch("servers/addMemberRole", {
         role_id: roleID,
-        uniqueID: this.contextDetails.uniqueID,
+        id: this.contextDetails.id,
         server_id: this.contextDetails.serverID
       });
       await ServerService.applyRoleToMember(
         this.contextDetails.serverID,
         roleID,
-        this.contextDetails.uniqueID
+        this.contextDetails.id
       );
     },
     async removeRole(roleID) {
       this.$store.dispatch("servers/removeMemberRole", {
         role_id: roleID,
-        uniqueID: this.contextDetails.uniqueID,
+        id: this.contextDetails.id,
         server_id: this.contextDetails.serverID
       });
       await ServerService.removeRoleFromMember(
         this.contextDetails.serverID,
         roleID,
-        this.contextDetails.uniqueID
+        this.contextDetails.id
       );
     },
     serverRoles() {
@@ -198,13 +198,13 @@ export default {
         x,
         y,
         serverID,
-        uniqueID
+        id
       } = this.$store.getters.popouts.serverMemberContext;
       return {
         x,
         y,
         serverID,
-        uniqueID
+        id
       };
     },
     // check if i am the server Owner.
@@ -212,7 +212,7 @@ export default {
       const serverMembers = this.$store.getters["servers/serverMembers"];
       return serverMembers.find(
         m =>
-          m.uniqueID === this.user.uniqueID &&
+          m.id === this.user.id &&
           m.server_id === this.contextDetails.serverID &&
           m.type === "OWNER"
       );
@@ -221,7 +221,7 @@ export default {
       const serverMembers = this.$store.getters["servers/serverMembers"];
       return serverMembers.find(
         m =>
-          m.uniqueID === this.contextDetails.uniqueID &&
+          m.id === this.contextDetails.id &&
           m.server_id === this.contextDetails.serverID
       );
     },
@@ -231,19 +231,19 @@ export default {
     showKickBanOption() {
       // Dont show kick and ban option for Fishie and Fullipsp :P
       if (
-        this.contextDetails.uniqueID === "763085765093499319" ||
-        this.contextDetails.uniqueID === "825242960222351869"
+        this.contextDetails.id === "763085765093499319" ||
+        this.contextDetails.id === "825242960222351869"
       )
         return false;
       // Only show kick and ban option if the user is server owner and not us
-      if (this.user.uniqueID === this.contextDetails.uniqueID) return false;
+      if (this.user.id === this.contextDetails.id) return false;
       return true;
     },
     selfServerMember() {
       return this.$store.getters["servers/serverMembers"].find(
         sm =>
           sm.server_id === this.contextDetails.serverID &&
-          sm.uniqueID === this.user.uniqueID
+          sm.id === this.user.id
       );
     },
     myRolePermissions() {

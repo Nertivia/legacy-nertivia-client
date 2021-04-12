@@ -105,13 +105,13 @@ export default {
       return this.$store.getters.user;
     },
     checkServerCreator() {
-      return this.server.creator.uniqueID === this.user.uniqueID;
+      return this.server.creator.id === this.user.id;
     },
     serverMember() {
       return this.$store.getters["servers/serverMembers"].find(
         sm =>
           sm.server_id === this.server.server_id &&
-          sm.uniqueID === this.user.uniqueID
+          sm.id === this.user.id
       );
     },
     myRolePermissions() {

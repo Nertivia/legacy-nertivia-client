@@ -23,7 +23,7 @@
               class="avatar"
               :hover="true"
               :avatar="user.avatar"
-              :uniqueID="user.uniqueID"
+              :id="user.id"
               :badges="user.badges"
               size="40px"
               emote-size="17px"

@@ -23,7 +23,7 @@
       />
       <server-member-context
         key="smc"
-        v-if="popouts.serverMemberContext.uniqueID"
+        v-if="popouts.serverMemberContext.id"
       />
       <server-context
         key="sc"

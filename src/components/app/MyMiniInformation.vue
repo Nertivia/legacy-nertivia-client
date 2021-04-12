@@ -4,7 +4,7 @@
       class="avatar"
       :avatar="avatar"
       :badges="user.badges"
-      :uniqueID="user.uniqueID"
+      :id="user.id"
       size="35px"
       :hover="hover"
       @mouseenter.native="hover = true"
@@ -81,7 +81,7 @@ export default {
   },
   methods: {
     openUserInformation() {
-      this.$store.dispatch("setUserInformationPopout", this.user.uniqueID);
+      this.$store.dispatch("setUserInformationPopout", this.user.id);
     },
     closeMenus(event) {
       if (event.target.closest(".status-button")) return;

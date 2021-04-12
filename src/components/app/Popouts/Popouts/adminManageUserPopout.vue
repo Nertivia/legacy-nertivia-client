@@ -51,7 +51,7 @@ export default {
       this.$store.dispatch("setAllPopout", {
         show: false,
         type: null,
-        uniqueID: null
+        id: null
       });
     },
     backgroundClick(e) {
@@ -65,7 +65,7 @@ export default {
         return;
       }
       const { ok } = await AdminService.suspendUser(
-        this.popoutDetails.user.uniqueID,
+        this.popoutDetails.user.id,
         this.password,
         this.reason
       );

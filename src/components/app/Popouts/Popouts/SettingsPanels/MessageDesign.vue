@@ -75,7 +75,7 @@ export default {
     return {
       dummyUser: {
         username: "Cool Dude",
-        uniqueID: "dummy"
+        id: "dummy"
       }
     };
   },

@@ -29,7 +29,7 @@ export default {
   methods: {
     changeCurrentChannelIndex(direction) {
       let currentChannelIndex = this.recentsArr.findIndex(
-        r => r.recipients[0].uniqueID === this.currentUniqueID
+        r => r.recipients[0].id === this.currentUniqueID
       );
       if (!(currentChannelIndex + 1)) currentChannelIndex = -1;
       if (direction === "up") {
@@ -40,7 +40,7 @@ export default {
       const channel = this.recentsArr[currentChannelIndex];
       if (!channel) return;
       this.$store.dispatch("openChat", {
-        uniqueID: channel.recipients[0].uniqueID,
+        id: channel.recipients[0].id,
         channelID: channel.channelID,
         channelName: channel.recipients[0].username
       });
@@ -81,12 +81,12 @@ export default {
         const channel = this.sortedChannels[index];
         if (channel.server_id) continue;
         const recipient = channel.recipients[0];
-        if (recipient.uniqueID === this.user.uniqueID) continue;
+        if (recipient.id === this.user.id) continue;
 
         const notified = notifications.find(
           n =>
             n.sender &&
-            n.sender.uniqueID === recipient.uniqueID &&
+            n.sender.id === recipient.id &&
             n.channelID === channel.channelID
         );
 
@@ -104,7 +104,7 @@ export default {
           username: element.sender.username,
           tag: element.sender.tag,
           avatar: element.sender.avatar,
-          uniqueID: element.sender.uniqueID
+          id: element.sender.id
         };
         unOpenedDms.push({
           recipients: [recipient],

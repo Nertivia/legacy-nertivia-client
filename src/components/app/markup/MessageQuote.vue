@@ -51,7 +51,7 @@ export default {
     openUserInfo: function() {
       this.$store.dispatch(
         "setUserInformationPopout",
-        this.quote.creator.uniqueID
+        this.quote.creator.id
       );
     },
     goToMessage: function() {

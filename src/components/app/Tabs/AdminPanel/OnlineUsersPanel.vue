@@ -2,7 +2,7 @@
   <div class="users-panel">
     <div class="title">Online Users</div>
     <div class="list">
-      <user-template v-for="user in users" :key="user.uniqueID" :user="user" />
+      <user-template v-for="user in users" :key="user.id" :user="user" />
     </div>
   </div>
 </template>

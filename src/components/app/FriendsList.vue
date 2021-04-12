@@ -59,7 +59,7 @@ export default {
     saveNotesBtn() {
       bus.$emit("closeLeftMenu");
       this.$store.dispatch("openChat", {
-        uniqueID: this.user.uniqueID,
+        id: this.user.id,
         channelName: "Saved Notes"
       });
     }
@@ -75,7 +75,7 @@ export default {
       return this.$store.getters.user;
     },
     uniqueIDSelected() {
-      return this.$store.getters.selectedUserUniqueID === this.user.uniqueID;
+      return this.$store.getters.selectedUserUniqueID === this.user.id;
     },
     DMNotification() {
       const notifications = this.$store.getters.notifications;

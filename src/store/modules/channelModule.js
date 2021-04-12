@@ -48,8 +48,8 @@ const actions = {
   currentChannelID(context, channelID) {
     context.commit("currentChannelID", channelID);
   },
-  selectedUserUniqueID(context, uniqueID) {
-    context.commit("selectedUserUniqueID", uniqueID);
+  selectedUserUniqueID(context, id) {
+    context.commit("selectedUserUniqueID", id);
   },
   setChannelName(context, name) {
     context.commit("setChannelName", name);
@@ -82,8 +82,8 @@ const mutations = {
   currentChannelID(state, channelID) {
     state.currentChannelID = channelID;
   },
-  selectedUserUniqueID(state, uniqueID) {
-    state.selectedUserUniqueID = uniqueID;
+  selectedUserUniqueID(state, id) {
+    state.selectedUserUniqueID = id;
   },
   setDMChannelID(state, channelID) {
     state.DMChannelID = channelID;

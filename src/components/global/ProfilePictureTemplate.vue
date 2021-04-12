@@ -65,7 +65,7 @@ export default {
     "hover",
     "animationPadding",
     "status",
-    "uniqueID",
+    "id",
     "url"
   ],
   data() {
@@ -86,7 +86,7 @@ export default {
   },
   computed: {
     color() {
-      return !this.avatar ? seedColor(this.uniqueID).toHex() : undefined;
+      return !this.avatar ? seedColor(this.id).toHex() : undefined;
     },
     src() {
       if (!this.avatar && !this.url) {

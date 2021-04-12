@@ -243,7 +243,7 @@ export default {
           message: {
             creator: {
               username: "Whoopsies!",
-              uniqueID: "12345678",
+              id: "12345678",
               bot: true
             },
             message: message,

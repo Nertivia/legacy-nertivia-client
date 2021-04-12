@@ -8,7 +8,7 @@
             class="server-avatar"
             size="100px"
             :hover="true"
-            :uniqueID="server.server_id"
+            :id="server.server_id"
             :url="update.avatar"
             :avatar="update.avatar ? null : server.avatar"
           />

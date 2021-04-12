@@ -23,14 +23,14 @@ const getters = {
 };
 
 const actions = {
-  updateProgramActivity(context, { uniqueID, name, status }) {
-    context.commit("UPDATE_PRGORAM_ACTIVITY", { uniqueID, name, status });
+  updateProgramActivity(context, { user_id, name, status }) {
+    context.commit("UPDATE_PRGORAM_ACTIVITY", { user_id, name, status });
   },
   addProgramActivity(context, programActivityObj) {
     context.commit("ADD_PROGRAM_ACTIVITY", programActivityObj);
   },
-  updateCustomStatus(context, { uniqueID, custom_status }) {
-    context.commit("UPDATE_CUSTOM_STATUS", { uniqueID, custom_status });
+  updateCustomStatus(context, { id, custom_status }) {
+    context.commit("UPDATE_CUSTOM_STATUS", { id, custom_status });
   },
   addCustomStatusArr(context, customStatusArr) {
     context.commit("ADD_CUSTOM_STATUS_ARR", customStatusArr);
@@ -38,8 +38,8 @@ const actions = {
   addPresences(context, presences) {
     context.commit("ADD_PRESENCES", presences);
   },
-  updatePresence(context, { uniqueID, status }) {
-    context.commit("UPDATE_PRESENCE", { uniqueID, status });
+  updatePresence(context, { id, status }) {
+    context.commit("UPDATE_PRESENCE", { id, status });
   },
   addMembers(context, membersOBJ) {
     context.commit("ADD_MEMBERS", membersOBJ);
@@ -47,11 +47,11 @@ const actions = {
   addMember(context, member) {
     context.commit("ADD_MEMBER", member);
   },
-  removeMember(context, uniqueID) {
-    context.commit("REMOVE_MEMBER", uniqueID);
+  removeMember(context, id) {
+    context.commit("REMOVE_MEMBER", id);
   },
-  updateAvatar(context, { uniqueID, avatarID }) {
-    context.commit("UPDATE_AVATAR", { uniqueID, avatarID });
+  updateAvatar(context, { id, avatarID }) {
+    context.commit("UPDATE_AVATAR", { id, avatarID });
   },
   updateMember(context, data) {
     context.commit("UPDATE_MEMBER", data);
@@ -65,37 +65,37 @@ const mutations = {
   ADD_CUSTOM_STATUS_ARR(state, customStatusArr) {
     state.customStatusArr = { ...state.customStatusArr, ...customStatusArr };
   },
-  UPDATE_PRGORAM_ACTIVITY(state, { uniqueID, name, status }) {
-    if (!uniqueID || !name) {
-      Vue.delete(state.programActivity, uniqueID);
+  UPDATE_PRGORAM_ACTIVITY(state, { user_id, name, status }) {
+    if (!name) {
+      Vue.delete(state.programActivity, user_id);
     } else {
-      Vue.set(state.programActivity, uniqueID, { name, status });
+      Vue.set(state.programActivity, user_id, { name, status });
     }
   },
-  UPDATE_CUSTOM_STATUS(state, { uniqueID, custom_status }) {
-    Vue.set(state.customStatusArr, uniqueID, custom_status);
+  UPDATE_CUSTOM_STATUS(state, { id, custom_status }) {
+    Vue.set(state.customStatusArr, id, custom_status);
   },
   ADD_PRESENCES(state, presences) {
     state.presences = { ...state.presences, ...presences };
   },
-  UPDATE_PRESENCE(state, { uniqueID, status }) {
-    Vue.set(state.presences, uniqueID, status);
+  UPDATE_PRESENCE(state, { id, status }) {
+    Vue.set(state.presences, id, status);
   },
   ADD_MEMBERS(state, membersOBJ) {
     state.members = Object.assign(state.members, membersOBJ);
   },
   ADD_MEMBER(state, member) {
-    state.members[member.uniqueID] = member;
+    state.members[member.id] = member;
   },
-  REMOVE_MEMBER(state, uniqueID) {
-    delete state.members[uniqueID];
+  REMOVE_MEMBER(state, id) {
+    delete state.members[id];
   },
-  UPDATE_AVATAR(state, { uniqueID, avatarID }) {
-    state.members[uniqueID].avatar = avatarID;
+  UPDATE_AVATAR(state, { id, avatarID }) {
+    state.members[id].avatar = avatarID;
   },
   UPDATE_MEMBER(state, data) {
     const newMembers = state.members;
-    newMembers[data.uniqueID] = { ...newMembers[data.uniqueID], ...data };
+    newMembers[data.id] = { ...newMembers[data.id], ...data };
     state.members = Object.assign({}, newMembers);
   }
 };

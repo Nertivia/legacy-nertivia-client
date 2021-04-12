@@ -80,7 +80,7 @@ const mutations = {
   },
   addFriend(state, friend) {
     const friends = state.user.friends;
-    friends[friend.uniqueID] = friend;
+    friends[friend.id] = friend;
 
     state.user.friends = Object.assign({}, friends);
 
@@ -88,15 +88,15 @@ const mutations = {
       NotificationSounds.newFriend();
     }
   },
-  removeFriend(state, uniqueID) {
+  removeFriend(state, id) {
     const friends = state.user.friends;
-    delete friends[uniqueID];
+    delete friends[id];
 
     state.user.friends = Object.assign({}, friends);
   },
-  acceptFriend(state, uniqueID) {
+  acceptFriend(state, id) {
     const friends = state.user.friends;
-    friends[uniqueID].status = 2;
+    friends[id].status = 2;
 
     state.user.friends = Object.assign({}, friends);
   }

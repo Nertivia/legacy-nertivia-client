@@ -6,8 +6,8 @@ let domain = "";
 if (config.serverURL) domain = config.serverURL + "/";
 
 export default {
-  post(uniqueID) {
-    return wrapper(instance().post(domain + `channels/${uniqueID}`));
+  post(id) {
+    return wrapper(instance().post(domain + `channels/${id}`));
   },
   delete(channelID) {
     return wrapper(instance().delete(domain + `channels/${channelID}`));

@@ -21,7 +21,7 @@
           animationPadding="0"
           size="90px"
           :avatar="server.server.avatar"
-          :uniqueID="server.server.server_id"
+          :id="server.server.server_id"
           :hover="true"
         />
         <div
@@ -80,7 +80,7 @@ export default {
     openUserInformation() {
       this.$store.dispatch(
         "setUserInformationPopout",
-        this.server.creator.uniqueID
+        this.server.creator.id
       );
     },
     async joinButton() {

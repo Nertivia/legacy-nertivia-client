@@ -14,7 +14,7 @@
           class="avatar"
           @click.native="$refs.avatarBrowser.click()"
           :url="update.avatar"
-          :uniqueID="user.uniqueID"
+          :id="user.id"
           :avatar="update.avatar ? null : avatar"
           :badges="user.badges"
           size="90px"
@@ -157,7 +157,7 @@
             <profile-picture
               class="avatar"
               :url="update.avatar"
-              :uniqueID="user.uniqueID"
+              :id="user.id"
               :avatar="update.avatar ? null : avatar"
               :badges="user.badges"
               size="70px"

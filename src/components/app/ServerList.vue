@@ -80,7 +80,7 @@ export default {
         show: true,
         type: "SERVER",
         serverID: this.servers[this.currentServerID].server_id,
-        creatorUniqueID: this.servers[this.currentServerID].creator.uniqueID,
+        creatorUniqueID: this.servers[this.currentServerID].creator.id,
         x: rect.left - 30,
         y: rect.top + 35
       });

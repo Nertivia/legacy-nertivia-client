@@ -5,7 +5,7 @@
       class="profile-picture"
       :avatar="user.avatar"
       animationPadding="0"
-      :uniqueID="user.uniqueID"
+      :id="user.id"
       :hover="true"
       size="40px"
     />
@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     openUserInformation() {
-      this.$store.dispatch("setUserInformationPopout", this.user.uniqueID);
+      this.$store.dispatch("setUserInformationPopout", this.user.id);
     },
     openManageUser() {
       this.$store.dispatch("setAllPopout", {

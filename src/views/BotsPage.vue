@@ -15,7 +15,7 @@
                   class="avatar"
                   size="100px"
                   :avatar="bot.avatar"
-                  :uniqueID="bot.uniqueID"
+                  :id="bot.id"
                   :hover="true"
                 />
                 <div class="server-name">{{ bot.username }}</div>

@@ -1,8 +1,8 @@
 <template>
   <div class="right-panel">
     <heading
-      :uniqueID="
-        recipients && recipients.length ? recipients[0].uniqueID : undefined
+      :id="
+        recipients && recipients.length ? recipients[0].id : undefined
       "
       :type="
         currentChannelID && channel && !channel.server_id
@@ -76,19 +76,19 @@ export default {
   },
   methods: {
     hideTypingStatus(data) {
-      if (this.user.uniqueID === data.message.creator.uniqueID) return;
+      if (this.user.id === data.message.creator.id) return;
       if (
         !this.typingRecipients[data.channelID] ||
-        !this.typingRecipients[data.channelID][data.message.creator.uniqueID]
+        !this.typingRecipients[data.channelID][data.message.creator.id]
       )
         return;
       clearTimeout(
-        this.typingRecipients[data.channelID][data.message.creator.uniqueID]
+        this.typingRecipients[data.channelID][data.message.creator.id]
           .timer
       );
       this.$delete(
         this.typingRecipients[data.channelID],
-        data.message.creator.uniqueID
+        data.message.creator.id
       );
     },
     async onFocus() {
@@ -122,7 +122,7 @@ export default {
 
       if (
         this.currentChannelID !== channel_id ||
-        user.unique_id === this.user.uniqueID
+        user.unique_id === this.user.id
       )
         return;
       if (typingRecipients === undefined) {
@@ -148,7 +148,7 @@ export default {
       if (!this.server) return;
       const botIds = this.serverBots
         .filter(b => !b.member.botCommands)
-        .map(b => b.uniqueID);
+        .map(b => b.id);
       if (!botIds.length) return;
       const { result, ok } = await botsService.getCommands(botIds);
       if (ok) {
@@ -233,7 +233,7 @@ export default {
       return this.$store.getters["servers/serverMembers"].find(
         sm =>
           sm.server_id === this.server.server_id &&
-          sm.uniqueID === this.user.uniqueID
+          sm.id === this.user.id
       );
     },
     myRolePermissions() {
@@ -283,7 +283,7 @@ export default {
 
       if (!this.server) return false;
 
-      if (this.server.creator.uniqueID === this.user.uniqueID) return true;
+      if (this.server.creator.id === this.user.id) return true;
       if (!this.channel.permissions) return true;
       if (this.channel.permissions.send_message === undefined) return true;
       return this.channel.permissions.send_message;

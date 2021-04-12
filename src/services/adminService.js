@@ -26,9 +26,9 @@ export default {
   approveTheme(id) {
     return wrapper(instance().patch(`admin/themes/${id}/approve`));
   },
-  suspendUser(uniqueID, password, reason) {
+  suspendUser(id, password, reason) {
     return wrapper(
-      instance().delete(`admin/users/${uniqueID}`, {
+      instance().delete(`admin/users/${id}`, {
         data: { password, reason }
       })
     );

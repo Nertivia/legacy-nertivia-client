@@ -9,13 +9,13 @@ export default {
   post(friend) {
     return wrapper(instance().post(domain + "/user/relationship", friend));
   },
-  put(uniqueID) {
-    return wrapper(instance().put(domain + "/user/relationship", { uniqueID }));
+  put(id) {
+    return wrapper(instance().put(domain + "/user/relationship", { id }));
   },
-  delete(uniqueID) {
+  delete(id) {
     return wrapper(
       instance().delete(domain + "/user/relationship", {
-        data: { uniqueID }
+        data: { id }
       })
     );
   }

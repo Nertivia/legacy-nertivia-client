@@ -389,7 +389,7 @@ export default {
                 <MessageQuote
                   quote={quote}
                   formattingEnabled={
-                    entity.message_id !== this.message.uniqueID
+                    entity.message_id !== this.message.id
                   }
                   message={this.message}
                 />

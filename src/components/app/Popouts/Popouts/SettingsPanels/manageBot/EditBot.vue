@@ -4,7 +4,7 @@
     <div class="content" :key="key">
       <div class="avatar-box">
         <profile-picture
-          :uniqueID="bot.uniqueID"
+          :id="bot.id"
           :url="update.avatar"
           :avatar="update.avatar ? null : bot.avatar"
           size="80px"
@@ -45,11 +45,11 @@
         <div class="link">
           <a
             :href="
-              `https://nertivia.net/bots/${this.bot.uniqueID}?perms=${perms}`
+              `https://nertivia.net/bots/${this.bot.id}?perms=${perms}`
             "
             target="_blank"
             >{{
-              `https://nertivia.tk/bots/${this.bot.uniqueID}?perms=${perms}`
+              `https://nertivia.tk/bots/${this.bot.id}?perms=${perms}`
             }}</a
           >
         </div>
@@ -124,7 +124,7 @@ export default {
     };
   },
   async mounted() {
-    const { result, ok } = await botsService.getBot(this.bot.uniqueID, true);
+    const { result, ok } = await botsService.getBot(this.bot.id, true);
     if (ok) {
       this.token = result.data.token;
     }
@@ -140,7 +140,7 @@ export default {
       alert("Token copied to clipboard.");
     },
     async resetToken() {
-      const { ok, result } = await botsService.resetToken(this.bot.uniqueID);
+      const { ok, result } = await botsService.resetToken(this.bot.id);
       if (ok) {
         this.token = result.data.token;
       }
@@ -150,7 +150,7 @@ export default {
         this.deleteSure = true;
         return;
       }
-      const { ok } = await botsService.deleteBot(this.bot.uniqueID);
+      const { ok } = await botsService.deleteBot(this.bot.id);
       if (ok) {
         this.$emit("delete");
         this.$emit("back");
@@ -169,7 +169,7 @@ export default {
       this.errors = null;
       const { ok, result, error } = await botsService.updateBot(
         this.update,
-        this.bot.uniqueID
+        this.bot.id
       );
       if (ok) {
         this.$emit("update", result.data);

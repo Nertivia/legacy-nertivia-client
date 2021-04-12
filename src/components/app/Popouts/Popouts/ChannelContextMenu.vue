@@ -107,7 +107,7 @@ export default {
       return this.$store.getters["servers/serverMembers"].find(
         sm =>
           sm.server_id === this.contextDetails.serverID &&
-          sm.uniqueID === this.user.uniqueID
+          sm.id === this.user.id
       );
     },
     notificationsExist() {

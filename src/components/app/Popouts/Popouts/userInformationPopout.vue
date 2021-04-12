@@ -11,7 +11,7 @@
             class="avatar"
             size="120px"
             :avatar="user.avatar"
-            :uniqueID="user.uniqueID"
+            :id="user.id"
             :hover="true"
           />
           <div class="uesrname-tag">
@@ -35,7 +35,7 @@
             </div>
           </div>
 
-          <div class="actions" v-if="uniqueID !== selfUniqueID">
+          <div class="actions" v-if="id !== selfUniqueID">
             <div class="action-buttons">
               <div class="relationship" v-if="!user.bot">
                 <div
@@ -137,7 +137,7 @@
             </div>
             <div class="about-item createdBy" v-if="user.bot && user.createdBy">
               <div class="key">{{ this.$t("created-by") }}:</div>
-              <div class="name" @click="switchUser(user.createdBy.uniqueID)">
+              <div class="name" @click="switchUser(user.createdBy.id)">
                 {{ user.createdBy.username }}
               </div>
             </div>
@@ -175,15 +175,15 @@
         <div class="list">
           <div
             class="item"
-            @click="switchUser(user.uniqueID)"
+            @click="switchUser(user.id)"
             v-for="user in commonFriendsArr"
-            :key="user.uniqueID"
+            :key="user.id"
           >
             <profile-picture
               class="avatar"
               size="30px"
               animationPadding="0"
-              :uniqueID="user.uniqueID"
+              :id="user.id"
               :avatar="user.avatar"
               :hover="true"
             />
@@ -204,7 +204,7 @@
               class="avatar"
               size="30px"
               animationPadding="0"
-              :uniqueID="server.server_id"
+              :id="server.server_id"
               :avatar="server.avatar"
               :hover="true"
             />
@@ -258,30 +258,30 @@ export default {
       });
     },
     async AcceptFriendButton() {
-      await relationshipService.put(this.uniqueID);
+      await relationshipService.put(this.id);
     },
     async blockFriendButton() {
-      const { ok } = await userService.block(this.uniqueID);
+      const { ok } = await userService.block(this.id);
       if (ok) {
         this.isBlocked = true;
       }
     },
     async unblockFriendButton() {
-      const { ok } = await userService.unblock(this.uniqueID);
+      const { ok } = await userService.unblock(this.id);
       if (ok) {
         this.isBlocked = false;
       }
     },
     async RemoveFriendButton() {
-      await relationshipService.delete(this.uniqueID);
+      await relationshipService.delete(this.id);
     },
-    switchUser(uniqueID) {
-      this.$store.dispatch("setUserInformationPopout", uniqueID);
+    switchUser(id) {
+      this.$store.dispatch("setUserInformationPopout", id);
     },
     openChat() {
       this.$store.dispatch("setCurrentTab", 1);
       this.$store.dispatch("openChat", {
-        uniqueID: this.uniqueID,
+        id: this.id,
         channelName: this.user.username
       });
       this.$store.dispatch("setUserInformationPopout", null);
@@ -303,7 +303,7 @@ export default {
     }
   },
   async mounted() {
-    const { ok, result } = await userService.get(this.uniqueID);
+    const { ok, result } = await userService.get(this.id);
     if (ok) {
       this.user = result.data.user;
       this.isBlocked = result.data.isBlocked;
@@ -314,10 +314,10 @@ export default {
   computed: {
     status() {
       let status;
-      if (this.uniqueID === this.$store.getters.user.uniqueID) {
+      if (this.id === this.$store.getters.user.id) {
         status = this.$store.getters.user.status;
       } else {
-        status = this.$store.getters["members/presences"][this.uniqueID];
+        status = this.$store.getters["members/presences"][this.id];
       }
       return status ? statuses[status] : statuses[0];
     },
@@ -326,7 +326,7 @@ export default {
       const members = Object.values(this.$store.getters["members/members"]);
 
       const commonFriends = members.filter(m =>
-        this.commonFriendsIDArr.includes(m.uniqueID)
+        this.commonFriendsIDArr.includes(m.id)
       );
       return commonFriends;
     },
@@ -351,7 +351,7 @@ export default {
       const serverMembers = this.$store.getters["servers/serverMembers"];
       return serverMembers.find(
         m =>
-          m.uniqueID === this.uniqueID && m.server_id === this.currentServerID
+          m.id === this.id && m.server_id === this.currentServerID
       );
     },
     currentTab() {
@@ -403,9 +403,9 @@ export default {
       });
     },
     selfUniqueID() {
-      return this.$store.getters.user.uniqueID;
+      return this.$store.getters.user.id;
     },
-    uniqueID() {
+    id() {
       return this.$store.getters.popouts.userInformationPopoutID;
     },
     relationshipStatus() {
@@ -415,17 +415,17 @@ export default {
       return allFriend[userUniqueID].status;
     },
     customStatus() {
-      if (this.user.uniqueID === this.$store.getters.user.uniqueID) {
+      if (this.user.id === this.$store.getters.user.id) {
         return this.$store.getters.user.custom_status;
       }
       const customStatusArr = this.$store.getters["members/customStatusArr"];
-      return customStatusArr[this.user.uniqueID];
+      return customStatusArr[this.user.id];
     },
     programActivityStatus() {
       const programActivityJson = this.$store.getters[
         "members/programActivity"
       ];
-      return programActivityJson[this.user.uniqueID];
+      return programActivityJson[this.user.id];
     }
   }
 };

@@ -58,9 +58,9 @@ const actions = {
         const friend = friendsArr[index];
         const member = friend.recipient;
         delete friend.recipient;
-        friend.uniqueID = member.uniqueID;
-        friendObj[member.uniqueID] = friend;
-        memberObj[member.uniqueID] = member;
+        friend.id = member.id;
+        friendObj[member.id] = friend;
+        memberObj[member.id] = member;
       }
     }
     if (memberStatusArr) {
@@ -72,7 +72,7 @@ const actions = {
     if (programActivityArr.length) {
       for (let index = 0; index < programActivityArr.length; index++) {
         const programActivity = programActivityArr[index];
-        programActivityObj[programActivity.uniqueID] = {
+        programActivityObj[programActivity.id] = {
           name: programActivity.name,
           status: programActivity.status
         };
@@ -170,9 +170,9 @@ const actions = {
     for (let serverMember of serverMembers) {
       const member = serverMember.member;
       delete serverMember.member;
-      serverMember.uniqueID = member.uniqueID;
+      serverMember.id = member.id;
       serverMembersArr.push(serverMember);
-      membersObj[member.uniqueID] = member;
+      membersObj[member.id] = member;
     }
     const serverRolesSorted = {};
     for (let index = 0; index < serverRoles.length; index++) {
@@ -204,18 +204,18 @@ const actions = {
   socket_relationshipAdd(context, friend) {
     const member = friend.recipient;
     delete friend.recipient;
-    friend.uniqueID = member.uniqueID;
+    friend.id = member.id;
     context.dispatch("members/updatePresence", {
-      uniqueID: member.uniqueID,
+      id: member.id,
       status: member.status
     });
     if (friend.program_activity) {
       context.dispatch("members/addProgramActivity", {
-        [member.uniqueID]: friend.program_activity
+        [member.id]: friend.program_activity
       });
     }
     context.dispatch("members/updateCustomStatus", {
-      uniqueID: member.uniqueID,
+      id: member.id,
       custom_status: member.custom_status
     });
     delete member.status;
@@ -223,15 +223,15 @@ const actions = {
     context.dispatch("members/addMember", member);
     context.commit("addFriend", friend);
   },
-  socket_relationshipAccept(context, uniqueID) {
-    context.commit("acceptFriend", uniqueID);
+  socket_relationshipAccept(context, id) {
+    context.commit("acceptFriend", id);
   },
-  socket_relationshipRemove(context, uniqueID) {
-    context.commit("removeFriend", uniqueID);
+  socket_relationshipRemove(context, id) {
+    context.commit("removeFriend", id);
   },
   socket_receiveMessage(context, data) {
     const isMessageCreatedByMe =
-      context.getters.user.uniqueID === data.message.creator.uniqueID;
+      context.getters.user.id === data.message.creator.id;
 
     if (data.message.type === 1 && isMessageCreatedByMe) {
       return;
@@ -260,7 +260,7 @@ const actions = {
     // muted channel
     if (context.rootGetters.mutedChannels.includes(data.message.channelID))
       return;
-    if (data.message.creator.uniqueID === context.getters.user.uniqueID) return;
+    if (data.message.creator.id === context.getters.user.id) return;
     if (type === 2) return;
 
     const currentTab = context.rootGetters.currentTab;
@@ -280,7 +280,7 @@ const actions = {
         channelID: data.message.channelID,
         sender: data.message.creator,
         mentioned: !!data.message.mentions.find(
-          m => m.uniqueID === context.rootState.user.user.uniqueID
+          m => m.id === context.rootState.user.user.id
         ),
         muteSound: type === 1,
         isServer: true
@@ -302,7 +302,7 @@ const actions = {
         channelID: data.message.channelID,
         sender: data.message.creator,
         mentioned: !!data.message.mentions.find(
-          m => m.uniqueID === context.rootState.user.user.uniqueID
+          m => m.id === context.rootState.user.user.id
         ),
         muteSound: type === 1
       };
@@ -370,7 +370,7 @@ const actions = {
               context.dispatch(
                 "openChat",
                 {
-                  uniqueID: data.message.creator.uniqueID,
+                  id: data.message.creator.id,
                   channelName: data.message.creator.username
                 },
                 { root: true }
@@ -382,9 +382,9 @@ const actions = {
     }
   },
   socket_userStatusChange(context, data) {
-    if (context.rootState.user.user.uniqueID === data.uniqueID) return;
+    if (context.rootState.user.user.id === data.user_id) return;
     context.dispatch("members/updatePresence", {
-      uniqueID: data.uniqueID,
+      id: data.user_id,
       status: data.status
     });
   },
@@ -392,9 +392,9 @@ const actions = {
     context.dispatch("members/updateProgramActivity", data);
   },
   ["socket_member:customStatusChange"](context, data) {
-    if (context.rootState.user.user.uniqueID === data.uniqueID) return;
+    if (context.rootState.user.user.id === data.user_id) return;
     context.dispatch("members/updateCustomStatus", {
-      uniqueID: data.uniqueID,
+      id: data.user_id,
       custom_status: data.custom_status
     });
   },
@@ -411,7 +411,7 @@ const actions = {
     context.commit("members/updateAvatar", data);
   },
   ["socket_updateMember"](context, data) {
-    if (context.rootGetters.user.uniqueID === data.uniqueID) {
+    if (context.rootGetters.user.id === data.id) {
       context.dispatch("updateUser", data);
     } else {
       context.dispatch("members/updateMember", data);
@@ -548,22 +548,22 @@ const actions = {
     let sm = Object.assign({}, serverMember);
     const member = sm.member;
     delete sm.member;
-    sm.uniqueID = member.uniqueID;
+    sm.id = member.id;
 
     context.dispatch("members/updatePresence", {
-      uniqueID: member.uniqueID,
+      id: member.id,
       status: presence
     });
     context.dispatch("members/updateCustomStatus", {
-      uniqueID: member.uniqueID,
+      id: member.id,
       custom_status: custom_status
     });
     context.dispatch("members/addMember", member);
     context.dispatch("servers/addServerMember", sm);
   },
-  ["socket_server:memberRemove"](context, { uniqueID, server_id }) {
+  ["socket_server:memberRemove"](context, { id, server_id }) {
     // member_remove
-    context.dispatch("servers/removeServerMember", { uniqueID, server_id });
+    context.dispatch("servers/removeServerMember", { id, server_id });
   },
   ["socket_server:members"](
     context,
@@ -580,9 +580,9 @@ const actions = {
     for (let serverMember of serverMembers) {
       const member = serverMember.member;
       delete serverMember.member;
-      serverMember.uniqueID = member.uniqueID;
+      serverMember.id = member.id;
       serverMembersArr.push(serverMember);
-      members[member.uniqueID] = member;
+      members[member.id] = member;
     }
     context.dispatch("members/addMembers", members);
     context.dispatch("servers/addServerMembers", serverMembers);
@@ -602,7 +602,7 @@ const actions = {
 
     for (let index = 0; index < programActivityArr.length; index++) {
       const programActivity = programActivityArr[index];
-      programActivityObj[programActivity.uniqueID] = programActivity;
+      programActivityObj[programActivity.id] = programActivity;
     }
 
     context.dispatch("members/addProgramActivity", programActivityObj);
@@ -672,18 +672,18 @@ const actions = {
   ["socket_server:deleteRole"](context, { role_id, server_id }) {
     context.dispatch("servers/deleteRole", { role_id, server_id });
   },
-  ["socket_serverMember:addRole"](context, { role_id, uniqueID, server_id }) {
-    context.dispatch("servers/addMemberRole", { role_id, uniqueID, server_id });
+  ["socket_serverMember:addRole"](context, { role_id, id, server_id }) {
+    context.dispatch("servers/addMemberRole", { role_id, id, server_id });
   },
   // eslint-disable-next-line prettier/prettier
   ["socket_serverMember:removeRole"](
     context,
-    { role_id, uniqueID, server_id }
+    { role_id, id, server_id }
   ) {
     // eslint-disable-next-line prettier/prettier
     context.dispatch("servers/removeMemberRole", {
       role_id,
-      uniqueID,
+      id,
       server_id
     });
   },

@@ -11,7 +11,7 @@
     <div class="list">
       <user-template
         v-for="user in searchedUsers || users"
-        :key="user.uniqueID"
+        :key="user.id"
         :user="user"
       />
     </div>

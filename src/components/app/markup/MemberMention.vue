@@ -9,7 +9,7 @@ export default {
   props: ["member"],
   methods: {
     openUserInfo: function() {
-      this.$store.dispatch("setUserInformationPopout", this.member.uniqueID);
+      this.$store.dispatch("setUserInformationPopout", this.member.id);
     }
   }
 };

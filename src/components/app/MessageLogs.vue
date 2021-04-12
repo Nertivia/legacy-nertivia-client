@@ -365,7 +365,7 @@ export default {
       const lastMessage = newVal[newVal.length - 1];
       if (!lastMessage) return;
       if (!this.currentChannelID) return;
-      if (lastMessage.creator.uniqueID != this.user.uniqueID) {
+      if (lastMessage.creator.id != this.user.id) {
         this.dismissNotification(this.currentChannelID);
       }
     },
@@ -458,9 +458,9 @@ export default {
           prevMessageCreator = null;
           continue;
         }
-        if (message.creator.uniqueID !== prevMessageCreator) {
+        if (message.creator.id !== prevMessageCreator) {
           groupLength = 0;
-          prevMessageCreator = message.creator.uniqueID;
+          prevMessageCreator = message.creator.id;
         } else {
           if (groupLength > 3) {
             groupLength = 0;

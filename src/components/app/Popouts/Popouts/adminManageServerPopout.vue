@@ -43,7 +43,7 @@ export default {
       this.$store.dispatch("setAllPopout", {
         show: false,
         type: null,
-        uniqueID: null
+        id: null
       });
     },
     async deleteServerButton() {
@@ -62,7 +62,7 @@ export default {
       }
     },
     showUserPopout() {
-      this.$store.dispatch("setUserInformationPopout", this.creator.uniqueID);
+      this.$store.dispatch("setUserInformationPopout", this.creator.id);
     }
   },
   async mounted() {},

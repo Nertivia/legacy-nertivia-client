@@ -119,13 +119,13 @@ export default {
       return this.$store.getters.user;
     },
     checkServerCreator() {
-      return this.contextDetails.creatorUniqueID === this.user.uniqueID;
+      return this.contextDetails.creatorUniqueID === this.user.id;
     },
     serverMember() {
       return this.$store.getters["servers/serverMembers"].find(
         sm =>
           sm.server_id === this.contextDetails.serverID &&
-          sm.uniqueID === this.user.uniqueID
+          sm.id === this.user.id
       );
     },
     myRolePermissions() {

@@ -19,7 +19,7 @@
     />
     <div class="information">
       <div
-        :class="{ name: true, clickable: !!uniqueID }"
+        :class="{ name: true, clickable: !!id }"
         @click="openUserInfoPanel"
       >
         {{ name }}
@@ -42,13 +42,13 @@ export default {
   props: [
     "type", // 0: without online status; 1: with online status; 2: server.
     "name",
-    "uniqueID"
+    "id"
   ],
 
   methods: {
     openUserInfoPanel() {
-      if (this.uniqueID)
-        this.$store.dispatch("setUserInformationPopout", this.uniqueID);
+      if (this.id)
+        this.$store.dispatch("setUserInformationPopout", this.id);
     },
     toggleLeftMenu() {
       bus.$emit("toggleLeftMenu");
@@ -111,7 +111,7 @@ export default {
       const channel = this.$store.getters.channels[currentChannel];
       const presences = this.$store.getters["members/presences"];
 
-      let status = presences[channel.recipients[0].uniqueID] || 0;
+      let status = presences[channel.recipients[0].id] || 0;
       return statuses[status].color;
     }
   }

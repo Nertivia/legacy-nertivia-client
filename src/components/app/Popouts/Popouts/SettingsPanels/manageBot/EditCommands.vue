@@ -62,7 +62,7 @@ export default {
     };
   },
   async mounted() {
-    const { result, ok } = await botsService.getBot(this.bot.uniqueID, true);
+    const { result, ok } = await botsService.getBot(this.bot.id, true);
     if (ok) {
       if (result.data.botPrefix) {
         this.prefix = result.data.botPrefix;
@@ -98,7 +98,7 @@ export default {
       this.commands = this.commands.filter(c => c.c.trim());
       const { ok, error } = await botsService.updateBot(
         { botCommands: this.commands, botPrefix: this.prefix },
-        this.bot.uniqueID
+        this.bot.id
       );
       this.saving = false;
       if (ok) {

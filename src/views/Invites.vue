@@ -14,7 +14,7 @@
                 class="avatar"
                 size="100px"
                 :avatar="server.avatar"
-                :uniqueID="server.server_id"
+                :id="server.server_id"
                 :hover="true"
               />
               <div class="server-name">{{ server.name }}</div>

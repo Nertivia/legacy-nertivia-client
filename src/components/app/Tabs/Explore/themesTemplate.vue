@@ -76,7 +76,7 @@ export default {
     openUserInformation() {
       this.$store.dispatch(
         "setUserInformationPopout",
-        this.theme.creator.uniqueID
+        this.theme.creator.id
       );
     },
     copyButton() {
