@@ -67,7 +67,7 @@
             <div v-if="currentPage === 1" class="captcha-box">
               <div class="input captcha-input">
                 <div class="input-text">
-                  Beep Boop
+                  Beep blorp, bloop bleep?
                   <span v-if="reCaptcha.alert" class="error"
                     >- {{ reCaptcha.alert }}</span
                   >

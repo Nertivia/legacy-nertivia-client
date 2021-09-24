@@ -96,7 +96,7 @@
               </form>
               <div v-if="currentPage === 1" class="captcha-box">
                 <div class="input captcha-input">
-                  <div class="input-text">Beep Boop</div>
+                  <div class="input-text">Beep blorp, bloop bleep?</div>
                   <div class="captcha">
                     <Recaptcha ref="recaptcha" @verify="captchaSubmit" />
                   </div>
